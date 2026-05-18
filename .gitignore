@@ -1,0 +1,36 @@
+# ============================================================
+# .gitignore — The Ai Advantage Co. website
+# Excludes working/source files Vercel doesn't need to serve.
+# ============================================================
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Working folders — drafts, archives, raw source files
+_archive/
+assets/generated/
+assets/circuit-bg-variants/
+_circuit-bg-gallery.html
+
+# Old / draft CSS
+styles-v1.css
+
+# Raw source media (we ship the optimised versions only)
+assets/web/_circuit-15s-raw.mp4
+assets/web/circuit-tile-original.png
+
+# Logo source files (we only need the PNG used by the site)
+assets/logos/*.psd
+assets/logos/*.ai
+assets/logos/*.svg.backup
+
+# Env / secrets (none today, but future-proof)
+.env
+.env.local
+*.key

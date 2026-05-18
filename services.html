@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — The Ai Advantage Co.</title>
+<meta name="description" content="One-on-one Ai coaching, small-business sessions, and team training. Practical, tailored, and built around what you actually need to get done.">
+<link rel="icon" type="image/svg+xml" href="./assets/web/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<style>
+  /* Page-hero on services/pricing/contact no longer paints its own bg —
+     the site-wide video bg handles it, just like the homepage. */
+  .page-hero { background: transparent !important; }
+  .page-hero-bg { display: none !important; }
+</style>
+<style>
+  /* Services-page-only styles — section blocks per service */
+  .page-hero {
+    position: relative;
+    background: var(--surface-0);
+    padding: 140px var(--gutter) 96px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('./assets/web/hero-circuit-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .page-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%);
+  }
+  .page-hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .page-hero .eyebrow { margin-bottom: 18px; }
+  .page-hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin-bottom: 22px;
+  }
+  .page-hero h1 .accent { color: var(--gold-1); font-style: italic; font-weight: 700; text-shadow: 0 0 24px rgba(217, 184, 112, 0.22); }
+  .page-hero p { font-size: 20px; line-height: 1.5; color: var(--ink-secondary); max-width: 680px; margin: 0 auto; }
+
+  /* Service block — image + content side-by-side */
+  .service-block {
+    padding: 96px var(--gutter);
+    position: relative;
+  }
+  /* First service block sits tight under the page-hero — close the gap */
+  .service-block:first-of-type { padding-top: 32px; }
+  .service-block + .service-block { border-top: 1px solid var(--hairline); }
+  .service-block.is-alt { background: var(--surface-1); }
+  .service-block-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .service-block.is-reverse .service-block-inner { grid-template-columns: 1fr 1.1fr; }
+  .service-block.is-reverse .service-content { order: 1; }
+  .service-block.is-reverse .service-visual { order: 2; }
+  .service-block:not(.is-reverse) .service-visual { order: 0; }
+  .service-block:not(.is-reverse) .service-content { order: 1; }
+  .service-visual {
+    aspect-ratio: 4/3;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  }
+  .service-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .service-content .label {
+    color: var(--copper);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: inline-block;
+  }
+  .service-content h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(32px, 3.5vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 18px;
+  }
+  .service-content .desc {
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+    margin-bottom: 28px;
+  }
+  .service-detail {
+    margin-bottom: 24px;
+  }
+  .service-detail h4 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-primary);
+    margin-bottom: 8px;
+  }
+  .service-detail p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+  }
+  .service-detail ul {
+    list-style: none;
+    margin-top: 8px;
+  }
+  .service-detail ul li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-primary);
+    margin-bottom: 8px;
+  }
+  .service-detail ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 12px;
+    height: 6px;
+    border-left: 1.5px solid var(--rose-gold-2);
+    border-bottom: 1.5px solid var(--rose-gold-2);
+    transform: rotate(-45deg);
+  }
+  .service-content .cta-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 980px) {
+    .service-block-inner,
+    .service-block.is-reverse .service-block-inner { grid-template-columns: 1fr; gap: 32px; }
+    .service-block.is-reverse .service-content,
+    .service-block:not(.is-reverse) .service-content { order: 2; }
+    .service-block.is-reverse .service-visual,
+    .service-block:not(.is-reverse) .service-visual { order: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SITE-WIDE FIXED VIDEO BG (same as homepage) -->
+<video class="site-bg-video" autoplay muted loop playsinline preload="auto" poster="./assets/web/circuit-still.jpg" aria-hidden="true">
+  <source src="./assets/web/circuit-loop.mp4" type="video/mp4">
+</video>
+<div class="site-bg-mask" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="./index.html" class="nav-logo" aria-label="The Ai Advantage Co. home">
+      <img src="./assets/web/logo-mark.png" alt="" class="brand-mark" />
+      <span class="brand-text">
+        <span class="brand-name">THE A<span class="i-lower">i</span> ADVANTAGE <span class="brand-co">Co.</span></span>
+        <span class="brand-tagline">AI Coaching &amp; Implementation</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./services.html" class="is-active">Services</a></li>
+      <li><a href="./pricing.html">Pricing</a></li>
+      <li><a href="./contact.html">Contact</a></li>
+    </ul>
+    <a href="./pricing.html" class="btn btn-primary btn-sm">Book a Session</a>
+    <button class="nav-menu-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="page-hero-inner">
+    <span class="eyebrow">Services</span>
+    <h1>Three ways we <span class="accent">work together</span>.</h1>
+    <p>Practical Ai coaching for individuals, small businesses, and teams. Every session is shaped around your actual role, your tools, and the problem you're trying to solve.</p>
+  </div>
+</section>
+
+<!-- SERVICE 1 · 1:1 SINGLE SESSION -->
+<section class="service-block" id="single">
+  <div class="service-block-inner">
+    <div class="service-visual">
+      <img src="./assets/web/portrait-woman-table.jpg" alt="A professional reviewing AI tools at a warm cafe table." />
+    </div>
+    <div class="service-content">
+      <span class="label">1:1 Coaching</span>
+      <h2>Single Session</h2>
+      <p class="desc">One focused hour with a coach who's done this before. Bring a real problem; leave with a real answer.</p>
+
+      <div class="service-detail">
+        <h4>Who it's for</h4>
+        <p>Individuals and professionals who want to get started — or who have a specific blocker they want unstuck. New to Ai or curious? This is the lowest-risk way in.</p>
+      </div>
+
+      <div class="service-detail">
+        <h4>What it helps with</h4>
+        <ul>
+          <li>Choosing the right tool (Copilot, ChatGPT, Claude, Gemini) for your work</li>
+          <li>Writing prompts that actually return useful answers</li>
+          <li>Working through a real task end-to-end on screen</li>
+        </ul>
+      </div>
+
+      <div class="service-detail">
+        <h4>How it's delivered</h4>
+        <p>60 minutes, online or face-to-face. Pre-session intake form to make every minute count. Platform user guides included so you can keep going on your own.</p>
+      </div>
+
+      <div class="cta-row">
+        <a href="https://calendly.com/theaiadvantagecoadmin/single-ai-coaching-session-60-mins-zoom-100" target="_blank" rel="noopener" class="btn btn-primary">Book Online (Zoom)</a>
+        <a href="https://calendly.com/theaiadvantagecoadmin/single-ai-coaching-session-60-mins-in-person" target="_blank" rel="noopener" class="btn btn-bronze">Book Face-to-Face</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE 2 · KICK-START PACK (featured) -->
+<section class="service-block is-alt is-reverse" id="kickstart">
+  <div class="service-block-inner">
+    <div class="service-visual">
+      <img src="./assets/web/portrait-man-glasses.jpg" alt="A coaching session in progress in a warm professional setting." />
+    </div>
+    <div class="service-content">
+      <span class="label">Most popular · 1:1 coaching pack</span>
+      <h2>Kick-Start Pack</h2>
+      <p class="desc">Three sessions, one platform, one clear arc. By the end you're not "trying out Ai" — you're using it.</p>
+
+      <div class="service-detail">
+        <h4>Who it's for</h4>
+        <p>People who want to get genuinely confident with Ai — not just dabble. Pick one platform; we'll take you from setup to applying it to your actual work in three structured sessions.</p>
+      </div>
+
+      <div class="service-detail">
+        <h4>The three sessions</h4>
+        <ul>
+          <li><strong>01 · Discovery &amp; setup</strong> — what you do, what's slow, where Ai fits</li>
+          <li><strong>02 · Application</strong> — working real tasks live, building the workflows</li>
+          <li><strong>03 · Close-out &amp; next steps</strong> — what to keep, what to drop, what to try next</li>
+        </ul>
+      </div>
+
+      <div class="service-detail">
+        <h4>How it's delivered</h4>
+        <p>3 × 60 minutes, online or face-to-face. Personalised action plan after session 2. Platform user guides included so you can refer back any time.</p>
+      </div>
+
+      <div class="cta-row">
+        <a href="https://calendly.com/theaiadvantagecoadmin/ai-kick-start-pack-x3-60-mins-250-zoom" target="_blank" rel="noopener" class="btn btn-primary">Book Online (Zoom)</a>
+        <a href="https://calendly.com/theaiadvantagecoadmin/ai-kick-start-pack-x3-60-mins-250-face-to-face" target="_blank" rel="noopener" class="btn btn-bronze">Book Face-to-Face</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE 3 · TEAM / BUSINESS -->
+<section class="service-block" id="team">
+  <div class="service-block-inner">
+    <div class="service-visual">
+      <img src="./assets/web/portrait-woman-armchair.jpg" alt="A small team gathered around a laptop in a warm coworking space." />
+    </div>
+    <div class="service-content">
+      <span class="label">Teams &amp; Business</span>
+      <h2>Small Business &amp; Team Sessions</h2>
+      <p class="desc">A focused team session built around your business — not a generic Ai 101 deck.</p>
+
+      <div class="service-detail">
+        <h4>Who it's for</h4>
+        <p>Small businesses (ideally up to ~5 people) and team leaders who want everyone on the same page about Ai — what to use, what to skip, and how to apply it across roles.</p>
+      </div>
+
+      <div class="service-detail">
+        <h4>What's covered</h4>
+        <ul>
+          <li>Pre-session intake from the business owner / team lead</li>
+          <li>Tailored session plan — admin, ops, customer-facing, leadership</li>
+          <li>Real-world workflows worked through live</li>
+          <li>Q&amp;A so every team member leaves with something useful</li>
+        </ul>
+      </div>
+
+      <div class="service-detail">
+        <h4>Formats</h4>
+        <p><strong>Small Business Team Intro</strong> — 2 hours · up to ~5 people · $250<br>
+        <strong>Custom Business Training</strong> — up to 4 hours · role-based · $500<br>
+        <strong>Business-Supported Individual Coaching</strong> — multi-session, scoped · POA</p>
+      </div>
+
+      <div class="cta-row">
+        <a href="https://calendly.com/theaiadvantagecoadmin/small-business-team-intro-2-hrs-250-zoom" target="_blank" rel="noopener" class="btn btn-primary">Book Online (Zoom)</a>
+        <a href="https://calendly.com/theaiadvantagecoadmin/small-business-team-intro-2-hrs-250-face-to-face" target="_blank" rel="noopener" class="btn btn-bronze">Book Face-to-Face</a>
+        <a href="./contact.html?service=custom-training" class="btn btn-link">Enquire about custom training</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY THIS APPROACH WORKS — dark interrupt -->
+<section class="why-us">
+  <div class="why-us-inner">
+    <span class="eyebrow">Why this works</span>
+    <h2>Practical first. Tailored to you. <span class="accent">No hype.</span></h2>
+    <div class="why-us-points">
+      <div class="why-us-point">
+        <span class="num-tag">01</span>
+        <h4>Built on real use</h4>
+        <p>We don't teach Ai from theory. We work through your actual tasks, on your tools, in your role.</p>
+      </div>
+      <div class="why-us-point">
+        <span class="num-tag">02</span>
+        <h4>Trade-offs called out</h4>
+        <p>We'll tell you what Ai is bad at, where it'll cost you time, and where automation is the wrong answer.</p>
+      </div>
+      <div class="why-us-point">
+        <span class="num-tag">03</span>
+        <h4>Tools across the board</h4>
+        <p>Copilot, ChatGPT, Claude, Gemini. We help you pick the right one for each kind of work — not lock you in to one.</p>
+      </div>
+      <div class="why-us-point">
+        <span class="num-tag">04</span>
+        <h4>Usable next steps</h4>
+        <p>Every session ends with something you can use this week. Not a 40-page report. A short, clear plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <h2>Not sure which fits? <span class="accent">Let's talk first.</span></h2>
+    <p>If you're unsure which session is right for you, the simplest thing is to ask. We'll help you pick — or recommend you don't book if it's not the right fit.</p>
+    <div class="ctas">
+      <a href="./pricing.html" class="btn btn-primary">See pricing</a>
+      <a href="./contact.html" class="btn btn-secondary">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (shared) -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-wrap">
+          <img src="./assets/web/logo-mark.png" alt="" />
+          <span class="wordmark">THE A<span class="i-lower">i</span> ADVANTAGE</span>
+        </div>
+        <p>Practical Ai coaching for individuals, teams, and small businesses. Based in Warrnambool — sessions online Australia-wide.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="./services.html">Services</a></li>
+          <li><a href="./pricing.html">Pricing</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Coaching</h4>
+        <ul>
+          <li><a href="./services.html#single">Single Session</a></li>
+          <li><a href="./services.html#kickstart">Kick-Start Pack</a></li>
+          <li><a href="./services.html#team">Team &amp; Business</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="mailto:theaiadvantagecoadmin@gmail.com">theaiadvantagecoadmin@gmail.com</a></li>
+          <li><a href="tel:0400062251">0400 062 251</a></li>
+          <li><a href="./contact.html">Send an enquiry</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 The Ai Advantage Co. &nbsp;·&nbsp; Warrnambool, Australia</div>
+      <div><a href="#">Privacy</a> &nbsp;·&nbsp; <a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.querySelector('.nav-menu-toggle');
+  const links = document.querySelector('.nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open);
+      if (open) {
+        Object.assign(links.style, { display: 'flex', flexDirection: 'column', position: 'absolute', top: '100%', left: 0, right: 0, background: '#fff', padding: '24px', borderBottom: '1px solid #D2D2D7' });
+      } else { links.style.display = ''; }
+    });
+  }
+</script>
+
+</body>
+</html>

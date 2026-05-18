@@ -1,0 +1,1231 @@
+/* ============================================================
+   THE AI ADVANTAGE CO. — Launch Site Styles · v2
+   Apple-crisp interpretation. Pure white dominant, video-bg hero,
+   no portraits, UI-led visuals throughout.
+   ============================================================ */
+
+/* ===== TOKENS ===== */
+:root {
+  --surface-0: #FFFFFF;
+  --surface-1: #FBFBFD;      /* Apple's panel grey, slightly lighter than v1 */
+  --surface-2: #F5F5F7;
+  --surface-cream: #F8F5F0;
+  --surface-dark: #1D1D1F;
+  --surface-deep-brown: #2C1F12;
+
+  --ink-primary: #1D1D1F;
+  --ink-secondary: #515154;
+  --ink-tertiary: #86868B;
+  --ink-on-dark: #F5F5F7;
+  --ink-on-dark-mute: #A1A1A6;
+
+  /* Copper — accent only */
+  --copper: #B8741A;
+  --copper-hover: #E8A24D;
+  --copper-deep: #7A4A14;
+
+  /* Muted brushed gold — primary CTA. Warm, refined, not vibrant.
+     Pairs with the copper accent without competing. */
+  --gold-1: #D9B870;          /* highlight */
+  --gold-2: #B89758;           /* mid */
+  --gold-3: #8E7038;           /* shadow */
+  --gold-hover-1: #E5C684;
+  --gold-hover-2: #C7A669;
+  /* legacy alias kept so any stragglers still resolve */
+  --rose-gold-1: var(--gold-1);
+  --rose-gold-2: var(--gold-2);
+  --rose-gold-3: var(--gold-3);
+  --rose-gold-hover-1: var(--gold-hover-1);
+  --rose-gold-hover-2: var(--gold-hover-2);
+
+  --hairline: #D2D2D7;
+  --hairline-soft: #E8E8ED;
+
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+
+  --max-w: 1200px;
+  --max-w-narrow: 980px;
+  --gutter: 24px;
+  --section-pad-y: 140px;
+  --section-pad-y-mobile: 80px;
+}
+
+/* ===== RESET ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  scroll-behavior: smooth;
+  /* No bg on html — let canvas show below video as fallback */
+  background: #FFFFFF;
+}
+body {
+  font-family: var(--font-body);
+  /* TRANSPARENT body — the fixed-position video shows through at every
+     scroll position. Do NOT add position/z-index to body — that creates
+     a stacking context that would trap the negative-z-index video. */
+  background: transparent;
+  color: var(--ink-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  font-feature-settings: 'ss01', 'cv11';
+}
+img, video { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ===== TYPOGRAPHY UTILS ===== */
+.eyebrow {
+  display: inline-block;
+  color: var(--copper);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(44px, 6vw, 84px);
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+}
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(36px, 4.5vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+.h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+.lead {
+  font-size: 21px;
+  line-height: 1.45;
+  color: var(--ink-secondary);
+  font-weight: 400;
+}
+.accent-italic {
+  color: var(--gold-1);
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: 980px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  transition: all 0.2s ease;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
+  color: #FFFFFF;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.32),
+    0 1px 2px rgba(142, 112, 56, 0.22),
+    0 8px 24px rgba(142, 112, 56, 0.12);
+  text-shadow: 0 1px 1px rgba(80, 60, 24, 0.18);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--gold-hover-1) 0%, var(--gold-hover-2) 55%, var(--gold-2) 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.4),
+    0 2px 4px rgba(142, 112, 56, 0.25),
+    0 12px 32px rgba(142, 112, 56, 0.18);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--ink-primary);
+  border: 1px solid var(--ink-primary);
+}
+.btn-secondary:hover { background: var(--ink-primary); color: #fff; }
+
+/* Bronze button — paired with the gold primary as the Face-to-Face CTA.
+   Gold reads as "digital glow" (online), bronze reads as "warm metal"
+   (in-person). Equal visual weight, complementary tone. */
+.btn-bronze {
+  background: linear-gradient(135deg, #C9956A 0%, #A67442 55%, #7A4F26 100%);
+  color: #FFFFFF;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.28),
+    0 1px 2px rgba(122, 79, 38, 0.22),
+    0 8px 24px rgba(122, 79, 38, 0.12);
+  text-shadow: 0 1px 1px rgba(60, 38, 14, 0.22);
+}
+.btn-bronze:hover {
+  background: linear-gradient(135deg, #D6A682 0%, #B8835A 55%, #8E5E32 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.34),
+    0 2px 4px rgba(122, 79, 38, 0.25),
+    0 12px 32px rgba(122, 79, 38, 0.18);
+}
+.btn-link {
+  background: transparent;
+  color: var(--ink-primary);
+  padding: 13px 0;
+  font-weight: 500;
+}
+.btn-link::after {
+  content: '→';
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 0.2s ease;
+}
+.btn-link:hover { color: var(--copper); }
+.btn-link:hover::after { transform: translateX(4px); }
+.btn-sm { padding: 9px 20px; font-size: 14px; }
+
+/* ===== NAV ===== */
+nav.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-bottom: 1px solid rgba(210, 210, 215, 0.4);
+}
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 10px var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  min-height: 120px;
+}
+/* Brand lockup built from real HTML — logo + wordmark + tagline as flex
+   elements that flow into the page background. NOT an image. The animated
+   video bg shows through between every element, so the whole banner row
+   reads as ONE continuous brand surface from left to right. */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--ink-primary);
+  flex-shrink: 1;
+  min-width: 0;
+}
+.nav-logo .brand-mark {
+  flex-shrink: 0;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: drop-shadow(0 4px 14px rgba(122, 74, 20, 0.22));
+  transition: transform 0.3s ease;
+}
+.nav-logo:hover .brand-mark { transform: scale(1.03); }
+.nav-logo .brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+}
+.nav-logo .brand-name {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(20px, 2vw, 28px);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  background: linear-gradient(135deg, #FFD56A 0%, #F5C24E 45%, #E5B23F 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #F5C24E;
+  text-shadow: 0 0 18px rgba(245, 194, 78, 0.18);
+  white-space: nowrap;
+}
+.nav-logo .brand-name .i-lower { text-transform: lowercase; }
+/* "Co." sits at the end of the brand name — small and subtle, not highlighted */
+.nav-logo .brand-name .brand-co {
+  display: inline-block;
+  font-size: 0.55em;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  opacity: 0.72;
+  margin-left: 0.18em;
+  vertical-align: middle;
+  transform: translateY(-0.08em);
+  background: linear-gradient(135deg, #E5C16B 0%, #C9A04B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-logo .brand-tagline {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--copper);
+  white-space: nowrap;
+}
+.nav-links {
+  display: flex;
+  gap: 36px;
+  margin-left: auto;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--ink-primary);
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+.nav-links a:hover, .nav-links a.is-active { color: var(--copper); }
+.nav-menu-toggle {
+  display: none;
+  background: transparent;
+  border: 0;
+  width: 32px;
+  height: 32px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  margin-left: auto;
+}
+.nav-menu-toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--ink-primary);
+}
+
+/* spacer for fixed nav */
+.nav-spacer { height: 120px; }
+
+/* ===== SITE-WIDE FIXED VIDEO BG =====
+   Architecture v3: Video is fixed-position viewport coverage. It plays
+   continuously regardless of scroll position. Every section of the site
+   sits SEMI-TRANSPARENT over it so the pulse glows through the whole
+   page from top to bottom. Body tile is the fallback if video doesn't load.
+
+   The mirror-stacked tile reference means the seamless transition is built
+   into the loop itself — start and end frames are identical. */
+/* Video uses negative z-index so it sits behind all content but stays
+   visible in viewport at every scroll position. Body must be transparent
+   for this to work — solid body bg would cover the video. */
+.site-bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 1;
+}
+.site-bg-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,255,255,0.45), rgba(255,255,255,0.12) 70%, rgba(255,255,255,0) 100%);
+}
+
+/* ===== BRAND BANNER =====
+   Used across every page top — large brand wordmark + tagline lockup.
+   Drop-shadow gives lift over the video bg without needing a hard bg. */
+.brand-banner {
+  display: block;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 24px;
+  height: auto;
+  filter: drop-shadow(0 8px 32px rgba(122, 74, 20, 0.12));
+}
+@media (max-width: 900px) {
+  .brand-banner { max-width: 100%; margin-bottom: 16px; }
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  background: transparent;
+  padding: 64px var(--gutter) 48px;
+  text-align: center;
+  overflow: visible;
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* hero-bg-video and hero-bg-mask deprecated (now site-bg-video at body level) */
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 40px 0 64px;
+}
+.hero .eyebrow { margin-bottom: 24px; }
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(44px, 6vw, 84px);
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+  color: var(--ink-primary);
+  margin-bottom: 24px;
+}
+.hero h1 .accent {
+  color: var(--gold-1);
+  font-style: italic;
+  font-weight: 700;
+  text-shadow: 0 0 24px rgba(217, 184, 112, 0.22);
+}
+.hero .sub {
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.4;
+  color: var(--ink-secondary);
+  max-width: 680px;
+  margin: 0 auto 18px;
+  font-weight: 400;
+}
+.hero .supporting {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--ink-primary);
+  max-width: 540px;
+  margin: 0 auto 40px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  opacity: 0.7;
+}
+.hero .ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.hero-scroll-hint {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  padding-bottom: 32px;
+  opacity: 0.6;
+}
+.hero-scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 24px;
+  background: var(--ink-tertiary);
+  margin: 12px auto 0;
+}
+
+/* ===== UI MOCKUP CARD (in hero) — Apple "product shot" replacement =====
+   A stylized macOS-window showing a real AI chat conversation. */
+.ui-showcase {
+  position: relative;
+  z-index: 2;
+  max-width: 920px;
+  margin: -8px auto 0;
+  padding: 0 var(--gutter);
+}
+.ui-window {
+  background: var(--surface-0);
+  border-radius: 16px;
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.04),
+    0 20px 60px rgba(0,0,0,0.08),
+    0 40px 120px rgba(0,0,0,0.06);
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid var(--hairline-soft);
+}
+.ui-window-chrome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: linear-gradient(180deg, #F5F5F7 0%, #ECECEF 100%);
+  border-bottom: 1px solid var(--hairline-soft);
+}
+.ui-traffic {
+  display: flex;
+  gap: 6px;
+}
+.ui-traffic span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+.ui-traffic span:nth-child(1) { background: #FF5F57; }
+.ui-traffic span:nth-child(2) { background: #FEBC2E; }
+.ui-traffic span:nth-child(3) { background: #28C840; }
+.ui-window-title {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-tertiary);
+  font-weight: 500;
+}
+.ui-window-title .lock {
+  color: var(--ink-tertiary);
+  margin-right: 4px;
+}
+.ui-window-body {
+  padding: 32px 40px 36px;
+  background: var(--surface-0);
+}
+.ui-chat-msg + .ui-chat-msg { margin-top: 22px; }
+.ui-chat-role {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  margin-bottom: 8px;
+}
+.ui-chat-role.is-ai { color: var(--copper); }
+.ui-chat-text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-primary);
+}
+.ui-chat-card {
+  background: var(--surface-1);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+}
+.ui-chat-card .field {
+  font-weight: 600;
+  color: var(--ink-primary);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: block;
+}
+.ui-chat-card .field + p { margin-bottom: 12px; }
+.ui-chat-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.1em;
+  background: var(--copper);
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 1s steps(2, end) infinite;
+}
+@keyframes blink { from, 50% { opacity: 1; } 51%, to { opacity: 0; } }
+.ui-tool-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(184, 116, 26, 0.08);
+  border-radius: 980px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--copper);
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+.ui-tool-tag .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--copper);
+}
+
+/* ===== VALUE STRIP =====
+   Edges transparent so video circuit pattern stays visible; centre wash
+   keeps text legible. Radial gradient = "spotlight" on content. */
+.value-strip {
+  padding: 48px var(--gutter);
+  background: transparent;
+}
+.value-strip-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+/* Tile-style value items — each sits as a solid white card so the
+   text stays crisp regardless of what's behind in the video bg. */
+.value-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--ink-secondary);
+  background: rgba(255,255,255,0.95);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+.value-item .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-1);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(217, 184, 112, 0.5);
+}
+.value-item strong { color: var(--ink-primary); font-weight: 700; }
+
+/* ===== SECTION BASE =====
+   Radial "spotlight" overlay: centre has enough white wash for content
+   legibility, edges fade to fully transparent so the video pulse glows
+   through across the left/right circuit-bearing regions of every section.
+   IMPORTANT: NO backdrop-filter — that would blur the entire video bg.
+   The radial gradient handles legibility on its own. */
+.section {
+  padding: var(--section-pad-y) var(--gutter);
+  background: radial-gradient(ellipse 65% 95% at 50% 50%, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.55) 55%, rgba(255,255,255,0) 100%);
+  position: relative;
+}
+.section-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.section-header {
+  max-width: 760px;
+  margin: 0 auto 80px;
+  text-align: center;
+}
+.section-header .eyebrow { margin-bottom: 18px; }
+.section-header h2 { margin-bottom: 18px; }
+.section-header p { color: var(--ink-secondary); font-size: 20px; line-height: 1.45; }
+.section-alt { background: radial-gradient(ellipse 65% 90% at 50% 50%, rgba(251,251,253,0.92) 0%, rgba(251,251,253,0.6) 55%, rgba(251,251,253,0) 100%); }
+
+/* ===== WHO IT'S FOR ===== */
+.audience-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hairline-soft);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.audience-card {
+  background: var(--surface-0);
+  padding: 48px 40px;
+  transition: background 0.2s ease;
+}
+.audience-card:hover { background: var(--surface-1); }
+.audience-card .icon {
+  margin-bottom: 28px;
+  color: var(--copper);
+}
+.audience-card h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.audience-card p { color: var(--ink-secondary); font-size: 15px; line-height: 1.55; }
+
+/* ===== HOW IT WORKS — proper tiles ===== */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  position: relative;
+}
+.step {
+  background: rgba(255,255,255,0.96);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 18px;
+  padding: 40px 32px 36px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.step:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+.step .num {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--gold-2);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+.step h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.step p { color: var(--ink-secondary); font-size: 16px; line-height: 1.55; }
+
+/* ===== SERVICES (UI-led cards) ===== */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.service-card {
+  background: var(--surface-0);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+}
+.service-card:hover {
+  border-color: var(--copper);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+}
+/* Preview area is transparent so the body video bg's glow shows through */
+.service-card-preview {
+  height: 140px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+.service-card-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(184,116,26,0.08), transparent 60%);
+}
+.service-card-body { padding: 32px 28px 28px; display: flex; flex-direction: column; flex: 1; }
+.service-card .label {
+  color: var(--copper);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.service-card h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+.service-card .desc { font-size: 15px; line-height: 1.55; color: var(--ink-secondary); margin-bottom: 20px; }
+.service-card ul { list-style: none; margin-bottom: 24px; flex: 1; }
+.service-card ul li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-primary);
+  margin-bottom: 10px;
+}
+.service-card ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 12px;
+  height: 6px;
+  border-left: 1.5px solid var(--rose-gold-2);
+  border-bottom: 1.5px solid var(--rose-gold-2);
+  transform: rotate(-45deg);
+}
+.service-card .card-cta { margin-top: auto; }
+
+/* Mini UI previews inside service-card-preview */
+.mini-intake {
+  width: 70%;
+  background: var(--surface-0);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 10px;
+  color: var(--ink-tertiary);
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+.mini-intake .line { height: 6px; background: var(--hairline-soft); border-radius: 2px; margin-bottom: 6px; }
+.mini-intake .line.short { width: 60%; }
+.mini-intake .line.copper { background: var(--copper); width: 30%; }
+
+.mini-timeline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  z-index: 2;
+}
+.mini-timeline-node {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-0);
+  border: 1.5px solid var(--copper);
+  color: var(--copper);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mini-timeline-node.active { background: var(--copper); color: #fff; }
+.mini-timeline-line {
+  height: 1.5px;
+  width: 28px;
+  background: var(--copper);
+  opacity: 0.4;
+}
+
+.mini-team {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.mini-team .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--surface-0);
+  background: var(--copper);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mini-team .avatar + .avatar { margin-left: -10px; }
+.mini-team .avatar:nth-child(2) { background: var(--rose-gold-2); }
+.mini-team .avatar:nth-child(3) { background: var(--copper-deep); }
+.mini-team .avatar:nth-child(4) { background: var(--ink-primary); }
+
+/* ===== INCLUDED (UI grid) ===== */
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 56px;
+}
+.included-item {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.included-item .check {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  border: 1.5px solid var(--rose-gold-2);
+  background: rgba(184, 151, 88, 0.06);
+  color: var(--rose-gold-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.included-item h4 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  letter-spacing: -0.015em;
+}
+.included-item p { font-size: 15px; line-height: 1.5; color: var(--ink-secondary); }
+
+/* ===== WHY US (dark interrupt) ===== */
+.why-us {
+  background: var(--surface-dark);
+  color: var(--ink-on-dark);
+  padding: var(--section-pad-y) var(--gutter);
+  position: relative;
+  overflow: hidden;
+}
+.why-us::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('./assets/web/hero-circuit-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.06;
+  filter: invert(1) hue-rotate(180deg);
+}
+.why-us-inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-w-narrow);
+  margin: 0 auto;
+  text-align: center;
+}
+.why-us .eyebrow { color: var(--copper-hover); margin-bottom: 24px; }
+.why-us h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(36px, 4.5vw, 60px);
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+  color: var(--ink-on-dark);
+  margin-bottom: 56px;
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.why-us h2 .accent { color: var(--rose-gold-1); font-style: italic; font-weight: 700; }
+.why-us-points {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  text-align: left;
+  margin-top: 72px;
+}
+.why-us-point h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-on-dark);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.why-us-point p { font-size: 14px; line-height: 1.6; color: var(--ink-on-dark-mute); }
+.why-us-point .num-tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--copper-hover);
+  letter-spacing: 0.14em;
+  margin-bottom: 14px;
+}
+
+/* ===== PRICING ===== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hairline-soft);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.pricing-card {
+  background: var(--surface-0);
+  padding: 44px 36px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: background 0.2s ease;
+}
+.pricing-card:hover { background: var(--surface-1); }
+.pricing-card.is-featured {
+  background: linear-gradient(180deg, rgba(184, 151, 88, 0.04), var(--surface-0) 30%);
+}
+.pricing-card .popular-tag {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: linear-gradient(135deg, var(--rose-gold-1), var(--rose-gold-2));
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 980px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pricing-card .tier-name {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 16px;
+}
+.pricing-card .price {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  color: var(--ink-primary);
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.pricing-card .price .from {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  letter-spacing: 0;
+  margin-right: 4px;
+}
+.pricing-card .duration { font-size: 13px; color: var(--ink-secondary); margin-bottom: 32px; }
+.pricing-card .who { font-size: 14px; color: var(--ink-secondary); margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--hairline-soft); }
+.pricing-card ul { list-style: none; margin-bottom: 32px; flex: 1; }
+.pricing-card ul li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-primary);
+  margin-bottom: 11px;
+}
+.pricing-card ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 12px;
+  height: 6px;
+  border-left: 1.5px solid var(--rose-gold-2);
+  border-bottom: 1.5px solid var(--rose-gold-2);
+  transform: rotate(-45deg);
+}
+.pricing-card .btn { width: 100%; justify-content: center; }
+
+/* ===== COMING NEXT ===== */
+.coming-next {
+  padding: 96px var(--gutter);
+  background: var(--surface-1);
+  text-align: center;
+}
+.coming-next-inner { max-width: 880px; margin: 0 auto; }
+.coming-next .eyebrow { color: var(--rose-gold-2); margin-bottom: 16px; }
+.coming-next h3 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+}
+.coming-next p {
+  color: var(--ink-secondary);
+  font-size: 17px;
+  line-height: 1.5;
+  margin-bottom: 36px;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.chip {
+  padding: 8px 18px;
+  background: var(--surface-0);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 980px;
+  font-size: 13px;
+  color: var(--ink-secondary);
+  font-weight: 500;
+}
+
+/* ===== FINAL CTA ===== */
+.final-cta {
+  padding: 80px var(--gutter) 96px;
+  background: var(--surface-0);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(184, 151, 88, 0.06), transparent 70%);
+}
+.final-cta-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.final-cta h2 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+.final-cta h2 .accent { color: var(--gold-1); font-style: italic; font-weight: 700; text-shadow: 0 0 24px rgba(217, 184, 112, 0.22); }
+.final-cta p { font-size: 20px; color: var(--ink-secondary); margin-bottom: 44px; line-height: 1.4; }
+.final-cta .ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ===== FOOTER ===== */
+footer.site-footer {
+  background: var(--surface-deep-brown);
+  color: rgba(248, 245, 240, 0.72);
+  padding: 72px var(--gutter) 32px;
+}
+.footer-inner { max-width: var(--max-w); margin: 0 auto; }
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid rgba(248, 245, 240, 0.08);
+}
+.footer-brand .logo-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.footer-brand .logo-wrap img { height: 56px; width: 56px; border-radius: 50%; object-fit: cover; }
+.footer-brand .logo-wrap .wordmark {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, #FFD56A 0%, #F5C24E 45%, #E5B23F 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #F5C24E;
+  text-shadow: 0 0 18px rgba(245, 194, 78, 0.18);
+}
+.footer-brand .logo-wrap .i-lower { text-transform: lowercase; }
+.footer-brand p { font-size: 14px; line-height: 1.6; max-width: 320px; color: rgba(248, 245, 240, 0.5); }
+.footer-col h4 {
+  color: #F8F5F0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a {
+  color: rgba(248, 245, 240, 0.6);
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+.footer-col ul li a:hover { color: var(--copper-hover); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 32px;
+  font-size: 12px;
+  color: rgba(248, 245, 240, 0.4);
+}
+.footer-bottom a { color: rgba(248, 245, 240, 0.55); }
+.footer-bottom a:hover { color: var(--copper-hover); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 980px) {
+  .audience-grid,
+  .services-grid,
+  .pricing-grid,
+  .steps-grid { grid-template-columns: 1fr; }
+  .why-us-points { grid-template-columns: repeat(2, 1fr); }
+  .included-grid { grid-template-columns: 1fr; gap: 24px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+  .ui-window-body { padding: 24px 24px 28px; }
+}
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-menu-toggle { display: flex; }
+  .nav-spacer { height: 96px; }
+  .nav-inner { min-height: 96px; }
+  .nav-logo .brand-mark { height: 56px; width: 56px; }
+  .nav-logo .brand-name { font-size: 16px; letter-spacing: 0.04em; }
+  .nav-logo .brand-tagline { font-size: 9px; letter-spacing: 0.18em; }
+  .nav-logo { gap: 12px; }
+  .hero { padding: 56px var(--gutter) 40px; min-height: 70vh; }
+  .value-strip-inner { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .section { padding: var(--section-pad-y-mobile) var(--gutter); }
+  .section-header { margin-bottom: 48px; }
+}
+@media (max-width: 560px) {
+  .value-strip-inner { grid-template-columns: 1fr; }
+  .why-us-points { grid-template-columns: 1fr; }
+  .hero .ctas, .final-cta .ctas { width: 100%; flex-direction: column; }
+  .hero .ctas .btn, .final-cta .ctas .btn { width: 100%; justify-content: center; }
+  .footer-top { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  .ui-window-body { padding: 20px 18px 24px; }
+}
+
+/* Reduced motion — hide video, static poster still shows */
+@media (prefers-reduced-motion: reduce) {
+  .site-bg-video, .hero-bg-video { display: none; }
+}
+
+/* MOBILE FIX — iOS Safari + some Android browsers have known issues with
+   position:fixed autoplay video: it freezes after first scroll, or just
+   refuses to paint. Below 900px we hide the video and paint the static
+   circuit poster directly on the html element as a fixed background.
+   Same visual identity, no video rendering quirks. */
+@media (max-width: 900px) {
+  .site-bg-video { display: none; }
+  html {
+    background-color: #FFFFFF;
+    background-image: url('./assets/web/circuit-still.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+}
+
+/* Some Android Chromes can't do background-attachment: fixed properly —
+   degrade gracefully to scroll attachment on very small screens */
+@media (max-width: 560px) {
+  html { background-attachment: scroll; }
+}
+
+/* Why-us dark section also tiles the circuit (inverted) for visual continuity */
+.why-us {
+  background: rgba(29, 29, 31, 0.96);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Coming next + final CTA — radial spotlight, edges fade for video bleed */
+.coming-next {
+  background: radial-gradient(ellipse 65% 95% at 50% 50%, rgba(251,251,253,0.94) 0%, rgba(251,251,253,0.6) 55%, rgba(251,251,253,0) 100%);
+}
+.final-cta {
+  background: radial-gradient(ellipse 65% 95% at 50% 50%, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.55) 55%, rgba(255,255,255,0) 100%);
+}

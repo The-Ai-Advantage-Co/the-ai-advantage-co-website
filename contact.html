@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — The Ai Advantage Co.</title>
+<meta name="description" content="Get in touch about Ai coaching. We'll reply within one business day — and we're happy to talk through which session would fit before you commit.">
+<link rel="icon" type="image/svg+xml" href="./assets/web/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<style>
+  /* Page-hero no longer paints its own bg — site-wide video handles it. */
+  .page-hero { background: transparent !important; }
+  .page-hero-bg { display: none !important; }
+</style>
+<style>
+  /* Contact page specifics */
+  .page-hero {
+    position: relative;
+    background: var(--surface-0);
+    padding: 140px var(--gutter) 96px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('./assets/web/hero-circuit-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .page-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%);
+  }
+  .page-hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .page-hero .eyebrow { margin-bottom: 18px; }
+  .page-hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(40px, 5vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin-bottom: 22px;
+  }
+  .page-hero h1 .accent { color: var(--gold-1); font-style: italic; font-weight: 700; text-shadow: 0 0 24px rgba(217, 184, 112, 0.22); }
+  .page-hero p { font-size: 19px; line-height: 1.5; color: var(--ink-secondary); max-width: 580px; margin: 0 auto; }
+
+  /* Contact area — form + direct contact + portrait */
+  .contact-section {
+    padding: 32px var(--gutter) 80px;
+  }
+  .contact-section-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* Form */
+  .contact-form {
+    background: var(--surface-0);
+    border: 1px solid var(--hairline);
+    border-radius: 20px;
+    padding: 40px 40px 36px;
+  }
+  .contact-form h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
+  }
+  .contact-form .form-sub {
+    color: var(--ink-secondary);
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+  .form-row { margin-bottom: 20px; }
+  .form-row.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink-primary);
+    margin-bottom: 8px;
+  }
+  .form-label .req { color: var(--rose-gold-2); }
+  .form-label .opt {
+    color: var(--ink-tertiary);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-left: 6px;
+  }
+  .form-input,
+  .form-textarea,
+  .form-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--ink-primary);
+    background: var(--surface-0);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    outline: none;
+    border-color: var(--rose-gold-2);
+    box-shadow: 0 0 0 3px rgba(183, 117, 127, 0.12);
+  }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .form-radio-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .form-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--hairline);
+    border-radius: 980px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+  .form-radio input { accent-color: var(--rose-gold-2); }
+  .form-radio:has(input:checked) {
+    border-color: var(--rose-gold-2);
+    background: rgba(183, 117, 127, 0.06);
+  }
+  .form-submit {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .form-note {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--ink-tertiary);
+    line-height: 1.55;
+  }
+
+  /* Side column — direct contact + portrait + reassurance */
+  .contact-side {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .side-portrait {
+    aspect-ratio: 4/5;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  }
+  .side-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .direct-contact {
+    background: var(--surface-cream);
+    border-radius: 18px;
+    padding: 32px 28px;
+  }
+  .direct-contact h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 18px;
+  }
+  .direct-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .direct-contact-item:last-child { margin-bottom: 0; }
+  .direct-contact-item .ico {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--surface-0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--copper);
+    flex-shrink: 0;
+  }
+  .direct-contact-item a,
+  .direct-contact-item span {
+    color: var(--ink-primary);
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .direct-contact-item a:hover { color: var(--copper); }
+  .direct-contact-item .label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+    display: block;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  /* Reassurance copy block */
+  .reassurance {
+    padding: 80px var(--gutter);
+    background: var(--surface-cream);
+    text-align: center;
+  }
+  .reassurance-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .reassurance .eyebrow { margin-bottom: 16px; color: var(--rose-gold-2); }
+  .reassurance h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 32px;
+  }
+  .reassurance-points {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    text-align: left;
+    margin-top: 40px;
+  }
+  .reassurance-point h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .reassurance-point p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-secondary);
+  }
+
+  @media (max-width: 980px) {
+    .contact-section-inner { grid-template-columns: 1fr; }
+    .contact-side { order: 2; }
+    .contact-form { order: 1; }
+    .reassurance-points { grid-template-columns: 1fr; }
+    .form-row.two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SITE-WIDE FIXED VIDEO BG (same as homepage) -->
+<video class="site-bg-video" autoplay muted loop playsinline preload="auto" poster="./assets/web/circuit-still.jpg" aria-hidden="true">
+  <source src="./assets/web/circuit-loop.mp4" type="video/mp4">
+</video>
+<div class="site-bg-mask" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="./index.html" class="nav-logo" aria-label="The Ai Advantage Co. home">
+      <img src="./assets/web/logo-mark.png" alt="" class="brand-mark" />
+      <span class="brand-text">
+        <span class="brand-name">THE A<span class="i-lower">i</span> ADVANTAGE <span class="brand-co">Co.</span></span>
+        <span class="brand-tagline">AI Coaching &amp; Implementation</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./services.html">Services</a></li>
+      <li><a href="./pricing.html">Pricing</a></li>
+      <li><a href="./contact.html" class="is-active">Contact</a></li>
+    </ul>
+    <a href="./pricing.html" class="btn btn-primary btn-sm">Book a Session</a>
+    <button class="nav-menu-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="page-hero-inner">
+    <span class="eyebrow">Contact</span>
+    <h1>Talk to us before <span class="accent">you book</span>.</h1>
+    <p>Or skip ahead and book — both work. If you're not sure which session fits, send us a short note and we'll point you in the right direction.</p>
+  </div>
+</section>
+
+<!-- CONTACT FORM + SIDE -->
+<section class="contact-section">
+  <div class="contact-section-inner">
+
+    <!-- FORM — wired to Web3Forms (free tier, 250 submissions/month).
+         SETUP: go to https://web3forms.com → enter theaiadvantagecoadmin@gmail.com
+         → they email you an access key → replace YOUR_WEB3FORMS_ACCESS_KEY below
+         with that key. Submissions then arrive in that inbox. -->
+    <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" id="enquiry-form">
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+      <input type="hidden" name="subject" value="New enquiry from The Ai Advantage Co. website">
+      <input type="hidden" name="from_name" value="The Ai Advantage Co. — Website">
+      <input type="hidden" name="redirect" value="https://web3forms.com/success">
+      <input type="checkbox" name="botcheck" style="display:none;">
+
+      <h2>Send an enquiry</h2>
+      <p class="form-sub">We'll reply within one business day. No pressure, no sales script.</p>
+
+      <div class="form-row two-col">
+        <div>
+          <label class="form-label" for="name">Name <span class="req">*</span></label>
+          <input class="form-input" type="text" id="name" name="name" required>
+        </div>
+        <div>
+          <label class="form-label" for="email">Email <span class="req">*</span></label>
+          <input class="form-input" type="email" id="email" name="email" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="business">Business / Organisation <span class="opt">(optional)</span></label>
+        <input class="form-input" type="text" id="business" name="business">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="service">Service interested in</label>
+        <select class="form-select" id="service" name="service">
+          <option value="">Not sure — help me decide</option>
+          <option value="single-session">Single Session — $100</option>
+          <option value="kickstart">Kick-Start Pack — $250</option>
+          <option value="team-intro">Small Business Team Intro — $250</option>
+          <option value="custom-training">Custom Business Training — $500</option>
+          <option value="business-supported">Business-Supported Individual Coaching</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="message">What do you want help with? <span class="req">*</span></label>
+        <textarea class="form-textarea" id="message" name="message" placeholder="A few sentences on your role, your tools, and what you'd like to walk away with. Plain English is fine." required></textarea>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Preferred contact method</label>
+        <div class="form-radio-group">
+          <label class="form-radio"><input type="radio" name="contact-method" value="email" checked> Email</label>
+          <label class="form-radio"><input type="radio" name="contact-method" value="phone"> Phone</label>
+          <label class="form-radio"><input type="radio" name="contact-method" value="either"> Either's fine</label>
+        </div>
+      </div>
+
+      <button class="btn btn-primary form-submit" type="submit">Send enquiry</button>
+      <p class="form-note">By sending, you agree we can email you back. We don't add you to a mailing list and we don't share your details.</p>
+    </form>
+
+    <!-- SIDE -->
+    <div class="contact-side">
+      <div class="side-portrait">
+        <img src="./assets/web/portrait-man-polo.jpg" alt="A coach welcoming a new client in a warm professional setting." />
+      </div>
+      <div class="direct-contact">
+        <h3>Or reach out directly</h3>
+        <div class="direct-contact-item">
+          <div class="ico">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <span class="label">Email</span>
+            <a href="mailto:theaiadvantagecoadmin@gmail.com">theaiadvantagecoadmin@gmail.com</a>
+          </div>
+        </div>
+        <div class="direct-contact-item">
+          <div class="ico">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <span class="label">Phone</span>
+            <a href="tel:0400062251">0400 062 251</a>
+          </div>
+        </div>
+        <div class="direct-contact-item">
+          <div class="ico">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <span class="label">Based in</span>
+            <span>Warrnambool · online Australia-wide</span>
+          </div>
+        </div>
+        <div class="direct-contact-item">
+          <div class="ico">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          </div>
+          <div>
+            <span class="label">Response time</span>
+            <span>Within 1 business day</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- REASSURANCE -->
+<section class="reassurance">
+  <div class="reassurance-inner">
+    <span class="eyebrow">What to expect</span>
+    <h2>No pressure. No script. Just a useful conversation.</h2>
+    <div class="reassurance-points">
+      <div class="reassurance-point">
+        <h4>No hard sell</h4>
+        <p>If coaching isn't the right fit for what you need, we'll say so — and point you somewhere that is.</p>
+      </div>
+      <div class="reassurance-point">
+        <h4>Happy to talk options</h4>
+        <p>If you're stuck between session types, we'll help you pick. Bring the messy thinking — that's the point.</p>
+      </div>
+      <div class="reassurance-point">
+        <h4>Practical first</h4>
+        <p>Even the first email reply will usually have something useful in it — a link, a suggestion, or a question that gets you unstuck.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-wrap">
+          <img src="./assets/web/logo-mark.png" alt="" />
+          <span class="wordmark">THE A<span class="i-lower">i</span> ADVANTAGE</span>
+        </div>
+        <p>Practical Ai coaching for individuals, teams, and small businesses. Based in Warrnambool — sessions online Australia-wide.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="./services.html">Services</a></li>
+          <li><a href="./pricing.html">Pricing</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Coaching</h4>
+        <ul>
+          <li><a href="./services.html#single">Single Session</a></li>
+          <li><a href="./services.html#kickstart">Kick-Start Pack</a></li>
+          <li><a href="./services.html#team">Team &amp; Business</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="mailto:theaiadvantagecoadmin@gmail.com">theaiadvantagecoadmin@gmail.com</a></li>
+          <li><a href="tel:0400062251">0400 062 251</a></li>
+          <li><a href="./contact.html">Send an enquiry</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 The Ai Advantage Co. &nbsp;·&nbsp; Warrnambool, Australia</div>
+      <div><a href="#">Privacy</a> &nbsp;·&nbsp; <a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const toggle = document.querySelector('.nav-menu-toggle');
+  const links = document.querySelector('.nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open);
+      if (open) {
+        Object.assign(links.style, { display: 'flex', flexDirection: 'column', position: 'absolute', top: '100%', left: 0, right: 0, background: '#fff', padding: '24px', borderBottom: '1px solid #D2D2D7' });
+      } else { links.style.display = ''; }
+    });
+  }
+
+  // Auto-select service from URL ?service=...
+  const params = new URLSearchParams(window.location.search);
+  const svc = params.get('service');
+  if (svc) {
+    const sel = document.getElementById('service');
+    if (sel) {
+      const match = Array.from(sel.options).find(o => o.value === svc);
+      if (match) sel.value = svc;
+    }
+  }
+
+  // Form submits directly to Web3Forms (action attribute handles it).
+  // No JS interception needed — Web3Forms shows its own success page.
+  // If you want a custom in-page success message, see the commented block
+  // below: uncomment, swap the placeholder access key once configured.
+
+  /* OPTIONAL: in-page success without redirect — uncomment to use
+  document.getElementById('enquiry-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+      const json = await res.json();
+      if (json.success) {
+        form.innerHTML = '<h2>Thanks — we got it.</h2><p class="form-sub">We\'ll reply within one business day.</p>';
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send enquiry';
+        alert('Hmm, something went wrong. Try emailing theaiadvantagecoadmin@gmail.com directly.');
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send enquiry';
+      alert('Hmm, something went wrong. Try emailing theaiadvantagecoadmin@gmail.com directly.');
+    }
+  });
+  */
+</script>
+
+</body>
+</html>
