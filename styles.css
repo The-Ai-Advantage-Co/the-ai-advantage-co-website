@@ -229,8 +229,8 @@ nav.site-nav {
   flex-shrink: 0;
   height: 80px;
   width: 80px;
-  border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center center;
   filter: drop-shadow(0 4px 14px rgba(122, 74, 20, 0.22));
   transition: transform 0.3s ease;
 }
