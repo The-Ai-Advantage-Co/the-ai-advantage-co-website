@@ -229,8 +229,11 @@ nav.site-nav {
   flex-shrink: 0;
   height: 80px;
   width: 80px;
-  object-fit: contain;
+  border-radius: 50%;
+  object-fit: cover;
   object-position: center center;
+  background: #fff;
+  overflow: hidden;
   filter: drop-shadow(0 4px 14px rgba(122, 74, 20, 0.22));
   transition: transform 0.3s ease;
 }
