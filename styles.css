@@ -1257,11 +1257,12 @@ footer.site-footer {
   .nav-logo .brand-name { font-size: 18px; }
   .nav-logo .brand-tagline { font-size: 10px; letter-spacing: 0.2em; }
 
-  /* --- Full-viewport copper warmth overlay (mobile only) ---
-     Layers a warm copper-gold gradient OVER the circuit-still.jpg
-     poster bg so the whole mobile scroll reads warm, not just the
-     hero top. Fixed-position so it stays in view as the user scrolls
-     through the stacked sections. */
+  /* --- Full-viewport BRIGHTENING wash (mobile only) ---
+     v2.3 fix: previous saturated copper overlay was layering on top of
+     the already-dark circuit poster -> compounded into darkness.
+     Now: a light cream-white wash LIGHTENS the page, with a small
+     warm bloom only at the very top. Per-tab accent hue is added
+     below via .page-* body classes. */
   body::before {
     content: "";
     position: fixed;
@@ -1269,27 +1270,82 @@ footer.site-footer {
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(184, 116, 26, 0.28), transparent 65%),
-      radial-gradient(ellipse 90% 60% at 30% 50%, rgba(217, 184, 112, 0.18), transparent 70%),
-      radial-gradient(ellipse 90% 60% at 70% 100%, rgba(232, 162, 77, 0.22), transparent 65%),
-      linear-gradient(180deg, rgba(255, 248, 235, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
+      linear-gradient(180deg,
+        rgba(255, 250, 240, 0.55) 0%,
+        rgba(255, 252, 245, 0.32) 35%,
+        rgba(255, 255, 255, 0.20) 100%),
+      radial-gradient(ellipse 90% 35% at 50% 0%, rgba(217, 184, 112, 0.16), transparent 70%);
   }
 
-  /* --- Hero copper aurora (CSS-only, replaces the lost video pulse) ---
-     Boosted intensity — was too subtle in v2.1. */
+  /* Per-tab accent hue — subtle, only visible as a top-of-page warm bloom */
+  body.page-home::before {
+    background:
+      linear-gradient(180deg, rgba(255, 250, 240, 0.55) 0%, rgba(255, 252, 245, 0.32) 35%, rgba(255, 255, 255, 0.20) 100%),
+      radial-gradient(ellipse 90% 35% at 50% 0%, rgba(217, 184, 112, 0.18), transparent 70%);
+  }
+  body.page-services::before {
+    background:
+      linear-gradient(180deg, rgba(252, 250, 245, 0.55) 0%, rgba(255, 252, 248, 0.32) 35%, rgba(255, 255, 255, 0.20) 100%),
+      radial-gradient(ellipse 90% 35% at 50% 0%, rgba(232, 198, 130, 0.18), transparent 70%);
+  }
+  body.page-pricing::before {
+    background:
+      linear-gradient(180deg, rgba(255, 248, 238, 0.55) 0%, rgba(255, 252, 245, 0.32) 35%, rgba(255, 255, 255, 0.20) 100%),
+      radial-gradient(ellipse 90% 35% at 50% 0%, rgba(184, 116, 26, 0.20), transparent 70%);
+  }
+  body.page-contact::before {
+    background:
+      linear-gradient(180deg, rgba(255, 252, 245, 0.55) 0%, rgba(255, 254, 250, 0.32) 35%, rgba(255, 255, 255, 0.20) 100%),
+      radial-gradient(ellipse 90% 35% at 50% 0%, rgba(245, 215, 165, 0.16), transparent 70%);
+  }
+
+  /* --- Per-tab circuit accent strip — thin animated copper line under nav,
+     a subtle "circuit signature" that signals which tab you're on. --- */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 96px;  /* sits just below the mobile nav (nav-spacer height) */
+    left: 0;
+    right: 0;
+    height: 1px;
+    z-index: 99;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--copper) 25%,
+      var(--gold-1) 50%,
+      var(--copper) 75%,
+      transparent 100%);
+    opacity: 0.5;
+    animation: mobile-circuit-pulse 6s ease-in-out infinite;
+  }
+  body.page-services::after {
+    background: linear-gradient(90deg,
+      transparent 0%, var(--gold-2) 25%, var(--gold-1) 50%, var(--gold-2) 75%, transparent 100%);
+  }
+  body.page-pricing::after {
+    background: linear-gradient(90deg,
+      transparent 0%, var(--copper-deep) 25%, var(--copper) 50%, var(--copper-deep) 75%, transparent 100%);
+  }
+  body.page-contact::after {
+    background: linear-gradient(90deg,
+      transparent 0%, var(--gold-1) 25%, var(--gold-hover-1) 50%, var(--gold-1) 75%, transparent 100%);
+  }
+
+  /* --- Hero copper aurora — toned down for v2.3 (was too dark at 0.42/0.34/0.28). --- */
   .hero { position: relative; overflow: hidden; }
   .hero::before {
     content: "";
     position: absolute;
     inset: -10% -20%;
     background:
-      radial-gradient(circle at 30% 30%, rgba(184, 116, 26, 0.42), transparent 55%),
-      radial-gradient(circle at 70% 60%, rgba(217, 184, 112, 0.34), transparent 60%),
-      radial-gradient(circle at 50% 100%, rgba(232, 162, 77, 0.28), transparent 65%);
+      radial-gradient(circle at 30% 30%, rgba(184, 116, 26, 0.26), transparent 55%),
+      radial-gradient(circle at 70% 60%, rgba(217, 184, 112, 0.22), transparent 60%),
+      radial-gradient(circle at 50% 100%, rgba(232, 162, 77, 0.16), transparent 65%);
     z-index: 0;
     pointer-events: none;
     animation: mobile-aurora 14s ease-in-out infinite alternate;
-    filter: blur(20px);
+    filter: blur(22px);
   }
   .hero-inner { position: relative; z-index: 2; }
 
@@ -1445,10 +1501,15 @@ footer.site-footer {
       0 2px 4px rgba(184, 151, 88, 0.30),
       0 12px 32px rgba(184, 116, 26, 0.22); }
 }
+@keyframes mobile-circuit-pulse {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.65; }
+}
 
 /* Respect reduced motion preference — kill the mobile animations */
 @media (prefers-reduced-motion: reduce) {
   .hero::before { animation: none; }
   .hero h1 .accent { animation: none; }
   .btn-primary { animation: none; }
+  body::after { animation: none; }
 }
