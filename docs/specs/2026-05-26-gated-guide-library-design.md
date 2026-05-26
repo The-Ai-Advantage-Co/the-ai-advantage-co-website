@@ -19,9 +19,9 @@ Give coaching clients password-gated access to the full library of 94 user guide
 | Credential model | One shared password, rotated quarterly |
 | Hosting | Folder on main site (`theaiadvantageco.com.au/guides`) |
 | Site platform | Lift-and-shift existing static HTML into one Next.js 14 project |
-| Layout | Top tabs per platform + card grid below |
+| Layout | Landing row of all 4 Master Guide hero cards (always visible at top of `/guides`), then platform tabs below for Core/Topical drill-down |
 | Click behaviour | Opens in same tab at its own URL (e.g. `/guides/copilot/copilot-excel.html`) |
-| Grouping within tab | Master Guide hero → Core User Guides section → Topical Guides section |
+| Grouping within tab | Below the always-visible Master row: Core User Guides section → Topical Guides section for the active tab |
 | Brand alignment | Reuse existing `styles.css`, fonts (Inter + Cormorant + JetBrains Mono), copper/gold tokens, fixed circuit video bg |
 | Sub-line writing | Brené Brown (Education Lead) extracts 94 one-liners from guide intros |
 
@@ -137,7 +137,7 @@ Vertically centred, mirrors home hero pattern.
 - Lead: "The full library of user guides for Copilot, ChatGPT, Claude, and Gemini — included with every coaching engagement."
 - Password input: 480px max, single field, autofocus, `type="password"`
 - Submit: gold `.btn.btn-primary`, full-width on mobile
-- Small print: "Your password is in the email you received after your last session. Lost it? hello@theaiadvantageco.com.au"
+- Small print: "Your password is in the email you received after your last session. Lost it? theaiadvantagecoadmin@gmail.com"
 - Error state: red hairline on input, message replaces small print, `aria-live="polite"`
 - Rate-limit state: "Too many attempts. Try again in a minute." Button disabled 60s.
 - Mobile: input full width, padding reduces, video bg stays
@@ -151,48 +151,52 @@ Vertically centred, mirrors home hero pattern.
 ├──────────────────────────────────────────────────────────────────────┤
 │        USER GUIDE LIBRARY                                            │
 │        Your AI Guides.                                               │
-│        Pick your platform below. Start with the Master Guide,        │
-│        then dive into the topic you need this week.                  │
+│        Start with the Master Guide for the platform you use most.    │
+│        Then drop into the topic you need this week.                  │
 │                                                                      │
-│        [ ChatGPT ][ Claude ][ Gemini ][ Copilot ]   ← tabs           │
+│        MASTER GUIDES                                                 │
+│  ┌──────────┬──────────┬──────────┬──────────┐                       │
+│  │ ChatGPT  │  Claude  │  Gemini  │ Copilot  │   ← 4 Master cards    │
+│  │  Master  │  Master  │  Master  │  Master  │     (always visible)  │
+│  │  Guide   │  Guide   │  Guide   │  Guide   │                       │
+│  └──────────┴──────────┴──────────┴──────────┘                       │
 │                                                                      │
-│  ┌────────────────────────────────────────────────────────────────┐  │
-│  │ MASTER GUIDE                                                   │  │
-│  │ Copilot Master Guide                                       →   │  │
-│  │ The complete reference. Start here.                            │  │
-│  └────────────────────────────────────────────────────────────────┘  │
+│        GO DEEPER                                                     │
+│        [ ChatGPT ][ Claude ][ Gemini ][ Copilot ]   ← drill-down tabs│
 │                                                                      │
 │        CORE USER GUIDES                                              │
 │        The structured series.                                        │
-│  [ 3-column grid of Core cards ]                                     │
+│  [ 3-column grid of Core cards for active tab ]                      │
 │                                                                      │
 │        TOPICAL GUIDES                                                │
 │        Use cases & deep dives.                                       │
-│  [ 3-column grid of Topical cards ]                                  │
+│  [ 3-column grid of Topical cards for active tab ]                   │
 ├──────────────────────────────────────────────────────────────────────┤
 │                          [existing site footer]                      │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-**Tabs:**
+**Master Guides row (always visible at top, all 4 platforms):**
+- 4-card row, equal width, ~180px tall each
+- Each card: platform name eyebrow (copper), "Master Guide" title (Inter 700, 22px), short sub from manifest, right-arrow on hover
+- Subtle gold left border (4px) on each
+- Subtle gradient bg: `linear-gradient(to bottom, rgba(217,184,112,0.08), transparent)`
+- Whole card links to `/guides/<platform>/master-<platform>.html`
+- Mobile (<640px): stacks to 1 column, each card full-width
+- Tablet (640–1023px): 2×2 grid
+
+**Tabs (drill-down section below Masters):**
 - 4 platform tabs (ChatGPT, Claude, Gemini, Copilot)
 - URL-bound: `/guides?tool=copilot` so tabs are bookmarkable
-- Default tab on first load: `chatgpt` (alphabetical)
+- Default active tab on landing: `chatgpt` (alphabetical) so the Core/Topical area is always populated — Masters above carry the "all 4 platforms" prominence so the tab default carries no special weight
 - Mobile: tabs collapse to a single full-width `<select>` dropdown
 
-**Card anatomy (Core + Topical):**
+**Card anatomy (Core + Topical cards under the active tab):**
 - Hairline border, white surface, 24px padding, 8px radius
 - Title: Inter 600, 18px, `--ink-primary`
 - 1-line sub from manifest (≤ 90 chars), `--ink-secondary`
 - Hover: 2px lift, subtle shadow, title becomes copper
 - Whole card links to `/guides/<platform>/<slug>.html`
-
-**Master Guide card (hero):**
-- Full-width, ~140px tall
-- 4px gold left border
-- Subtle gradient bg: `linear-gradient(to right, rgba(217,184,112,0.08), transparent)`
-- "MASTER GUIDE" eyebrow above title
-- Right-aligned `→` arrow that slides 4px on hover
 
 **Responsive grid:**
 - Desktop ≥1024px: 3 columns
@@ -359,7 +363,7 @@ Ship when all 9 are green:
 
 1. Main site routes (`/`, `/services`, `/pricing`, `/contact`) render visually identical to current static HTML
 2. `/guides/login` renders gate page; valid password sets cookie, invalid shows error, 5 wrong in 60s rate-limits
-3. `/guides` renders library with 4 tabs, Master hero, Core + Topical sections; default tab loads in <100ms
+3. `/guides` renders library with the always-visible 4 Master Guide hero row at top, then 4 drill-down tabs with Core + Topical sections below; landing loads in <100ms
 4. All 94 guides accessible from cards; back-pill present and styled on every guide page
 5. Direct URL like `/guides/copilot/copilot-excel.html` redirects unauthenticated visitors to login, returns them post-auth
 6. Sign-out clears cookie and redirects home
@@ -420,8 +424,10 @@ Tim Cook (single intake — receives this approved spec from Brad)
 └── Howard Schultz  ─  Head of Growth & CS (client-facing touchpoint)
         │
         └── Joe Rogan  ─  Account Manager
-              ├── Update postclient skill template with PS block + password
-              └── Send batch announcement email to existing clients
+              └── Update postclient skill template with PS block + password
+                  (No announcement email — no paid client base yet. New
+                  clients pick up the URL + password via their post-session
+                  email automatically.)
 ```
 
 ## 11. Suggested sequencing
@@ -435,14 +441,18 @@ Tim Cook (single intake — receives this approved spec from Brad)
 | 3 | Jony | Library UI + back-pill injection + QA |
 | 3 | Anna | Brand QA pass — PASS or specific fixes |
 | 4 | Jony | DNS cutover, production launch |
-| 4 | Joe | Update postclient template, send announcement email |
+| 4 | Joe | Update postclient template with new PS block (no announcement email — no paid client base yet) |
 | 4 | Jimmy | Mark project Live in Build Log |
 
 Realistic timeline: 4–6 weeks accounting for review cycles.
 
 ## 12. Open items at hand-off
 
-- **Default tab on first load** — currently set to `chatgpt` (alphabetical). Brad may override.
-- **"Lost password" mailto address** — Section 5.1 assumes `hello@theaiadvantageco.com.au`. Brad to confirm which inbox Joe Rogan monitors for recovery requests.
 - **Read time on cards** — left out v1. Add Phase 2 if clients ask.
 - **Updated date pill** — `updated` field exists in manifest schema but no UI v1.
+
+### Resolved during dispatch (2026-05-26)
+
+- ~~Default tab on first load~~ — landing page now shows all 4 Master Guides at top (always visible); below them, drill-down tabs default to `chatgpt` alphabetical.
+- ~~Lost-password mailto~~ — resolved to `theaiadvantagecoadmin@gmail.com`.
+- ~~Announcement email to existing clients~~ — dropped. No paid client base yet. New clients pick up the URL + password via their post-session email automatically once Joe updates the postclient skill template.
