@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gemini in Google Meet | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF5F4;color:#1C0800}
+:root{--blue:#1A73E8;--green:#34A853;--yellow:#F9AB00;--orange:#EA4335;--sidebar:#1A0D00;--card:#fff;--hdr:#FFEBE8;--border:#FDDCDA;--ink:#1C0800;--mid:#4A2A24;--muted:#8A6A64}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:#FBBD33;padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(255,245,244,.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#fff;border-left-color:var(--blue);background:rgba(26,115,232,.15)}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#FBBD33;opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--sidebar);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'🎥';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.12;line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:#FBBD33;text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(255,245,244,.7);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(26,13,0,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#EAF7EE;border-color:var(--green)}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FEF9C3;border-color:#B45309}.callout.warning strong{color:#92400E}
+.callout.info{background:#EAF1FD;border-color:var(--blue)}.callout.info strong{color:#1565C0}
+.callout.gemini{background:#FEF7E0;border-color:var(--yellow)}.callout.gemini strong{color:#92400E}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:8px;padding:16px}
+.feature-card.green{border-top-color:var(--green)}.feature-card.yellow{border-top-color:var(--yellow)}.feature-card.orange{border-top-color:var(--orange)}
+.feature-card h4{color:var(--ink);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;color:#fff;background:var(--blue)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--sidebar);color:#FBBD33;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--hdr)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.prompt-box{display:none;background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:#FBBD33;background:var(--sidebar);padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
+.prompt-text{font-size:13px;color:var(--mid);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#2A1A0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--ink)}
+h3{font-size:16px;font-weight:700;color:var(--ink);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Gemini in Google Meet</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Gemini in Meet?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>Live Captions & Translation</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Meeting Summaries</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Action Items & Follow-ups</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Smart Features</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Meeting Preparation</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Gemini User Guide</div>
+    <h1>Gemini in Google Meet</h1>
+    <p>Capture every decision, action item, and key point automatically — so you can be fully present in meetings instead of taking notes.</p>
+  </div>
+
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">1</div><h2>What is Gemini in Meet?</h2></div>
+    <div class="section-body">
+      <p>Gemini adds AI capabilities directly to Google Meet — live captions with real-time translation, automatic meeting summaries, action item extraction, and smart noise cancellation. These features run during and after your meetings without any manual note-taking.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>📝 Meeting summaries</h4><p>Get an AI-generated summary of the meeting immediately after it ends — delivered to your email and Chat.</p></div>
+        <div class="feature-card green"><h4>✅ Action items</h4><p>Automatically extracted action items from meeting conversations — who said what and what was agreed.</p></div>
+        <div class="feature-card yellow"><h4>🌐 Live translation</h4><p>Real-time caption translation for multilingual meetings — available in 60+ languages.</p></div>
+        <div class="feature-card orange"><h4>🔇 Noise cancellation</h4><p>AI-powered background noise removal — blocks traffic, typing, and ambient sounds in real time.</p></div>
+      </div>
+      <div class="callout info"><strong>Availability:</strong><p>Gemini features in Meet require Google Workspace with Gemini for Workspace enabled. Some features (summaries, action items) require a Workspace Business Standard or higher plan. Live translation is available in all Workspace plans.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">2</div><h2>Live Captions & Translation</h2></div>
+    <div class="section-body">
+      <p>Live captions display real-time transcription of everything said in the meeting. Translation adds an additional layer — converting captions into your chosen language in real time.</p>
+      <div class="step"><div class="step-num" style="background:var(--green)">1</div><div class="step-body"><h4>Enable captions</h4><p>During a meeting, click the "CC" (closed captions) button at the bottom of the screen, or use the "..." More Options menu → Turn on captions.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Enable translation</h4><p>Captions → Settings → Translation language. Choose your target language. Captions will now show both the original speech and your chosen language.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">3</div><div class="step-body"><h4>Adjust display</h4><p>Captions appear at the bottom of the screen. You can resize the caption area or pin it. Each speaker is labelled separately.</p></div></div>
+      <div class="callout tip"><strong>Use captions for accessibility and focus:</strong><p>Even in same-language meetings, captions help you follow along when audio quality is poor, when speakers have strong accents, or when you need to refer back to exactly what was said. They also keep you focused — reading and listening simultaneously improves retention.</p></div>
+      <h3>Supported languages</h3>
+      <p>Google Meet supports live captions in English, French, German, Spanish, Portuguese, and more — with translation into 60+ languages. Check Google's current language support list as it's regularly updated.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">3</div><h2>Meeting Summaries</h2></div>
+    <div class="section-body">
+      <p>When "Take notes with Gemini" is enabled, Google Meet records a transcript of the meeting and generates a structured summary delivered to participants after the call ends.</p>
+      <h3>Enabling note-taking</h3>
+      <div class="step"><div class="step-num" style="background:var(--yellow)">1</div><div class="step-body"><h4>Start the note-taking</h4><p>During a meeting, click "Activities" (pencil icon) → "Take notes with Gemini." Meeting participants see a notification that AI note-taking is active.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--yellow)">2</div><div class="step-body"><h4>Meeting runs as normal</h4><p>Gemini transcribes and analyses the conversation. You don't need to do anything — just participate fully.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--yellow)">3</div><div class="step-body"><h4>Receive the summary</h4><p>After the meeting, Gemini sends a summary to the meeting host's email and Google Chat. It includes: key discussion points, decisions made, and action items.</p></div></div>
+      <div class="callout warning"><strong>Consent notification is mandatory:</strong><p>When note-taking is active, all participants see a notification. You cannot secretly record or transcribe a meeting. This is by design — ensure all participants are aware and comfortable before enabling.</p></div>
+      <h3>What the summary includes</h3>
+      <table class="ref-table">
+        <tr><th>Section</th><th>What's covered</th></tr>
+        <tr><td>Meeting overview</td><td>Participants, duration, high-level topic</td></tr>
+        <tr><td>Key discussion points</td><td>Main topics covered with brief summaries</td></tr>
+        <tr><td>Decisions made</td><td>Explicit agreements and conclusions reached</td></tr>
+        <tr><td>Action items</td><td>Tasks assigned — who is responsible, and any deadlines mentioned</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">4</div><h2>Action Items & Follow-ups</h2></div>
+    <div class="section-body">
+      <p>The action item extraction is where Gemini in Meet creates the most immediate business value — turning verbal commitments into a tracked list automatically.</p>
+      <h3>How action items are captured</h3>
+      <p>Gemini identifies phrases that indicate a commitment or task: "I'll send that over by Friday," "Can you take a look at the brief?" and "Let's schedule a follow-up for next week" all trigger action item extraction. Each item includes the speaker's name and the context.</p>
+      <div class="callout tip"><strong>Make your commitments explicit:</strong><p>Gemini captures better action items when people use clear language: "Sarah will send the report by Thursday" is captured more reliably than "yeah I'll sort it." Encourage explicit ownership language in your meetings.</p></div>
+      <h3>After the meeting</h3>
+      <div class="feature-grid">
+        <div class="feature-card orange"><h4>📋 Review action items</h4><p>Check the summary email for the full action list. Verify each item is correctly attributed and deadlined.</p></div>
+        <div class="feature-card"><h4>📧 Share the summary</h4><p>Forward the summary to team members who weren't present or stakeholders who need visibility.</p></div>
+        <div class="feature-card green"><h4>📅 Add to Calendar</h4><p>Copy action items into Google Tasks or Calendar events to ensure follow-through with deadlines.</p></div>
+        <div class="feature-card yellow"><h4>📁 Save to Drive</h4><p>Copy the summary to a Google Doc for the project folder — builds a searchable meeting history over time.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">5</div><h2>Smart Features</h2></div>
+    <div class="section-body">
+      <p>Beyond transcription and summaries, Gemini adds several smart features to the meeting experience.</p>
+      <h3>Studio features (Workspace Enterprise)</h3>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>🎨 Studio look</h4><p>AI-enhanced video — adjusts lighting, skin tone, and sharpness in real time so you look better on camera regardless of environment.</p></div>
+        <div class="feature-card green"><h4>🔇 Studio noise cancellation</h4><p>Enhanced noise removal that eliminates background sounds including keyboard typing, paper rustling, and ambient conversation.</p></div>
+        <div class="feature-card yellow"><h4>📡 Adaptive audio</h4><p>Multiple people in the same room? Adaptive audio prevents echo and audio conflicts when several microphones are active.</p></div>
+        <div class="feature-card orange"><h4>📊 Attendance tracking</h4><p>Automatically logs who attended, when they joined, and when they left — useful for large team meetings and compliance purposes.</p></div>
+      </div>
+      <h3>Q&A and Polls</h3>
+      <p>Meet's Q&A and Polls features are enhanced by Gemini — after a meeting with active Q&A, Gemini can generate a summary of questions asked and answers given, so presenters can follow up on unanswered questions.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">6</div><h2>Meeting Preparation</h2></div>
+    <div class="section-body">
+      <p>Gemini isn't just useful during meetings — it's a powerful tool for preparing before them and for processing output after.</p>
+      <h3>Before the meeting</h3>
+      <p>Use Gemini (in chat or side panel of Calendar) to help prepare:</p>
+      <ul>
+        <li><strong>Agenda drafting:</strong> "Draft a 45-minute meeting agenda for a quarterly business review with [team]. We need to cover: performance review, Q4 plans, budget status, and team wellbeing."</li>
+        <li><strong>Briefing notes:</strong> "Create briefing notes for a meeting with a new client prospect. They're a mid-market retail company and we're pitching our inventory management solution."</li>
+        <li><strong>Tough question prep:</strong> "What difficult questions should I prepare for in a meeting where I'm presenting a project that is over budget?"</li>
+      </ul>
+      <div class="callout gemini"><strong>Pre-meeting workflow:</strong><p>1. Use Gemini to draft the agenda → send via Google Calendar. 2. Use Gemini to create briefing notes → save to Google Drive. 3. During meeting: enable note-taking. 4. After meeting: review summary → process action items → follow up via Gmail using Help Me Write.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>Build a meeting intelligence system</h3>
+      <p>For recurring meetings (weekly team calls, monthly reviews), save each Gemini summary to a dedicated Google Drive folder. Over time you build a searchable record of every decision, action, and discussion — enabling pattern analysis and accountability tracking.</p>
+      <h3>Cross-reference summaries with Gemini</h3>
+      <p>After saving multiple meeting summaries to Drive, use the Drive extension in Gemini chat: "Look at my meeting summaries from the last 3 months for the [project] project. What action items have been mentioned repeatedly that haven't been resolved?" This surfaces systemic blockers.</p>
+      <h3>Use the transcript for detailed review</h3>
+      <p>When note-taking is enabled, a full transcript is available — not just the summary. For complex meetings (legal discussions, technical architecture reviews, client negotiations), download the transcript and ask Gemini in chat: "Review this meeting transcript and identify any ambiguous commitments or areas of disagreement."</p>
+      <div class="callout tip"><strong>Late joiners:</strong><p>If you join a meeting late, the "catch me up" feature (when available in your Workspace plan) gives you a brief summary of what's been discussed since the meeting started — no more whispering to a colleague.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr>
+        <tr><td>Not informing participants</td><td>Starting note-taking without telling attendees</td><td>Google notifies automatically — but verbally mention it at the start of important meetings</td></tr>
+        <tr><td>Trusting action items blindly</td><td>Assuming AI captured all commitments accurately</td><td>Review the action item list against your memory — verify attribution and deadlines</td></tr>
+        <tr><td>Not saving summaries</td><td>Reading the email summary and forgetting to archive it</td><td>Set up a rule to copy meeting summaries to a Drive folder automatically</td></tr>
+        <tr><td>Forgetting to enable note-taking</td><td>Only remembering after the meeting has started (or ended)</td><td>Add "Enable Gemini notes" to your meeting host checklist or pre-meeting prep habit</td></tr>
+        <tr><td>Using notes as a replacement for attending</td><td>Assuming you can skip meetings and just read the summary</td><td>Summaries capture decisions and actions, not nuance, tone, or relationship dynamics</td></tr>
+        <tr><td>Missing the prep value</td><td>Only using Gemini in Meet during meetings</td><td>Use Gemini for agenda creation, briefing notes, and follow-up emails — the before/after is equally valuable</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'mt-a')">Meeting Preparation</button>
+          <button class="tab-btn" onclick="switchTab(this,'mt-b')">Post-Meeting Processing</button>
+        </div>
+        <div class="prompt-box active" id="mt-a">
+          <div class="prompt-item">
+            <div class="prompt-label">Agenda Creation</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Draft a [duration]-minute meeting agenda for [meeting type — e.g. quarterly review / project kickoff / client discovery]. Attendees: [roles]. We must cover: [key topics]. Structure it with: time allocations, clear purpose for each item, and a decisions/actions section at the end."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Difficult Meeting Prep</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"I'm about to have a meeting with [context — e.g. an unhappy client / a team member about performance / investors asking why we missed targets]. What are the 5 most challenging questions I might be asked? For each, give me a suggested approach to answering."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Briefing Notes</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Create one-page briefing notes for a meeting with [person/company]. Context: [what you know about them]. Our agenda: [topics]. Our goal: [outcome you want]. Include: background on them, key talking points, and what we want agreed by end of meeting."</div>
+          </div>
+        </div>
+        <div class="prompt-box" id="mt-b">
+          <div class="prompt-item">
+            <div class="prompt-label">Summary Processing</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Here is the Gemini summary from today's meeting: [paste summary]. Extract from it: (1) all action items with owners and deadlines, (2) all decisions made, (3) any open questions that need follow-up. Format as a structured follow-up email I can send to participants."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Follow-Up Email</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Write a post-meeting follow-up email based on these notes: [paste action items / summary]. Include: brief summary of what was agreed, action items with owners and deadlines, and next meeting date if applicable. Tone: professional and clear."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Pattern Analysis</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Here are meeting summaries from the last [number] weeks: [paste summaries]. What action items appear repeatedly across multiple meetings? Which decisions have been revisited or reversed? What topics seem to generate the most discussion time?"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A project manager runs a weekly team standup with Gemini note-taking enabled — here's what they receive after the call.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span style="font-size:12px;color:rgba(255,245,244,.5);margin-left:8px">Google Meet — Post-Meeting Summary</span></div>
+        <div style="padding:20px">
+          <div style="background:#1A3050;border-radius:8px;padding:14px;margin-bottom:14px">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:6px">📋 Meeting Summary — Weekly Project Standup — 25 min</div>
+            <div style="font-size:13px;color:rgba(255,245,244,.85);line-height:1.8">
+              <strong style="color:#81C784">Key Discussion Points:</strong><br>
+              • API integration complete; UI sign-off still pending from design team<br>
+              • Beta feedback from 5 users is positive; 2 feature requests noted<br>
+              • Timeline risk if design not delivered by Friday<br><br>
+              <strong style="color:#FBBD33">Decisions Made:</strong><br>
+              • James to chase design team directly; escalate to head of design if no response by noon Thursday<br><br>
+              <strong style="color:#EA4335">Action Items:</strong><br>
+              • James — chase design sign-off (Thursday noon deadline)<br>
+              • Sarah — document the 2 beta feature requests in the backlog by EOD today<br>
+              • All — next sprint starts Monday; align availability with PM before Friday
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>25-minute meeting → structured summary → zero manual note-taking → immediate follow-up clarity.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn" style="color:var(--blue)">01</div><h4>Enable captions</h4><p>Turn on live captions in your next meeting. Notice what you catch that you'd normally miss.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--green)">02</div><h4>Try note-taking</h4><p>Enable "Take notes with Gemini" in an internal meeting. Review the summary afterwards for accuracy.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--yellow)">03</div><h4>Build a meeting archive</h4><p>Create a Drive folder for meeting summaries. Start saving all AI summaries there for future reference.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--orange)">04</div><h4>Use prep + follow-up</h4><p>Use Gemini to draft your next meeting agenda before, and write the follow-up email after. Close the full loop.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){const tabs=el.closest('.prompt-tabs');tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));tabs.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById(id).classList.add('active');}
+function copyPrompt(btn){const text=btn.nextElementSibling.textContent;navigator.clipboard.writeText(text).catch(()=>{});const orig=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=orig,1500);}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));const link=document.querySelector(`.nav-link[href="#${e.target.id}"]`);if(link)link.classList.add('active');}});},{threshold:.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

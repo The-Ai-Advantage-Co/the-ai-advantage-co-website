@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code — User Guide | The AI Advantage Co</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    /* ============================================================
+       PALETTE — Claude brand (orange). Same palette as all Claude
+       product guides. Banner image swapped per product.
+    ============================================================ */
+    :root {
+      --orange:        #C97040;
+      --orange-light:  #E09868;
+      --orange-soft:   rgba(201, 112, 64, 0.09);
+      --orange-border: rgba(201, 112, 64, 0.20);
+
+      --sidebar-bg:    #3C1E0A;
+      --sidebar-hover: #4E2A12;
+      --sidebar-act:   rgba(201, 112, 64, 0.16);
+
+      --page-bg:       #FEF8F0;
+      --white:         #FFFFFF;
+      --card-bg:       #FFFCF8;
+
+      --ink:           #2C1408;
+      --body-text:     #4A3020;
+      --muted:         #8A6040;
+      --muted-light:   #B08060;
+      --border:        #F0DEC8;
+      --divider:       #EDD8BE;
+
+      --sidebar-w:   268px;
+      --radius:      10px;
+      --radius-sm:   6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--page-bg);
+      color: var(--ink);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ── SIDEBAR ──────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      display: flex; flex-direction: column;
+      position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(201,112,64,0.30); border-radius: 4px; }
+
+    .sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(201,112,64,0.14); }
+    .sidebar-brand .brand-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--orange-light); margin-bottom: 4px;
+    }
+    .sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+    .sidebar-meta { padding: 14px 24px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .sidebar-guide-title { font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.45; font-weight: 400; }
+    .nav-label {
+      padding: 18px 24px 6px;
+      font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(201,112,64,0.45);
+    }
+    nav#sidebar-nav { flex: 1; padding: 0 12px 24px; }
+    nav#sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: var(--radius-sm);
+      font-size: 13.5px; font-weight: 400;
+      color: rgba(255,255,255,0.55); text-decoration: none;
+      line-height: 1.35; transition: background 0.15s, color 0.15s; margin-bottom: 1px;
+    }
+    nav#sidebar-nav a:hover { background: var(--sidebar-hover); color: rgba(255,255,255,0.88); }
+    nav#sidebar-nav a.active { background: var(--sidebar-act); color: var(--orange-light); font-weight: 500; }
+    nav#sidebar-nav a svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.60; }
+    nav#sidebar-nav a.active svg { opacity: 1; }
+    .sidebar-footer {
+      padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 11px; color: rgba(255,255,255,0.22); line-height: 1.7;
+    }
+    .sidebar-footer a { color: rgba(201,112,64,0.50); text-decoration: none; }
+    .sidebar-footer a:hover { color: var(--orange-light); }
+
+    /* ── MAIN ─────────────────────────────────────────────── */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+    /* ── BANNER ───────────────────────────────────────────── */
+    .banner { width: 100%; line-height: 0; display: block; }
+    .banner img { width: 100%; height: auto; display: block; }
+
+    /* ── DOC HEADER ───────────────────────────────────────── */
+    .doc-header { padding: 36px 60px 28px; border-bottom: 1px solid var(--border); background: var(--white); }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11.5px; color: var(--muted-light); margin-bottom: 14px;
+    }
+    .breadcrumb span { color: var(--orange); font-size: 10px; }
+    .doc-title { font-size: 28px; font-weight: 700; color: var(--ink); letter-spacing: -0.5px; line-height: 1.25; margin-bottom: 10px; }
+    .doc-subtitle { font-size: 15.5px; color: var(--muted); font-weight: 400; margin-bottom: 20px; max-width: 680px; line-height: 1.6; }
+    .doc-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--orange-soft); border: 1px solid var(--orange-border);
+      color: var(--orange); font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px; letter-spacing: 0.3px; text-transform: uppercase;
+    }
+    .meta-item { font-size: 12.5px; color: var(--muted-light); }
+    .meta-item strong { color: var(--muted); font-weight: 500; }
+
+    /* ── CONTENT BODY ─────────────────────────────────────── */
+    .content-body { flex: 1; padding: 48px 60px 80px; max-width: 980px; }
+
+    /* ── SECTION ──────────────────────────────────────────── */
+    .section { margin-bottom: 56px; scroll-margin-top: 24px; }
+    .section-header {
+      display: flex; align-items: flex-start; gap: 14px;
+      margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+    .section-num {
+      width: 32px; height: 32px; min-width: 32px;
+      background: var(--orange); color: #FFF8F2;
+      font-size: 12px; font-weight: 700; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center; margin-top: 2px;
+    }
+    .section-title { font-size: 21px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; line-height: 1.3; }
+    .section-desc { font-size: 13px; color: var(--muted); margin-top: 3px; font-weight: 400; }
+
+    /* ── PROSE ────────────────────────────────────────────── */
+    .prose p { color: var(--body-text); margin-bottom: 14px; font-size: 15px; line-height: 1.8; }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 28px 0 10px; letter-spacing: -0.1px; }
+    .prose h4 { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.7px; margin: 22px 0 8px; }
+    .prose ul, .prose ol { padding-left: 0; margin: 12px 0 16px; list-style: none; }
+    .prose li { position: relative; padding-left: 20px; margin-bottom: 9px; color: var(--body-text); font-size: 15px; line-height: 1.72; }
+    .prose ul li::before { content: ''; position: absolute; left: 0; top: 10px; width: 5px; height: 5px; background: var(--orange); border-radius: 50%; }
+    .prose ol { counter-reset: ol-c; }
+    .prose ol li { counter-increment: ol-c; }
+    .prose ol li::before { content: counter(ol-c); position: absolute; left: 0; top: 1px; font-size: 11.5px; font-weight: 700; color: var(--orange); }
+
+    /* ── CARD GRID ────────────────────────────────────────── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; margin: 20px 0; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; transition: border-color 0.2s, box-shadow 0.2s; }
+    .card:hover { border-color: var(--orange-border); box-shadow: 0 4px 20px rgba(201,112,64,0.08); }
+    .card-icon { width: 34px; height: 34px; background: var(--orange-soft); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 11px; font-size: 16px; }
+    .card-title { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* ── STEPS ────────────────────────────────────────────── */
+    .steps { margin: 20px 0 24px; }
+    .step { display: flex; gap: 16px; position: relative; }
+    .step:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 34px; width: 2px; bottom: 0; background: var(--border); }
+    .step-num { width: 30px; height: 30px; min-width: 30px; background: var(--orange); color: #FFF8F2; font-size: 12px; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+    .step-body { padding-bottom: 26px; flex: 1; }
+    .step-title { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 4px; padding-top: 4px; line-height: 1.4; }
+    .step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.7; }
+
+    /* ── CALLOUTS ─────────────────────────────────────────── */
+    .callout { display: flex; gap: 13px; border-radius: var(--radius); padding: 15px 18px; margin: 20px 0; }
+    .callout-icon { font-size: 17px; line-height: 1.6; flex-shrink: 0; }
+    .callout-body { flex: 1; }
+    .callout-title { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .callout-text { font-size: 14px; line-height: 1.65; }
+
+    .callout.tip { background: var(--orange-soft); border: 1px solid var(--orange-border); }
+    .callout.tip .callout-title { color: var(--orange); }
+    .callout.tip .callout-text { color: #4A2C10; }
+
+    .callout.info { background: rgba(180, 140, 80, 0.07); border: 1px solid rgba(180, 140, 80, 0.18); }
+    .callout.info .callout-title { color: #8A6020; }
+    .callout.info .callout-text { color: #4A3010; }
+
+    .callout.warning { background: rgba(220, 140, 60, 0.08); border: 1px solid rgba(220, 140, 60, 0.22); }
+    .callout.warning .callout-title { color: #A05010; }
+    .callout.warning .callout-text { color: #4A2C10; }
+
+    .callout.note { background: rgba(150, 120, 90, 0.07); border: 1px solid rgba(150, 120, 90, 0.16); }
+    .callout.note .callout-title { color: var(--muted); }
+    .callout.note .callout-text { color: var(--body-text); }
+
+    /* ── COMMAND REFERENCE TABLE ─────────────────────────── */
+    .cmd-table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13.5px; }
+    .cmd-table th { background: var(--orange); color: #FFF8F2; font-weight: 700; text-align: left; padding: 10px 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .cmd-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--body-text); vertical-align: top; }
+    .cmd-table tr:last-child td { border-bottom: none; }
+    .cmd-table tr:nth-child(even) td { background: rgba(201,112,64,0.03); }
+    .cmd-table code { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 12.5px; background: rgba(201,112,64,0.08); color: var(--orange); padding: 1px 5px; border-radius: 3px; }
+
+    /* ── CODE BLOCK ──────────────────────────────────────── */
+    .code-block {
+      background: #1E0F04; border-radius: var(--radius); padding: 16px 20px; margin: 16px 0;
+      font-family: 'SFMono-Regular', Consolas, monospace; font-size: 13px; line-height: 1.65;
+      color: #E8C8A0; overflow-x: auto;
+    }
+    .code-block .cmd { color: var(--orange-light); }
+    .code-block .comment { color: rgba(232,200,160,0.40); }
+
+    /* ── FILE REFERENCE TABLE ────────────────────────────── */
+    .file-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+    .file-table th { background: var(--orange); color: #FFF8F2; font-weight: 700; text-align: left; padding: 10px 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .file-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--body-text); }
+    .file-table tr:last-child td { border-bottom: none; }
+    .file-table tr:nth-child(even) td { background: rgba(201,112,64,0.03); }
+    .file-table .tag { display: inline-block; font-size: 10.5px; font-weight: 700; color: var(--orange); background: var(--orange-soft); border: 1px solid var(--orange-border); padding: 1px 7px; border-radius: 10px; }
+
+    /* ── UI MOCKUP ───────────────────────────────────────── */
+    .mockup-wrap { display: flex; gap: 12px; margin: 20px 0; }
+    .mockup-terminal {
+      flex: 1; background: #1E0F04; border-radius: var(--radius); padding: 18px 20px;
+      font-family: 'SFMono-Regular', Consolas, monospace; font-size: 13px; line-height: 1.7;
+      color: #E8C8A0; min-height: 220px;
+    }
+    .mockup-terminal .prompt { color: var(--orange-light); font-weight: 700; }
+    .mockup-terminal .claude { color: var(--orange); font-weight: 600; }
+    .mockup-terminal .output { color: rgba(232,200,160,0.75); }
+    .mockup-terminal .dim { color: rgba(232,200,160,0.38); }
+    .mockup-label { font-size: 10px; font-weight: 700; color: var(--muted-light); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+
+    /* ── PROMPT CARDS ────────────────────────────────────── */
+    .prompt-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px;
+    }
+    .prompt-label { font-size: 10.5px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 7px; }
+    .prompt-text { font-size: 13.5px; color: var(--body-text); line-height: 1.65; font-style: italic; }
+
+    /* ── DIVIDER ─────────────────────────────────────────── */
+    .divider { border: none; border-top: 1px solid var(--divider); margin: 48px 0; }
+
+    /* ── PRINT ───────────────────────────────────────────── */
+    @media print {
+      .sidebar { display: none; }
+      .content-body { padding: 0; }
+      .doc-header { border: none; }
+      .section { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">The AI Advantage Co</div>
+      <div class="brand-name">Claude Code<br>User Guide</div>
+    </div>
+    <div class="sidebar-meta">
+      <div class="sidebar-guide-title">AI-powered coding assistant<br>for developers and technical teams</div>
+    </div>
+    <div class="nav-label">Contents</div>
+    <nav id="sidebar-nav">
+      <a href="#what-is" class="active">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 5.5v.5"/></svg>
+        What is Claude Code?
+      </a>
+      <a href="#getting-started">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 8h11M9 3.5l5 4.5-5 4.5"/></svg>
+        Getting Started
+      </a>
+      <a href="#core-capabilities">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5.5h4M5 10.5h3"/></svg>
+        Core Capabilities
+      </a>
+      <a href="#codebase-context">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2h8a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M5.5 6l2 2-2 2M8.5 10h2"/></svg>
+        Your Codebase Context
+      </a>
+      <a href="#slash-commands">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 13L10 3M6 13h7M3 3h5"/></svg>
+        Slash Commands
+      </a>
+      <a href="#mcp-servers">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.5"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2M3.5 3.5l1.5 1.5M11 11l1.5 1.5M3.5 12.5L5 11M11 5l1.5-1.5"/></svg>
+        MCP Servers
+      </a>
+      <a href="#best-practices">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 4L6 11l-3-3"/></svg>
+        Best Practices
+      </a>
+      <a href="#troubleshooting">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zM8 7v3M8 5.5v.5"/></svg>
+        Troubleshooting
+      </a>
+      <a href="#suggested-prompts">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12v7a1 1 0 01-1 1H3a1 1 0 01-1-1V4zM5 4V2.5a.5.5 0 011 0V4M10 4V2.5a.5.5 0 011 0V4"/></svg>
+        Suggested Prompts
+      </a>
+      <a href="#see-it-in-action">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="3,2 13,8 3,14"/></svg>
+        See It In Action
+      </a>
+      <a href="#roadmap">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 14l3-9 3 5 2-3 4 7"/></svg>
+        Your Roadmap
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      © 2026 The AI Advantage Co<br>
+      <a href="https://theaiadvantageco.com.au">theaiadvantageco.com.au</a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- BANNER — replace with Claude Code brand image -->
+    <div class="banner">
+      <svg viewBox="0 0 1200 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        <rect width="1200" height="280" fill="#FFF7F0"/>
+        <rect width="1200" height="40" fill="#F9F0E6"/>
+        <text x="600" y="27" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#C97040" letter-spacing="3">THE  AI  ADVANTAGE  CO</text>
+        <rect y="40" width="1200" height="220" fill="#FFF7F0"/>
+        <text x="600" y="148" text-anchor="middle" font-family="Inter,sans-serif" font-size="88" font-weight="800" fill="#C97040" opacity="0.18">&lt;/&gt;</text>
+        <text x="600" y="152" text-anchor="middle" font-family="Inter,sans-serif" font-size="18" font-weight="700" fill="#2C1408" letter-spacing="4">CLAUDE  CODE</text>
+        <text x="600" y="182" text-anchor="middle" font-family="Inter,sans-serif" font-size="28" font-weight="800" fill="#C97040" letter-spacing="3">USER  GUIDE</text>
+        <rect y="260" width="1200" height="20" fill="#C97040"/>
+      </svg>
+    </div>
+
+    <!-- DOC HEADER -->
+    <div class="doc-header">
+      <div class="breadcrumb">
+        Documentation <span>›</span> Claude <span>›</span> Claude Code <span>›</span> User Guide
+      </div>
+      <h1 class="doc-title">Claude Code — User Guide</h1>
+      <p class="doc-subtitle">A practical guide to using Claude Code — the AI-powered coding assistant that works directly in your terminal, understands your codebase, and helps you write, test, and ship code faster.</p>
+      <div class="doc-meta">
+        <span class="badge">Version 1.0</span>
+        <span class="meta-item"><strong>Updated:</strong> April 2026</span>
+        <span class="meta-item"><strong>Audience:</strong> Developers &amp; Technical Teams</span>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-body">
+
+      <!-- ── 01 WHAT IS CLAUDE CODE? ── -->
+      <section class="section" id="what-is">
+        <div class="section-header">
+          <div class="section-num">01</div>
+          <div>
+            <div class="section-title">What is Claude Code?</div>
+            <div class="section-desc">Your AI-powered coding assistant in the terminal</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Claude Code is a command-line tool built by Anthropic that brings Claude directly into your development environment. Unlike chat-based AI, Claude Code has full access to your project — it reads your files, understands your codebase structure, runs your tests, and makes precise edits across multiple files in a single conversation.</p>
+          <p>It is designed for developers who want to move faster without giving up control. Claude Code explains every action it takes, asks before making significant changes, and works alongside your existing tools and workflows — not as a replacement for them.</p>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-icon">💻</div>
+            <div class="card-title">Terminal Native</div>
+            <div class="card-desc">Runs directly in your terminal. No browser tab, no copy-paste — Claude Code is in your workflow.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔧</div>
+            <div class="card-title">Codebase Aware</div>
+            <div class="card-desc">Reads your entire project structure, understands dependencies, and follows your conventions.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">⚡</div>
+            <div class="card-title">Command Execution</div>
+            <div class="card-desc">Runs tests, builds, and scripts — reads the output and acts on failures automatically.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🎯</div>
+            <div class="card-title">IDE Integration</div>
+            <div class="card-desc">Works alongside VS Code, JetBrains, and other editors via the terminal panel.</div>
+          </div>
+        </div>
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <div class="callout-title">Think of it this way</div>
+            <div class="callout-text">Claude Code is like having a senior developer pair-programming with you in the terminal — one who has already read every file in your repo, knows your test suite, and can make changes across your entire codebase without you switching context.</div>
+          </div>
+        </div>
+        <div class="prose">
+          <h3>What it is not</h3>
+          <p>Claude Code is not an autopilot that rewrites your codebase unsupervised. It acts on your instructions, shows you what it plans to change before doing it, and keeps you in review mode for all significant edits. You remain the developer — Claude Code is the fast, knowledgeable assistant.</p>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 02 GETTING STARTED ── -->
+      <section class="section" id="getting-started">
+        <div class="section-header">
+          <div class="section-num">02</div>
+          <div>
+            <div class="section-title">Getting Started</div>
+            <div class="section-desc">Install and authenticate in under five minutes</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Claude Code installs as a global npm package. You need Node.js 18+ and an Anthropic account (Pro or higher plan, or API key).</p>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <div class="step-title">Install Claude Code</div>
+              <div class="step-desc">Run <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">npm install -g @anthropic-ai/claude-code</code> in your terminal. This installs Claude Code globally so it's available in any project. Requires Node.js 18 or higher.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <div class="step-title">Navigate to your project</div>
+              <div class="step-desc">Use <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">cd your-project-folder</code> to move into the repository you want to work in. Claude Code reads files relative to the directory you launch it from.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <div class="step-title">Launch Claude Code</div>
+              <div class="step-desc">Type <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">claude</code> and press Enter. On first run, Claude Code authenticates with your Anthropic account. Follow the prompts — it opens a browser tab for OAuth, then returns you to the terminal.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <div class="step-title">Create your CLAUDE.md (recommended)</div>
+              <div class="step-desc">Add a <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">CLAUDE.md</code> file at your project root. This is where you tell Claude Code about your stack, coding conventions, test commands, and anything else it should know about your project. Claude reads this at the start of every session.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <div class="step-title">Start coding</div>
+              <div class="step-desc">You're ready. Type your first task in plain language — "add error handling to the user auth module" or "write tests for the payment service" — and Claude Code will read the relevant files and propose changes.</div>
+            </div>
+          </div>
+        </div>
+        <div class="callout info">
+          <div class="callout-icon">ℹ️</div>
+          <div class="callout-body">
+            <div class="callout-title">Good to know</div>
+            <div class="callout-text">Claude Code never sends your code to be stored or trained on. All file reads happen locally. Only the content you include in the conversation is sent to Anthropic's API for Claude to process.</div>
+          </div>
+        </div>
+        <h3 class="prose" style="font-size:16px;font-weight:600;color:var(--ink);margin:28px 0 10px;">What you can do straight away</h3>
+        <div class="card-grid" style="margin-top:16px;">
+          <div class="card">
+            <div class="card-icon">📝</div>
+            <div class="card-title">Write New Features</div>
+            <div class="card-desc">Describe the feature — Claude Code reads your codebase and writes it in your style.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🧪</div>
+            <div class="card-title">Write &amp; Run Tests</div>
+            <div class="card-desc">Generate tests, run them, read failures, and iterate until they pass — all in one session.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔍</div>
+            <div class="card-title">Understand Code</div>
+            <div class="card-desc">Ask "how does the auth flow work?" — Claude Code reads the files and explains it clearly.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔄</div>
+            <div class="card-title">Refactor Safely</div>
+            <div class="card-desc">Rename, restructure, and modernise code across multiple files with precision edits.</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 03 CORE CAPABILITIES ── -->
+      <section class="section" id="core-capabilities">
+        <div class="section-header">
+          <div class="section-num">03</div>
+          <div>
+            <div class="section-title">Core Capabilities</div>
+            <div class="section-desc">What Claude Code can do inside your project</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Claude Code goes well beyond autocomplete or chat-based suggestions. It operates as an active participant in your development session — reading, writing, running, and reasoning about your code.</p>
+          <h3>File Reading &amp; Writing</h3>
+          <p>Claude Code reads any file in your project — source code, config files, documentation, test suites, package manifests. When making changes, it performs <strong>precise edits</strong> (replacing specific text, adding specific lines) rather than rewriting whole files, so your git diff stays clean and reviewable.</p>
+        </div>
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <div class="callout-title">Always shows diffs before writing</div>
+            <div class="callout-text">For significant file changes, Claude Code shows you exactly what it plans to edit and asks for confirmation. You stay in review mode — you can approve, modify, or cancel any change before it's written to disk.</div>
+          </div>
+        </div>
+        <div class="prose">
+          <h3>Test Running &amp; Iteration</h3>
+          <p>Claude Code can run your test suite, read the failure output, identify the root cause, fix the code, and re-run — iterating until tests pass or flagging issues it can't resolve. Works with Jest, Pytest, RSpec, Go test, and most standard test runners.</p>
+          <h3>Build &amp; Script Execution</h3>
+          <p>It runs build commands, linters, type checkers, and custom scripts — then reads the output and acts on errors. Useful for catching compilation failures, type errors, or lint violations as part of a larger task.</p>
+          <h3>Code Search &amp; Analysis</h3>
+          <p>Ask Claude Code to find all usages of a function, trace a data flow through your codebase, identify dead code, or map dependencies between modules. It searches across your entire project, not just open files.</p>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-icon">📖</div>
+            <div class="card-title">Multi-File Edits</div>
+            <div class="card-desc">Rename a function across every file that references it — in one instruction.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🗂️</div>
+            <div class="card-title">Dependency Mapping</div>
+            <div class="card-desc">Understand what breaks before you refactor — Claude traces the dependency graph for you.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🐛</div>
+            <div class="card-title">Debugging</div>
+            <div class="card-desc">Paste an error or stack trace and Claude Code reads the relevant source to diagnose it.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">📋</div>
+            <div class="card-title">Documentation</div>
+            <div class="card-desc">Generate inline comments, JSDoc, README sections, or architecture docs from your code.</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 04 YOUR CODEBASE CONTEXT ── -->
+      <section class="section" id="codebase-context">
+        <div class="section-header">
+          <div class="section-num">04</div>
+          <div>
+            <div class="section-title">Your Codebase Context</div>
+            <div class="section-desc">How Claude Code understands your project</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Claude Code becomes significantly more useful when it understands your project's conventions, stack, and standards upfront. The primary way to give it this context is through the <strong>CLAUDE.md</strong> file.</p>
+          <h3>The CLAUDE.md file</h3>
+          <p>Place a <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">CLAUDE.md</code> file at the root of your project. Claude Code reads it automatically at the start of every session. Think of it as a one-page brief for a new developer joining your team.</p>
+        </div>
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <div class="callout-title">What to put in CLAUDE.md</div>
+            <div class="callout-text">Tech stack and versions · Build and test commands · Coding conventions (naming, structure, style) · What NOT to change (legacy areas, external contracts) · Deployment notes · Known gotchas or quirks in the codebase.</div>
+          </div>
+        </div>
+        <div class="prose">
+          <h3>File Operations Reference</h3>
+        </div>
+        <table class="file-table">
+          <thead>
+            <tr><th>Operation</th><th>What Claude Code does</th><th>Example instruction</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag">Read</span></td>
+              <td>Opens and reads any file in your project, including config and lock files.</td>
+              <td><em>"Explain what the auth middleware in /src/middleware/auth.js does."</em></td>
+            </tr>
+            <tr>
+              <td><span class="tag">Write</span></td>
+              <td>Creates a new file. Warns before overwriting existing files.</td>
+              <td><em>"Create a new service file for email notifications at /src/services/email.js."</em></td>
+            </tr>
+            <tr>
+              <td><span class="tag">Edit</span></td>
+              <td>Makes precise changes to existing files — replaces specific code without touching the rest.</td>
+              <td><em>"Update the rate limit in config.js from 100 to 500 requests per minute."</em></td>
+            </tr>
+            <tr>
+              <td><span class="tag">Search</span></td>
+              <td>Finds code patterns, function names, or text across your entire codebase.</td>
+              <td><em>"Find every place we call the deprecated getUserById function."</em></td>
+            </tr>
+            <tr>
+              <td><span class="tag">Run</span></td>
+              <td>Executes commands (tests, builds, scripts) and reads the output.</td>
+              <td><em>"Run the test suite and fix any failing tests in the auth module."</em></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body">
+            <div class="callout-title">Destructive commands</div>
+            <div class="callout-text">Claude Code will not run commands that delete files or databases, reset environments, or push to remote repositories without explicit confirmation from you at each step. If a task requires such commands, Claude Code describes them and asks you to run them manually.</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 05 SLASH COMMANDS ── -->
+      <section class="section" id="slash-commands">
+        <div class="section-header">
+          <div class="section-num">05</div>
+          <div>
+            <div class="section-title">Slash Commands &amp; Shortcuts</div>
+            <div class="section-desc">Quick reference for built-in session controls</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Claude Code has a set of built-in slash commands for managing your session, switching models, and checking usage. Type any of these at the Claude Code prompt.</p>
+        </div>
+        <table class="cmd-table">
+          <thead>
+            <tr><th>Command</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>/help</code></td><td>Lists all available commands and their descriptions.</td></tr>
+            <tr><td><code>/clear</code></td><td>Clears the conversation context. Start fresh without restarting the session.</td></tr>
+            <tr><td><code>/compact</code></td><td>Summarises and compresses the current conversation to free up context space for long sessions.</td></tr>
+            <tr><td><code>/review</code></td><td>Asks Claude Code to review recent changes and flag anything that looks wrong or incomplete.</td></tr>
+            <tr><td><code>/cost</code></td><td>Shows the token usage and estimated cost for the current session.</td></tr>
+            <tr><td><code>/model</code></td><td>Switches between available Claude models (e.g. Sonnet for speed, Opus for complex reasoning).</td></tr>
+            <tr><td><code>/doctor</code></td><td>Checks your environment setup — Node version, authentication status, MCP connections.</td></tr>
+            <tr><td><code>/init</code></td><td>Generates a starter CLAUDE.md by analysing your project structure.</td></tr>
+            <tr><td><code>/settings</code></td><td>Opens Claude Code settings — model preference, permissions, MCP configuration.</td></tr>
+          </tbody>
+        </table>
+        <div class="callout info">
+          <div class="callout-icon">ℹ️</div>
+          <div class="callout-body">
+            <div class="callout-title">Custom slash commands</div>
+            <div class="callout-text">You can define project-specific slash commands in your CLAUDE.md. For example, define <code style="font-family:monospace;background:rgba(180,140,80,0.12);color:#8A6020;padding:1px 5px;border-radius:3px;">/deploy</code> to run your deployment checklist, or <code style="font-family:monospace;background:rgba(180,140,80,0.12);color:#8A6020;padding:1px 5px;border-radius:3px;">/pr</code> to auto-generate a pull request summary from recent changes.</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 06 MCP SERVERS ── -->
+      <section class="section" id="mcp-servers">
+        <div class="section-header">
+          <div class="section-num">06</div>
+          <div>
+            <div class="section-title">MCP Servers</div>
+            <div class="section-desc">Extending Claude Code with live tool integrations</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>MCP (Model Context Protocol) servers let Claude Code connect to external services — databases, APIs, GitHub, Jira, documentation systems, and more. Once connected, Claude Code can read from and act on these tools as part of any coding task.</p>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-icon">🐙</div>
+            <div class="card-title">GitHub</div>
+            <div class="card-desc">Search issues, create PRs, review diffs, and manage labels without leaving the terminal.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🗄️</div>
+            <div class="card-title">Databases</div>
+            <div class="card-desc">Connect to Postgres, MySQL, or SQLite. Claude Code reads schema and queries live data.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">📚</div>
+            <div class="card-title">Documentation</div>
+            <div class="card-desc">Pull live API docs, SDK references, or internal wikis directly into the conversation.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔔</div>
+            <div class="card-title">Jira / Linear</div>
+            <div class="card-desc">Read ticket descriptions and acceptance criteria to guide feature implementation.</div>
+          </div>
+        </div>
+        <div class="prose">
+          <h3>Connecting an MCP server</h3>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <div class="step-title">Find a server</div>
+              <div class="step-desc">Run <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">/settings</code> and browse available MCP servers, or search the Anthropic MCP registry online.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <div class="step-title">Add to settings or CLAUDE.md</div>
+              <div class="step-desc">MCP servers can be configured globally (via settings) or per-project (via CLAUDE.md). Project-level config means the server only activates in that repo.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <div class="step-title">Authorise and use</div>
+              <div class="step-desc">Follow the one-time authorisation prompt for the service, then refer to it naturally in your tasks — "check the GitHub issue #482 and implement what it describes."</div>
+            </div>
+          </div>
+        </div>
+        <div class="callout note">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body">
+            <div class="callout-title">Build your own</div>
+            <div class="callout-text">If no MCP server exists for your tool, Claude Code can help you build one using the MCP SDK. Ask: "Help me build an MCP server that connects to our internal metrics API."</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 07 BEST PRACTICES ── -->
+      <section class="section" id="best-practices">
+        <div class="section-header">
+          <div class="section-num">07</div>
+          <div>
+            <div class="section-title">Best Practices</div>
+            <div class="section-desc">How to work effectively with Claude Code</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Claude Code is most effective when treated as a capable collaborator who needs clear task briefs — not as a magic autocomplete. The more context you give, the better the output.</p>
+          <h3>Do this</h3>
+          <ul>
+            <li><strong>Write a thorough CLAUDE.md before your first session.</strong> Ten minutes spent documenting your stack, test commands, and conventions saves hours of correction later.</li>
+            <li><strong>Give Claude Code one clear task per message.</strong> "Add input validation to the signup form and write tests for it" is better than a vague "improve the signup flow."</li>
+            <li><strong>Reference files and functions by name.</strong> "Update the rate limiter in /src/middleware/rateLimit.js" is faster than "update the rate limiter" — Claude Code doesn't have to guess which file you mean.</li>
+            <li><strong>Use /compact in long sessions.</strong> As context fills up, compression keeps the session working efficiently without losing important earlier context.</li>
+            <li><strong>Review diffs before approving writes.</strong> Claude Code shows you changes before writing them. Read the diff — catching an unexpected change before it hits disk is much faster than reverting it.</li>
+            <li><strong>Commit frequently.</strong> After each significant change, commit to git. This gives you a clean undo history if a session goes in an unexpected direction.</li>
+          </ul>
+          <h3>Avoid this</h3>
+          <ul>
+            <li><strong>Vague task descriptions.</strong> "Make this better" gives Claude Code nothing to work with. Describe the specific problem or outcome you want.</li>
+            <li><strong>Skipping the CLAUDE.md.</strong> Without it, Claude Code makes assumptions about your stack and conventions that may not match your codebase.</li>
+            <li><strong>Approving without reviewing.</strong> Claude Code is accurate but not infallible. Always review proposed changes, especially for edits across multiple files.</li>
+            <li><strong>Letting context grow unbounded.</strong> Very long sessions degrade output quality. Use /compact or start a fresh session for a new task area.</li>
+          </ul>
+        </div>
+        <div class="callout tip">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <div class="callout-title">The task brief formula</div>
+            <div class="callout-text">WHAT to build + WHERE in the codebase + HOW it should behave.<br>Example: "Add rate limiting (WHAT) to the /api/auth/login endpoint in /src/routes/auth.js (WHERE) — max 5 attempts per minute per IP, return 429 with retry-after header (HOW)."</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 08 TROUBLESHOOTING ── -->
+      <section class="section" id="troubleshooting">
+        <div class="section-header">
+          <div class="section-num">08</div>
+          <div>
+            <div class="section-title">Troubleshooting</div>
+            <div class="section-desc">Common issues and how to fix them</div>
+          </div>
+        </div>
+        <div class="prose">
+          <h3>claude: command not found</h3>
+          <p>The global npm install didn't link correctly. Try <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">npm install -g @anthropic-ai/claude-code</code> again, then check that your npm global bin directory is in your PATH. Run <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">npm bin -g</code> to find the path and add it to your shell config.</p>
+
+          <h3>Authentication keeps expiring</h3>
+          <p>Run <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">/doctor</code> to check your auth status. If you're using an API key rather than OAuth, confirm the key is still active in your Anthropic Console. For team environments, consider using a shared service account key stored in your team's secrets manager.</p>
+
+          <h3>Claude Code is reading the wrong files</h3>
+          <p>Claude Code reads from the directory you launched it in. If it's picking up the wrong files, check your working directory (<code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">pwd</code>) and relaunch from the correct project root. Adding a CLAUDE.md that names your key source directories also helps Claude prioritise the right areas.</p>
+
+          <h3>Tests are failing after Claude Code's edits</h3>
+          <p>Ask Claude Code directly: "The tests I ran are now failing — here's the output." Paste the test output and it will read the failing tests alongside the code it edited and propose a fix. This iterative loop is expected — it's faster than debugging manually.</p>
+
+          <h3>Session context is getting too long</h3>
+          <p>Run <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">/compact</code> to compress the conversation history into a summary while keeping important context. For a completely fresh start, use <code style="font-family:monospace;background:var(--orange-soft);color:var(--orange);padding:1px 5px;border-radius:3px;">/clear</code>. On very long tasks, starting a new session per major task area is a good habit.</p>
+        </div>
+        <div class="callout note">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body">
+            <div class="callout-title">Still stuck?</div>
+            <div class="callout-text">Run <code style="font-family:monospace;background:rgba(150,120,90,0.12);color:var(--muted);padding:1px 5px;border-radius:3px;">/doctor</code> first — it catches most environment issues automatically. For product bugs, visit <a href="https://github.com/anthropics/claude-code" style="color:var(--orange);">github.com/anthropics/claude-code</a>. For coaching and workflow questions, contact The AI Advantage Co at theaiadvantageco.com.au.</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 09 SUGGESTED PROMPTS ── -->
+      <section class="section" id="suggested-prompts">
+        <div class="section-header">
+          <div class="section-num">09</div>
+          <div>
+            <div class="section-title">Suggested Prompts</div>
+            <div class="section-desc">Copy and paste these to get started immediately</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Not sure what to ask first? These prompts work across most stacks. Paste them into Claude Code and adjust the file paths and specifics to your project.</p>
+          <h3>For Development Tasks</h3>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Feature Implementation</div>
+          <div class="prompt-text">"Read the codebase structure and then implement [feature description]. Follow the existing patterns and conventions you find. Write tests alongside the implementation and run them before finishing."</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Bug Fix</div>
+          <div class="prompt-text">"Here's the error I'm seeing: [paste error/stack trace]. Find the root cause in the codebase, explain what's causing it, then propose and apply a fix. Run the relevant tests afterwards."</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Test Coverage</div>
+          <div class="prompt-text">"Analyse the test coverage for [file or module path]. Identify the most important untested cases, write tests for them using the existing test patterns, and run the suite to confirm they pass."</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Refactoring</div>
+          <div class="prompt-text">"Refactor [file or function] to [specific improvement — e.g. reduce duplication, extract a service, improve readability]. Don't change the public interface or behaviour. Show me the diff before writing."</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Code Review</div>
+          <div class="prompt-text">"Review the recent changes in this session. Flag anything that looks wrong, incomplete, or inconsistent with the rest of the codebase. Prioritise issues by severity."</div>
+        </div>
+        <div class="prose" style="margin-top:28px;">
+          <h3>For Codebase Understanding</h3>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Architecture Overview</div>
+          <div class="prompt-text">"Read the project structure and give me a plain-English overview of how this codebase is organised — key modules, data flow, entry points, and anything non-obvious that a new developer should know."</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Dependency Audit</div>
+          <div class="prompt-text">"Find every place in the codebase that depends on [function/module/library]. List them with file paths and explain what each one does with it — I'm planning to change or remove it."</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Generate Documentation</div>
+          <div class="prompt-text">"Read [file or module] and generate inline JSDoc/docstring comments for every public function and class. Use clear, accurate descriptions based on what the code actually does — not generic placeholders."</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">CLAUDE.md Bootstrap</div>
+          <div class="prompt-text">"Analyse this project and generate a CLAUDE.md file for me. Include: tech stack, build and test commands, folder structure overview, any conventions you observe, and the key files a developer should know about."</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">PR Summary</div>
+          <div class="prompt-text">"Look at the files I've changed in this session and write a clear pull request description — what changed, why, what was tested, and any risks or follow-up items to flag for reviewers."</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 10 SEE IT IN ACTION ── -->
+      <section class="section" id="see-it-in-action">
+        <div class="section-header">
+          <div class="section-num">10</div>
+          <div>
+            <div class="section-title">See It In Action</div>
+            <div class="section-desc">What a Claude Code session looks like</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Here's an example of Claude Code implementing a new feature — reading the existing codebase, writing the code, and running tests in a single session.</p>
+        </div>
+
+        <div class="mockup-label">Step 1 — You describe the task</div>
+        <div class="mockup-terminal">
+          <div><span class="prompt">$ claude</span></div>
+          <div class="dim">✓ Authenticated · project: my-api · Claude Sonnet 4.6</div>
+          <div style="margin-top:10px;"><span class="claude">Claude:</span> <span class="output">Ready. I can see your project — Node.js API with Express, using Jest for tests. What would you like to work on?</span></div>
+          <div style="margin-top:10px;"><span class="prompt">You:</span> <span class="output">Add rate limiting to the POST /api/auth/login endpoint. Max 5 attempts per minute per IP. Return 429 with a Retry-After header. Write tests for it.</span></div>
+          <div style="margin-top:10px;"><span class="claude">Claude:</span> <span class="output">Reading /src/routes/auth.js and /src/middleware/... Found the login handler. You're not using an existing rate limiter — I'll install express-rate-limit and wire it up. Let me show you the plan first.</span></div>
+        </div>
+
+        <div class="mockup-label" style="margin-top:20px;">Step 2 — Claude Code reads, writes, and tests</div>
+        <div class="mockup-terminal">
+          <div><span class="claude">Claude:</span> <span class="output">Here's what I'll do:</span></div>
+          <div class="output">  1. npm install express-rate-limit</div>
+          <div class="output">  2. Create /src/middleware/rateLimiter.js (new file)</div>
+          <div class="output">  3. Update /src/routes/auth.js — apply limiter to POST /login</div>
+          <div class="output">  4. Add 3 tests to /tests/auth.test.js</div>
+          <div style="margin-top:8px;"><span class="prompt">Proceed? (y/n):</span> <span class="output">y</span></div>
+          <div style="margin-top:8px;" class="dim">✓ Installed express-rate-limit</div>
+          <div class="dim">✓ Created /src/middleware/rateLimiter.js</div>
+          <div class="dim">✓ Edited /src/routes/auth.js (+4 lines)</div>
+          <div class="dim">✓ Edited /tests/auth.test.js (+28 lines)</div>
+          <div style="margin-top:8px;"><span class="claude">Claude:</span> <span class="output">Running tests...</span></div>
+          <div class="dim">PASS tests/auth.test.js (12/12 passing)</div>
+          <div style="margin-top:8px;"><span class="claude">Claude:</span> <span class="output">Done. All tests pass. The rate limiter applies only to POST /login — other auth routes are unaffected. Let me know if you want to adjust the window or limit.</span></div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ── 11 YOUR ROADMAP ── -->
+      <section class="section" id="roadmap">
+        <div class="section-header">
+          <div class="section-num">11</div>
+          <div>
+            <div class="section-title">Your Roadmap</div>
+            <div class="section-desc">From first command to team-wide integration</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Claude Code delivers value from the first session, but becomes significantly more powerful as you build habits and integrate it into your team's workflow. This roadmap takes you from install to full integration.</p>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <div class="step-title">First productive session</div>
+              <div class="step-desc">Install Claude Code, write a basic CLAUDE.md, and complete one real task — a bug fix, a new function, or a test suite improvement. Prove it works on your codebase before building habits around it.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <div class="step-title">Refine your CLAUDE.md</div>
+              <div class="step-desc">After a few sessions, update CLAUDE.md based on what you've had to repeatedly explain. A good CLAUDE.md means Claude Code needs fewer clarifications — sessions become faster and more autonomous.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <div class="step-title">Add MCP integrations</div>
+              <div class="step-desc">Connect GitHub so Claude Code can read issues and create PRs. Add your database so it can inspect schema during refactoring. Each integration reduces context-switching and expands what Claude Code can do in a single session.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <div class="step-title">Build team conventions</div>
+              <div class="step-desc">Commit your CLAUDE.md to the repo so every team member gets the same context. Define shared custom slash commands for common tasks — PR summaries, deployment checks, test reporting. Standardise how the team uses Claude Code.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <div class="step-title">Integrate into your workflow</div>
+              <div class="step-desc">Use Claude Code in CI for automated code review, documentation generation, or test gap analysis. Build hooks that trigger on pre-commit or post-merge to keep quality consistent without manual effort.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout info" style="margin-top:28px;">
+          <div class="callout-icon">📍</div>
+          <div class="callout-body">
+            <div class="callout-title">Where most teams start</div>
+            <div class="callout-text">The highest-leverage starting point is test writing. Teams that use Claude Code to generate and run tests first — before any feature work — build the habit of keeping test coverage high from day one. It also gives Claude Code immediate, verifiable feedback on its own output.</div>
+          </div>
+        </div>
+
+        <div style="margin-top:56px;padding-top:32px;border-top:1px solid var(--divider);text-align:center;">
+          <p style="font-size:13px;color:var(--muted-light);margin-bottom:6px;">© 2026 The AI Advantage Co</p>
+          <p style="font-size:12px;color:var(--muted-light);">Practical AI coaching for individuals, teams and small businesses &nbsp;·&nbsp; <a href="https://theaiadvantageco.com.au" style="color:var(--orange);text-decoration:none;">theaiadvantageco.com.au</a></p>
+        </div>
+
+      </section>
+
+    </div><!-- /.content-body -->
+  </main>
+</div>
+
+<script>
+  // Scroll-spy: highlight active nav item
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#sidebar-nav a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector('#sidebar-nav a[href="#' + entry.target.id + '"]');
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini for Research with Web Grounding — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1A73E8; --primary-l: #4A94EB; --primary-soft: #E8F0FE;
+  --accent1: #34A853; --accent1-soft: #E6F4EA;
+  --accent2: #F9AB00; --accent2-soft: #FEF7E0;
+  --page-bg: #FFF5F4; --sidebar-bg: #202124;
+  --card-bg: #FFFFFF; --hdr-bg: #F8E9E7; --border: #E8C9C5;
+  --ink: #202124; --body-text: #3C4043; --muted: #5F6368;
+  --green: #137333; --green-bg: #E6F4EA;
+  --warn: #B45309; --warn-bg: #FEF7E0;
+  --red: #EA4335; --red-bg: #FCE8E6;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <div class="brand-name">Gemini for Research with Web Grounding</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Gemini for Research with Web Grounding?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Three Research Modes</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Web Grounding Pattern</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Deep Research Max</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Citation Discipline</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Combining With NotebookLM</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Bias and Source Quality</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Honest Limits</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <h1>Gemini for Research with Web Grounding</h1>
+      <div class="subtitle">Using Gemini and Deep Research for fact-grounded research workflows</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Gemini for Research with Web Grounding?</div><div class="section-desc">Using Gemini and Deep Research for fact-grounded research workflows</div></div></div><div class="content-body"><p class="prose">Web grounding is Gemini&#39;s ability to ground answers in real-time web sources with citations. Combined with Deep Research Max for autonomous multi-step research, Gemini is one of the strongest research surfaces in 2026 — particularly for current-events, market, and citation-heavy work.</p><p class="prose">Best for: research teams, journalists, consultants, market analysts, anyone whose work depends on factual accuracy with sourceable claims.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🔍</div><div class="feat-title">Three Research Modes</div><div class="feat-desc">Standard search, web-grounded synthesis, Deep Research Max — match mode to depth.</div></div><div class="feat-card"><div class="feat-icon">📎</div><div class="feat-title">Citation Discipline</div><div class="feat-desc">Citations are real but verify quotes and numbers. Synthesis can drift from source.</div></div><div class="feat-card"><div class="feat-icon">📚</div><div class="feat-title">NotebookLM Combined</div><div class="feat-desc">Upload private sources + web research = grounded in your knowledge AND fresh public sources.</div></div><div class="feat-card"><div class="feat-icon">⚖️</div><div class="feat-title">Bias Awareness</div><div class="feat-desc">Always ask for counter-evidence on contested topics. Mainstream sources over-weighted.</div></div></div><div class="deco-band">✨  Fact-grounded research workflows with verifiable citations  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🔍  2026 UPDATE — DEEP RESEARCH MAX</div><div class="callout-text">Deep Research Max (built on Gemini 3.1 Pro) is the strongest autonomous research agent. MCP support means it can pull from external tools mid-research. Uploads as sources combine your private knowledge with web research. Output: structured reports with verifiable citations.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Three Research Modes</div><div class="section-desc">When to use which</div></div></div><div class="content-body"><table class="ref-table"><thead><tr><th>Mode</th><th>Use when</th><th>Speed</th><th>Output</th></tr></thead><tbody><tr><td>Standard search</td><td>Quick factual question, single source</td><td>Seconds</td><td>Direct answer + source</td></tr><tr><td>Web-grounded Gemini</td><td>Question needing 3-5 sources synthesised</td><td>30-60 sec</td><td>Synthesised answer + citations</td></tr><tr><td>Deep Research Max</td><td>Multi-step research, structured report</td><td>5-15 min</td><td>Full report + Canvas + audio + infographic</td></tr></tbody></table><p class="prose">The mode choice maps to depth. Standard search is for quick facts (&#39;what&#39;s the current EU AI Act enforcement date?&#39;). Gemini with web grounding is for synthesised answers needing 3-5 sources (&#39;summarise the EU AI Act&#39;s main provisions&#39;). Deep Research Max is for multi-step structured research (&#39;build a competitive analysis of major regulatory frameworks across EU, US, UK with provisions, enforcement timelines, and industry response&#39;).</p><p class="prose">Pick the mode that matches the task&#39;s complexity. Over-using Deep Research for simple questions wastes time; under-using it for genuine research means you miss what it can produce.</p></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Web Grounding Pattern</div><div class="section-desc">For most research</div></div></div><div class="content-body"><p class="prose">Ask Gemini a factual question. Gemini queries the web, pulls relevant sources, synthesises an answer with citations. The citations are clickable; you can verify any claim.</p><ul class="bullets"><li>Be specific about time period — &#39;in 2026&#39;, &#39;recent&#39;, &#39;as of last quarter&#39;</li><li>Ask for citations explicitly if not offered</li><li>Verify claims that matter — Gemini occasionally paraphrases sources inaccurately</li><li>Ask for both supportive and counter-evidence on contested topics</li></ul><h3 class="sub-h3">Question patterns that work</h3><p class="sub-body">Web-grounded queries work best when they&#39;re specific about scope. Vague questions (&#39;tell me about X&#39;) return summary; specific questions (&#39;what&#39;s the current EU AI Act enforcement timeline as of 2026&#39;) return useful synthesis with citations.</p><ul class="bullets"><li>Be specific about time period — &#39;in 2026&#39;, &#39;recent&#39;, &#39;as of last quarter&#39;</li><li>Ask for citations explicitly if not offered</li><li>Verify claims that matter — Gemini occasionally paraphrases sources inaccurately</li><li>Ask for both supportive and counter-evidence on contested topics</li><li>Narrow scope produces sharper output than broad scope</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Deep Research Max</div><div class="section-desc">The flagship feature</div></div></div><div class="content-body"><p class="prose">For genuine research work — competitive analysis, literature review, market scans, due diligence — Deep Research Max plans a research strategy, executes against the web, and returns a structured report.</p><ul class="bullets"><li>Brief — clear topic, specific angle, time period, depth</li><li>Plan — agent shows research strategy before executing (review and adjust)</li><li>Execute — agent browses, captures, synthesises (5-15 min)</li><li>Report — structured output with citations</li><li>Render — convert to Canvas, quiz, infographic, or audio overview</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Brief the agent</div><div class="step-desc">Topic + specific angle + time period + depth + comparator. The more specific, the better.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Review the research plan</div><div class="step-desc">Agent shows its strategy before executing. Adjust, redirect, or accept.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Wait for execution</div><div class="step-desc">5-15 minutes per task. Agent browses, captures, synthesises in parallel.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Receive structured report</div><div class="step-desc">Output with citations to every claim. Downloadable.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Render in alternative formats</div><div class="step-desc">Canvas doc, audio overview, infographic, quiz — same research, different consumption modes.</div></div></div></div></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Citation Discipline</div><div class="section-desc">What to trust and verify</div></div></div><div class="content-body"><p class="prose">Gemini cites sources but doesn&#39;t always quote accurately. The cited source is real; the synthesis around it might miss nuance.</p><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📎  VERIFY QUOTES AND NUMBERS</div><div class="callout-text">For any claim you&#39;ll act on or publish, check the citation directly. Gemini&#39;s recall of source content is good but not perfect — particularly numbers and exact quotes.</div></div></div><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📎  ALWAYS VERIFY NUMBERS AND QUOTES</div><div class="callout-text">Gemini&#39;s citations are real — the sources exist. But Gemini&#39;s recall of source content isn&#39;t perfect. Numbers and exact quotes occasionally drift between source and synthesis. For any claim you&#39;ll act on or publish, click through to the source and verify.</div></div></div><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📎  VERIFY QUOTES AND NUMBERS</div><div class="callout-text">Gemini&#39;s citations are real — the sources exist. But Gemini&#39;s recall of source content isn&#39;t perfect. Numbers and exact quotes occasionally drift between source and synthesis. For any claim you&#39;ll act on or publish, click through to the source and verify.</div></div></div><h3 class="sub-h3">The citation verification habit</h3><p class="sub-body">Building the citation verification habit early prevents bad downstream artifacts. The discipline is checking before acting — not after the analysis is published.</p><ul class="bullets"><li>For every quoted statement, click to source and verify wording</li><li>For every cited number, click to source and verify the figure</li><li>For every claimed trend, verify direction and magnitude</li><li>Where source is paywalled, treat the claim as unverified until you can access</li><li>Save URLs of verified sources for your audit trail</li><li>Flag any source that doesn&#39;t actually support the claim — Gemini occasionally over-reaches</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Combining With NotebookLM</div><div class="section-desc">Your sources + the web</div></div></div><div class="content-body"><p class="prose">Build a NotebookLM notebook with your private/internal sources. Then run Deep Research against both web and the notebook — research grounded in both your knowledge and current public sources. The strongest pattern for serious research.</p><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📚</div><div class="feat-title">Private Knowledge</div><div class="feat-desc">Upload internal research, past reports, customer data to NotebookLM.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🌐</div><div class="feat-title">Public Research</div><div class="feat-desc">Run Deep Research Max with both notebook AND fresh web sources.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🎯</div><div class="feat-title">Grounded Output</div><div class="feat-desc">Research grounded in both private institutional knowledge AND fresh public sources.</div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Bias and Source Quality</div><div class="section-desc">Where Gemini can mislead</div></div></div><div class="content-body"><ul class="bullets"><li>Source mix — Gemini tends to over-weight high-traffic sources</li><li>Recency bias — newer sources sometimes preferred over more authoritative older ones</li><li>Echo chambers — for contested topics, sometimes returns the dominant view without alternatives</li><li>Always ask for counter-evidence — &#39;What&#39;s the strongest case against this?&#39;</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Ask for counter-evidence on contested topics — &#39;what&#39;s the strongest case against this?&#39;</li><li>Verify source authority — is this from a paper, an op-ed, a vendor blog?</li><li>Check recency — newer doesn&#39;t always mean more authoritative</li><li>Cross-check claims across multiple sources for high-stakes work</li><li>Note where you&#39;re relying on a single source</li><li>Acknowledge uncertainty where Gemini sounds confident but evidence is thin</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Trusting Gemini&#39;s confidence calibration on contested topics</li><li>Assuming popularity equals authority on a source</li><li>Skipping the counter-evidence check — leaves you with one-sided synthesis</li><li>Letting Gemini hide bias by sounding authoritative</li><li>Building decisions on single-source claims without verification</li><li>Treating Deep Research output as final without analyst review</li></ul></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Honest Limits</div><div class="section-desc">Where Gemini research isn&#39;t enough</div></div></div><div class="content-body"><ul class="bullets"><li>Highly current events (last 24-48 hours) — not always up to date</li><li>Paywalled sources — usually only accesses public previews</li><li>Specialised research databases — Gemini doesn&#39;t have access</li><li>Original research — Gemini synthesises existing sources, can&#39;t generate new data</li></ul><h3 class="sub-h3">Where Gemini research isn&#39;t enough</h3><p class="sub-body">Gemini&#39;s research capabilities have material limits. Knowing them upfront prevents painful gaps in downstream work.</p><ul class="bullets"><li>Highly current events (last 24-48 hours) — not always up to date</li><li>Paywalled sources — usually only accesses public previews</li><li>Specialised research databases — Gemini doesn&#39;t have access</li><li>Original research — Gemini synthesises existing sources, can&#39;t generate new data</li><li>Foreign-language source coverage — strongest in English, varies by language</li><li>Industry-specific terminology — generic Gemini is weaker than specialised tools</li></ul></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Gemini for Research with Web Grounding as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">WEB-GROUNDED FACTUAL</div><div class="prompt-text">What&#39;s the current state of [topic] as of 2026? Cite 3-5 sources. Lead with the headline finding, then nuance. Include any contested or evolving aspects.</div></div><div class="prompt-card"><div class="prompt-label">DEEP RESEARCH BRIEF</div><div class="prompt-text">Use Deep Research Max. Topic: [specific topic]. Angle: [specific angle]. Time period: [period]. Depth: 10-15 sources synthesised. Output: structured report with executive summary, key findings (3-5), supporting evidence per finding with citations, and 3 open questions for further research.</div></div><div class="prompt-card"><div class="prompt-label">COMBINED RESEARCH</div><div class="prompt-text">I have a NotebookLM notebook with our internal research on [topic]. Run Deep Research Max with both the notebook and fresh web sources. Question: [specific question]. Format: report distinguishing what we know internally from what&#39;s new on the web.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Gemini for Research with Web Grounding on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

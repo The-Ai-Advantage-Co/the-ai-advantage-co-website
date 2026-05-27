@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini Live — Voice and Real-Time Conversation Mode — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1A73E8; --primary-l: #4A94EB; --primary-soft: #E8F0FE;
+  --accent1: #34A853; --accent1-soft: #E6F4EA;
+  --accent2: #F9AB00; --accent2-soft: #FEF7E0;
+  --page-bg: #FFF5F4; --sidebar-bg: #202124;
+  --card-bg: #FFFFFF; --hdr-bg: #F8E9E7; --border: #E8C9C5;
+  --ink: #202124; --body-text: #3C4043; --muted: #5F6368;
+  --green: #137333; --green-bg: #E6F4EA;
+  --warn: #B45309; --warn-bg: #FEF7E0;
+  --red: #EA4335; --red-bg: #FCE8E6;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <div class="brand-name">Gemini Live — Voice and Real-Time Conversation Mode</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Gemini Live — Voice and Real-Time Conversation Mode?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Activating Gemini Live</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>When Live Beats Typing</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Conversation Patterns That Work</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Voice Selection</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Live + Workspace Integration</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Limits to Know</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Voice for Language Practice</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <h1>Gemini Live — Voice and Real-Time Conversation Mode</h1>
+      <div class="subtitle">Real-time voice conversation with Gemini — the strongest live voice AI in 2026</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Gemini Live — Voice and Real-Time Conversation Mode?</div><div class="section-desc">Real-time voice conversation with Gemini — the strongest live voice AI in 2026</div></div></div><div class="content-body"><p class="prose">Gemini Live is Google&#39;s real-time voice conversation mode — say something out loud, Gemini replies in voice almost immediately. It&#39;s available in the Gemini app on mobile and desktop, with Pro/Ultra unlocking higher conversation lengths and access to advanced voices.</p><p class="prose">Best for: hands-free use, on-the-go brainstorming, language practice, calls during walks/drives, accessibility, and any task where typing is friction.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">Activating Gemini Live</div><div class="feat-desc">Where it lives</div></div><div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">When Live Beats Typing</div><div class="feat-desc">Where voice is the right surface</div></div><div class="feat-card"><div class="feat-icon">🔧</div><div class="feat-title">Conversation Patterns That Work</div><div class="feat-desc">How to use voice well</div></div><div class="feat-card"><div class="feat-icon">💡</div><div class="feat-title">Voice Selection</div><div class="feat-desc">Picking a voice</div></div></div><div class="deco-band">✨  Here&#39;s what&#39;s inside this guide  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎙️  2026 UPDATE — BEST-IN-CLASS LATENCY</div><div class="callout-text">Gemini Live&#39;s response latency dropped dramatically through 2025-2026 — under 500ms for most exchanges, often imperceptible. Combined with natural voice synthesis (no robotic giveaways) and turn-taking that handles interruption, it&#39;s the strongest live voice AI in 2026.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Activating Gemini Live</div><div class="section-desc">Where it lives</div></div></div><div class="content-body"><ul class="bullets"><li>Gemini app (mobile) — tap the wave icon to start a Live session</li><li>Gemini app (desktop) — same wave icon, headset recommended</li><li>Pixel devices — built-in, hands-free activation</li><li>Auto integration — works with car audio via Android Auto / CarPlay</li></ul><h3 class="sub-h3">Where Live is available</h3><p class="sub-body">Gemini Live is in the Gemini app on mobile, desktop, and Pixel devices. The integration with Android Auto and CarPlay makes it the most natural in-car AI assistant in 2026.</p><ul class="bullets"><li>Gemini app (mobile) — tap the wave icon to start a Live session</li><li>Gemini app (desktop) — same wave icon; headset recommended</li><li>Pixel devices — built-in, hands-free activation</li><li>Auto integration — works via Android Auto / CarPlay</li><li>Watch (Wear OS) — voice-first interaction</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">When Live Beats Typing</div><div class="section-desc">Where voice is the right surface</div></div></div><div class="content-body"><ul class="bullets"><li>On the go — walking, driving, exercising</li><li>Hands occupied — cooking, with kids, holding something</li><li>Brainstorming — voice often surfaces ideas typing misses</li><li>Language practice — fluency comes from speaking, not typing</li><li>Accessibility — typing isn&#39;t an option</li><li>Long conversations — voice is faster than typing for extended dialogue</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🚶</div><div class="feat-title">On the Go</div><div class="feat-desc">Walking, driving, exercising — hands-free briefing or thinking.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🧠</div><div class="feat-title">Brainstorming</div><div class="feat-desc">Voice often surfaces ideas typing misses — different cognitive mode.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🗣️</div><div class="feat-title">Language Practice</div><div class="feat-desc">Conversational fluency comes from speaking, not typing. Live makes practice frictionless.</div></div></div></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Conversation Patterns That Work</div><div class="section-desc">How to use voice well</div></div></div><div class="content-body"><p class="prose">Voice favours conversational rhythm — short prompts, follow-ups, interruption-tolerant. Treat it like a conversation with a thoughtful friend, not a search box.</p><ul class="bullets"><li>Open with the context, then the question — not a one-shot demand</li><li>Interrupt freely — Gemini handles turn-taking</li><li>Follow up — &#39;tell me more about that&#39;, &#39;what about X&#39;</li><li>Push back — &#39;I don&#39;t think that&#39;s right&#39; triggers honest re-examination</li><li>Close out — explicitly end the session so context resets</li></ul><h3 class="sub-h3">Voice-shaped prompts vs typed-shaped prompts</h3><p class="sub-body">Voice favours conversational rhythm. Short prompts, follow-ups, interruption-tolerant patterns. Treat Live like a conversation with a thoughtful friend, not a search box.</p><ul class="bullets"><li>Open with context, then question — not a one-shot demand</li><li>Interrupt freely — Gemini handles turn-taking well</li><li>Follow up — &#39;tell me more about that&#39;, &#39;what about X&#39;</li><li>Push back — &#39;I don&#39;t think that&#39;s right&#39; triggers honest re-examination</li><li>Close out explicitly — &#39;we&#39;re done&#39; so context resets cleanly</li><li>Don&#39;t over-explain — voice context favours brevity</li></ul></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Voice Selection</div><div class="section-desc">Picking a voice</div></div></div><div class="content-body"><p class="prose">Multiple voices available — different genders, accents, styles. Pro/Ultra unlock advanced voices with more natural prosody. Pick one you&#39;d happily listen to for 30 minutes.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎙️  VOICE CHOICE MATTERS OVER LONG SESSIONS</div><div class="callout-text">Multiple voices available — different genders, accents, styles. Pro/Ultra unlock advanced voices with more natural prosody. Pick one you&#39;d happily listen to for 30 minutes. Voice choice has surprising compound effect over a year of daily use.</div></div></div></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Live + Workspace Integration</div><div class="section-desc">What Live can do with your data</div></div></div><div class="content-body"><p class="prose">With Pro/Ultra and Workspace integration, Live can reference your Workspace context — read out an email, summarise your calendar, draft a doc while you walk.</p><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📅  THE MORNING WALK PATTERN</div><div class="callout-text">Open Live during your morning walk. &#39;Brief me for the day — meetings, emails I need to handle, anything urgent.&#39; Hands-free briefing without your phone in your face.</div></div></div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📅  THE MORNING WALK BRIEF</div><div class="callout-text">Open Gemini Live during your morning walk. &#39;Brief me for the day — meetings, urgent emails, what I committed to yesterday.&#39; Hands-free briefing without your phone in your face. By the time you reach the office, you&#39;re prepared.</div></div></div><h3 class="sub-h3">The morning walk pattern</h3><p class="sub-body">The integration of Live with Workspace data is the killer use case. With Pro+ tier and Workspace, Live can reference your data hands-free.</p><ul class="bullets"><li>Open Live during your morning walk</li><li>&#39;Brief me for the day — meetings, emails I need to handle, anything urgent&#39;</li><li>Live pulls from your Gmail, Calendar, Drive context</li><li>Hands-free briefing — phone stays in pocket</li><li>By the time you reach the office, you&#39;re prepared</li></ul></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Limits to Know</div><div class="section-desc">Where Live isn&#39;t right</div></div></div><div class="content-body"><ul class="bullets"><li>Privacy — voice is captured and processed; don&#39;t discuss confidential info in public</li><li>Length — long technical content is hard to absorb by voice; switch to text</li><li>Visual content — Live is voice-only; can&#39;t show images or charts</li><li>Disclosure — recording conversations with others has legal rules; check yours</li><li>Mishearing — accents and noisy environments degrade transcription accuracy</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Use Live for hands-free brainstorming, briefings, language practice</li><li>Use Live in private spaces — discussions can be overheard</li><li>Switch to text for long technical content — voice doesn&#39;t handle it well</li><li>Disclose AI use to others present if they&#39;re not aware</li><li>Use Live for short queries; switch surfaces for sustained work</li><li>Take advantage of the Workspace integration on Pro+</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Confidential conversations in public spaces</li><li>Long technical content via voice — switch to text</li><li>Visual content requests — Live is voice-only</li><li>Recording conversations with others without disclosure (legal in many jurisdictions)</li><li>Letting accent or noise degrade transcription accuracy</li><li>Treating Live as a substitute for typed work on complex tasks</li></ul></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Voice for Language Practice</div><div class="section-desc">The unsung use case</div></div></div><div class="content-body"><p class="prose">Gemini Live in your target language is the closest thing to a free 24/7 conversation partner. Speak French, Spanish, Mandarin, Japanese — Gemini holds the conversation, corrects gently, and adjusts pace to your level.</p><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎓  THE UNDER-USED USE CASE</div><div class="callout-text">Gemini Live in your target language is the closest thing to a free 24/7 conversation partner. Speak French, Spanish, Mandarin, Japanese — Gemini holds the conversation, corrects gently, adjusts pace to your level. 15 minutes daily compounds quickly.</div></div></div></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Gemini Live — Voice and Real-Time Conversation Mode as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">MORNING BRIEF</div><div class="prompt-text">It&#39;s 7am. Brief me for the day — my first meeting, anything urgent in my email, any work I committed to yesterday I haven&#39;t followed through on. Concise — I&#39;m walking and don&#39;t want to stop to take notes.</div></div><div class="prompt-card"><div class="prompt-label">BRAINSTORM SESSION</div><div class="prompt-text">I&#39;m walking and want to think through [problem]. Help me brainstorm — ask me questions to surface what I&#39;m missing, push back if I&#39;m being unclear, and summarise where we land at the end of the conversation.</div></div><div class="prompt-card"><div class="prompt-label">LANGUAGE PRACTICE</div><div class="prompt-text">Let&#39;s have a 15-minute conversation in [language]. Topic: [topic]. Correct my major mistakes gently as we go. Speak at the pace of [my level]. Summarise my top 3 errors at the end.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Gemini Live — Voice and Real-Time Conversation Mode on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

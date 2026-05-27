@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copilot 101 — User Guide | The AI Advantage Co</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple:        #5E17EB;
+      --purple-hover:  #4A0FD4;
+      --purple-act:    rgba(94,23,235,0.13);
+      --purple-light:  #8B5CF6;
+      --purple-soft:   #F0EAFF;
+      --blue:          #0078D4;
+      --blue-light:    #60A5FA;
+      --blue-soft:     #EFF6FF;
+      --orange:        #EA6C1A;
+      --orange-light:  #F97316;
+      --orange-soft:   #FFF7ED;
+      --yellow:        #CA8A04;
+      --yellow-soft:   #FEFCE8;
+      --page-bg:       #EBF1FF;
+      --white:         #FFFFFF;
+      --card-bg:       #F7F4FF;
+      --hdr-bg:        #EDE8FF;
+      --border:        #D0C5F5;
+      --divider:       #DDD7F8;
+      --ink:           #1E1456;
+      --body-text:     #3D3080;
+      --muted:         #7264A8;
+      --muted-light:   #9E91C0;
+      --sidebar-bg:    #1E1456;
+      --sidebar-hover: #2C1E80;
+      --sidebar-act:   rgba(139,92,246,0.18);
+      --sidebar-w:     268px;
+      --radius:        10px;
+      --radius-sm:     6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--page-bg); color: var(--ink); line-height: 1.75; font-size: 15px;
+    }
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ── SIDEBAR ─────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      background: var(--sidebar-bg); display: flex; flex-direction: column;
+      position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.35); border-radius: 4px; }
+    .sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(139,92,246,0.20); }
+    .sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--purple-light); margin-bottom: 4px; }
+    .sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+    .sidebar-meta { padding: 14px 24px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .sidebar-guide-title { font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.45; font-weight: 400; }
+    .nav-label { padding: 18px 24px 6px; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(139,92,246,0.50); }
+    nav#sidebar-nav { flex: 1; padding: 0 12px 24px; }
+    nav#sidebar-nav a {
+      display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: var(--radius-sm);
+      font-size: 13.5px; font-weight: 400; color: rgba(255,255,255,0.52); text-decoration: none;
+      line-height: 1.35; transition: background 0.15s, color 0.15s; margin-bottom: 1px;
+    }
+    nav#sidebar-nav a:hover { background: var(--sidebar-hover); color: rgba(255,255,255,0.88); }
+    nav#sidebar-nav a.active { background: var(--sidebar-act); color: var(--purple-light); font-weight: 500; border-left: 3px solid var(--purple); }
+    nav#sidebar-nav a svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.55; }
+    nav#sidebar-nav a.active svg { opacity: 1; }
+    .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 11px; color: rgba(255,255,255,0.28); line-height: 1.7; }
+    .sidebar-footer a { color: rgba(139,92,246,0.60); text-decoration: none; }
+    .sidebar-footer a:hover { color: var(--purple-light); }
+
+    /* ── MAIN ────────────────────────────────────────────── */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .banner { width: 100%; line-height: 0; }
+
+    /* ── DOC HEADER ──────────────────────────────────────── */
+    .doc-header { padding: 40px 56px 32px; border-bottom: 1px solid var(--divider); background: var(--white); }
+    .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .breadcrumb span { opacity: 0.5; }
+    .doc-title { font-size: 30px; font-weight: 700; color: var(--ink); letter-spacing: -0.4px; line-height: 1.2; margin-bottom: 10px; }
+    .doc-subtitle { font-size: 15.5px; color: var(--body-text); line-height: 1.65; max-width: 680px; margin-bottom: 18px; }
+    .doc-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .badge { display: inline-flex; align-items: center; background: rgba(94,23,235,0.08); color: var(--purple); border: 1px solid rgba(94,23,235,0.22); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; }
+    .badge-orange { background: rgba(234,108,26,0.09); color: var(--orange); border-color: rgba(234,108,26,0.28); }
+    .badge-blue { background: rgba(0,120,212,0.08); color: var(--blue); border-color: rgba(0,120,212,0.22); }
+    .meta-item { font-size: 12.5px; color: var(--muted); }
+    .meta-item strong { color: var(--body-text); }
+
+    /* ── CONTENT ─────────────────────────────────────────── */
+    .content-body { padding: 0 56px 80px; }
+    .section { padding-top: 52px; border-bottom: 1px solid var(--divider); padding-bottom: 44px; }
+    .section:last-child { border-bottom: none; }
+    .section-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+    .section-num { width: 40px; height: 40px; border-radius: 8px; background: var(--purple); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .section-title { font-size: 21px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; line-height: 1.2; }
+    .section-desc { font-size: 13.5px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+
+    /* ── PROSE ───────────────────────────────────────────── */
+    .prose p { font-size: 15px; color: var(--body-text); line-height: 1.75; margin-bottom: 16px; }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose em { font-style: italic; }
+    .prose h3 { font-size: 15.5px; font-weight: 600; color: var(--ink); margin: 28px 0 10px; letter-spacing: -0.1px; }
+    .prose ul { padding-left: 20px; margin-bottom: 16px; color: var(--body-text); }
+    .prose ul li { margin-bottom: 6px; font-size: 15px; line-height: 1.65; }
+
+    /* ── CARDS ───────────────────────────────────────────── */
+    .card-grid   { display: grid; grid-template-columns: 1fr 1fr;       gap: 14px; margin: 22px 0; }
+    .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr;   gap: 14px; margin: 22px 0; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-top: 3px solid var(--purple); border-radius: var(--radius); padding: 20px; }
+    .card-icon  { font-size: 22px; margin-bottom: 10px; }
+    .card-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .card-desc  { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+    .card.orange-accent { border-top-color: var(--orange); background: var(--orange-soft); }
+    .card.yellow-accent { border-top-color: var(--yellow); background: var(--yellow-soft); }
+    .card.blue-accent   { border-top-color: var(--blue);   background: var(--blue-soft);   }
+
+    /* ── STEPS ───────────────────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 10px; margin: 22px 0; }
+    .step { display: flex; gap: 16px; align-items: flex-start; }
+    .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--purple); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .step-content { flex: 1; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 18px; }
+    .step-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .step-desc  { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+    /* ── CALLOUTS ────────────────────────────────────────── */
+    .callout { display: flex; gap: 14px; padding: 16px 18px; border-radius: var(--radius-sm); margin: 20px 0; }
+    .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .callout.tip    { background: #E6F4EC; border-left: 4px solid #1B6B3A; }
+    .callout.tip strong    { color: #1B6B3A; }
+    .callout.info   { background: var(--blue-soft); border-left: 4px solid var(--blue); }
+    .callout.info strong   { color: var(--blue); }
+    .callout.warn   { background: #FFF8E1; border-left: 4px solid #B45309; }
+    .callout.warn strong   { color: #B45309; }
+    .callout.copilot { background: var(--purple-soft); border-left: 4px solid var(--purple); }
+    .callout.copilot strong { color: var(--purple); }
+    .callout div { font-size: 14px; color: var(--body-text); line-height: 1.6; }
+
+    /* ── REF TABLE ───────────────────────────────────────── */
+    .ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; }
+    .ref-table thead tr { background: var(--sidebar-bg); color: white; }
+    .ref-table thead th { padding: 10px 14px; text-align: left; font-weight: 600; font-size: 13px; }
+    .ref-table tbody tr:nth-child(even) { background: var(--card-bg); }
+    .ref-table tbody tr:nth-child(odd)  { background: var(--white); }
+    .ref-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--body-text); vertical-align: top; }
+    .ref-table td strong { color: var(--ink); }
+
+    /* ── PROMPT TABS ─────────────────────────────────────── */
+    .tab-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tab-btn { padding: 7px 18px; border-radius: 20px; border: 1px solid var(--border); background: var(--white); color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .tab-btn:hover { border-color: var(--purple); color: var(--purple); }
+    .tab-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .prompt-list { display: flex; flex-direction: column; gap: 10px; }
+    .prompt-box { background: var(--card-bg); border: 1px solid var(--border); border-left: 3px solid var(--purple); border-radius: var(--radius-sm); padding: 14px 18px; }
+    .prompt-label { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--purple); margin-bottom: 6px; }
+    .prompt-text  { font-size: 14px; color: var(--body-text); font-style: italic; line-height: 1.6; }
+
+    /* ── MOCKUP ──────────────────────────────────────────── */
+    .mockup-wrap { background: #110E38; border-radius: 10px; padding: 20px; margin: 24px 0; }
+    .mockup-titlebar { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #FF5F57; } .dot-y { background: #FEBC2E; } .dot-g { background: #28C840; }
+    .mockup-tab-label { font-size: 12px; color: rgba(255,255,255,0.35); margin-left: 8px; }
+    .mockup-body { display: flex; gap: 0; border-radius: 6px; overflow: hidden; min-height: 340px; }
+
+    .teams-sidebar { width: 60px; background: #1E1456; display: flex; flex-direction: column; align-items: center; padding: 12px 0; gap: 18px; }
+    .teams-icon { width: 34px; height: 34px; border-radius: 8px; background: rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
+    .teams-icon.active { background: rgba(94,23,235,0.45); }
+    .teams-main { flex: 1; background: #1A1748; display: flex; flex-direction: column; }
+    .teams-header { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 10px; }
+    .teams-header-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.90); }
+    .teams-header-sub   { font-size: 12px; color: rgba(255,255,255,0.38); }
+    .teams-messages { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .teams-msg { display: flex; gap: 10px; align-items: flex-start; }
+    .teams-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; flex-shrink: 0; }
+    .teams-avatar.sarah { background: #2D7A52; }
+    .teams-avatar.mark  { background: #7A3B2D; }
+    .teams-bubble { background: rgba(255,255,255,0.07); border-radius: 8px; padding: 8px 12px; }
+    .teams-bubble-name { font-size: 11px; color: var(--purple-light); font-weight: 600; margin-bottom: 3px; }
+    .teams-bubble-text { font-size: 12.5px; color: rgba(255,255,255,0.75); line-height: 1.5; }
+    .copilot-panel { width: 280px; background: #0D0B2E; border-left: 1px solid rgba(139,92,246,0.22); display: flex; flex-direction: column; }
+    .copilot-panel-header { padding: 12px 14px; border-bottom: 1px solid rgba(139,92,246,0.18); display: flex; align-items: center; gap: 8px; }
+    .copilot-spark { font-size: 16px; }
+    .copilot-panel-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.92); }
+    .copilot-panel-body { flex: 1; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .copilot-summary-label { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--purple-light); margin-bottom: 4px; }
+    .copilot-summary-box { background: rgba(94,23,235,0.14); border: 1px solid rgba(94,23,235,0.28); border-radius: 6px; padding: 10px 12px; }
+    .copilot-summary-text { font-size: 12px; color: rgba(255,255,255,0.73); line-height: 1.6; }
+    .copilot-actions-box { background: rgba(249,115,22,0.10); border: 1px solid rgba(249,115,22,0.22); border-radius: 6px; padding: 10px 12px; }
+    .copilot-action-item { font-size: 11.5px; color: rgba(255,255,255,0.68); line-height: 1.55; margin-bottom: 4px; padding-left: 12px; position: relative; }
+    .copilot-action-item::before { content: "✓"; position: absolute; left: 0; color: #FB923C; font-size: 10px; }
+    .copilot-input { margin: 0 14px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(139,92,246,0.28); border-radius: 6px; padding: 8px 12px; font-size: 12px; color: rgba(255,255,255,0.38); }
+    .mockup-annotations { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; }
+    .ann { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.50); }
+    .ann-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── ROADMAP ─────────────────────────────────────────── */
+    .roadmap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 24px 0; }
+    .roadmap-step { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--purple); border-radius: var(--radius); padding: 20px; }
+    .roadmap-num   { font-size: 32px; font-weight: 800; color: var(--purple); line-height: 1; margin-bottom: 8px; }
+    .roadmap-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .roadmap-desc  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+    .roadmap-step:nth-child(2) { border-top-color: var(--orange); }
+    .roadmap-step:nth-child(2) .roadmap-num { color: var(--orange); }
+    .roadmap-step:nth-child(3) { border-top-color: var(--blue); }
+    .roadmap-step:nth-child(3) .roadmap-num { color: var(--blue); }
+    .roadmap-step:nth-child(4) { border-top-color: var(--yellow); }
+    .roadmap-step:nth-child(4) .roadmap-num { color: var(--yellow); }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    .page-footer { padding: 28px 56px; border-top: 1px solid var(--divider); background: var(--white); display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--muted); }
+    .page-footer a { color: var(--purple); text-decoration: none; }
+
+    /* ── DO / AVOID ──────────────────────────────────────── */
+    .do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .do-box, .avoid-box { border-radius: var(--radius-sm); padding: 16px 18px; }
+    .do-box { background: #E8F5EC; border-left: 4px solid #1B6B3A; }
+    .do-box h4 { color: #1B6B3A; font-size: 13px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .avoid-box { background: #FEF0EE; border-left: 4px solid #C0392B; }
+    .avoid-box h4 { color: #C0392B; font-size: 13px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .do-box ul, .avoid-box ul { padding-left: 16px; }
+    .do-box li, .avoid-box li { font-size: 13.5px; color: var(--body-text); margin-bottom: 5px; line-height: 1.5; }
+
+    /* ── TROUBLE ─────────────────────────────────────────── */
+    .trouble-item { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px 20px; margin-bottom: 12px; }
+    .trouble-q { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+    .trouble-a { font-size: 14px; color: var(--body-text); line-height: 1.65; }
+  </style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">The AI Advantage Co</div>
+      <div class="brand-name">Documentation Hub</div>
+    </div>
+    <div class="sidebar-meta">
+      <div class="sidebar-guide-title">Copilot 101<br>Getting Started Guide</div>
+    </div>
+    <div class="nav-label">Contents</div>
+    <nav id="sidebar-nav">
+      <a href="#overview" class="active">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l1.5 1.5"/></svg>
+        What is Microsoft Copilot?
+      </a>
+      <a href="#getting-started">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+        Getting Started
+      </a>
+      <a href="#copilot-interface">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="14" height="10" rx="2"/><path d="M5 14h6M8 12v2"/></svg>
+        The Copilot Interface
+      </a>
+      <a href="#writing-prompts">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12M2 8h8M2 12h6"/></svg>
+        Writing Effective Prompts
+      </a>
+      <a href="#m365-apps">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+        Copilot Across M365 Apps
+      </a>
+      <a href="#working-with-data">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M3 2h6l4 4v8a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M9 2v4h4"/></svg>
+        Working with Your M365 Data
+      </a>
+      <a href="#advanced-techniques">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg>
+        Advanced Techniques
+      </a>
+      <a href="#mistakes-fixes">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5"/><circle cx="8" cy="11.5" r="0.5" fill="currentColor"/></svg>
+        Common Mistakes &amp; Fixes
+      </a>
+      <a href="#suggested-prompts">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M8 2l1.5 4.5H14l-3.8 2.8 1.4 4.4L8 11.2l-3.6 2.5 1.4-4.4L2 6.5h4.5z"/></svg>
+        Suggested Prompts
+      </a>
+      <a href="#see-it-in-action">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M2 8h12M8 2l6 6-6 6"/></svg>
+        See It In Action
+      </a>
+      <a href="#your-roadmap">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="3" cy="8" r="2"/><circle cx="13" cy="8" r="2"/><path d="M5 8h6"/><path d="M11 5l2 3-2 3"/></svg>
+        Your Roadmap
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div>© 2026 The AI Advantage Co</div>
+      <div><a href="https://www.theaiadvantageco.com.au">theaiadvantageco.com.au</a></div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="main">
+
+    <!-- BANNER -->
+    <div class="banner">
+      <svg viewBox="0 0 1400 260" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;">
+        <defs>
+          <linearGradient id="cop-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#1E1456"/>
+            <stop offset="48%"  stop-color="#3B1DA0"/>
+            <stop offset="100%" stop-color="#0055A8"/>
+          </linearGradient>
+          <radialGradient id="cop-glow1" cx="78%" cy="35%" r="38%">
+            <stop offset="0%"   stop-color="#5E17EB" stop-opacity="0.50"/>
+            <stop offset="100%" stop-color="#5E17EB" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="cop-glow2" cx="22%" cy="70%" r="30%">
+            <stop offset="0%"   stop-color="#0078D4" stop-opacity="0.40"/>
+            <stop offset="100%" stop-color="#0078D4" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="cop-glow3" cx="50%" cy="50%" r="18%">
+            <stop offset="0%"   stop-color="#EA6C1A" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#EA6C1A" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="1400" height="260" fill="url(#cop-bg)"/>
+        <ellipse cx="1080" cy="95"  rx="340" ry="230" fill="url(#cop-glow1)"/>
+        <ellipse cx="300"  cy="175" rx="280" ry="190" fill="url(#cop-glow2)"/>
+        <ellipse cx="700"  cy="130" rx="190" ry="140" fill="url(#cop-glow3)"/>
+        <!-- Copilot sparkle motif -->
+        <g transform="translate(700,118)" opacity="0.90">
+          <ellipse cx="0" cy="0" rx="56" ry="56" fill="none" stroke="#8B5CF6" stroke-width="5"   opacity="0.60"/>
+          <ellipse cx="0" cy="0" rx="37" ry="37" fill="none" stroke="#5E17EB" stroke-width="3.5" opacity="0.55"/>
+          <ellipse cx="0" cy="0" rx="18" ry="18" fill="#5E17EB" opacity="0.38"/>
+          <!-- cardinal rays — purple -->
+          <line x1="0"  y1="-72" x2="0"  y2="-62" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="0"  y1="62"  x2="0"  y2="72"  stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-72" y1="0"  x2="-62" y2="0"  stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="62"  y1="0"  x2="72"  y2="0"  stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- diagonal rays — orange -->
+          <line x1="-50" y1="-50" x2="-42" y2="-42" stroke="#EA6C1A" stroke-width="2.2" stroke-linecap="round"/>
+          <line x1="42"  y1="-42" x2="50"  y2="-50" stroke="#EA6C1A" stroke-width="2.2" stroke-linecap="round"/>
+          <line x1="-50" y1="50"  x2="-42" y2="42"  stroke="#EA6C1A" stroke-width="2.2" stroke-linecap="round"/>
+          <line x1="42"  y1="42"  x2="50"  y2="50"  stroke="#EA6C1A" stroke-width="2.2" stroke-linecap="round"/>
+        </g>
+        <!-- Text -->
+        <text x="700" y="26"  font-family="Georgia,'Times New Roman',serif" font-size="19" font-weight="700" fill="#8B5CF6" text-anchor="middle" letter-spacing="5">THE Ai ADVANTAGE</text>
+        <text x="700" y="200" font-family="Georgia,'Times New Roman',serif" font-size="30" font-weight="700" fill="#9D84F7" text-anchor="middle" letter-spacing="6">COPILOT  101</text>
+        <text x="700" y="248" font-family="Georgia,'Times New Roman',serif" font-size="52" font-weight="800" fill="white"   text-anchor="middle" letter-spacing="3" opacity="0.94">USER GUIDE</text>
+        <!-- Corner accents -->
+        <rect x="0"    y="0" width="6"  height="44" fill="#5E17EB" opacity="0.75"/>
+        <rect x="0"    y="0" width="44" height="6"  fill="#5E17EB" opacity="0.75"/>
+        <rect x="1394" y="0" width="6"  height="44" fill="#EA6C1A" opacity="0.75"/>
+        <rect x="1356" y="0" width="44" height="6"  fill="#EA6C1A" opacity="0.75"/>
+      </svg>
+    </div>
+
+    <!-- DOC HEADER -->
+    <div class="doc-header">
+      <div class="breadcrumb">Documentation <span>›</span> Microsoft Copilot <span>›</span> Copilot 101</div>
+      <h1 class="doc-title">Copilot 101 — Getting Started &amp; Interface Walkthrough</h1>
+      <p class="doc-subtitle">Everything you need to activate, navigate, and start using Microsoft Copilot across your M365 apps — from confirming your licence to writing your first prompts and understanding what Copilot can access.</p>
+      <div class="doc-meta">
+        <span class="badge">Version 1.0</span>
+        <span class="badge badge-orange">M365 Copilot</span>
+        <span class="meta-item"><strong>Updated:</strong> May 2026</span>
+        <span class="meta-item"><strong>Audience:</strong> New Copilot Users</span>
+      </div>
+    </div>
+
+    <div class="content-body">
+
+      <!-- ══ 01 WHAT IS COPILOT ══ -->
+      <section class="section" id="overview">
+        <div class="section-header">
+          <div class="section-num">01</div>
+          <div>
+            <div class="section-title">What is Microsoft Copilot?</div>
+            <div class="section-desc">AI assistance built into the tools you already use</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p><strong>Microsoft Copilot for M365</strong> is an AI assistant embedded directly into the Microsoft 365 suite — Word, Excel, PowerPoint, Outlook, Teams, OneNote, and more. Unlike a standalone AI chatbot, Copilot connects to your actual work: your emails, documents, meetings, calendar, and chats. It can read what you're working on and act on it in context.</p>
+          <p>Copilot is powered by the GPT-5 family of models (including GPT-5.2 in the Chat model selector) combined with Microsoft Graph — the data layer that connects your M365 content. You can switch between <strong>Quick Response</strong> for everyday drafting and <strong>Think Deeper</strong> for harder analysis and reasoning tasks. Copilot doesn't just answer generic questions — it can summarise <em>your</em> last meeting, draft a reply to <em>your</em> actual email thread, or analyse <em>your</em> specific spreadsheet.</p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">✍️</div>
+              <div class="card-title">Write &amp; Draft</div>
+              <div class="card-desc">Generate emails, reports, presentations and documents from simple instructions — in any tone or format you need.</div>
+            </div>
+            <div class="card blue-accent">
+              <div class="card-icon">🔍</div>
+              <div class="card-title">Summarise &amp; Analyse</div>
+              <div class="card-desc">Condense long email threads, meeting transcripts, and documents into clear key points and action items.</div>
+            </div>
+            <div class="card orange-accent">
+              <div class="card-icon">🎨</div>
+              <div class="card-title">Create &amp; Transform</div>
+              <div class="card-desc">Turn rough notes into polished slides, convert tables into charts, or restructure content for a different audience.</div>
+            </div>
+            <div class="card yellow-accent">
+              <div class="card-icon">💬</div>
+              <div class="card-title">Chat &amp; Query</div>
+              <div class="card-desc">Ask natural language questions about your files, emails, and calendar — across all your M365 data in one conversation.</div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <div class="callout-icon">ℹ️</div>
+            <div><strong>Two tiers — know which one you have.</strong> <strong>Microsoft 365 Copilot Chat</strong> is included free with eligible M365 commercial subscriptions and gives you the standalone Chat experience with web grounding. <strong>Microsoft 365 Copilot (Business or Enterprise)</strong> is a paid add-on that unlocks the in-app Copilot panels in Word, Excel, PowerPoint, Outlook, Teams, and more — plus access to your tenant data through Microsoft Graph. Confirm your tier with your IT admin before troubleshooting missing features.</div>
+          </div>
+
+          <h3>What Copilot Is Not</h3>
+          <ul>
+            <li><strong>Not a search engine.</strong> Copilot reasons from context you provide and your M365 data. Copilot Chat does include web grounding (the old Bing Chat Enterprise experience, now rebranded) — but in-app Copilot stays within your M365 content unless you explicitly enable web search.</li>
+            <li><strong>Not always right.</strong> Copilot can make errors, especially with numbers, dates, and nuanced instructions. Switch to <strong>Think Deeper</strong> for harder analysis — but always review AI-generated content before sending or publishing.</li>
+            <li><strong>Not a replacement for judgment.</strong> Copilot accelerates your work — it doesn't replace your expertise, context, or decision-making.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ══ 02 GETTING STARTED ══ -->
+      <section class="section" id="getting-started">
+        <div class="section-header">
+          <div class="section-num">02</div>
+          <div>
+            <div class="section-title">Getting Started</div>
+            <div class="section-desc">Licences, activation, and your first Copilot interaction</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Before Copilot appears in your M365 apps, two things must be in place: the right licence and admin activation. Once both are confirmed, Copilot shows up automatically — no extra software to install. The Copilot button (a sparkle ✨ icon) appears in the ribbon of Word, Outlook, Teams, Excel, and PowerPoint.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-title">Identify your Copilot tier</div>
+                <div class="step-desc">If your organisation has an eligible M365 commercial subscription, you already have <strong>Copilot Chat free</strong> — the standalone Chat experience. For in-app Copilot (Word, Excel, Outlook, Teams panels), you also need the paid <strong>Microsoft 365 Copilot Business</strong> ($18–$21/user/mo) or <strong>Enterprise</strong> ($30/user/mo) add-on. Check with your IT admin to confirm which you have.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-title">Check that admin has enabled Copilot</div>
+                <div class="step-desc">Your Microsoft 365 admin must assign the paid Copilot licence to your account in the M365 Admin Centre before the in-app Copilot buttons appear. Copilot Chat (the free tier) is enabled by default for eligible subscriptions. If you can't see the in-app Copilot button, raise a ticket with IT — it's almost always a licence-assignment issue.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-title">Open any M365 app and find the Copilot button</div>
+                <div class="step-desc">Open Word, Outlook, PowerPoint, Excel, or Teams. Look for the ✨ Copilot button in the Home ribbon (desktop apps) or in the top right area (web versions). Click it to open the Copilot panel.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <div class="step-title">Try Microsoft 365 Copilot Chat at m365.cloud.microsoft</div>
+                <div class="step-desc">Copilot Chat is the most flexible entry point — it spans your apps and (with the paid tier) your tenant data. Go to <strong>m365.cloud.microsoft</strong>, sign in with your work account, pick <strong>Quick Response</strong> or <strong>Think Deeper</strong> from the model selector, and ask it to summarise your recent emails or find a document.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <div class="callout-icon">💡</div>
+            <div><strong>Best first move:</strong> Open Teams, join or find a recent meeting, and click <strong>Recap</strong>. Copilot will generate a summary with action items instantly — no prompting needed. This is the fastest way to see Copilot's value on day one.</div>
+          </div>
+
+          <h3>What You Can Do Right Now</h3>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">📧</div>
+              <div class="card-title">In Outlook</div>
+              <div class="card-desc">Open a long email thread and click <strong>Summarise</strong>. Copilot extracts key points and next steps in seconds.</div>
+            </div>
+            <div class="card orange-accent">
+              <div class="card-icon">💬</div>
+              <div class="card-title">In Teams</div>
+              <div class="card-desc">Open a past meeting and click <strong>Recap</strong>. Copilot produces a full summary with action items and key decisions.</div>
+            </div>
+            <div class="card blue-accent">
+              <div class="card-icon">📄</div>
+              <div class="card-title">In Word</div>
+              <div class="card-desc">Open a blank document, click Copilot, and type <em>"Draft a project update for stakeholders about [topic]."</em></div>
+            </div>
+            <div class="card yellow-accent">
+              <div class="card-icon">📊</div>
+              <div class="card-title">In Excel</div>
+              <div class="card-desc">Open a spreadsheet, click Copilot, and ask <em>"What are the top 3 trends in this data?"</em> — no formulas needed.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 03 THE COPILOT INTERFACE ══ -->
+      <section class="section" id="copilot-interface">
+        <div class="section-header">
+          <div class="section-num">03</div>
+          <div>
+            <div class="section-title">The Copilot Interface</div>
+            <div class="section-desc">Where to find Copilot in each M365 app — and what each panel does</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Copilot doesn't have a single fixed home. It appears as a sidebar panel, a floating chat window, or an inline prompt bar depending on which M365 app you're in. The interface is consistent in feel — navy/blue tones, a sparkle icon, and a text input — but the capabilities vary by app context.</p>
+
+          <table class="ref-table">
+            <thead><tr><th>App</th><th>Where Copilot Appears</th><th>How to Open It</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Microsoft 365 Copilot Chat</strong></td><td>Full-page chat at m365.cloud.microsoft</td><td>Go to m365.cloud.microsoft → sign in with work account</td></tr>
+              <tr><td><strong>Outlook (desktop)</strong></td><td>Right-side panel when viewing an email</td><td>Open an email thread → click ✨ Copilot in ribbon</td></tr>
+              <tr><td><strong>Outlook (web)</strong></td><td>Panel or inline Summarise button</td><td>Open an email → click Summarise by Copilot at top</td></tr>
+              <tr><td><strong>Teams</strong></td><td>Recap tab; sidebar in chats, channels, calls</td><td>In a meeting, chat or channel → click Copilot or Recap</td></tr>
+              <tr><td><strong>Word</strong></td><td>Right-side panel + Draft with Copilot inline</td><td>Home ribbon → Copilot button; or press Alt+I in body</td></tr>
+              <tr><td><strong>Excel</strong></td><td>Right-side panel</td><td>Home ribbon → Copilot button (requires table format)</td></tr>
+              <tr><td><strong>PowerPoint</strong></td><td>Right-side panel</td><td>Home ribbon → Copilot button</td></tr>
+              <tr><td><strong>OneNote</strong></td><td>Inline and side panel</td><td>Home ribbon → Copilot button</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Anatomy of the Copilot Panel</h3>
+          <p>Across all apps, the Copilot panel has the same core structure:</p>
+          <ul>
+            <li><strong>Model selector:</strong> Switch between <strong>Quick Response</strong> (fast, default) and <strong>Think Deeper</strong> (slower, better reasoning for analysis, code, and multi-step problems) — visible at the top of Copilot Chat and in many in-app panels</li>
+            <li><strong>Suggested prompts:</strong> Quick-action buttons at the top tailored to what you're currently working on</li>
+            <li><strong>Chat input:</strong> A text box where you type your request in plain English</li>
+            <li><strong>Response area:</strong> Where Copilot displays its output — text, bullet lists, tables, or drafted content</li>
+            <li><strong>Insert / Copy buttons:</strong> Apply Copilot's output directly into your document or copy to clipboard</li>
+            <li><strong>Keep / Discard:</strong> Accept or reject drafted content before it's added to your file</li>
+          </ul>
+
+          <div class="callout copilot">
+            <div class="callout-icon">✨</div>
+            <div><strong>Copilot Chat is the power tool.</strong> Unlike app-specific Copilot panels (which only see the currently open file), Copilot Chat can reference content across all your emails, documents, meetings, and calendar — in a single conversation. Access it at <strong>m365.cloud.microsoft</strong> or via the Copilot icon in the Microsoft 365 app launcher. With the paid tier it also reaches your tenant data through Microsoft Graph; on the free tier it stays at the chat-and-web-grounding level.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 04 WRITING EFFECTIVE PROMPTS ══ -->
+      <section class="section" id="writing-prompts">
+        <div class="section-header">
+          <div class="section-num">04</div>
+          <div>
+            <div class="section-title">Writing Effective Prompts for Copilot</div>
+            <div class="section-desc">The patterns that get dramatically better results</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Copilot understands plain English — no special commands or syntax needed. But there are four elements that consistently improve output quality. Think of each prompt as a brief: the more clearly you brief Copilot, the better it performs.</p>
+
+          <table class="ref-table">
+            <thead><tr><th>Element</th><th>Why It Matters</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Context</strong></td><td>Tells Copilot what you're working on and who is involved</td><td>"Based on our Q3 board meeting transcript…"</td></tr>
+              <tr><td><strong>Task</strong></td><td>Specific instruction — what you want produced</td><td>"…write an executive summary…"</td></tr>
+              <tr><td><strong>Format</strong></td><td>How the output should be structured or presented</td><td>"…as 5 bullet points, max 20 words each…"</td></tr>
+              <tr><td><strong>Tone / Audience</strong></td><td>Register, style, and who will read it</td><td>"…suitable for a non-technical board audience"</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Weak vs. Strong Prompts</h3>
+          <div class="callout warn">
+            <div class="callout-icon">❌</div>
+            <div><strong>Weak:</strong> "Summarise the meeting." — Copilot will produce a generic summary. It doesn't know which meeting, what's important, who needs it, or what format you want.</div>
+          </div>
+          <div class="callout tip">
+            <div class="callout-icon">✅</div>
+            <div><strong>Strong:</strong> "Summarise today's product roadmap meeting. List the 3 key decisions made, the 4 action items with owners, and any unresolved issues. Format as a short email I can send to the wider team."</div>
+          </div>
+
+          <h3>The Copilot Prompt Formula</h3>
+          <p>Microsoft's own recommended prompt structure: <strong>[Goal] + [Context] + [Source] + [Expectations]</strong></p>
+          <ul>
+            <li><strong>Goal:</strong> What do you want? (Summarise, Draft, Analyse, List, Rewrite)</li>
+            <li><strong>Context:</strong> What's the background? (This is for a client proposal / my manager asked for this)</li>
+            <li><strong>Source:</strong> What should Copilot use? (This document / my last 5 emails / the meeting transcript)</li>
+            <li><strong>Expectations:</strong> Format, length, tone, audience</li>
+          </ul>
+
+          <div class="callout info">
+            <div class="callout-icon">ℹ️</div>
+            <div><strong>Iterate, don't start over.</strong> If Copilot's first response isn't right, respond with what needs changing — "Make it shorter", "Change the tone to be more formal", "Add a section about risks". Copilot maintains context within the same conversation.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 05 COPILOT ACROSS M365 APPS ══ -->
+      <section class="section" id="m365-apps">
+        <div class="section-header">
+          <div class="section-num">05</div>
+          <div>
+            <div class="section-title">Copilot Across M365 Apps</div>
+            <div class="section-desc">What each app's Copilot does — and where it's most powerful</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Copilot is context-aware — it behaves differently depending on which M365 app you're in, because it understands what that app is for. Here's a practical snapshot of each app's key Copilot strengths.</p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">📧</div>
+              <div class="card-title">Copilot in Outlook</div>
+              <div class="card-desc">Summarise long threads, draft replies, suggest meeting times, identify action items, and coach your email tone before you send.</div>
+            </div>
+            <div class="card orange-accent">
+              <div class="card-icon">💬</div>
+              <div class="card-title">Copilot in Teams</div>
+              <div class="card-desc">Generate meeting summaries, extract action items, catch up on missed chats, and get answers during live meetings without interrupting.</div>
+            </div>
+            <div class="card blue-accent">
+              <div class="card-icon">📄</div>
+              <div class="card-title">Copilot in Word</div>
+              <div class="card-desc">Draft full documents from prompts, rewrite sections, summarise long reports, change tone, and generate content from references.</div>
+            </div>
+            <div class="card yellow-accent">
+              <div class="card-icon">📊</div>
+              <div class="card-title">Copilot in Excel</div>
+              <div class="card-desc">Analyse data in plain English, generate formulas, highlight trends, create charts, and add conditional formatting without writing a single formula.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">📑</div>
+              <div class="card-title">Copilot in PowerPoint</div>
+              <div class="card-desc">Create full presentations from a prompt or Word doc, add slides, rewrite speaker notes, and suggest slide designs and layouts.</div>
+            </div>
+            <div class="card orange-accent">
+              <div class="card-icon">📓</div>
+              <div class="card-title">Copilot in OneNote</div>
+              <div class="card-desc">Summarise notes, create to-do lists, generate content from brief descriptions, and reorganise disorganised notes into structured sections.</div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <div class="callout-icon">ℹ️</div>
+            <div><strong>Context is app-specific.</strong> Each app's Copilot panel only accesses the content currently open in that app. To query across multiple documents, emails, or meetings simultaneously, use <strong>Microsoft 365 Copilot Chat</strong> at m365.cloud.microsoft — it has access to your full M365 data via Microsoft Graph.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 06 WORKING WITH M365 DATA ══ -->
+      <section class="section" id="working-with-data">
+        <div class="section-header">
+          <div class="section-num">06</div>
+          <div>
+            <div class="section-title">Working with Your M365 Data</div>
+            <div class="section-desc">What Copilot can access — and what it can't</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>One of Copilot's core advantages is that it works with your actual content — not just general knowledge. Understanding what Copilot can and can't see helps you use it more effectively and avoids frustrating dead ends.</p>
+
+          <table class="ref-table">
+            <thead><tr><th>Data Source</th><th>What Copilot Can Access</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Current document</strong></td><td>Full content of the currently open file</td><td>Works in Word, Excel, PowerPoint, OneNote</td></tr>
+              <tr><td><strong>Email threads</strong></td><td>Selected email and its thread history</td><td>In Outlook; can also be queried via Copilot Chat</td></tr>
+              <tr><td><strong>Meeting transcripts</strong></td><td>Auto-generated Teams transcripts</td><td>Requires transcription to be enabled in Teams admin</td></tr>
+              <tr><td><strong>Calendar</strong></td><td>Your meetings, invites, and attendees</td><td>Via Copilot Chat (paid tier) with Microsoft Graph access</td></tr>
+              <tr><td><strong>OneDrive files</strong></td><td>Files you own or have been shared with you</td><td>Reference by name in Copilot Chat; must be in OneDrive/SharePoint</td></tr>
+              <tr><td><strong>SharePoint</strong></td><td>Shared documents your account can view</td><td>Must have read permissions on the file or site</td></tr>
+              <tr><td><strong>Teams chat &amp; channels</strong></td><td>Channels and chats you're a member of</td><td>Accessible via Copilot Chat with appropriate permissions</td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout warn">
+            <div class="callout-icon">⚠️</div>
+            <div><strong>Permissions apply.</strong> Copilot only accesses content you have permission to see. It cannot access files, emails, or channels you're not authorised for — even if a colleague mentions them. Existing Microsoft 365 data governance, sensitivity labels, and DLP policies are all enforced. Copilot does not bypass security controls.</div>
+          </div>
+
+          <h3>How to Reference Files in Copilot Chat</h3>
+          <p>In Microsoft 365 Copilot Chat, you can explicitly reference files, emails, and meetings using the <strong>/</strong> command:</p>
+          <ul>
+            <li>Type <strong>/</strong> and start typing a file or document name — Copilot searches your OneDrive and SharePoint</li>
+            <li>Type <strong>/</strong> + meeting name or date to reference a specific meeting transcript</li>
+            <li>You can reference up to 3 items in a single prompt</li>
+            <li>Example: <em>"Summarise /Q3 Budget Review.xlsx and identify any items that relate to /Project Phoenix Proposal.docx"</em></li>
+          </ul>
+
+          <div class="callout copilot">
+            <div class="callout-icon">🤖</div>
+            <div><strong>Agents can now act, not just summarise.</strong> With Wave 1 agentic features (rolled out 2025–2026), Copilot agents can execute multi-step tasks against your Graph data — drafting a reply and sending it, pulling figures from Excel into a Word brief, or scheduling a follow-up. Always review what an agent is about to do before approving — agents inherit your permissions and your accountability.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 07 ADVANCED TECHNIQUES ══ -->
+      <section class="section" id="advanced-techniques">
+        <div class="section-header">
+          <div class="section-num">07</div>
+          <div>
+            <div class="section-title">Advanced Techniques</div>
+            <div class="section-desc">Power-user patterns for getting more from Copilot</div>
+          </div>
+        </div>
+        <div class="prose">
+          <h3>Multi-Turn Conversations</h3>
+          <p>Copilot maintains context within a single session — each follow-up message builds on the previous response. Use this to refine outputs without re-explaining everything. Start broad, then narrow: ask for a draft, then say "Make the intro shorter and more direct", then "Add a bullet list of risks at the end."</p>
+
+          <h3>Combining Apps for Complex Tasks</h3>
+          <p>The most powerful Copilot workflows chain apps together. For example: use Copilot Chat to identify the key themes from last quarter's client emails → ask Word Copilot to draft a report based on those themes → use PowerPoint Copilot to turn the Word report into a deck. Each step uses the previous output as input.</p>
+
+          <h3>Using Copilot in Live Meetings</h3>
+          <p>During a Teams meeting (with transcription enabled), you can open the Copilot panel and ask questions in real-time — without interrupting the call. Ask: <em>"What has been agreed so far?"</em>, <em>"What are the open questions?"</em>, or <em>"Summarise what [name] said about the budget."</em> This is especially useful for joining late or following complex technical discussions.</p>
+
+          <h3>Rewriting and Tone Adjustment</h3>
+          <p>In Word and Outlook, Copilot can rewrite existing content — not just generate new content. Select a paragraph and ask: "Make this more concise", "Change the tone to be more assertive", "Rewrite this for a non-technical audience", or "Translate this into a formal email." This is faster than editing manually for large blocks of text.</p>
+
+          <h3>Pick the Right Reasoning Mode</h3>
+          <p>Copilot Chat (and many in-app panels) now expose a model selector with two practical modes. Use <strong>Quick Response</strong> for everyday drafting, summarising, and rewriting — it's fast and good enough for the majority of tasks. Switch to <strong>Think Deeper</strong> when the prompt involves analysis, multi-step logic, code reasoning, or trade-offs you actually want it to chew on. The trade-off is latency: Think Deeper takes noticeably longer per response, so don't default to it for short tasks.</p>
+
+          <div class="do-avoid">
+            <div class="do-box">
+              <h4>✅ Do This</h4>
+              <ul>
+                <li>Give Copilot specific context about your audience and goal</li>
+                <li>Iterate on responses — treat it as a conversation</li>
+                <li>Reference specific files using / in Copilot Chat</li>
+                <li>Use Copilot to start drafts — then edit them yourself</li>
+                <li>Enable meeting transcription to unlock full Teams Copilot</li>
+                <li>Review and verify all Copilot-generated content before sharing</li>
+              </ul>
+            </div>
+            <div class="avoid-box">
+              <h4>❌ Avoid This</h4>
+              <ul>
+                <li>Sending Copilot drafts without reviewing them first</li>
+                <li>Vague prompts with no context or format instructions</li>
+                <li>Assuming Copilot can see files it hasn't been pointed to</li>
+                <li>Treating Copilot's numbers or dates as fact without checking</li>
+                <li>Using Copilot for sensitive legal or financial decisions without expert review</li>
+                <li>Starting a new conversation when you could continue iterating</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 08 COMMON MISTAKES & FIXES ══ -->
+      <section class="section" id="mistakes-fixes">
+        <div class="section-header">
+          <div class="section-num">08</div>
+          <div>
+            <div class="section-title">Common Mistakes &amp; Fixes</div>
+            <div class="section-desc">What goes wrong — and how to solve it</div>
+          </div>
+        </div>
+        <div class="prose">
+
+          <div class="trouble-item">
+            <div class="trouble-q">❓ "I can't see the Copilot button in Word / Outlook / Teams."</div>
+            <div class="trouble-a">This is almost always a licence or admin issue. First, confirm with your IT admin that your account has been assigned a Microsoft 365 Copilot licence in the M365 Admin Centre. Second, make sure your Microsoft 365 apps are updated to a recent build — older versions may not display Copilot. If you're using a web browser, try refreshing or signing out and back in.</div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-q">❓ "Copilot gave me a response that seems completely wrong or made up."</div>
+            <div class="trouble-a">Copilot can hallucinate — especially with specific numbers, dates, names, or details not present in the source content. Always verify factual claims, particularly in Excel analysis or meeting summaries. If results seem off, re-prompt with more specific instructions: "Only use information from the document I've provided — do not add external information."</div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-q">❓ "Copilot Chat can't find the file I'm asking about."</div>
+            <div class="trouble-a">The file must be stored in OneDrive or SharePoint — not on your local drive. Copilot cannot access files saved only to your desktop or local Documents folder. Move or save the file to OneDrive first. Also check that the file name is spelled correctly and that you have access to it yourself — Copilot inherits your permissions.</div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-q">❓ "The Copilot Recap isn't available for our Teams meetings."</div>
+            <div class="trouble-a">Teams meeting Recap requires transcription to be enabled — both at the admin level (your IT team must enable it in Teams admin policies) and at the meeting level (the organiser must start transcription during the meeting). If transcription wasn't running, there's no transcript to summarise. Going forward, enable "Auto-start transcription" in your Teams meeting settings or policy.</div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-q">❓ "Copilot in Excel isn't working — the button is greyed out."</div>
+            <div class="trouble-a">Excel Copilot requires your data to be formatted as a proper Excel Table (not just a plain range). Select your data, go to <strong>Insert → Table</strong>, and confirm your data has headers. Once formatted as a table, the Copilot button becomes active. Also ensure the file is saved to OneDrive or SharePoint, not locally — Copilot in Excel requires cloud-connected files.</div>
+          </div>
+
+          <div class="trouble-item">
+            <div class="trouble-q">❓ "Think Deeper is slow and the answer isn't obviously better."</div>
+            <div class="trouble-a">Think Deeper is built for harder reasoning — analysis, code, multi-step logic, trade-offs. For drafting an email, summarising a doc, or rewriting a paragraph, Quick Response is usually equally good and much faster. Reserve Think Deeper for prompts where you'd accept a longer wait in exchange for more careful reasoning. If a Quick Response answer looks too shallow, re-prompt with Think Deeper — don't default to it.</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══ 09 SUGGESTED PROMPTS ══ -->
+      <section class="section" id="suggested-prompts">
+        <div class="section-header">
+          <div class="section-num">09</div>
+          <div>
+            <div class="section-title">Suggested Prompts</div>
+            <div class="section-desc">Ready-to-use prompts for your first week with Copilot</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>These prompts are designed to get you results immediately. Adjust the specifics to match your actual work context — the more relevant detail you add, the better the output.</p>
+        </div>
+
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="showTab('getting-started-tab', this)">Getting Started</button>
+          <button class="tab-btn" onclick="showTab('productivity-tab', this)">Daily Productivity</button>
+        </div>
+
+        <div class="tab-panel active" id="getting-started-tab">
+          <div class="prompt-list">
+            <div class="prompt-box">
+              <div class="prompt-label">First Meeting Recap — Teams</div>
+              <div class="prompt-text">"Summarise this meeting. List the 3 main topics discussed, any decisions made, and all action items with the name of the person responsible. Format as a structured recap I can paste into an email."</div>
+            </div>
+            <div class="prompt-box">
+              <div class="prompt-label">Email Thread Summary — Outlook</div>
+              <div class="prompt-text">"Summarise this email thread. What is the core issue being discussed, what has been agreed, and what is the outstanding question or next step? Keep it to 5 bullet points."</div>
+            </div>
+            <div class="prompt-box">
+              <div class="prompt-label">First Document Draft — Word</div>
+              <div class="prompt-text">"Draft a 1-page project update for [project name]. Include a brief overview of status, 3 key achievements this month, 2 risks or blockers, and the top 3 priorities for next month. Audience: senior management. Tone: confident and direct."</div>
+            </div>
+            <div class="prompt-box">
+              <div class="prompt-label">Cross-App Discovery — Copilot Chat</div>
+              <div class="prompt-text">"What has been discussed about [topic or project name] in my recent emails and meetings? Summarise the key points and any pending actions related to this topic."</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="productivity-tab">
+          <div class="prompt-list">
+            <div class="prompt-box">
+              <div class="prompt-label">Draft a Reply — Outlook</div>
+              <div class="prompt-text">"Draft a reply to this email. Confirm that I can attend the meeting on [date], ask for the agenda in advance, and let them know I'll bring [colleague name] as well. Tone: friendly and professional. Keep it under 100 words."</div>
+            </div>
+            <div class="prompt-box">
+              <div class="prompt-label">Presentation from a Brief — PowerPoint</div>
+              <div class="prompt-text">"Create a 6-slide presentation on [topic]. Slide 1: title slide. Slides 2–5: one key point each with 3 supporting bullet points. Slide 6: summary and next steps. Audience: [describe audience]. Tone: [formal/professional/engaging]."</div>
+            </div>
+            <div class="prompt-box">
+              <div class="prompt-label">Data Insight — Excel</div>
+              <div class="prompt-text">"Analyse this table and tell me: what are the top 3 performing items by [metric], which items are below average, and are there any unusual patterns or outliers I should be aware of?"</div>
+            </div>
+            <div class="prompt-box">
+              <div class="prompt-label">Meeting Prep — Copilot Chat</div>
+              <div class="prompt-text">"I have a meeting with [name/team] tomorrow about [topic]. Based on my recent emails and documents related to this topic, what are the key points I should be across, and what questions should I come prepared to answer?"</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ 10 SEE IT IN ACTION ══ -->
+      <section class="section" id="see-it-in-action">
+        <div class="section-header">
+          <div class="section-num">10</div>
+          <div>
+            <div class="section-title">See It In Action</div>
+            <div class="section-desc">Copilot in Teams — live meeting recap and action item extraction</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>This mockup shows Copilot in Microsoft Teams generating a meeting recap. The Copilot panel (right side) displays a structured summary and action items — extracted automatically from the meeting transcript.</p>
+        </div>
+
+        <div class="mockup-wrap">
+          <div class="mockup-titlebar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            <div class="mockup-tab-label">Microsoft Teams — Q3 Planning Meeting · Copilot Recap</div>
+          </div>
+          <div class="mockup-body">
+            <!-- Teams left nav -->
+            <div class="teams-sidebar">
+              <div class="teams-icon">🏠</div>
+              <div class="teams-icon active">💬</div>
+              <div class="teams-icon">👥</div>
+              <div class="teams-icon">📅</div>
+              <div class="teams-icon">📁</div>
+              <div class="teams-icon" style="margin-top:auto;">⚙️</div>
+            </div>
+            <!-- Teams main area -->
+            <div class="teams-main">
+              <div class="teams-header">
+                <div>
+                  <div class="teams-header-title">Q3 Planning Meeting · Recap</div>
+                  <div class="teams-header-sub">45 min · 4 attendees · Transcription on</div>
+                </div>
+              </div>
+              <div class="teams-messages">
+                <div class="teams-msg">
+                  <div class="teams-avatar sarah">SL</div>
+                  <div class="teams-bubble">
+                    <div class="teams-bubble-name">Sarah L.</div>
+                    <div class="teams-bubble-text">Let's confirm the Q3 product priorities. We need to finalise the roadmap before end of week.</div>
+                  </div>
+                </div>
+                <div class="teams-msg">
+                  <div class="teams-avatar mark">MK</div>
+                  <div class="teams-bubble">
+                    <div class="teams-bubble-name">Mark K.</div>
+                    <div class="teams-bubble-text">Agreed. The data migration should be our top priority — it's blocking three other workstreams. I'll have an updated timeline to you by Thursday.</div>
+                  </div>
+                </div>
+                <div class="teams-msg">
+                  <div class="teams-avatar" style="background:#4A3D8A;">BP</div>
+                  <div class="teams-bubble">
+                    <div class="teams-bubble-name">Brad P.</div>
+                    <div class="teams-bubble-text">The customer portal feature has been requested by 3 enterprise accounts. We should at least include a scoping milestone in Q3.</div>
+                  </div>
+                </div>
+                <div class="teams-msg">
+                  <div class="teams-avatar sarah">SL</div>
+                  <div class="teams-bubble">
+                    <div class="teams-bubble-name">Sarah L.</div>
+                    <div class="teams-bubble-text">Agreed. Mark — can you include portal scoping in your Thursday update? Let's also schedule a design review in week 3.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Copilot panel -->
+            <div class="copilot-panel">
+              <div class="copilot-panel-header">
+                <span class="copilot-spark">✨</span>
+                <span class="copilot-panel-title">Copilot — Meeting Recap</span>
+              </div>
+              <div class="copilot-panel-body">
+                <div>
+                  <div class="copilot-summary-label">Meeting Summary</div>
+                  <div class="copilot-summary-box">
+                    <div class="copilot-summary-text">Q3 planning discussion focused on product roadmap finalisation. Data migration identified as top priority blocking 3 workstreams. Customer portal feature requested by enterprise accounts — scoping to be included in Q3 milestone plan.</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="copilot-summary-label">Action Items</div>
+                  <div class="copilot-actions-box">
+                    <div class="copilot-action-item">Mark K. — Updated data migration timeline by Thursday</div>
+                    <div class="copilot-action-item">Mark K. — Include portal scoping in Thursday update</div>
+                    <div class="copilot-action-item">Sarah L. — Schedule design review for Week 3</div>
+                    <div class="copilot-action-item">All — Finalise roadmap before end of week</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="copilot-summary-label">Ask Copilot</div>
+                  <div class="copilot-input">What was agreed about the customer portal?</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mockup-annotations">
+            <div class="ann"><div class="ann-dot" style="background:#1E1456;"></div> Teams sidebar navigation</div>
+            <div class="ann"><div class="ann-dot" style="background:#1A1748;"></div> Meeting transcript / chat</div>
+            <div class="ann"><div class="ann-dot" style="background:#5E17EB;"></div> Copilot summary panel</div>
+            <div class="ann"><div class="ann-dot" style="background:#EA6C1A;"></div> Action items (extracted automatically)</div>
+          </div>
+        </div>
+
+        <div class="prose">
+          <p>Key things to notice: Copilot extracted action items with specific owners from natural conversation — no one needed to format or log them manually. You can ask follow-up questions in the Copilot panel ("What was the decision on budget?") and it answers from the transcript context.</p>
+        </div>
+      </section>
+
+      <!-- ══ 11 YOUR ROADMAP ══ -->
+      <section class="section" id="your-roadmap">
+        <div class="section-header">
+          <div class="section-num">11</div>
+          <div>
+            <div class="section-title">Your Roadmap</div>
+            <div class="section-desc">Four steps from activation to confident daily use</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Copilot becomes more valuable the more you use it — but most people plateau at the obvious features. Here's a progression path to get from activated to genuinely integrated into your daily workflow.</p>
+        </div>
+
+        <div class="roadmap">
+          <div class="roadmap-step">
+            <div class="roadmap-num">01</div>
+            <div class="roadmap-title">Activate &amp; Explore</div>
+            <div class="roadmap-desc">Confirm your licence, find Copilot in each app, try the Teams Recap and Outlook Summarise features. Get a feel for what Copilot can access.</div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">02</div>
+            <div class="roadmap-title">Daily Quick Wins</div>
+            <div class="roadmap-desc">Use Copilot for meeting summaries, email thread catch-ups, and first-draft documents every day for one week. Build the habit before expanding.</div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">03</div>
+            <div class="roadmap-title">Go Cross-App</div>
+            <div class="roadmap-desc">Start using Microsoft 365 Copilot Chat to query across emails, docs, and meetings at once. Build prompts that chain from one app to another.</div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">04</div>
+            <div class="roadmap-title">Automate &amp; Scale</div>
+            <div class="roadmap-desc">Build reusable prompt templates for recurring tasks. Explore Copilot Studio for custom agents. Share workflows with your team to multiply the impact.</div>
+          </div>
+        </div>
+
+        <div class="callout copilot">
+          <div class="callout-icon">✨</div>
+          <div><strong>The fastest way to build Copilot skills is through deliberate use.</strong> Pick one workflow this week — meeting recaps, email drafts, or document summaries — and commit to using Copilot for every instance of it. Consistency builds confidence faster than experimenting across all features at once.</div>
+        </div>
+
+        <div class="prose" style="margin-top:28px;">
+          <h3>What to Read Next</h3>
+          <ul>
+            <li><strong>Copilot Prompt Guide Across All M365 Apps</strong> — Prompt patterns and examples for every app</li>
+            <li><strong>Copilot in Outlook</strong> — Deep dive on email workflows, coaching, and scheduling</li>
+            <li><strong>Copilot in Teams</strong> — Meeting intelligence, live meeting use, and channel summaries</li>
+            <li><strong>Copilot in Word</strong> — Drafting, rewriting, and document transformation techniques</li>
+          </ul>
+        </div>
+      </section>
+
+    </div><!-- /content-body -->
+
+    <div class="page-footer">
+      <div>© 2026 The AI Advantage Co · Microsoft Copilot 101 User Guide</div>
+      <div><a href="https://www.theaiadvantageco.com.au">theaiadvantageco.com.au</a></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('#sidebar-nav a');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const match = document.querySelector('#sidebar-nav a[href="#' + e.target.id + '"]');
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude for Coding Assistance — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #C97040; --primary-l: #E08F5B; --primary-soft: #FBEEDE;
+  --accent1: #6B4226; --accent1-soft: #F4E8DC;
+  --accent2: #1F6B7A; --accent2-soft: #E0EEF1;
+  --page-bg: #FEF8F0; --sidebar-bg: #3C1E0A;
+  --card-bg: #FFFAF1; --hdr-bg: #FAEEDA; --border: #E5C8A5;
+  --ink: #3C1E0A; --body-text: #5B3A1F; --muted: #8A6240;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <div class="brand-name">Claude for Coding Assistance</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Claude for Coding Assistance?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Choose the Right Mode</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>The Best Coding Prompts Are Specific</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Debugging Workflow</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Code Review Pattern</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Refactoring Pattern</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Honest Limits</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Advisor Pattern for Cost Control</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <h1>Claude for Coding Assistance</h1>
+      <div class="subtitle">Patterns for using Claude as a coding partner — debugging, writing, reviewing, refactoring</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Claude for Coding Assistance?</div><div class="section-desc">Patterns for using Claude as a coding partner — debugging, writing, reviewing, refactoring</div></div></div><div class="content-body"><p class="prose">Claude has consistently been at the top of independent coding evaluations through 2025-2026. Sonnet 4.6 was the first time a Sonnet-class model was preferred over the previous generation&#39;s Opus in coding tasks. Opus 4.7 + xhigh effort handles the hardest agentic coding work. Claude Code (the dedicated CLI) is the canonical agentic coding surface; the Chat and Cowork modes are excellent for everyday coding partner work.</p><p class="prose">This guide covers practical patterns for using Claude as a coding partner outside of Claude Code — for engineers who want the AI in their normal Chat/Cowork flow, or for less-technical users who write code occasionally.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🏆</div><div class="feat-title">Strongest Mainstream Coding Model</div><div class="feat-desc">Sonnet 4.6 was first Sonnet-class preferred over previous-gen Opus in coding evaluations.</div></div><div class="feat-card"><div class="feat-icon">⌨️</div><div class="feat-title">Multiple Surfaces</div><div class="feat-desc">Claude Code CLI for agentic work, Chat for quick code questions, Cowork Mode with files and tools.</div></div><div class="feat-card"><div class="feat-icon">🖱️</div><div class="feat-title">Computer Use Accuracy</div><div class="feat-desc">Opus 4.7 hit 94% on insurance benchmarks — genuine agentic coding in regulated environments.</div></div><div class="feat-card"><div class="feat-icon">💰</div><div class="feat-title">Advisor Pattern</div><div class="feat-desc">Sonnet executes, Opus advises on hard sub-problems. 11.9% cheaper per task with near-Opus quality.</div></div></div><div class="deco-band">✨  From quick code questions to autonomous repo-level work  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">💻  2026 UPDATE — COMPUTER USE + ADVISOR</div><div class="callout-text">For agentic coding work, two new tools matter: computer-use (94% accuracy in Opus 4.7, lets Claude drive your IDE on regulated environments) and the Advisor tool (Sonnet executes, Opus advises on hard sub-problems — 11.9% cheaper per task with near-Opus quality).</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Choose the Right Mode</div><div class="section-desc">Where to invoke Claude for code</div></div></div><div class="content-body"><table class="ref-table"><thead><tr><th>Mode</th><th>Best for</th></tr></thead><tbody><tr><td>Claude Code (CLI)</td><td>Agentic work in a real codebase — refactoring, multi-file changes</td></tr><tr><td>Claude Chat</td><td>Quick code review, one-off scripts, learning a new API</td></tr><tr><td>Cowork Mode</td><td>Working through a coding problem with files and tools available</td></tr><tr><td>API</td><td>Embedding Claude into your own tools and pipelines</td></tr></tbody></table><h3 class="sub-h3">Surface selection by task shape</h3><p class="sub-body">Each surface has a sweet spot. Picking the right one saves substantial time vs forcing a surface into a task it&#39;s not optimised for.</p><ul class="bullets"><li>Claude Code (CLI) — agentic multi-file refactoring, test generation, sustained engineering</li><li>Claude Chat — one-off scripts, learning new APIs, code review, quick debugging</li><li>Cowork Mode — problem-solving with files visible, when conversation is the workspace</li><li>Anthropic API — embedding Claude in your own developer tools or pipelines</li><li>MCP-connected IDE — for users on Cursor, Zed, or other MCP-aware editors</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">The Best Coding Prompts Are Specific</div><div class="section-desc">What good context looks like</div></div></div><div class="content-body"><ul class="bullets"><li>Include the language, framework, and any version constraints</li><li>Paste enough surrounding code that Claude can match style</li><li>State the actual goal, not just the immediate ask</li><li>Mention what you&#39;ve already tried and ruled out</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Debugging Workflow</div><div class="section-desc">How to work a bug down to root cause</div></div></div><div class="content-body"><p class="prose">Don&#39;t ask &#39;fix this&#39;. Ask Claude to investigate before proposing fixes. Provide the failing case, the actual vs expected, and the relevant code. Let Claude propose hypotheses, then verify each.</p><ul class="bullets"><li>Show the failing input, the actual output, and the expected output</li><li>Paste only the code that&#39;s likely involved (Claude isn&#39;t your editor)</li><li>Ask: &#39;What are 3 possible causes? For each, what&#39;s the diagnostic that confirms or rules it out?&#39;</li><li>Have Claude pick the most likely, propose the fix, then verify against another test case</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Capture the failing case precisely</div><div class="step-desc">Input, actual output, expected output. Be exact about what &#39;failing&#39; means.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Paste only the relevant code</div><div class="step-desc">Don&#39;t paste the whole file. Paste the function involved and any direct callers.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Ask for hypotheses, not fixes</div><div class="step-desc">&#39;What are 3 possible causes? For each, what&#39;s the diagnostic to confirm or rule out?&#39;</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Run the diagnostics</div><div class="step-desc">Test each hypothesis against the actual code. Most hypotheses fail; one survives.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Ask for the fix based on the surviving hypothesis</div><div class="step-desc">Now you have root cause; the fix is straightforward.</div></div></div></div><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Show the failing input, actual output, and expected output explicitly</li><li>Paste only the code that&#39;s likely involved (the function plus direct callers)</li><li>Ask for hypotheses ranked by likelihood, with diagnostic for each</li><li>Test each diagnostic before accepting any fix</li><li>Have Claude explain the fix after applying it — confirms understanding</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Pasting the whole file — Claude isn&#39;t your editor</li><li>Asking &#39;fix this&#39; without showing what &#39;failing&#39; means</li><li>Accepting the first proposed fix without diagnostic verification</li><li>Iterating fixes without understanding root cause — symptom-chasing</li><li>Forgetting to share constraints (language version, framework, deployment target)</li></ul></div></div><p class="prose">The debugging pattern that works isn&#39;t &#39;paste the bug, ask Claude to fix it&#39;. It&#39;s structured: show the input, the actual output, the expected output, and the code involved. Then ask Claude to propose hypotheses rather than fixes. Hypotheses are testable; fixes are gambles.</p><p class="prose">Once Claude has proposed 3-4 hypotheses ranked by likelihood, ask for the diagnostic that would confirm or rule out each. Run the diagnostics. Pick the surviving hypothesis. Then ask for the fix. This pattern reliably finds root causes; the &#39;fix it and see&#39; pattern reliably finds symptoms.</p></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Code Review Pattern</div><div class="section-desc">Using Claude as a second pair of eyes</div></div></div><div class="content-body"><p class="prose">Code review is one of the highest-leverage uses. Claude is excellent at spotting subtle correctness issues, missing edge cases, and style inconsistencies — often catching things humans miss in busy reviews.</p><ul class="bullets"><li>&#39;Review this PR. Focus on correctness, edge cases, and anything that could fail in production.&#39;</li><li>&#39;What edge cases am I not handling here?&#39;</li><li>&#39;Is there a simpler way to express this?&#39;</li><li>&#39;Would this work correctly with concurrent access?&#39;</li></ul><p class="prose">Claude as a code reviewer is genuinely useful — it catches edge cases humans miss in busy reviews, spots stylistic inconsistencies, and never gets defensive about its own previous work. The trade-off is that it can be over-cautious; you&#39;ll often need to dismiss 30-40% of its suggestions as not worth doing.</p><p class="prose">The strongest prompt is targeted: &#39;Review this PR for correctness and edge cases. Skip style nits.&#39; or &#39;What edge cases am I not handling here?&#39; Generic &#39;review this&#39; prompts produce generic &#39;here are 17 things&#39; responses.</p><h3 class="sub-h3">The targeted-review prompts that work</h3><p class="sub-body">Generic &#39;review this&#39; produces generic &#39;here are 17 things&#39;. Specific review prompts produce specific findings worth acting on.</p><ul class="bullets"><li>&#39;Review this PR for correctness and edge cases. Skip style nits.&#39;</li><li>&#39;What edge cases am I not handling? Test inputs that would surface them.&#39;</li><li>&#39;Is there a simpler way to express this? Show me the simplest equivalent.&#39;</li><li>&#39;Would this work correctly with concurrent access? What are the race conditions?&#39;</li><li>&#39;What would break if this scaled 1000x? What&#39;s the bottleneck?&#39;</li><li>&#39;Security review — what are the top 3 attack vectors against this code?&#39;</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Refactoring Pattern</div><div class="section-desc">Mechanical changes at scale</div></div></div><div class="content-body"><p class="prose">For refactors that span many files, use Claude Code. For smaller refactors, Chat or Cowork works well.</p><ul class="bullets"><li>Describe the before-state and desired after-state</li><li>Ask Claude to propose the plan before writing code</li><li>Review the plan, adjust, then execute</li><li>Test after each substantial step, not at the end</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Describe before-state and after-state clearly</div><div class="step-desc">&#39;Current: X. Target: Y. The behaviour should remain identical; only the structure changes.&#39;</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Ask for the plan before the code</div><div class="step-desc">&#39;Walk through the refactor as a plan first. List the files and the order of changes.&#39;</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Validate the plan against your knowledge</div><div class="step-desc">&#39;Show me which sequence is safest. Where could intermediate states break tests?&#39;</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Execute step by step, testing after each</div><div class="step-desc">Don&#39;t apply the whole plan at once. Apply one step, run tests, then continue.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Have Claude summarise what changed</div><div class="step-desc">Final summary serves as the PR description and the doc for future reviewers.</div></div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Honest Limits</div><div class="section-desc">Where Claude can still go wrong</div></div></div><div class="content-body"><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚠️  ALWAYS TEST, ALWAYS READ</div><div class="callout-text">Claude writes plausible code. Plausible isn&#39;t the same as correct. Run the code. Read what Claude wrote. The fastest way to ship a subtle bug is to commit AI-written code without reading it.</div></div></div><ul class="bullets"><li>Specific API versions — always verify against docs for the version you&#39;re on</li><li>Library internals — Claude knows surface, not always implementation details</li><li>Performance reasoning — Claude can&#39;t profile your actual code</li><li>Security — Claude can spot common issues but isn&#39;t a substitute for security review</li></ul><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚠️  WHERE CLAUDE STILL GETS IT WRONG</div><div class="callout-text">Specific API versions (always verify against current docs), library internals (knows surface, sometimes wrong on implementation), performance reasoning (can&#39;t profile your actual code), and security review (catches common patterns but isn&#39;t a substitute for proper review).</div></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Advisor Pattern for Cost Control</div><div class="section-desc">Use Sonnet by default, escalate to Opus</div></div></div><div class="content-body"><p class="prose">With the Advisor tool, set Sonnet 4.6 as your executor and route the hardest sub-problems (architectural decisions, complex debugging, novel algorithms) to Opus 4.7. Near-Opus quality at meaningfully lower cost.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚡  THE ADVISOR MATH</div><div class="callout-text">For agentic coding workflows (autonomous refactors, multi-file changes), Sonnet 4.6 + Opus advisor is 11.9% cheaper per task with near-Opus quality. For interactive debugging where you&#39;re driving, Sonnet alone is usually sufficient — the Advisor matters most when Claude is operating without you in the loop.</div></div></div><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">⚡</div><div class="feat-title">Sonnet as Executor</div><div class="feat-desc">Default model for routine operations — refactors, test generation, standard reviews. Fast and cheap.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🎯</div><div class="feat-title">Opus as Advisor</div><div class="feat-desc">Escalates only for hard sub-problems — architectural decisions, complex debugging, novel algorithms.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">💰</div><div class="feat-title">Cost Impact</div><div class="feat-desc">Typical agentic workflow: 11.9% cheaper per task with quality within ~1-2% of always-Opus.</div></div></div><p class="prose">The Advisor pattern is the cost-control unlock for agentic coding at scale. For interactive debugging where a human drives, Sonnet alone is sufficient. For autonomous workflows running thousands of tasks, the Advisor pattern is the difference between $X and $X/3 per month.</p><p class="prose">Configuration is simple — a single API parameter or a Cowork Mode toggle. Most teams that try it for a week keep it on permanently.</p></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Claude for Coding Assistance as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">DEBUG INVESTIGATION</div><div class="prompt-text">Bug: [description]. Input: [...]. Expected: [...]. Actual: [...]. Code involved: [paste]. What&#39;s already ruled out: [...]. Propose 3 possible causes ranked by likelihood, with the diagnostic for each.</div></div><div class="prompt-card"><div class="prompt-label">PR REVIEW</div><div class="prompt-text">Review this PR. Focus on: correctness, edge cases, anything that could fail in production, and any simpler way to express the logic. Flag anything that should be discussed before merge.</div></div><div class="prompt-card"><div class="prompt-label">REFACTOR PLAN</div><div class="prompt-text">Refactor [current] into [desired]. Files involved: [list]. Propose the step-by-step plan before writing code. I want to see the plan, agree on it, then we execute together.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Claude for Coding Assistance on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

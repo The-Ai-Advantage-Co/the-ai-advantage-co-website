@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT vs Other Tools — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #10A37F; --primary-l: #2EC4A9; --primary-soft: #E6F7F1;
+  --accent1: #1A6FBE; --accent1-soft: #E8F1FB;
+  --accent2: #8B5CF6; --accent2-soft: #F0EAFF;
+  --page-bg: #F9F9F9; --sidebar-bg: #1C1C1C;
+  --card-bg: #FFFFFF; --hdr-bg: #F0F0F0; --border: #D0D0D0;
+  --ink: #1C1C1C; --body-text: #3A3A3A; --muted: #6F6F6F;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <div class="brand-name">ChatGPT vs Other Tools</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is ChatGPT vs Other Tools?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Where ChatGPT Wins</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Where Claude Wins</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Where Copilot Wins</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Where Gemini Wins</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Multi-Tool Deployment</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Cost Comparison</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Don&#39;t Optimise Too Hard for Cost</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Governance Across Multiple Tools</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>Suggested Prompts</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>See It In Action</a><a class="nav-link" href="#s13"><span class="nav-num">13</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <h1>ChatGPT vs Other Tools</h1>
+      <div class="subtitle">When to use ChatGPT, when to use Claude, Copilot, or Gemini, and how to deploy multiple tools well</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is ChatGPT vs Other Tools?</div><div class="section-desc">When to use ChatGPT, when to use Claude, Copilot, or Gemini, and how to deploy multiple tools well</div></div></div><div class="content-body"><p class="prose">ChatGPT, Claude, Microsoft Copilot, and Google Gemini are all built on similar foundation-model principles but optimised for different jobs. Most organisations end up using 2-3 of them. This guide is the working framework for which tool to reach for, when, and how to deploy multiple tools without chaos.</p><p class="prose">It&#39;s deliberately neutral — each tool wins on specific dimensions, and the &#39;pick one&#39; framing usually leaves value on the table.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">⚖️</div><div class="feat-title">Comparison Framework</div><div class="feat-desc">ChatGPT&#39;s strengths vs Claude, Copilot, Gemini. Pick by use case, not by tool.</div></div><div class="feat-card"><div class="feat-icon">🏢</div><div class="feat-title">Multi-Tool Default</div><div class="feat-desc">Most orgs deploy 2-3 tools — combination produces best outcomes.</div></div><div class="feat-card"><div class="feat-icon">💰</div><div class="feat-title">Combined Cost</div><div class="feat-desc">~$50-60/user/month for cohorts that get multiple tools. Small vs productivity gain.</div></div><div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">Tool-Per-Workflow</div><div class="feat-desc">Match the tool to the workflow shape, not the org-wide standard.</div></div></div><div class="deco-band">✨  Multi-tool deployment is the 2026 default  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚖️  2026 REALITY — MULTI-TOOL, NOT SINGLE-TOOL</div><div class="callout-text">Mature AI deployments use multiple tools. The question isn&#39;t &#39;which one&#39; but &#39;which one for which job&#39;. ChatGPT for open-canvas reasoning and Custom GPTs; Claude for writing and nuanced work; Copilot for in-flow M365 work; Gemini for Google Workspace work and deep research.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Where ChatGPT Wins</div><div class="section-desc">ChatGPT&#39;s strongest jobs</div></div></div><div class="content-body"><ul class="bullets"><li>Open-canvas reasoning where the conversation IS the workspace (Canvas)</li><li>Code Interpreter / Advanced Data Analysis with file uploads</li><li>Image generation in flow</li><li>Custom GPTs — lighter weight than Copilot Studio agents</li><li>Agent (Operator) — autonomous task execution</li><li>Voice mode — most polished consumer voice experience</li></ul><h3 class="sub-h3">The specific patterns where ChatGPT is the strongest choice</h3><p class="sub-body">ChatGPT&#39;s distinctive wins cluster around open-canvas reasoning, the Custom GPTs ecosystem, autonomous task execution, and polished consumer features.</p><ul class="bullets"><li>Canvas for long-form writing and code — significantly better than competitor in-doc panels</li><li>Custom GPTs — faster to build than Copilot Studio agents (10 min vs 30-60 min)</li><li>Agent (Operator) for autonomous web tasks — most mature browser-based agent</li><li>Code Interpreter with file uploads — Python data analysis without engineering</li><li>Voice mode — most polished consumer voice experience in 2026</li><li>Image generation — DALL-E lineage and newer 2026 models for creative work</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Where Claude Wins</div><div class="section-desc">Claude&#39;s strongest jobs</div></div></div><div class="content-body"><ul class="bullets"><li>Writing and editing — particularly nuanced or sensitive content</li><li>Long-context work — 1M token context in latest models</li><li>Coding — particularly with Claude Code CLI for agentic work</li><li>Tone matching and brand voice work</li><li>Systems thinking and strategic reasoning prompts</li><li>Tool use via MCP for connecting to custom systems</li></ul><h3 class="sub-h3">When Claude is the better choice than ChatGPT</h3><p class="sub-body">Claude&#39;s distinctive strengths sit at the intersection of tone-handling, long context, agentic coding, and the developer surface.</p><ul class="bullets"><li>Sensitive writing and tone refinement — strongest mainstream model for nuance</li><li>Coding via Claude Code (CLI) — agentic multi-file work in real codebases</li><li>1M token context — drop in entire codebases, year of business data</li><li>MCP ecosystem — 6,000+ apps connectable for agentic workflows</li><li>Computer use — 94% accuracy on regulated tasks (Opus 4.7)</li><li>Memory tool — persistent facts across sessions, scoped by namespace</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Where Copilot Wins</div><div class="section-desc">Copilot&#39;s strongest jobs</div></div></div><div class="content-body"><ul class="bullets"><li>In-flow M365 work — Outlook, Word, Excel, PowerPoint, Teams</li><li>Anything grounded in your tenant data (with paid tier)</li><li>Meeting recaps in Teams</li><li>Excel data analysis with Python</li><li>Microsoft-stack agent orchestration via Copilot Studio + Agent 365</li></ul><h3 class="sub-h3">When Copilot is the better choice than ChatGPT</h3><p class="sub-body">Copilot&#39;s wins are concentrated in M365 workflows. If the work happens inside Outlook, Teams, Word, Excel, PowerPoint, or other M365 apps, Copilot&#39;s tenant grounding and in-flow placement beat any standalone tool.</p><ul class="bullets"><li>Outlook email drafting — reads thread context natively</li><li>Teams meeting recap — instant action item extraction with speaker attribution</li><li>Excel data analysis on tenant data — natural-language queries on actual sheets</li><li>Word drafting with Reference doc context — pulls from tenant files</li><li>Cross-app context via Copilot Chat — &#39;brief me on Project Atlas across emails and Teams&#39;</li><li>Agent 365 — tenant-wide agent governance</li></ul></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Where Gemini Wins</div><div class="section-desc">Gemini&#39;s strongest jobs</div></div></div><div class="content-body"><ul class="bullets"><li>Google Workspace work — Gmail, Docs, Sheets, Slides, Meet</li><li>Deep Research — the deepest autonomous research agent</li><li>NotebookLM — uploaded-source synthesis with Audio Overviews</li><li>Long context — 1M tokens with strong recall</li><li>Image generation for Slides</li><li>Live voice mode — best real-time conversation</li></ul><h3 class="sub-h3">When Gemini is the better choice than ChatGPT</h3><p class="sub-body">Gemini wins inside the Google Workspace ecosystem (where ChatGPT has no native integration) and on specific capabilities — Deep Research, NotebookLM, multimodal, live voice.</p><ul class="bullets"><li>Workspace integration — Gmail, Docs, Sheets, Slides, Meet, Chat native</li><li>Deep Research Max — strongest autonomous web research agent in 2026</li><li>NotebookLM — source-grounded synthesis with Audio Overviews</li><li>1M token context with strong recall — handles long-context tasks reliably</li><li>Multimodal — particularly PDF and video understanding</li><li>Live voice mode — best real-time conversation latency in 2026</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Multi-Tool Deployment</div><div class="section-desc">Common patterns that work</div></div></div><div class="content-body"><p class="prose">Two-tool: most organisations end up with M365 Copilot + one of (ChatGPT, Claude). Three-tool: add Gemini if you also use Google Workspace, or add the second of ChatGPT/Claude for specific function teams.</p><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎯  THE TWO-TOOL DEFAULT</div><div class="callout-text">For most orgs in 2026: M365 Copilot for everyone (in-flow work) + ChatGPT Team or Claude Team for the cohorts that need open-canvas reasoning (engineering, product, marketing, research).</div></div></div><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Deploy one &#39;everyone&#39; tool — Copilot if M365 org, Gemini if Workspace org</li><li>Add ChatGPT Team/Enterprise for select cohorts — eng, product, marketing leadership</li><li>Add Claude for cohorts needing nuanced writing or coding specialisation</li><li>Use a single AI Acceptable Use Policy across all tools</li><li>Provide tool-of-choice guidance per role</li><li>Centralise procurement to prevent shadow IT</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Forcing a single-tool standard — leaves productivity on the table</li><li>Letting individuals expense ChatGPT Plus for business use</li><li>Comparing tools on raw capability — compare on workflow fit</li><li>Switching everyone mid-rollout — momentum loss is expensive</li><li>Treating tools as substitutes — they&#39;re complements with different strengths</li><li>Skipping the tool-of-choice guidance — users default to whichever&#39;s most familiar</li></ul></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Cost Comparison</div><div class="section-desc">Per-user-per-month for paid tiers</div></div></div><div class="content-body"><table class="ref-table"><thead><tr><th>Tool</th><th>Entry</th><th>Team</th><th>Enterprise</th></tr></thead><tbody><tr><td>ChatGPT</td><td>$20</td><td>$25-$30</td><td>$60+</td></tr><tr><td>Claude</td><td>$20</td><td>$25</td><td>Custom</td></tr><tr><td>Copilot</td><td>$18-$21</td><td>-</td><td>$30</td></tr><tr><td>Gemini</td><td>$22</td><td>-</td><td>$30 (with Workspace)</td></tr></tbody></table></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Don&#39;t Optimise Too Hard for Cost</div><div class="section-desc">The 5-minute rule</div></div></div><div class="content-body"><p class="prose">At $20-$30/user/mo, AI tools save their cost if they save 5 minutes per user per month. Most users save several hours. Don&#39;t penny-pinch tool selection — pick the right tool for the job, even if it&#39;s &#39;expensive&#39;. Wrong-tool friction costs more than the licence fee.</p></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Governance Across Multiple Tools</div><div class="section-desc">What to keep aligned</div></div></div><div class="content-body"><ul class="bullets"><li>Single AI Acceptable Use Policy — applies to all tools</li><li>Tool-of-choice guidance per function — reduce decision fatigue</li><li>Data classification rules — what data can go to which tool</li><li>Procurement coordination — centralised licence management</li><li>Reporting — aggregate usage and ROI across tools</li></ul></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating ChatGPT vs Other Tools as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">TOOL-OF-CHOICE BRIEF</div><div class="prompt-text">My team does [function]. The work we do: [list]. Recommend which AI tool(s) we should be deploying and which to use for which type of work. Give me a 1-page brief to share with my manager.</div></div><div class="prompt-card"><div class="prompt-label">MULTI-TOOL DEPLOYMENT PLAN</div><div class="prompt-text">We&#39;re [size] org. Currently using [tools]. Considering adding [tool]. Help me design: which roles get which tool, what training/comms each cohort needs, what governance applies to each, and what success looks like at 90 days.</div></div><div class="prompt-card"><div class="prompt-label">MIGRATION DECISION</div><div class="prompt-text">We have ChatGPT Team but considering switching to Claude Team. Walk me through: what we&#39;d gain, what we&#39;d lose, what migration would look like (export of Custom GPTs, training implications), and an honest recommendation.</div></div></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s13"><div class="section-header"><div class="section-num">13</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use ChatGPT vs Other Tools on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

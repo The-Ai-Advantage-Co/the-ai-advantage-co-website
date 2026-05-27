@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude for Writing Editing and Tone Refinement — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #C97040; --primary-l: #E08F5B; --primary-soft: #FBEEDE;
+  --accent1: #6B4226; --accent1-soft: #F4E8DC;
+  --accent2: #1F6B7A; --accent2-soft: #E0EEF1;
+  --page-bg: #FEF8F0; --sidebar-bg: #3C1E0A;
+  --card-bg: #FFFAF1; --hdr-bg: #FAEEDA; --border: #E5C8A5;
+  --ink: #3C1E0A; --body-text: #5B3A1F; --muted: #8A6240;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <div class="brand-name">Claude for Writing Editing and Tone Refinement</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Claude for Writing Editing and Tone Refinement?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>The Four-Element Brief</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Drafting Pattern</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Editing Existing Text</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Tone Matching</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Structural Refactoring</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Honest Writing Limits</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>The Anti-AI-Slop Checklist</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <h1>Claude for Writing Editing and Tone Refinement</h1>
+      <div class="subtitle">Practical patterns for using Claude as your everyday writing and editing partner</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Claude for Writing Editing and Tone Refinement?</div><div class="section-desc">Practical patterns for using Claude as your everyday writing and editing partner</div></div></div><div class="content-body"><p class="prose">Claude has been consistently the strongest mainstream model for everyday writing and editing through 2025-2026. This is the practical guide for using it as your everyday writing partner — drafting, editing, tone-matching, and the small refinements that turn a competent draft into a published one.</p><p class="prose">Best for: anyone whose job involves writing — internal comms, client emails, proposals, content, briefs, reports. Not deep enough for the hardest sensitive-writing work; for that, see the dedicated Sensitive Writing guide.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🏆</div><div class="feat-title">Strongest Mainstream Writing Model</div><div class="feat-desc">Consistently top-rated for tone-handling and editing in 2025-2026 evaluations.</div></div><div class="feat-card"><div class="feat-icon">📝</div><div class="feat-title">Drafting + Editing</div><div class="feat-desc">Best at both — drafting from a brief and editing existing text. Editing often outperforms drafting.</div></div><div class="feat-card"><div class="feat-icon">🎭</div><div class="feat-title">Tone Calibration</div><div class="feat-desc">Matches voice from 2-3 samples. Maintains tone across iterations without drift.</div></div><div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">Sonnet by Default</div><div class="feat-desc">Sonnet 4.6 is the everyday workhorse. Opus 4.7 + Think Deeper for highest-stakes writing.</div></div></div><div class="deco-band">✨  Everyday writing partner that consistently produces publishable drafts  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">✍️️  2026 UPDATE — USE SONNET 4.6 BY DEFAULT</div><div class="callout-text">Sonnet 4.6 is the right default model for everyday writing. It&#39;s fast, the tone-handling is excellent, and it costs meaningfully less than Opus. Reserve Opus 4.7 (with Think Deeper if available) for the highest-stakes writing — board comms, public apologies, regulatory drafts.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">The Four-Element Brief</div><div class="section-desc">What every writing prompt needs</div></div></div><div class="content-body"><p class="prose">Claude writes dramatically better when you give it four things: context, task, format, and audience. Skip any of these and you&#39;ll get something competent but generic.</p><ul class="bullets"><li>Context — what you&#39;re writing about, key facts, what&#39;s already happened</li><li>Task — what you actually want produced (not just &#39;write something&#39;)</li><li>Format — length, structure, sections, what to include or omit</li><li>Audience — who reads it, what they care about, what tone fits</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🎯</div><div class="feat-title">Context</div><div class="feat-desc">What you&#39;re writing about, key facts, what&#39;s already happened.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📋</div><div class="feat-title">Task</div><div class="feat-desc">Specific instruction — what you want produced, not just &#39;write something&#39;.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📐</div><div class="feat-title">Format</div><div class="feat-desc">Length, structure, sections, what to include or omit.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">👥</div><div class="feat-title">Audience</div><div class="feat-desc">Who reads it, what they care about, what tone fits.</div></div></div><h3 class="sub-h3">Why the brief matters more than the model</h3><p class="sub-body">Claude is more capable than most users get out of it. The gap is almost always brief quality — the difference between &#39;write me an email&#39; (generic output) and the four-element brief (publishable draft).</p><ul class="bullets"><li>Context — what the situation is, what&#39;s happened, what&#39;s at stake</li><li>Task — specific instruction: draft / edit / rewrite / tighten / expand / translate</li><li>Format — length, structure, what to include, what to omit</li><li>Audience — who reads, what they care about, their reading level, their tone expectations</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Drafting Pattern</div><div class="section-desc">From blank page to working draft</div></div></div><div class="content-body"><ul class="bullets"><li>Start with a brief that includes all four elements</li><li>First draft from Claude — accept it&#39;s a draft, not the final</li><li>Iterate by section, not by full rewrite — &#39;tighten the opening&#39;, &#39;cut the third paragraph in half&#39;</li><li>Edit at the end for voice — Claude can match your voice but not invent it perfectly</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Editing Existing Text</div><div class="section-desc">Where Claude shines</div></div></div><div class="content-body"><p class="prose">Editing is often Claude&#39;s best work — clearer than your draft, but still recognisably yours. The pattern: paste your draft, specify what you want changed, let Claude propose, accept selectively.</p><ul class="bullets"><li>&#39;Make this tighter without losing meaning&#39;</li><li>&#39;Rewrite for a non-technical audience&#39;</li><li>&#39;Cut 30% — what&#39;s the lowest-value paragraph?&#39;</li><li>&#39;Suggest 3 different openings for this piece&#39;</li><li>&#39;Where am I being unclear?&#39;</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Paste the draft and specify exactly what to change</li><li>Use surgical asks: &#39;tighten the opening&#39; not &#39;improve this&#39;</li><li>Cut by percentage: &#39;reduce this by 30% without losing meaning&#39;</li><li>Ask for alternatives: &#39;suggest 3 different openings for this piece&#39;</li><li>Ask for clarity audits: &#39;where am I being unclear?&#39;</li><li>Iterate one section at a time — full rewrites lose your voice</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Asking for &#39;improvements&#39; generically — gets generic improvements</li><li>Letting Claude restructure the whole piece on the first pass</li><li>Accepting the first edit blindly — Claude over-cuts and over-formalises</li><li>Mixing edit types in one prompt (tighten AND expand AND restructure)</li><li>Forgetting to preserve your specific phrasings where they work</li><li>Skipping voice review after editing — Claude can drift over multiple passes</li></ul></div></div></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Tone Matching</div><div class="section-desc">Making Claude sound like you</div></div></div><div class="content-body"><p class="prose">Claude can match a tone if you give it 2-3 short samples of writing in that tone. Paste examples, then ask Claude to write the new piece in that voice.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎭  TONE IS LEARNABLE</div><div class="callout-text">Provide samples, not abstract descriptions. &#39;Friendly but professional&#39; doesn&#39;t help. Three actual emails do. Claude reverse-engineers the voice from the examples.</div></div></div><ul class="bullets"><li>&#39;Here are 3 emails I&#39;ve written. Draft the next email in this voice.&#39;</li><li>&#39;Match the tone of this company blog post.&#39;</li><li>&#39;I want this to read like a calm engineer explaining to a frustrated PM, not like marketing copy.&#39;</li></ul><h3 class="sub-h3">The voice-matching prompt that works</h3><p class="sub-body">Abstract descriptions don&#39;t work. Three actual samples do. Claude reverse-engineers the voice from examples — including the things you can&#39;t articulate but want preserved.</p><ul class="bullets"><li>Paste 3 emails / posts / drafts in the target voice</li><li>Specify what NOT to imitate (some samples have things you want to leave behind)</li><li>Mention specific moves: &#39;I tend to open with a question&#39;, &#39;I use semicolons heavily&#39;</li><li>Ask Claude to draft, then verify: &#39;does this match the voice in the samples?&#39;</li><li>For brand voice, encode in a Claude Projects custom instruction — reusable across sessions</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Structural Refactoring</div><div class="section-desc">When the order is wrong</div></div></div><div class="content-body"><ul class="bullets"><li>&#39;This piece buries the lede. Restructure so the headline finding comes first.&#39;</li><li>&#39;Reorganise so the recommendation is up front, evidence after.&#39;</li><li>&#39;Cut the throat-clearing — start with the substantive point.&#39;</li><li>&#39;Rewrite as bullet points; my audience won&#39;t read paragraphs.&#39;</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📐</div><div class="feat-title">Restructure</div><div class="feat-desc">&#39;Bring the headline finding to the top. Move evidence after.&#39; Changes order; preserves content.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">✂️</div><div class="feat-title">Tighten</div><div class="feat-desc">&#39;Cut throat-clearing. Start with the substantive point.&#39; Removes warmup.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🔄</div><div class="feat-title">Recompose</div><div class="feat-desc">&#39;Rewrite as bullet points; my audience won&#39;t read paragraphs.&#39; Changes format entirely.</div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Honest Writing Limits</div><div class="section-desc">Where Claude can still go wrong</div></div></div><div class="content-body"><ul class="bullets"><li>Quotes and citations — Claude can fabricate them; always verify</li><li>Specific numbers and dates — Claude rounds and approximates; check against source</li><li>Voice over multiple pieces — Claude drifts; check the third piece doesn&#39;t read different from the first</li><li>Cliché and hype — Claude defaults to corporate boilerplate; cut hard</li></ul></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">The Anti-AI-Slop Checklist</div><div class="section-desc">How to make Claude&#39;s writing not sound AI</div></div></div><div class="content-body"><ul class="bullets"><li>Cut every &#39;It&#39;s worth noting that...&#39; and &#39;In conclusion&#39;</li><li>Remove &#39;leverage&#39;, &#39;unlock&#39;, &#39;transformative&#39;, &#39;revolutionary&#39;, &#39;unprecedented&#39;</li><li>Avoid the &#39;not X but Y&#39; construction (Claude overuses it)</li><li>Vary sentence length deliberately — Claude defaults to a metronomic rhythm</li><li>Add at least one specific concrete detail per paragraph</li></ul><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🚫  CUT THESE PHRASES BEFORE PUBLISHING</div><div class="callout-text">&#39;It&#39;s worth noting that...&#39;, &#39;In conclusion&#39;, &#39;leverage&#39;, &#39;unlock&#39;, &#39;transformative&#39;, &#39;revolutionary&#39;, &#39;unprecedented&#39;, &#39;in today&#39;s fast-paced world&#39;, &#39;navigate the landscape of&#39;. Plus the &#39;not X but Y&#39; construction. AI tells; cut hard.</div></div></div><p class="prose">AI-generated writing has tells. Knowing them is what separates writing that lands from writing that gets dismissed as &#39;this feels AI&#39;. The biggest tells: &#39;It&#39;s worth noting that...&#39;, &#39;In conclusion&#39;, &#39;leverage&#39;, &#39;unlock&#39;, &#39;transformative&#39;, &#39;revolutionary&#39;. Run an anti-slop pass on every Claude draft before publishing.</p><p class="prose">More subtle tells: the &#39;not X but Y&#39; construction (overused), metronomic sentence rhythm (vary length), abstract claims without concrete details (add a specific number, name, or example per paragraph).</p><h3 class="sub-h3">The 5-pass anti-slop review</h3><p class="sub-body">Before publishing any AI-assisted writing, run these five passes. Takes ~5 minutes per piece; the difference is between &#39;this feels AI&#39; and &#39;this reads as written&#39;.</p><ul class="bullets"><li>Pass 1 — cut the throat-clearing opener; start with the substantive sentence</li><li>Pass 2 — find and cut the hype words (&#39;transformative&#39;, &#39;unlock&#39;, &#39;leverage&#39;)</li><li>Pass 3 — vary sentence length deliberately — break up metronomic rhythm</li><li>Pass 4 — add one concrete specific (name, number, example) per paragraph</li><li>Pass 5 — read aloud; cut anything that sounds like a corporate AI assistant</li></ul></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Claude for Writing Editing and Tone Refinement as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">DRAFT FROM BRIEF</div><div class="prompt-text">Context: [...]. Task: write a [type of piece]. Format: [length, structure]. Audience: [who, what they care about]. Tone: [voice]. Draft it, then suggest 3 alternative openings I could pick from.</div></div><div class="prompt-card"><div class="prompt-label">EDITING PASS</div><div class="prompt-text">Edit this draft. Goals: tighter, clearer, less corporate. Cut 25%. Flag any place I&#39;m being unclear or hedging. Don&#39;t change my voice — keep my phrasing where it works.</div></div><div class="prompt-card"><div class="prompt-label">TONE MATCH</div><div class="prompt-text">Here are 3 examples of how I write [type]: [paste]. Now draft [new piece] in this voice. Don&#39;t make it sound more &#39;professional&#39; than the examples — match them exactly.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Claude for Writing Editing and Tone Refinement on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

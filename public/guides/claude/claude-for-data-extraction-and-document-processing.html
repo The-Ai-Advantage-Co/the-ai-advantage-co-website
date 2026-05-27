@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude for Data Extraction and Document Processing — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #C97040; --primary-l: #E08F5B; --primary-soft: #FBEEDE;
+  --accent1: #6B4226; --accent1-soft: #F4E8DC;
+  --accent2: #1F6B7A; --accent2-soft: #E0EEF1;
+  --page-bg: #FEF8F0; --sidebar-bg: #3C1E0A;
+  --card-bg: #FFFAF1; --hdr-bg: #FAEEDA; --border: #E5C8A5;
+  --ink: #3C1E0A; --body-text: #5B3A1F; --muted: #8A6240;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <div class="brand-name">Claude for Data Extraction and Document Processing</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Claude for Data Extraction and Document Processing?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Single-Document Extraction</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Batch Processing via API</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Contract Extraction Pattern</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Invoice Processing Pattern</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Scanned and Image-Based Documents</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Quality Control Loop</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Common Pitfalls</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <h1>Claude for Data Extraction and Document Processing</h1>
+      <div class="subtitle">Pulling structured data from PDFs, contracts, invoices, and unstructured documents</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Claude for Data Extraction and Document Processing?</div><div class="section-desc">Pulling structured data from PDFs, contracts, invoices, and unstructured documents</div></div></div><div class="content-body"><p class="prose">Document processing is one of Claude&#39;s strongest workflows — pulling structured data from unstructured documents (PDFs, contracts, invoices, forms, articles) reliably and at scale. Combined with vision (now at 3.75MP resolution in Opus 4.7), Claude handles scanned documents, screenshots, and complex layouts that previously required OCR pipelines.</p><p class="prose">Best for: finance teams processing invoices, legal teams extracting contract terms, ops teams handling intake forms, and any workflow where unstructured input needs to become structured output.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">📄</div><div class="feat-title">Multi-Format Native</div><div class="feat-desc">PDFs (multi-page, with images and tables), Word, Excel, scanned documents, web pages.</div></div><div class="feat-card"><div class="feat-icon">👁️</div><div class="feat-title">3.75 MP Vision</div><div class="feat-desc">Opus 4.7 image resolution makes scanned documents and dense forms reliably extractable.</div></div><div class="feat-card"><div class="feat-icon">⚙️</div><div class="feat-title">Batch via API</div><div class="feat-desc">Process thousands of documents per day; Sonnet for most, Opus for ambiguous cases.</div></div><div class="feat-card"><div class="feat-icon">✅</div><div class="feat-title">Confidence-Flagged</div><div class="feat-desc">Built-in confidence reporting — low-confidence extractions route to human review.</div></div></div><div class="deco-band">✨  Unstructured documents → structured data, reliably and at scale  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📄  2026 UPDATE — VISION AT 3.75 MP</div><div class="callout-text">Opus 4.7 brought a 3× jump in image resolution to 2,576px (3.75 megapixels). This is the upgrade that makes vision genuinely reliable for professional document work — receipts, schematics, dashboards, dense forms, and scanned multi-column documents now extract correctly where they previously failed.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Single-Document Extraction</div><div class="section-desc">The simplest pattern</div></div></div><div class="content-body"><p class="prose">Upload the document. Tell Claude exactly which fields you want. Specify the output format (JSON, CSV row, structured markdown). Claude returns the extracted data plus its confidence on each field.</p><ul class="bullets"><li>Specify every field you want, with the type (date, currency, string)</li><li>Provide an example output if the format is fiddly</li><li>Ask Claude to flag any field where it&#39;s not confident</li><li>For tables: &#39;Extract the line items as a JSON array of {description, qty, unit_price, total}&#39;</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Specify every field with its type — &#39;invoice_date as ISO 8601 string&#39;</li><li>Provide an example output if the format is fiddly</li><li>Ask for confidence flag per field — low-confidence routes to review</li><li>Request verbatim text alongside extracted value for audit</li><li>For tables: explicit JSON array structure with named keys</li><li>Test on 50 documents before scaling</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Vague field specs (&#39;extract the relevant fields&#39;)</li><li>Asking for free-text output when you need structured data</li><li>Skipping confidence flags — silent errors compound at scale</li><li>Trusting extraction on first 10 examples — test breadth</li><li>Forgetting edge cases (negative values, foreign characters, missing data)</li><li>Production deployment without manual sample review of outputs</li></ul></div></div><p class="prose">Single-document extraction is the foundational pattern — upload the document, name the fields, get structured output. The quality differentiator is field specification. Vague specs (&#39;extract the relevant fields&#39;) produce inconsistent output. Precise specs (&#39;extract supplier_name as string, invoice_date as ISO 8601, line_items as JSON array of {description, quantity, unit_price, total}&#39;) produce reliably structured output.</p><p class="prose">Always ask Claude to flag low-confidence extractions. The pattern: &#39;For any field where confidence is below 95%, return null and add a note explaining why.&#39; This turns silent extraction errors into explicit human-review queues.</p></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Batch Processing via API</div><div class="section-desc">Scaling beyond one document</div></div></div><div class="content-body"><p class="prose">For more than ~10 documents, build a small pipeline: call the Anthropic API with each document, get structured output back, write to your database. Sonnet 4.6 is the right model for most batch extraction (cost-effective, fast, accurate enough). Escalate to Opus 4.7 for ambiguous documents.</p><ul class="bullets"><li>Use the response_format parameter for strict JSON output</li><li>Process in parallel — Anthropic&#39;s API handles concurrent calls well</li><li>Cache responses for identical inputs to control costs</li><li>Always log Claude&#39;s confidence flags for human review of low-confidence cases</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Validate prompt on 50 documents manually</div><div class="step-desc">Compare to ground truth. Count errors by field type. Iterate prompt to drive error rate below 5%.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Build the pipeline</div><div class="step-desc">Sonnet 4.6 for most documents. Route ambiguous cases (low confidence, unusual patterns) to Opus 4.7.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Add confidence routing</div><div class="step-desc">Outputs above 95% confidence → straight to DB. Below → human review queue.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Monitor weekly</div><div class="step-desc">Sample 50 random outputs each week. Verify against ground truth. Watch for drift.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Iterate continuously</div><div class="step-desc">Drift happens. Source documents change. Quarterly prompt review keeps quality stable.</div></div></div></div></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Contract Extraction Pattern</div><div class="section-desc">Pulling structured terms from legal docs</div></div></div><div class="content-body"><ul class="bullets"><li>Specify clauses to extract: parties, effective date, termination, payment terms, jurisdiction</li><li>Include the actual clause text alongside the extracted value (for audit)</li><li>Flag any clause that uses non-standard language</li><li>Compare against a clause library to catch unusual terms</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📜</div><div class="feat-title">Standard Clauses</div><div class="feat-desc">Parties, dates, term length, governing law, currency. Always present, low-risk extraction.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">⚠️</div><div class="feat-title">Risk Clauses</div><div class="feat-desc">Termination notice, liability caps, IP assignment, indemnification. Flag non-standard language.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">💰</div><div class="feat-title">Financial Terms</div><div class="feat-desc">Pricing, payment schedule, escalation clauses, late fees. Cross-check internal consistency.</div></div></div><h3 class="sub-h3">The contract extraction prompt template</h3><p class="sub-body">Strong contract extraction prompts share a structure: explicit field list, verbatim text alongside extracted value, comparison against standard clause language, and non-standard flagging.</p><ul class="bullets"><li>&#39;Extract from this contract as JSON: parties (array), effective_date (ISO), term_length_months (integer)...&#39;</li><li>&#39;For each field, include the verbatim clause text in a quote_text field.&#39;</li><li>&#39;Compare each risk clause to the standard language in [comparator]. Flag deviations.&#39;</li><li>&#39;Return as nested JSON: {standard_fields: {...}, risk_clauses: {...}, financial_terms: {...}, flags: [...]}.&#39;</li></ul></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Invoice Processing Pattern</div><div class="section-desc">AP automation with Claude</div></div></div><div class="content-body"><ul class="bullets"><li>Extract: supplier, invoice number, invoice date, line items, totals, tax</li><li>Cross-check: line items total matches header total</li><li>Flag: any line where description is unclear or quantity is unusual</li><li>Output: ready to import into your AP system (JSON or CSV)</li></ul><table class="ref-table"><thead><tr><th>Field</th><th>Type</th><th>Validation</th></tr></thead><tbody><tr><td>supplier_name</td><td>string</td><td>Match against supplier master list; flag new suppliers</td></tr><tr><td>invoice_number</td><td>string</td><td>Check for duplicates in DB</td></tr><tr><td>invoice_date</td><td>ISO 8601</td><td>Within reasonable window (not future, not &gt;1 year past)</td></tr><tr><td>due_date</td><td>ISO 8601</td><td>After invoice_date; consistent with payment terms</td></tr><tr><td>line_items</td><td>array</td><td>Each: description, quantity, unit_price, total. Sum to subtotal.</td></tr><tr><td>subtotal / tax / total</td><td>decimal</td><td>subtotal + tax = total (within rounding tolerance)</td></tr><tr><td>confidence_flag</td><td>string</td><td>null if all fields &gt;95%; otherwise list of low-confidence fields</td></tr></tbody></table></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Scanned and Image-Based Documents</div><div class="section-desc">When the doc is a picture, not a PDF</div></div></div><div class="content-body"><p class="prose">With Opus 4.7&#39;s 3.75MP vision, scanned PDFs work as well as native PDFs in most cases. For very dense or poor-quality scans, pre-process with a basic OCR step and pass both the image and the OCR text to Claude.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📸  MULTIMODAL + TEXT COMBINED</div><div class="callout-text">For tricky scans, send both the image and a basic OCR-extracted text. Claude can cross-check the two — flagging where OCR got something wrong by looking at the image.</div></div></div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📸  THE VISION + OCR COMBINED PATTERN</div><div class="callout-text">For tricky scans, pass both the image and a basic OCR-extracted text. Claude cross-checks the two — flagging where OCR got something wrong by looking at the image. Materially higher accuracy than vision-only or OCR-only on degraded documents.</div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Quality Control Loop</div><div class="section-desc">What to check before trusting output at scale</div></div></div><div class="content-body"><ul class="bullets"><li>Sample 50 documents manually for the first run</li><li>Compare Claude&#39;s extraction to ground truth, count errors by field type</li><li>Iterate the prompt — more specific instructions on the fields that erred</li><li>Once error rate is acceptable, route only low-confidence cases to human review</li></ul></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Common Pitfalls</div><div class="section-desc">What goes wrong in production</div></div></div><div class="content-body"><ul class="bullets"><li>Unspecified format — Claude invents reasonable structure that doesn&#39;t match your DB</li><li>No confidence flags — silent errors compound at scale</li><li>Single-shot prompting — break complex extractions into 2-3 staged prompts</li><li>Vision without text — for poor scans, combine vision and OCR for best accuracy</li></ul></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Claude for Data Extraction and Document Processing as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">INVOICE EXTRACTION</div><div class="prompt-text">Extract from this invoice as JSON: supplier_name, invoice_number, invoice_date (ISO), due_date (ISO), line_items (array of description, quantity, unit_price, total), subtotal, tax, total. Flag any field with confidence below 95% and explain why.</div></div><div class="prompt-card"><div class="prompt-label">CONTRACT CLAUSE EXTRACTION</div><div class="prompt-text">Extract from this contract: parties, effective_date, term_length, auto_renewal_clause (yes/no + verbatim text), termination_notice_period, governing_law. For each, include the clause text. Flag any term that uses non-standard language.</div></div><div class="prompt-card"><div class="prompt-label">BATCH QUALITY CHECK</div><div class="prompt-text">Here are 10 Claude-extracted invoices and the human-corrected versions. Identify the patterns where Claude erred. Suggest specific prompt changes to reduce those errors on the next batch.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Claude for Data Extraction and Document Processing on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

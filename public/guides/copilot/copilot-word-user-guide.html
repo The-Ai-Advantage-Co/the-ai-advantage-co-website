@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Copilot in Word | The AI Advantage Co</title>
+<style>
+  :root{
+    --purple:#5E17EB; --purple-l:#8B5CF6; --purple-soft:#F0EAFF;
+    --blue:#0078D4;   --blue-l:#60A5FA;   --blue-soft:#EFF6FF;
+    --orange:#EA6C1A; --orange-l:#F97316; --orange-soft:#FFF7ED;
+    --yellow:#CA8A04; --yellow-soft:#FEFCE8;
+    --page:#EBF1FF;   --sidebar:#1E1456;
+    --ink:#1E1456;    --mid:#3D3080;       --muted:#7264A8;
+    --card:#F7F4FF;   --hdr:#EDE8FF;      --border:#D0C5F5;
+    --white:#fff;
+    --green:#1B6B3A;  --green-bg:#E6F4EC;
+    --warn:#B45309;   --warn-bg:#FFF8E1;
+    --red:#C0392B;    --red-bg:#FEF0EE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--page);color:var(--ink);}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+
+  .sidebar{background:var(--sidebar);color:#C8B8FF;position:sticky;top:0;height:100vh;overflow-y:auto;padding:0 0 40px;}
+  .sidebar-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:8px;}
+  .sidebar-logo .brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--blue-l);text-transform:uppercase;}
+  .sidebar-logo .guide-name{font-size:14px;font-weight:600;color:#fff;margin-top:4px;line-height:1.3;}
+  .nav-section{padding:4px 0;}
+  .nav-link{display:block;padding:8px 20px;font-size:13px;color:#A78BFA;cursor:pointer;border-left:3px solid transparent;transition:all .2s;}
+  .nav-link:hover{color:#fff;background:rgba(255,255,255,.07);}
+  .nav-link.active{color:#fff;border-left-color:var(--blue-l);background:rgba(96,165,250,.12);}
+  .nav-num{display:inline-block;width:20px;font-size:11px;opacity:.6;}
+
+  .content{padding:0 40px 80px;max-width:900px;}
+
+  .banner{background:linear-gradient(135deg,#1E1456 0%,#002D6B 60%,#1E1456 100%);color:#fff;padding:56px 48px 48px;position:relative;overflow:hidden;margin:0 -40px 40px;}
+  .banner::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='30' r='2' fill='%2360A5FA' opacity='.5'/%3E%3Ccircle cx='80' cy='10' r='1.5' fill='%2393C5FD' opacity='.4'/%3E%3Ccircle cx='160' cy='50' r='2.5' fill='%2360A5FA' opacity='.35'/%3E%3Ccircle cx='40' cy='80' r='1' fill='%23BAE6FD' opacity='.5'/%3E%3Ccircle cx='130' cy='20' r='1.5' fill='%2393C5FD' opacity='.45'/%3E%3Ccircle cx='180' cy='90' r='2' fill='%2360A5FA' opacity='.3'/%3E%3C/svg%3E") repeat;}
+  .banner-inner{position:relative;z-index:1;}
+  .banner-badge{display:inline-block;background:rgba(0,120,212,.25);border:1px solid rgba(96,165,250,.4);color:#93C5FD;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:20px;}
+  .banner h1{font-size:38px;font-weight:800;line-height:1.15;margin-bottom:12px;}
+  .banner h1 span{color:#93C5FD;}
+  .banner p{font-size:16px;color:#BAE6FD;max-width:580px;line-height:1.6;}
+
+  .section-card{background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 2px 8px rgba(94,23,235,.06);}
+  .section-header{background:var(--hdr);padding:18px 24px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);}
+  .section-num{background:var(--purple);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .section-title{font-size:19px;font-weight:700;color:var(--ink);}
+  .section-subtitle{font-size:13px;color:var(--muted);margin-top:2px;}
+  .section-body{padding:28px 24px;}
+
+  p.body-text{font-size:15px;line-height:1.7;color:var(--mid);margin-bottom:16px;}
+  h3.sub{font-size:16px;font-weight:700;color:var(--ink);margin:24px 0 10px;}
+  ul.bullet{padding-left:20px;margin-bottom:16px;}
+  ul.bullet li{font-size:14.5px;color:var(--mid);line-height:1.65;margin-bottom:6px;}
+
+  .callout{display:flex;gap:0;border-radius:8px;overflow:hidden;margin-bottom:16px;}
+  .callout-bar{width:5px;flex-shrink:0;}
+  .callout-body{padding:14px 18px;flex:1;}
+  .callout-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+  .callout-text{font-size:14px;line-height:1.6;}
+  .callout.tip .callout-bar{background:var(--green);}
+  .callout.tip .callout-body{background:var(--green-bg);}
+  .callout.tip .callout-label{color:var(--green);}
+  .callout.tip .callout-text{color:#1a3a22;}
+  .callout.info .callout-bar{background:var(--blue);}
+  .callout.info .callout-body{background:var(--blue-soft);}
+  .callout.info .callout-label{color:var(--blue);}
+  .callout.info .callout-text{color:#0d2a47;}
+  .callout.warn .callout-bar{background:var(--warn);}
+  .callout.warn .callout-body{background:var(--warn-bg);}
+  .callout.warn .callout-label{color:var(--warn);}
+  .callout.warn .callout-text{color:#3d2200;}
+  .callout.copilot .callout-bar{background:var(--purple);}
+  .callout.copilot .callout-body{background:var(--purple-soft);}
+  .callout.copilot .callout-label{color:var(--purple);}
+  .callout.copilot .callout-text{color:#2a0a6e;}
+
+  .card-grid{display:grid;gap:14px;margin-bottom:20px;}
+  .card-grid.col2{grid-template-columns:1fr 1fr;}
+  .feature-card{border-radius:10px;padding:18px;border:1px solid var(--border);}
+  .feature-card .card-icon{font-size:22px;margin-bottom:8px;}
+  .feature-card .card-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+  .feature-card .card-desc{font-size:13px;color:var(--mid);line-height:1.55;}
+  .card-purple{background:var(--card);border-top:3px solid var(--purple);}
+  .card-blue{background:var(--blue-soft);border-top:3px solid var(--blue);}
+  .card-orange{background:var(--orange-soft);border-top:3px solid var(--orange);}
+  .card-yellow{background:var(--yellow-soft);border-top:3px solid var(--yellow);}
+
+  .step-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+  .step-item{display:flex;gap:14px;align-items:flex-start;}
+  .step-num{background:var(--purple);color:#fff;font-size:13px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .step-body .step-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+  .step-body .step-desc{font-size:14px;color:var(--mid);line-height:1.6;}
+
+  /* Draft panel — unique to Word guide */
+  .draft-panel{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:20px;}
+  .draft-prompt{background:var(--sidebar);padding:14px 18px;}
+  .draft-prompt-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--purple-l);margin-bottom:6px;}
+  .draft-prompt-text{font-size:14px;color:#fff;font-style:italic;line-height:1.5;}
+  .draft-output{background:var(--white);padding:18px;}
+  .draft-output-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+  .draft-output-text{font-size:14px;color:var(--mid);line-height:1.75;}
+
+  /* Before/After */
+  .before-after{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .before-box,.after-box{border-radius:8px;padding:18px;}
+  .before-box{background:#FFF5F5;border:1px solid #FCA5A5;border-top:3px solid var(--red);}
+  .after-box{background:var(--green-bg);border:1px solid #86EFAC;border-top:3px solid var(--green);}
+  .before-box .ba-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--red);text-transform:uppercase;margin-bottom:8px;}
+  .after-box .ba-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green);text-transform:uppercase;margin-bottom:8px;}
+  .before-box .ba-text{font-size:13.5px;color:#5C2020;line-height:1.65;}
+  .after-box .ba-text{font-size:13.5px;color:#1a3a22;line-height:1.65;}
+
+  .ref-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px;}
+  .ref-table th{background:var(--sidebar);color:var(--purple-l);font-size:12px;font-weight:700;padding:10px 14px;text-align:left;letter-spacing:.04em;}
+  .ref-table td{padding:10px 14px;color:var(--mid);border:1px solid var(--border);}
+  .ref-table tr:nth-child(even) td{background:var(--card);}
+  .ref-table tr:nth-child(odd) td{background:var(--white);}
+
+  .do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .do-box,.avoid-box{border-radius:8px;padding:18px;}
+  .do-box{background:var(--green-bg);border-top:3px solid var(--green);}
+  .avoid-box{background:var(--red-bg);border-top:3px solid var(--red);}
+  .do-box .box-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green);text-transform:uppercase;margin-bottom:10px;}
+  .avoid-box .box-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--red);text-transform:uppercase;margin-bottom:10px;}
+  .do-box li,.avoid-box li{font-size:14px;color:var(--mid);line-height:1.6;margin-bottom:6px;list-style:none;padding-left:14px;position:relative;}
+  .do-box li::before{content:'•';position:absolute;left:0;color:var(--green);}
+  .avoid-box li::before{content:'•';position:absolute;left:0;color:var(--red);}
+
+  .trouble-item{border:1px solid var(--border);border-left:4px solid var(--purple);border-radius:8px;overflow:hidden;margin-bottom:12px;}
+  .trouble-q{background:var(--hdr);padding:12px 16px;font-size:15px;font-weight:700;color:var(--ink);}
+  .trouble-a{background:var(--white);padding:14px 16px;font-size:14px;color:var(--mid);line-height:1.6;}
+
+  .prompt-tabs{margin-bottom:20px;}
+  .tab-btns{display:flex;gap:8px;margin-bottom:14px;}
+  .tab-btn{padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--muted);transition:all .2s;}
+  .tab-btn.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .prompt-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px;}
+  .prompt-label{background:var(--sidebar);padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--purple-l);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;}
+  .copy-btn{background:transparent;border:1px solid rgba(139,92,246,.4);color:var(--purple-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;transition:all .2s;}
+  .copy-btn:hover{background:var(--purple);color:#fff;}
+  .prompt-text{background:var(--white);padding:14px 16px;font-size:14px;color:var(--mid);line-height:1.6;font-style:italic;}
+
+  .mockup{background:#1A1A2E;border-radius:12px;padding:24px;margin-bottom:20px;}
+  .mockup-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-l);margin-bottom:16px;}
+  .word-mock{display:grid;grid-template-columns:1fr 340px;gap:16px;}
+  .mock-doc{background:#fff;border-radius:8px;padding:24px;min-height:320px;}
+  .mock-doc-ribbon{background:#002D6B;padding:6px 12px;border-radius:6px 6px 0 0;margin:-24px -24px 20px;display:flex;gap:16px;align-items:center;}
+  .mock-ribbon-tab{font-size:11px;color:rgba(255,255,255,.6);padding:4px 8px;}
+  .mock-ribbon-tab.active-tab{color:#fff;border-bottom:2px solid #93C5FD;}
+  .mock-doc-body{font-size:13px;color:#1a1a2e;line-height:1.75;}
+  .mock-doc-title{font-size:16px;font-weight:700;color:#002D6B;margin-bottom:12px;}
+  .mock-doc-cursor{display:inline-block;width:2px;height:16px;background:var(--blue);animation:blink 1s infinite;vertical-align:middle;margin-left:2px;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+  .mock-side-panel{background:#0F0F1A;border-radius:8px;overflow:hidden;}
+  .mock-panel-hdr{background:#1E1456;padding:10px 14px;font-size:12px;font-weight:700;color:var(--blue-l);border-bottom:1px solid rgba(96,165,250,.2);display:flex;align-items:center;gap:8px;}
+  .mock-panel-body{padding:14px;}
+  .mock-draft-prompt{background:rgba(94,23,235,.15);border:1px solid rgba(139,92,246,.3);border-radius:6px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#C8B8FF;line-height:1.5;font-style:italic;}
+  .mock-draft-result{font-size:12px;color:#BAE6FD;line-height:1.65;margin-bottom:12px;}
+  .mock-action-row{display:flex;gap:8px;margin-top:8px;}
+  .mock-action-btn{background:rgba(0,120,212,.2);border:1px solid rgba(96,165,250,.3);color:#93C5FD;font-size:11px;padding:5px 10px;border-radius:4px;}
+
+  .roadmap{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+  .roadmap-step{border-radius:10px;padding:20px 16px;border:1px solid var(--border);}
+  .roadmap-num{font-size:32px;font-weight:800;margin-bottom:8px;}
+  .roadmap-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .roadmap-desc{font-size:13px;color:var(--mid);line-height:1.55;}
+  .rm-purple{background:var(--card);border-top:3px solid var(--purple);} .rm-purple .roadmap-num{color:var(--purple);}
+  .rm-orange{background:var(--orange-soft);border-top:3px solid var(--orange);} .rm-orange .roadmap-num{color:var(--orange);}
+  .rm-blue{background:var(--blue-soft);border-top:3px solid var(--blue);} .rm-blue .roadmap-num{color:var(--blue);}
+  .rm-yellow{background:var(--yellow-soft);border-top:3px solid var(--yellow);} .rm-yellow .roadmap-num{color:var(--yellow);}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">The AI Advantage Co</div>
+    <div class="guide-name">Copilot in Word</div>
+  </div>
+  <nav class="nav-section">
+    <a class="nav-link active" onclick="scrollTo('s1')"><span class="nav-num">01</span>What is Copilot in Word?</a>
+    <a class="nav-link" onclick="scrollTo('s2')"><span class="nav-num">02</span>Draft with Copilot</a>
+    <a class="nav-link" onclick="scrollTo('s3')"><span class="nav-num">03</span>Rewrite & Refine</a>
+    <a class="nav-link" onclick="scrollTo('s4')"><span class="nav-num">04</span>Summarise & Understand</a>
+    <a class="nav-link" onclick="scrollTo('s5')"><span class="nav-num">05</span>Transform & Restructure</a>
+    <a class="nav-link" onclick="scrollTo('s6')"><span class="nav-num">06</span>Reference & Extend</a>
+    <a class="nav-link" onclick="scrollTo('s7')"><span class="nav-num">07</span>Advanced Techniques</a>
+    <a class="nav-link" onclick="scrollTo('s8')"><span class="nav-num">08</span>Common Mistakes & Fixes</a>
+    <a class="nav-link" onclick="scrollTo('s9')"><span class="nav-num">09</span>Suggested Prompts</a>
+    <a class="nav-link" onclick="scrollTo('s10')"><span class="nav-num">10</span>See It In Action</a>
+    <a class="nav-link" onclick="scrollTo('s11')"><span class="nav-num">11</span>Your Roadmap</a>
+  </nav>
+</aside>
+
+<main class="content">
+
+  <div class="banner">
+    <div class="banner-inner">
+      <div class="banner-badge">Microsoft Copilot · Word</div>
+      <h1>Copilot in <span>Word</span></h1>
+      <p>Draft documents from a prompt, rewrite for any audience, summarise long files, and transform your content — all without leaving Word.</p>
+    </div>
+  </div>
+
+  <!-- S1 -->
+  <div class="section-card" id="s1">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div><div class="section-title">What is Copilot in Word?</div><div class="section-subtitle">Your AI writing partner — built into every document</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot in Word is an AI writing assistant embedded directly in Microsoft Word. It can draft entire documents from a brief description, rewrite selected passages for clarity or tone, summarise long files into key points, and transform content into new structures — all from a simple text instruction.</p>
+      <p class="body-text">Unlike a standalone AI tool, Copilot in Word works <strong>inside your document</strong>. It sees what you're writing, can reference other files in your Microsoft 365 environment, and keeps your content in place — no copy-pasting between apps.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">✍️</div><div class="card-title">Draft from Scratch</div><div class="card-desc">Open a blank document and describe what you need. Copilot generates a full draft — with structure, headings, and paragraphs — ready for you to refine.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">🔁</div><div class="card-title">Rewrite & Improve</div><div class="card-desc">Select any text and ask Copilot to rewrite it — make it shorter, change the tone, simplify the language, or adjust for a different audience.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">📖</div><div class="card-title">Summarise & Understand</div><div class="card-desc">Open a long document and ask Copilot to summarise it, extract key points, or answer specific questions about the content — in seconds.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">🔀</div><div class="card-title">Transform & Restructure</div><div class="card-desc">Convert prose to bullet points, turn notes into a report, restructure sections for better flow, or reformat content for a different document type.</div></div>
+      </div>
+      <div class="callout info">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">ℹ️ Where to Find Copilot in Word</div>
+          <div class="callout-text">Click the <strong>Copilot button (✨)</strong> in the Home ribbon to open the side panel, or press <strong>Alt + I</strong> anywhere in the document body to open the inline "Draft with Copilot" prompt. Both modes are available — the panel for broader tasks, the inline prompt for generating content at a specific location.</div>
+        </div>
+      </div>
+      <div class="callout copilot">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">🤖 2026 Update — Agent Mode in Word is GA</div>
+          <div class="callout-text">Copilot's agentic capabilities went generally available across Word, Excel, and PowerPoint in April 2026. In Word that means Copilot can take multi-step actions inside a document on your behalf — pulling in a Reference doc, restructuring the entire piece against a brief, applying a tone shift across all sections, then summarising what it changed for you to review. Look for the Agent toggle at the top of the Copilot panel.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section-card" id="s2">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div><div class="section-title">Draft with Copilot</div><div class="section-subtitle">From a blank page to a structured first draft in seconds</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The "Draft with Copilot" experience is the fastest way to overcome a blank page. You describe what you need — the topic, audience, tone, and approximate length — and Copilot generates a complete structured draft. The draft is a starting point, not a finished product; your job is to shape it from there.</p>
+      <div class="step-list">
+        <div class="step-item"><div class="step-num">1</div><div class="step-body"><div class="step-title">Open a new or existing Word document</div><div class="step-desc">Drafting works best in a new document. You can also use it to add a new section to an existing document by placing your cursor where you want the draft to appear.</div></div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-body"><div class="step-title">Press Alt + I or click the inline Copilot icon</div><div class="step-desc">A prompt box appears in the document body. This is the "Draft with Copilot" input — type your instruction here, not in the side panel.</div></div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-body"><div class="step-title">Describe what you want Copilot to write</div><div class="step-desc">Be specific: include the topic, the purpose, the audience, and the tone. Example: "Write an executive summary of our Q3 sales performance for senior leadership. Highlight top-line results, one key challenge, and our Q4 focus. Professional tone, 200 words."</div></div></div>
+        <div class="step-item"><div class="step-num">4</div><div class="step-body"><div class="step-title">Review the draft and choose Keep, Regenerate, or Refine</div><div class="step-desc">Copilot produces a draft with options: Keep it (accepts the draft into the document), Regenerate (try again with the same prompt), or type a refinement instruction like "Make it shorter" or "Add a section on risks".</div></div></div>
+        <div class="step-item"><div class="step-num">5</div><div class="step-body"><div class="step-title">Edit the draft as your own work</div><div class="step-desc">The accepted draft is now your document. Edit it like any Word content — change words, restructure paragraphs, add your own knowledge and context. Copilot gives you the structure; you give it the substance.</div></div></div>
+      </div>
+      <h3 class="sub">Anatomy of a Good Drafting Prompt</h3>
+      <div class="draft-panel">
+        <div class="draft-prompt">
+          <div class="draft-prompt-label">Example prompt — Draft with Copilot</div>
+          <div class="draft-prompt-text">"Write a 300-word project status update for our IT stakeholders about the CRM migration project. Include: current phase (data migration, 65% complete), a risk flagged this week (data mapping discrepancy in the legacy system), and next milestone (UAT begins 15 November). Tone: professional and factual."</div>
+        </div>
+        <div class="draft-output">
+          <div class="draft-output-label">Why this prompt works</div>
+          <div class="draft-output-text">It specifies <strong>who it's for</strong> (IT stakeholders), <strong>what to include</strong> (phase, risk, next milestone), <strong>specific facts to use</strong> (65%, discrepancy, 15 Nov), <strong>length</strong> (300 words), and <strong>tone</strong> (professional, factual). Copilot fills the structure; your facts prevent hallucination.</div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">💡 Give Copilot Your Facts</div>
+          <div class="callout-text">Copilot is a structuring and writing engine, not a data source. Always supply the specific numbers, names, dates, and details in your prompt. Copilot will write around them accurately — but if you leave them out, it may invent plausible-sounding but incorrect content.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section-card" id="s3">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div><div class="section-title">Rewrite & Refine</div><div class="section-subtitle">Improve existing text for clarity, tone, and audience</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Once you have text in your document — whether drafted by Copilot or written yourself — Copilot can help you improve it. Select the text you want to work on, open the Copilot panel, and ask for a rewrite. This is one of the most practical everyday uses of Copilot in Word.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">📏</div><div class="card-title">Change Length</div><div class="card-desc">"Make this shorter — cut to the key point in 2 sentences." Or "Expand this paragraph with more detail about the technical implementation."</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">🎯</div><div class="card-title">Adjust Tone</div><div class="card-desc">"Rewrite this in a more formal tone for an executive audience." Or "Make this friendlier and less jargon-heavy — it's for a non-technical team."</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">✂️</div><div class="card-title">Simplify Language</div><div class="card-desc">"Rewrite this so a non-expert can understand it. Remove all technical acronyms and explain concepts in plain English."</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">🌍</div><div class="card-title">Adapt for Audience</div><div class="card-desc">"Rewrite this for a client audience rather than an internal one. Remove internal references and focus on value and outcomes."</div></div>
+      </div>
+      <h3 class="sub">Before & After: Copilot Rewrite in Action</h3>
+      <div class="before-after">
+        <div class="before-box">
+          <div class="ba-label">Before — rough draft</div>
+          <div class="ba-text">The implementation of the new system has encountered several issues related to legacy data compatibility which has caused delays to the go-live date and stakeholders have been informed that a revised timeline will be communicated at the next steering committee meeting which is scheduled for next week.</div>
+        </div>
+        <div class="after-box">
+          <div class="ba-label">After — Copilot rewrite ("concise, professional")</div>
+          <div class="ba-text">The go-live date has been delayed due to legacy data compatibility issues. Stakeholders have been notified; a revised timeline will be confirmed at next week's steering committee meeting.</div>
+        </div>
+      </div>
+      <h3 class="sub">How to Rewrite Selected Text</h3>
+      <div class="step-list">
+        <div class="step-item"><div class="step-num">1</div><div class="step-body"><div class="step-title">Select the text you want to improve</div><div class="step-desc">Highlight any amount of text — a sentence, a paragraph, or a whole section. Copilot works on exactly what you select.</div></div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-body"><div class="step-title">Click the Copilot icon that appears near the selection</div><div class="step-desc">A small Copilot sparkle (✨) appears near the selected text. Click it to open a context menu with quick rewrite options: "Make it shorter", "Make it longer", "Rewrite".</div></div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-body"><div class="step-title">Choose a quick option or type a custom instruction</div><div class="step-desc">Quick options apply immediately. For a custom rewrite, choose "Rewrite" and type your specific instruction into the Copilot prompt box.</div></div></div>
+        <div class="step-item"><div class="step-num">4</div><div class="step-body"><div class="step-title">Accept, try again, or keep both versions</div><div class="step-desc">Copilot shows the rewrite alongside your original. Accept the rewrite to replace the original, or dismiss it to keep your own version. You can also ask for another attempt.</div></div></div>
+      </div>
+      <div class="callout copilot">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">✨ Copilot Tip: Iterate Don't Accept First</div>
+          <div class="callout-text">Don't feel obligated to accept the first rewrite. Type a follow-up instruction like "Good, but make the opening sentence punchier" or "Now remove the passive voice throughout". Copilot treats each instruction as a refinement of the previous one.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section-card" id="s4">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div><div class="section-title">Summarise & Understand</div><div class="section-subtitle">Get the key points from any document in seconds</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot can read and summarise any Word document — whether it's a lengthy report you need to brief others on, a contract you need to understand quickly, or a colleague's document you need to review. Open the Copilot side panel and ask directly about the document's content.</p>
+      <div class="callout info">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">ℹ️ How to Open the Copilot Side Panel</div>
+          <div class="callout-text">Click the <strong>Copilot button (✨)</strong> in the Home ribbon (not the inline draft icon). The panel opens on the right side of the document. This panel mode is best for summarising and asking questions — it can read the whole document, not just the section near your cursor.</div>
+        </div>
+      </div>
+      <h3 class="sub">What to Ask in the Copilot Panel</h3>
+      <table class="ref-table">
+        <thead><tr><th>Ask Copilot</th><th>Best Use Case</th></tr></thead>
+        <tbody>
+          <tr><td>"Summarise this document in 5 bullet points"</td><td>Creating a briefing from a long report</td></tr>
+          <tr><td>"What are the key recommendations in this document?"</td><td>Extracting actionable content from strategy or review docs</td></tr>
+          <tr><td>"What obligations does this document place on [party]?"</td><td>Quick contract or policy review</td></tr>
+          <tr><td>"List all the dates and deadlines mentioned in this document"</td><td>Project plans, proposals, or SLAs</td></tr>
+          <tr><td>"What risks or concerns are raised in this document?"</td><td>Risk reviews, board papers, audit reports</td></tr>
+          <tr><td>"Write a 3-sentence executive summary of this document"</td><td>Preparing a covering note or email intro</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">⚠️ Always Verify for Important Documents</div>
+          <div class="callout-text">Copilot's summaries are reliable for general content, but for legal, financial, or compliance documents — always verify the key points against the original before acting on them. Copilot can miss nuance, especially in densely structured contracts.</div>
+        </div>
+      </div>
+      <h3 class="sub">Summarise for Others</h3>
+      <p class="body-text">Use Copilot's summary output to communicate with colleagues who don't have time to read the full document. Ask Copilot to "write an email summarising this document for my team" or "produce talking points I can use in a 5-minute briefing on this report". The content stays in the side panel — copy and paste it into the channel or email of your choice.</p>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="section-card" id="s5">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div><div class="section-title">Transform & Restructure</div><div class="section-subtitle">Convert, reformat, and reshape your content</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot in Word isn't limited to writing and rewriting — it can change the <em>form</em> of your content. Convert prose to bullet points for a slide deck, turn a set of notes into a structured report, or restructure a document's flow for a different audience. These transformations save hours of reformatting work.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">📄→📋</div><div class="card-title">Prose to Bullets</div><div class="card-desc">Select a dense paragraph and ask: "Convert this to a bullet list with one point per key idea." Ideal when the content needs to go into a presentation or briefing document.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">📋→📄</div><div class="card-title">Notes to Report</div><div class="card-desc">Paste in rough meeting notes or a brain dump and ask: "Turn these notes into a structured report with an introduction, key findings, and next steps."</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">🔀</div><div class="card-title">Restructure for Flow</div><div class="card-desc">"Reorganise this document so the recommendations come first, followed by the supporting evidence." Copilot rewrites the structure while keeping your content.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">📝→📊</div><div class="card-title">Add a Table</div><div class="card-desc">"Convert this comparison into a table with the options as rows and the criteria as columns." Copilot turns prose comparisons into clean structured tables.</div></div>
+      </div>
+      <h3 class="sub">Common Transformation Prompts</h3>
+      <table class="ref-table">
+        <thead><tr><th>Transform</th><th>Prompt to Use</th></tr></thead>
+        <tbody>
+          <tr><td>Prose → bullet list</td><td>"Convert this to a bulleted list. One bullet per key idea. Keep it concise."</td></tr>
+          <tr><td>Bullets → flowing paragraph</td><td>"Turn these bullet points into a well-written paragraph for a formal report."</td></tr>
+          <tr><td>Notes → structured document</td><td>"Organise these notes into a report with headings: Background, Key Points, Recommendations."</td></tr>
+          <tr><td>Long section → short summary</td><td>"Condense this section to a 3-sentence summary without losing the key message."</td></tr>
+          <tr><td>Internal doc → client-facing</td><td>"Rewrite this removing all internal references. Audience: external client. Focus on outcomes."</td></tr>
+          <tr><td>Comparison → table</td><td>"Convert this comparison into a table. Rows: options. Columns: cost, timeline, risk."</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="section-card" id="s6">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div><div class="section-title">Reference & Extend</div><div class="section-subtitle">Bring in other M365 content to enrich your document</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot in Word can draw on other Microsoft 365 content when generating or extending your document. Using the <strong>/file</strong> reference in the Draft with Copilot prompt, you can ask Copilot to base its draft on a specific document, email, or meeting transcript stored in your M365 environment.</p>
+      <div class="callout info">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">ℹ️ How to Reference Another File</div>
+          <div class="callout-text">In the "Draft with Copilot" prompt box, type <strong>/</strong> and then start typing the file name. A picker will appear showing recent and relevant files from your OneDrive and SharePoint. Select the file you want Copilot to reference when drafting.</div>
+        </div>
+      </div>
+      <h3 class="sub">Reference Use Cases</h3>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">📎</div><div class="card-title">Draft from a Brief</div><div class="card-desc">Reference a project brief or requirements doc: "Draft a proposal based on /[Project Brief]. Structure it as: Executive Summary, Approach, Timeline, Budget."</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">📧</div><div class="card-title">Expand from Email Notes</div><div class="card-desc">Reference an email or Teams chat summary: "Using /[Meeting Summary], write a formal report of the decisions made and next steps." Saves manual transcription.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">📋</div><div class="card-title">Compare Documents</div><div class="card-desc">"Summarise the key differences between /[Draft A] and /[Draft B]." Copilot reviews both and returns a structured comparison in the side panel.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">🔗</div><div class="card-title">Combine Sources</div><div class="card-desc">"Write an overview section drawing on /[Report 1] and /[Report 2]. Synthesise the main themes into a single coherent narrative."</div></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">⚠️ File Reference Limitations</div>
+          <div class="callout-text">Copilot can only reference files you have access to and that are stored in OneDrive or SharePoint (not local-only files). Very large files may be partially read. Always verify that Copilot has correctly interpreted the referenced content before accepting a draft based on it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="section-card" id="s7">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div><div class="section-title">Advanced Techniques</div><div class="section-subtitle">Multi-pass drafting, cross-app workflows, and style control</div></div>
+    </div>
+    <div class="section-body">
+      <h3 class="sub">Multi-Pass Drafting</h3>
+      <p class="body-text">Don't try to get a perfect document in one prompt. The most effective approach is to build in passes: structure first, content second, polish third. Each pass uses a different type of Copilot instruction.</p>
+      <div class="step-list">
+        <div class="step-item"><div class="step-num">1</div><div class="step-body"><div class="step-title">Pass 1 — Structure</div><div class="step-desc">"Create a document outline for a [document type] covering [topic]. Use headings only — no body content yet." Accept the structure, adjust the headings manually, then proceed.</div></div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-body"><div class="step-title">Pass 2 — Content</div><div class="step-desc">Place your cursor under each heading and use Draft with Copilot to fill in each section individually, providing specific facts and context for each.</div></div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-body"><div class="step-title">Pass 3 — Polish</div><div class="step-desc">Select the full document and ask Copilot: "Review this document for consistency of tone, remove any repetition, and tighten the language throughout."</div></div></div>
+      </div>
+      <h3 class="sub">Cross-App Workflows</h3>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">💬→📄</div><div class="card-title">Teams Recap → Word Report</div><div class="card-desc">Copy a Teams meeting recap into the Copilot prompt and ask: "Expand this into a formal meeting report with an introduction, decisions, and actions table."</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">📊→📄</div><div class="card-title">Excel Analysis → Word Narrative</div><div class="card-desc">Copy key figures from Excel, paste into Copilot's prompt: "Write a narrative around these numbers for the CFO's board report. Explain trends and implications."</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">📧→📄</div><div class="card-title">Email Thread → Policy Doc</div><div class="card-desc">Paste key decisions from an email chain: "Turn this email discussion into a formal policy statement with clear rules and rationale."</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">📄→📊</div><div class="card-title">Word Report → Slide Brief</div><div class="card-desc">"Summarise this report into 6 slide titles with 3 bullet points each. Format it so I can paste directly into PowerPoint."</div></div>
+      </div>
+      <h3 class="sub">Controlling Copilot's Style</h3>
+      <p class="body-text">Copilot responds to detailed style instructions. Include these modifiers in your prompts to control the output:</p>
+      <table class="ref-table">
+        <thead><tr><th>What You Want</th><th>Add to Your Prompt</th></tr></thead>
+        <tbody>
+          <tr><td>Active voice</td><td>"Use active voice throughout. No passive constructions."</td></tr>
+          <tr><td>Short sentences</td><td>"Keep sentences under 20 words. Break up complex ideas."</td></tr>
+          <tr><td>Specific format</td><td>"Use this structure: [Section A], [Section B], [Section C]."</td></tr>
+          <tr><td>No clichés</td><td>"Avoid business clichés like 'leverage', 'synergy', 'going forward'."</td></tr>
+          <tr><td>Match existing tone</td><td>"Match the tone of this sentence: [paste example]."</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="section-card" id="s8">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div><div class="section-title">Common Mistakes & Fixes</div><div class="section-subtitle">What goes wrong — and how to fix it</div></div>
+    </div>
+    <div class="section-body">
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "Copilot's draft doesn't include the specific facts I need"</div>
+        <div class="trouble-a">Copilot generates plausible content — it does not know your internal numbers, names, or project details unless you supply them. Always include specific facts in your prompt. Rule: anything that must be accurate must appear in your prompt. Copilot structures around your facts; it does not invent them reliably.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "The draft is too generic — it could be about anything"</div>
+        <div class="trouble-a">Your prompt lacked specificity. Add: the exact audience ("our IT steering committee"), the purpose ("to request budget approval"), the key message ("we need £120k for Phase 2"), and the tone ("formal, direct"). The more context you give, the more specific the output.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "Copilot keeps using the wrong tone"</div>
+        <div class="trouble-a">Paste an example of the tone you want: "Match the tone of this paragraph: [paste example]." Copilot calibrates to examples much better than abstract tone descriptors like "professional" or "engaging".</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "The /file reference isn't finding my document"</div>
+        <div class="trouble-a">Copilot's file picker only searches OneDrive and SharePoint — not local files saved to your desktop or Documents folder. Move the file to OneDrive first. Also ensure the file has been saved recently so it appears in the recency-sorted picker.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "I accepted a Copilot draft but now I can't undo specific parts"</div>
+        <div class="trouble-a">Use standard Ctrl+Z to undo the entire Copilot draft insertion. If you've already edited the draft, use Track Changes (Review → Track Changes) on future Copilot-assisted documents so you can clearly see and accept/reject Copilot contributions.</div>
+      </div>
+      <div class="do-avoid">
+        <div class="do-box">
+          <div class="box-label">✅ DO THIS</div>
+          <ul>
+            <li>Supply your own facts, numbers, and names in prompts</li>
+            <li>Use multi-pass drafting — structure, then content, then polish</li>
+            <li>Iterate with follow-up instructions rather than starting over</li>
+            <li>Paste tone examples instead of using vague descriptors</li>
+            <li>Review all AI-generated content before sharing or publishing</li>
+          </ul>
+        </div>
+        <div class="avoid-box">
+          <div class="box-label">❌ AVOID THIS</div>
+          <ul>
+            <li>Accepting the first draft without reading it carefully</li>
+            <li>Expecting Copilot to know your internal context automatically</li>
+            <li>Using vague prompts like "write a report about sales"</li>
+            <li>Sharing Copilot output without fact-checking numerical claims</li>
+            <li>Treating Copilot as a one-shot tool rather than an iterative partner</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S9 -->
+  <div class="section-card" id="s9">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <div><div class="section-title">Suggested Prompts</div><div class="section-subtitle">Ready-to-use prompts for drafting and refining</div></div>
+    </div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="showTab('drafting')">Drafting</button>
+          <button class="tab-btn" onclick="showTab('refining')">Refining</button>
+        </div>
+        <div class="tab-panel active" id="tab-drafting">
+          <div class="prompt-card">
+            <div class="prompt-label">Executive Summary — From Facts <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Write a 250-word executive summary for [audience] about [topic]. Include: [key result 1], [key result 2], [main risk or challenge], and the recommended next step. Professional tone. Start with the most important point.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Project Status Update <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Write a project status update for [project name]. Current phase: [phase, % complete]. This week's highlight: [achievement]. Risk to flag: [risk]. Next milestone: [milestone and date]. Audience: [team/stakeholders]. Tone: factual and concise. Around 200 words.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Meeting Notes → Formal Report <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Turn these meeting notes into a formal report. Structure: 1) Meeting Purpose, 2) Attendees, 3) Key Decisions, 4) Action Items (with owner and deadline), 5) Next Steps. Professional tone. Notes: [paste your notes here].</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="tab-refining">
+          <div class="prompt-card">
+            <div class="prompt-label">Sharpen & Shorten <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Rewrite the selected text to be 40% shorter without losing the key message. Cut filler words, remove redundant phrases, and ensure every sentence carries weight. Keep the same professional tone.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Audience Shift — Internal to Client-Facing <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Rewrite this for an external client audience. Remove all internal references, team names, and jargon. Replace with outcome-focused language. Tone: confident, professional, and benefit-oriented. The client cares about results, not our internal process.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Full Document Polish <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Review this document and improve it for: (1) consistent formal tone throughout, (2) active voice — rewrite any passive constructions, (3) clarity — split any sentence over 30 words, (4) remove clichés like "leverage", "synergy", or "going forward". Return the improved version.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div><div class="section-title">See It In Action</div><div class="section-subtitle">Draft with Copilot — from prompt to polished content</div></div>
+    </div>
+    <div class="section-body">
+      <div class="mockup">
+        <div class="mockup-title">Word — Draft with Copilot Panel</div>
+        <div class="word-mock">
+          <div class="mock-doc">
+            <div class="mock-doc-ribbon">
+              <span class="mock-ribbon-tab active-tab">Home</span>
+              <span class="mock-ribbon-tab">Insert</span>
+              <span class="mock-ribbon-tab">Review</span>
+            </div>
+            <div class="mock-doc-title">Q3 Sales Performance — Executive Summary</div>
+            <div class="mock-doc-body">
+              Q3 2024 closed with total revenue of £4.2M, representing 8% growth year-on-year and landing 3% ahead of our internal forecast. Enterprise accounts were the standout performer, contributing £2.6M — up 22% on Q2.<br><br>
+              The primary challenge this quarter was SMB conversion rate, which declined from 18% to 13% following the pricing revision in August. The sales team has identified three accounts in late-stage negotiation that are expected to recover in Q4.<br><br>
+              Looking ahead, Q4 targets are set at £4.8M. Key priorities are retention of the top 10 enterprise accounts and accelerating the SMB pipeline through the revised commercial framework launching in October.<span class="mock-doc-cursor"></span>
+            </div>
+          </div>
+          <div class="mock-side-panel">
+            <div class="mock-panel-hdr">✨ Copilot</div>
+            <div class="mock-panel-body">
+              <div style="font-size:11px;color:#7264A8;margin-bottom:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">Your Prompt</div>
+              <div class="mock-draft-prompt">Write a 200-word executive summary of Q3 sales performance for the board. Revenue: £4.2M (+8% YoY, +3% vs forecast). Enterprise strong at £2.6M (+22% QoQ). SMB conversion dropped 18%→13% after August pricing change. 3 late-stage accounts expected Q4. Q4 target: £4.8M.</div>
+              <div style="font-size:11px;color:#7264A8;margin-top:12px;margin-bottom:6px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">Copilot Response</div>
+              <div class="mock-draft-result">Draft inserted into document. ✓</div>
+              <div style="font-size:11px;color:#7264A8;margin-top:8px;margin-bottom:6px;">Refine further?</div>
+              <div class="mock-action-row">
+                <div class="mock-action-btn">Shorter</div>
+                <div class="mock-action-btn">More formal</div>
+                <div class="mock-action-btn">Regenerate</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="body-text" style="font-size:13px;color:var(--muted);">The document on the left shows Copilot's draft — produced from the structured prompt in the right panel. The prompt included all the specific facts (revenue, growth %, SMB conversion) so Copilot could write accurately without inventing data. The refinement buttons allow instant follow-up iterations.</p>
+    </div>
+  </div>
+
+  <!-- S11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <div><div class="section-title">Your Roadmap</div><div class="section-subtitle">From first draft to confident AI-assisted writing</div></div>
+    </div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step rm-purple"><div class="roadmap-num">1</div><div class="roadmap-title">First Draft</div><div class="roadmap-desc">Use Alt + I on a real document you need this week. Give Copilot your facts and ask for a first draft. Review and edit it into your own voice.</div></div>
+        <div class="roadmap-step rm-orange"><div class="roadmap-num">2</div><div class="roadmap-title">Rewrite Habit</div><div class="roadmap-desc">For the next two weeks, select one paragraph in every document you write and ask Copilot to improve it. Notice where it makes the biggest difference.</div></div>
+        <div class="roadmap-step rm-blue"><div class="roadmap-num">3</div><div class="roadmap-title">Multi-Pass Documents</div><div class="roadmap-desc">Apply the structure → content → polish workflow to your next major report or proposal. Experience how much faster complex documents come together.</div></div>
+        <div class="roadmap-step rm-yellow"><div class="roadmap-num">4</div><div class="roadmap-title">Cross-App Workflows</div><div class="roadmap-desc">Chain Copilot across Teams + Word + Outlook. Start from a meeting recap and end with a published report and follow-up email — Copilot as your end-to-end writing partner.</div></div>
+      </div>
+      <div class="callout copilot">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">✨ The Goal: Thinking, Not Typing</div>
+          <div class="callout-text">The best use of Copilot in Word is shifting your effort from <em>typing</em> to <em>thinking</em>. You supply the ideas, facts, audience knowledge, and judgment. Copilot handles the drafting, restructuring, and polishing. Documents that used to take two hours should take thirty minutes — with the extra time spent on the content that only you can provide.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-card').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text);
+  const orig = btn.innerText;
+  btn.innerText = '✓ Copied';
+  setTimeout(() => btn.innerText = orig, 1800);
+}
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+}
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[onclick="scrollTo('${id}')"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, {threshold:0.25});
+document.querySelectorAll('.section-card[id]').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

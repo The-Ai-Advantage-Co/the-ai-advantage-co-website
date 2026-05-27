@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gemini in Gmail | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF5F4;color:#1C0800}
+:root{--blue:#1A73E8;--green:#34A853;--yellow:#F9AB00;--orange:#EA4335;--sidebar:#1A0D00;--card:#fff;--hdr:#FFEBE8;--border:#FDDCDA;--ink:#1C0800;--mid:#4A2A24;--muted:#8A6A64}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:#FBBD33;padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(255,245,244,.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#fff;border-left-color:var(--blue);background:rgba(26,115,232,.15)}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#FBBD33;opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--sidebar);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'📧';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.12;line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:#FBBD33;text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(255,245,244,.7);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(26,13,0,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#EAF7EE;border-color:var(--green)}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FEF9C3;border-color:#B45309}.callout.warning strong{color:#92400E}
+.callout.info{background:#EAF1FD;border-color:var(--blue)}.callout.info strong{color:#1565C0}
+.callout.gemini{background:#FEF7E0;border-color:var(--yellow)}.callout.gemini strong{color:#92400E}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:8px;padding:16px}
+.feature-card.green{border-top-color:var(--green)}.feature-card.yellow{border-top-color:var(--yellow)}.feature-card.orange{border-top-color:var(--orange)}
+.feature-card h4{color:var(--ink);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;color:#fff;background:var(--blue)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--sidebar);color:#FBBD33;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--hdr)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.prompt-box{display:none;background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:#FBBD33;background:var(--sidebar);padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
+.prompt-text{font-size:13px;color:var(--mid);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#2A1A0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+/* Gmail mock */
+.gmail-email{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;margin:12px 0}
+.gmail-subject{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.gmail-meta{font-size:12px;color:var(--muted);margin-bottom:10px}
+.gmail-body{font-size:13px;color:var(--mid);line-height:1.6}
+.hmw-panel{background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:12px}
+.hmw-panel .label{font-size:11px;color:#FBBD33;background:var(--sidebar);padding:3px 8px;border-radius:4px;display:inline-block;margin-bottom:8px;font-weight:600}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--ink)}
+h3{font-size:16px;font-weight:700;color:var(--ink);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Gemini in Gmail</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Gemini in Gmail?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>Help Me Write</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Summarising Emails</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Smart Compose & Reply</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Managing Inbox Overload</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Gmail Side Panel</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Gemini User Guide</div>
+    <h1>Gemini in Gmail</h1>
+    <p>Write better emails faster, tame your inbox, and turn Gemini into your built-in communications partner — without leaving Gmail.</p>
+  </div>
+
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">1</div><h2>What is Gemini in Gmail?</h2></div>
+    <div class="section-body">
+      <p>Gemini is built directly into Gmail — available through the compose window, the email view panel, and the Gmail side panel. It helps you write, rewrite, summarise, and manage email communication without leaving your inbox.</p>
+      <p>Unlike using Gemini at gemini.google.com, Gemini in Gmail has direct access to your emails (with your permission) and works within the context of what you're composing or reading. It's a native AI layer on top of Gmail, not a separate tool.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>✍️ Help Me Write</h4><p>Generate complete email drafts from a short prompt, directly in the compose window.</p></div>
+        <div class="feature-card green"><h4>📄 Summarise</h4><p>Collapse long email threads into key points with one click.</p></div>
+        <div class="feature-card yellow"><h4>🔄 Smart Compose</h4><p>Inline suggestions as you type — complete sentences and phrases in your voice.</p></div>
+        <div class="feature-card orange"><h4>💬 Smart Reply</h4><p>One-tap suggested replies for quick acknowledgements and responses.</p></div>
+      </div>
+      <div class="callout info"><strong>Availability:</strong><p>Help Me Write and side panel Q&A require a Google Workspace account with Gemini for Workspace enabled, or a personal Gmail account with Gemini Advanced. Smart Compose and Smart Reply are available to all Gmail users.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">2</div><h2>Help Me Write</h2></div>
+    <div class="section-body">
+      <p>Help Me Write is the most powerful Gemini feature in Gmail. Access it by clicking the pen/sparkle icon at the bottom of the compose window. Enter a brief description of what you want to say, and Gemini drafts the full email.</p>
+      <div class="step"><div class="step-num" style="background:var(--green)">1</div><div class="step-body"><h4>Open a new compose window</h4><p>Click Compose in Gmail. Look for the "Help me write" icon (sparkle pen) at the bottom left of the compose area.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Describe what you need</h4><p>Enter a short brief: "Follow up with the client after yesterday's demo. Confirm next steps and ask for their timeline." Gemini writes the full email.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">3</div><div class="step-body"><h4>Refine with options</h4><p>Use the built-in options to adjust: Formalise, Elaborate, Shorten, or regenerate with a different approach.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">4</div><div class="step-body"><h4>Edit and send</h4><p>Accept the draft into your compose window, personalise it (add names, specifics), and send.</p></div></div>
+      <div class="callout tip"><strong>Better briefs = better drafts:</strong><p>Include: the relationship (e.g. "to a client we've worked with for 2 years"), the tone needed ("professional but warm"), the purpose ("to push back politely on their timeline request"), and any key facts ("the delay is due to staffing issues, not budget").</p></div>
+      <h3>Refining existing drafts</h3>
+      <p>If you've already started writing, you can use Help Me Write to refine: select all your text, click the sparkle icon, and choose "Elaborate," "Shorten," or type a custom instruction like "Make this more assertive."</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">3</div><h2>Summarising Emails</h2></div>
+    <div class="section-body">
+      <p>The email summarise feature condenses long email threads into bullet-point summaries. Look for the "Summarise this email" banner at the top of long threads, or the sparkle icon in the email toolbar.</p>
+      <h3>When to use it</h3>
+      <ul>
+        <li>Catching up on a thread you weren't originally included in</li>
+        <li>Quickly refreshing your memory before a meeting or call</li>
+        <li>Long customer support threads with multiple back-and-forth messages</li>
+        <li>After returning from annual leave with hundreds of unread emails</li>
+        <li>Understanding a complex technical email before forwarding to someone else</li>
+      </ul>
+      <div class="callout gemini"><strong>Follow up in the side panel:</strong><p>After summarising, open the Gmail side panel (right side of the Gmail window) and ask follow-up questions about the email: "What action is this email asking me to take?" or "What was agreed in this thread?"</p></div>
+      <h3>What summary includes</h3>
+      <p>Gmail summaries typically cover: the core topic, key decisions or requests, who is responsible for action items, and any deadlines mentioned. They do not include all the conversational back-and-forth — just the substance.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">4</div><h2>Smart Compose & Smart Reply</h2></div>
+    <div class="section-body">
+      <p>Smart Compose and Smart Reply are lighter-weight AI features available to all Gmail users — no Gemini Advanced subscription required.</p>
+      <h3>Smart Compose</h3>
+      <p>As you type an email, Smart Compose predicts the rest of your sentence and shows it in grey. Press <strong>Tab</strong> to accept the suggestion, or keep typing to ignore it. Over time it learns your writing style and improves its suggestions.</p>
+      <div class="callout info"><strong>Enable Smart Compose:</strong><p>Settings (gear icon) → See all settings → General → Smart Compose → Writing suggestions on.</p></div>
+      <h3>Smart Reply</h3>
+      <p>At the bottom of incoming emails, Gmail shows 3 suggested short replies. These are generated by AI based on the email content — things like "Sounds good!", "I'll take a look," or "Thanks for letting me know." Click one to insert it as a draft reply.</p>
+      <h3>Smart Reply vs Help Me Write</h3>
+      <table class="ref-table">
+        <tr><th>Feature</th><th>Best For</th><th>Control Level</th></tr>
+        <tr><td>Smart Reply</td><td>Quick acknowledgements, simple yes/no answers</td><td>Low — pre-written options only</td></tr>
+        <tr><td>Smart Compose</td><td>Completing sentences naturally while you write</td><td>Medium — you write, AI assists</td></tr>
+        <tr><td>Help Me Write</td><td>Full email drafts from a brief description</td><td>High — you control the brief and refine the output</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">5</div><h2>Managing Inbox Overload</h2></div>
+    <div class="section-body">
+      <p>Gemini in Gmail helps cut through inbox overload with a combination of AI summarisation, the side panel Q&A, and the Gemini chat extension (covered in the Extensions guide).</p>
+      <h3>The overload toolkit</h3>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>📋 Thread summaries</h4><p>Summarise every long thread before deciding whether it needs a response. Stop reading walls of text.</p></div>
+        <div class="feature-card green"><h4>❓ Side panel Q&A</h4><p>Open a specific email and ask "What is this person asking me to do?" — get a direct action-oriented answer.</p></div>
+        <div class="feature-card yellow"><h4>🔍 Gemini extension</h4><p>In Gemini chat (with Gmail extension enabled): "Show me all emails from this week that are waiting for my response."</p></div>
+        <div class="feature-card orange"><h4>✉️ Batch drafting</h4><p>Use Help Me Write to quickly generate responses to similar types of emails — follow-ups, acknowledgements, polite declines.</p></div>
+      </div>
+      <div class="callout tip"><strong>The 3-question triage:</strong><p>For each important email, ask the side panel: (1) "What is this email asking me to do?" (2) "By when?" (3) "What information do I need to respond?" You'll process emails 3× faster.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">6</div><h2>Gmail Side Panel</h2></div>
+    <div class="section-body">
+      <p>The Gmail side panel is a full Gemini conversation window that lives inside Gmail. Open it with the Gemini icon on the right side of the Gmail interface. Unlike the compose-window features, the side panel lets you have an open-ended conversation with Gemini about your emails and other tasks.</p>
+      <h3>What you can do in the side panel</h3>
+      <ul>
+        <li>Ask questions about a specific open email: "What's the deadline mentioned in this thread?"</li>
+        <li>Draft a response based on the email context: "Write a polite decline to this invitation"</li>
+        <li>Search your emails: "Find emails from [person] about [topic] in the last month"</li>
+        <li>Get help composing content related to an email: "Draft talking points for a call following up on this proposal"</li>
+        <li>Ask general Gemini questions without leaving Gmail: "What are the GDPR rules around email retention?"</li>
+      </ul>
+      <div class="callout gemini"><strong>Context awareness:</strong><p>When an email is open, the side panel is aware of its content — you can reference it without copying text. "Write a response to this" will use the open email as context automatically.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>Tone and relationship calibration</h3>
+      <p>Help Me Write's quality depends heavily on relationship context. Always specify: "This is to a supplier we've had issues with — the tone should be firm but professional, not confrontational." Vague briefs produce generic drafts.</p>
+      <h3>Draft templates as Help Me Write prompts</h3>
+      <p>Build a library of Help Me Write briefs for your most common email types. Keep them in a Google Doc: "Follow-up after no response — 3 days since initial email, politely chase without being annoying." Paste the brief each time for consistent quality.</p>
+      <h3>Combine with Google Docs for long communications</h3>
+      <p>For complex emails (proposals, project updates, detailed requests), draft them in Google Docs using Gemini there, then paste the final version into Gmail. Docs gives you more space for refinement before committing to send.</p>
+      <h3>Use side panel for pre-send review</h3>
+      <p>Before sending important emails, use the side panel: "Review this email I'm about to send. Does it achieve the goal? Is the tone appropriate? What might the recipient misunderstand?" A second opinion before sending costly emails.</p>
+      <div class="callout tip"><strong>Language translation:</strong><p>Gemini in Gmail can translate emails and help you respond in other languages. Open a foreign-language email and ask the side panel: "Translate this email and draft a polite reply in the same language."</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr>
+        <tr><td>Sending without personalising</td><td>Accepting AI drafts verbatim without adding names, specifics, or personal touches</td><td>Always personalise: add the recipient's name, reference specific details, check the sign-off</td></tr>
+        <tr><td>Vague Help Me Write briefs</td><td>"Write a follow-up email" with no context</td><td>Include relationship, tone, purpose, and any key facts in every brief</td></tr>
+        <tr><td>Not using Shorten/Formalise</td><td>Accepting the first draft when the length or tone isn't right</td><td>Use the refine options (Shorten, Formalise, Elaborate) before editing manually</td></tr>
+        <tr><td>Ignoring Smart Compose</td><td>Not knowing Tab accepts suggestions</td><td>Press Tab to accept — it learns your style over time and becomes very accurate</td></tr>
+        <tr><td>Using AI for sensitive emails</td><td>Letting AI draft performance feedback, complaints, or personal messages</td><td>Use AI for structure and language help, but write the core message yourself for anything emotionally sensitive</td></tr>
+        <tr><td>Not opening side panel</td><td>Not knowing it exists</td><td>Click the Gemini icon on the right rail of Gmail to open it — it's context-aware and very useful</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'gml-a')">Help Me Write Briefs</button>
+          <button class="tab-btn" onclick="switchTab(this,'gml-b')">Side Panel Prompts</button>
+        </div>
+        <div class="prompt-box active" id="gml-a">
+          <div class="prompt-item">
+            <div class="prompt-label">Professional Follow-Up</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Follow up on a proposal sent 5 days ago. Tone: professional and persistent but not pushy. Acknowledge they may be busy. Offer to schedule a 15-minute call. Keep it under 100 words."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Polite Decline</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Decline an invitation to speak at an event due to scheduling conflicts. Keep the door open for future opportunities. Be warm and appreciative of the invitation. Keep it brief — 3 sentences maximum."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Complaint Escalation</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Write a firm but professional email to a supplier who has missed their delivery deadline for the third time. Summarise the impact on our business. Request an urgent call and a formal remediation plan. Tone: serious, not aggressive."</div>
+          </div>
+        </div>
+        <div class="prompt-box" id="gml-b">
+          <div class="prompt-item">
+            <div class="prompt-label">Pre-Send Review</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Review the email I've drafted below before I send it. Tell me: (1) Is the goal clear? (2) Is the tone appropriate for this relationship? (3) What might the recipient misunderstand or react negatively to? [paste email]"</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Thread Briefing</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Summarise this email thread for me. I need: what's been decided, what's still open, who's responsible for next steps, and any deadlines mentioned. Format as a short bullet list."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Response Drafting</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Based on this email, draft a response that: agrees to the meeting, proposes three times next week, confirms you'll send the agenda 24 hours in advance, and asks them to confirm dietary requirements for the lunch."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A consultant uses Help Me Write to draft a difficult email — a polite but firm response to a client who has asked for work outside the agreed scope.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span style="font-size:12px;color:rgba(255,245,244,.5);margin-left:8px">Gmail — Help Me Write</span></div>
+        <div style="padding:20px">
+          <div class="gmail-email">
+            <div class="gmail-subject">Re: Q4 Report — Additional Analysis Request</div>
+            <div class="gmail-meta">From: Client — just received</div>
+            <div class="gmail-body">Hi, hope you're well. We were wondering if you could also add a section on the competitive landscape for our top 3 products to the Q4 report? We think it would add a lot of value. Let us know!</div>
+          </div>
+          <div style="background:#2A1A0A;border-radius:8px;padding:12px;margin:12px 0;font-size:13px;color:rgba(255,245,244,.8)">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Help Me Write brief</div>
+            <div style="font-style:italic;">"Politely decline the additional competitive analysis request. This is out of scope. Offer to quote separately. Keep the relationship warm. Keep it under 120 words."</div>
+          </div>
+          <div class="hmw-panel">
+            <div class="label">✨ Gemini Draft</div>
+            <div style="font-size:13px;color:var(--mid);line-height:1.7">Hi [Name],<br><br>Thanks for the suggestion — a competitive landscape section would certainly add value. However, this falls outside the scope we agreed for the Q4 report, so we wouldn't be able to include it within the current engagement.<br><br>We'd be happy to scope this as a separate piece of work. I can put together a brief proposal and quote by end of the week if that would be useful?<br><br>Looking forward to delivering the Q4 report on schedule.<br><br>Best,<br>[Your name]</div>
+          </div>
+        </div>
+      </div>
+      <p>A difficult conversation handled professionally in under 30 seconds — ready to personalise and send.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn" style="color:var(--blue)">01</div><h4>Try Help Me Write</h4><p>Use the sparkle icon on your next compose. Give it a specific brief and compare the draft to what you'd have written.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--green)">02</div><h4>Summarise a long thread</h4><p>Find a long email thread and click "Summarise." See how quickly you can understand the context vs reading it all.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--yellow)">03</div><h4>Open the side panel</h4><p>Click the Gemini icon on the right side of Gmail. Ask it a question about an open email. Explore the Q&A capability.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--orange)">04</div><h4>Build a brief library</h4><p>Create a Google Doc of your best Help Me Write briefs for recurring email types. Reuse them for consistent quality.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){
+  const tabs=el.closest('.prompt-tabs');
+  tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  tabs.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function copyPrompt(btn){
+  const text=btn.nextElementSibling.textContent;
+  navigator.clipboard.writeText(text).catch(()=>{});
+  const orig=btn.textContent;btn.textContent='Copied!';
+  setTimeout(()=>btn.textContent=orig,1500);
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+      const link=document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(link)link.classList.add('active');
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

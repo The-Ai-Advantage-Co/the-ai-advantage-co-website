@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini as an Agent — NotebookLM and Autonomous Research — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1A73E8; --primary-l: #4A94EB; --primary-soft: #E8F0FE;
+  --accent1: #34A853; --accent1-soft: #E6F4EA;
+  --accent2: #F9AB00; --accent2-soft: #FEF7E0;
+  --page-bg: #FFF5F4; --sidebar-bg: #202124;
+  --card-bg: #FFFFFF; --hdr-bg: #F8E9E7; --border: #E8C9C5;
+  --ink: #202124; --body-text: #3C4043; --muted: #5F6368;
+  --green: #137333; --green-bg: #E6F4EA;
+  --warn: #B45309; --warn-bg: #FEF7E0;
+  --red: #EA4335; --red-bg: #FCE8E6;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <div class="brand-name">Gemini as an Agent — NotebookLM and Autonomous Research</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Gemini as an Agent — NotebookLM and Autonomous Research?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>The Two Agentic Surfaces</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>NotebookLM Quick Tour</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Deep Research Max</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>The Combined Pattern</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Audio Overviews and Video Overviews</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Gems Integration</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>What Doesn&#39;t Yet Work Well</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <h1>Gemini as an Agent — NotebookLM and Autonomous Research</h1>
+      <div class="subtitle">Using Gemini&#39;s agentic surfaces for autonomous research and knowledge work</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Gemini as an Agent — NotebookLM and Autonomous Research?</div><div class="section-desc">Using Gemini&#39;s agentic surfaces for autonomous research and knowledge work</div></div></div><div class="content-body"><p class="prose">Gemini&#39;s agentic surface combines two flagship Google features: NotebookLM (the source-grounded notebook AI) and Deep Research (the autonomous research agent). Together they form Google&#39;s most distinctive agentic offering — useful for any research-heavy or knowledge-management workflow.</p><p class="prose">Best for: research teams, content creators, students, consultants, and anyone whose work involves synthesising large amounts of source material.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">📚</div><div class="feat-title">NotebookLM Layer</div><div class="feat-desc">Source-grounded synthesis. Upload sources, ask questions, get cited answers.</div></div><div class="feat-card"><div class="feat-icon">🔬</div><div class="feat-title">Deep Research Max</div><div class="feat-desc">Autonomous web research agent. Plans, executes, synthesises in 5-15 minutes.</div></div><div class="feat-card"><div class="feat-icon">🔗</div><div class="feat-title">Combined Pattern</div><div class="feat-desc">NotebookLM (private knowledge) + Deep Research (web) = grounded research with citations.</div></div><div class="feat-card"><div class="feat-icon">🎙️</div><div class="feat-title">Audio Overviews</div><div class="feat-desc">NotebookLM produces 10-15 min podcast-style synthesis. Listen while doing other work.</div></div></div><div class="deco-band">✨  The strongest agentic research stack across mainstream AI tools in 2026  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🤖  2026 UPDATE — NOTEBOOKS SYNC + MCP</div><div class="callout-text">NotebookLM now syncs notebooks with the Gemini app — any source added in one place appears in the other. Deep Research Max supports MCP (Model Context Protocol), letting it pull from external tools mid-research. Together they&#39;re a meaningfully different agentic workflow than the competitors.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">The Two Agentic Surfaces</div><div class="section-desc">NotebookLM vs Deep Research</div></div></div><div class="content-body"><table class="ref-table"><thead><tr><th>Surface</th><th>What it does</th><th>Best for</th><th>Time</th></tr></thead><tbody><tr><td>NotebookLM</td><td>Synthesises uploaded sources</td><td>Personal KB, source-grounded research</td><td>Instant Q&amp;A</td></tr><tr><td>Deep Research Max</td><td>Autonomous web research</td><td>Multi-source web research with citations</td><td>5-15 min runs</td></tr><tr><td>Combined</td><td>Deep Research uses NotebookLM as source</td><td>Research grounded in BOTH your sources and web</td><td>5-15 min runs</td></tr></tbody></table></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">NotebookLM Quick Tour</div><div class="section-desc">What you can do in 10 minutes</div></div></div><div class="content-body"><ul class="bullets"><li>Create a notebook, upload 5-50 sources (PDFs, web pages, Drive docs)</li><li>Ask questions — answers are grounded in your sources with citations</li><li>Generate an audio overview — a podcast-style summary</li><li>Generate a video overview or infographic — visual synthesis</li><li>Take notes — saved in the notebook with source links</li><li>Share the notebook with colleagues</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Create a notebook</div><div class="step-desc">notebooklm.google.com → New notebook. Add a topic name.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Upload 5-50 sources</div><div class="step-desc">PDFs, Google Docs, web URLs, audio files. Up to hundreds on Pro+.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Ask grounded questions</div><div class="step-desc">Questions answered from your sources only, with citations.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Generate Audio Overview</div><div class="step-desc">10-15 min podcast-style synthesis between two AI hosts.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Generate Video Overview or Infographic</div><div class="step-desc">Visual synthesis for sharing with people who won&#39;t read.</div></div></div><div class="step"><div class="step-num">6</div><div class="step-content"><div class="step-title">Share the notebook</div><div class="step-desc">Team access for collaborative knowledge building.</div></div></div></div></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Deep Research Max</div><div class="section-desc">Autonomous web research</div></div></div><div class="content-body"><p class="prose">Give it a topic and Deep Research plans a multi-step strategy, executes against the web, and returns a structured report. New in 2026: uploads as sources, MCP integration, and Canvas rendering of results.</p><ul class="bullets"><li>Brief — &#39;Research [topic]. Focus on [angle]. Use [time period].&#39;</li><li>Plan — agent shows its research strategy before executing</li><li>Execute — agent browses, captures, and synthesises</li><li>Report — structured output with citations</li><li>Render — convert to interactive Canvas, quiz, or infographic</li></ul><h3 class="sub-h3">The research workflow that consistently produces useful output</h3><p class="sub-body">Deep Research Max is most valuable for genuine research tasks — competitive analysis, literature review, market scans, due diligence. Less valuable for quick factual questions.</p><ul class="bullets"><li>Brief — &#39;Research [topic]. Focus on [angle]. Use [time period]. Compare with [comparator].&#39;</li><li>Plan — agent shows research strategy before executing; review and adjust</li><li>Execute — agent browses 10-30 sources, captures findings, cross-references</li><li>Report — structured output with citations, downloadable</li><li>Convert — render as Canvas doc, interactive quiz, infographic, or audio overview</li></ul></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">The Combined Pattern</div><div class="section-desc">NotebookLM + Deep Research together</div></div></div><div class="content-body"><p class="prose">The most powerful pattern in 2026: build a NotebookLM notebook with your own sources, then run Deep Research against both the web AND your notebook. The agent grounds in your private knowledge plus public sources simultaneously.</p><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🧠  THE RESEARCH POWER MOVE</div><div class="callout-text">Upload your internal research, your past reports, your customer data into NotebookLM. Then point Deep Research at it for new questions. You get research grounded in your private institutional knowledge AND fresh web sources.</div></div></div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🧠  THE RESEARCH POWER MOVE OF 2026</div><div class="callout-text">Upload your internal research, past reports, customer data into NotebookLM. Then point Deep Research at it for new questions. You get research grounded in your private institutional knowledge AND fresh web sources. The strongest agentic research pattern across any major AI tool in 2026.</div></div></div><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📚</div><div class="feat-title">Private Sources</div><div class="feat-desc">Upload your internal research, past reports, customer data to NotebookLM.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🌐</div><div class="feat-title">Web Research</div><div class="feat-desc">Run Deep Research Max with both the notebook AND fresh web sources.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🎯</div><div class="feat-title">Grounded Output</div><div class="feat-desc">Research grounded in your institutional knowledge plus current public sources.</div></div></div><p class="prose">The combined NotebookLM + Deep Research Max pattern is the strongest agentic research workflow in 2026. Upload your internal research, past reports, customer data, internal docs into NotebookLM. Then run Deep Research against both the web AND your notebook. The agent grounds in your private institutional knowledge plus current public sources simultaneously.</p><p class="prose">What this replaces: the typical research workflow of asking a junior to &#39;pull together what we know plus what&#39;s out there&#39;. The agent version is faster, more comprehensive, and produces traceable citations to both internal and external sources.</p></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Audio Overviews and Video Overviews</div><div class="section-desc">NotebookLM&#39;s distinctive outputs</div></div></div><div class="content-body"><p class="prose">NotebookLM&#39;s audio overview turns your notebook into a 10-15 minute podcast-style conversation between two AI hosts. Video Overview turns it into a narrated video. Infographic distils key findings visually. All from the same source set.</p><ul class="bullets"><li>Audio Overview — best for consumption while doing something else</li><li>Video Overview — best for sharing with people who won&#39;t read</li><li>Infographic — best for quick visual reference</li><li>Quiz — best for learning/training contexts</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🎧</div><div class="feat-title">Audio Overview</div><div class="feat-desc">10-15 minute podcast-style conversation between two AI hosts. Consume while doing something else.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📹</div><div class="feat-title">Video Overview</div><div class="feat-desc">Narrated video synthesis. Share with people who won&#39;t read the source notebook.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📊</div><div class="feat-title">Infographic</div><div class="feat-desc">Visual distillation of key findings. Quick reference, social share.</div></div></div><h3 class="sub-h3">When each output format works best</h3><p class="sub-body">NotebookLM&#39;s distinctive output formats serve different consumption patterns. Pick the format that matches how your audience will actually engage.</p><ul class="bullets"><li>Audio Overview — for consumption while doing other work (commute, exercise)</li><li>Video Overview — for sharing with people who won&#39;t read source material</li><li>Infographic — for quick visual reference; meeting handouts</li><li>Quiz — for learning/training contexts; verify understanding</li><li>Standard report — for the analyst who needs to verify claims against citations</li></ul></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Gems Integration</div><div class="section-desc">Building agents grounded in NotebookLM</div></div></div><div class="content-body"><p class="prose">Gems (Gemini&#39;s Custom-GPT equivalent) can now connect to a NotebookLM notebook. Build a Gem with a NotebookLM-backed knowledge layer of hundreds of sources, deploy it as a tailored assistant. This is the &#39;Custom GPT plus deep grounding&#39; pattern.</p><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Build a NotebookLM notebook with your domain knowledge (hundreds of sources OK)</li><li>Build a Gem with the right system prompt and connect to the notebook</li><li>Use Gems for repeated questions in a domain (customer FAQ, internal policy)</li><li>Test adversarially before sharing with team</li><li>Always include an escape hatch — &#39;I don&#39;t know — let me get you a human&#39;</li><li>Update the underlying notebook as content changes; Gem inherits</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Connecting Gems to disorganised or stale knowledge sources</li><li>Skipping adversarial testing — public-facing Gems need stress testing</li><li>Letting Gems handle out-of-scope queries unprompted</li><li>Mixing multiple distinct domains in one Gem</li><li>Sharing Gems with broad audiences without quality review</li><li>Forgetting to update notebooks when underlying domain content changes</li></ul></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">What Doesn&#39;t Yet Work Well</div><div class="section-desc">Honest limits</div></div></div><div class="content-body"><ul class="bullets"><li>Real-time data — NotebookLM is for stable sources, not live feeds</li><li>Source freshness — manually refresh sources; no auto-sync from arbitrary sites</li><li>Multi-language source mixing — works but English remains strongest</li><li>Very large source sets — quality degrades past several hundred sources</li><li>Hallucination — even with citations, occasionally synthesises incorrectly; always verify</li></ul><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚠️  KNOWN LIMITS OF THE 2026 STACK</div><div class="callout-text">Real-time data (NotebookLM is for stable sources, not live feeds). Source freshness (manual refresh; no auto-sync from arbitrary sites). Multi-language source mixing (works but English remains strongest). Very large source sets (quality degrades past several hundred). Hallucination (even with citations, occasionally synthesises incorrectly — always verify high-stakes claims).</div></div></div></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Gemini as an Agent — NotebookLM and Autonomous Research as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">NOTEBOOKLM SETUP</div><div class="prompt-text">I want to build a NotebookLM notebook for [topic]. I have these sources: [list]. Walk me through: how to upload them, what initial questions to ask to test the notebook&#39;s quality, and how to know if I need more sources before generating an audio overview.</div></div><div class="prompt-card"><div class="prompt-label">DEEP RESEARCH BRIEF</div><div class="prompt-text">Brief Deep Research Max on: [topic]. Specifically, I want to know [specific angle]. Time period: [period]. Use both my NotebookLM notebook for [topic] as a primary source and the public web for fresh updates. Return: structured report with citations and a 1-page executive summary.</div></div><div class="prompt-card"><div class="prompt-label">COMBINED AGENT</div><div class="prompt-text">Help me design a Gem that&#39;s grounded in our internal knowledge (we have 80 sources in a NotebookLM notebook). The Gem should answer questions about our products, cite our docs, and explicitly say &#39;I don&#39;t know — escalate to support&#39; when the answer isn&#39;t in the sources. What&#39;s the system prompt?</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Gemini as an Agent — NotebookLM and Autonomous Research on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

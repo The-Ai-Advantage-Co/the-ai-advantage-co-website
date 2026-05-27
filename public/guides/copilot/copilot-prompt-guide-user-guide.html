@@ -1,0 +1,681 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Copilot Prompt Guide | The AI Advantage Co</title>
+<style>
+:root {
+  --purple:      #5E17EB;
+  --purple-l:    #8B5CF6;
+  --purple-soft: #F0EAFF;
+  --blue:        #0078D4;
+  --blue-l:      #60A5FA;
+  --blue-soft:   #EFF6FF;
+  --orange:      #EA6C1A;
+  --orange-l:    #F97316;
+  --orange-soft: #FFF7ED;
+  --yellow:      #CA8A04;
+  --yellow-l:    #FBBF24;
+  --yellow-soft: #FEFCE8;
+  --page-bg:     #EBF1FF;
+  --sidebar-bg:  #1E1456;
+  --card-bg:     #F7F4FF;
+  --hdr-bg:      #EDE8FF;
+  --border:      #D0C5F5;
+  --ink:         #1E1456;
+  --body-text:   #3D3080;
+  --muted:       #7264A8;
+  --green:       #1B6B3A;
+  --green-bg:    #E6F4EC;
+  --warn:        #B45309;
+  --warn-bg:     #FFF8E1;
+  --red:         #C0392B;
+  --red-bg:      #FEF0EE;
+  --white:       #FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--page-bg);color:var(--body-text);line-height:1.6}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 0}
+.sidebar-brand{padding:0 20px 20px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px}
+.sidebar-brand .co{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--purple-l);text-transform:uppercase}
+.sidebar-brand .title{font-size:14px;font-weight:700;color:#fff;margin-top:4px;line-height:1.3}
+.nav-link{display:flex;align-items:center;gap:10px;padding:9px 20px;font-size:13px;color:rgba(255,255,255,0.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,0.06)}
+.nav-link.active{color:#fff;border-left-color:var(--purple-l);background:rgba(139,92,246,0.15)}
+.nav-num{font-size:11px;font-weight:700;color:var(--purple-l);min-width:20px}
+
+/* CONTENT */
+.content{max-width:860px;padding:0 0 60px}
+
+/* BANNER */
+.banner{background:linear-gradient(135deg,#1E1456 0%,#2D1B8E 50%,#0D4E8A 100%);padding:56px 48px 48px;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 70% 50%,rgba(94,23,235,0.3),transparent)}
+.banner-sparkles{position:absolute;top:0;right:0;width:200px;height:100%;opacity:0.15;pointer-events:none}
+.banner .co{font-size:11px;font-weight:700;letter-spacing:3px;color:var(--purple-l);text-transform:uppercase;margin-bottom:10px}
+.banner h1{font-size:34px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner h1 span{color:#C8B8FF}
+.banner .sub{font-size:15px;color:#C8B8FF}
+.banner-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(139,92,246,0.3);border:1px solid rgba(139,92,246,0.5);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600;color:#C8B8FF;margin-top:16px}
+
+/* SECTION CARD */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin:24px 24px 0;overflow:hidden;box-shadow:0 2px 8px rgba(94,23,235,0.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:16px 24px;background:var(--hdr-bg);border-bottom:1px solid var(--border)}
+.sec-num{width:32px;height:32px;border-radius:8px;background:var(--purple);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:12px;color:var(--muted);margin-top:2px}
+.section-body{padding:24px}
+
+/* FEATURE CARDS */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.card-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+.feature-card{border-radius:10px;padding:18px;border:1px solid var(--border);border-top-width:3px}
+.feature-card.purple-a{border-top-color:var(--purple);background:var(--card-bg)}
+.feature-card.blue-a{border-top-color:var(--blue);background:var(--blue-soft)}
+.feature-card.orange-a{border-top-color:var(--orange);background:var(--orange-soft)}
+.feature-card.yellow-a{border-top-color:var(--yellow);background:var(--yellow-soft)}
+.feature-card .fc-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--body-text);line-height:1.5}
+
+/* CALLOUT */
+.callout{border-radius:8px;padding:14px 18px;margin:14px 0;display:flex;gap:14px;align-items:flex-start}
+.callout-bar{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0}
+.callout.tip .callout-bar{background:var(--green)}
+.callout.tip{background:var(--green-bg)}
+.callout.warning .callout-bar{background:var(--warn)}
+.callout.warning{background:var(--warn-bg)}
+.callout.info .callout-bar{background:var(--blue)}
+.callout.info{background:var(--blue-soft)}
+.callout.copilot .callout-bar{background:var(--purple)}
+.callout.copilot{background:var(--purple-soft)}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warning .callout-body strong{color:var(--warn)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.copilot .callout-body strong{color:var(--purple)}
+.callout-body p{font-size:13px;line-height:1.55}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--purple);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--body-text)}
+
+/* REF TABLE */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--purple-l);padding:10px 14px;text-align:left;font-size:12px;font-weight:700;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border:1px solid var(--border);vertical-align:top;color:var(--body-text)}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+
+/* PROMPT TABS */
+.prompt-tabs{margin:16px 0}
+.tab-bar{display:flex;gap:8px;margin-bottom:12px}
+.tab-btn{padding:7px 16px;border-radius:6px;border:1px solid var(--border);background:#fff;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.prompt-box{display:none;flex-direction:column;gap:10px}
+.prompt-box.active{display:flex}
+.prompt-item{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.prompt-label{background:var(--sidebar-bg);padding:8px 16px;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--purple-l);text-transform:uppercase}
+.prompt-text{padding:12px 16px;font-size:13px;color:var(--body-text);font-style:italic;line-height:1.55;background:var(--card-bg)}
+.copy-btn{display:block;margin:8px 16px 12px auto;padding:5px 14px;border-radius:5px;background:var(--purple);color:#fff;font-size:12px;font-weight:600;border:none;cursor:pointer}
+.copy-btn:hover{background:var(--purple-l)}
+
+/* MOCKUP */
+.mockup{background:#0D0B2E;border-radius:10px;padding:20px;margin:16px 0;font-family:'Segoe UI',sans-serif}
+.mockup-bar{background:#1A1748;border-radius:6px;padding:8px 14px;font-size:11px;color:var(--purple-l);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px}
+.mockup-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mock-panel{border-radius:8px;padding:16px}
+.mock-panel.bad{background:#1A0A0A;border:1px solid #4A1515}
+.mock-panel.good{background:#0A1A0A;border:1px solid #154A15}
+.mock-panel.neutral{background:#131040;border:1px solid rgba(94,23,235,0.3)}
+.mock-label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+.mock-label.bad{color:#F87171}
+.mock-label.good{color:#4ADE80}
+.mock-label.neutral{color:var(--purple-l)}
+.mock-prompt{font-size:13px;color:#BBA8F0;font-style:italic;line-height:1.5;margin-bottom:10px;padding:10px;background:rgba(255,255,255,0.04);border-radius:5px}
+.mock-response{font-size:12px;line-height:1.55}
+.mock-response.bad{color:#F87171}
+.mock-response.good{color:#86EFAC}
+.mock-response.neutral{color:#C8B8FF}
+.mock-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;margin-bottom:6px}
+.mock-tag.bad{background:rgba(220,38,38,0.2);color:#F87171}
+.mock-tag.good{background:rgba(22,163,74,0.2);color:#4ADE80}
+
+/* FORMULA BOX */
+.formula-box{background:var(--sidebar-bg);border-radius:10px;padding:20px 24px;margin:16px 0;border:1px solid rgba(139,92,246,0.3)}
+.formula-box .formula-title{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--purple-l);text-transform:uppercase;margin-bottom:12px}
+.formula-parts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.formula-part{background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:8px;padding:12px;text-align:center}
+.formula-part .fp-label{font-size:11px;font-weight:700;color:var(--purple-l);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.formula-part .fp-def{font-size:12px;color:#C8B8FF}
+
+/* DO/AVOID */
+.do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.do-box,.avoid-box{border-radius:10px;padding:18px;border:1px solid}
+.do-box{background:var(--green-bg);border-color:var(--green);border-top:3px solid var(--green)}
+.avoid-box{background:var(--red-bg);border-color:var(--red);border-top:3px solid var(--red)}
+.do-box h4{color:var(--green);font-size:13px;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.avoid-box h4{color:var(--red);font-size:13px;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.do-box ul,.avoid-box ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.do-box li,.avoid-box li{font-size:13px;color:var(--body-text);padding-left:16px;position:relative}
+.do-box li::before{content:'â€¢';position:absolute;left:0;color:var(--green)}
+.avoid-box li::before{content:'â€¢';position:absolute;left:0;color:var(--red)}
+
+/* TROUBLE ITEMS */
+.trouble-item{border-radius:8px;overflow:hidden;margin:10px 0;border:1px solid var(--border)}
+.trouble-q{background:var(--hdr-bg);padding:12px 18px;font-size:14px;font-weight:700;color:var(--ink);border-left:4px solid var(--purple)}
+.trouble-a{background:#fff;padding:12px 18px;font-size:13px;color:var(--body-text);line-height:1.55}
+
+/* PROMPT FORMULA TABLE */
+.formula-table{width:100%;border-collapse:collapse;margin:16px 0}
+.formula-table th{background:var(--sidebar-bg);color:var(--purple-l);padding:10px 14px;text-align:left;font-size:12px;font-weight:700;letter-spacing:.5px}
+.formula-table td{padding:10px 14px;border:1px solid var(--border);vertical-align:top;font-size:13px;color:var(--body-text)}
+.formula-table tr:nth-child(even) td{background:var(--card-bg)}
+.formula-table .pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700;color:#fff}
+.pill-goal{background:var(--purple)}
+.pill-ctx{background:var(--blue)}
+.pill-src{background:var(--orange)}
+.pill-exp{background:var(--yellow);color:var(--ink)}
+
+/* ROADMAP */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{border-radius:10px;padding:20px;background:#fff;border:1px solid var(--border);border-top-width:4px}
+.roadmap-step:nth-child(1){border-top-color:var(--purple)}
+.roadmap-step:nth-child(2){border-top-color:var(--orange)}
+.roadmap-step:nth-child(3){border-top-color:var(--blue)}
+.roadmap-step:nth-child(4){border-top-color:var(--yellow)}
+.roadmap-step .rs-num{font-size:32px;font-weight:800;margin-bottom:8px}
+.roadmap-step:nth-child(1) .rs-num{color:var(--purple)}
+.roadmap-step:nth-child(2) .rs-num{color:var(--orange)}
+.roadmap-step:nth-child(3) .rs-num{color:var(--blue)}
+.roadmap-step:nth-child(4) .rs-num{color:var(--yellow)}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12px;color:var(--body-text);line-height:1.5}
+
+/* SECTION LABEL */
+.sec-label{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--purple-l);text-transform:uppercase;margin:20px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+
+/* APP BADGE */
+.app-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;margin-bottom:10px}
+.app-badge.outlook{background:#EDE8FF;color:var(--purple)}
+.app-badge.teams{background:#EFF6FF;color:var(--blue)}
+.app-badge.word{background:#EFF6FF;color:#0078D4}
+.app-badge.excel{background:#E6F4EC;color:var(--green)}
+.app-badge.ppt{background:var(--orange-soft);color:var(--orange)}
+.app-badge.chat{background:var(--yellow-soft);color:var(--yellow)}
+
+h3{font-size:15px;font-weight:700;color:var(--ink);margin:18px 0 8px}
+p{font-size:13px;line-height:1.6;margin-bottom:10px}
+ul{padding-left:18px;margin-bottom:10px}
+li{font-size:13px;line-height:1.6;margin-bottom:4px;color:var(--body-text)}
+strong{color:var(--ink)}
+footer{text-align:center;padding:24px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);margin-top:24px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="co">The AI Advantage Co</div>
+    <div class="title">âœ¨ Copilot Prompt Guide</div>
+  </div>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Prompting?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>The Prompt Formula</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Outlook Prompts</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Teams Prompts</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Word & PowerPoint</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Excel & Data</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Copilot Chat Prompts</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+
+<!-- CONTENT -->
+<main class="content">
+
+<!-- BANNER -->
+<div class="banner">
+  <svg class="banner-sparkles" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M160 30 L165 50 L185 55 L165 60 L160 80 L155 60 L135 55 L155 50Z" fill="#8B5CF6"/>
+    <path d="M80 100 L84 116 L100 120 L84 124 L80 140 L76 124 L60 120 L76 116Z" fill="#5E17EB"/>
+    <path d="M140 170 L143 182 L155 185 L143 188 L140 200 L137 188 L125 185 L137 182Z" fill="#EA6C1A"/>
+  </svg>
+  <div class="co">The AI Advantage Co Â· Copilot Core Series</div>
+  <h1>âœ¨ Copilot <span>Prompt Guide</span></h1>
+  <div class="sub">Prompt patterns &amp; examples for every Microsoft 365 app</div>
+  <div class="banner-badge">ðŸ“‹ All M365 Apps Â· Outlook Â· Teams Â· Word Â· Excel Â· PowerPoint Â· Copilot Chat</div>
+</div>
+
+<!-- 01 -->
+<div class="section-card" id="s1">
+  <div class="section-header">
+    <div class="sec-num">01</div>
+    <div>
+      <h2>What is Copilot Prompting?</h2>
+      <p>Why your words determine everything Copilot does</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>A <strong>prompt</strong> is the instruction you give Copilot in plain English. It's how you tell Copilot what to do, what to work with, how to format the output, and who it's for. Unlike a search query â€” where one or two keywords is enough â€” a good Copilot prompt is closer to a brief you'd give a skilled colleague.</p>
+    <p>Copilot is capable of producing extraordinary results, but that capability is unlocked by the quality of your prompt. Vague instructions produce vague output. Specific, well-structured prompts produce output you can actually use.</p>
+    <div class="card-grid">
+      <div class="feature-card purple-a"><div class="fc-icon">ðŸŽ¯</div><h4>It's a Brief, Not a Search</h4><p>Treat prompts like you're briefing a smart assistant â€” give context, the task, the format, and the audience. One sentence is almost never enough.</p></div>
+      <div class="feature-card blue-a"><div class="fc-icon">ðŸ”„</div><h4>Iteration is Normal</h4><p>Your first prompt is rarely your best. Copilot maintains context in a session â€” follow up with refinements rather than starting over.</p></div>
+      <div class="feature-card orange-a"><div class="fc-icon">ðŸ“</div><h4>Context is Everything</h4><p>The same task prompt ("write a summary") produces very different results with vs. without context. Always tell Copilot what it's working with and why.</p></div>
+      <div class="feature-card yellow-a"><div class="fc-icon">ðŸ› ï¸</div><h4>App-Aware Prompting</h4><p>Each M365 app's Copilot has different capabilities. A great Outlook prompt doesn't translate directly to Excel â€” the patterns differ by app context.</p></div>
+    </div>
+    <div class="callout copilot"><div class="callout-bar"></div><div class="callout-icon">âœ¨</div><div class="callout-body"><strong>The Core Insight</strong><p>Copilot is not Google. Don't type keywords â€” write sentences. The more relevant detail you provide, the more useful the output. This guide gives you the exact patterns that work in each M365 app.</p></div></div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section-card" id="s2">
+  <div class="section-header">
+    <div class="sec-num">02</div>
+    <div>
+      <h2>The Prompt Formula</h2>
+      <p>Goal + Context + Source + Expectations â€” the structure behind every great prompt</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>Microsoft's recommended framework for Copilot prompts has four parts. You don't need all four every time, but the more you include, the better the result. Think of it as filling out a brief before handing work to a colleague.</p>
+    <div class="formula-box">
+      <div class="formula-title">The Copilot Prompt Formula</div>
+      <div class="formula-parts">
+        <div class="formula-part"><div class="fp-label">Goal</div><div class="fp-def">What do you want? (Draft / Summarise / Analyse / List / Rewrite)</div></div>
+        <div class="formula-part"><div class="fp-label">Context</div><div class="fp-def">What's the background? Who is involved? What is this for?</div></div>
+        <div class="formula-part"><div class="fp-label">Source</div><div class="fp-def">What should Copilot use? This document / these emails / the transcript</div></div>
+        <div class="formula-part"><div class="fp-label">Expectations</div><div class="fp-def">Format, length, tone, audience, level of detail</div></div>
+      </div>
+    </div>
+    <table class="formula-table">
+      <tr><th>Element</th><th>Why It Matters</th><th>Example</th></tr>
+      <tr><td><span class="pill pill-goal">Goal</span></td><td>Tells Copilot what type of output to produce</td><td>"Summariseâ€¦" / "Draftâ€¦" / "Analyseâ€¦" / "Rewriteâ€¦"</td></tr>
+      <tr><td><span class="pill pill-ctx">Context</span></td><td>Tells Copilot the purpose and stakeholders</td><td>"â€¦for a non-technical audience" / "â€¦for our board meeting"</td></tr>
+      <tr><td><span class="pill pill-src">Source</span></td><td>Tells Copilot what data to use</td><td>"â€¦using this email thread" / "â€¦from the meeting transcript"</td></tr>
+      <tr><td><span class="pill pill-exp">Expectations</span></td><td>Defines output format, length, and tone</td><td>"â€¦as 5 bullet points, max 15 words each, formal tone"</td></tr>
+    </table>
+    <h3>Weak vs. Strong â€” Side by Side</h3>
+    <div class="callout warning"><div class="callout-bar"></div><div class="callout-icon">âŒ</div><div class="callout-body"><strong>Weak Prompt</strong><p>"Summarise the meeting." â€” Copilot will produce a generic, unfocused summary. It doesn't know which parts matter, who needs it, or what format you want.</p></div></div>
+    <div class="callout tip"><div class="callout-bar"></div><div class="callout-icon">âœ…</div><div class="callout-body"><strong>Strong Prompt</strong><p>"Summarise today's Q3 planning meeting. List the 3 key decisions made, 4 action items with owner names, and any unresolved issues. Format as a short email I can send to the wider team. Keep it under 150 words."</p></div></div>
+    <h3>Follow-Up Iteration Patterns</h3>
+    <p>Once Copilot responds, you don't need to re-prompt from scratch. Use these follow-up phrases:</p>
+    <ul>
+      <li><strong>"Make it shorter"</strong> â€” Copilot will condense the previous output</li>
+      <li><strong>"Change the tone to be more formal"</strong> â€” adjusts register while keeping content</li>
+      <li><strong>"Add a section on [topic]"</strong> â€” expands the output with new content</li>
+      <li><strong>"Rewrite the intro to be more direct"</strong> â€” targeted edit, not a full redo</li>
+      <li><strong>"Turn this into bullet points"</strong> â€” reformats existing content</li>
+      <li><strong>"What did you miss?"</strong> â€” prompts Copilot to self-check</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section-card" id="s3">
+  <div class="section-header">
+    <div class="sec-num">03</div>
+    <div>
+      <h2>Outlook Prompt Patterns</h2>
+      <p>Email summaries, drafts, replies, tone coaching, and scheduling</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <span class="app-badge outlook">ðŸ“§ Copilot in Outlook</span>
+    <p>Outlook Copilot lives in the right-side panel when you open an email thread. Its best capabilities are summarising long chains, drafting replies, adjusting email tone, and helping with scheduling. It has full context of the email you're viewing.</p>
+    <h3>Core Prompt Patterns</h3>
+    <table class="ref-table">
+      <tr><th>Task</th><th>Prompt Pattern</th><th>Example</th></tr>
+      <tr><td>Summarise a thread</td><td>"Summarise this thread. [Key points to extract]."</td><td>"Summarise this email thread. What is the core issue, what has been agreed, and what is the outstanding question?"</td></tr>
+      <tr><td>Draft a reply</td><td>"Draft a reply [action/message]. Tone: [formal/friendly]. Length: [under X words]."</td><td>"Draft a reply confirming I'll attend, asking for the agenda, and mentioning I'll bring [name]. Friendly tone. Under 80 words."</td></tr>
+      <tr><td>Tone coaching</td><td>"Rewrite my draft to sound [more direct / warmer / more assertive / less passive]."</td><td>"Rewrite this to be more direct and remove any hedging language. Keep it professional."</td></tr>
+      <tr><td>Identify action items</td><td>"What are the action items from this thread? List with owner if mentioned."</td><td>"What are the action items from this thread? List each with the person responsible and any deadline mentioned."</td></tr>
+      <tr><td>Meeting scheduling</td><td>"Draft an email to [name/team] suggesting a meeting about [topic]. Include [agenda points]."</td><td>"Draft an email to the marketing team suggesting a 30-minute briefing on the Q3 campaign results. Suggest two times next week."</td></tr>
+    </table>
+    <div class="callout tip"><div class="callout-bar"></div><div class="callout-icon">ðŸ’¡</div><div class="callout-body"><strong>Pro Tip: Coaching Mode</strong><p>Before hitting send, ask Copilot: "How might the recipient interpret this email?" or "Does this come across as too blunt?" â€” Copilot will give you a tone assessment and suggest improvements.</p></div></div>
+    <h3>Ready-to-Use Outlook Prompts</h3>
+    <div class="card-grid">
+      <div class="feature-card purple-a"><div class="fc-icon">ðŸ“‹</div><h4>Weekly Digest</h4><p><em>"Summarise my unread emails from this week. Group by urgency: action required today, action this week, and FYI only."</em></p></div>
+      <div class="feature-card blue-a"><div class="fc-icon">ðŸ¤</div><h4>Client Reply</h4><p><em>"Draft a professional reply thanking [client] for their feedback, confirming we'll address [issue], and proposing a call next week."</em></p></div>
+      <div class="feature-card orange-a"><div class="fc-icon">âš¡</div><h4>Escalation Draft</h4><p><em>"Draft an email escalating [issue] to my manager. Include: what happened, impact, what I've tried, and what I need. Assertive but professional."</em></p></div>
+      <div class="feature-card yellow-a"><div class="fc-icon">âœï¸</div><h4>Tone Fix</h4><p><em>"Rewrite this email to be warmer and more collaborative â€” it currently sounds too blunt. Keep all the factual content."</em></p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section-card" id="s4">
+  <div class="section-header">
+    <div class="sec-num">04</div>
+    <div>
+      <h2>Teams Prompt Patterns</h2>
+      <p>Meeting recaps, live queries, catch-up summaries, and channel intelligence</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <span class="app-badge teams">ðŸ’¬ Copilot in Teams</span>
+    <p>Teams Copilot has two modes: post-meeting recap (from the transcript) and in-meeting live queries. Both require transcription to be enabled. The Recap tab appears after a meeting ends; the Copilot panel is available during a live meeting.</p>
+    <h3>Post-Meeting Recap Prompts</h3>
+    <table class="ref-table">
+      <tr><th>Task</th><th>Prompt Pattern</th><th>Example</th></tr>
+      <tr><td>Full meeting summary</td><td>"Summarise this meeting. Include [topics], [decisions], [actions]."</td><td>"Summarise this meeting. List the 3 main topics, decisions made, and all action items with owner and deadline if mentioned."</td></tr>
+      <tr><td>Action items only</td><td>"List all action items from this meeting with the responsible person."</td><td>"List every action item mentioned. Include who owns it and any deadline. Format as a table."</td></tr>
+      <tr><td>What did someone say?</td><td>"What did [name] say about [topic]?"</td><td>"What did Sarah say about the budget concerns? Summarise her key points."</td></tr>
+      <tr><td>Unresolved issues</td><td>"What questions or issues were raised but not resolved in this meeting?"</td><td>"What was left unresolved or parked for later? List any outstanding questions or deferred decisions."</td></tr>
+      <tr><td>Follow-up email draft</td><td>"Draft a follow-up email from this meeting. Include [summary], [actions], [next steps]."</td><td>"Draft a follow-up email I can send to all attendees. Include a brief summary, action items with owners, and next meeting date."</td></tr>
+    </table>
+    <h3>In-Meeting Live Prompts</h3>
+    <p>During a live Teams meeting (with transcription running), open the Copilot panel and ask:</p>
+    <div class="card-grid">
+      <div class="feature-card purple-a"><div class="fc-icon">ðŸ“</div><h4>What's Been Decided?</h4><p><em>"What has been agreed so far in this meeting?"</em></p></div>
+      <div class="feature-card blue-a"><div class="fc-icon">â“</div><h4>Open Questions</h4><p><em>"What questions have been raised that haven't been answered yet?"</em></p></div>
+      <div class="feature-card orange-a"><div class="fc-icon">ðŸ’¬</div><h4>Catch Me Up</h4><p><em>"I just joined â€” what have I missed in the last 10 minutes?"</em></p></div>
+      <div class="feature-card yellow-a"><div class="fc-icon">ðŸ“Š</div><h4>Key Perspectives</h4><p><em>"What are the different perspectives on [topic] that have been shared?"</em></p></div>
+    </div>
+    <div class="callout info"><div class="callout-bar"></div><div class="callout-icon">â„¹ï¸</div><div class="callout-body"><strong>Transcription Required</strong><p>Copilot in Teams only works if transcription is enabled. If the Recap tab is missing after a meeting, transcription wasn't running. Ask your IT admin to enable auto-transcription in Teams meeting policies, or start it manually at the beginning of each meeting.</p></div></div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section-card" id="s5">
+  <div class="section-header">
+    <div class="sec-num">05</div>
+    <div>
+      <h2>Word &amp; PowerPoint Patterns</h2>
+      <p>Draft, rewrite, summarise, transform â€” document creation and presentation workflows</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <span class="app-badge word">ðŸ“„ Word</span>&nbsp;<span class="app-badge ppt">ðŸ“‘ PowerPoint</span>
+    <h3>Word: Drafting and Writing</h3>
+    <p>Word Copilot can draft entire documents from a prompt, rewrite selected sections, change tone, summarise long content, or extract key points. Open with the Copilot button in the ribbon or use "Draft with Copilot" in an empty document.</p>
+    <table class="ref-table">
+      <tr><th>Task</th><th>Prompt Pattern</th><th>Example</th></tr>
+      <tr><td>Draft a document</td><td>"Draft a [document type] about [topic]. Include [sections]. Audience: [who]. Tone: [register]."</td><td>"Draft a 1-page project update about the CRM migration. Include: current status, 3 key risks, and top 3 next steps. Audience: executive team. Tone: confident and concise."</td></tr>
+      <tr><td>Rewrite a section</td><td>"Rewrite this section to be [shorter / more formal / clearer / more persuasive]."</td><td>"Rewrite this paragraph to be more concise â€” cut it to 3 sentences maximum. Keep the core message."</td></tr>
+      <tr><td>Summarise a document</td><td>"Summarise this document. Focus on [specific angle or audience]."</td><td>"Summarise this 20-page report. Extract the 5 most important findings and any recommended actions."</td></tr>
+      <tr><td>Change tone/audience</td><td>"Rewrite this for [new audience]. Make it [more/less] [technical/formal/direct]."</td><td>"Rewrite this technical spec for a non-technical business audience. Replace jargon with plain language. Keep it under 500 words."</td></tr>
+      <tr><td>Generate an outline</td><td>"Create an outline for a [document type] on [topic]. Include [sections or requirements]."</td><td>"Create an outline for a business case for [initiative]. Include: executive summary, problem statement, proposed solution, costs, ROI, and risks."</td></tr>
+    </table>
+    <h3>PowerPoint: Presentation Creation</h3>
+    <p>PowerPoint Copilot can create full presentations from a prompt or from an existing Word document. Open via the Copilot button in the ribbon.</p>
+    <table class="ref-table">
+      <tr><th>Task</th><th>Prompt Pattern</th><th>Example</th></tr>
+      <tr><td>Create from scratch</td><td>"Create a [N]-slide presentation about [topic]. Audience: [who]. Include [structure]."</td><td>"Create a 6-slide presentation on our new onboarding process. Audience: new starters. Slide 1: overview, Slides 2â€“5: one step each, Slide 6: resources and contacts."</td></tr>
+      <tr><td>Create from Word doc</td><td>"Create a presentation based on [file name / this document]."</td><td>"Create a presentation based on the Q3 Business Review document. Include the key findings and recommendations as separate slides."</td></tr>
+      <tr><td>Add a slide</td><td>"Add a slide about [topic] after slide [N]."</td><td>"Add a slide about competitor analysis after slide 4. Include 3 key competitors and one differentiator for each."</td></tr>
+      <tr><td>Improve speaker notes</td><td>"Write detailed speaker notes for slide [N] covering [points]."</td><td>"Write speaker notes for slide 3 â€” include transition phrases, anticipated audience questions, and the key message to emphasise."</td></tr>
+    </table>
+    <div class="callout tip"><div class="callout-bar"></div><div class="callout-icon">ðŸ’¡</div><div class="callout-body"><strong>Word â†’ PowerPoint Workflow</strong><p>Draft your content in Word first with Copilot, then open PowerPoint and ask it to create a presentation from that Word document. This produces much better slide decks than prompting PowerPoint cold â€” the structured document gives Copilot richer source material.</p></div></div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section-card" id="s6">
+  <div class="section-header">
+    <div class="sec-num">06</div>
+    <div>
+      <h2>Excel &amp; Data Patterns</h2>
+      <p>Analyse data, generate formulas, spot trends, and create charts â€” in plain English</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <span class="app-badge excel">ðŸ“Š Copilot in Excel</span>
+    <p>Excel Copilot analyses data in your spreadsheet and responds in plain language. <strong>Your data must be formatted as an Excel Table</strong> (Insert â†’ Table) and the file must be saved to OneDrive or SharePoint. Once those conditions are met, you can query your data without writing a single formula.</p>
+    <div class="callout warning"><div class="callout-bar"></div><div class="callout-icon">âš ï¸</div><div class="callout-body"><strong>Prerequisite: Format as Table</strong><p>Excel Copilot is greyed out unless your data is in a proper Excel Table. Select your data range and go to Insert â†’ Table â†’ confirm headers. The Copilot button will activate once this is done.</p></div></div>
+    <h3>Core Excel Prompt Patterns</h3>
+    <table class="ref-table">
+      <tr><th>Task</th><th>Prompt Pattern</th><th>Example</th></tr>
+      <tr><td>Analyse & summarise</td><td>"What are the top [N] [metric] in this data? Any notable patterns?"</td><td>"What are the top 5 products by revenue this quarter? Are there any unusual patterns or outliers?"</td></tr>
+      <tr><td>Formula generation</td><td>"Write a formula to [calculation]. Explain what it does."</td><td>"Write a formula to calculate the 3-month rolling average for the Sales column. Explain how it works."</td></tr>
+      <tr><td>Highlight/filter</td><td>"Highlight rows where [condition]. / Show me only [subset]."</td><td>"Highlight all rows where the margin is below 15%. Show them in red conditional formatting."</td></tr>
+      <tr><td>Create a chart</td><td>"Create a [chart type] showing [metric] by [dimension]."</td><td>"Create a bar chart showing monthly sales by region for the last 6 months."</td></tr>
+      <tr><td>Trend / comparison</td><td>"Compare [period/group A] vs [period/group B]. What's changed?"</td><td>"Compare Q2 vs Q3 revenue by product category. Which categories grew and which declined? By how much?"</td></tr>
+      <tr><td>What-if analysis</td><td>"If [variable] changes by [amount], what would [outcome] be?"</td><td>"If we increase the unit price by 10%, what would total revenue be? Show the calculation."</td></tr>
+    </table>
+    <div class="callout info"><div class="callout-bar"></div><div class="callout-icon">â„¹ï¸</div><div class="callout-body"><strong>Always Verify Numbers</strong><p>Copilot can make calculation errors, especially on complex formulas or when data has inconsistencies. Always sanity-check figures against known totals before sharing or acting on Excel Copilot outputs.</p></div></div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section-card" id="s7">
+  <div class="section-header">
+    <div class="sec-num">07</div>
+    <div>
+      <h2>Copilot Chat Power Prompts</h2>
+      <p>Cross-app queries, multi-file analysis, and organisation-wide intelligence</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <span class="app-badge chat">ðŸŒ Microsoft 365 Copilot Chat</span>
+    <p>Microsoft 365 Copilot Chat (at <strong>m365.cloud.microsoft</strong>) is the most powerful mode of Copilot. Unlike app-specific panels that see only the currently open file, Copilot Chat has access to your emails, documents, meetings, calendar, and Teams conversations â€” all in one conversation.</p>
+    <h3>File Referencing with /</h3>
+    <p>Type <strong>/</strong> in the Copilot Chat input to search and reference specific files, meetings, or people:</p>
+    <ul>
+      <li><strong>/[file name]</strong> â€” references a specific OneDrive or SharePoint file</li>
+      <li><strong>/[meeting name or date]</strong> â€” references a meeting transcript</li>
+      <li><strong>/[person's name]</strong> â€” filters results related to that person</li>
+      <li>You can reference up to 3 items in a single prompt</li>
+    </ul>
+    <h3>Cross-App Prompt Patterns</h3>
+    <table class="ref-table">
+      <tr><th>Task</th><th>Prompt Pattern</th><th>Example</th></tr>
+      <tr><td>Topic research across apps</td><td>"What has been discussed about [topic] in my recent emails and meetings? Summarise key points and pending actions."</td><td>"What has been discussed about Project Phoenix in my emails and meetings this month? Summarise status, decisions, and any open actions."</td></tr>
+      <tr><td>Multi-file synthesis</td><td>"Compare /[file 1] and /[file 2]. What are the key differences in [area]?"</td><td>"Compare /Q3 Budget Proposal.xlsx and /Q3 Actuals.xlsx. Where are the biggest variances and what might explain them?"</td></tr>
+      <tr><td>Prepare for a meeting</td><td>"I have a meeting with [name/team] about [topic]. Based on recent emails and docs, what should I know and what questions should I be ready to answer?"</td><td>"I have a meeting with the finance team tomorrow about the annual budget. Based on recent emails and documents, what are the key issues and what am I likely to be asked?"</td></tr>
+      <tr><td>Catch up after absence</td><td>"What have I missed about [topic/project] while I was away [dates]? Summarise from emails, meetings, and Teams."</td><td>"I was away from 1â€“7 May. What happened with the product launch? Summarise from emails and meetings."</td></tr>
+      <tr><td>Action item tracker</td><td>"What outstanding actions have been assigned to me in recent meetings and emails?"</td><td>"What actions have been assigned to me in the last 2 weeks across emails and meetings? List with any deadlines mentioned."</td></tr>
+      <tr><td>Stakeholder briefing</td><td>"Based on /[document], draft a briefing for [audience] covering [key areas]."</td><td>"Based on /Client Proposal v3.docx, draft a 1-page briefing for my CEO covering the key commercial terms and any risks."</td></tr>
+    </table>
+    <div class="callout copilot"><div class="callout-bar"></div><div class="callout-icon">âœ¨</div><div class="callout-body"><strong>Copilot Chat is Your Power Tool</strong><p>Most people underuse Copilot Chat because they default to app-specific Copilot. Make it your daily starting point â€” open it first thing each morning and ask: "What do I need to action today based on my emails and meetings?" It connects the dots that no single app can.</p></div></div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section-card" id="s8">
+  <div class="section-header">
+    <div class="sec-num">08</div>
+    <div>
+      <h2>Common Mistakes &amp; Fixes</h2>
+      <p>What goes wrong with Copilot prompts â€” and how to get better results</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="trouble-item"><div class="trouble-q">â“ Copilot's output is too generic â€” it doesn't feel tailored to my situation.</div><div class="trouble-a">You're not providing enough context. Add: who the audience is, what the purpose is, and what content Copilot should use. Compare "Summarise this report" (generic) with "Summarise this report for a non-technical board audience, focusing on financial impact and strategic risks" (specific).</div></div>
+    <div class="trouble-item"><div class="trouble-q">â“ Copilot keeps including information I didn't ask for.</div><div class="trouble-a">Be explicit about scope. Add constraints: "Only use information from this email thread â€” do not add external information." Or: "Focus only on [specific section or topic]." Copilot can over-generate if it lacks a clear scope boundary.</div></div>
+    <div class="trouble-item"><div class="trouble-q">â“ The tone is wrong â€” too formal, too casual, or too robotic.</div><div class="trouble-a">Specify tone explicitly and give an example if needed. "Warm and professional, like an experienced colleague" is clearer than just "professional." If the first attempt misses, follow up: "Make this warmer â€” it reads too corporate."</div></div>
+    <div class="trouble-item"><div class="trouble-q">â“ Copilot's numbers or facts seem wrong.</div><div class="trouble-a">Copilot can hallucinate â€” especially statistics and figures not present in the source document. Add the instruction: "Only use figures and facts from the provided content. Do not estimate or add data." Always verify numbers before sharing.</div></div>
+    <div class="trouble-item"><div class="trouble-q">â“ The output is too long / too short.</div><div class="trouble-a">Give an explicit word or bullet count: "Summarise in under 100 words" or "Provide at least 5 detailed bullet points." Copilot defaults to a medium length â€” you need to specify when you want something significantly shorter or longer.</div></div>
+    <div class="trouble-item"><div class="trouble-q">â“ Copilot Chat can't find the file I'm referencing.</div><div class="trouble-a">The file must be in OneDrive or SharePoint â€” not your local drive. Confirm the file name spelling matches exactly. If you recently created the file, wait a few minutes for indexing. Also check that you personally have access to that file.</div></div>
+    <div class="do-avoid">
+      <div class="do-box"><h4>âœ… Do This</h4><ul>
+        <li>Specify the audience for every output</li>
+        <li>Set explicit format, length, and tone</li>
+        <li>Reference the source ("from this document / email / transcript")</li>
+        <li>Iterate on responses rather than starting over</li>
+        <li>Verify numbers and facts before sharing</li>
+        <li>Use / to reference files in Copilot Chat</li>
+      </ul></div>
+      <div class="avoid-box"><h4>âŒ Avoid This</h4><ul>
+        <li>One-word or keyword-style prompts</li>
+        <li>Assuming Copilot knows your context without being told</li>
+        <li>Using Copilot output without reviewing it</li>
+        <li>Starting a fresh conversation when you could follow up</li>
+        <li>Asking Copilot to reference files stored locally</li>
+        <li>Using sensitive or confidential data in shared chat contexts</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section-card" id="s9">
+  <div class="section-header">
+    <div class="sec-num">09</div>
+    <div>
+      <h2>Suggested Prompts</h2>
+      <p>Ready-to-use prompt templates across all M365 apps</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-tabs">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="showTab(this,'s9','daily')">Daily Workflows</button>
+        <button class="tab-btn" onclick="showTab(this,'s9','advanced')">Advanced Prompts</button>
+      </div>
+      <div class="prompt-box active" id="s9-daily">
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸ“§ Outlook â€” Thread Catchup</div>
+          <div class="prompt-text">"Summarise this email thread. What is the core issue, what has been agreed, what is still outstanding, and what action (if any) is needed from me? Keep it to 5 bullet points."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸ’¬ Teams â€” Meeting Recap</div>
+          <div class="prompt-text">"Summarise this meeting. List: the 3 main topics discussed, decisions made, all action items with owner and deadline (if mentioned), and any issues that were raised but not resolved."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸ“„ Word â€” First Draft</div>
+          <div class="prompt-text">"Draft a [document type] about [topic]. Audience: [who]. Include: [section 1], [section 2], [section 3]. Tone: [formal/professional/friendly]. Length: approximately [X] words."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+      <div class="prompt-box" id="s9-advanced">
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸŒ Copilot Chat â€” Pre-Meeting Brief</div>
+          <div class="prompt-text">"I have a meeting with [name/team] tomorrow about [topic]. Based on my recent emails and documents related to this, what are the key points I should know, and what questions am I likely to be asked? Flag anything I should prepare for."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸ“Š Excel â€” Data Analysis</div>
+          <div class="prompt-text">"Analyse this data table. Tell me: the top 3 performing items by [metric], which items are below average, any significant trends over time, and any outliers I should be aware of. Flag anything unexpected."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸŒ Copilot Chat â€” Multi-File Compare</div>
+          <div class="prompt-text">"Compare /[File 1] and /[File 2]. What are the key differences in [specific area â€” e.g. budget figures, proposed timelines, risk assessments]? Highlight any conflicts or discrepancies I should reconcile."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section-card" id="s10">
+  <div class="section-header">
+    <div class="sec-num">10</div>
+    <div>
+      <h2>See It In Action</h2>
+      <p>Weak vs. strong prompt â€” same task, dramatically different results</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p>The same Copilot task â€” drafting a project status email â€” produces completely different results depending on how it's prompted. Here's a side-by-side comparison in Word Copilot:</p>
+    <div class="mockup">
+      <div class="mockup-bar">âœ¨ COPILOT IN WORD â€” PROMPT COMPARISON</div>
+      <div class="mockup-grid">
+        <div class="mock-panel bad">
+          <div class="mock-label bad">âŒ WEAK PROMPT</div>
+          <div class="mock-prompt">"Write a project status email."</div>
+          <div class="mock-tag bad">Result: Generic &amp; Unusable</div>
+          <div class="mock-response bad">Subject: Project Status Update<br><br>Hi Team,<br><br>I wanted to provide an update on the project. Things are going well and we are making progress. There are some challenges we are working through. Please let me know if you have any questions.<br><br>Regards</div>
+        </div>
+        <div class="mock-panel good">
+          <div class="mock-label good">âœ… STRONG PROMPT</div>
+          <div class="mock-prompt">"Draft a project status email for the CRM migration. Audience: executive team. Include: current phase (data migration, 60% complete), 2 risks (timeline slippage, data quality), next milestone (go-live 30 June). Tone: confident. Max 150 words."</div>
+          <div class="mock-tag good">Result: Specific &amp; Ready to Send</div>
+          <div class="mock-response good">Subject: CRM Migration â€” Status Update (Week 12)<br><br>The CRM data migration is progressing well at 60% completion. We remain on track for the 30 June go-live milestone.<br><br>Two risks to flag:<br>â€¢ Timeline: complexity in legacy data mapping may add 3â€“5 days to the migration phase. Mitigation underway.<br>â€¢ Data quality: ~8% of records require manual review. Resourcing has been confirmed.<br><br>Next milestone: full data migration complete by 14 June, UAT begins 17 June.<br><br>Happy to discuss at Thursday's stand-up.</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:16px">The strong prompt took 20 seconds longer to write and produced an email ready to send. The weak prompt produced something that needs to be entirely rewritten. <strong>The prompt is the work.</strong></p>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section-card" id="s11">
+  <div class="section-header">
+    <div class="sec-num">11</div>
+    <div>
+      <h2>Your Roadmap</h2>
+      <p>From basic prompts to advanced cross-app prompt workflows</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="roadmap">
+      <div class="roadmap-step"><div class="rs-num">01</div><h4>Learn the Formula</h4><p>Master Goal + Context + Source + Expectations. Apply it to every prompt you write this week across Outlook and Teams.</p></div>
+      <div class="roadmap-step"><div class="rs-num">02</div><h4>App by App</h4><p>Build a prompt habit in one app at a time. Start with Outlook and Teams summaries â€” then expand to Word drafts and Excel analysis.</p></div>
+      <div class="roadmap-step"><div class="rs-num">03</div><h4>Go Cross-App</h4><p>Unlock Copilot Chat for multi-file queries and cross-app research. Use it daily for pre-meeting prep and weekly catch-ups.</p></div>
+      <div class="roadmap-step"><div class="rs-num">04</div><h4>Build a Prompt Library</h4><p>Save your best prompts as personal templates. Share with your team. Recurring tasks should have reusable prompt patterns.</p></div>
+    </div>
+    <div class="callout copilot"><div class="callout-bar"></div><div class="callout-icon">âœ¨</div><div class="callout-body"><strong>Building Your Prompt Library</strong><p>Keep a running document of prompts that work well for your specific role and workflows. The best prompt library is personal â€” built from real tasks you do repeatedly. Share it with your team and iterate together.</p></div></div>
+    <h3>What to Read Next</h3>
+    <ul>
+      <li>Copilot in Outlook â€” Deep dive: email workflows, scheduling, and tone coaching</li>
+      <li>Copilot in Teams â€” Meeting intelligence, live meeting use, and channel summaries</li>
+      <li>Copilot in Word â€” Full document creation, rewriting, and transformation techniques</li>
+      <li>Copilot in Excel â€” Data analysis, formula generation, and visualisation</li>
+    </ul>
+  </div>
+</div>
+
+<footer>Â© 2026 The AI Advantage Co Â· theaiadvantageco.com.au</footer>
+</main>
+</div>
+
+<script>
+function showTab(btn, section, tab) {
+  const card = document.getElementById(section);
+  card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  card.querySelectorAll('.prompt-box').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(section + '-' + tab).classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-item').querySelector('.prompt-text').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'âœ“ Copied';
+    setTimeout(() => btn.textContent = orig, 1800);
+  });
+}
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.section-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

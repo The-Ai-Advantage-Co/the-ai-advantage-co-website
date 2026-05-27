@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude for Sensitive and Nuanced Business Writing — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #C97040; --primary-l: #E08F5B; --primary-soft: #FBEEDE;
+  --accent1: #6B4226; --accent1-soft: #F4E8DC;
+  --accent2: #1F6B7A; --accent2-soft: #E0EEF1;
+  --page-bg: #FEF8F0; --sidebar-bg: #3C1E0A;
+  --card-bg: #FFFAF1; --hdr-bg: #FAEEDA; --border: #E5C8A5;
+  --ink: #3C1E0A; --body-text: #5B3A1F; --muted: #8A6240;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <div class="brand-name">Claude for Sensitive and Nuanced Business Writing</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Claude for Sensitive and Nuanced Business Writing?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>The Sensitive-Writing Brief</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Termination and Difficult-Conversation Letters</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Public Apologies</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Investor and Stakeholder Updates</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Regulatory and Compliance Communications</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Cultural and Cross-Border Considerations</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>What Claude Won&#39;t Do</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <h1>Claude for Sensitive and Nuanced Business Writing</h1>
+      <div class="subtitle">Letters, communications, and writing where tone, restraint, and judgement matter most</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Claude for Sensitive and Nuanced Business Writing?</div><div class="section-desc">Letters, communications, and writing where tone, restraint, and judgement matter most</div></div></div><div class="content-body"><p class="prose">Some business writing has to be exactly right — a termination letter, a public apology, a difficult investor update, a sensitive customer email, a regulatory disclosure. The downside risk of getting it wrong is high; the upside of getting it right is restraint that doesn&#39;t read as cold.</p><p class="prose">Claude is the strongest off-the-shelf model for this kind of writing. Its tone-handling is calibrated, it understands the difference between honest and brutal, and it can hold both the legal and the human view at the same time.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">💬</div><div class="feat-title">Strongest Tone-Handling</div><div class="feat-desc">Across 2025-26 evaluations, top-rated for sensitive comms and tone calibration.</div></div><div class="feat-card"><div class="feat-icon">🧠</div><div class="feat-title">Reasoning Mode</div><div class="feat-desc">Opus 4.7 + Think Deeper for the highest-stakes writing where restraint matters most.</div></div><div class="feat-card"><div class="feat-icon">📜</div><div class="feat-title">Honest by Design</div><div class="feat-desc">Pushes back on dishonest framings; refuses to soften facts past accuracy.</div></div><div class="feat-card"><div class="feat-icon">⚖️</div><div class="feat-title">Always Reviewed</div><div class="feat-desc">Sensitive writing is a Claude-drafts-human-reviews pattern. Never auto-publish.</div></div></div><div class="deco-band">✨  Where tone, restraint, and judgement matter most  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">✉️  2026 UPDATE — THINK DEEPER FOR TONE</div><div class="callout-text">For the highest-stakes writing, switch on Think Deeper or use Opus 4.7 with the xhigh effort level. The reasoning models meaningfully outperform default Sonnet on prompts where tone, restraint, and dual-audience handling matter most.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">The Sensitive-Writing Brief</div><div class="section-desc">What to tell Claude before any draft</div></div></div><div class="content-body"><ul class="bullets"><li>Who is the message from (you, your boss, the company)</li><li>Who is the primary audience (one person, a team, the public)</li><li>Who else will read it (lawyers, press, investors, family)</li><li>What&#39;s the underlying truth that the message can&#39;t contradict</li><li>What outcome are you trying to produce — specifically, not vaguely</li><li>What&#39;s off-limits — what must NOT be said</li></ul><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📝  THE UNDER-USED &#39;WHAT&#39;S OFF-LIMITS&#39; FIELD</div><div class="callout-text">Telling Claude what NOT to say is often more useful than telling it what TO say. It constrains output away from common cliches and corporate boilerplate that would otherwise creep in. &#39;Don&#39;t use &#39;unfortunately&#39;; don&#39;t soften the decision&#39; produces dramatically cleaner letters.</div></div></div><p class="prose">The brief is the single biggest determinant of quality for sensitive writing. Generic prompts produce generic drafts; specific briefs produce drafts that genuinely capture what you&#39;re trying to do. Always provide: who the message is from, who reads it, who else reads it, what the underlying truth is, what outcome you want, what&#39;s off-limits.</p><p class="prose">Of these, &#39;what&#39;s off-limits&#39; is the under-used field. Telling Claude what NOT to say is often more useful than telling it what TO say — it constrains the output away from common cliches and corporate boilerplate that would otherwise creep in.</p><h3 class="sub-h3">Why the brief matters more than the model</h3><p class="sub-body">The brief determines whether Claude produces a publishable draft or a generic-sounding response. Generic prompts produce generic drafts; specific briefs produce drafts that genuinely capture what you&#39;re trying to do.</p><ul class="bullets"><li>Who is the message from (you, your boss, the company)</li><li>Who is the primary audience (one person, a team, the public)</li><li>Who else will read it (lawyers, press, investors, family)</li><li>What&#39;s the underlying truth that the message can&#39;t contradict</li><li>What outcome are you trying to produce — specifically, not vaguely</li><li>What&#39;s off-limits — what must NOT be said</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Termination and Difficult-Conversation Letters</div><div class="section-desc">The hardest writing in business</div></div></div><div class="content-body"><p class="prose">For these, the rule is: clear about the decision, kind about the person, exact about the next steps. Claude is good at all three. Always reviewed by HR/legal before sending.</p><ul class="bullets"><li>State the decision early and unambiguously</li><li>Acknowledge the person without softening the decision</li><li>Cover next steps concretely (final day, handover, references, support)</li><li>Avoid metaphors, hedging, and corporate cliché — they read as cowardice</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Lead with the decision — clarity is kinder than buildup</li><li>Acknowledge the person specifically — generic statements feel cold</li><li>Cover next steps exhaustively — uncertainty compounds distress</li><li>Offer concrete support (references, transition, EAP)</li><li>Always have HR/legal review before sending</li><li>Send by your preferred channel; provide a follow-up conversation option</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Buildup before the decision — reads as cowardice</li><li>Soft-pedalling (&#39;regretfully&#39;, &#39;unfortunately&#39;) — the person reads through it</li><li>Metaphors and corporate cliché — undermines the seriousness</li><li>Letters longer than 1 page — every additional paragraph dilutes clarity</li><li>Personal anger or defensiveness — never appropriate</li><li>Sending without legal review on anything with regulatory weight</li></ul></div></div><p class="prose">These letters are where Claude&#39;s tone-handling matters most. The pattern: clear about the decision, kind about the person, exact about next steps. Always reviewed by HR/legal before sending. The cost of the wrong tone here is human, not commercial — these letters land in someone&#39;s worst day.</p><h3 class="sub-h3">The structure that consistently works</h3><ul class="bullets"><li>Open: state the decision in the first 1-2 sentences. No buildup.</li><li>Acknowledge: 1 sentence acknowledging the person without softening the decision.</li><li>Reason: 1-2 sentences on why, if appropriate to share.</li><li>Next steps: concrete, dated, exhaustive.</li><li>Support: what&#39;s available (references, EAP, transition support).</li><li>Close: brief, warm, not effusive.</li></ul><h3 class="sub-h3">The structure that consistently works</h3><p class="sub-body">These letters land in someone&#39;s worst day. The structure that produces letters that feel kind without softening the decision: clear about the decision, kind about the person, exact about next steps. Always reviewed by HR/legal before sending.</p><ul class="bullets"><li>Open: state the decision in the first 1-2 sentences. No buildup.</li><li>Acknowledge: 1 sentence acknowledging the person without softening the decision.</li><li>Reason: 1-2 sentences on why, if appropriate to share.</li><li>Next steps: concrete, dated, exhaustive.</li><li>Support: what&#39;s available (references, EAP, transition support).</li><li>Close: brief, warm, not effusive.</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Public Apologies</div><div class="section-desc">Where most go wrong</div></div></div><div class="content-body"><p class="prose">The internet&#39;s best-written apologies share four traits: own the action, not just the impact; specify what&#39;s being done differently; don&#39;t blame circumstances; close with a path forward.</p><ul class="bullets"><li>Action-focused (&#39;we shipped a feature that did X&#39;), not impact-only (&#39;we know some users were affected&#39;)</li><li>Specific remediation (&#39;we&#39;ve reverted the change and will do Y&#39;)</li><li>No &#39;sorry-if&#39; constructions — say what you did wrong</li><li>Path forward — concrete next step, not vague intention</li></ul><h3 class="sub-h3">The four traits of apologies that work</h3><p class="sub-body">The internet&#39;s best-written apologies share four traits. The internet&#39;s worst share opposites. Both patterns are easy to spot once you know them.</p><ul class="bullets"><li>Own the action — &#39;we shipped X&#39; beats &#39;X happened&#39;</li><li>Specify remediation — concrete next step, not vague intention</li><li>No &#39;sorry-if&#39; constructions — say what you did wrong</li><li>Brief — long apologies read as defensive padding</li><li>No blame-shifting — even subtle (&#39;our partners did X&#39;)</li><li>Lead with the impact — what you caused, before what you&#39;ll do</li></ul></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Investor and Stakeholder Updates</div><div class="section-desc">When the news isn&#39;t great</div></div></div><div class="content-body"><p class="prose">Bad updates that work share a pattern: lead with the headline, explain what happened (with the actual numbers), what you&#39;re doing, what you&#39;re not doing, and when the next data point is. Resist hopium.</p><ul class="bullets"><li>Lead with the number, not the framing</li><li>Show your working — investors can spot a lack of honesty in seconds</li><li>Distinguish between things you control and things you don&#39;t</li><li>End with a specific next-data-point date, not vague optimism</li></ul><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📊  WHEN THE NEWS ISN&#39;T GREAT</div><div class="callout-text">Bad updates that work share a pattern: lead with the headline, explain what happened (with the actual numbers), what you&#39;re doing, what you&#39;re not doing, and when the next data point is. Resist hopium. Investors spot it in seconds.</div></div></div><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Lead with the headline number — not the framing</li><li>Show your working — investors spot a lack of honesty</li><li>Distinguish things you control from things you don&#39;t</li><li>End with a specific next-data-point date</li><li>Acknowledge what you don&#39;t know — uncertainty is more credible than false certainty</li><li>Keep to 1-2 pages — investors scan, not read</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Burying the number in framing</li><li>Hopium (&#39;we expect strong rebound&#39;) without evidence</li><li>Vague timelines (&#39;soon&#39;, &#39;in the coming quarter&#39;)</li><li>Generic &#39;macro conditions&#39; framing — investors discount this heavily</li><li>Hyperbole (&#39;unprecedented&#39;, &#39;transformative quarter&#39;)</li><li>Missing the next-data-point commitment — investors notice</li></ul></div></div></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Regulatory and Compliance Communications</div><div class="section-desc">Where every word might be read in court</div></div></div><div class="content-body"><p class="prose">For regulatory disclosures, customer notifications about incidents, or anything with legal weight, Claude is the drafter; your lawyers are the editors. The pattern: Claude produces a structured, clear, accurate first draft from the facts; legal adjusts for risk.</p><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚖️  NEVER SEND WITHOUT LEGAL REVIEW</div><div class="callout-text">For anything with regulatory, contractual, or litigation implications, Claude is a drafter, not a publisher. Always reviewed by counsel. State the facts; let counsel decide the framing.</div></div></div><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">⚖️</div><div class="feat-title">Always Legal Review</div><div class="feat-desc">Claude drafts, lawyers edit. For anything with regulatory or contractual weight.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📝</div><div class="feat-title">State Facts Cleanly</div><div class="feat-desc">Let counsel decide the framing. Don&#39;t anticipate legal positioning in the draft.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📅</div><div class="feat-title">Document the Chain</div><div class="feat-desc">Save the prompt and draft. Compliance audit trail.</div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Cultural and Cross-Border Considerations</div><div class="section-desc">What flat translation misses</div></div></div><div class="content-body"><p class="prose">For multinational comms, translation isn&#39;t enough — register, formality, and hierarchy conventions differ. Ask Claude to adapt for the audience, not just translate.</p><ul class="bullets"><li>&#39;Adapt this for a Japanese executive audience — appropriate formality, indirectness where called for&#39;</li><li>&#39;Rewrite for a French B2B audience — they expect more structured argumentation than US/UK&#39;</li><li>&#39;Translate to German with the formality appropriate for board-level communication&#39;</li></ul><p class="prose">For multinational communications, translation isn&#39;t enough — register, formality, and hierarchy conventions differ. Direct translation often produces messages that read as rude or naive in the target culture. Claude is meaningfully better than mainstream alternatives at adapting (not just translating) for cultural context.</p><p class="prose">Common requests: &#39;Adapt this for a Japanese executive audience — appropriate formality, indirectness where called for&#39;, &#39;Rewrite for a French B2B audience — they expect more structured argumentation than US/UK&#39;, &#39;Translate to German with the formality appropriate for board-level communication&#39;.</p></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">What Claude Won&#39;t Do</div><div class="section-desc">And shouldn&#39;t</div></div></div><div class="content-body"><ul class="bullets"><li>Won&#39;t write deliberately misleading communications</li><li>Won&#39;t draft messaging designed to manipulate vulnerable audiences</li><li>Won&#39;t generate content that misrepresents legal obligations</li><li>Will push back if asked to soften factual statements past the point of accuracy</li></ul><h3 class="sub-h3">Honest about its limits</h3><p class="sub-body">Claude is designed to be helpful, honest, and harmless. For sensitive writing, that means it pushes back on certain framings even when explicitly asked.</p><ul class="bullets"><li>Won&#39;t write deliberately misleading communications</li><li>Won&#39;t draft messaging designed to manipulate vulnerable audiences</li><li>Won&#39;t generate content that misrepresents legal obligations</li><li>Will push back if asked to soften factual statements past accuracy</li><li>Will refuse to draft personal communications you don&#39;t have authority to send</li></ul></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Claude for Sensitive and Nuanced Business Writing as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">DIFFICULT INTERNAL LETTER</div><div class="prompt-text">Draft a letter from me to one of my direct reports. Decision: we&#39;re not extending their contract beyond June. Context: performance has been declining for 3 months despite a clear performance plan. Tone: clear, kind, no soft-pedalling. Cover next steps: final day, handover, references support. I want clarity, not euphemism.</div></div><div class="prompt-card"><div class="prompt-label">CUSTOMER APOLOGY</div><div class="prompt-text">We had a 6-hour outage last Thursday that affected 30% of customers. Root cause was a misconfigured deployment we caught and fixed. Draft the customer apology email: own the action, explain what happened, what we&#39;ve done, and what we&#39;re changing. No &#39;sorry-if&#39; constructions, no blame-shifting. Sign-off is from the CEO.</div></div><div class="prompt-card"><div class="prompt-label">INVESTOR UPDATE — BAD QUARTER</div><div class="prompt-text">Q3 missed plan by 18% on revenue and 30% on new logo. Reasons: sales cycle elongation in EMEA, one large customer churn. We&#39;re not pivoting strategy. Draft a 1-page update to our investors: lead with the headline numbers, show the reasons clearly, state what we&#39;re doing and not doing, and end with the next data point we&#39;ll share.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Claude for Sensitive and Nuanced Business Writing on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini in Workflows — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1A73E8; --primary-l: #4A94EB; --primary-soft: #E8F0FE;
+  --accent1: #34A853; --accent1-soft: #E6F4EA;
+  --accent2: #F9AB00; --accent2-soft: #FEF7E0;
+  --page-bg: #FFF5F4; --sidebar-bg: #202124;
+  --card-bg: #FFFFFF; --hdr-bg: #F8E9E7; --border: #E8C9C5;
+  --ink: #202124; --body-text: #3C4043; --muted: #5F6368;
+  --green: #137333; --green-bg: #E6F4EA;
+  --warn: #B45309; --warn-bg: #FEF7E0;
+  --red: #EA4335; --red-bg: #FCE8E6;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <div class="brand-name">Gemini in Workflows</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Gemini in Workflows?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Workflow Surfaces</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Common Workflow Patterns</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Apps Script Pattern</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>AppSheet for No-Code</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Workspace Flows (2026)</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Governance for Workflows</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Honest Limits</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <h1>Gemini in Workflows</h1>
+      <div class="subtitle">Automating cross-app workflows with Gemini in Google Workspace</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Gemini in Workflows?</div><div class="section-desc">Automating cross-app workflows with Gemini in Google Workspace</div></div></div><div class="content-body"><p class="prose">Workflows in Workspace combine Gemini with Apps Script, AppSheet, and Google Workspace Add-ons to build automation that spans Gmail, Docs, Sheets, Drive, Calendar, and beyond. For non-developers, AppSheet is the entry point; for developers, Apps Script and Vertex AI offer deeper control.</p><p class="prose">Best for: ops and IT teams building automation, business users automating their own repetitive tasks, and developers embedding Gemini into custom Workspace apps.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🧩</div><div class="feat-title">AppSheet (No-Code)</div><div class="feat-desc">Business users build Gemini-powered apps without writing code.</div></div><div class="feat-card"><div class="feat-icon">📜</div><div class="feat-title">Apps Script</div><div class="feat-desc">Light JavaScript for tech-comfortable users. Deep Gmail/Docs/Sheets integration.</div></div><div class="feat-card"><div class="feat-icon">🎨</div><div class="feat-title">Workspace Flows</div><div class="feat-desc">Visual workflow builder (2026 launch). Drag-and-drop automation.</div></div><div class="feat-card"><div class="feat-icon">⚙️</div><div class="feat-title">Vertex AI</div><div class="feat-desc">Production platform for engineering teams. Gemini API at scale.</div></div></div><div class="deco-band">✨  Four workflow surfaces, one ecosystem  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚡  2026 UPDATE — APPSHEET + GEMINI</div><div class="callout-text">AppSheet (Google&#39;s no-code app platform) now ships with native Gemini capabilities — build a no-code app that uses Gemini for classification, drafting, or extraction without writing any code. For business users automating their own workflows, this is the easiest path.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Workflow Surfaces</div><div class="section-desc">How to build Gemini-powered workflows</div></div></div><div class="content-body"><table class="ref-table"><thead><tr><th>Surface</th><th>Best for</th><th>Skill needed</th><th>Time to first workflow</th></tr></thead><tbody><tr><td>AppSheet</td><td>Business users, no-code</td><td>No code</td><td>1-2 hours</td></tr><tr><td>Apps Script</td><td>Tech-comfortable, deep Workspace integration</td><td>Light scripting</td><td>2-4 hours</td></tr><tr><td>Workspace Flows</td><td>Visual builder</td><td>No code</td><td>30-60 minutes</td></tr><tr><td>Vertex AI</td><td>Production apps</td><td>Engineering</td><td>Days+ for production</td></tr></tbody></table><p class="prose">Workspace&#39;s 2026 workflow stack has four entry points by skill level. AppSheet is the no-code platform for business users — drag-and-drop apps with Gemini actions. Apps Script is light scripting (JavaScript) for tech-comfortable users — most useful Gemini integrations are 20-50 lines. Workspace Flows is the new visual workflow builder. Vertex AI is the production platform for engineering teams.</p><p class="prose">Pick the surface by who&#39;s building and what&#39;s being built. Business users automating their own work → AppSheet. IT teams automating org-wide patterns → Apps Script or Workspace Flows. Product engineering embedding Gemini in customer-facing products → Vertex AI.</p></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Common Workflow Patterns</div><div class="section-desc">What teams actually build</div></div></div><div class="content-body"><ul class="bullets"><li>Email triage — classify incoming Gmail, label, draft reply</li><li>Form processing — Google Forms submission, Gemini extracts, writes to Sheets</li><li>Document generation — sheet row triggers a tailored Docs draft</li><li>Meeting follow-up — Meet recap triggers task creation in Tasks/Workspace</li><li>Customer intake — Form → Gemini classification → routed Chat message</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📧</div><div class="feat-title">Email Triage</div><div class="feat-desc">Gmail trigger → Gemini classifies → label + route. Saves 30-50 minutes daily for most users.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📋</div><div class="feat-title">Form Processing</div><div class="feat-desc">Forms submission → Gemini extracts → Sheet row → notification to right team.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📄</div><div class="feat-title">Document Generation</div><div class="feat-desc">Sheet row triggers tailored Doc draft. Templated outputs from structured input.</div></div></div><h3 class="sub-h3">The five Gemini workflow patterns that recur</h3><ul class="bullets"><li>Email triage — incoming Gmail classified, labelled, draft reply generated</li><li>Form processing — Google Forms → Gemini extracts → Sheet row → notification</li><li>Document generation — Sheet row triggers tailored Doc draft</li><li>Meeting follow-up — Meet recap → action items → Tasks created → email summary</li><li>Customer intake — Form → Gemini classification → Chat routing</li></ul><h3 class="sub-h3">The five workflow patterns that recur</h3><p class="sub-body">These patterns repeat across organisations because they share a structural fit: high-volume, semi-structured work where AI judgement adds value over rules-based automation alone.</p><ul class="bullets"><li>Email triage — classify, label, draft reply, route to right team</li><li>Form processing — Forms → AI extraction → structured Sheet row → notification</li><li>Document generation — Sheet row triggers tailored Docs draft</li><li>Meeting follow-up — Meet recap → action items → Tasks → email summary</li><li>Customer intake — Form → AI classification → Chat routing to right team</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Apps Script Pattern</div><div class="section-desc">For tech-comfortable users</div></div></div><div class="content-body"><p class="prose">Apps Script is JavaScript running in the Workspace environment. Most useful Gemini integrations are 20-50 lines of code.</p><ul class="bullets"><li>Trigger — new email, new sheet row, time-based</li><li>Logic — call Gemini API for classification, drafting, or extraction</li><li>Action — write back to Sheet, send Gmail, create Doc</li><li>Deploy — runs in your Workspace account, no infra to manage</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Open Apps Script</div><div class="step-desc">script.google.com → New project. JavaScript IDE in the browser.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Add Gemini API trigger</div><div class="step-desc">Use the GoogleGenerativeAI library. ~5-10 lines of setup.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Set the trigger</div><div class="step-desc">Time-based, event-based (Gmail new message), or manual.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Write the workflow logic</div><div class="step-desc">Typically 20-50 lines. Gemini call + Workspace action.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Deploy</div><div class="step-desc">Apps Script runs in your Workspace account. No infra to manage.</div></div></div></div></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">AppSheet for No-Code</div><div class="section-desc">Workflows without writing scripts</div></div></div><div class="content-body"><p class="prose">AppSheet builds apps from your data (Sheets, Drive, SQL). Add Gemini and the app can: classify incoming records, draft outputs, or extract structured fields from text — all configured through the AppSheet interface.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🧩  THE 1-HOUR BUILD</div><div class="callout-text">Most useful AppSheet + Gemini workflows can be built in under an hour. Start with: data source (Sheet), Gemini action (classify/draft/extract), output action (write back to Sheet, send Gmail). Iterate.</div></div></div><h3 class="sub-h3">The 1-hour AppSheet + Gemini build</h3><p class="sub-body">AppSheet builds apps from your data (Sheets, Drive, SQL). Add Gemini and the app can classify, draft, or extract. Most useful workflows build in under an hour.</p><ul class="bullets"><li>Data source: Sheet, Drive folder, or SQL database</li><li>Gemini action: classify, draft, extract, summarise, translate</li><li>Output action: write back to Sheet, send Gmail, create Doc, post to Chat</li><li>Trigger: form submission, sheet change, time-based, or manual</li><li>Permissions: configurable per user/group; respects Workspace controls</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Workspace Flows (2026)</div><div class="section-desc">The new visual workflow builder</div></div></div><div class="content-body"><p class="prose">Workspace Flows (launched 2026) is Google&#39;s visual workflow builder — similar to Power Automate or Zapier but native to Workspace. Drag triggers, Gemini actions, and Workspace actions onto a canvas. Built specifically for in-Workspace automation.</p><ul class="bullets"><li>Triggers — Gmail, Sheets, Forms, Drive, Calendar, Chat</li><li>Gemini actions — classify, draft, extract, summarise, translate</li><li>Workspace actions — send Gmail, update Sheet, create Doc, post to Chat</li><li>External — webhooks for non-Google systems</li></ul><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎨  THE 2026 WORKFLOW SURFACE</div><div class="callout-text">Workspace Flows launched 2026 as the visual workflow builder native to Workspace. Drag triggers, Gemini actions, and Workspace actions onto a canvas. Built specifically for in-Workspace automation. For most no-code workflows, this is now the right starting surface.</div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Governance for Workflows</div><div class="section-desc">What to track at scale</div></div></div><div class="content-body"><ul class="bullets"><li>Ownership — every workflow has a named owner</li><li>Quota — Gemini API calls metered; set limits per workflow</li><li>Error handling — every workflow handles failures gracefully (logs, alerts, retry)</li><li>Audit — workflows that touch sensitive data logged</li><li>Decommission — workflows not used in 6 months reviewed for sunset</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Assign a named owner to every workflow</li><li>Set quota limits per workflow (Gemini API calls metered)</li><li>Handle errors gracefully — logs, alerts, retry logic</li><li>Audit workflows that touch sensitive data</li><li>Quarterly review of workflows — decommission unused ones</li><li>Separate dev/test/prod for serious workflows</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Letting workflows accumulate without ownership tracking</li><li>Skipping quota limits — surprise bills from runaway workflows</li><li>Building production workflows without error handling</li><li>Auto-deploying workflows that touch customer data without review</li><li>Treating workflows as &#39;set and forget&#39; — they need monitoring</li><li>Mixing data classifications in one workflow without clear boundaries</li></ul></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Honest Limits</div><div class="section-desc">Where workflows aren&#39;t the right tool</div></div></div><div class="content-body"><ul class="bullets"><li>Real-time UX — most workflows have 5-30s latency</li><li>Mission-critical — workflows can fail silently; have monitoring</li><li>Compliance-critical — always human review for regulated outputs</li><li>Cross-Workspace — workflows scope to one tenant</li></ul><h3 class="sub-h3">Where workflows aren&#39;t the right tool</h3><p class="sub-body">Workflows are powerful but not universal. Knowing where they&#39;re a bad fit prevents painful mid-build pivots.</p><ul class="bullets"><li>Real-time UX — most workflows have 5-30s latency</li><li>Mission-critical — workflows can fail silently; needs monitoring</li><li>Compliance-critical — always human review for regulated outputs</li><li>Cross-Workspace — workflows scope to one tenant</li><li>Tasks faster done manually in &lt;1 minute — overhead exceeds saving</li><li>Tasks where consistency matters more than capability — small fine-tuned models win</li></ul></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Gemini in Workflows as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">EMAIL TRIAGE FLOW</div><div class="prompt-text">Build me a Gmail triage flow. Trigger: new email to shared inbox. Action: classify with Gemini as billing/technical/general. Then: apply label, draft a reply in our voice, route notification to right Chat space. Walk me through whether to use Apps Script, AppSheet, or Workspace Flows for this.</div></div><div class="prompt-card"><div class="prompt-label">FORM TO SHEET FLOW</div><div class="prompt-text">Customer intake form (Google Forms) submission. Need: Gemini extracts key fields from the free-text response, writes structured row to Sheet, triggers a Chat notification to the right team. Design the AppSheet flow.</div></div><div class="prompt-card"><div class="prompt-label">MEETING FOLLOW-UP FLOW</div><div class="prompt-text">After a Google Meet, automatically: pull the Meet recap, extract action items with owners, create Tasks for each owner, send a follow-up Gmail summary to attendees. Apps Script or Workspace Flows — which is cleaner?</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Gemini in Workflows on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claude Prompt Engineering — The AI Advantage Co</title>
+<style>
+  :root {
+    --orange:#C97040; --orange-l:#E09868; --orange-soft:#FFF7F0;
+    --sidebar:#3C1E0A; --ink:#2C1408; --body:#4A3020; --muted:#8A6040;
+    --muted-l:#B08060; --page:#FEF8F0; --card:#FFFCF8; --hdr:#F9F0E6;
+    --border:#F0DEC8; --info-bg:#FDEBD8; --info-blue:#3B7FD4;
+    --warn-bg:#FFF3CD; --warn-border:#D4A017; --white:#fff;
+    --code-bg:#2C1408; --code-text:#F5DEB3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--page);font-family:'Segoe UI',Arial,sans-serif;color:var(--body);display:flex;min-height:100vh;}
+
+  /* ── SIDEBAR ── */
+  nav{width:260px;min-width:260px;background:var(--sidebar);padding:0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+  .nav-brand{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .nav-brand .co{font-size:10px;font-weight:700;color:var(--orange);letter-spacing:.16em;text-transform:uppercase;}
+  .nav-brand .guide-name{font-size:13px;color:#e8d8c4;margin-top:4px;line-height:1.4;}
+  .nav-sections{padding:16px 0 24px;flex:1;}
+  .nav-label{font-size:9px;font-weight:700;color:var(--orange-l);letter-spacing:.18em;text-transform:uppercase;padding:12px 20px 6px;}
+  nav a{display:block;padding:7px 20px;font-size:12.5px;color:#c8b8a4;text-decoration:none;border-left:3px solid transparent;transition:all .18s;}
+  nav a:hover{color:#fff;background:rgba(255,255,255,.06);}
+  nav a.active{color:#fff;border-left-color:var(--orange);background:rgba(201,112,64,.15);}
+  .nav-num{display:inline-block;width:18px;font-size:11px;color:var(--orange);font-weight:700;}
+
+  /* ── MAIN ── */
+  main{flex:1;max-width:860px;padding:48px 52px;overflow-x:hidden;}
+
+  /* ── BANNER ── */
+  .banner{background:var(--hdr);border-radius:10px;overflow:hidden;margin-bottom:40px;}
+  .banner-brand{background:var(--hdr);padding:10px 28px;border-bottom:1px solid var(--border);font-size:10px;font-weight:700;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;}
+  .banner-body{background:var(--orange-soft);padding:36px 28px;text-align:center;}
+  .banner-a{font-size:72px;font-weight:900;color:var(--orange);line-height:1;}
+  .banner-title{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:.22em;margin-top:8px;}
+  .banner-sub{font-size:18px;font-weight:700;color:var(--orange);letter-spacing:.14em;margin-top:6px;}
+  .banner-stripe{height:8px;background:var(--orange);}
+
+  /* ── INTRO ── */
+  .guide-title{font-size:28px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:12px;}
+  .guide-intro{font-size:15px;color:var(--body);line-height:1.7;margin-bottom:20px;}
+  .meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+  .meta-tag{padding:4px 14px;border-radius:4px;font-size:11.5px;font-weight:600;}
+  .meta-tag.version{background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange);}
+  .meta-tag.date{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+  .meta-tag.audience{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+  .divider{border:none;border-top:2px solid var(--border);margin:28px 0;}
+
+  /* ── SECTION HEADER ── */
+  .sec-hdr{display:grid;grid-template-columns:52px 1fr;border-radius:8px;overflow:hidden;margin-bottom:24px;}
+  .sec-num{background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
+  .sec-meta{background:var(--hdr);border-bottom:2px solid var(--border);padding:12px 18px;}
+  .sec-meta h2{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+  .sec-meta p{font-size:12px;color:var(--muted);}
+
+  /* ── BODY TEXT ── */
+  p.body{font-size:14.5px;color:var(--body);line-height:1.75;margin-bottom:14px;}
+  h3.sub{font-size:15px;font-weight:700;color:var(--ink);margin:24px 0 10px;}
+
+  /* ── FOUR ELEMENTS GRID ── */
+  .element-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .element-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+  .element-card-hdr{background:var(--orange);padding:10px 16px;display:flex;align-items:center;gap:10px;}
+  .element-num{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .element-title{font-size:13px;font-weight:700;color:#fff;}
+  .element-body{padding:14px 16px;}
+  .element-body p{font-size:13px;color:var(--body);line-height:1.55;margin-bottom:8px;}
+  .element-body .example{background:var(--orange-soft);border-left:3px solid var(--orange);padding:8px 12px;font-size:12.5px;color:var(--ink);font-style:italic;border-radius:0 4px 4px 0;}
+
+  /* ── CARDS ── */
+  .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;}
+  .card-icon{width:40px;height:40px;background:var(--orange-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px;}
+  .card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .card p{font-size:13px;color:var(--muted);line-height:1.5;}
+
+  /* ── CALLOUTS ── */
+  .callout{display:grid;grid-template-columns:48px 1fr;border-radius:8px;overflow:hidden;margin:18px 0;}
+  .callout-icon{display:flex;align-items:flex-start;justify-content:center;padding:16px 0 0;font-size:20px;}
+  .callout-body{padding:14px 16px 14px 0;}
+  .callout-label{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+  .callout-text{font-size:13.5px;line-height:1.6;}
+  .callout.tip{background:var(--orange-soft);}
+  .callout.tip .callout-icon{background:var(--orange-soft);}
+  .callout.tip .callout-label{color:var(--orange);}
+  .callout.tip .callout-text{color:var(--body);}
+  .callout.info{background:var(--info-bg);}
+  .callout.info .callout-icon{background:var(--info-bg);}
+  .callout.info .callout-label{color:var(--info-blue);}
+  .callout.info .callout-text{color:var(--body);}
+  .callout.warn{background:var(--warn-bg);}
+  .callout.warn .callout-icon{background:var(--warn-bg);}
+  .callout.warn .callout-label{color:var(--warn-border);}
+  .callout.warn .callout-text{color:var(--body);}
+
+  /* ── BEFORE/AFTER ── */
+  .before-after{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 24px;}
+  .ba-box{border-radius:8px;overflow:hidden;}
+  .ba-hdr{padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+  .ba-box.before .ba-hdr{background:var(--warn-bg);color:var(--warn-border);}
+  .ba-box.after .ba-hdr{background:#e8f5e9;color:#2e7d32;}
+  .ba-body{padding:14px;font-size:13.5px;line-height:1.6;font-style:italic;}
+  .ba-box.before .ba-body{background:#fffdf0;color:var(--body);}
+  .ba-box.after .ba-body{background:#f1f8f1;color:var(--ink);}
+
+  /* ── TECHNIQUE CARDS ── */
+  .technique{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin-bottom:14px;}
+  .technique-hdr{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .technique-badge{background:var(--orange);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;letter-spacing:.06em;text-transform:uppercase;}
+  .technique-title{font-size:14px;font-weight:700;color:var(--ink);}
+  .technique p{font-size:13.5px;color:var(--body);line-height:1.6;margin-bottom:10px;}
+  .technique .example{background:var(--orange-soft);border-left:3px solid var(--orange);padding:10px 14px;font-size:13px;color:var(--ink);font-style:italic;border-radius:0 4px 4px 0;}
+
+  /* ── MISTAKES TABLE ── */
+  .ref-table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:13px;}
+  .ref-table th{background:var(--sidebar);color:var(--orange-l);font-size:11.5px;font-weight:700;text-align:left;padding:9px 14px;letter-spacing:.04em;}
+  .ref-table td{background:var(--card);border:1px solid var(--border);padding:9px 14px;color:var(--body);vertical-align:top;line-height:1.5;}
+  .ref-table tr:nth-child(even) td{background:#fffaf5;}
+  .ref-table .fix{color:#2e7d32;font-weight:600;}
+
+  /* ── PROMPT TABS ── */
+  .prompt-tabs{margin:20px 0;}
+  .tab-btns{display:flex;gap:0;border-bottom:2px solid var(--border);}
+  .tab-btn{padding:8px 20px;font-size:12.5px;font-weight:600;color:var(--muted);background:transparent;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .18s;}
+  .tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);}
+  .tab-pane{display:none;padding-top:16px;}
+  .tab-pane.active{display:block;}
+  .prompt-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin-bottom:14px;position:relative;}
+  .prompt-label{font-size:10.5px;font-weight:700;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+  .prompt-text{font-size:13.5px;color:var(--body);line-height:1.65;font-style:italic;}
+  .copy-btn{position:absolute;top:14px;right:14px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--orange);background:var(--orange-soft);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .18s;}
+  .copy-btn:hover{background:var(--orange);color:#fff;}
+
+  /* ── SESSION MOCKUP ── */
+  .mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:20px 0;}
+  .mockup-bar{background:#2a1408;padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.06);}
+  .mockup-dot{width:10px;height:10px;border-radius:50%;}
+  .mockup-title{font-size:11px;color:#8A7060;margin-left:8px;font-family:'Courier New',monospace;}
+  .mockup-body{padding:20px;}
+  .mockup-msg{margin-bottom:14px;}
+  .mockup-msg .label{font-size:10px;font-weight:700;font-family:'Courier New',monospace;margin-bottom:4px;}
+  .mockup-msg .label.user{color:var(--orange);}
+  .mockup-msg .label.claude{color:#8BC48A;}
+  .mockup-msg .text{font-size:12.5px;color:#C8B8A4;font-family:'Courier New',monospace;line-height:1.6;}
+  .mockup-msg .label.annotation{color:var(--orange-l);font-style:italic;}
+  .mockup-msg .text.annotation{color:#8A7060;font-style:italic;}
+
+  /* ── FORMULA BOX ── */
+  .formula{background:var(--sidebar);border-radius:10px;padding:24px 28px;margin:20px 0;text-align:center;}
+  .formula-label{font-size:10px;font-weight:700;color:var(--orange-l);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;}
+  .formula-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;}
+  .formula-element{background:var(--orange);color:#fff;border-radius:6px;padding:10px 18px;font-size:13px;font-weight:700;letter-spacing:.04em;}
+  .formula-plus{color:var(--orange-l);font-size:20px;font-weight:700;}
+  .formula-result{margin-top:14px;font-size:12px;color:var(--muted-l);font-style:italic;}
+
+  /* ── ROADMAP ── */
+  .roadmap{display:flex;flex-direction:column;gap:0;}
+  .roadmap-step{display:grid;grid-template-columns:56px 1fr;margin-bottom:0;}
+  .roadmap-left{display:flex;flex-direction:column;align-items:center;}
+  .roadmap-circle{width:44px;height:44px;border-radius:50%;background:var(--orange);color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .roadmap-line{width:2px;background:var(--border);flex:1;margin:4px 0;}
+  .roadmap-content{padding:0 0 28px 16px;}
+  .roadmap-content h4{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .roadmap-content p{font-size:13.5px;color:var(--muted);line-height:1.6;}
+
+  /* ── BULLETS ── */
+  ul.styled{margin:10px 0 16px 0;padding-left:0;list-style:none;}
+  ul.styled li{font-size:14px;color:var(--body);line-height:1.65;padding:4px 0 4px 24px;position:relative;}
+  ul.styled li::before{content:"•";color:var(--orange);font-size:16px;position:absolute;left:6px;top:3px;}
+
+  /* ── SECTION SPACING ── */
+  section{margin-bottom:56px;}
+
+  /* ── FOOTER ── */
+  footer{border-top:1px solid var(--border);padding-top:24px;margin-top:40px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted-l);}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+
+<!-- ══ SIDEBAR ══════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <div class="co">The AI Advantage Co</div>
+    <div class="guide-name">Claude Prompt Engineering<br>User Guide</div>
+  </div>
+  <div class="nav-sections">
+    <div class="nav-label">Contents</div>
+    <a href="#s01" class="active"><span class="nav-num">01</span> What is Prompt Engineering?</a>
+    <a href="#s02"><span class="nav-num">02</span> The Four Core Elements</a>
+    <a href="#s03"><span class="nav-num">03</span> Role &amp; Context</a>
+    <a href="#s04"><span class="nav-num">04</span> Task Specification</a>
+    <a href="#s05"><span class="nav-num">05</span> Format &amp; Output Control</a>
+    <a href="#s06"><span class="nav-num">06</span> Constraints &amp; Guardrails</a>
+    <a href="#s07"><span class="nav-num">07</span> Advanced Techniques</a>
+    <a href="#s08"><span class="nav-num">08</span> Common Mistakes &amp; Fixes</a>
+    <a href="#s09"><span class="nav-num">09</span> Suggested Prompts</a>
+    <a href="#s10"><span class="nav-num">10</span> See It In Action</a>
+    <a href="#s11"><span class="nav-num">11</span> Your Roadmap</a>
+  </div>
+</nav>
+
+<!-- ══ MAIN ═════════════════════════════════════════════════════ -->
+<main>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-brand">THE &nbsp; AI &nbsp; ADVANTAGE &nbsp; CO</div>
+    <div class="banner-body">
+      <div class="banner-a">A</div>
+      <div class="banner-title">PROMPT &nbsp; ENGINEERING</div>
+      <div class="banner-sub">GET &nbsp; BETTER &nbsp; OUTPUT &nbsp; EVERY &nbsp; TIME</div>
+    </div>
+    <div class="banner-stripe"></div>
+  </div>
+
+  <!-- INTRO -->
+  <h1 class="guide-title">Claude Prompt Engineering — Get Better Output Every Time</h1>
+  <p class="guide-intro">Prompt engineering is the skill of communicating clearly with Claude. It doesn't require a technical background — it requires the same precision you'd use when briefing a smart colleague. This guide covers everything from the four core elements of an effective prompt through to advanced techniques for complex or recurring tasks.</p>
+  <div class="meta-row">
+    <span class="meta-tag version">Version 1.0</span>
+    <span class="meta-tag date">April 2026</span>
+    <span class="meta-tag audience">Audience: All Users</span>
+  </div>
+  <hr class="divider" />
+
+  <!-- ══ 01 ══ -->
+  <section id="s01">
+    <div class="sec-hdr">
+      <div class="sec-num">01</div>
+      <div class="sec-meta">
+        <h2>What is Prompt Engineering?</h2>
+        <p>Why how you ask matters as much as what you ask</p>
+      </div>
+    </div>
+
+    <p class="body">A prompt is everything you type into Claude — the question, the task, the context. Prompt engineering is the practice of structuring those inputs so Claude consistently produces the output you actually need.</p>
+    <p class="body">Claude is highly capable, but it works from the information you give it. A vague prompt gives Claude room to guess — and it may guess wrong. A precise prompt narrows that room and produces output that's closer to what you need on the first attempt.</p>
+    <p class="body">The good news: most of prompt engineering is applied common sense. The same instincts that make you good at briefing a colleague, writing a clear email, or giving directions make you good at writing prompts.</p>
+
+    <div class="formula">
+      <div class="formula-label">The Prompt Quality Equation</div>
+      <div class="formula-row">
+        <div class="formula-element">Clear Context</div>
+        <div class="formula-plus">+</div>
+        <div class="formula-element">Specific Task</div>
+        <div class="formula-plus">+</div>
+        <div class="formula-element">Output Format</div>
+        <div class="formula-plus">+</div>
+        <div class="formula-element">Constraints</div>
+        <div class="formula-plus">=</div>
+        <div class="formula-element">Better Output</div>
+      </div>
+      <div class="formula-result">Not all four are needed every time — but knowing when to use each is the core skill.</div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">You don't need to be technical</div>
+        <div class="callout-text">Prompt engineering for Claude is not about syntax or special commands. It's about being specific, giving relevant context, and telling Claude what good looks like. Anyone can do it — and the improvement in output quality is immediate.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 02 ══ -->
+  <section id="s02">
+    <div class="sec-hdr">
+      <div class="sec-num">02</div>
+      <div class="sec-meta">
+        <h2>The Four Core Elements</h2>
+        <p>The building blocks of any effective prompt</p>
+      </div>
+    </div>
+
+    <p class="body">Every strong prompt contains some combination of four elements. You don't always need all four — but knowing what each one does helps you decide what to include.</p>
+
+    <div class="element-grid">
+      <div class="element-card">
+        <div class="element-card-hdr">
+          <div class="element-num">1</div>
+          <div class="element-title">Role &amp; Context</div>
+        </div>
+        <div class="element-body">
+          <p>Tell Claude who you are, what your situation is, and any background it needs to answer well. Without this, Claude will make assumptions about your audience and level.</p>
+          <div class="example">"I'm a project manager at a construction company preparing a client update…"</div>
+        </div>
+      </div>
+      <div class="element-card">
+        <div class="element-card-hdr">
+          <div class="element-num">2</div>
+          <div class="element-title">Task Specification</div>
+        </div>
+        <div class="element-body">
+          <p>Be explicit about what you want produced. Vague tasks produce vague outputs. Say what action you want Claude to take, not just the topic you want discussed.</p>
+          <div class="example">"…write a 2-paragraph progress update covering scope, timeline, and next steps…"</div>
+        </div>
+      </div>
+      <div class="element-card">
+        <div class="element-card-hdr">
+          <div class="element-num">3</div>
+          <div class="element-title">Format &amp; Output</div>
+        </div>
+        <div class="element-body">
+          <p>Tell Claude how to structure the response. Length, structure, headers, tone, bullet points or prose — specify what you expect, or you'll get Claude's default.</p>
+          <div class="example">"…formatted as two short paragraphs, no bullet points, professional tone…"</div>
+        </div>
+      </div>
+      <div class="element-card">
+        <div class="element-card-hdr">
+          <div class="element-num">4</div>
+          <div class="element-title">Constraints &amp; Guardrails</div>
+        </div>
+        <div class="element-body">
+          <p>Define the boundaries. What to include, what to avoid, what assumptions to make, word limits, audience considerations, and anything Claude should flag rather than guess on.</p>
+          <div class="example">"…under 150 words. Don't mention the budget overrun — I'll address that separately."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">Start with Task, add the rest as needed</div>
+        <div class="callout-text">For simple tasks, the task specification alone is often enough. Add Role &amp; Context when Claude needs background to calibrate its answer. Add Format when the default structure isn't right. Add Constraints when there are things Claude might assume incorrectly.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 03 ══ -->
+  <section id="s03">
+    <div class="sec-hdr">
+      <div class="sec-num">03</div>
+      <div class="sec-meta">
+        <h2>Role &amp; Context</h2>
+        <p>Give Claude the background it needs to calibrate its response</p>
+      </div>
+    </div>
+
+    <p class="body">Context is the single most common missing element in weak prompts. Claude is very capable, but it needs to know <em>who it's talking to</em> and <em>what situation you're in</em> to produce output that's actually relevant to your needs.</p>
+
+    <h3 class="sub">What Good Context Includes</h3>
+    <ul class="styled">
+      <li><strong>Your role:</strong> Who you are professionally — job title, function, seniority level.</li>
+      <li><strong>Your organisation:</strong> Industry, company type, size — where relevant to the task.</li>
+      <li><strong>Your audience:</strong> Who will read or use the output? A board, a client, a junior team member?</li>
+      <li><strong>The situation:</strong> What's the background to this specific request? Why does this need to exist?</li>
+      <li><strong>Relevant constraints:</strong> Anything about your situation that affects how Claude should approach this.</li>
+    </ul>
+
+    <h3 class="sub">The Role Trick</h3>
+    <p class="body">One of the fastest ways to improve output quality is to assign Claude a role. This primes it to respond from a specific frame of expertise and authority.</p>
+
+    <div class="before-after">
+      <div class="ba-box before">
+        <div class="ba-hdr">❌ Without a role</div>
+        <div class="ba-body">"Give me advice on how to structure my team."</div>
+      </div>
+      <div class="ba-box after">
+        <div class="ba-hdr">✅ With a role assigned</div>
+        <div class="ba-body">"Act as an experienced operations director. I'm a new team lead managing 6 people in a customer success function. Give me advice on how to structure my team for scale."</div>
+      </div>
+    </div>
+
+    <h3 class="sub">How Much Context is Too Much?</h3>
+    <p class="body">There's no penalty for giving Claude more context than it needs — it will use what's relevant and ignore the rest. The risk is only in giving too little. If you're unsure whether to include something, include it.</p>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Use Projects to avoid re-stating context every time</div>
+        <div class="callout-text">If you find yourself explaining the same background in every prompt — your role, your company, your audience — move that context into a Claude Project instruction set. Then every conversation starts with Claude already oriented, and your prompts can go straight to the task.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 04 ══ -->
+  <section id="s04">
+    <div class="sec-hdr">
+      <div class="sec-num">04</div>
+      <div class="sec-meta">
+        <h2>Task Specification</h2>
+        <p>Be explicit about exactly what you want Claude to produce</p>
+      </div>
+    </div>
+
+    <p class="body">The task is the core of your prompt — what you're asking Claude to actually do. Most weak prompts fail here: they describe a topic rather than a task. Claude needs to know the action you want it to take, not just the subject you want to discuss.</p>
+
+    <h3 class="sub">Topic vs. Task</h3>
+    <div class="before-after">
+      <div class="ba-box before">
+        <div class="ba-hdr">❌ Topic (not a task)</div>
+        <div class="ba-body">"Climate change and business risk." — Claude doesn't know whether to explain, analyse, summarise, draft a report, or argue a position.</div>
+      </div>
+      <div class="ba-box after">
+        <div class="ba-hdr">✅ Task (action + output)</div>
+        <div class="ba-body">"Write a 3-bullet executive summary of the top three climate-related business risks for a CFO audience, drawing on publicly known trends."</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Strong Task Verbs</h3>
+    <p class="body">Start your task with a clear action verb. These signal to Claude exactly what kind of output to produce:</p>
+    <table class="ref-table">
+      <tr><th>Verb</th><th>What Claude Produces</th><th>Example</th></tr>
+      <tr><td>Write / Draft</td><td>Original content</td><td>"Write a cold outreach email to a CTO…"</td></tr>
+      <tr><td>Summarise</td><td>Condensed version of provided content</td><td>"Summarise this document in 5 bullet points…"</td></tr>
+      <tr><td>Analyse</td><td>Breakdown, assessment, or evaluation</td><td>"Analyse the risks in this contract clause…"</td></tr>
+      <tr><td>Rewrite / Edit</td><td>Revised version of existing content</td><td>"Rewrite this paragraph for a non-technical audience…"</td></tr>
+      <tr><td>List / Identify</td><td>Enumerated items or categories</td><td>"List the five most common objections to…"</td></tr>
+      <tr><td>Compare</td><td>Side-by-side evaluation</td><td>"Compare these two options on cost, risk, and speed…"</td></tr>
+      <tr><td>Explain</td><td>Clear description or breakdown</td><td>"Explain how compound interest works to a 16-year-old…"</td></tr>
+      <tr><td>Create / Build</td><td>Structured artifact or template</td><td>"Create a project brief template for…"</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Paste in your content</div>
+        <div class="callout-text">Don't describe your document — paste it in. "Summarise the attached report" forces Claude to work from memory or guess. "Here is the report: [paste] — summarise it in 5 bullets" gives Claude the actual material to work with. Claude can handle long documents.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 05 ══ -->
+  <section id="s05">
+    <div class="sec-hdr">
+      <div class="sec-num">05</div>
+      <div class="sec-meta">
+        <h2>Format &amp; Output Control</h2>
+        <p>Tell Claude exactly how to structure and present the response</p>
+      </div>
+    </div>
+
+    <p class="body">Claude has default output formats — and they're not always what you need. Left to its own devices, Claude tends to write in flowing prose with markdown headers. If you need a specific structure, length, or style, say so explicitly.</p>
+
+    <h3 class="sub">Format Controls You Can Specify</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📏</div>
+        <h4>Length</h4>
+        <p>Word count, paragraph count, or a relative target ("concise", "comprehensive", "under 100 words", "no more than one page").</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗂️</div>
+        <h4>Structure</h4>
+        <p>Bullet points, numbered list, table, headers and sections, Q&amp;A format, pros/cons, executive summary + detail, or plain prose.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h4>Tone</h4>
+        <p>Formal, professional, friendly, assertive, technical, plain English, empathetic, direct — or provide an example of the tone you want.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👤</div>
+        <h4>Audience</h4>
+        <p>Who will read this? Board level, technical team, customer, school student, legal team — the audience should shape vocabulary, depth, and assumed knowledge.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Examples of Format Instructions</h3>
+    <div class="before-after">
+      <div class="ba-box before">
+        <div class="ba-hdr">❌ No format specified</div>
+        <div class="ba-body">"Explain our refund policy to customers." — Claude will write something, but it might be too long, too formal, or structured in a way that doesn't work for your channel.</div>
+      </div>
+      <div class="ba-box after">
+        <div class="ba-hdr">✅ Format specified</div>
+        <div class="ba-body">"Explain our refund policy to customers. Format: 3 short paragraphs, plain English, warm and reassuring tone, under 120 words. End with one sentence inviting them to contact us if they have questions."</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Asking for Multiple Versions</h3>
+    <p class="body">You can ask Claude to produce several variations in one go — useful for A/B testing copy or exploring different approaches.</p>
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Multiple versions in one prompt</div>
+        <div class="callout-text">"Write three versions of this subject line — one direct, one curiosity-driven, and one benefit-focused. Keep each under 8 words." Claude will produce all three clearly labelled, ready for you to pick or test.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 06 ══ -->
+  <section id="s06">
+    <div class="sec-hdr">
+      <div class="sec-num">06</div>
+      <div class="sec-meta">
+        <h2>Constraints &amp; Guardrails</h2>
+        <p>Define the boundaries so Claude doesn't have to guess</p>
+      </div>
+    </div>
+
+    <p class="body">Constraints are the instructions that prevent Claude from making reasonable-but-wrong assumptions. They're the difference between output that's technically correct and output that's actually right for your situation.</p>
+
+    <h3 class="sub">Types of Constraints</h3>
+    <table class="ref-table">
+      <tr><th>Type</th><th>What It Does</th><th>Example</th></tr>
+      <tr><td>Inclusions</td><td>Specific things that must appear in the output</td><td>"Include a specific call to action at the end"</td></tr>
+      <tr><td>Exclusions</td><td>Things to avoid, omit, or not mention</td><td>"Don't mention the price increase"</td></tr>
+      <tr><td>Assumptions</td><td>What Claude should treat as true or given</td><td>"Assume the reader has no technical background"</td></tr>
+      <tr><td>Flag instructions</td><td>Things Claude should surface to you rather than decide</td><td>"Flag anything that involves a legal claim"</td></tr>
+      <tr><td>Hard limits</td><td>Non-negotiable boundaries</td><td>"Never make specific timeframe commitments"</td></tr>
+      <tr><td>Audience rules</td><td>How to calibrate for a specific reader</td><td>"Write as if the reader is skeptical and time-poor"</td></tr>
+    </table>
+
+    <h3 class="sub">Positive and Negative Constraints</h3>
+    <p class="body">You can tell Claude both what to do and what not to do. Both are valid and useful — don't only think in positive terms.</p>
+    <div class="before-after">
+      <div class="ba-box before">
+        <div class="ba-hdr">Only positive instructions</div>
+        <div class="ba-body">"Write a professional email confirming the meeting." — Claude might add pleasantries, unnecessary context, or a long sign-off you didn't want.</div>
+      </div>
+      <div class="ba-box after">
+        <div class="ba-hdr">Positive + negative constraints</div>
+        <div class="ba-body">"Write a short email confirming the meeting. Include: date, time, location, one prep item. Exclude: pleasantries, backstory, long sign-offs. Under 80 words."</div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">Flag, don't guess</div>
+        <div class="callout-text">If there are areas where you'd rather Claude surface an uncertainty than make a decision, say so: "If you're unsure about X, flag it rather than assuming." This is especially useful for legal language, pricing, and any claim that could be held against you.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 07 ══ -->
+  <section id="s07">
+    <div class="sec-hdr">
+      <div class="sec-num">07</div>
+      <div class="sec-meta">
+        <h2>Advanced Techniques</h2>
+        <p>Higher-order methods for complex or recurring tasks</p>
+      </div>
+    </div>
+
+    <p class="body">Once you're comfortable with the four core elements, these techniques help you handle more complex tasks, get more consistent results, and build prompts that work reliably across many uses.</p>
+
+    <div class="technique">
+      <div class="technique-hdr">
+        <span class="technique-badge">Technique 1</span>
+        <span class="technique-title">Chain of Thought — Ask Claude to reason step by step</span>
+      </div>
+      <p>For complex problems, asking Claude to show its reasoning before giving a conclusion produces better answers. It forces Claude to work through the logic explicitly rather than pattern-matching to a confident-sounding answer.</p>
+      <div class="example">"Before answering, think through this step by step: [problem]. Show your reasoning, then give me your conclusion."</div>
+    </div>
+
+    <div class="technique">
+      <div class="technique-hdr">
+        <span class="technique-badge">Technique 2</span>
+        <span class="technique-title">Few-Shot Examples — Show Claude what good looks like</span>
+      </div>
+      <p>Providing one or two examples of the output you want is often more effective than describing it. Claude picks up patterns from examples very reliably — tone, structure, length, and style.</p>
+      <div class="example">"Here is an example of the style I want: [example]. Now write [new content] in the same style."</div>
+    </div>
+
+    <div class="technique">
+      <div class="technique-hdr">
+        <span class="technique-badge">Technique 3</span>
+        <span class="technique-title">Iterative Refinement — Don't start over, refine forward</span>
+      </div>
+      <p>When Claude's first response isn't quite right, don't discard it and start again. Reply with targeted corrections — Claude uses the entire conversation as context and will apply your feedback precisely.</p>
+      <div class="example">"Good. Now make the second paragraph shorter and remove the jargon in the third sentence."</div>
+    </div>
+
+    <div class="technique">
+      <div class="technique-hdr">
+        <span class="technique-badge">Technique 4</span>
+        <span class="technique-title">Ask Claude to Ask You — Fill gaps before producing</span>
+      </div>
+      <p>For complex tasks where you know you might have left gaps, ask Claude to identify what it needs before starting. This prevents wasted output based on wrong assumptions.</p>
+      <div class="example">"Before you write this, ask me the three most important questions you need answered to do a great job."</div>
+    </div>
+
+    <div class="technique">
+      <div class="technique-hdr">
+        <span class="technique-badge">Technique 5</span>
+        <span class="technique-title">Devil's Advocate — Stress-test your thinking</span>
+      </div>
+      <p>Claude can argue against your ideas, find weaknesses in your reasoning, or steelman the opposing position. This is one of the highest-value uses of Claude for decision-making and planning.</p>
+      <div class="example">"Here is my plan: [describe]. Play devil's advocate. What are the three strongest arguments against it? What assumptions am I making that might be wrong?"</div>
+    </div>
+
+    <div class="technique">
+      <div class="technique-hdr">
+        <span class="technique-badge">Technique 6</span>
+        <span class="technique-title">Reusable Prompt Templates — Save what works</span>
+      </div>
+      <p>Once you've refined a prompt that consistently produces great output, save it as a template. Replace the variable parts with placeholders (e.g. [client name], [task]) and reuse it. This is one of the highest-leverage productivity habits when using Claude at work.</p>
+      <div class="example">"Write a [type] email to [recipient role] about [topic]. Tone: [tone]. Key points: [points]. Under [word count] words. End with [CTA]."</div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Combine techniques for complex tasks</div>
+        <div class="callout-text">The techniques above aren't mutually exclusive. A strong prompt for a complex task might assign a role, ask Claude to clarify before starting, provide an example of good output, and then ask Claude to reason step by step. Layer them as the task demands.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 08 ══ -->
+  <section id="s08">
+    <div class="sec-hdr">
+      <div class="sec-num">08</div>
+      <div class="sec-meta">
+        <h2>Common Mistakes &amp; Fixes</h2>
+        <p>The most frequent prompt failures and how to correct them</p>
+      </div>
+    </div>
+
+    <p class="body">Most poor Claude outputs trace back to a small set of recurring prompt mistakes. Recognising them is the fastest way to improve your results.</p>
+
+    <table class="ref-table">
+      <tr><th style="width:28%">Mistake</th><th style="width:36%">Why It Causes Problems</th><th style="width:36%" class="fix">The Fix</th></tr>
+      <tr>
+        <td>Too vague — "Help me with my email"</td>
+        <td>Claude has no idea what the email is for, who it's to, or what good looks like</td>
+        <td class="fix">Specify recipient, purpose, tone, length, and any must-include content</td>
+      </tr>
+      <tr>
+        <td>No audience specified</td>
+        <td>Claude defaults to a generic adult reader — may be too technical, too simple, or wrong tone</td>
+        <td class="fix">Always state who will read the output and their level of knowledge</td>
+      </tr>
+      <tr>
+        <td>Describing the topic, not the task</td>
+        <td>Claude produces a discussion instead of the output you needed</td>
+        <td class="fix">Start with a strong action verb: write, summarise, analyse, compare, create</td>
+      </tr>
+      <tr>
+        <td>No format instruction</td>
+        <td>Claude uses its default structure, which may not fit your context</td>
+        <td class="fix">Specify: length, structure (bullets/prose/table), tone, and any required sections</td>
+      </tr>
+      <tr>
+        <td>Asking multiple unrelated questions at once</td>
+        <td>Claude either blends them together or prioritises one over another</td>
+        <td class="fix">One task per prompt; use follow-up messages for the next request</td>
+      </tr>
+      <tr>
+        <td>Accepting the first response without iterating</td>
+        <td>First responses are often 80% of the way there — iteration gets you to 100%</td>
+        <td class="fix">Always read the response critically and send targeted corrections</td>
+      </tr>
+      <tr>
+        <td>Not providing the actual content</td>
+        <td>"Summarise this report" when no report is pasted — Claude guesses or declines</td>
+        <td class="fix">Paste documents, data, or examples directly into the chat</td>
+      </tr>
+      <tr>
+        <td>Over-constraining the first attempt</td>
+        <td>Too many restrictions before Claude has produced anything makes the output narrow and stilted</td>
+        <td class="fix">Start broader, get a first draft, then add constraints in follow-up</td>
+      </tr>
+    </table>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">Iteration beats perfection</div>
+        <div class="callout-text">You don't need to write a perfect prompt first time. Get a first response, identify what's off, then correct it. Three short exchanges often produce better output than one long, carefully constructed prompt — and they're faster.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 09 ══ -->
+  <section id="s09">
+    <div class="sec-hdr">
+      <div class="sec-num">09</div>
+      <div class="sec-meta">
+        <h2>Suggested Prompts</h2>
+        <p>Ready-to-use templates demonstrating good prompt structure</p>
+      </div>
+    </div>
+
+    <p class="body">Each of these prompts is structured using the four core elements. Copy them directly and replace the bracketed parts with your specifics.</p>
+
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'writing')">Writing &amp; Comms</button>
+        <button class="tab-btn" onclick="switchTab(this,'analysis')">Analysis &amp; Research</button>
+      </div>
+
+      <div class="tab-pane active" id="pane-writing">
+        <div class="prompt-card">
+          <div class="prompt-label">Professional Email — Full Structure</div>
+          <div class="prompt-text">"Write a professional email from me ([role]) to [recipient/role] about [subject]. Purpose: [explain]. Tone: [formal/warm/assertive]. Key points to include: [list]. Exclude: [anything to avoid]. Under [word count] words. End with: [call to action]."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Rewrite for a Different Audience</div>
+          <div class="prompt-text">"Rewrite the following text for a [audience description, e.g. non-technical executive] audience. Simplify the language, remove jargon, and keep the core message intact. Target length: [word count]. Do not add information that isn't in the original. [paste text below]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Three Variations for A/B Testing</div>
+          <div class="prompt-text">"Write three versions of [content type, e.g. subject line / opening sentence / CTA]. Version 1: direct and benefit-focused. Version 2: curiosity-driven. Version 3: urgency-based. Keep each under [word limit]. Label them clearly."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Tone Check &amp; Feedback</div>
+          <div class="prompt-text">"Read the following text and give me honest feedback on: (1) overall tone — does it match [desired tone, e.g. professional but approachable]? (2) anything that could be misread or sound off. (3) two specific suggestions to improve it. Don't rewrite it yet — just give me the feedback. [paste text]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Adapt to a Template</div>
+          <div class="prompt-text">"Here is a template I use for [document type]: [paste template]. Here is the specific information for this instance: [paste details]. Fill in the template using only the provided information. Flag any sections where you don't have enough information to complete them."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="pane-analysis">
+        <div class="prompt-card">
+          <div class="prompt-label">Document Analysis — Structured Output</div>
+          <div class="prompt-text">"Read the following document and provide: (1) a one-sentence summary of the main purpose, (2) three key takeaways, (3) two potential issues or gaps, and (4) one recommended next action. Keep the total response under 300 words. [paste document]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Compare Two Options</div>
+          <div class="prompt-text">"Compare [Option A] and [Option B] on the following dimensions: [list 3–5 criteria]. Format as a table. For each dimension, give a one-sentence verdict and highlight any significant trade-offs. End with a clear recommendation and the key reason for it."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Stress-Test a Plan</div>
+          <div class="prompt-text">"Here is a plan I'm considering: [describe plan]. I want you to stress-test it. Identify: (1) the three biggest risks or failure points, (2) any assumptions I'm making that might be wrong, and (3) one alternative approach I may not have considered. Be direct — I want honest pushback, not validation."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Step-by-Step Reasoning</div>
+          <div class="prompt-text">"I need help thinking through [problem or decision]. Before giving me a recommendation, reason through this step by step: what are the key factors, what are the trade-offs, and what would need to be true for each option to be the right choice? Then give me your recommendation and the one reason it outweighs the alternatives."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Build a Prompt Template</div>
+          <div class="prompt-text">"I want to create a reusable prompt template for this task: [describe the task you do repeatedly]. Ask me five questions to understand exactly what I need, then build a template with [variable] placeholders I can fill in each time I use it."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 10 ══ -->
+  <section id="s10">
+    <div class="sec-hdr">
+      <div class="sec-num">10</div>
+      <div class="sec-meta">
+        <h2>See It In Action</h2>
+        <p>A real prompt being built, refined, and saved as a template</p>
+      </div>
+    </div>
+
+    <p class="body">Watch how a weak prompt gets built into a strong one — and then refined through iteration into a reusable template.</p>
+
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="mockup-dot" style="background:#ff5f57;"></div>
+        <div class="mockup-dot" style="background:#febc2e;"></div>
+        <div class="mockup-dot" style="background:#28c840;"></div>
+        <div class="mockup-title">Claude.ai — Prompt Engineering Live Session</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-msg">
+          <div class="label annotation">— First attempt (weak prompt) —</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label user">You</div>
+          <div class="text">Write me a proposal.</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label claude">Claude</div>
+          <div class="text">I'd be happy to help write a proposal. Could you tell me more about what the proposal is for, who it's addressed to, and what you're trying to achieve?</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label annotation">— Adding context, task, format, constraints —</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label user">You</div>
+          <div class="text">Act as an experienced B2B sales consultant. I'm a software vendor pitching a project management tool to a mid-size professional services firm. Write a one-page proposal cover letter — 3 paragraphs: (1) acknowledge their challenge, (2) position our solution, (3) clear next step. Tone: confident and consultative, not salesy. Under 250 words. Don't mention pricing.</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label claude">Claude</div>
+          <div class="text">[Produces a focused, structured 3-paragraph cover letter, confident tone, no pricing mention, ~230 words]</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label annotation">— Targeted iteration —</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label user">You</div>
+          <div class="text">Good structure. Sharpen the opening sentence — it's too generic. And the call to action in paragraph 3 needs to be more specific: propose a 30-minute discovery call next week.</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label claude">Claude</div>
+          <div class="text">[Delivers revised version with stronger opening and specific CTA — "I'd welcome a 30-minute discovery call next week to explore whether this is the right fit for your team."]</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label annotation">— Converting to a reusable template —</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label user">You</div>
+          <div class="text">This works. Turn this into a reusable template with [variable] placeholders so I can use it for other clients.</div>
+        </div>
+        <div class="mockup-msg">
+          <div class="label claude">Claude</div>
+          <div class="text">Act as an experienced B2B sales consultant. I'm a [product/service type] vendor pitching to a [company type]. Write a one-page proposal cover letter — 3 paragraphs: (1) acknowledge [their key challenge], (2) position [solution name] as the answer, (3) propose [specific CTA]. Tone: confident and consultative. Under 250 words. Don't mention [exclusion].</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:20px;">The pattern: start with the full four-element structure, iterate precisely, then convert what works into a reusable template. This is how you build a library of high-quality prompts over time without starting from scratch every session.</p>
+  </section>
+
+  <!-- ══ 11 ══ -->
+  <section id="s11">
+    <div class="sec-hdr">
+      <div class="sec-num">11</div>
+      <div class="sec-meta">
+        <h2>Your Roadmap</h2>
+        <p>Five steps to becoming a consistently effective prompt writer</p>
+      </div>
+    </div>
+
+    <p class="body">Prompt engineering improves fast with deliberate practice. These five steps give you a concrete path from occasional user to confident, high-output Claude practitioner.</p>
+
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">1</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Apply the four-element structure to your next three prompts</h4>
+          <p>Take three things you'd normally ask Claude casually and rebuild them using Role, Task, Format, and Constraints. Compare the output quality. The difference will be immediately obvious.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">2</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Practice iterating — never accept a first response without review</h4>
+          <p>For one week, commit to sending at least one follow-up correction to every Claude response. Read each response critically and identify the single most important thing that's off. Correct just that. Your instinct for what to fix will sharpen quickly.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">3</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Identify your three most-repeated tasks and build templates</h4>
+          <p>What do you ask Claude to do repeatedly? Weekly reports, client emails, research summaries? For each, build and save a reusable template. This is the point where the productivity multiplier kicks in — you stop writing prompts from scratch.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">4</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Try one advanced technique this week</h4>
+          <p>Pick one from Section 07 — chain of thought, few-shot examples, or devil's advocate — and apply it to a real task. Advanced techniques feel unnecessary until you try them on a problem where the standard approach falls short.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">5</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Move your context into Project instructions</h4>
+          <p>Once you know what context you always need to provide, stop providing it manually. Put it in a Claude Project instruction set. Your prompts will get shorter, your sessions will start faster, and your outputs will get more consistent — without any extra effort per conversation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-body">
+        <div class="callout-label">The compounding return</div>
+        <div class="callout-text">Every strong prompt you write teaches you something about how Claude responds. Every template you save pays back every time you use it. The return on prompt engineering investment compounds — the more deliberately you practise, the less effort each future task takes.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 The AI Advantage Co — theaiadvantageco.com.au</span>
+    <span>Claude Prompt Engineering User Guide v1.0 — April 2026</span>
+  </footer>
+
+</main>
+
+<script>
+// Scroll-spy
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('nav a');
+const observer  = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      navLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => observer.observe(s));
+
+// Tab switcher
+function switchTab(btn, paneId){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-'+paneId).classList.add('active');
+}
+
+// Copy prompt
+function copyPrompt(btn){
+  const text = btn.closest('.prompt-card').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--orange)';
+    btn.style.color = '#fff';
+    setTimeout(() => { btn.textContent = orig; btn.style.background=''; btn.style.color=''; }, 1800);
+  });
+}
+</script>
+</body>
+</html>

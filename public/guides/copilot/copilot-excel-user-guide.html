@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Copilot in Excel | The AI Advantage Co</title>
+<style>
+  :root{
+    --purple:#5E17EB; --purple-l:#8B5CF6; --purple-soft:#F0EAFF;
+    --blue:#0078D4;   --blue-l:#60A5FA;   --blue-soft:#EFF6FF;
+    --orange:#EA6C1A; --orange-l:#F97316; --orange-soft:#FFF7ED;
+    --yellow:#CA8A04; --yellow-soft:#FEFCE8;
+    --page:#EBF1FF;   --sidebar:#1E1456;
+    --ink:#1E1456;    --mid:#3D3080;       --muted:#7264A8;
+    --card:#F7F4FF;   --hdr:#EDE8FF;      --border:#D0C5F5;
+    --white:#fff;
+    --green:#1B6B3A;  --green-bg:#E6F4EC;
+    --warn:#B45309;   --warn-bg:#FFF8E1;
+    --red:#C0392B;    --red-bg:#FEF0EE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--page);color:var(--ink);}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+
+  .sidebar{background:var(--sidebar);color:#C8B8FF;position:sticky;top:0;height:100vh;overflow-y:auto;padding:0 0 40px;}
+  .sidebar-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:8px;}
+  .sidebar-logo .brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--orange-l);text-transform:uppercase;}
+  .sidebar-logo .guide-name{font-size:14px;font-weight:600;color:#fff;margin-top:4px;line-height:1.3;}
+  .nav-link{display:block;padding:8px 20px;font-size:13px;color:#A78BFA;cursor:pointer;border-left:3px solid transparent;transition:all .2s;}
+  .nav-link:hover{color:#fff;background:rgba(255,255,255,.07);}
+  .nav-link.active{color:#fff;border-left-color:var(--orange-l);background:rgba(249,115,22,.12);}
+  .nav-num{display:inline-block;width:20px;font-size:11px;opacity:.6;}
+
+  .content{padding:0 40px 80px;max-width:900px;}
+
+  .banner{background:linear-gradient(135deg,#1E1456 0%,#3D1A00 60%,#1E1456 100%);color:#fff;padding:56px 48px 48px;position:relative;overflow:hidden;margin:0 -40px 40px;}
+  .banner::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='30' r='2' fill='%23F97316' opacity='.4'/%3E%3Ccircle cx='80' cy='10' r='1.5' fill='%23FED7AA' opacity='.35'/%3E%3Ccircle cx='160' cy='50' r='2.5' fill='%23F97316' opacity='.3'/%3E%3Ccircle cx='40' cy='80' r='1' fill='%23FED7AA' opacity='.45'/%3E%3Ccircle cx='130' cy='20' r='1.5' fill='%23F97316' opacity='.4'/%3E%3Ccircle cx='180' cy='90' r='2' fill='%23FED7AA' opacity='.25'/%3E%3C/svg%3E") repeat;}
+  .banner-inner{position:relative;z-index:1;}
+  .banner-badge{display:inline-block;background:rgba(234,108,26,.25);border:1px solid rgba(249,115,22,.4);color:#FED7AA;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:20px;}
+  .banner h1{font-size:38px;font-weight:800;line-height:1.15;margin-bottom:12px;}
+  .banner h1 span{color:#FED7AA;}
+  .banner p{font-size:16px;color:#FED7AA;max-width:580px;line-height:1.6;opacity:.9;}
+
+  .section-card{background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 2px 8px rgba(94,23,235,.06);}
+  .section-header{background:var(--hdr);padding:18px 24px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);}
+  .section-num{background:var(--purple);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .section-title{font-size:19px;font-weight:700;color:var(--ink);}
+  .section-subtitle{font-size:13px;color:var(--muted);margin-top:2px;}
+  .section-body{padding:28px 24px;}
+
+  p.body-text{font-size:15px;line-height:1.7;color:var(--mid);margin-bottom:16px;}
+  h3.sub{font-size:16px;font-weight:700;color:var(--ink);margin:24px 0 10px;}
+  ul.bullet{padding-left:20px;margin-bottom:16px;}
+  ul.bullet li{font-size:14.5px;color:var(--mid);line-height:1.65;margin-bottom:6px;}
+
+  .callout{display:flex;gap:0;border-radius:8px;overflow:hidden;margin-bottom:16px;}
+  .callout-bar{width:5px;flex-shrink:0;}
+  .callout-body{padding:14px 18px;flex:1;}
+  .callout-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+  .callout-text{font-size:14px;line-height:1.6;}
+  .callout.tip .callout-bar{background:var(--green);}
+  .callout.tip .callout-body{background:var(--green-bg);}
+  .callout.tip .callout-label{color:var(--green);}
+  .callout.tip .callout-text{color:#1a3a22;}
+  .callout.info .callout-bar{background:var(--blue);}
+  .callout.info .callout-body{background:var(--blue-soft);}
+  .callout.info .callout-label{color:var(--blue);}
+  .callout.info .callout-text{color:#0d2a47;}
+  .callout.warn .callout-bar{background:var(--warn);}
+  .callout.warn .callout-body{background:var(--warn-bg);}
+  .callout.warn .callout-label{color:var(--warn);}
+  .callout.warn .callout-text{color:#3d2200;}
+  .callout.copilot .callout-bar{background:var(--purple);}
+  .callout.copilot .callout-body{background:var(--purple-soft);}
+  .callout.copilot .callout-label{color:var(--purple);}
+  .callout.copilot .callout-text{color:#2a0a6e;}
+
+  .card-grid{display:grid;gap:14px;margin-bottom:20px;}
+  .card-grid.col2{grid-template-columns:1fr 1fr;}
+  .feature-card{border-radius:10px;padding:18px;border:1px solid var(--border);}
+  .feature-card .card-icon{font-size:22px;margin-bottom:8px;}
+  .feature-card .card-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+  .feature-card .card-desc{font-size:13px;color:var(--mid);line-height:1.55;}
+  .card-purple{background:var(--card);border-top:3px solid var(--purple);}
+  .card-blue{background:var(--blue-soft);border-top:3px solid var(--blue);}
+  .card-orange{background:var(--orange-soft);border-top:3px solid var(--orange);}
+  .card-yellow{background:var(--yellow-soft);border-top:3px solid var(--yellow);}
+
+  .step-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+  .step-item{display:flex;gap:14px;align-items:flex-start;}
+  .step-num{background:var(--purple);color:#fff;font-size:13px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .step-body .step-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+  .step-body .step-desc{font-size:14px;color:var(--mid);line-height:1.6;}
+
+  /* Formula row — unique to Excel guide */
+  .formula-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px;}
+  .formula-cell{background:#1A1A2E;padding:14px 16px;font-family:'Cascadia Code','Courier New',monospace;font-size:13px;color:#86EFAC;line-height:1.5;}
+  .formula-explain{background:var(--white);padding:14px 16px;font-size:13.5px;color:var(--mid);line-height:1.6;border-left:1px solid var(--border);}
+  .formula-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+  .formula-cell .formula-label{color:rgba(134,239,172,.5);}
+  .formula-explain .formula-label{color:var(--orange);}
+
+  .ref-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px;}
+  .ref-table th{background:var(--sidebar);color:var(--purple-l);font-size:12px;font-weight:700;padding:10px 14px;text-align:left;letter-spacing:.04em;}
+  .ref-table td{padding:10px 14px;color:var(--mid);border:1px solid var(--border);}
+  .ref-table tr:nth-child(even) td{background:var(--card);}
+  .ref-table tr:nth-child(odd) td{background:var(--white);}
+  .ref-table code{font-family:'Cascadia Code','Courier New',monospace;font-size:12px;background:#f0f0f0;padding:2px 5px;border-radius:3px;color:#1E1456;}
+
+  .do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .do-box,.avoid-box{border-radius:8px;padding:18px;}
+  .do-box{background:var(--green-bg);border-top:3px solid var(--green);}
+  .avoid-box{background:var(--red-bg);border-top:3px solid var(--red);}
+  .do-box .box-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green);text-transform:uppercase;margin-bottom:10px;}
+  .avoid-box .box-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--red);text-transform:uppercase;margin-bottom:10px;}
+  .do-box li,.avoid-box li{font-size:14px;color:var(--mid);line-height:1.6;margin-bottom:6px;list-style:none;padding-left:14px;position:relative;}
+  .do-box li::before{content:'•';position:absolute;left:0;color:var(--green);}
+  .avoid-box li::before{content:'•';position:absolute;left:0;color:var(--red);}
+
+  .trouble-item{border:1px solid var(--border);border-left:4px solid var(--purple);border-radius:8px;overflow:hidden;margin-bottom:12px;}
+  .trouble-q{background:var(--hdr);padding:12px 16px;font-size:15px;font-weight:700;color:var(--ink);}
+  .trouble-a{background:var(--white);padding:14px 16px;font-size:14px;color:var(--mid);line-height:1.6;}
+
+  .prompt-tabs{margin-bottom:20px;}
+  .tab-btns{display:flex;gap:8px;margin-bottom:14px;}
+  .tab-btn{padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--muted);transition:all .2s;}
+  .tab-btn.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .prompt-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px;}
+  .prompt-label{background:var(--sidebar);padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--purple-l);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;}
+  .copy-btn{background:transparent;border:1px solid rgba(139,92,246,.4);color:var(--purple-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;transition:all .2s;}
+  .copy-btn:hover{background:var(--purple);color:#fff;}
+  .prompt-text{background:var(--white);padding:14px 16px;font-size:14px;color:var(--mid);line-height:1.6;font-style:italic;}
+
+  /* Spreadsheet mockup */
+  .mockup{background:#1A1A2E;border-radius:12px;padding:24px;margin-bottom:20px;}
+  .mockup-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange-l);margin-bottom:16px;}
+  .excel-mock{display:grid;grid-template-columns:1fr 300px;gap:16px;}
+  .mock-sheet{background:#fff;border-radius:8px;overflow:hidden;}
+  .mock-sheet-toolbar{background:#217346;padding:6px 12px;display:flex;align-items:center;gap:12px;}
+  .mock-sheet-tab{font-size:11px;color:rgba(255,255,255,.6);}
+  .mock-sheet-tab.active-tab{color:#fff;font-weight:700;border-bottom:2px solid #fff;}
+  .mock-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .mock-table th{background:#E8F5E9;color:#1B5E20;font-weight:700;padding:6px 10px;text-align:left;border:1px solid #C8E6C9;font-size:11px;}
+  .mock-table td{padding:6px 10px;border:1px solid #E8F5E9;color:#1a1a2e;}
+  .mock-table tr:nth-child(even) td{background:#F1F8E9;}
+  .mock-table .highlight{background:#FFF9C4;font-weight:700;color:#F57F17;}
+  .mock-table .formula-td{font-family:'Cascadia Code','Courier New',monospace;font-size:11px;color:#0D47A1;background:#E3F2FD;}
+  .mock-panel{background:#0F0F1A;border-radius:8px;overflow:hidden;}
+  .mock-panel-hdr{background:#1E1456;padding:10px 14px;font-size:12px;font-weight:700;color:var(--orange-l);border-bottom:1px solid rgba(249,115,22,.2);}
+  .mock-panel-body{padding:14px;}
+  .mock-query{background:rgba(234,108,26,.1);border:1px solid rgba(249,115,22,.3);border-radius:6px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#FED7AA;line-height:1.5;font-style:italic;}
+  .mock-answer{font-size:12px;color:#BAE6FD;line-height:1.6;margin-bottom:10px;}
+  .mock-formula-out{font-family:'Cascadia Code','Courier New',monospace;font-size:11px;color:#86EFAC;background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.2);border-radius:4px;padding:8px 10px;margin-bottom:8px;}
+
+  .roadmap{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+  .roadmap-step{border-radius:10px;padding:20px 16px;border:1px solid var(--border);}
+  .roadmap-num{font-size:32px;font-weight:800;margin-bottom:8px;}
+  .roadmap-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .roadmap-desc{font-size:13px;color:var(--mid);line-height:1.55;}
+  .rm-purple{background:var(--card);border-top:3px solid var(--purple);} .rm-purple .roadmap-num{color:var(--purple);}
+  .rm-orange{background:var(--orange-soft);border-top:3px solid var(--orange);} .rm-orange .roadmap-num{color:var(--orange);}
+  .rm-blue{background:var(--blue-soft);border-top:3px solid var(--blue);} .rm-blue .roadmap-num{color:var(--blue);}
+  .rm-yellow{background:var(--yellow-soft);border-top:3px solid var(--yellow);} .rm-yellow .roadmap-num{color:var(--yellow);}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">The AI Advantage Co</div>
+    <div class="guide-name">Copilot in Excel</div>
+  </div>
+  <nav>
+    <a class="nav-link active" onclick="scrollTo('s1')"><span class="nav-num">01</span>What is Copilot in Excel?</a>
+    <a class="nav-link" onclick="scrollTo('s2')"><span class="nav-num">02</span>Analyse Data with Copilot</a>
+    <a class="nav-link" onclick="scrollTo('s3')"><span class="nav-num">03</span>Formula Assistance</a>
+    <a class="nav-link" onclick="scrollTo('s4')"><span class="nav-num">04</span>Charts & Visualisations</a>
+    <a class="nav-link" onclick="scrollTo('s5')"><span class="nav-num">05</span>Highlight & Format</a>
+    <a class="nav-link" onclick="scrollTo('s6')"><span class="nav-num">06</span>Summarise & Explain</a>
+    <a class="nav-link" onclick="scrollTo('s7')"><span class="nav-num">07</span>Advanced Techniques</a>
+    <a class="nav-link" onclick="scrollTo('s8')"><span class="nav-num">08</span>Common Mistakes & Fixes</a>
+    <a class="nav-link" onclick="scrollTo('s9')"><span class="nav-num">09</span>Suggested Prompts</a>
+    <a class="nav-link" onclick="scrollTo('s10')"><span class="nav-num">10</span>See It In Action</a>
+    <a class="nav-link" onclick="scrollTo('s11')"><span class="nav-num">11</span>Your Roadmap</a>
+  </nav>
+</aside>
+
+<main class="content">
+
+  <div class="banner">
+    <div class="banner-inner">
+      <div class="banner-badge">Microsoft Copilot · Excel</div>
+      <h1>Copilot in <span>Excel</span></h1>
+      <p>Analyse data, build formulas, create charts, and surface insights — all in plain English, no formulas required.</p>
+    </div>
+  </div>
+
+  <!-- S1 -->
+  <div class="section-card" id="s1">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div><div class="section-title">What is Copilot in Excel?</div><div class="section-subtitle">AI data analysis for everyone — no formulas required</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot in Excel brings AI analysis directly into your spreadsheets. You can ask questions about your data in plain English and get back insights, calculations, formulas, and charts — without needing to know the syntax yourself. Whether you're a spreadsheet expert or an occasional user, Copilot makes data analysis faster and more accessible.</p>
+      <p class="body-text">Copilot works on the data in your active Excel table. It can identify trends, calculate totals and averages, write complex formulas, apply conditional formatting, generate charts, and summarise what your data shows — all from a conversational prompt in the Copilot panel.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">🔍</div><div class="card-title">Analyse Data</div><div class="card-desc">Ask "What are the top 5 products by revenue?" or "Which region is underperforming?" Copilot reads your table and surfaces the answer.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">fx</div><div class="card-title">Formula Assistance</div><div class="card-desc">Describe what you want to calculate in plain English. Copilot writes the formula and explains what it does — then inserts it into your sheet.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">📊</div><div class="card-title">Charts & Visuals</div><div class="card-desc">Ask Copilot to create a chart from your data. It selects the right chart type, configures the axes, and inserts it into your workbook.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">🎨</div><div class="card-title">Highlight & Format</div><div class="card-desc">Ask Copilot to highlight values above a threshold, colour-code categories, or apply conditional formatting rules — described in plain language.</div></div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">⚠️ Your Data Must Be in a Table</div>
+          <div class="callout-text">Copilot in Excel only works on data formatted as an Excel Table (Insert → Table, or Ctrl + T). If your data is in a plain range, Copilot will not be able to analyse it. Always convert your data range to a Table first — this is the most common reason Copilot appears greyed out.</div>
+        </div>
+      </div>
+      <div class="callout copilot">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">🐍 2026 Update — Python in Copilot for Excel</div>
+          <div class="callout-text">You can now ask Copilot to use Python for advanced analysis directly in the sheet — no Python knowledge required. Type a prompt like <em>"Use Python to forecast next quarter's sales by region using the last 24 months of data"</em> and Copilot generates and runs Python, returning results inline. This unlocks regression, clustering, time-series forecasting, and complex visualisations the standard formula engine can't handle.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section-card" id="s2">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div><div class="section-title">Analyse Data with Copilot</div><div class="section-subtitle">Ask questions about your data in plain English</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The core Copilot in Excel experience is a conversation with your data. Open the Copilot panel, ask a question, and get an answer — along with the option to insert any resulting calculations or charts directly into your sheet.</p>
+      <div class="step-list">
+        <div class="step-item"><div class="step-num">1</div><div class="step-body"><div class="step-title">Ensure your data is formatted as a Table</div><div class="step-desc">Click anywhere in your data range, then press Ctrl + T or go to Insert → Table. Confirm the range and tick "My table has headers". Copilot cannot analyse plain ranges.</div></div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-body"><div class="step-title">Open the Copilot panel</div><div class="step-desc">Click the Copilot button (✨) in the Home ribbon. The Copilot panel opens on the right side of your workbook.</div></div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-body"><div class="step-title">Ask a question about your data</div><div class="step-desc">Type your question in natural language. Focus on the insight you need: "What is the average order value by region?" or "Which 3 customers account for the most revenue?"</div></div></div>
+        <div class="step-item"><div class="step-num">4</div><div class="step-body"><div class="step-title">Review the result and choose what to do with it</div><div class="step-desc">Copilot returns an answer in text, and often suggests inserting a formula, chart, or pivot table. Click "Insert" to add it to your sheet, or ask a follow-up question.</div></div></div>
+      </div>
+      <h3 class="sub">Analysis Questions That Work Well</h3>
+      <table class="ref-table">
+        <thead><tr><th>Type of Analysis</th><th>Example Question</th></tr></thead>
+        <tbody>
+          <tr><td>Ranking & top/bottom</td><td>"Show me the top 10 products by sales volume this quarter"</td></tr>
+          <tr><td>Aggregates & averages</td><td>"What is the average deal size by sales rep?"</td></tr>
+          <tr><td>Trends over time</td><td>"How has monthly revenue changed over the last 12 months?"</td></tr>
+          <tr><td>Comparisons</td><td>"Compare Q2 and Q3 performance by department"</td></tr>
+          <tr><td>Outliers & anomalies</td><td>"Which rows have a cost that is more than 2x the average?"</td></tr>
+          <tr><td>Filtering & segmentation</td><td>"Show only the rows where the status is 'Overdue' and value is above £10,000"</td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">💡 Name Your Columns Clearly</div>
+          <div class="callout-text">Copilot's analysis quality directly reflects your column headers. "Revenue Q3 (£)" is much better than "ColC" or "Data". Descriptive headers mean Copilot can correctly match your question to the right column — and give you more accurate results.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section-card" id="s3">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div><div class="section-title">Formula Assistance</div><div class="section-subtitle">Build, explain, and fix formulas in plain English</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot can write Excel formulas for you — describe what you want to calculate and Copilot generates the formula, explains it, and offers to insert it into your sheet. It also works the other way: paste a formula you don't understand and ask Copilot to explain it.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">✍️</div><div class="card-title">Write a Formula</div><div class="card-desc">Describe the calculation: "Write a formula that calculates the percentage each product contributes to total revenue." Copilot writes it and offers to insert it.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">❓</div><div class="card-title">Explain a Formula</div><div class="card-desc">Paste any formula and ask: "Explain what this formula does in plain English." Copilot walks through each part of the formula step by step.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">🔧</div><div class="card-title">Fix a Formula</div><div class="card-desc">Paste a broken formula and describe the error: "This VLOOKUP is returning #N/A — what's wrong and how do I fix it?" Copilot diagnoses and corrects it.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">🔄</div><div class="card-title">Convert to Modern Syntax</div><div class="card-desc">"Convert this VLOOKUP to XLOOKUP." Or "Rewrite this nested IF using IFS." Copilot modernises legacy formulas to cleaner alternatives.</div></div>
+      </div>
+      <h3 class="sub">Formula Examples — From Plain English to Excel</h3>
+      <div class="formula-row">
+        <div class="formula-cell"><div class="formula-label">Excel Formula</div>=SUMIF(Table1[Region],"North",Table1[Revenue])</div>
+        <div class="formula-explain"><div class="formula-label">Plain English Request</div>"Sum the Revenue column but only for rows where the Region is 'North'"</div>
+      </div>
+      <div class="formula-row">
+        <div class="formula-cell"><div class="formula-label">Excel Formula</div>=XLOOKUP(A2,Products[ID],Products[Price],0)</div>
+        <div class="formula-explain"><div class="formula-label">Plain English Request</div>"Look up the product ID in column A and return the Price from the Products table — return 0 if not found"</div>
+      </div>
+      <div class="formula-row">
+        <div class="formula-cell"><div class="formula-label">Excel Formula</div>=IFERROR([@Revenue]/[@Target]-1,"No target")</div>
+        <div class="formula-explain"><div class="formula-label">Plain English Request</div>"Calculate percentage above or below target, showing 'No target' if the calculation fails"</div>
+      </div>
+      <div class="formula-row">
+        <div class="formula-cell"><div class="formula-label">Excel Formula</div>=COUNTIFS(Table1[Status],"Overdue",Table1[Value],">"&10000)</div>
+        <div class="formula-explain"><div class="formula-label">Plain English Request</div>"Count rows where Status is 'Overdue' AND Value is greater than 10,000"</div>
+      </div>
+      <div class="callout copilot">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">✨ Always Ask for an Explanation</div>
+          <div class="callout-text">Even if you plan to use the formula as-is, ask Copilot to explain it. Understanding what the formula does helps you verify it's correct for your data — and means you can adapt it yourself next time rather than asking again.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section-card" id="s4">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div><div class="section-title">Charts & Visualisations</div><div class="section-subtitle">Turn table data into clear, shareable charts</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot can create charts directly from your Excel table. Describe the visualisation you want — what data to show, how to group it, and what type of chart — and Copilot builds and inserts it. No need to manually configure axes, series, or chart types.</p>
+      <div class="step-list">
+        <div class="step-item"><div class="step-num">1</div><div class="step-body"><div class="step-title">Ask Copilot to create a chart</div><div class="step-desc">Example: "Create a bar chart showing total sales by region for this quarter." Copilot selects the relevant columns, picks an appropriate chart type, and configures the layout.</div></div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-body"><div class="step-title">Review the chart suggestion</div><div class="step-desc">Copilot shows you a preview of the chart in the panel before inserting. You can accept it or ask for adjustments: "Make it a line chart instead" or "Sort the bars from highest to lowest."</div></div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-body"><div class="step-title">Click Insert to add it to your sheet</div><div class="step-desc">The chart is inserted as a standard Excel chart object. You can move, resize, and edit it using Excel's standard chart tools after insertion.</div></div></div>
+      </div>
+      <h3 class="sub">Chart Prompts That Work Well</h3>
+      <table class="ref-table">
+        <thead><tr><th>What You Want</th><th>Example Prompt</th></tr></thead>
+        <tbody>
+          <tr><td>Comparison by category</td><td>"Create a bar chart comparing revenue by product category"</td></tr>
+          <tr><td>Trend over time</td><td>"Create a line chart showing monthly units sold over the last year"</td></tr>
+          <tr><td>Part-of-whole</td><td>"Create a pie chart showing each department's share of total headcount"</td></tr>
+          <tr><td>Two-metric comparison</td><td>"Create a chart showing both revenue and profit margin by month"</td></tr>
+          <tr><td>Top N items</td><td>"Create a chart showing only the top 10 customers by order value"</td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">💡 Specify the Audience</div>
+          <div class="callout-text">Add "for a board presentation" or "for a weekly team update" to your chart prompt. Copilot will choose a cleaner chart type and simpler labelling appropriate for presentation rather than analysis. The context changes the output meaningfully.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="section-card" id="s5">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div><div class="section-title">Highlight & Format</div><div class="section-subtitle">Apply conditional formatting and colour logic in plain English</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Conditional formatting rules — colour-coding cells based on their values — are one of Excel's most powerful features, but the setup is fiddly. Copilot lets you describe the formatting rule you want and applies it for you, saving multiple menu steps and rule dialogs.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">🔴</div><div class="card-title">Flag Thresholds</div><div class="card-desc">"Highlight all cells in the Margin column red where the value is below 10%." Copilot creates the rule and applies it across the column.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">🎨</div><div class="card-title">Colour-Code Categories</div><div class="card-desc">"Colour the Status column: green for Complete, amber for In Progress, red for Overdue." Copilot sets up three separate rules in one instruction.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">📊</div><div class="card-title">Data Bars & Scales</div><div class="card-desc">"Add a data bar to the Revenue column so it's easy to visually compare values at a glance." Copilot applies the built-in data bar formatting.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">🏆</div><div class="card-title">Top / Bottom Rules</div><div class="card-desc">"Highlight the top 10% of values in the Sales column in bold green." Copilot applies a top N% conditional formatting rule automatically.</div></div>
+      </div>
+      <div class="callout info">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">ℹ️ Copilot Writes the Rules — You Can Edit Them</div>
+          <div class="callout-text">Conditional formatting applied by Copilot works like any manually created rule. To view, edit, or remove it, go to Home → Conditional Formatting → Manage Rules. This is useful if you want to tweak a colour, adjust a threshold, or apply the rule to a different range.</div>
+        </div>
+      </div>
+      <h3 class="sub">Formatting Prompts That Work Well</h3>
+      <table class="ref-table">
+        <thead><tr><th>What You Want</th><th>Example Prompt</th></tr></thead>
+        <tbody>
+          <tr><td>Traffic light by value</td><td>"Apply a red-amber-green colour scale to the Score column"</td></tr>
+          <tr><td>Flag overdue rows</td><td>"Highlight the entire row red where the Due Date is in the past and Status is not 'Complete'"</td></tr>
+          <tr><td>Highlight duplicates</td><td>"Highlight any duplicate values in the Customer ID column in yellow"</td></tr>
+          <tr><td>Above/below average</td><td>"Colour cells in the Spend column: blue if above average, white if below"</td></tr>
+          <tr><td>Icon sets</td><td>"Add up/down/flat arrows to the Growth column based on whether values are positive, negative, or zero"</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="section-card" id="s6">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div><div class="section-title">Summarise & Explain</div><div class="section-subtitle">Get a plain-English narrative from your spreadsheet data</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot can generate a written summary of what your data shows — turning rows of numbers into a narrative that you can paste into a report, email, or presentation. This bridges the gap between raw data in Excel and the story it needs to tell to a non-technical audience.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">📝</div><div class="card-title">Data Narrative</div><div class="card-desc">Ask: "Write a 3-paragraph summary of what this data shows, suitable for including in a board report." Copilot interprets the trends and writes the narrative.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">💡</div><div class="card-title">Key Insights</div><div class="card-desc">"What are the 3 most important insights in this dataset?" Copilot highlights the most significant patterns, outliers, or changes — framed as business insights.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">⚠️</div><div class="card-title">Flags & Anomalies</div><div class="card-desc">"Are there any unusual patterns or anomalies in this data I should be aware of?" Copilot looks for statistical outliers, unexpected gaps, or data quality issues.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">📊</div><div class="card-title">Column Explanations</div><div class="card-desc">"Explain what each column in this table represents and how they relate to each other." Useful when inheriting a spreadsheet you didn't build yourself.</div></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">💡 Use the Summary in Other Apps</div>
+          <div class="callout-text">Copy Copilot's summary from the panel and paste it directly into Copilot in Word or Outlook. Ask: "Expand this data summary into a formal section for our Q3 board report" or "Write a covering email for this analysis." Your Excel insights become the foundation for written deliverables across M365.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="section-card" id="s7">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div><div class="section-title">Advanced Techniques</div><div class="section-subtitle">Power queries, cross-app flows, and iterative analysis</div></div>
+    </div>
+    <div class="section-body">
+      <h3 class="sub">Iterative Analysis</h3>
+      <p class="body-text">The most effective Excel Copilot sessions are conversations, not single queries. Ask a broad question to get oriented, then narrow down to the specific insight you need.</p>
+      <div class="step-list">
+        <div class="step-item"><div class="step-num">1</div><div class="step-body"><div class="step-title">Start broad</div><div class="step-desc">"Give me an overview of this dataset — key stats for each numeric column." Copilot returns ranges, averages, and notable values for the whole table.</div></div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-body"><div class="step-title">Drill into an anomaly</div><div class="step-desc">"The Revenue column looks unusual in March — what happened? Show the breakdown by product." Copilot focuses in on that specific slice.</div></div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-body"><div class="step-title">Build a formula to track it</div><div class="step-desc">"Write a formula that flags any month where revenue drops more than 15% from the previous month." Copilot builds the formula and inserts it as a new column.</div></div></div>
+        <div class="step-item"><div class="step-num">4</div><div class="step-body"><div class="step-title">Visualise the finding</div><div class="step-desc">"Create a chart showing monthly revenue with the anomaly months highlighted." You now have an analysis trail ready to drop into a report.</div></div></div>
+      </div>
+      <h3 class="sub">Cross-App Workflows</h3>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">📊→📄</div><div class="card-title">Excel → Word Report</div><div class="card-desc">Get Copilot's data summary from Excel, paste it into Copilot in Word: "Expand this into a formal analysis section with commentary on the trends."</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">📊→📧</div><div class="card-title">Excel → Outlook Update</div><div class="card-desc">Copy key figures from Copilot's answer and use Copilot in Outlook: "Draft a weekly data update email using these figures for the sales team."</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">📊→📊</div><div class="card-title">Excel → PowerPoint Slide</div><div class="card-desc">Paste Copilot's insight bullets into Copilot in PowerPoint: "Turn these data insights into 3 slides for the monthly review presentation."</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">💬→📊</div><div class="card-title">Teams Recap → Excel Model</div><div class="card-desc">From a Teams recap with key targets, ask Copilot in Excel: "Build a tracking table for these targets with columns for Actual, Target, and Variance."</div></div>
+      </div>
+      <h3 class="sub">Advanced Formula Techniques</h3>
+      <table class="ref-table">
+        <thead><tr><th>Ask Copilot To</th><th>Example Prompt</th></tr></thead>
+        <tbody>
+          <tr><td>Build a dynamic filter formula</td><td>"Write a FILTER formula that returns only rows where Region is 'South' and Revenue exceeds £50,000"</td></tr>
+          <tr><td>Create a running total</td><td>"Add a column showing the cumulative sum of Revenue from the first row to the current row"</td></tr>
+          <tr><td>Calculate date-based metrics</td><td>"Write a formula that calculates how many days each order has been open, counting from the Order Date to today"</td></tr>
+          <tr><td>Build a lookup with fallback</td><td>"Write an XLOOKUP that finds the price for a product ID, but returns 'Not listed' if not found"</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="section-card" id="s8">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div><div class="section-title">Common Mistakes & Fixes</div><div class="section-subtitle">What goes wrong — and how to fix it</div></div>
+    </div>
+    <div class="section-body">
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "The Copilot button is greyed out in Excel"</div>
+        <div class="trouble-a">Your data is not formatted as an Excel Table. Click anywhere in your data range, press Ctrl + T, confirm the range and headers, then try Copilot again. This resolves the greyed-out button in almost all cases. Also check that you're using a file saved to OneDrive or SharePoint — local .xlsx files that haven't been saved to the cloud may not support all Copilot features.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "Copilot's formula doesn't match my data"</div>
+        <div class="trouble-a">Copilot uses your column headers to match your question to the right columns. If headers are ambiguous (e.g. "Col A", "Value", "Data"), Copilot may reference the wrong column. Rename your headers to be descriptive before asking for formula help. After Copilot generates a formula, always review the column references before inserting.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "Copilot's analysis gives me a different number than I expected"</div>
+        <div class="trouble-a">Check whether your data has blank rows, merged cells, or hidden rows — these can affect Copilot's calculations. Also check whether your question was ambiguous: "total revenue" could mean sum, count, or average depending on context. Refine your question to be explicit: "sum of the Revenue column" rather than "total revenue".</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "The chart Copilot created isn't showing the right data"</div>
+        <div class="trouble-a">Be more specific about which columns to use and how to group the data. Instead of "create a sales chart", try "create a bar chart with Months on the X axis and Total Sales on the Y axis, grouped by Region." The more explicit your chart specification, the more accurate the result.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">❌ "Copilot can't see my second sheet"</div>
+        <div class="trouble-a">Copilot in Excel currently analyses the active table on your current sheet. It cannot cross-reference multiple sheets or workbooks in a single query. If you need to analyse data from two sheets, consolidate the relevant data into a single table first, then ask Copilot.</div>
+      </div>
+      <div class="do-avoid">
+        <div class="do-box">
+          <div class="box-label">✅ DO THIS</div>
+          <ul>
+            <li>Convert data to a Table before using Copilot (Ctrl + T)</li>
+            <li>Use clear, descriptive column headers</li>
+            <li>Ask Copilot to explain formulas it generates</li>
+            <li>Verify formula column references before inserting</li>
+            <li>Use iterative questions to drill into insights</li>
+          </ul>
+        </div>
+        <div class="avoid-box">
+          <div class="box-label">❌ AVOID THIS</div>
+          <ul>
+            <li>Using Copilot on plain ranges (not formatted as Tables)</li>
+            <li>Ambiguous column headers like "Value" or "Data"</li>
+            <li>Accepting formulas without reviewing the cell references</li>
+            <li>Expecting Copilot to analyse data across multiple sheets</li>
+            <li>Trusting numerical results without a sense-check against the raw data</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S9 -->
+  <div class="section-card" id="s9">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <div><div class="section-title">Suggested Prompts</div><div class="section-subtitle">Ready-to-use prompts for analysis and formulas</div></div>
+    </div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="showTab('analysis')">Analysis</button>
+          <button class="tab-btn" onclick="showTab('formulas')">Formulas & Formatting</button>
+        </div>
+        <div class="tab-panel active" id="tab-analysis">
+          <div class="prompt-card">
+            <div class="prompt-label">Data Overview — First Look <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Give me an overview of this dataset. What are the key statistics for each numeric column — minimum, maximum, average, and total? Flag any columns with blank values or outliers I should be aware of.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Performance Ranking <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Rank the [column name — e.g. Sales Rep / Product / Region] by total [metric — e.g. Revenue / Units / Profit] from highest to lowest. Show the top 10 and highlight any that are more than 20% above or below the average.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Trend & Anomaly Check <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Show the trend in [metric] over time. Are there any months or periods where the value is significantly higher or lower than the surrounding periods? What might explain those anomalies based on the other columns in the data?</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="tab-formulas">
+          <div class="prompt-card">
+            <div class="prompt-label">Conditional Sum or Count <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Write a formula that [sums / counts] the [column name] column, but only for rows where [condition column] equals [value] AND [second condition]. Explain each part of the formula before inserting it.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Status Traffic Light <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Apply conditional formatting to the [column name] column: highlight cells green if the value is above [threshold], amber if it's between [lower] and [upper], and red if it's below [lower threshold]. Apply to the whole column.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Lookup with Fallback <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Write an XLOOKUP formula that looks up [lookup value column] in the [lookup column] of [table name] and returns the [return column]. If no match is found, return "[fallback text]" instead of an error. Explain the formula before inserting.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div><div class="section-title">See It In Action</div><div class="section-subtitle">Copilot analysing a sales table in real time</div></div>
+    </div>
+    <div class="section-body">
+      <div class="mockup">
+        <div class="mockup-title">Excel + Copilot — Sales Analysis Session</div>
+        <div class="excel-mock">
+          <div class="mock-sheet">
+            <div class="mock-sheet-toolbar">
+              <span class="mock-sheet-tab active-tab">Q3 Sales Data</span>
+              <span class="mock-sheet-tab">Summary</span>
+            </div>
+            <table class="mock-table">
+              <thead><tr><th>Region</th><th>Sales Rep</th><th>Product</th><th>Revenue (£)</th><th>Units</th><th>Margin %</th></tr></thead>
+              <tbody>
+                <tr><td>North</td><td>Jamie T</td><td>Pro Plan</td><td>£42,000</td><td>14</td><td class="highlight">31%</td></tr>
+                <tr><td>South</td><td>Emma R</td><td>Starter</td><td>£18,500</td><td>37</td><td>22%</td></tr>
+                <tr><td>North</td><td>Marcus P</td><td>Enterprise</td><td>£91,000</td><td>7</td><td class="highlight">44%</td></tr>
+                <tr><td>West</td><td>Sarah K</td><td>Pro Plan</td><td>£28,000</td><td>9</td><td>28%</td></tr>
+                <tr><td>South</td><td>Jamie T</td><td>Enterprise</td><td>£76,500</td><td>5</td><td class="highlight">41%</td></tr>
+                <tr><td colspan="4" class="formula-td">=SUMIF(Table1[Region],"North",Table1[Revenue (£)])</td><td colspan="2" style="background:#E3F2FD;color:#0D47A1;font-size:11px;">← Copilot inserted</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mock-panel">
+            <div class="mock-panel-hdr">✨ Copilot — Excel</div>
+            <div class="mock-panel-body">
+              <div style="font-size:10px;color:#7264A8;margin-bottom:6px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">Your question</div>
+              <div class="mock-query">Which region has the highest total revenue, and which product has the best average margin?</div>
+              <div style="font-size:10px;color:#F97316;margin-bottom:6px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">Copilot answer</div>
+              <div class="mock-answer"><strong style="color:#FED7AA;">North</strong> leads with £133,000 total revenue across 2 reps. <strong style="color:#FED7AA;">Enterprise</strong> has the highest average margin at 42.5%, compared to 29.5% for Pro Plan and 22% for Starter.</div>
+              <div style="font-size:10px;color:#7264A8;margin-top:10px;margin-bottom:6px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">Formula inserted</div>
+              <div class="mock-formula-out">=SUMIF(Table1[Region],"North",Table1[Revenue (£)])</div>
+              <div style="font-size:11px;color:#7264A8;">Sums Revenue only for North region rows.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="body-text" style="font-size:13px;color:var(--muted);">The left panel shows the sales table with Copilot's SUMIF formula inserted at the bottom. The right panel shows Copilot's plain-English answer identifying North as the top region and Enterprise as the highest-margin product — derived directly from the table data.</p>
+    </div>
+  </div>
+
+  <!-- S11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <div><div class="section-title">Your Roadmap</div><div class="section-subtitle">From first analysis to confident data-driven decisions</div></div>
+    </div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step rm-purple"><div class="roadmap-num">1</div><div class="roadmap-title">First Analysis</div><div class="roadmap-desc">Convert a real spreadsheet to a Table (Ctrl + T), open Copilot, and ask: "What are the top 5 [items] by [metric]?" Get your first AI-generated insight.</div></div>
+        <div class="roadmap-step rm-orange"><div class="roadmap-num">2</div><div class="roadmap-title">Formula Fluency</div><div class="roadmap-desc">Next time you need a formula, describe it to Copilot instead of searching online. Always ask for the explanation — within a week you'll know how the formulas work.</div></div>
+        <div class="roadmap-step rm-blue"><div class="roadmap-num">3</div><div class="roadmap-title">Visual Storytelling</div><div class="roadmap-desc">Use Copilot to generate charts and summaries from your data. Practice exporting these insights into Word or PowerPoint for stakeholder-ready reports.</div></div>
+        <div class="roadmap-step rm-yellow"><div class="roadmap-num">4</div><div class="roadmap-title">Full Data Workflow</div><div class="roadmap-desc">Run end-to-end analysis sessions: broad overview → drill down → formula → chart → written summary → report. Copilot handles every step.</div></div>
+      </div>
+      <div class="callout copilot">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">✨ The Goal: Data Confidence for Everyone</div>
+          <div class="callout-text">The most valuable outcome of Copilot in Excel isn't faster spreadsheets — it's democratising data analysis. People who previously relied on a colleague to "run the numbers" can now ask those questions themselves, get reliable answers, and make faster, better-informed decisions. Start with one real dataset this week.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-card').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text);
+  const orig = btn.innerText;
+  btn.innerText = '✓ Copied';
+  setTimeout(() => btn.innerText = orig, 1800);
+}
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+}
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[onclick="scrollTo('${id}')"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, {threshold:0.25});
+document.querySelectorAll('.section-card[id]').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

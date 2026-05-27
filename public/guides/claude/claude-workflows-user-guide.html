@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claude in Workflows — The AI Advantage Co</title>
+<style>
+  :root {
+    --orange:#C97040; --orange-l:#E09868; --orange-soft:#FFF7F0;
+    --sidebar:#3C1E0A; --ink:#2C1408; --body:#4A3020; --muted:#8A6040;
+    --muted-l:#B08060; --page:#FEF8F0; --card:#FFFCF8; --hdr:#F9F0E6;
+    --border:#F0DEC8; --info-bg:#FDEBD8; --info-blue:#3B7FD4;
+    --warn-bg:#FFF3CD; --warn-border:#D4A017; --white:#fff;
+    --green:#2E7D32; --green-bg:#E8F5E9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--page);font-family:'Segoe UI',Arial,sans-serif;color:var(--body);display:flex;min-height:100vh;}
+
+  /* ── SIDEBAR ── */
+  nav{width:260px;min-width:260px;background:var(--sidebar);padding:0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+  .nav-brand{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .nav-brand .co{font-size:10px;font-weight:700;color:var(--orange);letter-spacing:.16em;text-transform:uppercase;}
+  .nav-brand .guide-name{font-size:13px;color:#e8d8c4;margin-top:4px;line-height:1.4;}
+  .nav-sections{padding:16px 0 24px;flex:1;}
+  .nav-label{font-size:9px;font-weight:700;color:var(--orange-l);letter-spacing:.18em;text-transform:uppercase;padding:12px 20px 6px;}
+  nav a{display:block;padding:7px 20px;font-size:12.5px;color:#c8b8a4;text-decoration:none;border-left:3px solid transparent;transition:all .18s;}
+  nav a:hover{color:#fff;background:rgba(255,255,255,.06);}
+  nav a.active{color:#fff;border-left-color:var(--orange);background:rgba(201,112,64,.15);}
+  .nav-num{display:inline-block;width:18px;font-size:11px;color:var(--orange);font-weight:700;}
+
+  /* ── MAIN ── */
+  main{flex:1;max-width:860px;padding:48px 52px;overflow-x:hidden;}
+
+  /* ── BANNER ── */
+  .banner{background:var(--hdr);border-radius:10px;overflow:hidden;margin-bottom:40px;}
+  .banner-brand{background:var(--hdr);padding:10px 28px;border-bottom:1px solid var(--border);font-size:10px;font-weight:700;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;}
+  .banner-body{background:var(--orange-soft);padding:36px 28px;text-align:center;}
+  .banner-a{font-size:72px;font-weight:900;color:var(--orange);line-height:1;}
+  .banner-title{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:.22em;margin-top:8px;}
+  .banner-sub{font-size:18px;font-weight:700;color:var(--orange);letter-spacing:.14em;margin-top:6px;}
+  .banner-stripe{height:8px;background:var(--orange);}
+
+  /* ── INTRO ── */
+  .guide-title{font-size:28px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:12px;}
+  .guide-intro{font-size:15px;color:var(--body);line-height:1.7;margin-bottom:20px;}
+  .meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+  .meta-tag{padding:4px 14px;border-radius:4px;font-size:11.5px;font-weight:600;}
+  .meta-tag.version{background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange);}
+  .meta-tag.date{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+  .meta-tag.audience{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+  .divider{border:none;border-top:2px solid var(--border);margin:28px 0;}
+
+  /* ── SECTION HEADER ── */
+  .sec-hdr{display:grid;grid-template-columns:52px 1fr;border-radius:8px;overflow:hidden;margin-bottom:24px;}
+  .sec-num{background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
+  .sec-meta{background:var(--hdr);border-bottom:2px solid var(--border);padding:12px 18px;}
+  .sec-meta h2{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+  .sec-meta p{font-size:12px;color:var(--muted);}
+
+  /* ── BODY ── */
+  p.body{font-size:14.5px;color:var(--body);line-height:1.75;margin-bottom:14px;}
+  h3.sub{font-size:15px;font-weight:700;color:var(--ink);margin:24px 0 10px;}
+
+  /* ── CALLOUTS ── */
+  .callout{display:grid;grid-template-columns:48px 1fr;border-radius:8px;overflow:hidden;margin:18px 0;}
+  .callout-icon{display:flex;align-items:flex-start;justify-content:center;padding:16px 0 0;font-size:20px;}
+  .callout-body{padding:14px 16px 14px 0;}
+  .callout-label{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+  .callout-text{font-size:13.5px;line-height:1.6;}
+  .callout.tip{background:var(--orange-soft);}
+  .callout.tip .callout-label{color:var(--orange);}
+  .callout.tip .callout-text{color:var(--body);}
+  .callout.info{background:var(--info-bg);}
+  .callout.info .callout-label{color:var(--info-blue);}
+  .callout.info .callout-text{color:var(--body);}
+  .callout.warn{background:var(--warn-bg);}
+  .callout.warn .callout-label{color:var(--warn-border);}
+  .callout.warn .callout-text{color:var(--body);}
+
+  /* ── CARDS ── */
+  .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;}
+  .card-icon{width:40px;height:40px;background:var(--orange-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px;}
+  .card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .card p{font-size:13px;color:var(--muted);line-height:1.55;}
+
+  /* ── STEPS ── */
+  .step{display:grid;grid-template-columns:48px 1fr;gap:0;margin-bottom:14px;}
+  .step-num{background:var(--orange);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:flex-start;justify-content:center;padding-top:13px;border-radius:6px 0 0 6px;}
+  .step-body{background:var(--card);border:1px solid var(--border);border-left:none;border-radius:0 6px 6px 0;padding:13px 16px;}
+  .step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .step-body p{font-size:13.5px;color:var(--body);line-height:1.55;}
+
+  /* ── WORKFLOW DIAGRAM ── */
+  .workflow-diagram{display:flex;align-items:center;gap:0;margin:20px 0;overflow-x:auto;padding-bottom:4px;}
+  .wf-node{background:var(--card);border:2px solid var(--border);border-radius:8px;padding:14px 16px;min-width:130px;text-align:center;flex-shrink:0;}
+  .wf-node.trigger{border-color:var(--info-blue);background:var(--info-bg);}
+  .wf-node.claude{border-color:var(--orange);background:var(--orange-soft);}
+  .wf-node.output{border-color:var(--green);background:var(--green-bg);}
+  .wf-node .icon{font-size:22px;margin-bottom:6px;}
+  .wf-node .label{font-size:11px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.06em;}
+  .wf-node .desc{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4;}
+  .wf-arrow{font-size:20px;color:var(--orange);padding:0 8px;flex-shrink:0;}
+
+  /* ── WORKFLOW TYPE CARDS ── */
+  .wf-type{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px;}
+  .wf-type-hdr{background:var(--sidebar);padding:10px 16px;display:flex;align-items:center;gap:12px;}
+  .wf-type-icon{font-size:18px;}
+  .wf-type-title{font-size:13.5px;font-weight:700;color:var(--orange-l);}
+  .wf-type-body{padding:14px 16px;}
+  .wf-type-body p{font-size:13.5px;color:var(--body);line-height:1.6;margin-bottom:10px;}
+  .wf-type-example{background:var(--orange-soft);border-left:3px solid var(--orange);padding:10px 14px;font-size:13px;color:var(--ink);border-radius:0 4px 4px 0;}
+  .wf-type-example strong{color:var(--orange);}
+
+  /* ── REF TABLE ── */
+  .ref-table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:13px;}
+  .ref-table th{background:var(--sidebar);color:var(--orange-l);font-size:11.5px;font-weight:700;text-align:left;padding:9px 14px;letter-spacing:.04em;}
+  .ref-table td{background:var(--card);border:1px solid var(--border);padding:9px 14px;color:var(--body);vertical-align:top;line-height:1.5;}
+  .ref-table tr:nth-child(even) td{background:#fffaf5;}
+
+  /* ── PROMPT TEMPLATE ── */
+  .template-block{background:var(--sidebar);border-radius:8px;padding:18px 20px;margin:14px 0;}
+  .template-label{font-size:10px;font-weight:700;color:var(--orange-l);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;}
+  .template-line{font-size:13px;color:#C8B8A4;font-family:'Courier New',monospace;line-height:1.8;}
+  .template-line .var{color:var(--orange-l);font-style:italic;}
+
+  /* ── PROMPT TABS ── */
+  .prompt-tabs{margin:20px 0;}
+  .tab-btns{display:flex;gap:0;border-bottom:2px solid var(--border);}
+  .tab-btn{padding:8px 20px;font-size:12.5px;font-weight:600;color:var(--muted);background:transparent;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .18s;}
+  .tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);}
+  .tab-pane{display:none;padding-top:16px;}
+  .tab-pane.active{display:block;}
+  .prompt-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin-bottom:14px;position:relative;}
+  .prompt-label{font-size:10.5px;font-weight:700;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+  .prompt-text{font-size:13.5px;color:var(--body);line-height:1.65;font-style:italic;}
+  .copy-btn{position:absolute;top:14px;right:14px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--orange);background:var(--orange-soft);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .18s;}
+  .copy-btn:hover{background:var(--orange);color:#fff;}
+
+  /* ── MOCKUP ── */
+  .mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:20px 0;}
+  .mockup-bar{background:#2a1408;padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.06);}
+  .mockup-dot{width:10px;height:10px;border-radius:50%;}
+  .mockup-title{font-size:11px;color:#8A7060;margin-left:8px;font-family:'Courier New',monospace;}
+  .mockup-body{padding:20px;}
+  .mockup-step{margin-bottom:16px;display:grid;grid-template-columns:28px 1fr;gap:12px;}
+  .mockup-step-num{width:26px;height:26px;border-radius:50%;background:var(--orange);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .mockup-step-content{}
+  .mockup-step-label{font-size:10px;font-weight:700;color:var(--orange-l);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;font-family:'Courier New',monospace;}
+  .mockup-step-text{font-size:12.5px;color:#C8B8A4;font-family:'Courier New',monospace;line-height:1.6;}
+  .mockup-step-output{font-size:12px;color:#8BC48A;font-family:'Courier New',monospace;line-height:1.5;margin-top:6px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:4px;}
+
+  /* ── ROADMAP ── */
+  .roadmap{display:flex;flex-direction:column;}
+  .roadmap-step{display:grid;grid-template-columns:56px 1fr;}
+  .roadmap-left{display:flex;flex-direction:column;align-items:center;}
+  .roadmap-circle{width:44px;height:44px;border-radius:50%;background:var(--orange);color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .roadmap-line{width:2px;background:var(--border);flex:1;margin:4px 0;}
+  .roadmap-content{padding:0 0 28px 16px;}
+  .roadmap-content h4{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .roadmap-content p{font-size:13.5px;color:var(--muted);line-height:1.6;}
+
+  /* ── BULLETS ── */
+  ul.styled{margin:10px 0 16px 0;padding-left:0;list-style:none;}
+  ul.styled li{font-size:14px;color:var(--body);line-height:1.65;padding:4px 0 4px 24px;position:relative;}
+  ul.styled li::before{content:"•";color:var(--orange);font-size:16px;position:absolute;left:6px;top:3px;}
+
+  /* ── SIGNAL MATRIX ── */
+  .signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0 24px;}
+  .signal-box{border-radius:8px;padding:16px;}
+  .signal-box.yes{background:var(--green-bg);border:1px solid #a5d6a7;}
+  .signal-box.no{background:var(--warn-bg);border:1px solid #ffe082;}
+  .signal-box h4{font-size:12.5px;font-weight:700;margin-bottom:8px;}
+  .signal-box.yes h4{color:var(--green);}
+  .signal-box.no h4{color:var(--warn-border);}
+  .signal-box ul{list-style:none;padding:0;}
+  .signal-box ul li{font-size:13px;color:var(--body);padding:3px 0 3px 18px;position:relative;line-height:1.5;}
+  .signal-box ul li::before{position:absolute;left:0;top:3px;}
+  .signal-box.yes ul li::before{content:"✓";color:var(--green);font-weight:700;}
+  .signal-box.no ul li::before{content:"✗";color:var(--warn-border);font-weight:700;}
+
+  section{margin-bottom:56px;}
+  footer{border-top:1px solid var(--border);padding-top:24px;margin-top:40px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted-l);}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+
+<nav>
+  <div class="nav-brand">
+    <div class="co">The AI Advantage Co</div>
+    <div class="guide-name">Claude in Workflows<br>User Guide</div>
+  </div>
+  <div class="nav-sections">
+    <div class="nav-label">Contents</div>
+    <a href="#s01" class="active"><span class="nav-num">01</span> What are Workflows?</a>
+    <a href="#s02"><span class="nav-num">02</span> Spotting Opportunities</a>
+    <a href="#s03"><span class="nav-num">03</span> The Workflow Design Framework</a>
+    <a href="#s04"><span class="nav-num">04</span> Common Workflow Types</a>
+    <a href="#s05"><span class="nav-num">05</span> Building Your First Workflow</a>
+    <a href="#s06"><span class="nav-num">06</span> Prompt Templates &amp; Reuse</a>
+    <a href="#s07"><span class="nav-num">07</span> Integrating with Other Tools</a>
+    <a href="#s08"><span class="nav-num">08</span> Quality Control</a>
+    <a href="#s09"><span class="nav-num">09</span> Suggested Prompts</a>
+    <a href="#s10"><span class="nav-num">10</span> See It In Action</a>
+    <a href="#s11"><span class="nav-num">11</span> Your Roadmap</a>
+  </div>
+</nav>
+
+<main>
+
+  <div class="banner">
+    <div class="banner-brand">THE &nbsp; AI &nbsp; ADVANTAGE &nbsp; CO</div>
+    <div class="banner-body">
+      <div class="banner-a">A</div>
+      <div class="banner-title">CLAUDE &nbsp; IN &nbsp; WORKFLOWS</div>
+      <div class="banner-sub">EMBED &nbsp; AI &nbsp; INTO &nbsp; HOW &nbsp; YOU &nbsp; WORK</div>
+    </div>
+    <div class="banner-stripe"></div>
+  </div>
+
+  <h1 class="guide-title">Claude in Workflows — Embed AI Into How You Work</h1>
+  <p class="guide-intro">Using Claude ad hoc is useful. Embedding Claude into how your work actually flows is transformative. This guide covers how to identify where Claude belongs in your existing processes, how to design repeatable workflows around it, and how to build the prompt templates and systems that make AI assistance consistent, scalable, and low-effort to run.</p>
+  <div class="meta-row">
+    <span class="meta-tag version">Version 1.0</span>
+    <span class="meta-tag date">April 2026</span>
+    <span class="meta-tag audience">Audience: All Users</span>
+  </div>
+  <hr class="divider" />
+
+  <!-- ══ 01 ══ -->
+  <section id="s01">
+    <div class="sec-hdr">
+      <div class="sec-num">01</div>
+      <div class="sec-meta">
+        <h2>What are Workflows?</h2>
+        <p>The difference between using Claude and working with Claude</p>
+      </div>
+    </div>
+
+    <p class="body">Most people start using Claude by asking it one-off questions — a quick summary here, a draft email there. That's valuable. But the bigger opportunity is integrating Claude into the work you do repeatedly, so that AI assistance becomes a standard part of how tasks get done rather than an occasional add-on.</p>
+    <p class="body">A workflow is a repeatable sequence of steps that produces a consistent output. When you embed Claude into a workflow, you're not just saving time on one task — you're creating a system that delivers that saving every time the workflow runs.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h4>Ad Hoc Use</h4>
+        <p>You think of Claude when you need it. Inconsistent prompts, variable output quality, no time savings on the setup work.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <h4>Workflow Integration</h4>
+        <p>Claude is a defined step in your process. Consistent inputs, consistent prompts, predictable outputs. Scales with volume.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h4>What a Workflow Includes</h4>
+        <p>A trigger (what starts it), Claude's role and prompt, the expected output, and how that output gets used or passed on.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h4>The Compounding Effect</h4>
+        <p>One workflow built well runs the same way every time. Five workflows running in parallel multiply your effective output without multiplying your effort.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Start manual, then systematise</div>
+        <div class="callout-text">You don't need to automate anything to get value from workflow thinking. Even a manual workflow — where you follow the same steps and prompt structure every time — delivers consistency and speed improvements. Automation is an optional later step.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 02 ══ -->
+  <section id="s02">
+    <div class="sec-hdr">
+      <div class="sec-num">02</div>
+      <div class="sec-meta">
+        <h2>Spotting Opportunities</h2>
+        <p>How to identify where Claude belongs in your existing work</p>
+      </div>
+    </div>
+
+    <p class="body">The best workflow opportunities are hiding in plain sight — they're the tasks you do repeatedly, the work that always follows the same pattern, and the steps that take longer than they should given how routine they are.</p>
+
+    <h3 class="sub">The Four Signals</h3>
+    <div class="signal-grid">
+      <div class="signal-box yes">
+        <h4>✓ Good Workflow Candidates</h4>
+        <ul>
+          <li>You do this task more than once a week</li>
+          <li>The inputs are consistent or follow a pattern</li>
+          <li>The output format is largely the same each time</li>
+          <li>It involves writing, summarising, or analysing</li>
+          <li>It currently takes longer than it should</li>
+          <li>You could write clear instructions for it</li>
+        </ul>
+      </div>
+      <div class="signal-box no">
+        <h4>✗ Poor Workflow Candidates</h4>
+        <ul>
+          <li>One-off tasks that never repeat</li>
+          <li>Requires real-time data Claude can't access</li>
+          <li>Needs physical action or system access</li>
+          <li>Highly creative with no consistent structure</li>
+          <li>Output depends on things Claude can't verify</li>
+          <li>Requires licensed or confidential data input</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub">Common High-Value Workflow Areas</h3>
+    <table class="ref-table">
+      <tr><th>Area</th><th>Repeating Tasks</th><th>Typical Time Saved</th></tr>
+      <tr><td>Client communications</td><td>Updates, follow-ups, proposals, responses to enquiries</td><td>30–60 min/week</td></tr>
+      <tr><td>Internal reporting</td><td>Weekly status reports, meeting summaries, board updates</td><td>1–2 hrs/week</td></tr>
+      <tr><td>Content creation</td><td>Blog posts, newsletters, social posts, product descriptions</td><td>2–4 hrs/week</td></tr>
+      <tr><td>Research & analysis</td><td>Competitor reviews, market summaries, document reviews</td><td>1–3 hrs/week</td></tr>
+      <tr><td>Onboarding & training</td><td>FAQs, process documentation, training materials</td><td>Significant one-off investment</td></tr>
+      <tr><td>Sales enablement</td><td>Proposals, case studies, objection responses, call prep</td><td>1–2 hrs/deal</td></tr>
+    </table>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">The "I do this every week" test</div>
+        <div class="callout-text">Keep a simple note for one week. Every time you do a task that feels routine or repetitive, write it down. At the end of the week, look at your list — those are your workflow candidates. Pick the one that takes the most time and start there.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 03 ══ -->
+  <section id="s03">
+    <div class="sec-hdr">
+      <div class="sec-num">03</div>
+      <div class="sec-meta">
+        <h2>The Workflow Design Framework</h2>
+        <p>A simple structure for mapping any Claude-assisted workflow</p>
+      </div>
+    </div>
+
+    <p class="body">Before you write a single prompt, map the workflow on paper. Knowing the full shape of a workflow before you build it prevents mismatched expectations and makes it much easier to improve later.</p>
+
+    <h3 class="sub">The Five-Part Workflow Map</h3>
+    <div class="workflow-diagram">
+      <div class="wf-node trigger">
+        <div class="icon">⚡</div>
+        <div class="label">Trigger</div>
+        <div class="desc">What starts this workflow?</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-node">
+        <div class="icon">📥</div>
+        <div class="label">Input</div>
+        <div class="desc">What goes into Claude?</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-node claude">
+        <div class="icon">🤖</div>
+        <div class="label">Claude</div>
+        <div class="desc">Prompt + instructions</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-node">
+        <div class="icon">✅</div>
+        <div class="label">Review</div>
+        <div class="desc">Human check step</div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-node output">
+        <div class="icon">📤</div>
+        <div class="label">Output</div>
+        <div class="desc">Where does it go?</div>
+      </div>
+    </div>
+
+    <table class="ref-table">
+      <tr><th>Stage</th><th>Question to Answer</th><th>Example</th></tr>
+      <tr><td><strong>Trigger</strong></td><td>What event or schedule starts this workflow?</td><td>Every Monday morning / when a new enquiry arrives / end of each project</td></tr>
+      <tr><td><strong>Input</strong></td><td>What information does Claude need? Where does it come from?</td><td>Meeting notes pasted in / client email forwarded / data pulled from a report</td></tr>
+      <tr><td><strong>Claude's role</strong></td><td>What is Claude asked to produce? With what constraints?</td><td>Summarise into 5 bullets / draft a response / extract key data points</td></tr>
+      <tr><td><strong>Review step</strong></td><td>Who checks the output, and what do they look for?</td><td>Manager reads and edits / sent to client unchanged / flagged if X is present</td></tr>
+      <tr><td><strong>Output</strong></td><td>Where does the finished output go? Who uses it?</td><td>Pasted into CRM / emailed to client / added to weekly report</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Design the review step in from the start</div>
+        <div class="callout-text">Claude's output should almost always have a human review step before it reaches a client, gets published, or triggers an action. Build this in as a defined stage — don't leave it as an afterthought. A 60-second review is enough for most outputs; what matters is that it's consistent.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 04 ══ -->
+  <section id="s04">
+    <div class="sec-hdr">
+      <div class="sec-num">04</div>
+      <div class="sec-meta">
+        <h2>Common Workflow Types</h2>
+        <p>The most valuable workflow patterns and how they work</p>
+      </div>
+    </div>
+
+    <p class="body">Most high-value Claude workflows fall into one of six patterns. Recognising the pattern you're working with makes it faster to design and easier to build the right prompt structure.</p>
+
+    <div class="wf-type">
+      <div class="wf-type-hdr"><div class="wf-type-icon">📝</div><div class="wf-type-title">1 — Content Generation</div></div>
+      <div class="wf-type-body">
+        <p>Claude produces a piece of written content from a brief or set of inputs. The brief is the consistent part; the specific content changes each time.</p>
+        <div class="wf-type-example"><strong>Examples:</strong> Weekly newsletter from bullet points, product descriptions from specs, social posts from a blog article, proposals from a deal brief.</div>
+      </div>
+    </div>
+
+    <div class="wf-type">
+      <div class="wf-type-hdr"><div class="wf-type-icon">📊</div><div class="wf-type-title">2 — Summarisation & Distillation</div></div>
+      <div class="wf-type-body">
+        <p>Claude condenses large or complex inputs into a shorter, more usable form. Inputs vary; the output format stays consistent.</p>
+        <div class="wf-type-example"><strong>Examples:</strong> Meeting transcript → action items, long report → executive summary, customer feedback → themes and priorities, research articles → key findings.</div>
+      </div>
+    </div>
+
+    <div class="wf-type">
+      <div class="wf-type-hdr"><div class="wf-type-icon">🔍</div><div class="wf-type-title">3 — Review & Quality Check</div></div>
+      <div class="wf-type-body">
+        <p>Claude reads a document or piece of content against a set of criteria and flags issues, gaps, or improvements. Works like a consistent editorial or compliance pass.</p>
+        <div class="wf-type-example"><strong>Examples:</strong> Proposal review against win criteria, email review for tone and clarity, contract clause review against a checklist, code review for common errors.</div>
+      </div>
+    </div>
+
+    <div class="wf-type">
+      <div class="wf-type-hdr"><div class="wf-type-icon">🔄</div><div class="wf-type-title">4 — Transformation & Reformatting</div></div>
+      <div class="wf-type-body">
+        <p>Claude converts content from one format to another — changing structure, audience, channel, or length while preserving the core information.</p>
+        <div class="wf-type-example"><strong>Examples:</strong> Technical spec → plain English summary, interview notes → structured profile, long-form article → 5 social posts, board deck → client briefing.</div>
+      </div>
+    </div>
+
+    <div class="wf-type">
+      <div class="wf-type-hdr"><div class="wf-type-icon">📧</div><div class="wf-type-title">5 — Response & Communication</div></div>
+      <div class="wf-type-body">
+        <p>Claude drafts a response to an incoming communication — an email, a complaint, an enquiry, a review. The input varies; the response framework stays consistent.</p>
+        <div class="wf-type-example"><strong>Examples:</strong> Responding to client enquiries, drafting follow-ups after calls, replying to reviews or feedback, responding to RFPs or tenders.</div>
+      </div>
+    </div>
+
+    <div class="wf-type">
+      <div class="wf-type-hdr"><div class="wf-type-icon">📋</div><div class="wf-type-title">6 — Data Extraction & Structuring</div></div>
+      <div class="wf-type-body">
+        <p>Claude reads unstructured content and pulls out specific data points, fills a template, or structures information for further use.</p>
+        <div class="wf-type-example"><strong>Examples:</strong> Extract contact details from emails, pull key terms from contracts, structure interview notes into a profile template, log action items from a meeting transcript.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 05 ══ -->
+  <section id="s05">
+    <div class="sec-hdr">
+      <div class="sec-num">05</div>
+      <div class="sec-meta">
+        <h2>Building Your First Workflow</h2>
+        <p>Step by step from idea to running system</p>
+      </div>
+    </div>
+
+    <p class="body">The first workflow you build teaches you the most. Pick something small and high-frequency rather than something ambitious. Get it working reliably, then expand.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Pick one repeating task</h4>
+        <p>Use the signals from Section 02. Choose a task you do at least weekly, where the input and output are fairly consistent. Don't pick your most complex process — pick your most frequent one.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Map it using the five-part framework</h4>
+        <p>Write down the trigger, the input, Claude's role, the review step, and the destination for the output. Keep it to one page — clarity here saves a lot of iteration later.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Write and test your core prompt</h4>
+        <p>Draft the prompt Claude will receive each time the workflow runs. Run it with three real examples. Compare the outputs — are they consistent and usable? If not, refine the prompt, not the inputs.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Define your quality check</h4>
+        <p>Decide what the human review step looks for. Write it down as a short checklist — 3 to 5 things to verify before the output is used or sent. This makes the review fast and consistent.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Run it for two weeks without changing anything</h4>
+        <p>The goal is to establish a baseline. Note what works, what doesn't, and what edge cases appear. After two weeks, refine the prompt and quality checklist based on what you observed — not what you anticipated.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>Document it so someone else could run it</h4>
+        <p>Write down the full workflow — trigger, input instructions, the prompt, the quality checklist, and the output destination. If only you can run it, it's a habit, not a workflow. Documentation turns it into a system.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">Manual first, automate later</div>
+        <div class="callout-text">Run the workflow manually for at least two weeks before considering any automation. You'll discover edge cases, prompt failures, and process gaps that would break an automated version. Manual runs are cheap to fix; broken automations are not.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 06 ══ -->
+  <section id="s06">
+    <div class="sec-hdr">
+      <div class="sec-num">06</div>
+      <div class="sec-meta">
+        <h2>Prompt Templates &amp; Reuse</h2>
+        <p>Building the reusable assets that make workflows consistent and scalable</p>
+      </div>
+    </div>
+
+    <p class="body">A workflow is only as consistent as the prompts that power it. The core asset of any Claude workflow is a well-built prompt template — one that produces good output reliably, across different inputs, without needing to be rewritten each time.</p>
+
+    <h3 class="sub">Anatomy of a Workflow Prompt Template</h3>
+    <div class="template-block">
+      <div class="template-label">Template Structure</div>
+      <div class="template-line"><span class="var">[ROLE]</span> Act as a [role description].</div>
+      <div class="template-line"> </div>
+      <div class="template-line"><span class="var">[CONTEXT]</span> This is for [purpose / audience / situation].</div>
+      <div class="template-line"> </div>
+      <div class="template-line"><span class="var">[INPUT]</span> Here is the [document / data / content]:</div>
+      <div class="template-line">[PASTE INPUT HERE]</div>
+      <div class="template-line"> </div>
+      <div class="template-line"><span class="var">[TASK]</span> [Action verb] a [output type] that [specific requirement].</div>
+      <div class="template-line"> </div>
+      <div class="template-line"><span class="var">[FORMAT]</span> Format: [structure]. Length: [limit]. Tone: [tone].</div>
+      <div class="template-line"> </div>
+      <div class="template-line"><span class="var">[CONSTRAINTS]</span> Include: [must-haves]. Exclude: [exclusions].</div>
+      <div class="template-line">If [edge case], flag it rather than guessing.</div>
+    </div>
+
+    <h3 class="sub">Real Example — Weekly Status Report</h3>
+    <div class="template-block">
+      <div class="template-label">Weekly Status Report Template</div>
+      <div class="template-line">Act as an experienced project manager writing for a non-technical leadership team.</div>
+      <div class="template-line"> </div>
+      <div class="template-line">Here are my notes from this week's work:</div>
+      <div class="template-line">[PASTE NOTES]</div>
+      <div class="template-line"> </div>
+      <div class="template-line">Write a weekly status update covering:</div>
+      <div class="template-line">1. Progress this week (what was completed)</div>
+      <div class="template-line">2. Priorities next week (top 3)</div>
+      <div class="template-line">3. Blockers or risks (if any — mark NONE if none)</div>
+      <div class="template-line"> </div>
+      <div class="template-line">Format: 3 short sections with headers. Under 200 words total.</div>
+      <div class="template-line">Tone: professional and direct. No jargon.</div>
+      <div class="template-line">If a blocker requires escalation, flag it with [ACTION REQUIRED].</div>
+    </div>
+
+    <h3 class="sub">Where to Store Templates</h3>
+    <ul class="styled">
+      <li><strong>Claude Project instructions:</strong> For templates used in a specific Project — they're always accessible in that context.</li>
+      <li><strong>A shared document:</strong> A team-accessible doc (OneDrive, Notion, Google Docs) where anyone can find and copy the template.</li>
+      <li><strong>A text expander:</strong> Tools like TextExpander or built-in OS text shortcuts let you type a shortcode and expand it to the full template.</li>
+      <li><strong>A personal prompt library:</strong> A simple markdown file or note with all your templates, organised by workflow type.</li>
+    </ul>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Version your templates</div>
+        <div class="callout-text">When you update a template, keep the previous version with a date label. This lets you compare results before and after changes, and revert if the update made things worse. A simple naming convention like "Status-Report-Template-v2-Apr26" is enough.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 07 ══ -->
+  <section id="s07">
+    <div class="sec-hdr">
+      <div class="sec-num">07</div>
+      <div class="sec-meta">
+        <h2>Integrating with Other Tools</h2>
+        <p>How Claude fits into your existing tech stack</p>
+      </div>
+    </div>
+
+    <p class="body">Claude doesn't need to replace your existing tools — it works alongside them. The most effective setups treat Claude as a processing layer that sits between your data sources and your outputs, doing the writing, analysis, and reasoning work that previously required significant human time.</p>
+
+    <h3 class="sub">Integration Patterns</h3>
+    <table class="ref-table">
+      <tr><th>Pattern</th><th>How It Works</th><th>Example</th></tr>
+      <tr><td>Copy-paste</td><td>Manually copy input content into Claude, copy output back to destination. No technical setup required.</td><td>Paste meeting transcript → Claude → copy summary to Notion</td></tr>
+      <tr><td>File upload</td><td>Upload documents directly to Claude for analysis. Works with PDFs, Word docs, CSVs, images.</td><td>Upload last month's report → ask Claude to compare with this month's</td></tr>
+      <tr><td>Email forwarding</td><td>Forward emails to Claude for drafting responses, extraction, or classification.</td><td>Forward client enquiry → Claude drafts response → paste and send</td></tr>
+      <tr><td>Automation (Zapier / Make)</td><td>Connect Claude API to trigger workflows automatically when events occur in other tools.</td><td>New form submission → Claude drafts personalised email → auto-sends via Gmail</td></tr>
+      <tr><td>API integration</td><td>Developers build Claude directly into your product or internal tools via the Anthropic API.</td><td>Internal ticket system → Claude suggests resolution → agent reviews and sends</td></tr>
+    </table>
+
+    <h3 class="sub">The Cowork Desktop App</h3>
+    <p class="body">The Claude desktop app (Cowork mode) provides direct file access on your computer — Claude can read and write files in your workspace folders without you needing to copy and paste. This significantly reduces friction for workflows involving local documents, spreadsheets, or reports.</p>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body">
+        <div class="callout-label">Don't automate before you've validated manually</div>
+        <div class="callout-text">Automation amplifies both good and bad outcomes. If your prompt produces inconsistent results manually, automating it will produce inconsistent results at scale — and you may not catch the failures. Validate the workflow manually first, then automate once you're confident in the output quality.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">What Claude Can and Can't Do in Integrations</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">✅</div>
+        <h4>Claude Can</h4>
+        <p>Read and process any text or document you provide. Generate, rewrite, summarise, and structure content. Flag issues, ask questions, and reason through problems.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⛔</div>
+        <h4>Claude Cannot</h4>
+        <p>Access the internet or live data without web search. Log into systems or take actions in other tools. Guarantee factual accuracy without provided source material.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 08 ══ -->
+  <section id="s08">
+    <div class="sec-hdr">
+      <div class="sec-num">08</div>
+      <div class="sec-meta">
+        <h2>Quality Control</h2>
+        <p>Keeping workflow outputs reliable, accurate, and safe to use</p>
+      </div>
+    </div>
+
+    <p class="body">Claude is capable but not infallible. A workflow without quality control is a liability. The goal isn't to check every word — it's to build a fast, consistent review habit that catches the failures that matter.</p>
+
+    <h3 class="sub">Build a Quality Checklist for Each Workflow</h3>
+    <p class="body">For each workflow, write a short checklist of 3–5 things to verify before the output is used. Make it specific enough that a new team member could use it. Review should take under 60 seconds for most outputs.</p>
+
+    <div class="template-block">
+      <div class="template-label">Example Quality Checklist — Client Email</div>
+      <div class="template-line">□ Recipient name and company are correct</div>
+      <div class="template-line">□ No specific commitments made that haven't been approved</div>
+      <div class="template-line">□ Tone matches the relationship (formal / warm / direct)</div>
+      <div class="template-line">□ No pricing, dates, or figures that weren't in the input</div>
+      <div class="template-line">□ Clear call to action at the end</div>
+    </div>
+
+    <h3 class="sub">Common Failure Modes to Watch For</h3>
+    <table class="ref-table">
+      <tr><th>Failure Mode</th><th>What to Watch For</th><th>Prevention</th></tr>
+      <tr><td>Hallucinated details</td><td>Specific facts, figures, or claims not present in the input</td><td>Prompt: "Only use information from the provided input. Flag anything you're uncertain about."</td></tr>
+      <tr><td>Tone drift</td><td>Output is too formal, too casual, or inconsistent with your brand</td><td>Include a tone example in the prompt. Review with a tone-specific checklist item.</td></tr>
+      <tr><td>Missing requirements</td><td>Prompt elements that were specified but not included in the output</td><td>Add a verification step: "Before finishing, check you have included: [list]."</td></tr>
+      <tr><td>Over-generalisation</td><td>Output is technically correct but too generic to be useful</td><td>Provide more specific input context. Add a constraint: "Be specific — no generic advice."</td></tr>
+      <tr><td>Formatting inconsistency</td><td>Output structure varies run-to-run</td><td>Provide an explicit format template or example output in the prompt.</td></tr>
+    </table>
+
+    <h3 class="sub">When to Trust Claude's Output More</h3>
+    <ul class="styled">
+      <li>When you've provided the source material and Claude is working from it directly</li>
+      <li>When the task is structural (reformat, summarise, rewrite) rather than generative</li>
+      <li>When you've run the same prompt dozens of times and results are consistent</li>
+      <li>When the quality checklist has been passed and nothing raised a flag</li>
+    </ul>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">High-stakes outputs always need review</div>
+        <div class="callout-text">For anything that involves legal claims, financial figures, medical information, client commitments, or published content — always have a human review step, regardless of how reliable the workflow has been. The cost of a mistake in these areas is asymmetric.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 09 ══ -->
+  <section id="s09">
+    <div class="sec-hdr">
+      <div class="sec-num">09</div>
+      <div class="sec-meta">
+        <h2>Suggested Prompts</h2>
+        <p>Ready-to-use prompts for common workflow types</p>
+      </div>
+    </div>
+
+    <p class="body">These prompts are designed as starting-point templates. Replace bracketed sections with your specifics, then refine based on your actual outputs.</p>
+
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'ops')">Operations</button>
+        <button class="tab-btn" onclick="switchTab(this,'comms')">Communications</button>
+      </div>
+
+      <div class="tab-pane active" id="pane-ops">
+        <div class="prompt-card">
+          <div class="prompt-label">Meeting Transcript → Action Items</div>
+          <div class="prompt-text">"Read the following meeting transcript and extract: (1) all action items — who owns each, and any deadlines mentioned, (2) key decisions made, (3) any open questions that need follow-up. Format as three clearly labelled sections. If ownership or deadline is unclear for an action item, mark it [TBC]. [paste transcript]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Document → Executive Summary</div>
+          <div class="prompt-text">"Summarise the following document for a [executive/board/leadership] audience with limited time. Produce: (1) one-sentence purpose statement, (2) three key findings or recommendations, (3) one recommended action. Under 150 words total. Use plain English. Do not include information not present in the document. [paste document]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Weekly Status Report</div>
+          <div class="prompt-text">"Using the following notes, write a weekly status update for my [manager/team/stakeholders]. Sections: (1) This week — what was completed, (2) Next week — top 3 priorities, (3) Blockers — list any, or write NONE. Format: headers and short paragraphs. Under 200 words. Professional and direct tone. Mark any blocker needing escalation with [ACTION REQUIRED]. [paste notes]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Document Review Against Criteria</div>
+          <div class="prompt-text">"Review the following [document type] against these criteria: [list criteria]. For each criterion, give a pass/fail verdict and one sentence of evidence or explanation. Flag any sections that are unclear, missing, or potentially problematic. Do not rewrite the document — just give me the review. [paste document]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Data Extraction to Template</div>
+          <div class="prompt-text">"Extract the following information from the text below and populate this template. If a field cannot be found in the text, write [NOT FOUND] — do not guess. Template: Name: / Company: / Role: / Key requirement: / Budget mentioned: / Next step: / Urgency level: [paste source text]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="pane-comms">
+        <div class="prompt-card">
+          <div class="prompt-label">Respond to a Client Enquiry</div>
+          <div class="prompt-text">"Act as a [role] at [company type]. Read the following client enquiry and draft a professional response. Acknowledge their question, provide a clear and helpful answer using only the information I'll give you, and end with a specific next step. Tone: [warm/formal/direct]. Under 150 words. [paste enquiry] Here is the information to draw on: [paste relevant context]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Post-Call Follow-Up Email</div>
+          <div class="prompt-text">"Write a follow-up email after a [meeting/discovery call/sales call] with [recipient role]. The call covered: [bullet points]. Our agreed next step is: [describe]. Tone: [professional and warm]. Include the agreed next step clearly in the final paragraph. Under 120 words. Don't add information I haven't provided."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Long Content → Social Posts</div>
+          <div class="prompt-text">"Read the following [article/blog post/report] and create 3 LinkedIn posts based on its content. Each post should: stand alone as useful content, start with a hook (not 'I'), be under 150 words, and end with one question or call to action. Label them Post 1, Post 2, Post 3. Use only information from the provided content. [paste content]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Newsletter From Bullet Points</div>
+          <div class="prompt-text">"Write a [company/team] newsletter using the following bullet points as your content source. Structure: short intro (2 sentences), [number] sections each with a heading and 2–3 sentences, short sign-off. Tone: [describe]. Total length: [target word count]. Use only the provided bullet points — don't add information. [paste bullet points]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Proposal Draft from Brief</div>
+          <div class="prompt-text">"Using the following brief, draft a [page/section count] proposal for [prospect type]. Structure: (1) Understanding of their challenge, (2) Our proposed approach, (3) Why us — 3 differentiators, (4) Proposed next step. Tone: confident and consultative. Draw only from the provided brief. Flag any section where you need more information to be specific. [paste brief]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 10 ══ -->
+  <section id="s10">
+    <div class="sec-hdr">
+      <div class="sec-num">10</div>
+      <div class="sec-meta">
+        <h2>See It In Action</h2>
+        <p>A complete workflow built and run from scratch</p>
+      </div>
+    </div>
+
+    <p class="body">Here's a full example of a content workflow being designed, built, and run — from identifying the opportunity to producing a reviewed, usable output.</p>
+
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="mockup-dot" style="background:#ff5f57;"></div>
+        <div class="mockup-dot" style="background:#febc2e;"></div>
+        <div class="mockup-dot" style="background:#28c840;"></div>
+        <div class="mockup-title">Workflow: Client Enquiry Response — Full Run</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-step">
+          <div class="mockup-step-num">1</div>
+          <div class="mockup-step-content">
+            <div class="mockup-step-label">Trigger</div>
+            <div class="mockup-step-text">New client enquiry arrives via email. Subject: "Interested in your consulting services — can you help with X?"</div>
+          </div>
+        </div>
+        <div class="mockup-step">
+          <div class="mockup-step-num">2</div>
+          <div class="mockup-step-content">
+            <div class="mockup-step-label">Input prep</div>
+            <div class="mockup-step-text">Copy the enquiry email. Open Claude Project: "Client Comms." Paste the template + the enquiry.</div>
+          </div>
+        </div>
+        <div class="mockup-step">
+          <div class="mockup-step-num">3</div>
+          <div class="mockup-step-content">
+            <div class="mockup-step-label">Prompt sent to Claude</div>
+            <div class="mockup-step-text">Act as a senior client success consultant. Read the enquiry below and draft a response that: acknowledges their specific challenge, briefly positions our capability, and proposes a 30-minute discovery call as the next step. Tone: warm and professional. Under 150 words. Don't make specific commitments. [enquiry pasted]</div>
+          </div>
+        </div>
+        <div class="mockup-step">
+          <div class="mockup-step-num">4</div>
+          <div class="mockup-step-content">
+            <div class="mockup-step-label">Claude's output</div>
+            <div class="mockup-step-output">Subject: Re: Consulting enquiry — let's talk<br><br>Hi [Name], thank you for reaching out. Based on what you've described, this sounds like exactly the kind of challenge we work on regularly with [industry] clients — [specific challenge] is something we have a defined approach for.<br><br>I'd love to set up a 30-minute call to understand your situation in more detail and see whether we're a good fit. Would [date/time options] work for you?<br><br>Looking forward to connecting.</div>
+          </div>
+        </div>
+        <div class="mockup-step">
+          <div class="mockup-step-num">5</div>
+          <div class="mockup-step-content">
+            <div class="mockup-step-label">Quality check (60 seconds)</div>
+            <div class="mockup-step-text">✓ No commitments made · ✓ Tone is warm and professional · ✓ CTA is clear · ✓ No invented details · ✓ Under 150 words</div>
+          </div>
+        </div>
+        <div class="mockup-step">
+          <div class="mockup-step-num">6</div>
+          <div class="mockup-step-content">
+            <div class="mockup-step-label">Output used</div>
+            <div class="mockup-step-text">Edit [Name] and [date/time options]. Send. Log interaction in CRM. Total time: under 3 minutes vs. ~15 minutes to draft manually.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:20px;">The workflow doesn't require any automation — it's a defined sequence of manual steps with a consistent, reusable prompt at the centre. That's all a workflow needs to be. Once it's running reliably, the option to automate exists — but the value is already being captured.</p>
+  </section>
+
+  <!-- ══ 11 ══ -->
+  <section id="s11">
+    <div class="sec-hdr">
+      <div class="sec-num">11</div>
+      <div class="sec-meta">
+        <h2>Your Roadmap</h2>
+        <p>Five steps from occasional use to a functioning workflow system</p>
+      </div>
+    </div>
+
+    <p class="body">Building a workflow system takes time but not much — the constraint is deliberate practice, not complexity. Follow this sequence and you'll have a functioning set of workflows within a month.</p>
+
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="roadmap-left"><div class="roadmap-circle">1</div><div class="roadmap-line"></div></div>
+        <div class="roadmap-content">
+          <h4>Track your repeating tasks for one week</h4>
+          <p>Keep a running note. Every time you do something routine that involves writing, summarising, or analysing, log it. At the end of the week, you have your workflow candidate list.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left"><div class="roadmap-circle">2</div><div class="roadmap-line"></div></div>
+        <div class="roadmap-content">
+          <h4>Pick one and map it using the five-part framework</h4>
+          <p>Trigger, input, Claude's role, review step, output destination. Write it on a single page. This is your workflow spec — don't skip it, even if it feels unnecessary. It prevents a lot of rework.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left"><div class="roadmap-circle">3</div><div class="roadmap-line"></div></div>
+        <div class="roadmap-content">
+          <h4>Build and test your core prompt template</h4>
+          <p>Write the prompt, run it with three real examples, compare outputs. Refine until the output is usable and consistent. Save the final template somewhere accessible — not just in your head.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left"><div class="roadmap-circle">4</div><div class="roadmap-line"></div></div>
+        <div class="roadmap-content">
+          <h4>Run it for two weeks, then refine</h4>
+          <p>Use it on real work. Note what breaks and what works. After two weeks, update the prompt and quality checklist. Then leave it alone again — don't over-optimise before you have enough data.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left"><div class="roadmap-circle">5</div><div class="roadmap-line"></div></div>
+        <div class="roadmap-content">
+          <h4>Build your second and third workflows</h4>
+          <p>Apply the same process to your next two highest-value candidates. By the time you have three workflows running consistently, you'll have a clear pattern for building more — and enough output quality to start thinking about whether any of them warrant automation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-body">
+        <div class="callout-label">The goal is a system, not a shortcut</div>
+        <div class="callout-text">Ad hoc Claude use gives you a shortcut on one task. A set of running workflows gives you a system that compounds over time — less setup effort per task, more consistent output, and a foundation you can hand to a team member or eventually automate. That's the difference.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 The AI Advantage Co — theaiadvantageco.com.au</span>
+    <span>Claude in Workflows User Guide v1.0 — April 2026</span>
+  </footer>
+
+</main>
+
+<script>
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('nav a');
+const observer  = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      navLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => observer.observe(s));
+
+function switchTab(btn, paneId){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-'+paneId).classList.add('active');
+}
+
+function copyPrompt(btn){
+  const text = btn.closest('.prompt-card').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--orange)';
+    btn.style.color = '#fff';
+    setTimeout(() => { btn.textContent = orig; btn.style.background=''; btn.style.color=''; }, 1800);
+  });
+}
+</script>
+</body>
+</html>

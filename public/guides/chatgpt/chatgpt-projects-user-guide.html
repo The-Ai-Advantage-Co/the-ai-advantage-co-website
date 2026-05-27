@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ChatGPT Projects User Guide | The AI Advantage Co</title>
+<style>
+  :root{
+    --green:#10A37F; --green-l:#2EC4A9; --green-soft:#E6F7F4;
+    --blue:#1A6FE8;  --blue-soft:#EEF3FD;
+    --purple:#7C3AED; --purple-soft:#F3EEFF;
+    --orange:#E07B39; --orange-soft:#FEF3EB;
+    --page:#F9F9F9; --sidebar:#1C1C1C; --card:#FFFFFF;
+    --hdr:#F0F0F0; --border:#E5E5E5; --ink:#0D0D0D;
+    --mid:#353740; --muted:#6E6E80;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--page);color:var(--ink);}
+  /* Layout */
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+  /* Sidebar */
+  .sidebar{background:var(--sidebar);color:#E0E0E0;padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+  .sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:16px;}
+  .sidebar-logo .brand{font-size:10px;font-weight:700;color:var(--green-l);letter-spacing:.1em;text-transform:uppercase;}
+  .sidebar-logo .guide-title{font-size:13px;font-weight:600;color:#fff;margin-top:4px;line-height:1.3;}
+  .nav-section{font-size:9px;font-weight:700;color:#555;letter-spacing:.1em;text-transform:uppercase;padding:12px 20px 6px;}
+  .nav-link{display:block;padding:7px 20px;font-size:12px;color:#A0A0A0;cursor:pointer;border-left:3px solid transparent;transition:all .15s;}
+  .nav-link:hover{color:#E0E0E0;background:rgba(255,255,255,.05);}
+  .nav-link.active{color:#fff;border-left-color:var(--green);background:rgba(16,163,127,.1);}
+  /* Main */
+  .content{max-width:860px;padding:40px 48px;background:var(--page);}
+  /* Banner */
+  .banner{background:var(--sidebar);border-radius:12px;padding:40px;margin-bottom:32px;text-align:center;}
+  .banner .eyebrow{font-size:11px;font-weight:700;color:var(--green-l);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+  .banner h1{font-size:32px;font-weight:700;color:#fff;margin-bottom:10px;}
+  .banner .sub{font-size:15px;color:#B0B0B0;margin-bottom:16px;}
+  .banner .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+  .banner .tag{font-size:11px;background:rgba(46,196,169,.15);color:var(--green-l);border:1px solid rgba(46,196,169,.3);border-radius:20px;padding:4px 12px;}
+  /* Section card */
+  .section-card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:24px;overflow:hidden;}
+  .section-header{display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--hdr);border-bottom:1px solid var(--border);}
+  .section-num{background:var(--green);color:#fff;font-size:11px;font-weight:700;width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .section-header h2{font-size:16px;font-weight:700;color:var(--ink);}
+  .section-body{padding:24px;}
+  /* Callouts */
+  .callout{border-radius:8px;padding:14px 16px;margin:16px 0;border-left:4px solid;}
+  .callout.tip{border-color:var(--green);background:var(--green-soft);}
+  .callout.tip .callout-title{color:var(--green);}
+  .callout.warn{border-color:#B45309;background:#FEF9C3;}
+  .callout.warn .callout-title{color:#B45309;}
+  .callout.info{border-color:var(--blue);background:var(--blue-soft);}
+  .callout.info .callout-title{color:var(--blue);}
+  .callout.purple{border-color:var(--purple);background:var(--purple-soft);}
+  .callout.purple .callout-title{color:var(--purple);}
+  .callout-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+  .callout p{font-size:13px;color:var(--mid);line-height:1.6;}
+  /* Feature grid */
+  .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+  .feature-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green);}
+  .feature-card.blue{border-top-color:var(--blue);}
+  .feature-card.purple{border-top-color:var(--purple);}
+  .feature-card.orange{border-top-color:var(--orange);}
+  .feature-card h4{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink);}
+  .feature-card p{font-size:12px;color:var(--mid);line-height:1.5;}
+  /* Steps */
+  .step{display:flex;gap:0;margin:8px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+  .step-num{background:var(--green);color:#fff;font-size:16px;font-weight:700;width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-num.blue{background:var(--blue);}
+  .step-num.purple{background:var(--purple);}
+  .step-num.orange{background:var(--orange);}
+  .step-body{padding:12px 16px;background:var(--card);}
+  .step-body strong{display:block;font-size:13px;margin-bottom:4px;color:var(--ink);}
+  .step-body p{font-size:12px;color:var(--mid);line-height:1.5;}
+  /* Ref table */
+  .ref-table{width:100%;border-collapse:collapse;font-size:12px;margin:16px 0;}
+  .ref-table th{background:var(--sidebar);color:#A0A0A0;text-align:left;padding:8px 12px;font-size:11px;font-weight:700;}
+  .ref-table td{padding:8px 12px;border:1px solid var(--border);color:var(--mid);line-height:1.4;}
+  .ref-table tr:nth-child(even) td{background:var(--hdr);}
+  /* Trouble items */
+  .trouble{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:10px 0;}
+  .trouble-q{background:var(--hdr);padding:12px 16px;font-size:13px;font-weight:600;color:var(--ink);border-left:4px solid var(--green);}
+  .trouble-a{background:var(--card);padding:12px 16px;font-size:12px;color:var(--mid);line-height:1.5;border-left:4px solid var(--green);}
+  /* Prompt tabs */
+  .prompt-tabs{margin:16px 0;}
+  .tab-buttons{display:flex;gap:8px;margin-bottom:0;}
+  .tab-btn{padding:8px 16px;border:1px solid var(--border);border-bottom:none;border-radius:6px 6px 0 0;background:var(--hdr);font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);}
+  .tab-btn.active{background:var(--sidebar);color:#fff;border-color:var(--sidebar);}
+  .prompt-box{display:none;background:var(--sidebar);border-radius:0 8px 8px 8px;overflow:hidden;}
+  .prompt-box.active{display:block;}
+  .prompt-item{border-bottom:1px solid #333;}
+  .prompt-item:last-child{border-bottom:none;}
+  .prompt-label{padding:10px 16px;font-size:11px;font-weight:700;color:var(--green-l);background:#141414;text-transform:uppercase;letter-spacing:.06em;}
+  .prompt-text{padding:12px 16px;font-size:12px;color:#C0E8DF;line-height:1.6;font-style:italic;}
+  .copy-btn{margin:8px 16px 12px;display:inline-block;padding:4px 12px;background:rgba(16,163,127,.2);color:var(--green-l);border:1px solid rgba(16,163,127,.4);border-radius:4px;font-size:11px;cursor:pointer;}
+  .copy-btn:hover{background:rgba(16,163,127,.35);}
+  /* Roadmap */
+  .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0;}
+  .roadmap-step{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--green);border-radius:8px;padding:16px;}
+  .roadmap-step.blue{border-top-color:var(--blue);}
+  .roadmap-step.purple{border-top-color:var(--purple);}
+  .roadmap-step.orange{border-top-color:var(--orange);}
+  .roadmap-num{font-size:28px;font-weight:700;color:var(--green);margin-bottom:6px;}
+  .roadmap-step.blue .roadmap-num{color:var(--blue);}
+  .roadmap-step.purple .roadmap-num{color:var(--purple);}
+  .roadmap-step.orange .roadmap-num{color:var(--orange);}
+  .roadmap-step h4{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink);}
+  .roadmap-step p{font-size:11px;color:var(--mid);line-height:1.5;}
+  /* ─── Project Workspace ──────────────────────────────────────────────── */
+  .project-workspace{display:grid;grid-template-columns:220px 1fr;border-radius:10px;overflow:hidden;border:1px solid #333;margin:16px 0;background:#141414;}
+  .pw-projects{background:#141414;border-right:1px solid #2D2D2D;padding:12px 0;}
+  .pw-proj-header{font-size:10px;font-weight:700;color:#555;letter-spacing:.1em;text-transform:uppercase;padding:0 14px 10px;}
+  .pw-project{display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;border-left:3px solid transparent;}
+  .pw-project:hover{background:rgba(255,255,255,.04);}
+  .pw-project.active{background:rgba(16,163,127,.1);border-left-color:var(--green);}
+  .pw-icon{font-size:16px;width:28px;height:28px;background:#2D2D2D;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .pw-project.active .pw-icon{background:rgba(16,163,127,.2);}
+  .pw-project-info{min-width:0;}
+  .pw-project-name{font-size:12px;font-weight:600;color:#E0E0E0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pw-project.active .pw-project-name{color:#fff;}
+  .pw-project-meta{font-size:10px;color:#555;margin-top:2px;}
+  .pw-project.active .pw-project-meta{color:#888;}
+  .pw-add{display:flex;align-items:center;gap:8px;padding:10px 14px;margin-top:8px;border-top:1px solid #2D2D2D;font-size:12px;color:#555;cursor:pointer;}
+  .pw-add:hover{color:#888;}
+  /* Right panel */
+  .pw-detail{background:#1A1A1A;display:flex;flex-direction:column;}
+  .pw-detail-header{padding:12px 16px;background:#141414;border-bottom:1px solid #2D2D2D;display:flex;align-items:center;justify-content:space-between;}
+  .pw-detail-title{font-size:14px;font-weight:700;color:#fff;}
+  .pw-detail-badge{font-size:10px;background:rgba(16,163,127,.2);color:var(--green-l);border-radius:10px;padding:3px 10px;}
+  .pw-sections{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1;}
+  .pw-section{padding:14px 16px;border-bottom:1px solid #2D2D2D;}
+  .pw-section:nth-child(2){border-left:1px solid #2D2D2D;}
+  .pw-section-title{font-size:10px;font-weight:700;color:#555;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+  .pw-file{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #252525;}
+  .pw-file:last-child{border-bottom:none;}
+  .pf-type{font-size:9px;font-weight:700;border-radius:3px;padding:2px 5px;flex-shrink:0;}
+  .pf-type.pdf{background:#C62828;color:#fff;}
+  .pf-type.xls{background:#1B5E20;color:#fff;}
+  .pf-type.doc{background:#0D47A1;color:#fff;}
+  .pf-type.txt{background:#37474F;color:#fff;}
+  .pf-name{font-size:11px;color:#C0C0C0;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .pf-size{font-size:10px;color:#555;flex-shrink:0;}
+  .pw-conv{padding:6px 0;border-bottom:1px solid #252525;font-size:11px;color:#888;}
+  .pw-conv:last-child{border-bottom:none;}
+  .pw-conv.active-conv{color:var(--green-l);}
+  .pw-conv.active-conv::before{content:"↗ ";}
+  /* ─── Instruction Editor ──────────────────────────────────────────────── */
+  .instr-editor{background:#141414;border-radius:10px;overflow:hidden;border:1px solid #2D2D2D;margin:16px 0;}
+  .ie-header{background:var(--sidebar);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2D2D2D;}
+  .ie-header-title{font-size:13px;font-weight:700;color:#E0E0E0;}
+  .ie-badge{font-size:10px;background:rgba(124,58,237,.25);color:#A78BFA;border-radius:10px;padding:3px 10px;border:1px solid rgba(124,58,237,.3);}
+  .ie-body{padding:16px;}
+  .ie-label{font-size:11px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;}
+  .ie-content{background:#1C1C1C;border:1px solid #2D2D2D;border-radius:6px;padding:14px;font-size:12px;color:#C0E8DF;line-height:1.7;white-space:pre-line;}
+  .ie-counter{font-size:10px;color:#555;text-align:right;margin-top:8px;}
+  .ie-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+  .ie-tag{font-size:10px;background:#2D2D2D;color:#888;border-radius:4px;padding:3px 8px;}
+  .ie-tag.highlight{background:rgba(16,163,127,.15);color:var(--green-l);}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">The AI Advantage Co</div>
+    <div class="guide-title">ChatGPT Projects</div>
+  </div>
+  <div class="nav-section">Contents</div>
+  <a class="nav-link active" onclick="setActive(this,'s01')">01 What is ChatGPT Projects?</a>
+  <a class="nav-link" onclick="setActive(this,'s02')">02 Creating & Organising Projects</a>
+  <a class="nav-link" onclick="setActive(this,'s03')">03 Persistent Files & Knowledge</a>
+  <a class="nav-link" onclick="setActive(this,'s04')">04 Custom Instructions per Project</a>
+  <a class="nav-link" onclick="setActive(this,'s05')">05 Conversations Within Projects</a>
+  <a class="nav-link" onclick="setActive(this,'s06')">06 Collaboration & Sharing</a>
+  <a class="nav-link" onclick="setActive(this,'s07')">07 Advanced Techniques</a>
+  <a class="nav-link" onclick="setActive(this,'s08')">08 Common Mistakes & Fixes</a>
+  <a class="nav-link" onclick="setActive(this,'s09')">09 Suggested Prompts</a>
+  <a class="nav-link" onclick="setActive(this,'s10')">10 See It In Action</a>
+  <a class="nav-link" onclick="setActive(this,'s11')">11 Your Roadmap</a>
+</aside>
+
+<!-- Main content -->
+<main class="content">
+
+  <!-- Banner -->
+  <div class="banner">
+    <div class="eyebrow">The AI Advantage Co · ChatGPT User Guide Series</div>
+    <h1>ChatGPT Projects</h1>
+    <p class="sub">Persistent workspaces with shared files, custom instructions, and organised conversations</p>
+    <div class="tags">
+      <span class="tag">Projects</span>
+      <span class="tag">Persistent Files</span>
+      <span class="tag">Custom Instructions</span>
+      <span class="tag">Conversation Organisation</span>
+      <span class="tag">Team Collaboration</span>
+    </div>
+  </div>
+
+  <!-- S01 -->
+  <div class="section-card" id="s01">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2>What is ChatGPT Projects?</h2>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">ChatGPT's default experience is a flat list of conversations — each one is isolated, starts fresh, and requires you to re-establish context, re-upload files, and re-explain your preferences every time. For one-off questions, that's fine. For ongoing work, it becomes friction. Projects solves this.</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">A Project is a persistent workspace — a container that holds related conversations, uploaded files, and custom instructions. Everything inside a project shares the same context: files you've uploaded are available in every conversation, your instructions apply automatically, and your conversations are grouped and findable.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Without Projects</h4>
+          <p>Conversations are isolated and flat. You must re-explain your role, re-upload documents, and re-state preferences in every new chat. Context from previous conversations is lost.</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>With Projects</h4>
+          <p>All conversations in a project share the same uploaded files and custom instructions. You drop into a conversation and ChatGPT already knows the context — no re-setup needed.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-title">When Projects Make the Biggest Difference</div>
+        <p>Projects shine for any recurring or multi-session work: client engagements, ongoing research topics, content series, product lines, legal matters, or internal processes. If you've ever started a new chat by pasting in the same background paragraph or re-uploading the same document, that work belongs in a project.</p>
+      </div>
+      <table class="ref-table">
+        <tr><th>Feature</th><th>Standard ChatGPT</th><th>With Projects</th></tr>
+        <tr><td>File availability</td><td>Per conversation only</td><td>Shared across all conversations</td></tr>
+        <tr><td>Custom instructions</td><td>One global setting</td><td>Per-project override</td></tr>
+        <tr><td>Conversation grouping</td><td>Flat chronological list</td><td>Grouped by project</td></tr>
+        <tr><td>Context continuity</td><td>None between chats</td><td>Files and instructions persist</td></tr>
+        <tr><td>Team sharing</td><td>Not available</td><td>Available (Team/Enterprise)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- S02 -->
+  <div class="section-card" id="s02">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2>Creating & Organising Projects</h2>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">Creating a project takes under a minute. The more important decision is how to structure your projects — the right taxonomy means you'll always know where to go, and ChatGPT will always have the right context.</p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Open the Projects panel</strong>
+          <p>In the left sidebar, look for "Projects" above your conversation history. Click it to expand the projects panel. If you don't see it, look for a folder icon or a "New project" option.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-body">
+          <strong>Create and name your project</strong>
+          <p>Click "New project" (or the + icon). Give it a clear, specific name. "Client A — Q3 Strategy" is better than "Work Stuff". The name appears in your sidebar and helps ChatGPT understand the context scope.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">3</div>
+        <div class="step-body">
+          <strong>Add an icon or colour (optional)</strong>
+          <p>Some interfaces allow a custom icon or emoji and accent colour for each project — useful for quick visual identification when you have multiple projects active. Choose something that represents the topic or client.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num orange">4</div>
+        <div class="step-body">
+          <strong>Start your first conversation inside the project</strong>
+          <p>With the project open, create a new conversation. It will automatically be saved inside the project. Files you upload here will be available to all future conversations in this project.</p>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:20px 0 10px;">How to Structure Your Projects</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>By Client or Account</h4>
+          <p>One project per client. All research, writing, analysis, and correspondence for that client lives together. Upload their brand docs, briefs, and past deliverables once — reference them always.</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>By Topic or Subject</h4>
+          <p>Ongoing research areas benefit from topic-based projects. "AI Regulation Research", "Competitor Analysis", "Personal Finance Learning" — everything on that subject in one place.</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card purple">
+          <h4>By Project or Campaign</h4>
+          <p>Time-bounded projects (a product launch, a report, a conference) work well as projects. Archive when complete; the whole body of work stays together for future reference.</p>
+        </div>
+        <div class="feature-card orange">
+          <h4>By Role or Function</h4>
+          <p>"My Writing" for content work. "Legal Matters" for contracts and compliance. "HR Processes" for people management tasks. Role-based projects work well when the context (tone, terminology, files) is consistent across many different tasks.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-title">Project Naming Best Practice</div>
+        <p>Use a consistent naming convention from the start: "[Client/Topic] — [Scope/Year]" works well. "Acme Corp — 2025", "AI Research — Ongoing", "Blog Content — Q3". Consistent naming makes the project list scannable at a glance.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S03 -->
+  <div class="section-card" id="s03">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2>Persistent Files & Knowledge</h2>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">Files uploaded to a project stay available across every conversation in that project. This is the core productivity gain — upload a document once, reference it in any conversation, forever (or until you remove it).</p>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">What Persists Inside a Project</p>
+      <div class="project-workspace">
+        <div class="pw-projects">
+          <div class="pw-proj-header">Projects</div>
+          <div class="pw-project active">
+            <div class="pw-icon">📊</div>
+            <div class="pw-project-info">
+              <div class="pw-project-name">Q3 Market Analysis</div>
+              <div class="pw-project-meta">5 conversations · 4 files</div>
+            </div>
+          </div>
+          <div class="pw-project">
+            <div class="pw-icon">⚖️</div>
+            <div class="pw-project-info">
+              <div class="pw-project-name">Legal Research 2025</div>
+              <div class="pw-project-meta">7 conversations · 5 files</div>
+            </div>
+          </div>
+          <div class="pw-project">
+            <div class="pw-icon">✍️</div>
+            <div class="pw-project-info">
+              <div class="pw-project-name">Blog Content Series</div>
+              <div class="pw-project-meta">12 conversations · 1 file</div>
+            </div>
+          </div>
+          <div class="pw-project">
+            <div class="pw-icon">🤝</div>
+            <div class="pw-project-info">
+              <div class="pw-project-name">Acme Corp — Retainer</div>
+              <div class="pw-project-meta">3 conversations · 6 files</div>
+            </div>
+          </div>
+          <div class="pw-add">＋ New project</div>
+        </div>
+        <div class="pw-detail">
+          <div class="pw-detail-header">
+            <span class="pw-detail-title">📊 Q3 Market Analysis</span>
+            <span class="pw-detail-badge">5 conversations</span>
+          </div>
+          <div class="pw-sections">
+            <div class="pw-section">
+              <div class="pw-section-title">Project Files</div>
+              <div class="pw-file"><span class="pf-type pdf">PDF</span><span class="pf-name">Q3-Financials-Report.pdf</span><span class="pf-size">2.1 MB</span></div>
+              <div class="pw-file"><span class="pf-type xls">XLS</span><span class="pf-name">Market-Data-2025.xlsx</span><span class="pf-size">845 KB</span></div>
+              <div class="pw-file"><span class="pf-type doc">DOC</span><span class="pf-name">Competitor-Brief.docx</span><span class="pf-size">156 KB</span></div>
+              <div class="pw-file"><span class="pf-type txt">TXT</span><span class="pf-name">Project-Instructions.txt</span><span class="pf-size">4 KB</span></div>
+            </div>
+            <div class="pw-section">
+              <div class="pw-section-title">Conversations</div>
+              <div class="pw-conv active-conv">Market share analysis — US vs EU</div>
+              <div class="pw-conv">Competitor pricing breakdown</div>
+              <div class="pw-conv">Executive summary draft</div>
+              <div class="pw-conv">Data anomaly investigation</div>
+              <div class="pw-conv">Initial brief analysis</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:20px 0 10px;">File Management Best Practices</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Upload the Right Foundation Files</h4>
+          <p>Think about what ChatGPT needs to know to work on this project: brief documents, style guides, reference data, existing reports, brand guidelines, regulatory frameworks. Upload these once at project creation.</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>Update Files When Content Changes</h4>
+          <p>Replace outdated files rather than adding new versions alongside old ones. Having "Report-v1.pdf" and "Report-v2.pdf" both uploaded creates confusion. Remove the old version before uploading the new one.</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card purple">
+          <h4>File Types That Work Well</h4>
+          <p>PDFs, Word docs, Excel files, PowerPoints, plain text, and CSVs all work. For best results, text-heavy documents (briefs, reports, specifications, data exports) give ChatGPT the most useful content to reference.</p>
+        </div>
+        <div class="feature-card orange">
+          <h4>Size and Limits</h4>
+          <p>Each file has an upload size limit (typically 512 MB). Projects have a storage limit that varies by plan. For very large datasets, consider uploading a summarised or filtered version rather than the full raw file.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-title">The "Context File" Technique</div>
+        <p>Create a plain text file called "Project Context.txt" and upload it as the first file in every project. It contains: the project goal, key terminology specific to this client or topic, preferred output formats, and any standing assumptions. ChatGPT will reference this automatically, reducing the need to re-explain basics in every conversation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S04 -->
+  <div class="section-card" id="s04">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2>Custom Instructions per Project</h2>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">Global custom instructions apply to all your ChatGPT conversations. Project-level instructions override them for that project — letting you set a completely different tone, persona, or set of rules depending on what you're working on.</p>
+      <div class="instr-editor">
+        <div class="ie-header">
+          <span class="ie-header-title">Project Instructions</span>
+          <span class="ie-badge">Q3 Market Analysis</span>
+        </div>
+        <div class="ie-body">
+          <div class="ie-label">What should ChatGPT know about this project?</div>
+          <div class="ie-content">You are supporting a quarterly market analysis for a UK fintech consultancy. All data and documents relate to Q3 2025 UK market conditions.
+
+Always:
+- Reference figures from the uploaded data files when relevant to the analysis
+- Use British English spelling throughout all outputs
+- Present financial figures in GBP unless specifically asked to convert
+- Flag clearly when you are drawing on your training data rather than the uploaded documents
+- Ask one clarifying question before starting any analysis if the scope is ambiguous
+
+Output style: concise, analytical, structured with clear headings. Suitable for senior stakeholder presentations. Avoid marketing language.</div>
+          <div class="ie-counter">421 / 1500 characters</div>
+          <div class="ie-tags">
+            <span class="ie-tag highlight">✓ British English</span>
+            <span class="ie-tag highlight">✓ GBP figures</span>
+            <span class="ie-tag highlight">✓ Source transparency</span>
+            <span class="ie-tag">Senior stakeholder tone</span>
+            <span class="ie-tag">Clarification before analysis</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">What to Include in Project Instructions</p>
+      <table class="ref-table">
+        <tr><th>Element</th><th>What to Write</th><th>Example</th></tr>
+        <tr><td>Role & context</td><td>What this project is for and who the audience is</td><td>"You are assisting a marketing team producing content for B2B software buyers."</td></tr>
+        <tr><td>Tone & voice</td><td>Formal/informal, technical level, language variant</td><td>"Use plain English, no jargon. British spelling. Approachable but professional."</td></tr>
+        <tr><td>Standing rules</td><td>Things to always or never do</td><td>"Always include a word count. Never recommend specific financial products."</td></tr>
+        <tr><td>Output format</td><td>Preferred structure, length, formatting</td><td>"Use headers and bullet points. Keep responses under 400 words unless asked otherwise."</td></tr>
+        <tr><td>Source behaviour</td><td>When to flag uncertainty or cite the uploaded files</td><td>"Flag if you are uncertain about a figure. Prefer the uploaded data over your training data."</td></tr>
+        <tr><td>Clarification rule</td><td>When to ask before proceeding</td><td>"If a request is ambiguous, ask one clarifying question before starting."</td></tr>
+      </table>
+      <div class="callout tip">
+        <div class="callout-title">Layer Instructions with Uploaded Files</div>
+        <p>For longer, more detailed context (tone of voice guide, brand playbook, detailed background), upload it as a file rather than cramming it into the instructions field. Use the instructions field for behavioural rules (what to always/never do, how to format output) and let the files carry the substantive content.</p>
+      </div>
+      <div class="callout warn">
+        <div class="callout-title">Instructions Don't Replace Per-Message Guidance</div>
+        <p>Project instructions set defaults — they don't guarantee ChatGPT will apply every rule every time, especially in long conversations. For critical requirements (don't include X, format as Y), reinforce them in the message where they matter most. Treat instructions as strong defaults, not inviolable rules.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S05 -->
+  <div class="section-card" id="s05">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <h2>Conversations Within Projects</h2>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">Each project can contain many conversations. Understanding how conversation context works inside a project — and how it doesn't — is key to using projects effectively.</p>
+      <div class="callout info">
+        <div class="callout-title">Important: Context Doesn't Carry Between Conversations</div>
+        <p>Files and instructions are shared across all project conversations — but the conversational context (what was said, what was decided, what was produced) is limited to each individual conversation. Conversation A and Conversation B in the same project can both see the uploaded files, but neither can see what the other discussed. Plan your conversations accordingly.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>What IS Shared Across Conversations</h4>
+          <p>Uploaded project files · Project custom instructions · Project name and metadata · Any other files you've added to the project</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>What Is NOT Shared</h4>
+          <p>The conversational history of other conversations · Decisions or outputs produced in other chats · Context established mid-conversation in a sibling conversation</p>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:20px 0 10px;">Managing Conversations Well</p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Name conversations descriptively</strong>
+          <p>ChatGPT auto-names conversations, but you can rename them. Use names like "Market sizing analysis — March", "Client presentation draft v2", or "Legal review — Section 4". This makes the project history navigable weeks later.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-body">
+          <strong>One conversation per task or session</strong>
+          <p>Start a new conversation for meaningfully different tasks within a project. Don't pack everything into one endless conversation — the longer a conversation gets, the more performance degrades. New conversations are cheap; context confusion is expensive.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">3</div>
+        <div class="step-body">
+          <strong>Carry forward key outputs via files or paste</strong>
+          <p>When you produce something important in Conversation A that Conversation B will need (a framework, a set of decisions, a summary), save it as a text file and upload it to the project. Now it's available as a project file in all future conversations.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num orange">4</div>
+        <div class="step-body">
+          <strong>Move conversations between projects</strong>
+          <p>If a conversation ends up belonging to a different project than the one it started in, you can move it. Look for the conversation options menu (⋯) and select "Move to project". This keeps your organisation clean.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-title">The Running Notes File Technique</div>
+        <p>Maintain a "Project Notes.txt" file in the project. After significant conversations, add the key outputs, decisions, and action items to this file and re-upload (replacing the previous version). Any new conversation can then be started with: "Read the Project Notes file — that's the current state of this project." Instant context continuity.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S06 -->
+  <div class="section-card" id="s06">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <h2>Collaboration & Sharing</h2>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">On Team and Enterprise plans, projects can be shared with other users — creating collaborative workspaces where a team shares the same files, instructions, and organisational structure.</p>
+      <div class="feature-grid">
+        <div class="feature-card purple">
+          <h4>Shared Project Files</h4>
+          <p>All team members with access to the project can see and use the uploaded files. One person uploads the brief, everyone can reference it — no more emailing documents back and forth before ChatGPT sessions.</p>
+        </div>
+        <div class="feature-card purple">
+          <h4>Shared Instructions</h4>
+          <p>The project's custom instructions apply to every team member who uses the project. Consistent tone, formatting, and rules — without each person needing to configure their own settings.</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card purple">
+          <h4>Individual Conversations</h4>
+          <p>Even in shared projects, each team member's conversations are their own — unless explicitly shared. You can see the project structure and files, but not colleagues' individual chat histories.</p>
+        </div>
+        <div class="feature-card purple">
+          <h4>Access Control</h4>
+          <p>Admins on Team/Enterprise can control who has access to which projects — useful for client confidentiality or department separation. Not all team members need access to every project.</p>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:20px 0 10px;">Effective Team Project Structures</p>
+      <table class="ref-table">
+        <tr><th>Use Case</th><th>Project Structure</th><th>What to Put in Files</th></tr>
+        <tr><td>Client account team</td><td>One project per client, shared with account team</td><td>Client brief, brand guidelines, past deliverables, communication log</td></tr>
+        <tr><td>Internal process</td><td>One project per process (e.g. "Hiring — 2025")</td><td>Job descriptions, evaluation rubrics, candidate notes (anonymised)</td></tr>
+        <tr><td>Department knowledge base</td><td>Shared project with reference documents</td><td>Company policies, FAQs, procedures, templates</td></tr>
+        <tr><td>Product team</td><td>One project per product or feature</td><td>PRD, user research, competitive analysis, copy guidelines</td></tr>
+      </table>
+      <div class="callout info">
+        <div class="callout-title">Availability Note</div>
+        <p>Shared projects are a Team and Enterprise feature. On Plus (individual) plans, projects are personal and private. If your organisation uses ChatGPT Enterprise, your admin controls which projects can be shared and with whom.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S07 -->
+  <div class="section-card" id="s07">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <h2>Advanced Techniques</h2>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">These techniques take Projects from useful filing system to a genuine productivity infrastructure — making ChatGPT feel like a knowledgeable assistant who already understands your work.</p>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 10px;">The Briefing Document Stack</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:12px;">Build a structured set of reference files for complex projects. Each file serves a different purpose:</p>
+      <table class="ref-table">
+        <tr><th>File</th><th>What It Contains</th><th>When ChatGPT Uses It</th></tr>
+        <tr><td>01-Context.txt</td><td>Project background, goals, stakeholders, timeline</td><td>Orienting at the start of any new task</td></tr>
+        <tr><td>02-Audience.txt</td><td>Who the outputs are for, what they know, what they care about</td><td>Calibrating language, depth, and emphasis</td></tr>
+        <tr><td>03-Style-Guide.txt</td><td>Tone, voice, formatting preferences, terminology</td><td>All writing and editing tasks</td></tr>
+        <tr><td>04-Constraints.txt</td><td>What to avoid, legal/regulatory limits, sensitive topics</td><td>Flagging when a draft might cross a line</td></tr>
+        <tr><td>Data files (as needed)</td><td>The actual documents, reports, data the project works with</td><td>Analysis, summarisation, referencing</td></tr>
+      </table>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:20px 0 10px;">Multi-Project Workflows</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Cross-Project Output Flow</h4>
+          <p>Produce a deliverable in one project (e.g. a research report in "Market Research"), then bring it into another project (e.g. "Client A — Proposal") by uploading it as a file. The output becomes input elsewhere.</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>Template Projects</h4>
+          <p>Create a "Template — New Client" project with standard files and instructions. When you win a new client, duplicate the structure (manually), rename it, and swap in client-specific documents. Instant setup.</p>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:20px 0 10px;">Instruction Layering Pattern</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:12px;">Use a three-layer instruction system for maximum control:</p>
+      <div class="callout purple">
+        <div class="callout-title">Layer 1 — Global Custom Instructions</div>
+        <p>Universal preferences: your name and profession, languages you work in, general output format defaults, fundamental tone. These apply everywhere as the base layer.</p>
+      </div>
+      <div class="callout purple">
+        <div class="callout-title">Layer 2 — Project Instructions</div>
+        <p>Project-specific overrides: client context, specialised vocabulary, project-specific rules and constraints. These override Layer 1 where they conflict.</p>
+      </div>
+      <div class="callout purple">
+        <div class="callout-title">Layer 3 — Per-Message Instructions</div>
+        <p>Task-specific overrides for a single output: "For this email, use a more formal tone." These are the most specific and override everything for that one message.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S08 -->
+  <div class="section-card" id="s08">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <h2>Common Mistakes & Fixes</h2>
+    </div>
+    <div class="section-body">
+      <div class="trouble">
+        <div class="trouble-q">❌ Assuming ChatGPT can see what happened in other conversations within the project</div>
+        <div class="trouble-a">Fix: Only files and instructions are shared across conversations in a project — not conversational history. If Conversation A produced a decision or output that Conversation B needs, export it as a text file and upload it to the project, or paste the key content at the start of the new conversation.</div>
+      </div>
+      <br>
+      <div class="trouble">
+        <div class="trouble-q">❌ Using the global custom instructions field for project-specific rules</div>
+        <div class="trouble-a">Fix: Global custom instructions apply to every conversation — not just project conversations. Keep global instructions truly universal (your name, profession, language). Use project-level instructions for anything specific to that project, client, or domain. Cluttering global instructions with project rules creates conflicts.</div>
+      </div>
+      <br>
+      <div class="trouble">
+        <div class="trouble-q">❌ Uploading files to a conversation instead of to the project</div>
+        <div class="trouble-a">Fix: Files uploaded inside a conversation are only available for that conversation — they don't persist in the project. Navigate to the project's Files section and upload there. Files uploaded at the project level are available in all conversations. It's easy to make this mistake — check where you're uploading every time.</div>
+      </div>
+      <br>
+      <div class="trouble">
+        <div class="trouble-q">❌ Creating one giant conversation for all project work</div>
+        <div class="trouble-a">Fix: Very long conversations degrade in quality as the context window fills up. Start a new conversation for each distinct task or session. Since project files and instructions persist, starting fresh doesn't mean losing context — it means working with a fresh, uncrowded context window on every task.</div>
+      </div>
+      <br>
+      <div class="trouble">
+        <div class="trouble-q">❌ Leaving outdated file versions in the project</div>
+        <div class="trouble-a">Fix: When you update a document (new version of a report, revised brief, updated data), remove the old file before uploading the new version. If both versions are present, ChatGPT may reference the wrong one or get confused by contradictory information. Replace, don't accumulate.</div>
+      </div>
+      <br>
+      <div class="trouble">
+        <div class="trouble-q">❌ Writing project instructions that are too vague to be useful</div>
+        <div class="trouble-a">Fix: "Be professional" doesn't give ChatGPT actionable guidance. Specific instructions work: "Always use bullet points for lists, headers for sections, and keep responses under 300 words unless asked otherwise. Use formal British English. Never use contractions." Test your instructions by starting a conversation and seeing if ChatGPT's first response reflects them.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S09 -->
+  <div class="section-card" id="s09">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <h2>Suggested Prompts</h2>
+    </div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="switchTab(this,'setup')">Project Setup</button>
+          <button class="tab-btn" onclick="switchTab(this,'workflow')">Working in Projects</button>
+        </div>
+        <div class="prompt-box active" id="tab-setup">
+          <div class="prompt-item">
+            <div class="prompt-label">Project Kickoff Prompt</div>
+            <div class="prompt-text">I'm starting a new project and I've uploaded the key reference documents. Before we begin any specific tasks, please: (1) read all uploaded files and confirm what you have access to, (2) summarise the project as you understand it in 3–4 sentences, (3) flag any gaps or ambiguities in the documents that I should address, and (4) ask any clarifying questions that would help you serve this project better.</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Context File Generator</div>
+            <div class="prompt-text">Help me write a "Project Context" file for this project that I can upload to keep all future conversations oriented. Based on what you know so far, draft a plain text file covering: project name and goal, key stakeholders and audience, important terminology and definitions, standing assumptions, output preferences, and anything ChatGPT should always keep in mind when working on this project.</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Project Instructions Writer</div>
+            <div class="prompt-text">Help me write effective project instructions for a new ChatGPT project. The project is: [describe project]. The main types of tasks I'll use it for are: [list tasks]. The audience for outputs is: [describe audience]. Draft project instructions (under 1500 characters) that cover role, tone, standing rules, output format, and when to ask clarifying questions.</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+        </div>
+        <div class="prompt-box" id="tab-workflow">
+          <div class="prompt-item">
+            <div class="prompt-label">New Conversation Orientation</div>
+            <div class="prompt-text">Before we start, please read all the project files and give me a one-paragraph reminder of where this project stands. What are the key documents I've uploaded, what are the standing rules from the project instructions, and is there anything in the files that suggests where we left off or what the current priorities are?</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Progress Note Generator</div>
+            <div class="prompt-text">This conversation has produced some important outputs and decisions. Help me write a brief progress note (under 200 words) that captures: (1) what we accomplished in this session, (2) any key decisions made, (3) any open questions or action items, and (4) recommended next steps. I'll add this to the project's running notes file.</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Project Audit</div>
+            <div class="prompt-text">Review all the files currently uploaded to this project and tell me: (1) which files are most and least likely to be current/relevant, (2) any apparent gaps — important topics or references that should probably have a file but don't, (3) any files that seem to duplicate or contradict each other, and (4) any recommendations for how to improve the project's file structure.</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <h2>See It In Action</h2>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">This example walks through setting up and using a client project — from first setup through to productive ongoing work. The project: a consulting engagement supporting a mid-size retailer with their digital strategy.</p>
+      <div style="background:var(--sidebar);border-radius:10px;overflow:hidden;border:1px solid #333;">
+        <div style="background:#141414;padding:10px 16px;border-bottom:1px solid #2D2D2D;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:13px;font-weight:700;color:var(--green-l);">🛍️ Meridian Retail — Digital Strategy</span>
+          <span style="font-size:11px;color:#555;">New project · 0 conversations</span>
+        </div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:16px;">
+
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Step 1 — Project Setup</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:14px;font-size:12px;color:#D0D0D0;line-height:1.6;">Files uploaded to project:<br>
+            📄 Meridian-Client-Brief.pdf (142 KB)<br>
+            📊 2024-Annual-Report.pdf (2.3 MB)<br>
+            📝 Brand-Guidelines.docx (56 KB)<br>
+            📋 Project-Context.txt (3.1 KB)</div>
+          </div>
+
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Conversation 1 — Kickoff Analysis</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:14px;font-size:12px;color:#D0D0D0;line-height:1.6;">
+              <span style="color:#A0A0A0;">You: </span><span style="color:#E0E0E0;">Read all uploaded files and summarise what you know about this client, their current position, and what they're asking us to help with. Flag any gaps.</span>
+            </div>
+            <div style="background:rgba(16,163,127,.07);border-radius:0 0 6px 6px;padding:14px;font-size:12px;color:#C0E8DF;line-height:1.7;border-top:1px solid rgba(16,163,127,.15);">
+              <span style="color:var(--green-l);font-weight:700;">✦ </span>Meridian Retail is a 47-store UK fashion retailer (from the brief) with £124M turnover in 2024 (annual report, p.3). They're seeking support with three areas: ecommerce growth, loyalty programme redesign, and in-store digital experiences. Their current ecommerce represents 18% of revenue vs a 35% industry average — this gap is the core strategic opportunity.<br><br>
+              <span style="color:var(--orange);font-weight:600;">Gaps flagged: </span>No information on current tech stack, no customer data or personas, and the brief mentions a "previous digital initiative" that was discontinued — understanding why would be important context.
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Conversation 2 — Competitive Landscape (separate conversation, same project)</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:14px;font-size:12px;color:#D0D0D0;line-height:1.6;">
+              <span style="color:#A0A0A0;">You: </span><span style="color:#E0E0E0;">Using the project files, remind yourself of Meridian's position, then search the web for current competitive intelligence on mid-size UK fashion retailers' digital strategies in 2025. Specifically: what are NEXT, Reiss, and Fat Face doing that Meridian isn't?</span>
+            </div>
+            <div style="background:rgba(16,163,127,.07);border-radius:0 0 6px 6px;padding:14px;font-size:12px;color:#C0E8DF;line-height:1.7;border-top:1px solid rgba(16,163,127,.15);">
+              <span style="color:var(--green-l);font-weight:700;">✦ </span>Based on the uploaded brief: Meridian is a 47-store retailer at 18% ecommerce penetration. Searching for 2025 competitive context... <span style="color:#888;font-style:italic;">[web search running]</span><br><br>
+              Key gaps vs competitors: NEXT's Directory loyalty integration (27M members, 45% repeat purchase rate [1]); Reiss's app-first clienteling approach for VIP customers [2]; Fat Face's successful in-store scan-to-web inventory tool (launched Q4 2024) [3]. Meridian's brand guidelines suggest strong lifestyle positioning that these three don't own — potential differentiation angle.
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="callout tip" style="margin-top:16px;">
+        <div class="callout-title">What the Project Architecture Achieved</div>
+        <p>Two separate conversations, both with full access to Meridian's uploaded documents. Conversation 2 didn't need to re-explain who Meridian is or what they're trying to do — that context came from the project files automatically. As the engagement grows, every new conversation starts with the same foundation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <h2>Your Roadmap</h2>
+    </div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step">
+          <div class="roadmap-num">01</div>
+          <h4>Create Your First Project</h4>
+          <p>Pick an ongoing piece of work — a client, a research topic, a content series. Create a project, upload 2–3 relevant files, and run your next task inside it instead of in a standard conversation.</p>
+        </div>
+        <div class="roadmap-step blue">
+          <div class="roadmap-num">02</div>
+          <h4>Write Project Instructions</h4>
+          <p>For that same project, write specific custom instructions: role, tone, standing rules, output format. Test them by starting a conversation and seeing if the first response reflects your settings.</p>
+        </div>
+        <div class="roadmap-step purple">
+          <div class="roadmap-num">03</div>
+          <h4>Build the Context File Stack</h4>
+          <p>Create a Project Context.txt file for your most important project. Include goal, audience, terminology, and standing assumptions. Upload it and start every new conversation by asking ChatGPT to read it first.</p>
+        </div>
+        <div class="roadmap-step orange">
+          <div class="roadmap-num">04</div>
+          <h4>Turn Projects into Infrastructure</h4>
+          <p>Structure all your recurring ChatGPT work into projects. Audit your conversation history — identify what should have been a project — and build those structures proactively for future work.</p>
+        </div>
+      </div>
+      <div class="callout tip" style="margin-top:8px;">
+        <div class="callout-title">Next Guide: ChatGPT for Writing & Editing</div>
+        <p>You've built the organisational infrastructure. Next, dive into ChatGPT's writing and editing capabilities — tone control, document drafting, revision workflows, and how to use ChatGPT as a genuine writing partner rather than a first-draft generator.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+function setActive(el, id) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+}
+function switchTab(btn, id) {
+  btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  btn.closest('.prompt-tabs').querySelectorAll('.prompt-box').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.previousElementSibling.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = 'Copy', 1800);
+  });
+}
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.toggle('active', l.getAttribute('onclick')?.includes(id));
+      });
+    }
+  });
+}, {threshold:0.3});
+document.querySelectorAll('.section-card').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

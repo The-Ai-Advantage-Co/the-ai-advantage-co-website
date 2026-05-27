@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini for Customer-Facing Use Cases — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1A73E8; --primary-l: #4A94EB; --primary-soft: #E8F0FE;
+  --accent1: #34A853; --accent1-soft: #E6F4EA;
+  --accent2: #F9AB00; --accent2-soft: #FEF7E0;
+  --page-bg: #FFF5F4; --sidebar-bg: #202124;
+  --card-bg: #FFFFFF; --hdr-bg: #F8E9E7; --border: #E8C9C5;
+  --ink: #202124; --body-text: #3C4043; --muted: #5F6368;
+  --green: #137333; --green-bg: #E6F4EA;
+  --warn: #B45309; --warn-bg: #FEF7E0;
+  --red: #EA4335; --red-bg: #FCE8E6;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <div class="brand-name">Gemini for Customer-Facing Use Cases</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Gemini for Customer-Facing Use Cases?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>What Gemini is Good At</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>What to Never Do Without Review</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>The Two-Pass Pattern</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Gmail Customer Workflows</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Docs Proposals Workflow</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Customer-Facing Gems</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Compliance and Documentation</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <h1>Gemini for Customer-Facing Use Cases</h1>
+      <div class="subtitle">Using Gemini for customer comms, support, and external content with appropriate discipline</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Gemini for Customer-Facing Use Cases?</div><div class="section-desc">Using Gemini for customer comms, support, and external content with appropriate discipline</div></div></div><div class="content-body"><p class="prose">Customer-facing Gemini use requires the same discipline as other AI tools: never auto-send, always review, never make commitments AI can&#39;t keep. Gemini&#39;s strengths for customer-facing work are particularly strong in Gmail (drafting), Docs (proposals), and as a chatbot via Gems.</p><p class="prose">Best for: customer success, support, marketing, and account management teams working in Google Workspace.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">📧</div><div class="feat-title">Workspace-Native</div><div class="feat-desc">Gmail drafting, Docs proposals, Customer-facing Gems with NotebookLM grounding.</div></div><div class="feat-card"><div class="feat-icon">📝</div><div class="feat-title">Two-Pass Pattern</div><div class="feat-desc">Gemini drafts, human reviews. Never auto-send. The discipline is non-negotiable.</div></div><div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">Tone Calibration</div><div class="feat-desc">3-5 sample customer comms → Gemini matches voice. Encode in Gem for team use.</div></div><div class="feat-card"><div class="feat-icon">⚖️</div><div class="feat-title">Governance</div><div class="feat-desc">Approval workflow, audit log, disclosure where required. Same discipline as other AI tools.</div></div></div><div class="deco-band">✨  Customer-facing Gemini with appropriate discipline  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎯  2026 UPDATE — GEMINI 3.1 PRO IN GMAIL</div><div class="callout-text">Gmail drafting now runs on Gemini 3.1 Pro — stronger tone-matching, better thread comprehension across long chains, more accurate action-item extraction. The &#39;Help me write&#39; panel handles multi-pass refinement well — draft, then ask to tighten, soften, restructure.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">What Gemini is Good At</div><div class="section-desc">Customer-facing strengths</div></div></div><div class="content-body"><ul class="bullets"><li>Drafting personalised emails from Gmail thread context</li><li>Adapting tone for different customer segments</li><li>Multi-language translation (Gemini is particularly strong here)</li><li>Drafting proposals in Docs grounded in customer history</li><li>Customer-facing Gems (chatbots) on your website</li></ul><h3 class="sub-h3">Customer-facing strengths</h3><p class="sub-body">Gemini&#39;s customer-facing strengths concentrate in the Workspace surfaces — Gmail drafting, Docs proposals, customer-facing Gems with knowledge backing. Outside Workspace, ChatGPT or Claude often beats it.</p><ul class="bullets"><li>Drafting personalised emails from Gmail thread context</li><li>Adapting tone for different customer segments</li><li>Multi-language translation — particularly strong</li><li>Drafting proposals in Docs grounded in customer history</li><li>Customer-facing Gems (chatbots) on your website</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">What to Never Do Without Review</div><div class="section-desc">The non-negotiables</div></div></div><div class="content-body"><ul class="bullets"><li>Send a customer email without a human reading it</li><li>Make commitments about contract terms or pricing</li><li>Auto-respond to complaints</li><li>Use AI for legally-binding statements</li><li>Generate content about specific customers without privacy review</li></ul><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">✋  THE NON-NEGOTIABLES</div><div class="callout-text">Send customer email without human reading it. Make commitments about contract terms or pricing. Auto-respond to complaints. Use AI for legally-binding statements. Generate content about specific named customers without privacy review. The cost of one bad AI-generated customer email is the trust of every customer who reads about it on social media.</div></div></div></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">The Two-Pass Pattern</div><div class="section-desc">Draft, review, send</div></div></div><div class="content-body"><p class="prose">Every customer-facing AI output goes through two passes: Gemini drafts, human reviews. Review isn&#39;t editing — it&#39;s catching anything wrong, off-tone, or inappropriate.</p><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">✋  NEVER AUTO-SEND</div><div class="callout-text">Cost of one bad AI-generated customer email is the trust of every customer who reads it on social media. Always human in the loop, especially first 90 days.</div></div></div><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">✋  HUMAN REVIEW OR BUST</div><div class="callout-text">For customer-facing AI output, never auto-send. Always a human reads it before it goes out. The cost of one bad AI-generated customer email is the trust of every customer who reads it on social media. The discipline is non-negotiable for the first 90 days; rarely relaxed after that.</div></div></div><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Always: Gemini drafts → human reviews → send</li><li>Review pass is for accuracy, tone, claims — not editing for style</li><li>Catch anything wrong, off-tone, or inappropriate before sending</li><li>Maintain audit trail of AI-assisted customer comms</li><li>Maintain approval workflow for first 90 days of new use case</li><li>Train staff on what info is OK in customer-facing prompts</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Auto-send any customer-facing AI output</li><li>Skip review when &#39;it looks fine&#39; — the variance is the risk</li><li>Use AI for legally-binding commitments</li><li>Use AI for sensitive complaint handling without senior review</li><li>Letting individuals decide review thresholds — codify in policy</li><li>Treating AI as &#39;safe&#39; for customer-facing use after 30 days — discipline doesn&#39;t expire</li></ul></div></div></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Gmail Customer Workflows</div><div class="section-desc">Where Gemini lives in your inbox</div></div></div><div class="content-body"><ul class="bullets"><li>Triage — Gemini summarises long threads in one click</li><li>Draft replies — context-aware drafts grounded in the thread</li><li>Tone adjust — &#39;rewrite warmer&#39;, &#39;rewrite more direct&#39;</li><li>Multi-language — draft in customer&#39;s language, translate response</li><li>Templates — Gems for repeated patterns (welcome, renewal, escalation)</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🔍</div><div class="feat-title">Triage</div><div class="feat-desc">Gemini summarises long threads in one click. Highlight urgent items.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">✍️</div><div class="feat-title">Draft Replies</div><div class="feat-desc">Context-aware drafts grounded in the thread. Specify tone explicitly.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🌐</div><div class="feat-title">Multi-Language</div><div class="feat-desc">Draft in customer&#39;s language, translate their response. Strong support across major languages.</div></div></div><h3 class="sub-h3">Gmail Gemini patterns that consistently land</h3><p class="sub-body">Workspace-native integration means Gemini reads thread context automatically. The pattern: brief + thread context → tailored draft → human review → send.</p><ul class="bullets"><li>Triage — summarise long threads, highlight what needs reply</li><li>Draft replies — context-aware drafts grounded in the thread</li><li>Tone adjust — &#39;rewrite warmer&#39;, &#39;rewrite more direct&#39;</li><li>Multi-language — draft in customer&#39;s language, translate response</li><li>Templates via Gems for repeated patterns (welcome, renewal, escalation)</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Docs Proposals Workflow</div><div class="section-desc">From customer brief to draft proposal</div></div></div><div class="content-body"><p class="prose">Open a Doc with Canvas. Brief Gemini on the customer (paste relevant context from CRM or thread). Ask for a tailored proposal draft. Edit inline. Generate any needed images. Output: a draft proposal ready for human review in 15 minutes vs the 90 it used to take.</p><ul class="bullets"><li>Customer context — paste from CRM</li><li>Brief — situation, ask, constraints, your offer</li><li>Draft — structured proposal in Canvas</li><li>Iterate — refine sections</li><li>Polish — voice, citations, final review</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Open Doc with Canvas</div><div class="step-desc">Workspace-native. Gemini side panel.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Paste customer context</div><div class="step-desc">From CRM or thread. Specific facts and signals.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Brief Gemini</div><div class="step-desc">Situation, ask, constraints, your offer. Four-element brief.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Draft in Canvas</div><div class="step-desc">Structured proposal — situation, proposal, why us, scope, investment, next steps.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Match historical tone</div><div class="step-desc">Paste previous successful proposals. Edit final for voice + accuracy.</div></div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Customer-Facing Gems</div><div class="section-desc">Chatbots powered by your knowledge</div></div></div><div class="content-body"><p class="prose">A Gem connected to a NotebookLM notebook becomes a customer-facing assistant grounded in your product docs, FAQs, and policies. Deploy on your website, in Workspace, or in Google Chat.</p><ul class="bullets"><li>Build the NotebookLM notebook with your product/policy content</li><li>Build a Gem with the right system prompt and connect to the notebook</li><li>Test extensively before deploying — adversarial prompts, edge cases</li><li>Always have an escape hatch — &#39;I don&#39;t know — let me get you a human&#39;</li></ul><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🤖  THE DISCIPLINE BEFORE PUBLIC LAUNCH</div><div class="callout-text">Before any customer-facing Gem goes public: extensive adversarial testing (10-15 mean/weird/off-topic prompts), verify escape hatch works, test in staging for at least a week, sample 20 real interactions before broad launch. Public-facing Gems need much higher discipline than internal ones.</div></div></div><p class="prose">Customer-facing Gems are the 2026 pattern for product-side AI assistants. A Gem connected to a NotebookLM notebook with your product docs, FAQs, and policies becomes a tailored assistant grounded in your knowledge. Deploy on your website, in Workspace, or as a Google Chat bot.</p><p class="prose">The discipline that separates Gems that ship from Gems that get pulled: extensive adversarial testing before public deployment. Throw the meanest, weirdest, most off-topic questions at it; verify the escape hatch works (&#39;I can&#39;t help with that — let me get you a human&#39;); test in staging for at least a week.</p><h3 class="sub-h3">Building Gems that scale customer interaction</h3><p class="sub-body">A Gem connected to a NotebookLM notebook with your product docs, FAQs, and policies becomes a customer-facing assistant grounded in your knowledge. Deploy on your website, in Workspace, or as a Google Chat bot.</p><ul class="bullets"><li>Build the NotebookLM notebook with your product/policy content</li><li>Build a Gem with the right system prompt + connect to notebook</li><li>Test extensively before deploying — adversarial prompts, edge cases</li><li>Always have an escape hatch — &#39;I don&#39;t know — let me get you a human&#39;</li><li>Quality review weekly for first month — drift catches</li><li>Quarterly content refresh for the underlying notebook</li></ul></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Compliance and Documentation</div><div class="section-desc">What auditors will ask</div></div></div><div class="content-body"><ul class="bullets"><li>Approval workflow — every customer-facing artifact reviewed</li><li>Audit log — keep prompt and output for 90 days</li><li>Disclosure — some jurisdictions require disclosure of AI-assisted comms</li><li>Training — staff briefed on what&#39;s in/out of scope</li></ul><h3 class="sub-h3">What auditors will ask</h3><p class="sub-body">Customer-facing AI use generates more compliance interest than internal AI use. Have answers ready before they&#39;re asked.</p><ul class="bullets"><li>Approval workflow — every customer-facing artifact reviewed</li><li>Audit log — keep prompt + output for 90 days minimum</li><li>Disclosure — check your industry&#39;s AI disclosure norms</li><li>Training — staff briefed on what&#39;s in/out of scope</li><li>Quality review — sample reviews per quarter</li><li>Incident response — what happens if something goes wrong</li></ul></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Gemini for Customer-Facing Use Cases as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">RENEWAL EMAIL</div><div class="prompt-text">Customer: [name]. Plan: [plan]. Tenure: [months]. Last 12 months: [highlights]. Draft a renewal email — friendly, specific to their wins, no hard sell, clear ask. 150 words.</div></div><div class="prompt-card"><div class="prompt-label">PROPOSAL DRAFT</div><div class="prompt-text">Customer brief: [paste]. Their priority: [priority]. Our offer: [offer]. Constraints: [constraints]. Draft a proposal in Canvas — structure: situation, proposal, why us, scope, investment, next steps. Match the tone in our previous successful proposals [paste].</div></div><div class="prompt-card"><div class="prompt-label">CUSTOMER GEM BRIEF</div><div class="prompt-text">I want to build a customer-facing Gem connected to a NotebookLM notebook with our [product] docs. Help me design: system prompt (role, scope, tone, escalation policy), the 5 most important adversarial prompts to test against, and the escape hatch for out-of-scope questions.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Gemini for Customer-Facing Use Cases on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

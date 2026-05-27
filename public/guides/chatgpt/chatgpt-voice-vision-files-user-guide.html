@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatGPT Voice, Vision & Files — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --green:#10A37F;--green-l:#2EC4A9;--green-soft:#E6F7F4;
+  --blue:#1A6FE8;--blue-soft:#EEF3FD;
+  --purple:#7C3AED;--purple-soft:#F3EEFF;
+  --orange:#E07B39;--orange-soft:#FEF3EB;
+  --page-bg:#F9F9F9;--sidebar-bg:#1C1C1C;
+  --card-bg:#FFFFFF;--hdr-bg:#F0F0F0;--border:#E5E5E5;
+  --ink:#0D0D0D;--text-mid:#353740;--muted:#6E6E80;
+  --green-bg:#E6F7F4;--warn:#B45309;--warn-bg:#FEF9C3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--green-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:#555;padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#A0A0A0;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--green);background:rgba(16,163,127,.12)}
+
+/* main */
+.content{max-width:860px;padding:40px 40px 80px}
+
+/* banner */
+.banner{background:linear-gradient(135deg,#1C1C1C 0%,#2A2A2A 60%,#1C1C1C 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(16,163,127,.15) 0%,transparent 60%)}
+.banner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(16,163,127,.08) 0%,transparent 60%)}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--green-l);text-transform:uppercase;margin-bottom:10px;position:relative}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px;position:relative}
+.banner p{font-size:15px;color:#B0B0B0;max-width:560px;margin:0 auto;position:relative}
+.banner-badge{display:inline-block;background:rgba(16,163,127,.2);color:var(--green-l);font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:16px;letter-spacing:.06em;position:relative;border:1px solid rgba(16,163,127,.3)}
+
+/* section card */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--green);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--muted);margin-top:2px}
+.section-body{padding:22px}
+
+/* callouts */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.gpt{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.gpt .callout-body strong{color:var(--green)}
+
+/* feature grid */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.feature-card .fc-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.feature-card.blue{border-top-color:var(--blue)}
+.feature-card.purple{border-top-color:var(--purple)}
+.feature-card.orange{border-top-color:var(--orange)}
+
+/* steps */
+.step-list{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--green);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-num.blue{background:var(--blue)}
+.step-num.purple{background:var(--purple)}
+.step-num.orange{background:var(--orange)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--text-mid);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:#A0A0A0;font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #2D2D2D}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--text-mid);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+
+/* sub labels */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--green);text-transform:uppercase;margin:20px 0 10px}
+
+/* prompt tabs */
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px}
+.tab-btn{padding:7px 18px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--text-mid);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green-l);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.copy-btn{background:none;border:1px solid rgba(46,196,169,.3);color:var(--green-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600}
+.copy-btn:hover{background:rgba(16,163,127,.15)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--text-mid);line-height:1.6;font-style:italic}
+
+/* trouble items */
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--green);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{background:#fff;padding:12px 16px;font-size:13.5px;color:var(--text-mid);line-height:1.55}
+
+/* mockup */
+.mockup{background:#1C1C1C;border-radius:10px;padding:20px;margin:16px 0;border:1px solid #2D2D2D}
+.mockup-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #2D2D2D}
+.mockup-model{background:#2D2D2D;color:var(--green-l);font-size:12px;font-weight:700;padding:4px 12px;border-radius:12px}
+.mockup-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:#555;text-transform:uppercase}
+.mockup-row{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.mockup-row.right{justify-content:flex-end}
+.mockup-bubble{max-width:82%;border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5}
+.mockup-bubble.user{background:#2D2D2D;color:#E0E0E0;border-radius:10px 10px 2px 10px}
+.mockup-bubble.gpt{background:rgba(16,163,127,.1);color:#C0E8DF;border-radius:10px 10px 10px 2px;border:1px solid rgba(16,163,127,.2)}
+.gpt-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(16,163,127,.15);color:var(--green-l);font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.roadmap-step .rs-num{font-size:28px;font-weight:700;color:var(--green);margin-bottom:6px}
+.roadmap-step.blue{border-top-color:var(--blue)} .roadmap-step.blue .rs-num{color:var(--blue)}
+.roadmap-step.purple{border-top-color:var(--purple)} .roadmap-step.purple .rs-num{color:var(--purple)}
+.roadmap-step.orange{border-top-color:var(--orange)} .roadmap-step.orange .rs-num{color:var(--orange)}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--text-mid);line-height:1.5}
+
+/* ── VOICE UI — unique to this guide ── */
+.voice-ui{background:#141414;border-radius:12px;overflow:hidden;margin:16px 0;border:1px solid #2D2D2D}
+.vu-bar{background:#1C1C1C;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2D2D2D}
+.vu-mode{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-l)}
+.vu-status{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
+.vu-dot{width:7px;height:7px;border-radius:50%;background:#555}
+.vu-dot.listening{background:var(--green);box-shadow:0 0 6px rgba(16,163,127,.6)}
+.vu-dot.speaking{background:var(--blue);box-shadow:0 0 6px rgba(26,111,232,.6)}
+.vu-waveform{display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:20px 16px;height:72px}
+.vu-bar-w{width:4px;border-radius:2px;background:var(--green);opacity:.7}
+.vu-convo{padding:14px 16px}
+.vu-msg{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.vu-msg.right{flex-direction:row-reverse}
+.vu-avatar{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.vu-avatar.user{background:#2D2D2D;color:#A0A0A0}
+.vu-avatar.ai{background:rgba(16,163,127,.2);color:var(--green-l)}
+.vu-bubble{background:#2D2D2D;border-radius:10px;padding:8px 12px;font-size:12.5px;color:#D0D0D0;line-height:1.5;max-width:80%}
+.vu-bubble.ai{background:rgba(16,163,127,.1);color:#C0E8DF;border:1px solid rgba(16,163,127,.2)}
+
+/* ── FILE CARDS — unique to this guide ── */
+.file-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.file-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;position:relative;overflow:hidden}
+.file-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.file-card.doc::before{background:var(--blue)}
+.file-card.data::before{background:var(--green)}
+.file-card.image::before{background:var(--orange)}
+.file-card.code::before{background:var(--purple)}
+.file-card.pdf::before{background:#E53E3E}
+.file-card.audio::before{background:var(--green-l)}
+.fc-type{font-size:22px;margin-bottom:8px}
+.fc-name{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.fc-formats{font-size:11px;color:var(--muted);margin-bottom:8px;font-family:monospace}
+.fc-caps{list-style:none;padding:0}
+.fc-caps li{font-size:11.5px;color:var(--text-mid);padding:2px 0;padding-left:14px;position:relative;line-height:1.4}
+.fc-caps li::before{content:'✓';position:absolute;left:0;color:var(--green);font-size:10px;top:3px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <div class="nav-section">Voice, Vision & Files</div>
+  <a class="nav-link" href="#s01">01 — What is Multimodal ChatGPT?</a>
+  <a class="nav-link" href="#s02">02 — Voice Mode</a>
+  <a class="nav-link" href="#s03">03 — Vision & Image Analysis</a>
+  <a class="nav-link" href="#s04">04 — Files & Documents</a>
+  <a class="nav-link" href="#s05">05 — Data Analysis</a>
+  <a class="nav-link" href="#s06">06 — Combining Modalities</a>
+  <a class="nav-link" href="#s07">07 — Advanced Techniques</a>
+  <a class="nav-link" href="#s08">08 — Common Mistakes & Fixes</a>
+  <a class="nav-link" href="#s09">09 — Suggested Prompts</a>
+  <a class="nav-link" href="#s10">10 — See It In Action</a>
+  <a class="nav-link" href="#s11">11 — Your Roadmap</a>
+</aside>
+<main class="content">
+
+<div class="banner">
+  <div class="banner-eyebrow">The AI Advantage Co · User Guide</div>
+  <h1>🎙️ ChatGPT Voice, Vision & Files</h1>
+  <p>Beyond text — using ChatGPT's multimodal capabilities to analyse images, work with documents, and hold real-time voice conversations</p>
+  <div class="banner-badge">Voice Mode · Vision · File Upload · Data Analysis · Multimodal</div>
+</div>
+
+<!-- 01 -->
+<div class="section-card" id="s01">
+  <div class="section-header">
+    <div class="sec-num">01</div>
+    <div><h2>What is Multimodal ChatGPT?</h2><p>Beyond text — inputs and outputs across voice, images, and files</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Most people use ChatGPT by typing. But ChatGPT can understand and work with far more than text: it can hear you speak and respond in a natural voice, analyse images you share with it, read and extract insights from documents, run calculations on spreadsheet data, and generate charts from raw numbers — all in a single conversation.</p>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">These capabilities are called <strong>multimodal</strong> — the ability to work across multiple types of input and output. Together they transform ChatGPT from a text assistant into a versatile thinking and analysis partner.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">🎙️</div>
+        <h4>Voice Mode</h4>
+        <p>Real-time spoken conversation with ChatGPT. Talk naturally, get spoken responses. Advanced Voice Mode adds emotional nuance, accents, and real-time interruption.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">👁️</div>
+        <h4>Vision</h4>
+        <p>Upload images, screenshots, photos, or diagrams and ask ChatGPT to analyse, describe, extract information, or answer questions about what it sees.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">📄</div>
+        <h4>Files & Documents</h4>
+        <p>Upload PDFs, Word documents, spreadsheets, code files, and more. ChatGPT reads the content and can summarise, answer questions, extract data, or compare documents.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">📊</div>
+        <h4>Data Analysis</h4>
+        <p>Upload a CSV or spreadsheet and ChatGPT can run calculations, spot trends, identify outliers, and generate charts — all through natural language requests.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Plan Availability</strong><p>Voice mode, vision, and file upload are available on ChatGPT Plus, Team, Enterprise, and Pro. Free users get limited access — typically image upload but reduced file and voice capabilities. Advanced Voice Mode is Plus and above.</p></div>
+    </div>
+
+    <p class="sub-label">Capability Overview</p>
+    <table class="ref-table">
+      <tr><th>Capability</th><th>What You Can Do</th><th>Plans</th></tr>
+      <tr><td>Standard Voice</td><td>Speak your prompt, hear the response</td><td>Free, Plus+</td></tr>
+      <tr><td>Advanced Voice Mode</td><td>Real-time conversation, emotional tone, interruption</td><td>Plus+</td></tr>
+      <tr><td>Image / Vision</td><td>Upload images, photos, screenshots for analysis</td><td>Free (limited), Plus+</td></tr>
+      <tr><td>File Upload (docs)</td><td>PDF, Word, TXT — read and analyse content</td><td>Plus+</td></tr>
+      <tr><td>Data Analysis</td><td>CSV / spreadsheet — calculations, charts, insights</td><td>Plus+</td></tr>
+      <tr><td>Canvas</td><td>Collaborative writing and code editing workspace</td><td>Plus+</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section-card" id="s02">
+  <div class="section-header">
+    <div class="sec-num">02</div>
+    <div><h2>Voice Mode</h2><p>Hands-free, natural conversation with ChatGPT</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">ChatGPT has two voice modes: <strong>Standard Voice</strong> (available on Free and Plus) converts your speech to text, processes it, and reads the response back. <strong>Advanced Voice Mode</strong> (Plus and above) is fundamentally different — it processes your voice directly, enabling real-time conversation with natural pacing, emotional nuance, laughter, and the ability to interrupt mid-sentence.</p>
+
+    <p class="sub-label">Advanced Voice Mode in Action</p>
+    <div class="voice-ui">
+      <div class="vu-bar">
+        <span class="vu-mode">Advanced Voice Mode</span>
+        <span class="vu-status"><span class="vu-dot listening"></span> Listening</span>
+      </div>
+      <div class="vu-waveform">
+        <div class="vu-bar-w" style="height:12px"></div>
+        <div class="vu-bar-w" style="height:28px"></div>
+        <div class="vu-bar-w" style="height:18px"></div>
+        <div class="vu-bar-w" style="height:40px"></div>
+        <div class="vu-bar-w" style="height:24px"></div>
+        <div class="vu-bar-w" style="height:48px"></div>
+        <div class="vu-bar-w" style="height:32px"></div>
+        <div class="vu-bar-w" style="height:20px"></div>
+        <div class="vu-bar-w" style="height:44px"></div>
+        <div class="vu-bar-w" style="height:16px"></div>
+        <div class="vu-bar-w" style="height:36px"></div>
+        <div class="vu-bar-w" style="height:52px"></div>
+        <div class="vu-bar-w" style="height:28px"></div>
+        <div class="vu-bar-w" style="height:14px"></div>
+        <div class="vu-bar-w" style="height:40px"></div>
+        <div class="vu-bar-w" style="height:22px"></div>
+        <div class="vu-bar-w" style="height:34px"></div>
+        <div class="vu-bar-w" style="height:46px"></div>
+        <div class="vu-bar-w" style="height:18px"></div>
+        <div class="vu-bar-w" style="height:30px"></div>
+      </div>
+      <div class="vu-convo">
+        <div class="vu-msg right">
+          <div class="vu-bubble">Can you walk me through the key points from my meeting notes and suggest three follow-up actions?</div>
+          <div class="vu-avatar user">You</div>
+        </div>
+        <div class="vu-msg">
+          <div class="vu-avatar ai">✦</div>
+          <div class="vu-bubble ai">Sure! Based on your notes, the three main themes are budget approval, the Q3 timeline, and the new hire decision. For follow-ups — first, I'd send the budget summary to finance today. Second, schedule a check-in on the timeline before end of week. And third, loop in HR about the hiring decision by Friday. Want me to draft any of those?</div>
+        </div>
+        <div class="vu-msg right">
+          <div class="vu-bubble">Yes — the budget email first.</div>
+          <div class="vu-avatar user">You</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-grid" style="margin-top:16px">
+      <div class="feature-card">
+        <h4>Start Voice Mode</h4>
+        <p>Tap the headphone icon in the ChatGPT app (mobile) or the microphone button on desktop. The interface switches to a waveform display — you're live.</p>
+      </div>
+      <div class="feature-card blue">
+        <h4>Interrupt Naturally</h4>
+        <p>In Advanced Voice Mode, just speak while ChatGPT is talking to interrupt. It will stop and respond to your new input — just like a real conversation.</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Choose a Voice</h4>
+        <p>Settings → Personalisation → Voice. Pick from multiple voice options (Cove, Ember, Juniper, etc.) — each with different tone and energy.</p>
+      </div>
+      <div class="feature-card orange">
+        <h4>Use While Mobile</h4>
+        <p>Voice mode is ideal for hands-free use: while driving, walking, or cooking. The app stays active with screen off on iOS and Android.</p>
+      </div>
+    </div>
+
+    <p class="sub-label">Standard vs Advanced Voice Mode</p>
+    <table class="ref-table">
+      <tr><th>Feature</th><th>Standard Voice</th><th>Advanced Voice Mode</th></tr>
+      <tr><td>How it works</td><td>Speech-to-text → GPT → text-to-speech</td><td>End-to-end audio processing</td></tr>
+      <tr><td>Interruption</td><td>Not supported</td><td>Natural real-time interruption</td></tr>
+      <tr><td>Emotional tone</td><td>Neutral</td><td>Nuanced — laughter, excitement, warmth</td></tr>
+      <tr><td>Response speed</td><td>Slight delay</td><td>Near real-time</td></tr>
+      <tr><td>Context awareness</td><td>Standard</td><td>Picks up on tone, pacing, emphasis</td></tr>
+      <tr><td>Availability</td><td>Free, Plus+</td><td>Plus and above</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Best Uses for Voice Mode</strong><p>Voice mode excels for: morning briefings, hands-free brainstorming, language practice, verbal dictation, and talking through a problem when you don't want to type. It's not ideal for tasks requiring precise formatting or code output — those are better handled in text mode.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section-card" id="s03">
+  <div class="section-header">
+    <div class="sec-num">03</div>
+    <div><h2>Vision & Image Analysis</h2><p>Upload images — ChatGPT sees, reads, and interprets what's there</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">ChatGPT can analyse any image you upload — photos, screenshots, diagrams, charts, handwritten notes, slides, or whiteboards. It can describe what it sees, extract text, answer questions about the image content, compare multiple images, or use visual context to help solve a problem.</p>
+
+    <p class="sub-label">What ChatGPT Can See and Do</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">📝</div>
+        <h4>Read Text in Images</h4>
+        <p>Extract text from screenshots, photos of documents, receipts, whiteboards, business cards, or handwritten notes — even with imperfect image quality.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">📊</div>
+        <h4>Interpret Charts & Graphs</h4>
+        <p>Describe what a chart shows, extract the underlying data, identify trends, spot anomalies, or explain a visualisation in plain language.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🖼️</div>
+        <h4>Describe & Analyse Photos</h4>
+        <p>Identify objects, people, locations, or situations. Useful for product photos, event images, real estate photos, and visual troubleshooting.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">🗂️</div>
+        <h4>Review UI & Designs</h4>
+        <p>Upload a screenshot or mockup and get feedback on layout, accessibility, design patterns, or UX flow — without needing to describe it in text first.</p>
+      </div>
+    </div>
+
+    <p class="sub-label">How to Upload an Image</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Click the paperclip or image icon</h4><p>In the ChatGPT input bar, click the attachment icon and select your image file, or drag-and-drop it directly into the chat.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body"><h4>Type your question about the image</h4><p>The image is context — your question directs what ChatGPT does with it. Be specific: "What does the handwriting say?" beats "Analyse this."</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body"><h4>Combine image and text context</h4><p>You can paste in additional text alongside the image — e.g. "This is a mockup of our checkout page. What UX issues do you see?" gives the model context it can use.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-body"><h4>Upload multiple images</h4><p>You can upload several images at once to compare them — e.g. two design versions, before-and-after photos, or a series of screenshots showing a workflow.</p></div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Be Specific About What You Want</strong><p>Vision analysis improves significantly with a focused question. "Extract all the line items and amounts from this receipt" produces far more useful output than "What's in this image?" Tell ChatGPT exactly what to look for or do with what it sees.</p></div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Limitations to Know</strong><p>ChatGPT cannot identify real people by face, read highly degraded images reliably, or process video. For very small text or complex diagrams, image quality matters — a clear, well-lit photo or high-res screenshot will always give better results than a blurry or compressed one.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section-card" id="s04">
+  <div class="section-header">
+    <div class="sec-num">04</div>
+    <div><h2>Files & Documents</h2><p>Upload your documents — ChatGPT reads and works with them</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">ChatGPT can read and work with a wide range of file types. Once uploaded, your document becomes context for the conversation — you can ask questions about it, request summaries, extract specific information, compare it to other documents, or have ChatGPT rewrite, restructure, or build on its content.</p>
+
+    <p class="sub-label">Supported File Types</p>
+    <div class="file-grid">
+      <div class="file-card pdf">
+        <div class="fc-type">📕</div>
+        <div class="fc-name">PDF Documents</div>
+        <div class="fc-formats">.pdf</div>
+        <ul class="fc-caps">
+          <li>Summarise by section</li>
+          <li>Extract key data or tables</li>
+          <li>Answer questions about content</li>
+          <li>Identify themes or arguments</li>
+        </ul>
+      </div>
+      <div class="file-card doc">
+        <div class="fc-type">📘</div>
+        <div class="fc-name">Word Documents</div>
+        <div class="fc-formats">.docx · .doc · .txt</div>
+        <ul class="fc-caps">
+          <li>Edit and rewrite content</li>
+          <li>Restructure or reformat</li>
+          <li>Improve writing and tone</li>
+          <li>Compare versions</li>
+        </ul>
+      </div>
+      <div class="file-card data">
+        <div class="fc-type">📗</div>
+        <div class="fc-name">Spreadsheets</div>
+        <div class="fc-formats">.xlsx · .csv · .xls</div>
+        <ul class="fc-caps">
+          <li>Run calculations</li>
+          <li>Spot trends and outliers</li>
+          <li>Generate charts</li>
+          <li>Summarise data tables</li>
+        </ul>
+      </div>
+      <div class="file-card image">
+        <div class="fc-type">🖼️</div>
+        <div class="fc-name">Images</div>
+        <div class="fc-formats">.png · .jpg · .gif · .webp</div>
+        <ul class="fc-caps">
+          <li>Read text in images</li>
+          <li>Describe and analyse</li>
+          <li>Compare multiple images</li>
+          <li>Extract structured data</li>
+        </ul>
+      </div>
+      <div class="file-card code">
+        <div class="fc-type">💻</div>
+        <div class="fc-name">Code Files</div>
+        <div class="fc-formats">.py · .js · .ts · .json + more</div>
+        <ul class="fc-caps">
+          <li>Review and debug</li>
+          <li>Explain logic</li>
+          <li>Refactor or optimise</li>
+          <li>Generate documentation</li>
+        </ul>
+      </div>
+      <div class="file-card audio">
+        <div class="fc-type">🎵</div>
+        <div class="fc-name">Audio / Other</div>
+        <div class="fc-formats">.mp3 · .m4a · .wav · .pptx</div>
+        <ul class="fc-caps">
+          <li>Transcribe audio (mobile)</li>
+          <li>Read PowerPoint slides</li>
+          <li>Summarise presentations</li>
+          <li>Extract slide content</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Use Files in Projects for Persistent Context</strong><p>Files uploaded to a regular chat are available only in that conversation. Upload files to a <strong>Project</strong> instead and they persist across all conversations in that project — ideal for reference documents, brand guidelines, research papers, or any material you return to regularly.</p></div>
+    </div>
+
+    <p class="sub-label">High-Value Document Use Cases</p>
+    <table class="ref-table">
+      <tr><th>Task</th><th>What to Ask</th></tr>
+      <tr><td>Contract review</td><td>"Summarise the key obligations for each party. Flag any unusual or one-sided terms."</td></tr>
+      <tr><td>Research paper summary</td><td>"What are the key findings? What methodology was used? What are the limitations?"</td></tr>
+      <tr><td>Policy comparison</td><td>[Upload two docs] "Compare these policies — what are the key differences?"</td></tr>
+      <tr><td>Report extraction</td><td>"Extract all the statistics and figures mentioned in this report into a table."</td></tr>
+      <tr><td>Document Q&amp;A</td><td>"Does this document say anything about [specific topic]? If so, quote the relevant section."</td></tr>
+      <tr><td>Rewrite for audience</td><td>"Rewrite section 3 for a non-technical executive audience. Keep it under 200 words."</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section-card" id="s05">
+  <div class="section-header">
+    <div class="sec-num">05</div>
+    <div><h2>Data Analysis</h2><p>From raw spreadsheet data to charts and insights — through conversation</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">When you upload a CSV or spreadsheet, ChatGPT's Data Analysis capability (formerly called Advanced Data Analysis or Code Interpreter) activates. It can write and execute Python code behind the scenes to process your data, run calculations, identify patterns, and generate charts — all through natural language. You don't need to know Python or statistics.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">📈</div>
+        <h4>Generate Charts</h4>
+        <p>"Create a bar chart of sales by region" — ChatGPT writes the code, runs it, and returns the chart as a downloadable image.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">🔍</div>
+        <h4>Spot Trends & Outliers</h4>
+        <p>"Which rows have unusually high values in the cost column?" — statistical analysis with plain-language explanations of what it found.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🧮</div>
+        <h4>Run Calculations</h4>
+        <p>Aggregations, percentages, year-over-year changes, averages, correlations — any calculation a spreadsheet can do, expressed in natural language.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">🧹</div>
+        <h4>Clean & Transform</h4>
+        <p>"Remove duplicate rows", "standardise the date format", "split the full name column into first and last" — data wrangling without formulas.</p>
+      </div>
+    </div>
+
+    <p class="sub-label">A Typical Data Analysis Workflow</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Upload your file</h4><p>Attach a .csv or .xlsx file to the chat. ChatGPT will confirm it has loaded and tell you what it sees — column names, row count, data types.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">2</div>
+        <div class="step-body"><h4>Ask for a summary first</h4><p>"Give me an overview of this data — key columns, any missing values, and what kind of analysis might be useful." This orients both you and the model.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">3</div>
+        <div class="step-body"><h4>Ask specific analysis questions</h4><p>Be precise: "What were the top 5 products by revenue in Q3?" rather than "Analyse the data." Specific questions get specific, useful answers.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num orange">4</div>
+        <div class="step-body"><h4>Request charts and download</h4><p>"Now generate a line chart of monthly revenue." ChatGPT creates the chart and provides a download link. You can specify chart type, colours, and labels.</p></div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Ask for the Python Code</strong><p>After any analysis, you can ask: "Show me the Python code you used for that." This lets you learn from the analysis, verify it, or run it yourself. Even non-developers find this useful for understanding what was done to their data.</p></div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body"><strong>Data Privacy Note</strong><p>Files you upload to ChatGPT are processed by OpenAI's servers. For sensitive business data, check your organisation's policy on AI tool use. Enterprise and Team plans have stronger data privacy controls than Plus or Free.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section-card" id="s06">
+  <div class="section-header">
+    <div class="sec-num">06</div>
+    <div><h2>Combining Modalities</h2><p>Mixing voice, vision, and files for compound workflows</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">The real power of multimodal ChatGPT emerges when you combine capabilities. A single conversation can use files for context, images for visual analysis, and voice for natural iteration — creating workflows that would previously require multiple tools.</p>
+
+    <p class="sub-label">Compound Workflow Examples</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Photo → Text → Action</h4>
+          <p>Photograph a whiteboard from a meeting, upload it, ask ChatGPT to extract the notes into structured action items, then switch to voice mode to talk through the priorities hands-free on your commute.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">2</div>
+        <div class="step-body">
+          <h4>Document → Analysis → Voice</h4>
+          <p>Upload a report or research paper, get a written summary and key findings, then switch to voice mode to ask follow-up questions conversationally — like a briefing you can talk through.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">3</div>
+        <div class="step-body">
+          <h4>Data → Chart → Explanation</h4>
+          <p>Upload a spreadsheet, generate a chart, then ask for a plain-language explanation of the trend suitable for a client slide — all in the same conversation without switching tools.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num orange">4</div>
+        <div class="step-body">
+          <h4>Screenshot → Feedback → Draft</h4>
+          <p>Upload a design mockup or page screenshot, get UX and copy feedback, then ask ChatGPT to rewrite the copy based on its feedback — image analysis leading directly into content creation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Voice + Image</h4>
+        <p>On mobile, open a live camera feed in voice mode and describe what you're looking at in real time. Useful for visual troubleshooting, cooking guidance, or describing an environment hands-free.</p>
+      </div>
+      <div class="feature-card blue">
+        <h4>File + Voice</h4>
+        <p>Upload a document, then switch to voice mode to ask questions about it out loud. ChatGPT maintains file context across the mode switch — the document stays in the conversation.</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Multiple Files</h4>
+        <p>Upload two or more documents to compare them: "Compare the scope of work in these two proposals" or "What clauses appear in contract A but not B?"</p>
+      </div>
+      <div class="feature-card orange">
+        <h4>Image + Data</h4>
+        <p>Upload a chart image and a spreadsheet together: "The chart shows X — does the underlying data in this spreadsheet support that trend?"</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Context Persists Through Mode Switches</strong><p>Files and images uploaded earlier in a conversation remain accessible even after switching to voice mode or after several follow-up exchanges. You don't need to re-upload — ChatGPT holds the full conversation context including all uploaded materials.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section-card" id="s07">
+  <div class="section-header">
+    <div class="sec-num">07</div>
+    <div><h2>Advanced Techniques</h2><p>Power patterns for getting the most from multimodal capabilities</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">These techniques move beyond basic upload-and-ask to more sophisticated uses of ChatGPT's multimodal capabilities — combining them with Projects, custom instructions, and iterative workflows.</p>
+
+    <p class="sub-label">Persistent File Context with Projects</p>
+    <p style="font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:12px">The biggest limitation of file uploads is that they disappear when the conversation ends. Projects solve this: any file added to a Project is available in every conversation within that Project, indefinitely. This enables:</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Reference Documents</h4>
+        <p>Brand guidelines, style guides, company policies, product documentation — upload once, available always. No more re-uploading the same file.</p>
+      </div>
+      <div class="feature-card blue">
+        <h4>Ongoing Research</h4>
+        <p>Papers, reports, and sources for a research project. Ask questions across all of them in any conversation without re-uploading.</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Client Context</h4>
+        <p>Client briefs, contracts, past deliverables — uploaded to a client Project, always available for reference when drafting or analysing new work.</p>
+      </div>
+      <div class="feature-card orange">
+        <h4>Living Documents</h4>
+        <p>Replace a file in a Project with an updated version and the new content immediately becomes the reference for all future conversations.</p>
+      </div>
+    </div>
+
+    <p class="sub-label">Precision Techniques for File Analysis</p>
+    <table class="ref-table">
+      <tr><th>Technique</th><th>How to Use It</th></tr>
+      <tr><td>Page-specific questions</td><td>"Only look at pages 3–5 of this report. What does it say about X?"</td></tr>
+      <tr><td>Direct quote extraction</td><td>"Quote the exact sentence(s) in this document that discuss Y."</td></tr>
+      <tr><td>Structured output from unstructured</td><td>"Extract all client names and their stated requirements from this transcript into a table."</td></tr>
+      <tr><td>Cross-document comparison</td><td>"Compare the pricing models in these two proposals. Show differences in a table."</td></tr>
+      <tr><td>Absence detection</td><td>"Does this contract mention [specific clause]? If not, flag it as missing."</td></tr>
+      <tr><td>Audit trail</td><td>"Cite the page and section number for every claim in your summary."</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Use Vision for Inaccessible Formats</strong><p>Some file types don't upload cleanly — old PDFs with embedded images, scanned documents, or proprietary formats. Workaround: take a screenshot of each page and upload the images instead. ChatGPT's vision reads image-based text well, even from scanned documents.</p></div>
+    </div>
+
+    <p class="sub-label">Voice Mode for Thinking Out Loud</p>
+    <p style="font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:12px">Advanced Voice Mode isn't just for questions — it's a powerful tool for structured verbal thinking:</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">✓</div>
+        <div class="step-body"><h4>Rubber Duck Debugging (Verbal)</h4><p>Talk through a problem out loud with ChatGPT responding. The act of articulating the problem — with an interactive listener — consistently surfaces solutions you wouldn't reach alone.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">✓</div>
+        <div class="step-body"><h4>Presentation Rehearsal</h4><p>Practice a pitch or presentation verbally. Ask ChatGPT to play a sceptical client or interviewer. The conversational back-and-forth builds real-world fluency in a way scripts don't.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">✓</div>
+        <div class="step-body"><h4>Morning Planning Ritual</h4><p>"What's on my plate today? Help me prioritise." Talk through your day verbally — ChatGPT asks clarifying questions, helps you sequence tasks, and identifies blockers. Faster than typing it all out.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section-card" id="s08">
+  <div class="section-header">
+    <div class="sec-num">08</div>
+    <div><h2>Common Mistakes & Fixes</h2><p>What goes wrong with multimodal ChatGPT and how to address it</p></div>
+  </div>
+  <div class="section-body">
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Uploading a file without asking a specific question</div>
+      <div class="trouble-a"><strong>Fix:</strong> ChatGPT needs direction — "Analyse this" is too vague. Pair every file upload with a specific question: what you want extracted, summarised, compared, or done. The more specific your request, the more useful the output.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Assuming file analysis covers the whole document when it's long</div>
+      <div class="trouble-a"><strong>Fix:</strong> Very long documents (100+ pages) may not be fully processed. Ask ChatGPT to confirm which sections it has read. For critical documents, work section by section and ask it to cite page numbers when quoting — this makes gaps visible.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Using voice mode for tasks that need precise text output</div>
+      <div class="trouble-a"><strong>Fix:</strong> Voice mode is optimised for conversational flow, not formatted output. For tasks requiring structured output — tables, code, formatted documents — switch back to text mode. You can switch mid-conversation without losing context.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Uploading sensitive data without considering privacy implications</div>
+      <div class="trouble-a"><strong>Fix:</strong> Files you upload are processed by OpenAI. For personal health records, sensitive financial data, or confidential business information, check your plan's data privacy policy. Consider anonymising data before upload — replace names with "Client A", specific numbers with approximations — while still getting useful analysis.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Re-uploading the same reference files in every new conversation</div>
+      <div class="trouble-a"><strong>Fix:</strong> Use Projects. Any file in a Project persists across all conversations in that project. If you find yourself uploading the same brand guide, policy document, or research paper repeatedly, it belongs in a Project.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Treating data analysis output as final without checking</div>
+      <div class="trouble-a"><strong>Fix:</strong> Always ask ChatGPT to show its methodology or the Python code behind any calculation. Data analysis can produce plausible-looking errors — especially with complex formulas or ambiguous column names. Verify key figures against the source data for anything you'll act on or share.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section-card" id="s09">
+  <div class="section-header">
+    <div class="sec-num">09</div>
+    <div><h2>Suggested Prompts</h2><p>Ready-to-use prompts for multimodal workflows</p></div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'s09','vision')">Vision & Files</button>
+        <button class="tab-btn" onclick="switchTab(this,'s09','data')">Data & Voice</button>
+      </div>
+      <div class="prompt-panel active" id="s09-vision">
+        <div class="prompt-box">
+          <div class="prompt-label">Document Deep-Dive<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I've uploaded [document type]. Please: (1) give me a 150-word executive summary of the key points, (2) extract any specific obligations, commitments, or action items into a bullet list, (3) flag anything that seems unusual, risky, or that I should pay close attention to, and (4) list the three questions I should ask after reading this.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Image & Screenshot Analysis<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I've uploaded [image type — e.g. screenshot, photo, diagram]. Please: (1) describe what you see in detail, (2) extract any text visible in the image and format it clearly, (3) answer this specific question about it: [your question], and (4) note anything that appears incomplete, incorrect, or worth flagging.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Cross-Document Comparison<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I've uploaded two documents — [Doc A description] and [Doc B description]. Compare them across these dimensions: (1) [dimension 1], (2) [dimension 2], (3) [dimension 3]. Present the comparison in a clear table. Then give your overall assessment: which is stronger, and why?</div>
+        </div>
+      </div>
+      <div class="prompt-panel" id="s09-data">
+        <div class="prompt-box">
+          <div class="prompt-label">Spreadsheet Analysis<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I've uploaded a spreadsheet. First, give me an overview: column names, row count, data types, and any obvious data quality issues. Then: (1) identify the top 5 [metric] by [dimension], (2) show month-over-month trend for [key metric], (3) flag any outliers or anomalies in the data, and (4) generate a chart showing [specific visualisation]. Show me the Python code you used.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Voice Brainstorm Starter<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I want to think through [topic or problem] out loud. Play the role of a thoughtful sparring partner — ask me clarifying questions one at a time, push back on anything that seems underdeveloped, and help me reach a clear conclusion. Don't give me a list of ideas upfront — let's work through this conversationally.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Whiteboard to Action Items<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I've uploaded a photo of a whiteboard from a recent meeting. Please: (1) extract and transcribe all the text you can read, (2) organise the content into logical themes or sections, (3) convert any tasks or decisions into a structured action item list with Owner / Action / Deadline columns, and (4) flag anything that's unclear or that you couldn't read.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section-card" id="s10">
+  <div class="section-header">
+    <div class="sec-num">10</div>
+    <div><h2>See It In Action</h2><p>Uploading a report and running a full multimodal analysis workflow</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">This example shows a complete file analysis workflow — uploading a sales report PDF, extracting structured insights, generating a chart, and switching to voice for a verbal debrief. Each step builds on the previous one in a single conversation.</p>
+
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">GPT-4o</span><span class="mockup-label">File Analysis Workflow</span></div>
+
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">📎 Q3-Sales-Report.pdf &nbsp;|&nbsp; Summarise this report's key findings and flag anything that needs attention.</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-bubble gpt">
+          <div class="gpt-tag">✦ GPT-4o</div>
+          <strong style="color:#2EC4A9">Summary (Q3 Sales Report):</strong><br><br>
+          Revenue was £2.4M — 8% above Q3 target. Three regions beat plan (North, Midlands, Scotland). Two underperformed (South, Wales).<br><br>
+          <strong style="color:#2EC4A9">Flags for attention:</strong><br>
+          • South region is 23% below target for the second consecutive quarter — may warrant a strategic review.<br>
+          • Customer acquisition cost rose 18% vs Q2. Noted but no action plan in the report.<br>
+          • Two major accounts (TechCorp, Meridian) are listed as "at risk" in the appendix but not mentioned in the executive summary.
+        </div>
+      </div>
+
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">Generate a bar chart comparing actual vs target revenue by region.</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-bubble gpt">
+          <div class="gpt-tag">✦ GPT-4o</div>
+          <span style="color:#555;font-style:italic">Running data analysis...</span><br><br>
+          <div style="background:#2D2D2D;border-radius:6px;padding:10px;margin:8px 0;font-family:monospace;font-size:11px;color:#C0E8DF">
+            ▓▓▓▓▓▓▓▓▓▓▓ North: £620k actual / £590k target ✓<br>
+            ▓▓▓▓▓▓▓▓▓░░ Midlands: £480k actual / £510k target ✓<br>
+            ▓▓▓▓▓░░░░░░ South: £310k actual / £400k target ✗<br>
+            ▓▓▓▓▓▓▓▓░░░ Scotland: £540k actual / £500k target ✓<br>
+            ▓▓▓░░░░░░░░ Wales: £450k actual / £580k target ✗
+          </div>
+          Chart generated. <span style="color:var(--green-l)">↓ Download: Q3-Regional-Chart.png</span>
+        </div>
+      </div>
+
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">🎙️ [Switched to voice] — Walk me through the South region situation. Why might it be underperforming?</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-bubble gpt">
+          <div class="gpt-tag">✦ Advanced Voice</div>
+          The South has missed target two quarters running, which is the clearest pattern in the report. The document doesn't give a root cause, but based on what's here — the at-risk account Meridian is a South region client, and customer acquisition cost is up across the board. So there may be a pipeline issue rather than a retention issue. I'd want to know: is this rep performance, territory size, or account mix? The data alone can't tell you, but those are the three hypotheses I'd test first.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>What This Demonstrates</strong><p>One conversation, three capabilities: file analysis (PDF reading and extraction), data visualisation (chart generation from extracted data), and voice mode (conversational debrief). The context from the uploaded file persisted through the voice switch — ChatGPT still knew the report contents when answering verbally.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section-card" id="s11">
+  <div class="section-header">
+    <div class="sec-num">11</div>
+    <div><h2>Your Roadmap</h2><p>Building multimodal habits into your daily workflow</p></div>
+  </div>
+  <div class="section-body">
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="rs-num">01</div>
+        <h4>Try Voice Mode Today</h4>
+        <p>Open the ChatGPT app on your phone, tap the headphone icon, and have a 5-minute voice conversation about something you're working on. Get comfortable with the format.</p>
+      </div>
+      <div class="roadmap-step blue">
+        <div class="rs-num">02</div>
+        <h4>Analyse a Real Document</h4>
+        <p>Upload a PDF or Word document you'd normally read manually. Ask for a summary and three questions it raises. See how much time it saves on your first real document.</p>
+      </div>
+      <div class="roadmap-step purple">
+        <div class="rs-num">03</div>
+        <h4>Run a Data Analysis</h4>
+        <p>Upload any spreadsheet you work with regularly. Ask for an overview, a key metric trend, and a chart. Experience data analysis through conversation for the first time.</p>
+      </div>
+      <div class="roadmap-step orange">
+        <div class="rs-num">04</div>
+        <h4>Build a Multimodal Project</h4>
+        <p>Create a Project and add your key reference files. Then start using that Project for work in that area — letting ChatGPT draw on persistent context across every session.</p>
+      </div>
+    </div>
+    <div class="callout gpt" style="margin-top:20px">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-body"><strong>Next Guide: ChatGPT Research & Web Search</strong><p>You've mastered multimodal inputs. Next, learn how to use ChatGPT's web search capabilities for real-time research — including how to ground responses in current sources, build research workflows, and use citations effectively.</p></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function switchTab(el, section, tab) {
+  const sec = document.getElementById(section);
+  sec.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  sec.querySelectorAll('.prompt-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const panel = document.getElementById(section + '-' + tab);
+  if (panel) panel.classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-box').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent; btn.textContent = '✓ Copied'; btn.style.color = '#10A37F';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+  });
+}
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.section-card').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Copilot in PowerPoint — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --purple:#5E17EB;--purple-l:#8B5CF6;--purple-soft:#F0EAFF;
+  --blue:#0078D4;--blue-l:#60A5FA;--blue-soft:#EFF6FF;
+  --orange:#EA6C1A;--orange-l:#F97316;--orange-soft:#FFF7ED;
+  --yellow:#CA8A04;--yellow-soft:#FEFCE8;
+  --red:#C43E00;--red-soft:#FFF0E8;
+  --page-bg:#EBF1FF;--sidebar-bg:#1E1456;
+  --card-bg:#F7F4FF;--hdr-bg:#EDE8FF;--border:#D0C5F5;
+  --ink:#1E1456;--text-mid:#3D3080;--muted:#7264A8;
+  --green:#1B6B3A;--green-bg:#E6F4EC;
+  --warn:#B45309;--warn-bg:#FFF8E1;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* ── sidebar ── */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--orange-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--muted);padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#C8B8FF;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--orange-l);background:rgba(249,115,22,.12)}
+
+/* ── main ── */
+.content{max-width:860px;padding:40px 40px 80px}
+
+/* ── banner ── */
+.banner{background:linear-gradient(135deg,#1E1456 0%,#5C1A00 60%,#1E1456 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'▲ ✦ ◆ ✦ ▲';position:absolute;top:12px;right:20px;font-size:18px;opacity:.18;letter-spacing:8px;color:#FED7AA}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--orange-l);text-transform:uppercase;margin-bottom:10px}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px}
+.banner p{font-size:15px;color:#FED7AA;max-width:560px;margin:0 auto}
+.banner-badge{display:inline-block;background:rgba(234,108,26,.25);color:#FED7AA;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:16px;letter-spacing:.06em}
+
+/* ── section card ── */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 2px 8px rgba(94,23,235,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--purple);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--purple-l);margin-top:2px}
+.section-body{padding:22px}
+
+/* ── callouts ── */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.copilot{background:var(--purple-soft);border-left:4px solid var(--purple)}
+.callout.copilot .callout-body strong{color:var(--purple)}
+
+/* ── feature cards ── */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{border-radius:8px;padding:18px;border:1px solid var(--border)}
+.feature-card .card-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.fc-purple{background:var(--card-bg);border-top:3px solid var(--purple)}
+.fc-blue{background:var(--blue-soft);border-top:3px solid var(--blue)}
+.fc-orange{background:var(--orange-soft);border-top:3px solid var(--orange)}
+.fc-yellow{background:var(--yellow-soft);border-top:3px solid var(--yellow)}
+
+/* ── steps ── */
+.step{display:flex;gap:14px;margin:10px 0;align-items:flex-start}
+.step-num{background:var(--purple);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--text-mid);line-height:1.5}
+
+/* ── ref table ── */
+.ref-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--purple-l);font-weight:600;font-size:12px;padding:9px 12px;text-align:left}
+.ref-table td{padding:9px 12px;color:var(--text-mid);vertical-align:top;border:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+.ref-table tr:nth-child(odd) td{background:#fff}
+
+/* ── slide card — unique to PowerPoint ── */
+.slide-card{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:12px 0}
+.slide-preview{background:#1A1A2E;padding:20px 18px}
+.slide-preview .slide-num{font-size:10px;font-weight:700;letter-spacing:.08em;color:#6B5BB8;text-transform:uppercase;margin-bottom:8px}
+.slide-preview .slide-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.3}
+.slide-preview .slide-bullet{font-size:12px;color:#C8B8FF;margin:4px 0;padding-left:14px;position:relative;line-height:1.45}
+.slide-preview .slide-bullet::before{content:'▸';position:absolute;left:0;color:var(--orange-l)}
+.slide-prompt{background:var(--orange-soft);padding:20px 18px;border-left:1px solid var(--border)}
+.slide-prompt .prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--orange);text-transform:uppercase;margin-bottom:8px}
+.slide-prompt p{font-size:13px;color:var(--text-mid);font-style:italic;line-height:1.55}
+.slide-gap{height:10px}
+
+/* ── prompt tabs ── */
+.prompt-tabs{margin:12px 0}
+.tab-buttons{display:flex;gap:0;border-bottom:2px solid var(--border)}
+.tab-btn{padding:8px 18px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:var(--purple);border-bottom-color:var(--purple)}
+.prompt-box{display:none;padding:16px 0}
+.prompt-box.active{display:block}
+.prompt-item{background:var(--sidebar-bg);border-radius:8px;margin:10px 0;overflow:hidden}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--purple-l);padding:9px 16px;text-transform:uppercase}
+.prompt-text{background:var(--card-bg);border:1px solid var(--border);border-top:none;padding:14px 16px;font-size:13px;color:var(--text-mid);font-style:italic;line-height:1.6;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.copy-btn{background:var(--purple);color:#fff;border:none;border-radius:5px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.copy-btn:hover{background:var(--purple-l)}
+
+/* ── mockup ── */
+.mockup{background:#1A1A2E;border-radius:10px;padding:24px;margin:12px 0}
+.mockup-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ppt-slide{background:#1E1E3A;border-radius:6px;padding:20px;border:1px solid #3A2E6E}
+.ppt-slide-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #3A2E6E}
+.ppt-slide-toolbar span{font-size:11px;color:#8B7ECC}
+.slide-canvas{background:#fff;border-radius:4px;padding:18px;min-height:120px}
+.slide-canvas-title{font-size:14px;font-weight:700;color:#1E1456;margin-bottom:8px}
+.slide-canvas-sub{font-size:11px;color:#3D3080;margin-bottom:10px}
+.slide-canvas-bullet{font-size:11px;color:#5C4EAA;padding:2px 0 2px 12px;position:relative}
+.slide-canvas-bullet::before{content:'•';position:absolute;left:2px;color:var(--orange)}
+.copilot-panel-ppt{background:#2A2060;border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.cp-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--orange-l);text-transform:uppercase}
+.cp-prompt{font-size:12px;color:#C8B8FF;font-style:italic;line-height:1.5;background:#1E1456;border-radius:4px;padding:10px 12px}
+.cp-divider{border:none;border-top:1px solid #3A2E6E}
+.cp-response-label{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--orange-l);text-transform:uppercase}
+.cp-response{font-size:12px;color:#FED7AA;line-height:1.55}
+.cp-action{background:var(--purple);color:#fff;font-size:11px;font-weight:700;padding:7px 14px;border-radius:5px;display:inline-block;margin-top:4px;letter-spacing:.04em}
+
+/* ── trouble ── */
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:10px 0}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--purple);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{padding:12px 16px;font-size:13px;color:var(--text-mid);line-height:1.55}
+
+/* ── do / avoid ── */
+.do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.do-col{border-radius:8px;padding:18px;border:1px solid}
+.do-col.do{background:var(--green-bg);border-top:3px solid var(--green)}
+.do-col.avoid{background:#FFF0E8;border-top:3px solid var(--red)}
+.do-col h4{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.do-col.do h4{color:var(--green)}
+.do-col.avoid h4{color:var(--red)}
+.do-col ul{list-style:none;padding:0}
+.do-col li{font-size:13px;color:var(--text-mid);padding:4px 0 4px 16px;position:relative}
+.do-col.do li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+.do-col.avoid li::before{content:'✗';position:absolute;left:0;color:var(--red);font-weight:700}
+
+/* ── roadmap ── */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{border-radius:8px;padding:18px;background:#fff;border:1px solid var(--border)}
+.roadmap-step.s1{border-top:4px solid var(--purple)}
+.roadmap-step.s2{border-top:4px solid var(--orange)}
+.roadmap-step.s3{border-top:4px solid var(--blue)}
+.roadmap-step.s4{border-top:4px solid var(--yellow)}
+.roadmap-num{font-size:28px;font-weight:800;margin-bottom:6px}
+.roadmap-step.s1 .roadmap-num{color:var(--purple)}
+.roadmap-step.s2 .roadmap-num{color:var(--orange)}
+.roadmap-step.s3 .roadmap-num{color:var(--blue)}
+.roadmap-step.s4 .roadmap-num{color:var(--yellow)}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12px;color:var(--text-mid);line-height:1.5}
+
+/* ── label ── */
+.sec-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--purple-l);text-transform:uppercase;margin:18px 0 10px}
+h3.sub{font-size:15px;font-weight:700;color:var(--ink);margin:18px 0 10px}
+p.body-text{font-size:14px;color:var(--text-mid);line-height:1.65;margin:8px 0}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <nav>
+    <div class="nav-section">Copilot in PowerPoint</div>
+    <a class="nav-link" href="#s01" onclick="scrollTo('s01')">01 · What is Copilot in PowerPoint?</a>
+    <a class="nav-link" href="#s02" onclick="scrollTo('s02')">02 · Create from a Prompt</a>
+    <a class="nav-link" href="#s03" onclick="scrollTo('s03')">03 · Add &amp; Expand Slides</a>
+    <a class="nav-link" href="#s04" onclick="scrollTo('s04')">04 · Rewrite &amp; Refine</a>
+    <a class="nav-link" href="#s05" onclick="scrollTo('s05')">05 · Summarise &amp; Understand</a>
+    <a class="nav-link" href="#s06" onclick="scrollTo('s06')">06 · Speaker Notes &amp; Coaching</a>
+    <a class="nav-link" href="#s07" onclick="scrollTo('s07')">07 · Advanced Techniques</a>
+    <a class="nav-link" href="#s08" onclick="scrollTo('s08')">08 · Common Mistakes &amp; Fixes</a>
+    <a class="nav-link" href="#s09" onclick="scrollTo('s09')">09 · Suggested Prompts</a>
+    <a class="nav-link" href="#s10" onclick="scrollTo('s10')">10 · See It In Action</a>
+    <a class="nav-link" href="#s11" onclick="scrollTo('s11')">11 · Your Roadmap</a>
+  </nav>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="content">
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-eyebrow">The AI Advantage Co · Copilot Series</div>
+    <h1>📊&nbsp; Copilot in PowerPoint</h1>
+    <p>Create full decks from a prompt, rewrite slides, generate speaker notes, and present with confidence</p>
+    <div class="banner-badge">Microsoft 365 Copilot · PowerPoint</div>
+  </div>
+
+  <!-- 01 -->
+  <div class="section-card" id="s01">
+    <div class="section-header">
+      <div class="sec-num">01</div>
+      <div>
+        <h2>What is Copilot in PowerPoint?</h2>
+        <p>AI presentation building — from blank slide to polished deck</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot in PowerPoint turns your ideas, documents, and outlines into complete slide decks — without starting from a blank slide. You describe what you need, and Copilot generates slides with titles, content, and layouts. You can also use it on existing presentations to rewrite, expand, summarise, and create speaker notes.</p>
+      <p class="body-text">Whether you're building a client pitch, an internal update, a training deck, or a board report, Copilot dramatically reduces the time from idea to presentation-ready. It handles the drafting so you can focus on refining the story.</p>
+
+      <div class="card-grid" style="margin-top:18px">
+        <div class="feature-card fc-purple">
+          <div class="card-icon">✨</div>
+          <h4>Create from a Prompt</h4>
+          <p>Describe the presentation you need and Copilot generates a full deck — slides, titles, content, and structure — in seconds.</p>
+        </div>
+        <div class="feature-card fc-blue">
+          <div class="card-icon">➕</div>
+          <h4>Add &amp; Expand Slides</h4>
+          <p>Ask Copilot to add a new slide on a specific topic, or expand a brief bullet into a full slide with supporting detail.</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">✏️</div>
+          <h4>Rewrite &amp; Refine</h4>
+          <p>Rephrase slide content, adjust the tone, condense verbose slides, or rewrite for a specific audience — all through conversation.</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">🎤</div>
+          <h4>Speaker Notes &amp; Coaching</h4>
+          <p>Generate speaker notes for every slide, rehearse your delivery, and get coaching on pacing, clarity, and filler words.</p>
+        </div>
+      </div>
+
+      <div class="callout warn" style="margin-top:18px">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Brand Kit Required for Best Results</strong>
+          <p>Copilot uses your organisation's PowerPoint template and brand kit when generating slides. If no template is active, slides use a generic theme. For branded output, always start from your company's PowerPoint template file — open it first, then ask Copilot to create the presentation inside it.</p>
+        </div>
+      </div>
+      <div class="callout copilot" style="margin-top:18px">
+        <span class="callout-icon">🖼️</span>
+        <div class="callout-body">
+          <strong>2026 Update — Image Model Selector &amp; Web Sources</strong>
+          <p>Copilot in PowerPoint can now use public webpages as source material when building a deck — paste a URL and ask Copilot to draft slides from it. You also get an image-model selector so you can choose between Microsoft AI Image 2 (Efficient) and other models for image generation and editing. The result is faster, more on-brief drafts and image styles you actually control.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="section-card" id="s02">
+    <div class="section-header">
+      <div class="sec-num">02</div>
+      <div>
+        <h2>Create a Presentation from a Prompt</h2>
+        <p>Go from a sentence to a full slide deck in seconds</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The fastest way to start a presentation with Copilot is to describe what you need in plain English. Copilot will generate a complete deck — typically 8–12 slides — with titles, body content, and a logical narrative structure. You then refine from there rather than building from scratch.</p>
+
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Open PowerPoint with your company template</h4><p>Start from your organisation's PowerPoint template (.potx) if one exists — this ensures slides use your brand colours, fonts, and layouts. Open the template file, then use Copilot to create the presentation inside it.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Open the Copilot panel and describe the presentation</h4><p>Click the Copilot button (✨) in the Home ribbon. In the Copilot panel, type a detailed description: topic, audience, purpose, and approximate length.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Review the generated structure</h4><p>Copilot produces a draft deck. Review the slide order and overall narrative — this is the time to spot structural issues before refining individual slides.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Refine iteratively</h4><p>Use follow-up prompts to adjust: add slides, remove slides, rewrite specific sections, change the tone, or expand a particular section with more detail.</p></div></div>
+
+      <h3 class="sub" style="margin-top:20px">What Makes a Good Creation Prompt</h3>
+
+      <p class="slide-preview" style="display:none"></p>
+
+      <div class="slide-card">
+        <div class="slide-preview">
+          <div class="slide-num">Slide 1 of 10</div>
+          <div class="slide-title">Q3 Business Review: Sales Performance</div>
+          <div class="slide-bullet">Revenue summary: £2.4M vs £2.1M target</div>
+          <div class="slide-bullet">Top performers and regional breakdown</div>
+          <div class="slide-bullet">Key wins, risks, and Q4 outlook</div>
+        </div>
+        <div class="slide-prompt">
+          <div class="prompt-label">Prompt that created this</div>
+          <p>"Create a 10-slide Q3 business review presentation for our senior leadership team. Include an executive summary, revenue vs target, top-performing regions and reps, key customer wins, pipeline risks, and a Q4 outlook. Tone: confident and data-driven. Use our corporate template."</p>
+        </div>
+      </div>
+      <div class="slide-gap"></div>
+
+      <div class="slide-card">
+        <div class="slide-preview">
+          <div class="slide-num">Slide 1 of 8</div>
+          <div class="slide-title">AI in Customer Service: What's Changing</div>
+          <div class="slide-bullet">What AI can and can't do for your team</div>
+          <div class="slide-bullet">3 real-world implementation scenarios</div>
+          <div class="slide-bullet">Getting started: a practical roadmap</div>
+        </div>
+        <div class="slide-prompt">
+          <div class="prompt-label">Prompt that created this</div>
+          <p>"Create an 8-slide presentation introducing our customer service team to AI tools. Audience: non-technical staff who may be nervous about AI. Cover what AI does well, common myths, three realistic use cases, and a reassuring roadmap. Keep the tone friendly and practical."</p>
+        </div>
+      </div>
+
+      <div class="callout tip" style="margin-top:18px">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Specify Audience, Purpose, and Tone</strong>
+          <p>The more context you give, the better the first draft. "A 10-slide board presentation for non-technical executives, focused on ROI, in a formal but clear tone" produces a dramatically different — and more useful — result than "a presentation about our AI project."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="section-card" id="s03">
+    <div class="section-header">
+      <div class="sec-num">03</div>
+      <div>
+        <h2>Add Slides &amp; Expand Content</h2>
+        <p>Build out your deck slide by slide — or section by section</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Once you have a draft deck, Copilot can add new slides, expand brief content into full slides, and restructure sections — all through natural language. You don't need to manually add slide layouts or find the right template element.</p>
+
+      <div class="card-grid">
+        <div class="feature-card fc-purple">
+          <div class="card-icon">➕</div>
+          <h4>Add a New Slide</h4>
+          <p>"Add a slide after slide 4 covering our customer satisfaction scores and the key drivers behind the improvement this quarter."</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">🔍</div>
+          <h4>Expand a Bullet Point</h4>
+          <p>"Expand the third bullet on slide 6 into its own full slide with a title, three supporting points, and a recommendation."</p>
+        </div>
+        <div class="feature-card fc-blue">
+          <div class="card-icon">📋</div>
+          <h4>Create from a Word Doc</h4>
+          <p>"Create a presentation based on the Word document I have open." Copilot reads your Word doc and turns its structure into a slide deck.</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">🔀</div>
+          <h4>Reorganise the Deck</h4>
+          <p>"Move the competitor analysis section to earlier in the deck — it should come before the solution slides, not after." Copilot reorders slides logically.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Creating from a Word Document</h3>
+      <p class="body-text">One of the most powerful Copilot in PowerPoint features is generating a presentation directly from a Word document. This is ideal for turning strategy docs, project briefs, or research reports into presentation-ready decks.</p>
+
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Have the Word document accessible</h4><p>The source document should be saved to OneDrive or SharePoint. Copilot in PowerPoint can reference files from your Microsoft 365 environment via the file picker.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Use the "Create from file" option in Copilot</h4><p>In the Copilot panel, select "Create a presentation from a file" and navigate to your Word document. Copilot reads the structure and generates slides that follow the document's narrative.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Review and refine the slide count and structure</h4><p>Copilot may generate more slides than you need. Identify which slides to keep, merge, or remove — then use follow-up prompts to adjust content depth and slide order.</p></div></div>
+
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">
+          <strong>The Word Doc Becomes the Outline</strong>
+          <p>Copilot maps headings (H1, H2) to slide titles and body text to bullet points. Well-structured Word documents with clear headings produce much better slides. If your doc doesn't use heading styles, add them before creating the presentation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section-card" id="s04">
+    <div class="section-header">
+      <div class="sec-num">04</div>
+      <div>
+        <h2>Rewrite &amp; Refine Slides</h2>
+        <p>Edit content, tone, and length — slide by slide or across the whole deck</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot can rewrite slide content on demand — adjusting tone, shortening verbose text, simplifying jargon, or strengthening the message. You can target a single slide, a section, or apply a change across the entire presentation.</p>
+
+      <div class="slide-card">
+        <div class="slide-preview">
+          <div class="slide-num">Before rewrite</div>
+          <div class="slide-title">Implementation Considerations for the Proposed Platform Migration Initiative</div>
+          <div class="slide-bullet">There are a number of significant factors that will need to be carefully considered during the implementation phase of this project</div>
+          <div class="slide-bullet">Resource allocation will need to be prioritised accordingly based on available bandwidth</div>
+        </div>
+        <div class="slide-prompt">
+          <div class="prompt-label">Copilot rewrite prompt</div>
+          <p>"Rewrite this slide to be clearer and more concise. Shorten the title to under 8 words. Replace the bullet points with 3 punchy, action-oriented statements. Keep the tone professional but direct."</p>
+        </div>
+      </div>
+      <div class="slide-gap"></div>
+
+      <div class="slide-card">
+        <div class="slide-preview">
+          <div class="slide-num">After rewrite</div>
+          <div class="slide-title">Platform Migration: Key Decisions</div>
+          <div class="slide-bullet">Allocate dedicated resource from project kickoff</div>
+          <div class="slide-bullet">Confirm data migration approach by end of month</div>
+          <div class="slide-bullet">Align stakeholders before any system access changes</div>
+        </div>
+        <div class="slide-prompt">
+          <div class="prompt-label">What Copilot changed</div>
+          <p>Title shortened from 12 words to 5. Vague passive statements replaced with direct, action-oriented bullets. Reading time reduced from ~8 seconds to ~3 seconds per bullet — better for presentation delivery.</p>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:20px">Useful Rewrite Prompts</h3>
+      <table class="ref-table">
+        <thead><tr><th>What You Want</th><th>Example Prompt</th></tr></thead>
+        <tbody>
+          <tr><td>Simplify for a non-technical audience</td><td>"Rewrite slide 5 to remove technical jargon. The audience are senior managers, not engineers — focus on business impact, not technical detail."</td></tr>
+          <tr><td>Make it more concise</td><td>"Condense slide 7 to no more than 4 bullet points. Remove any bullets that don't directly support the slide title."</td></tr>
+          <tr><td>Strengthen the message</td><td>"Rewrite the conclusion slide to end with a stronger, more compelling call to action. The audience needs to leave knowing exactly what we're asking them to decide."</td></tr>
+          <tr><td>Change the tone globally</td><td>"Rewrite all slide body text to be more conversational and less formal. This is an internal team update, not a board report."</td></tr>
+          <tr><td>Add a missing angle</td><td>"Add a bullet to slide 3 addressing the timeline risk — we haven't mentioned it yet and it's a common question."</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout copilot" style="margin-top:14px">
+        <span class="callout-icon">✨</span>
+        <div class="callout-body">
+          <strong>Target One Slide at a Time</strong>
+          <p>For best results, click on the slide you want to change in the slide panel before prompting. Copilot uses the active slide as context. "Rewrite this slide…" is more precise than "Rewrite slide 4…" — especially after you've added or reordered slides.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section-card" id="s05">
+    <div class="section-header">
+      <div class="sec-num">05</div>
+      <div>
+        <h2>Summarise &amp; Understand Decks</h2>
+        <p>Get the key points from a long presentation — fast</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">When you receive a long presentation from a colleague or client, Copilot can summarise it, extract the key decisions, identify action items, and answer specific questions about the content — without you needing to read every slide in detail.</p>
+
+      <div class="card-grid">
+        <div class="feature-card fc-purple">
+          <div class="card-icon">📋</div>
+          <h4>Summarise the Deck</h4>
+          <p>"Give me a 5-bullet summary of the key points in this presentation." Useful before a meeting when you've received slides you haven't had time to read.</p>
+        </div>
+        <div class="feature-card fc-blue">
+          <div class="card-icon">❓</div>
+          <h4>Ask a Specific Question</h4>
+          <p>"Does this presentation mention anything about implementation timeline or budget?" Copilot searches the content and tells you what it found — and where.</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">✅</div>
+          <h4>Extract Decisions &amp; Actions</h4>
+          <p>"List all the decisions being requested and any action items mentioned in this deck." Useful for meeting prep or following up after receiving a stakeholder presentation.</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">🎯</div>
+          <h4>Audience Perspective Check</h4>
+          <p>"What questions is a sceptical CFO likely to ask after seeing this presentation?" Copilot anticipates objections based on what the deck does and doesn't address.</p>
+        </div>
+      </div>
+
+      <div class="callout tip" style="margin-top:14px">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Use Copilot to Prep for Someone Else's Meeting</strong>
+          <p>If someone sends you their slide deck before a meeting, ask Copilot: "What are the key decisions this presentation is asking for, and what information might be missing to make those decisions?" This turns a passive read into active preparation — in under two minutes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="section-card" id="s06">
+    <div class="section-header">
+      <div class="sec-num">06</div>
+      <div>
+        <h2>Speaker Notes &amp; Coaching</h2>
+        <p>Prepare for delivery — Copilot writes notes and coaches your technique</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot can generate speaker notes for every slide — transition phrases, talking points, timing cues, and audience engagement prompts. It can also coach you on presentation delivery through Rehearse with Coach, an AI-powered practice mode built into PowerPoint.</p>
+
+      <h3 class="sub">Generating Speaker Notes with Copilot</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Ask Copilot to generate notes for the whole deck</h4><p>"Generate speaker notes for every slide. For each slide, include: a 1-sentence transition from the previous slide, 3–4 key talking points, and a bridging sentence to the next slide."</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Refine notes for complex slides</h4><p>For slides covering difficult or sensitive topics, give more direction: "For slide 6 — the budget constraints slide — write notes that acknowledge the challenge directly but pivot quickly to the mitigation plan. Tone: candid and reassuring."</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Add timing guidance</h4><p>"I have 20 minutes for this 10-slide deck. Add a time target to the speaker notes of each slide based on its complexity." Copilot distributes time across slides proportionally.</p></div></div>
+
+      <h3 class="sub" style="margin-top:20px">Rehearse with Coach (AI Delivery Coaching)</h3>
+      <p class="body-text">PowerPoint's Rehearse with Coach uses AI to listen as you present and give real-time feedback. Access it via <strong>Slide Show → Rehearse with Coach</strong>. It gives feedback on:</p>
+      <table class="ref-table" style="margin-top:12px">
+        <thead><tr><th>Coaching Area</th><th>What It Measures</th><th>What to Aim For</th></tr></thead>
+        <tbody>
+          <tr><td>Pacing</td><td>Words per minute — too fast or too slow</td><td>120–150 wpm for most presentation contexts</td></tr>
+          <tr><td>Filler words</td><td>Um, uh, like, you know — and frequency</td><td>Fewer than 5 per minute</td></tr>
+          <tr><td>Pitch variation</td><td>Monotone vs varied intonation</td><td>Natural variation to maintain audience attention</td></tr>
+          <tr><td>Reading slides</td><td>Whether you're reading vs speaking</td><td>Speak from notes, not verbatim from slides</td></tr>
+          <tr><td>Inclusive language</td><td>Flags potentially non-inclusive phrasing</td><td>Use neutral, accessible language throughout</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout copilot" style="margin-top:14px">
+        <span class="callout-icon">✨</span>
+        <div class="callout-body">
+          <strong>Use Notes + Coach Together</strong>
+          <p>Generate speaker notes with Copilot, then rehearse with Coach while using those notes. Coach picks up if you're reading verbatim — which forces you to internalise the notes rather than read them. This combination accelerates delivery preparation significantly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section-card" id="s07">
+    <div class="section-header">
+      <div class="sec-num">07</div>
+      <div>
+        <h2>Advanced Techniques</h2>
+        <p>Cross-app workflows, brand kits, and iterative deck-building</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <h3 class="sub">Cross-App Workflows</h3>
+      <div class="card-grid">
+        <div class="feature-card fc-purple">
+          <div class="card-icon">📄→📊</div>
+          <h4>Word Report → Slides</h4>
+          <p>Open a finished Word report in PowerPoint's Copilot and use "Create from file." Your report structure becomes the deck outline — headings become slide titles automatically.</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">📈→📊</div>
+          <h4>Excel Insights → Slides</h4>
+          <p>Copy Copilot's data summary from Excel, paste it into Copilot in PowerPoint: "Turn these data insights into 3 slides for our monthly review. Add charts where relevant."</p>
+        </div>
+        <div class="feature-card fc-blue">
+          <div class="card-icon">💬→📊</div>
+          <h4>Teams Recap → Deck</h4>
+          <p>After a strategy meeting, paste the Copilot Teams summary into PowerPoint's Copilot: "Create a 6-slide summary of these meeting outcomes for stakeholders who weren't present."</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">📊→📧</div>
+          <h4>Deck → Email Summary</h4>
+          <p>After finalising your presentation, use Copilot in Outlook: "Draft a pre-read email summarising the attached deck in 5 bullets for an executive audience."</p>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:20px">Iterative Deck Building</h3>
+      <p class="body-text">Professional decks rarely emerge from a single prompt. Use Copilot in passes — each pass serving a specific purpose:</p>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Structure pass — get the bones right</h4><p>Create the initial deck with a broad prompt. Review the slide order and section logic. Move, add, or remove slides until the narrative arc is correct — before touching any copy.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Content pass — refine each slide's message</h4><p>Go through each slide and prompt Copilot to sharpen the content: clearer titles, stronger bullets, audience-appropriate language. One slide at a time.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Notes pass — prepare for delivery</h4><p>Generate speaker notes for the whole deck, then refine notes for your most complex or sensitive slides. Add timing targets.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Review pass — stress-test the deck</h4><p>"What questions is a sceptical [audience role] likely to ask?" and "Is there anything important missing from this presentation?" Use Copilot's critique to close gaps before you present.</p></div></div>
+
+      <h3 class="sub" style="margin-top:20px">Audience-Specific Rewrites</h3>
+      <table class="ref-table">
+        <thead><tr><th>Audience</th><th>What to Ask Copilot</th></tr></thead>
+        <tbody>
+          <tr><td>Board / C-suite</td><td>"Rewrite to focus on strategic impact, risk, and ROI. Remove operational detail. Assume 10 minutes of attention, not 30."</td></tr>
+          <tr><td>Technical team</td><td>"Add a technical appendix section after slide 10 with implementation detail and architecture notes."</td></tr>
+          <tr><td>Sales prospects</td><td>"Rewrite slides 3–6 to be more benefit-focused and less feature-focused. Lead with the problem we solve, not what we do."</td></tr>
+          <tr><td>Non-technical staff</td><td>"Remove all acronyms and technical terms. Where I've used jargon, replace with a plain English equivalent and a brief example."</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="section-card" id="s08">
+    <div class="section-header">
+      <div class="sec-num">08</div>
+      <div>
+        <h2>Common Mistakes &amp; Fixes</h2>
+        <p>What goes wrong — and how to fix it</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="trouble-item">
+        <div class="trouble-q">Copilot generated too many slides — the deck is too long</div>
+        <div class="trouble-a">This is the most common output from a broad creation prompt. After generating, ask Copilot: "Which 3 slides could be removed without losing any critical information?" or "Merge slides 7 and 8 into a single, concise slide." You can also be explicit upfront: "Create a maximum of 8 slides — cut anything that isn't essential."</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">The slide content doesn't match my company's context</div>
+        <div class="trouble-a">Copilot generates from your prompt but doesn't know your company specifics — products, customers, or internal data. Treat the first draft as a structure, not finished content. Provide your specific figures, examples, and context in follow-up prompts: "Replace the generic market stats on slide 4 with these figures: [your data]."</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">Slides look unstyled or use the wrong brand colours</div>
+        <div class="trouble-a">Copilot applies whatever theme or template is active in the current PowerPoint file. If you started from a blank file, slides use the default theme. Always open your company's PowerPoint template (.potx) first, then ask Copilot to create the presentation — it will use the correct brand styles, colours, and fonts.</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">The "Create from file" option can't find my Word document</div>
+        <div class="trouble-a">The source document must be saved to OneDrive or SharePoint — not to a local drive. Copilot in PowerPoint cannot access local files. Save or move your Word document to OneDrive first, then use the file picker in Copilot to locate it.</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">Speaker notes Copilot generated are too long to use while presenting</div>
+        <div class="trouble-a">Ask Copilot to condense them: "Rewrite the speaker notes for every slide so each note is no longer than 4 bullet points. These need to be scannable at a glance while speaking — they're not a script." You can also ask for notes in a specific format: "Write each slide's notes as three keywords I can use as memory triggers, not full sentences."</div>
+      </div>
+
+      <div class="do-avoid" style="margin-top:20px">
+        <div class="do-col do">
+          <h4>✓ Do This</h4>
+          <ul>
+            <li>Start from your company's PowerPoint template</li>
+            <li>Include audience, tone, and purpose in your creation prompt</li>
+            <li>Build the deck in passes: structure → content → notes → review</li>
+            <li>Click the target slide before prompting for a rewrite</li>
+            <li>Ask Copilot to critique the deck before you present</li>
+          </ul>
+        </div>
+        <div class="do-col avoid">
+          <h4>✗ Avoid This</h4>
+          <ul>
+            <li>Starting from a blank file and expecting branded output</li>
+            <li>Using vague prompts like "make a presentation about X"</li>
+            <li>Accepting a 15-slide deck when 8 slides would be better</li>
+            <li>Publishing Copilot's generic content without adding your specifics</li>
+            <li>Generating speaker notes and then reading them verbatim</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 -->
+  <div class="section-card" id="s09">
+    <div class="section-header">
+      <div class="sec-num">09</div>
+      <div>
+        <h2>Suggested Prompts</h2>
+        <p>Ready-to-use prompts for building and refining presentations</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="showTab(this,'building')">Building</button>
+          <button class="tab-btn" onclick="showTab(this,'refining')">Refining &amp; Notes</button>
+        </div>
+
+        <div class="prompt-box active" id="tab-building">
+          <div class="prompt-item">
+            <div class="prompt-label">Create from a Brief</div>
+            <div class="prompt-text">
+              <span>Create a [number]-slide presentation for [audience — e.g. the senior leadership team / a new client / an all-staff update]. The topic is [topic]. Cover: [section 1], [section 2], [section 3]. Tone should be [tone — e.g. confident and data-driven / clear and accessible / formal]. Use our company template.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Create from a Word Document</div>
+            <div class="prompt-text">
+              <span>Create a presentation based on the Word document I'll attach. Map the main headings to slide titles and summarise the body content into concise bullet points — no more than 4 bullets per slide. The audience is [audience]. Keep slides visual and punchy rather than text-heavy. Aim for [number] slides maximum.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Create a Follow-Up Deck from Meeting Notes</div>
+            <div class="prompt-text">
+              <span>Create a 6-slide summary presentation from these meeting notes: [paste notes or Teams recap]. The deck should cover: key decisions made, agreed actions and owners, outstanding questions, and next steps. Audience: stakeholders who were not in the meeting. Tone: clear, factual, and action-oriented.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-box" id="tab-refining">
+          <div class="prompt-item">
+            <div class="prompt-label">Rewrite for a Specific Audience</div>
+            <div class="prompt-text">
+              <span>Rewrite the content of this entire presentation for [audience — e.g. a non-technical executive audience / a technical delivery team / a sales prospect]. Remove [jargon / operational detail / generic content] and replace with [business impact / implementation specifics / benefit-focused language]. Keep slide titles as-is but rewrite all body content.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Generate Speaker Notes</div>
+            <div class="prompt-text">
+              <span>Generate speaker notes for every slide in this presentation. For each slide include: (1) a one-sentence transition from the previous slide, (2) three to four talking points expanding on the slide content, and (3) a bridging sentence to the next slide. I have [X] minutes total — distribute time proportionally. Keep notes conversational, not scripted.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Stress-Test the Deck</div>
+            <div class="prompt-text">
+              <span>Review this presentation from the perspective of a sceptical [audience role — e.g. CFO / procurement manager / non-technical executive]. What questions are they most likely to ask that this deck doesn't currently answer? What are the weakest slides — where might they push back? What's missing? Give me a prioritised list of gaps to address before I present.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header">
+      <div class="sec-num">10</div>
+      <div>
+        <h2>See It In Action</h2>
+        <p>Copilot building and refining a board update presentation</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The example below shows a Copilot session building a Q3 board update. The initial prompt generated an 8-slide structure; Copilot then rewrote the risk slide to be more direct, and generated speaker notes with timing guidance for a 15-minute slot.</p>
+
+      <div class="mockup" style="margin-top:16px">
+        <div class="mockup-row">
+          <div class="ppt-slide">
+            <div class="ppt-slide-toolbar">
+              <span>📊 PowerPoint</span>
+              <span style="margin-left:auto">Slide 4 of 8</span>
+            </div>
+            <div class="slide-canvas">
+              <div class="slide-canvas-title">Q3 Risks &amp; Mitigations</div>
+              <div class="slide-canvas-sub" style="font-size:10px;color:#8B7ECC">Rewritten by Copilot — clearer, more direct</div>
+              <div class="slide-canvas-bullet">Supply delays: 3-week buffer added to Q4 plan</div>
+              <div class="slide-canvas-bullet">Staff attrition: 2 critical roles in final-stage hire</div>
+              <div class="slide-canvas-bullet">Budget variance: £40K overspend — offset in Q4</div>
+              <div style="margin-top:12px;padding:8px 10px;background:#F7F4FF;border-radius:4px;border-left:3px solid #5E17EB">
+                <div style="font-size:10px;font-weight:700;color:#5E17EB;margin-bottom:4px">SPEAKER NOTE</div>
+                <div style="font-size:10px;color:#3D3080;line-height:1.5">Transition: "Moving to risks — I'll keep this brief because our mitigations are already in place." | 3 min | Bridge: "With risks covered, let me turn to the Q4 outlook."</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="copilot-panel-ppt">
+            <div class="cp-label">Copilot Panel</div>
+            <div class="cp-prompt">"Rewrite slide 4 — the risks slide. The current bullets are vague. Make each risk a single punchy line that includes the specific impact AND the mitigation. Tone: direct and reassuring, not defensive."</div>
+            <hr class="cp-divider">
+            <div class="cp-response-label">Copilot response</div>
+            <div class="cp-response">I've rewritten the risks slide with three specific bullets — each names the risk, quantifies the impact, and states the mitigation. I've also made the framing more confident: risks are real but managed.<br><br>Should I also update the speaker notes for this slide to reflect the rewrite?</div>
+            <div class="cp-action">✓ Applied to Slide 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header">
+      <div class="sec-num">11</div>
+      <div>
+        <h2>Your Roadmap</h2>
+        <p>From first generated deck to confident, efficient presenter</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step s1">
+          <div class="roadmap-num">1</div>
+          <h4>First Generation</h4>
+          <p>Use Copilot to create a presentation you actually need this week. Give it a full context prompt — audience, purpose, tone, slide count. Review the structure before editing.</p>
+        </div>
+        <div class="roadmap-step s2">
+          <div class="roadmap-num">2</div>
+          <h4>Rewrite Practice</h4>
+          <p>Take an existing deck and ask Copilot to improve it: sharpen titles, condense bullets, rewrite for a different audience. Compare before and after to build your prompt instincts.</p>
+        </div>
+        <div class="roadmap-step s3">
+          <div class="roadmap-num">3</div>
+          <h4>Notes &amp; Rehearsal</h4>
+          <p>Generate speaker notes for a real upcoming presentation. Rehearse with Coach. Use Copilot's critique to stress-test the deck before you walk into the room.</p>
+        </div>
+        <div class="roadmap-step s4">
+          <div class="roadmap-num">4</div>
+          <h4>Full M365 Workflow</h4>
+          <p>Build cross-app flows: Word → slides, Teams recap → deck, Excel insights → visualisations. Copilot handles the translation between every app — you focus on the story.</p>
+        </div>
+      </div>
+
+      <div class="callout copilot" style="margin-top:20px">
+        <span class="callout-icon">✨</span>
+        <div class="callout-body">
+          <strong>The Goal: More Time on Substance, Less on Slides</strong>
+          <p>The best use of Copilot in PowerPoint isn't generating a perfect first draft — it's compressing the mechanics of slide-building so you have more time to think about the story, the audience, and the message. Start with one real presentation this week and time how long it takes compared to your usual process.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+function showTab(btn, id){
+  btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  btn.closest('.prompt-tabs').querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function copyPrompt(btn){
+  const text = btn.previousElementSibling.textContent.trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(()=>{btn.textContent = orig},2000);
+  });
+}
+function scrollTo(id){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+// scroll-spy
+const links = document.querySelectorAll('.nav-link');
+const sections = [...document.querySelectorAll('[id^="s0"],[id^="s1"]')];
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Guides manifest",
+  "description": "Source of truth for the gated guide library at /guides. Validated at build time by lib/manifest.ts.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["slug", "platform", "group", "title", "sub", "file", "order"],
+    "properties": {
+      "slug": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$",
+        "description": "URL-safe kebab-case identifier. Unique across all entries."
+      },
+      "platform": {
+        "type": "string",
+        "enum": ["chatgpt", "claude", "gemini", "copilot"]
+      },
+      "group": {
+        "type": "string",
+        "enum": ["master", "core", "topical"]
+      },
+      "title": {
+        "type": "string",
+        "description": "Short display title (~3 words) shown on the card."
+      },
+      "sub": {
+        "type": "string",
+        "maxLength": 90,
+        "description": "One-line description shown under the title on the card. May be empty."
+      },
+      "file": {
+        "type": "string",
+        "pattern": "^(chatgpt|claude|gemini|copilot)/.+\\.html$",
+        "description": "Relative path inside public/guides/."
+      },
+      "order": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Sort key within (platform, group)."
+      },
+      "updated": {
+        "type": "string",
+        "format": "date",
+        "description": "Optional ISO date — drives an Updated pill in Phase 2."
+      }
+    }
+  }
+}

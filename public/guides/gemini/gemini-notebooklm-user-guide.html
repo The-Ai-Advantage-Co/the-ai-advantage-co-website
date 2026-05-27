@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gemini NotebookLM | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF5F4;color:#1C0800}
+:root{--blue:#1A73E8;--green:#34A853;--yellow:#F9AB00;--orange:#EA4335;--sidebar:#1A0D00;--card:#fff;--hdr:#FFEBE8;--border:#FDDCDA;--ink:#1C0800;--mid:#4A2A24;--muted:#8A6A64}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:#FBBD33;padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(255,245,244,.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#fff;border-left-color:var(--blue);background:rgba(26,115,232,.15)}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#FBBD33;opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--sidebar);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'📓';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.12;line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:#FBBD33;text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(255,245,244,.7);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(26,13,0,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#EAF7EE;border-color:var(--green)}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FEF9C3;border-color:#B45309}.callout.warning strong{color:#92400E}
+.callout.info{background:#EAF1FD;border-color:var(--blue)}.callout.info strong{color:#1565C0}
+.callout.gemini{background:#FEF7E0;border-color:var(--yellow)}.callout.gemini strong{color:#92400E}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:8px;padding:16px}
+.feature-card.green{border-top-color:var(--green)}.feature-card.yellow{border-top-color:var(--yellow)}.feature-card.orange{border-top-color:var(--orange)}
+.feature-card h4{color:var(--ink);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;color:#fff;background:var(--blue)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--sidebar);color:#FBBD33;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--hdr)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.prompt-box{display:none;background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:#FBBD33;background:var(--sidebar);padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
+.prompt-text{font-size:13px;color:var(--mid);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#2A1A0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+/* Notebook sources panel */
+.source-panel{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:16px 0}
+.sp-header{background:var(--sidebar);padding:12px 16px;font-size:12px;color:#FBBD33;font-weight:600}
+.sp-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--mid)}
+.sp-item:last-child{border-bottom:none}
+.sp-icon{font-size:18px;flex-shrink:0}
+.sp-name{font-weight:600;color:var(--ink)}
+.sp-meta{font-size:11px;color:var(--muted)}
+/* Audio wave */
+.audio-panel{background:var(--hdr);border:1px solid var(--border);border-radius:10px;padding:16px;margin:16px 0}
+.audio-wave{display:flex;align-items:center;gap:3px;height:40px;margin:10px 0}
+.audio-wave span{display:block;width:4px;border-radius:2px;background:var(--blue)}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--ink)}
+h3{font-size:16px;font-weight:700;color:var(--ink);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Gemini NotebookLM</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is NotebookLM?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>Adding Sources</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Asking Questions</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Notes & Summaries</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Audio Overview</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Citation & Grounding</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Gemini User Guide</div>
+    <h1>Gemini NotebookLM</h1>
+    <p>Turn your documents, reports, and research into an interactive knowledge base — with Q&A, summaries, study guides, and even a podcast.</p>
+  </div>
+
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">1</div><h2>What is NotebookLM?</h2></div>
+    <div class="section-body">
+      <p>NotebookLM is Google's AI-powered research and knowledge management tool. Unlike general Gemini, NotebookLM is entirely grounded in the sources you provide — it only answers questions based on the documents, files, and links you've added to your notebook. It cannot hallucinate information from outside your sources.</p>
+      <p>This makes it ideal for situations where accuracy and source traceability matter: legal document review, academic research, product documentation, policy analysis, and competitive intelligence.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>📚 Source grounding</h4><p>All answers are based only on your uploaded documents — with citations linking to the exact passage.</p></div>
+        <div class="feature-card green"><h4>❓ Q&A across sources</h4><p>Ask questions that synthesise information across multiple documents simultaneously.</p></div>
+        <div class="feature-card yellow"><h4>🎙️ Audio Overview</h4><p>Generate a podcast-style discussion of your sources — two AI hosts explain the key ideas conversationally.</p></div>
+        <div class="feature-card orange"><h4>📝 Smart notes</h4><p>Create notes that reference specific passages, generate study guides, and build structured summaries.</p></div>
+      </div>
+      <div class="callout info"><strong>Access:</strong><p>NotebookLM is free at notebooklm.google.com — no Gemini Advanced subscription required. NotebookLM Plus (enhanced features) is available with Google One AI Premium or Workspace plans.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">2</div><h2>Adding Sources</h2></div>
+    <div class="section-body">
+      <p>A notebook's quality is determined by the quality and relevance of the sources you add. NotebookLM supports a wide range of source types.</p>
+      <h3>Supported source types</h3>
+      <div class="source-panel">
+        <div class="sp-header">Source Types</div>
+        <div class="sp-item"><div class="sp-icon">📄</div><div><div class="sp-name">Google Docs & Drive files</div><div class="sp-meta">Directly linked from your Drive — auto-syncs if the Doc is updated</div></div></div>
+        <div class="sp-item"><div class="sp-icon">📑</div><div><div class="sp-name">PDF documents</div><div class="sp-meta">Upload research papers, reports, contracts, manuals</div></div></div>
+        <div class="sp-item"><div class="sp-icon">🌐</div><div><div class="sp-name">Web pages & URLs</div><div class="sp-meta">NotebookLM fetches and reads the page content</div></div></div>
+        <div class="sp-item"><div class="sp-icon">▶️</div><div><div class="sp-name">YouTube videos</div><div class="sp-meta">Adds the video transcript as a source</div></div></div>
+        <div class="sp-item"><div class="sp-icon">🎙️</div><div><div class="sp-name">Audio files</div><div class="sp-meta">Transcribed and added as a searchable source</div></div></div>
+        <div class="sp-item"><div class="sp-icon">📝</div><div><div class="sp-name">Copied text</div><div class="sp-meta">Paste any text directly into a source — emails, notes, articles</div></div></div>
+      </div>
+      <div class="callout tip"><strong>Up to 50 sources per notebook:</strong><p>Each notebook supports up to 50 sources. For very large projects, consider multiple notebooks organised by topic — then use Gemini chat with Drive extension to synthesise across notebooks.</p></div>
+      <h3>Source quality guidance</h3>
+      <p>NotebookLM is only as good as its sources. Add authoritative, complete sources — not summaries of summaries. For research topics, include original papers, not just news articles about them. For legal topics, include the actual documents, not just interpretations.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">3</div><h2>Asking Questions</h2></div>
+    <div class="section-body">
+      <p>The Q&A interface is NotebookLM's core feature. Ask questions in plain language and get answers grounded in your sources, with inline citations linking directly to the source passage.</p>
+      <h3>Question types that work well</h3>
+      <ul>
+        <li><strong>Factual retrieval:</strong> "What does the contract say about payment terms?"</li>
+        <li><strong>Cross-source synthesis:</strong> "What do all three research papers agree on regarding [topic]?"</li>
+        <li><strong>Comparison:</strong> "How does Company A's approach differ from Company B's based on these reports?"</li>
+        <li><strong>Gap identification:</strong> "What does the document NOT cover that I might need to address?"</li>
+        <li><strong>Contradictions:</strong> "Are there any contradictions between the findings in these sources?"</li>
+        <li><strong>Interpretation:</strong> "Based on this policy document, would [scenario] be permitted?"</li>
+      </ul>
+      <div class="callout gemini"><strong>Follow-up questions:</strong><p>NotebookLM supports multi-turn conversation. After an answer, ask follow-up questions: "Can you expand on the third point?" or "Which source makes this claim most strongly?" or "What's the evidence for and against this position?"</p></div>
+      <h3>Suggested questions</h3>
+      <p>When you first load sources, NotebookLM generates suggested questions based on the content. These are excellent starting points — often surfacing angles you hadn't considered asking.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">4</div><h2>Notes & Summaries</h2></div>
+    <div class="section-body">
+      <p>NotebookLM's Notes panel allows you to create structured notes that are grounded in your sources. Unlike a regular note-taking app, these notes can reference and pull directly from your source material.</p>
+      <h3>Auto-generated note types</h3>
+      <div class="feature-grid">
+        <div class="feature-card orange"><h4>📋 Document summary</h4><p>Click any source → "Generate summary" for a concise overview with key points and structure.</p></div>
+        <div class="feature-card"><h4>📖 Study guide</h4><p>From the notes panel: "Generate study guide" — creates key concepts, vocabulary, and quiz questions.</p></div>
+        <div class="feature-card green"><h4>📊 Briefing doc</h4><p>"Generate briefing doc" — executive-style summary of all sources, structured for fast consumption.</p></div>
+        <div class="feature-card yellow"><h4>📅 Timeline</h4><p>"Generate timeline" — extracts and orders chronological events mentioned across all sources.</p></div>
+      </div>
+      <h3>Creating manual notes</h3>
+      <p>You can also write notes manually in the Notes panel — and then ask NotebookLM to expand, cite, or challenge them based on your sources. This is powerful for drafting arguments: write your claim, then ask "What evidence in my sources supports or contradicts this?"</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">5</div><h2>Audio Overview</h2></div>
+    <div class="section-body">
+      <p>Audio Overview is one of NotebookLM's most distinctive features — it generates a podcast-style conversation between two AI hosts who discuss the key ideas from your sources. The result sounds like a real podcast episode.</p>
+      <h3>Generating an Audio Overview</h3>
+      <div class="step"><div class="step-num" style="background:var(--blue)">1</div><div class="step-body"><h4>Open the notebook</h4><p>Ensure your sources are loaded. Click "Audio Overview" in the right panel or the top toolbar.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--blue)">2</div><div class="step-body"><h4>Click Generate</h4><p>NotebookLM processes all sources and generates a 10–20 minute podcast-style discussion. Generation takes 1–3 minutes.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--blue)">3</div><div class="step-body"><h4>Listen and download</h4><p>Play directly in the browser or download the audio file. Share with colleagues who prefer audio learning.</p></div></div>
+      <div class="callout tip"><strong>What Audio Overview is best for:</strong><p>Long research reports (listening while commuting), onboarding new team members to a topic, making academic papers accessible to non-experts, creating audio summaries of company policies or product documentation. It's NOT a substitute for reading detailed technical or legal content.</p></div>
+      <div class="audio-panel">
+        <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:6px">🎙️ Audio Overview — AI Supply Chain Efficiency Research</div>
+        <div class="audio-wave">
+          <span style="height:15px"></span><span style="height:25px"></span><span style="height:35px"></span><span style="height:20px"></span><span style="height:38px"></span><span style="height:28px"></span><span style="height:18px"></span><span style="height:32px"></span><span style="height:40px"></span><span style="height:22px"></span><span style="height:30px"></span><span style="height:16px"></span><span style="height:36px"></span><span style="height:24px"></span><span style="height:38px"></span><span style="height:20px"></span><span style="height:28px"></span><span style="height:14px"></span><span style="height:34px"></span><span style="height:26px"></span>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">14 min · Generated from 8 sources · Available for download</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">6</div><h2>Citation & Source Grounding</h2></div>
+    <div class="section-body">
+      <p>Citation grounding is what makes NotebookLM fundamentally different from general AI chat. Every claim in a NotebookLM response is linked to a specific passage in a specific source — you can click through and verify.</p>
+      <h3>How citations work</h3>
+      <p>When NotebookLM answers a question, each sentence or claim includes a citation marker (like ¹ or [1]). Clicking the marker opens the source panel showing the exact paragraph where the information came from, with the relevant passage highlighted.</p>
+      <div class="callout info"><strong>Why this matters:</strong><p>Unlike standard AI tools that generate plausible-sounding content, NotebookLM is constrained to your sources. If information isn't in your sources, it will tell you — rather than inventing an answer. This makes it suitable for high-stakes research and compliance work.</p></div>
+      <h3>When NotebookLM says "I don't know"</h3>
+      <p>If you ask a question that can't be answered from your sources, NotebookLM will say so — rather than guessing. This is a feature, not a limitation. It tells you exactly where your source coverage has gaps, so you can add more relevant sources.</p>
+      <h3>Citation for professional use</h3>
+      <p>For academic or professional work, you can click each citation to view the original passage and copy it properly for your bibliography or footnotes. NotebookLM does the finding; you verify and cite correctly.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>Build a personal knowledge base</h3>
+      <p>Create topic notebooks that grow over time: "AI in Healthcare," "Competitor Intelligence," "Legal Reference." Add new sources as you find them. Over months, the notebook becomes a comprehensive, queryable knowledge base on a topic.</p>
+      <h3>Use Deep Research → NotebookLM pipeline</h3>
+      <p>Run a Deep Research session in Gemini. Export the report to Google Docs. Add that Doc to a NotebookLM notebook alongside the original sources. Now you have both the raw material and the synthesised report — query both simultaneously.</p>
+      <h3>Multi-source comparative analysis</h3>
+      <p>Add competing viewpoints as separate sources: "What do the bullish and bearish sources each argue about [topic]? Where do they agree and disagree?" NotebookLM synthesises across the divide with citations from both sides.</p>
+      <h3>Onboarding notebooks</h3>
+      <p>Create a "New Employee" notebook with: company handbook, product documentation, key processes, team structure docs, and relevant past project reports. New team members can ask questions and get grounded, cited answers — dramatically reducing time-to-productivity.</p>
+      <div class="callout gemini"><strong>Ask NotebookLM to challenge you:</strong><p>After reading sources, ask: "What are the strongest counterarguments to the position taken in these documents?" or "What assumptions does this analysis rely on that could be wrong?" This stress-tests your understanding before you act on the research.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr>
+        <tr><td>Adding low-quality sources</td><td>Adding news summaries instead of original research or reports</td><td>Prioritise primary sources — original reports, papers, documents — over secondary coverage</td></tr>
+        <tr><td>Expecting general knowledge</td><td>Asking questions not covered by the sources</td><td>NotebookLM only knows your sources. If it can't answer, add a relevant source</td></tr>
+        <tr><td>Not following citations</td><td>Trusting answers without verifying the cited passage</td><td>Click every citation for important claims — NotebookLM is highly accurate but verify for high-stakes decisions</td></tr>
+        <tr><td>Overlooking Audio Overview</td><td>Not knowing it exists or thinking it's a gimmick</td><td>Generate an Audio Overview for your next long research project — it synthesises and explains extremely well</td></tr>
+        <tr><td>One notebook for everything</td><td>Adding all documents to one notebook and losing focus</td><td>Create separate notebooks per project or topic — keeps Q&A focused and relevant</td></tr>
+        <tr><td>Not using suggested questions</td><td>Skipping the auto-generated questions after adding sources</td><td>Always read the suggested questions first — they surface important angles and save time</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'nb-a')">Research & Analysis</button>
+          <button class="tab-btn" onclick="switchTab(this,'nb-b')">Learning & Documentation</button>
+        </div>
+        <div class="prompt-box active" id="nb-a">
+          <div class="prompt-item">
+            <div class="prompt-label">Cross-Source Synthesis</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Across all the sources in this notebook, what are the 5 most important findings or conclusions? For each, tell me which sources support it and whether any sources contradict or qualify it."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Gap Analysis</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"I'm trying to understand [topic]. Based on my sources, what important questions about this topic are NOT answered by any of the documents I've added? What gaps in my research should I address?"</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Conflict Detection</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Review all sources and identify: (1) any claims made by one source that are contradicted by another, (2) any areas where sources agree but with different data or figures, (3) any assumptions made in one source that another source would challenge."</div>
+          </div>
+        </div>
+        <div class="prompt-box" id="nb-b">
+          <div class="prompt-item">
+            <div class="prompt-label">Study Guide</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Create a study guide for someone learning [topic] from scratch using only these sources. Include: key concepts and definitions, the most important facts, 5 quiz questions with answers, and a recommended reading order for the sources."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Executive Brief</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Generate a one-page executive brief from all sources. Format: context (2 sentences), key findings (5 bullets with citations), strategic implications (3 bullets), and recommended actions (3 bullets). Suitable for a C-suite audience with limited time."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">FAQ Generation</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Based on these sources, what are the 10 most common questions someone would ask about [topic]? For each question, provide a concise answer grounded in the sources, with the citation. Format as a FAQ document."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A consultant builds a competitive intelligence notebook for a client pitch — loading 8 sources and extracting key insights in minutes.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span style="font-size:12px;color:rgba(255,245,244,.5);margin-left:8px">NotebookLM — Competitor Intelligence: FinTech Payments</span></div>
+        <div style="padding:20px">
+          <div style="display:grid;grid-template-columns:200px 1fr;gap:16px">
+            <div>
+              <div style="font-size:11px;color:#FBBD33;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Sources (8)</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="background:#2A1A0A;border-radius:6px;padding:8px;font-size:11px;color:rgba(255,245,244,.7)">📄 Stripe 2024 Annual Report</div>
+                <div style="background:#2A1A0A;border-radius:6px;padding:8px;font-size:11px;color:rgba(255,245,244,.7)">📄 Adyen Investor Deck Q3</div>
+                <div style="background:#2A1A0A;border-radius:6px;padding:8px;font-size:11px;color:rgba(255,245,244,.7)">🌐 McKinsey FinTech Report</div>
+                <div style="background:#2A1A0A;border-radius:6px;padding:8px;font-size:11px;color:rgba(255,245,244,.7)">▶️ Payments podcast ep. 47</div>
+                <div style="background:#1A3A1A;border-radius:6px;padding:8px;font-size:11px;color:rgba(255,245,244,.5)">+ 4 more sources</div>
+              </div>
+            </div>
+            <div>
+              <div style="background:#2A1A0A;border-radius:8px;padding:10px;margin-bottom:10px;font-size:12px;color:rgba(255,245,244,.8);font-style:italic">"What do Stripe and Adyen each see as their primary competitive advantage in the enterprise market?"</div>
+              <div style="background:rgba(26,115,232,.1);border:1px solid rgba(26,115,232,.3);border-radius:8px;padding:12px">
+                <div style="font-size:11px;color:#FBBD33;margin-bottom:6px">NotebookLM Answer</div>
+                <div style="font-size:12px;color:rgba(255,245,244,.85);line-height:1.7">
+                  <strong style="color:#81C784">Stripe¹</strong> positions its developer platform and API ecosystem as its core advantage — citing 90% of enterprise pilots becoming production deployments within 12 months.<br><br>
+                  <strong style="color:#FBBD33">Adyen²</strong> emphasises unified commerce (online, in-store, and embedded) — arguing that competitors can't match the consistency of their single platform across all channels.<br><br>
+                  <span style="font-size:11px;color:rgba(255,245,244,.5)">¹ Stripe 2024 Annual Report, p.12 · ² Adyen Q3 Investor Deck, slide 8</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>Every answer is traceable. Click any citation to verify the source passage directly — research you can actually trust.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn" style="color:var(--blue)">01</div><h4>Create your first notebook</h4><p>Pick a topic you're researching. Add 3-5 documents. Ask 5 questions. Notice how citations change your confidence in answers.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--green)">02</div><h4>Generate an Audio Overview</h4><p>For your next research notebook, generate an Audio Overview. Listen while commuting and observe how well it explains the material.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--yellow)">03</div><h4>Build a topic knowledge base</h4><p>Pick a topic critical to your work. Add 10+ sources over a week. Make it your authoritative reference for that area.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--orange)">04</div><h4>Create an onboarding notebook</h4><p>Build a notebook for your role or team — with key processes, policies, and reference docs. Share it with your next new starter.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){const tabs=el.closest('.prompt-tabs');tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));tabs.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById(id).classList.add('active');}
+function copyPrompt(btn){const text=btn.nextElementSibling.textContent;navigator.clipboard.writeText(text).catch(()=>{});const orig=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=orig,1500);}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));const link=document.querySelector(`.nav-link[href="#${e.target.id}"]`);if(link)link.classList.add('active');}});},{threshold:.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

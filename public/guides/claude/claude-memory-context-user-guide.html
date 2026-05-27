@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Claude Memory &amp; Context | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FEF8F0;color:#2C1810}
+:root{--orange:#C97040;--orangeL:#E09868;--brown:#3C1E0A;--cream:#FEF8F0;--soft:#FFF7F0;--hdr:#F9F0E6;--border:#F0DEC8;--text:#2C1810;--mid:#5C3D2E;--muted:#8A6040}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--brown);color:#FEF8F0;padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:var(--orangeL);padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(254,248,240,.7);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#FEF8F0;border-left-color:var(--orange);background:rgba(201,112,64,.15)}
+.nav-num{display:inline-block;width:20px;font-size:11px;color:var(--orangeL);opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--brown);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'M';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:180px;font-weight:900;color:rgba(201,112,64,.12);line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:var(--orangeL);text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#FEF8F0;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(254,248,240,.75);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(60,30,10,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{background:var(--orange);color:#fff;font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:17px;font-weight:700;color:var(--brown)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#E8F5E9;border-color:#2E7D32}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FFF8E1;border-color:#F57F17}.callout.warning strong{color:#E65100}
+.callout.info{background:#E3F2FD;border-color:#1565C0}.callout.info strong{color:#0D47A1}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--soft);border:1px solid var(--border);border-radius:8px;padding:16px}
+.feature-card h4{color:var(--brown);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{background:var(--orange);color:#fff;font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--brown);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--brown);color:#FEF8F0;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.ref-table tr:nth-child(even) td{background:var(--soft)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange)}
+.prompt-box{display:none;background:var(--soft);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.prompt-text{font-size:13px;color:var(--brown);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--orange);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--soft);border:1px solid var(--border);border-top:4px solid var(--orange);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;color:var(--orange);line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--brown);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:#1E1407;border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#3C1E0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+.mock-title{font-size:12px;color:rgba(254,248,240,.5);margin-left:8px}
+/* Context Meter */
+.ctx-meter{background:#1A0E05;border-radius:10px;padding:20px 24px;margin:16px 0}
+.ctx-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.ctx-title{font-size:12px;color:var(--orangeL);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.ctx-pct{font-size:22px;font-weight:800;color:#FEF8F0}
+.ctx-bar-track{height:10px;background:rgba(255,255,255,.1);border-radius:5px;margin-bottom:16px}
+.ctx-bar-fill{height:10px;border-radius:5px;background:linear-gradient(to right,#C97040,#E09868);transition:width .3s}
+.ctx-items{display:flex;flex-direction:column;gap:8px}
+.ctx-item{display:flex;justify-content:space-between;align-items:center}
+.ctx-item-left{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(254,248,240,.75)}
+.ctx-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ctx-item-right{font-size:12px;color:rgba(254,248,240,.5);font-family:monospace}
+/* Memory Type Cards */
+.mem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.mem-card{background:var(--soft);border:1px solid var(--border);border-radius:8px;padding:16px}
+.mem-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.mem-badge.project{background:var(--orange);color:#fff}
+.mem-badge.system{background:var(--brown);color:var(--orangeL)}
+.mem-badge.session{background:var(--border);color:var(--mid)}
+.mem-card h4{font-size:13px;font-weight:700;color:var(--brown);margin-bottom:4px}
+.mem-card p{font-size:12px;color:var(--muted);line-height:1.5}
+/* Window States */
+.window-split{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border-radius:8px;overflow:hidden;margin:16px 0}
+.ws-panel{background:#fff;padding:16px}
+.ws-panel h5{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.ws-item{font-size:13px;color:var(--mid);padding:6px 0;border-bottom:1px solid var(--border)}
+.ws-item:last-child{border-bottom:none}
+.ws-item.new{color:var(--orange);font-weight:600}
+.tag{display:inline-block;font-size:10px;background:var(--hdr);color:var(--orange);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-weight:700;margin-left:6px}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--brown)}
+h3{font-size:16px;font-weight:700;color:var(--brown);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Claude Memory &amp; Context</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Memory &amp; Context?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>The Context Window</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Projects &amp; Persistent Files</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Custom Instructions</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Memory Across Sessions</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Long Documents &amp; Files</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Claude User Guide</div>
+    <h1>Memory &amp; Context Management</h1>
+    <p>Understand how Claude remembers, what it forgets, and how to give it the right information at the right time — every session.</p>
+  </div>
+
+  <!-- S1 -->
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num">1</div><h2>What is Memory &amp; Context?</h2></div>
+    <div class="section-body">
+      <p>Claude doesn't have persistent memory the way a human colleague does. Each conversation is a fresh start — unless you actively set it up otherwise. Understanding how Claude's memory works lets you get consistent, informed responses without repeating yourself every time.</p>
+      <p>There are two concepts to separate: <strong>context</strong> (what Claude can see right now, in this conversation) and <strong>memory</strong> (information that persists across sessions). Claude handles both very differently.</p>
+      <div class="mem-grid">
+        <div class="mem-card"><span class="mem-badge session">Session</span><h4>In-Conversation Context</h4><p>Everything in your current conversation — messages, files, instructions. Exists only for this session.</p></div>
+        <div class="mem-card"><span class="mem-badge project">Projects</span><h4>Project Memory</h4><p>Files and instructions you pin inside a Claude Project. Automatically included in every chat within that project.</p></div>
+        <div class="mem-card"><span class="mem-badge system">System</span><h4>Custom Instructions</h4><p>Persistent preferences and behaviours you set once. Claude applies them to every conversation by default.</p></div>
+      </div>
+      <div class="callout tip"><strong>Why this matters:</strong><p>Most people lose time re-explaining context at the start of every session. Master these three layers and Claude will feel like it actually knows you and your work.</p></div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num">2</div><h2>The Context Window Explained</h2></div>
+    <div class="section-body">
+      <p>Claude processes everything — your messages, its replies, uploaded files, instructions — inside a <strong>context window</strong>: a fixed-size working memory measured in tokens (roughly 0.75 words each). Claude's context window is very large, but it is finite.</p>
+      <div class="ctx-meter">
+        <div class="ctx-header"><span class="ctx-title">Context Usage — Current Session</span><span class="ctx-pct">38%</span></div>
+        <div class="ctx-bar-track"><div class="ctx-bar-fill" style="width:38%"></div></div>
+        <div class="ctx-items">
+          <div class="ctx-item"><div class="ctx-item-left"><div class="ctx-dot" style="background:#C97040"></div>System prompt &amp; instructions</div><div class="ctx-item-right">4,200 tok</div></div>
+          <div class="ctx-item"><div class="ctx-item-left"><div class="ctx-dot" style="background:#E09868"></div>Uploaded file (Strategy.pdf)</div><div class="ctx-item-right">18,500 tok</div></div>
+          <div class="ctx-item"><div class="ctx-item-left"><div class="ctx-dot" style="background:#8A6040"></div>Conversation history</div><div class="ctx-item-right">5,800 tok</div></div>
+          <div class="ctx-item"><div class="ctx-item-left"><div class="ctx-dot" style="background:rgba(255,255,255,.3)"></div>Remaining capacity</div><div class="ctx-item-right">~171,500 tok</div></div>
+        </div>
+      </div>
+      <h3>What counts toward context?</h3>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>📝 Messages</h4><p>Every message you send and every reply Claude gives is included. Long back-and-forth threads consume tokens fast.</p></div>
+        <div class="feature-card"><h4>📎 Files &amp; Uploads</h4><p>PDFs, Word docs, images, data files — all converted to text tokens when you upload them.</p></div>
+        <div class="feature-card"><h4>⚙️ System Prompt</h4><p>Your Custom Instructions and Project instructions run in every conversation, consuming tokens before you type a word.</p></div>
+        <div class="feature-card"><h4>🔁 Project Files</h4><p>Any files pinned to your Project are loaded into context automatically at the start of every conversation.</p></div>
+      </div>
+      <div class="callout warning"><strong>When you approach the context limit:</strong><p>Claude will tell you the conversation is getting long. Start a fresh conversation and paste in just the essential context — don't try to compress an old one.</p></div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num">3</div><h2>Projects &amp; Persistent Files</h2></div>
+    <div class="section-body">
+      <p><strong>Claude Projects</strong> are the closest thing to true long-term memory. A Project lets you pin files and write a set of standing instructions that Claude loads automatically at the start of every conversation in that project.</p>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Create a Project</h4><p>From the Claude sidebar, click <strong>New Project</strong>. Give it a name that reflects the context — "Client: Acme Corp" or "Marketing Campaigns Q3".</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Add Project Instructions</h4><p>Write what Claude should always know: your role, the client, preferred tone, key terminology, constraints. This is your persistent briefing document.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Upload Reference Files</h4><p>Pin documents Claude will reference across sessions — brand guidelines, style guides, SOPs, data dictionaries, stakeholder lists.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Start Conversations Inside the Project</h4><p>Every new chat in this project inherits the instructions and files automatically. No re-pasting required.</p></div></div>
+      <div class="callout tip"><strong>Best practice:</strong><p>Keep project files under 50 pages each. Very long files consume large chunks of context before you even start — summarise or split them when possible.</p></div>
+      <table class="ref-table">
+        <thead><tr><th>What to Pin</th><th>Example</th><th>Benefit</th></tr></thead>
+        <tbody>
+          <tr><td>Brand guidelines</td><td>Tone of voice doc, visual rules</td><td>Consistent output without reminders</td></tr>
+          <tr><td>Glossary / terminology</td><td>Product names, internal acronyms</td><td>Accurate naming every time</td></tr>
+          <tr><td>Standing constraints</td><td>"Never recommend Competitor X"</td><td>Eliminates recurring corrections</td></tr>
+          <tr><td>Reference data</td><td>Pricing table, team roster</td><td>Claude can answer factual Qs accurately</td></tr>
+          <tr><td>Output templates</td><td>Email format, report structure</td><td>Consistent document shape</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num">4</div><h2>Custom Instructions</h2></div>
+    <div class="section-body">
+      <p><strong>Custom Instructions</strong> (also called the System Prompt in claude.ai) let you set global preferences that apply to every conversation — not just a specific project. Think of it as your default Claude profile.</p>
+      <h3>What to include in Custom Instructions</h3>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>🧑 Who you are</h4><p>"I'm a marketing manager at a B2B SaaS company. I work in content, strategy, and campaign planning."</p></div>
+        <div class="feature-card"><h4>🎯 How you want responses</h4><p>"Keep replies concise. Use bullet points for lists. Don't add disclaimers unless I ask for them."</p></div>
+        <div class="feature-card"><h4>🗣️ Tone preferences</h4><p>"Write in a direct, professional tone. Avoid corporate jargon. My audience is mid-level managers."</p></div>
+        <div class="feature-card"><h4>🚫 Standing constraints</h4><p>"Never suggest I use tools I haven't mentioned. Don't recommend outsourcing unless I bring it up."</p></div>
+      </div>
+      <h3>Setting Custom Instructions</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Open Settings</h4><p>Click your profile icon → Settings → Custom Instructions (or "Default Instructions" depending on your plan).</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Write Your Instructions</h4><p>Be specific and use plain language. Claude follows instructions literally — "be brief" is less effective than "limit responses to 150 words unless I ask for more".</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Test and Refine</h4><p>Start a fresh conversation and see how Claude behaves. Adjust instructions based on what it gets right or wrong.</p></div></div>
+      <div class="callout info"><strong>Pro tip:</strong><p>Custom Instructions are global defaults. Project Instructions override them for that project. You can use both in tandem — global for your universal preferences, project-specific for context that only applies to one workstream.</p></div>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num">5</div><h2>Memory Across Sessions</h2></div>
+    <div class="section-body">
+      <p>By default, Claude forgets everything when you close a conversation. Projects and Custom Instructions solve this at the structural level — but there are also manual techniques for preserving context across sessions.</p>
+      <h3>The Session Summary Method</h3>
+      <p>At the end of an important work session, ask Claude to produce a summary you can paste into the next conversation to restore context instantly.</p>
+      <div class="window-split">
+        <div class="ws-panel">
+          <h5>End of Session (Today)</h5>
+          <div class="ws-item">You: "Summarise what we've worked on today. Include: decisions made, open questions, next steps, and any context I'll need to continue this work in a future session."</div>
+          <div class="ws-item new">Claude: "Here's your session summary: We drafted three email sequences for the Q3 onboarding flow. Decision: go with Option B subject lines. Open: legal review of the guarantee language. Next: write the follow-up sequence for week 2. Key context: the audience is enterprise buyers, average deal size $50k, primary pain point is implementation risk..."</div>
+        </div>
+        <div class="ws-panel">
+          <h5>Next Session (Tomorrow)</h5>
+          <div class="ws-item">You: "Continuing from yesterday. Here's the context: [paste summary]"</div>
+          <div class="ws-item new">Claude: "Got it — picking up from the Q3 onboarding sequences. You're ready to write the week-2 follow-up sequence. Shall I start with the first email, focusing on enterprise buyers worried about implementation risk?"</div>
+        </div>
+      </div>
+      <div class="callout tip"><strong>Save your summaries:</strong><p>Keep a running "Claude Context" doc in Notion or a text file. Paste the summary in at the start of each session, and ask Claude to update it at the end. You'll never lose work in progress again.</p></div>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num">6</div><h2>Long Documents &amp; Files</h2></div>
+    <div class="section-body">
+      <p>Claude can read and reason across entire documents — PDFs, Word docs, CSVs, text files. Knowing how to upload and reference them effectively is key to getting useful analysis.</p>
+      <h3>Uploading Files</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Use the attachment icon</h4><p>Click the paperclip or drag the file directly into the chat. Supported: PDF, DOCX, XLSX, CSV, TXT, images, code files.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Tell Claude what to do with it</h4><p>Don't just upload — give a specific instruction. "Read this report and extract the five most surprising findings" works far better than "here's a report".</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Reference specific sections</h4><p>If you need Claude to focus, direct it: "Focus only on Section 3 — the competitive analysis." This conserves context and produces sharper output.</p></div></div>
+      <table class="ref-table">
+        <thead><tr><th>File Type</th><th>Best Use</th><th>Tips</th></tr></thead>
+        <tbody>
+          <tr><td>PDF / DOCX</td><td>Reports, proposals, policies</td><td>Ask for summaries or extractions, not full rewrites</td></tr>
+          <tr><td>CSV / XLSX</td><td>Data analysis, filtering, comparisons</td><td>Describe what insights you need upfront</td></tr>
+          <tr><td>Images</td><td>Charts, diagrams, screenshots</td><td>Ask Claude to describe or interpret — it can read text in images</td></tr>
+          <tr><td>Code files</td><td>Review, debugging, documentation</td><td>Specify the language and what you want checked</td></tr>
+          <tr><td>Text / Markdown</td><td>Notes, drafts, transcripts</td><td>Best format for fast processing, low token cost</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warning"><strong>Very long documents:</strong><p>Files over 100 pages can consume most of your context budget. For large documents, extract the relevant sections first (using a PDF reader or Ctrl+F) and paste just those sections into the chat.</p></div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>The Context Anchor</h3>
+      <p>Open every conversation with a compact context block — 3–5 sentences covering who you are, what project this relates to, and what outcome you need. This anchors Claude even without a project.</p>
+      <div class="callout info"><strong>Context anchor template:</strong><p>"I'm a [role] at [organisation]. I'm working on [project/task]. The audience is [audience]. The goal today is [specific outcome]. Respond as [tone/format preference]."</p></div>
+      <h3>Conversation Threading</h3>
+      <p>Instead of one mega-conversation, break complex projects into focused conversations — one per deliverable. Shorter conversations are faster, cheaper, and easier to navigate. Use the session summary method to carry context between them.</p>
+      <h3>Iterative Refinement Within Context</h3>
+      <p>Claude remembers everything said earlier in the same conversation. Use this: instead of re-explaining, say "Using the tone from the email you wrote in step 3, now write a LinkedIn post on the same topic." Claude will maintain consistency automatically.</p>
+      <h3>Priority Stacking</h3>
+      <p>When you need Claude to balance multiple constraints, list them in priority order explicitly. "In order of importance: (1) factual accuracy, (2) concise under 200 words, (3) professional tone." Claude weights the first items most heavily when trade-offs are required.</p>
+      <div class="callout tip"><strong>Context injection for APIs:</strong><p>If you're using Claude via the API, you can pre-populate context programmatically via the system prompt. Build a context assembly function that composes the right project brief, user prefs, and current task automatically.</p></div>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <thead><tr><th>Mistake</th><th>What Happens</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>Starting fresh each time</td><td>Claude has no memory of previous work — repeats the same onboarding every session</td><td>Use Projects or paste a session summary at the start</td></tr>
+          <tr><td>Uploading a 200-page PDF and asking vague questions</td><td>Claude struggles to know where to look; context fills up fast</td><td>Extract the relevant section; give a specific task</td></tr>
+          <tr><td>Treating Custom Instructions as a once-and-forget setup</td><td>Instructions become stale as your role or preferences change</td><td>Review and update instructions monthly</td></tr>
+          <tr><td>Very long single conversations</td><td>Claude's attention across an enormous context is less sharp on early content</td><td>Break into shorter focused conversations, carry context with summaries</td></tr>
+          <tr><td>Pinning too many large files to a Project</td><td>Project loads slowly; context is consumed before the conversation begins</td><td>Pin only always-needed files; upload session-specific files per chat</td></tr>
+          <tr><td>Assuming Claude remembers across projects</td><td>Memory is project-scoped — Claude doesn't share files or instructions between separate projects</td><td>Duplicate shared instructions across projects, or use Custom Instructions for global prefs</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S9 -->
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'memory-setup')">Setup &amp; Organisation</button>
+          <button class="tab-btn" onclick="switchTab(this,'memory-advanced')">Advanced Context Work</button>
+        </div>
+        <div id="memory-setup" class="prompt-box active">
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Session Summary</div><div class="prompt-text">"Summarise everything we've worked on in this conversation. Include: decisions made, open questions, key context I'll need, and clear next steps. Format it as a block I can paste at the start of a future chat."</div></div>
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Project Instructions Draft</div><div class="prompt-text">"Help me write a Project Instructions document for my Claude project. My role is [role], the project is about [project], my key preferences are [preferences], and the main output I produce is [output]. Write instructions that I can paste directly into the project setup."</div></div>
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Custom Instructions Audit</div><div class="prompt-text">"Here are my current Custom Instructions: [paste instructions]. Review them and suggest improvements — identify anything ambiguous, missing, or contradictory. Then give me a revised version ready to copy in."</div></div>
+        </div>
+        <div id="memory-advanced" class="prompt-box">
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Document Extraction</div><div class="prompt-text">"Read the attached document and extract: (1) the three most important conclusions, (2) any data or statistics cited, (3) action items or recommendations. Present as a structured brief, not a summary of the whole document."</div></div>
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Cross-Document Analysis</div><div class="prompt-text">"I'm uploading two documents: [Doc A] and [Doc B]. Compare them on these dimensions: [dimension 1], [dimension 2], [dimension 3]. Highlight where they agree, where they conflict, and what's in one but not the other."</div></div>
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Context Compression</div><div class="prompt-text">"This conversation is getting long. Before we continue, compress everything discussed so far into a 200-word context brief. Preserve: decisions, open questions, key constraints, and the current task. I'll use this to start a fresh conversation."</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A realistic view of context usage inside a Claude Project — showing what's loaded automatically and how much of the window each element occupies.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="mock-title">Claude — Project: Q3 Content Strategy</span></div>
+        <div style="padding:20px;display:grid;grid-template-columns:220px 1fr;gap:16px">
+          <div style="background:#3C1E0A;border-radius:8px;padding:14px">
+            <div style="font-size:10px;color:#E09868;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Project Files</div>
+            <div style="font-size:12px;color:rgba(254,248,240,.8);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)">📋 Project Instructions</div>
+            <div style="font-size:12px;color:rgba(254,248,240,.8);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)">📄 Brand Voice Guide.pdf</div>
+            <div style="font-size:12px;color:rgba(254,248,240,.8);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)">📊 Q3 Content Calendar.xlsx</div>
+            <div style="font-size:12px;color:rgba(254,248,240,.8);padding:6px 0">📝 Style Guide.docx</div>
+          </div>
+          <div>
+            <div style="background:#2A1A0A;border-radius:8px;padding:14px;margin-bottom:12px">
+              <div style="font-size:10px;color:#E09868;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Context Window Usage</div>
+              <div style="height:8px;background:rgba(255,255,255,.1);border-radius:4px;margin-bottom:10px"><div style="width:28%;height:8px;border-radius:4px;background:linear-gradient(to right,#C97040,#E09868)"></div></div>
+              <div style="font-size:12px;color:rgba(254,248,240,.6)">Project instructions: 1,200 tok · Brand guide: 8,400 tok · Calendar: 3,800 tok · Style guide: 5,100 tok · Remaining: ~181,500 tok</div>
+            </div>
+            <div style="background:#1E1407;border-radius:8px;padding:14px">
+              <div style="font-size:13px;color:rgba(254,248,240,.7);margin-bottom:8px">You: Write a LinkedIn post announcing our new thought leadership series. Keep it under 200 words, professional but warm.</div>
+              <div style="height:1px;background:rgba(255,255,255,.1);margin:10px 0"></div>
+              <div style="font-size:13px;color:#C8B09A;line-height:1.6">Claude: Here's a LinkedIn post aligned with your brand voice and Q3 content themes:<br><br>🚀 <em>Excited to launch our Futures in Focus series — a quarterly deep dive into the trends shaping [industry]...</em><br><br><span style="font-size:11px;color:#8A6040">Using: Brand Voice Guide (tone) · Q3 Calendar (series timing) · Style Guide (formatting)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn">1</div><h4>Set Custom Instructions</h4><p>Add your role, preferences, and tone defaults. Spend 15 minutes now to save hours long-term.</p></div>
+        <div class="roadmap-step"><div class="rn">2</div><h4>Create Your First Project</h4><p>Pick your most active workstream. Pin the key reference files and write concise project instructions.</p></div>
+        <div class="roadmap-step"><div class="rn">3</div><h4>Practice the Session Summary</div><p>End your next three sessions by asking Claude to write a context summary. Build the habit before you need it.</p></div>
+        <div class="roadmap-step"><div class="rn">4</div><h4>Optimise Context Usage</h4><p>Audit what you're pinning. Remove stale files. Learn when to split conversations vs. extend them.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function copyPrompt(btn){
+  const text=btn.closest('.prompt-item').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(()=>{btn.textContent='✓';setTimeout(()=>{btn.textContent='Copy'},1500)});
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l=>{
+        l.classList.toggle('active',l.getAttribute('href')==='#'+id);
+      });
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini for Teams on Google Workspace — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1A73E8; --primary-l: #4A94EB; --primary-soft: #E8F0FE;
+  --accent1: #34A853; --accent1-soft: #E6F4EA;
+  --accent2: #F9AB00; --accent2-soft: #FEF7E0;
+  --page-bg: #FFF5F4; --sidebar-bg: #202124;
+  --card-bg: #FFFFFF; --hdr-bg: #F8E9E7; --border: #E8C9C5;
+  --ink: #202124; --body-text: #3C4043; --muted: #5F6368;
+  --green: #137333; --green-bg: #E6F4EA;
+  --warn: #B45309; --warn-bg: #FEF7E0;
+  --red: #EA4335; --red-bg: #FCE8E6;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <div class="brand-name">Gemini for Teams on Google Workspace</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Gemini for Teams on Google Workspace?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Workspace Plans That Include Gemini</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Admin Setup Checklist</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Data and Privacy</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Rollout Pattern</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Common Workspace Wins</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Governance Beyond Admin Controls</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Measuring ROI</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <h1>Gemini for Teams on Google Workspace</h1>
+      <div class="subtitle">Deploying Gemini for organisations on Google Workspace — admin, governance, adoption</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Gemini for Teams on Google Workspace?</div><div class="section-desc">Deploying Gemini for organisations on Google Workspace — admin, governance, adoption</div></div></div><div class="content-body"><p class="prose">For organisations on Google Workspace, Gemini is the in-flow AI surface — embedded across Gmail, Docs, Sheets, Slides, Meet, Drive, and Chat. Workspace Business and Enterprise plans now include Gemini AI for Workspace, which adds enterprise admin controls, data residency, and per-user provisioning.</p><p class="prose">Best for: IT and operations leads at organisations deploying Gemini across Workspace, and admins managing ongoing governance.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🏢</div><div class="feat-title">Org Deployment</div><div class="feat-desc">Workspace Business Standard+, Plus, Enterprise — Gemini bundled at higher tiers.</div></div><div class="feat-card"><div class="feat-icon">🛡️</div><div class="feat-title">Admin &amp; Compliance</div><div class="feat-desc">SSO, audit logs, DLP, data residency, sensitivity labels, BAA available.</div></div><div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">Adoption Framework</div><div class="feat-desc">Pilot first, champion-led, structured curriculum, measure two metrics.</div></div><div class="feat-card"><div class="feat-icon">💰</div><div class="feat-title">ROI Math</div><div class="feat-desc">$20-30/user/mo. Most orgs realise 15-30x ROI from time-saved at average professional rates.</div></div></div><div class="deco-band">✨  The four phases that decide whether deployment lands  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">✨¢  2026 UPDATE — GEMINI BUNDLED IN WORKSPACE</div><div class="callout-text">Gemini AI is now bundled into Google Workspace Business Standard, Business Plus, and Enterprise plans (at the higher-tier prices) — meaning most paying Workspace customers now have access without a separate licence. For older customers, the Gemini for Workspace add-on is being deprecated in favour of the bundled approach.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Workspace Plans That Include Gemini</div><div class="section-desc">The 2026 bundling</div></div></div><div class="content-body"><table class="ref-table"><thead><tr><th>Plan</th><th>Gemini included</th><th>Cost/user/mo</th><th>Best for</th></tr></thead><tbody><tr><td>Business Starter</td><td>Limited</td><td>$7</td><td>Tiny teams; basic Gmail/Docs</td></tr><tr><td>Business Standard</td><td>Yes</td><td>$14</td><td>Small-to-mid teams</td></tr><tr><td>Business Plus</td><td>Yes (full)</td><td>$22</td><td>Growth-stage with compliance</td></tr><tr><td>Enterprise</td><td>Yes (full + admin)</td><td>Custom</td><td>Larger orgs, security, residency</td></tr></tbody></table></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Admin Setup Checklist</div><div class="section-desc">What IT needs to do before user rollout</div></div></div><div class="content-body"><ul class="bullets"><li>Confirm plan tier includes Gemini (Business Standard or above)</li><li>Enable Gemini at the org level in Admin Console</li><li>Configure data residency (where Gemini processes data)</li><li>Set Gemini app permissions — which users can access which features</li><li>Review DLP policies — Gemini respects existing Data Loss Prevention rules</li><li>Set up audit logging for Gemini interactions</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Confirm plan tier includes Gemini</div><div class="step-desc">Business Standard or above. Check Admin Console → Billing.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Enable Gemini at org level</div><div class="step-desc">Admin Console → Apps → Google Workspace → Gemini.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Configure data residency</div><div class="step-desc">Pick where Gemini processes your data. Required for some compliance frameworks.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Set Gemini app permissions</div><div class="step-desc">Which users can access which features. Group-based access typically.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Review DLP policies</div><div class="step-desc">Existing Workspace DLP applies to Gemini. Verify regulated patterns trigger.</div></div></div><div class="step"><div class="step-num">6</div><div class="step-content"><div class="step-title">Set up audit logging</div><div class="step-desc">Admin Console → Reporting → Audit. Verify Gemini events being captured.</div></div></div></div></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Data and Privacy</div><div class="section-desc">What Workspace customers get</div></div></div><div class="content-body"><ul class="bullets"><li>Data not used for model training — explicit in Workspace terms</li><li>Processing within your data residency region</li><li>DLP policies inherited from Workspace settings</li><li>Sensitivity labels and access controls apply to Gemini interactions</li><li>Audit logs for compliance</li><li>Customer-managed encryption keys (CMEK) for Enterprise</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Confirm: data not used for model training (default for Workspace plans)</li><li>Confirm: processing in your data residency region</li><li>Apply sensitivity labels to regulated content</li><li>Set up DLP policies that key off label classifications</li><li>Configure audit log retention to match compliance framework</li><li>Use customer-managed encryption keys (CMEK) for Enterprise tier if required</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Assuming Gemini handles data differently than other Workspace apps — same model</li><li>Skipping the residency configuration — defaults may not match requirements</li><li>Letting users opt into model training (rare but possible on individual tiers)</li><li>Forgetting to verify auditor questions before they&#39;re asked</li><li>Mixing personal Google accounts with Workspace tenants</li><li>Assuming free-tier Gemini has the same privacy posture (it doesn&#39;t)</li></ul></div></div></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Rollout Pattern</div><div class="section-desc">From admin enable to active usage</div></div></div><div class="content-body"><p class="prose">Don&#39;t broadcast-launch. Pilot first.</p><ul class="bullets"><li>Pilot — 30-50 users across 3-4 functions, 4 weeks</li><li>Champion model — 1-2 champions per function</li><li>Training — 30 min onboarding, then 4-week structured use-case introduction</li><li>Capture wins — collect what works in week 4</li><li>Org-wide rollout — based on pilot outcomes, not on assumption</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🎯</div><div class="feat-title">Pilot Wave</div><div class="feat-desc">30-50 users across 3-4 functions. 4 weeks. Champion model.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">👥</div><div class="feat-title">Champions</div><div class="feat-desc">1-2 per function. Peer-credible operators. Friday standup.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📊</div><div class="feat-title">Success Metrics</div><div class="feat-desc">Weekly active users + time-saved cases per function.</div></div></div><p class="prose">The Workspace Gemini rollout follows the same shape as any major productivity tool deployment: pilot first, champions per function, structured curriculum, measured outcomes. The differentiator from Copilot rollouts is that Workspace is usually more lightly governed than M365, which means faster pilot setup but less centralised admin tooling.</p><p class="prose">Plan for 4-6 weeks of pilot before broader rollout. Capture specific time-saved cases weekly during the pilot. These become both the renewal evidence and the org-wide training material.</p><h3 class="sub-h3">The 90-day Workspace rollout shape</h3><p class="sub-body">Same shape as any major productivity tool deployment, with Workspace-specific considerations: lighter governance than M365 means faster pilot setup but less centralised admin tooling.</p><ul class="bullets"><li>Days 1-30 — admin config, champion identification, free exploration of Gmail/Docs/Sheets integrations</li><li>Days 31-60 — role-specific use cases via 2-week function sprints</li><li>Days 61-90 — workflows become AI-first; document highest-impact cases</li><li>Friday champion standups throughout — capture wins, surface blockers</li><li>Org-wide rollout based on pilot outcomes, not assumption</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Common Workspace Wins</div><div class="section-desc">Where Gemini consistently lands</div></div></div><div class="content-body"><ul class="bullets"><li>Gmail — triage and drafting (top win in most organisations)</li><li>Docs — Canvas-style writing for proposals, briefs, reports</li><li>Meet — automatic meeting recaps with action items</li><li>Sheets — natural-language data analysis</li><li>Slides — deck building with image generation</li><li>Drive — file discovery via natural language</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📧</div><div class="feat-title">Gmail Triage</div><div class="feat-desc">Top win in most orgs — summarise long threads, draft replies, manage inbox at scale.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📝</div><div class="feat-title">Docs Canvas</div><div class="feat-desc">Long-form writing surface — proposals, briefs, reports. Major saving over chat-then-paste.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📊</div><div class="feat-title">Sheets Analysis</div><div class="feat-desc">Natural-language data analysis without formulas. Closes the &#39;I&#39;d need data team&#39; gap.</div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Governance Beyond Admin Controls</div><div class="section-desc">What policy and ops need to handle</div></div></div><div class="content-body"><ul class="bullets"><li>AI Acceptable Use Policy — what data can/can&#39;t go in</li><li>Customer-facing disclosure — when to mention AI assistance</li><li>Audit reviews — monthly sample of Gemini interactions</li><li>Cost monitoring — usage trends, particularly Imagen/video generation costs</li><li>Tool-of-choice guidance — when to use Gemini vs ChatGPT/Claude/Copilot</li></ul><h3 class="sub-h3">What policy and ops teams own</h3><p class="sub-body">Admin controls are necessary but not sufficient. Policy and ops own the human-facing governance — what&#39;s appropriate, what&#39;s not, how to disclose AI assistance, what training looks like.</p><ul class="bullets"><li>AI Acceptable Use Policy — what data can/can&#39;t go in</li><li>Customer-facing disclosure — when to mention AI assistance</li><li>Audit reviews — monthly sample of Gemini interactions</li><li>Cost monitoring — usage trends, especially Imagen/video costs</li><li>Tool-of-choice guidance — when to use Gemini vs ChatGPT/Claude/Copilot</li><li>Training cadence — quarterly refreshers, especially when new features ship</li></ul></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Measuring ROI</div><div class="section-desc">Two metrics, weekly</div></div></div><div class="content-body"><ul class="bullets"><li>Weekly active users — what % of licensed users open Gemini weekly</li><li>Time-saved-per-use-case — specific tasks where Gemini shortened a workflow</li><li>Resist vanity metrics — prompts sent, summaries generated, characters output don&#39;t correlate with ROI</li><li>Specific examples (&#39;Sarah cut 4 hours off her proposal prep&#39;) beat dashboards</li></ul><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📊  TWO METRICS THAT MATTER — EVERYTHING ELSE IS NOISE</div><div class="callout-text">Weekly active users (% of licensed users opening Gemini weekly). Time-saved per use case (specific named cases per function). Resist vanity metrics — prompts sent, summaries generated, characters output — these don&#39;t correlate with ROI and dilute the signal.</div></div></div></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Gemini for Teams on Google Workspace as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">ROLLOUT PLAN</div><div class="prompt-text">We&#39;re [size] org on Workspace [plan]. Just enabled Gemini. Design our 90-day rollout: pilot cohort, champion selection, training cadence, use case capture, success metrics, and what determines a successful pilot for org-wide rollout.</div></div><div class="prompt-card"><div class="prompt-label">ADMIN RUNBOOK</div><div class="prompt-text">Generate a monthly admin runbook for Gemini on Workspace: user provisioning checks, audit log review, DLP policy validation, cost monitoring, governance check, and what to escalate to leadership.</div></div><div class="prompt-card"><div class="prompt-label">TOOL-OF-CHOICE GUIDANCE</div><div class="prompt-text">My org uses Gemini (Workspace) and ChatGPT. Draft a 1-page tool-of-choice guidance: when to use Gemini, when to use ChatGPT, examples per role (sales, marketing, ops, eng), data classification rules, and how to handle ambiguous cases.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Gemini for Teams on Google Workspace on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

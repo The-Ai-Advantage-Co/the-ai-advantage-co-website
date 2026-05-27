@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini Advanced — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1A73E8; --primary-l: #4A94EB; --primary-soft: #E8F0FE;
+  --accent1: #34A853; --accent1-soft: #E6F4EA;
+  --accent2: #F9AB00; --accent2-soft: #FEF7E0;
+  --page-bg: #FFF5F4; --sidebar-bg: #202124;
+  --card-bg: #FFFFFF; --hdr-bg: #F8E9E7; --border: #E8C9C5;
+  --ink: #202124; --body-text: #3C4043; --muted: #5F6368;
+  --green: #137333; --green-bg: #E6F4EA;
+  --warn: #B45309; --warn-bg: #FEF7E0;
+  --red: #EA4335; --red-bg: #FCE8E6;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <div class="brand-name">Gemini Advanced</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Gemini Advanced?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>What&#39;s Included</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Who Should Upgrade</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Workspace Integration</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Deep Research Max</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>NotebookLM Integration</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Image and Video Generation</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>What Pro Doesn&#39;t Add</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">GOOGLE GEMINI</div>
+      <h1>Gemini Advanced</h1>
+      <div class="subtitle">Google&#39;s premium Gemini tier — what&#39;s included and when to upgrade</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Gemini Advanced?</div><div class="section-desc">Google&#39;s premium Gemini tier — what&#39;s included and when to upgrade</div></div></div><div class="content-body"><p class="prose">Gemini Advanced (now bundled into the Google AI Pro and Google AI Ultra plans) is Google&#39;s premium consumer/SMB tier for Gemini. It unlocks the highest-capability models (Gemini 3.1 Pro, Gemini 3 Deep Think), longer context, deeper integrations across Workspace, NotebookLM, Deep Research Max, and image/video generation.</p><p class="prose">Best for: anyone using Gemini daily who&#39;s hit the limits of the free tier — particularly heavier writing, research, and analysis work.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">💎</div><div class="feat-title">Premium Tier</div><div class="feat-desc">Google AI Pro ($20/mo) and Ultra ($200/mo). Bundled into Workspace Business/Enterprise.</div></div><div class="feat-card"><div class="feat-icon">🧠</div><div class="feat-title">Top Models</div><div class="feat-desc">Gemini 3.1 Pro default. Deep Think (specialised reasoning) on Ultra.</div></div><div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">Full Workspace</div><div class="feat-desc">Gmail, Docs, Sheets, Slides, Meet, Drive integration unlocked at Pro level.</div></div><div class="feat-card"><div class="feat-icon">🔬</div><div class="feat-title">Deep Research Max</div><div class="feat-desc">Strongest autonomous research agent in 2026. Pro+ tier.</div></div></div><div class="deco-band">✨  Where Google&#39;s flagship AI capabilities actually unlock  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">💎  2026 UPDATE — GOOGLE AI ULTRA FOR DEEP THINK</div><div class="callout-text">Gemini 3 Deep Think (the specialized reasoning mode) is reserved for Google AI Ultra subscribers and select API customers. If you&#39;re doing genuinely hard reasoning work (science, research, complex engineering), Ultra is the tier; for everyday Gemini Advanced use, Pro is sufficient.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">What&#39;s Included</div><div class="section-desc">Free vs Pro vs Ultra</div></div></div><div class="content-body"><table class="ref-table"><thead><tr><th>Feature</th><th>Free</th><th>Google AI Pro ($20/mo)</th><th>Google AI Ultra ($200/mo)</th></tr></thead><tbody><tr><td>Default model</td><td>Gemini 3</td><td>Gemini 3.1 Pro</td><td>Gemini 3.1 Pro</td></tr><tr><td>Deep Think mode</td><td>No</td><td>No</td><td>Yes</td></tr><tr><td>Deep Research</td><td>Basic</td><td>Deep Research Max</td><td>Deep Research Max</td></tr><tr><td>NotebookLM</td><td>Limited</td><td>Full</td><td>Full + Audio/Video Overviews</td></tr><tr><td>Workspace integration</td><td>Limited</td><td>Full</td><td>Full + advanced features</td></tr><tr><td>Image generation</td><td>Basic</td><td>Imagen full</td><td>Imagen + advanced video</td></tr><tr><td>Live voice mode</td><td>Standard</td><td>Advanced voices</td><td>Premium voices</td></tr><tr><td>1M context</td><td>No</td><td>Yes</td><td>Yes</td></tr></tbody></table></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Who Should Upgrade</div><div class="section-desc">The threshold for paying</div></div></div><div class="content-body"><ul class="bullets"><li>Daily Gemini users hitting free tier limits</li><li>Anyone using Gemini in Workspace at scale</li><li>Researchers needing Deep Research Max (NotebookLM-backed sources)</li><li>Content creators using Imagen/video gen frequently</li><li>Anyone wanting Deep Think for hard reasoning (→ Ultra tier)</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Upgrade to Pro if you&#39;re a daily Gemini user hitting free-tier limits</li><li>Upgrade to Pro for any meaningful Workspace integration use</li><li>Upgrade to Pro for research workflows — Deep Research Max is the unlock</li><li>Upgrade to Pro for content creators using Imagen/video frequently</li><li>Upgrade to Ultra for genuine Deep Think use cases — hard reasoning, code, science</li><li>Try Pro free for 30 days first if available; verify ROI before annual commitment</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Upgrading to Ultra for everyday work — Pro is sufficient unless Deep Think needed</li><li>Staying on Free if you use Gemini daily — friction compounds faster than $20/mo</li><li>Skipping Pro because &#39;I have ChatGPT Plus&#39; — different ecosystems, different strengths</li><li>Upgrading for image generation alone — Imagen is also in cheaper standalone tools</li><li>Letting expense reimbursement be the deciding factor — usage volume should be</li><li>Forgetting to cancel if you stop using regularly — auto-renewal is the default</li></ul></div></div></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Workspace Integration</div><div class="section-desc">Why Pro is meaningful for Workspace users</div></div></div><div class="content-body"><p class="prose">With Google AI Pro, Gemini gets full integration across Gmail, Docs, Sheets, Slides, Meet, and Drive. The agent can pull context from any of these and write back to them. Free-tier integration is limited.</p><ul class="bullets"><li>Gmail — full thread context, drafting, triage</li><li>Docs — Canvas-style editing in flow</li><li>Sheets — full data analysis with formula support</li><li>Slides — image generation embedded</li><li>Meet — recap, transcription, action items</li><li>Drive — file references across all your content</li></ul><p class="prose">Google AI Pro is what unlocks the full Workspace integration story. Free-tier Gemini has limited Workspace touchpoints; Pro gets you full Gmail drafting, Docs Canvas, Sheets analysis, Slides image generation, Meet recaps, and Drive search. For organisations on Workspace, Pro is where Gemini becomes genuinely productive rather than just useful.</p><p class="prose">The Workspace integration matters more for Gemini than for any other AI tool because Gemini&#39;s native data source is Workspace. Gmail threads, Docs files, Drive content, Calendar events — all visible to Gemini Pro with appropriate permissions. The combination of model capability and tenant grounding is unmatched in 2026.</p><h3 class="sub-h3">The compounding Workspace effect</h3><p class="sub-body">Pro is what unlocks the full Workspace story. Each integration is useful alone; together they compound. Gmail context informs Docs drafting; Calendar context surfaces in Meet prep; Drive content grounds every prompt.</p><ul class="bullets"><li>Gmail — full thread context, drafting, multi-language, triage at scale</li><li>Docs — Canvas-style live collaborative editing for Gemini-assisted work</li><li>Sheets — natural-language data analysis with formula support</li><li>Slides — image generation embedded; deck building from briefs</li><li>Meet — recap, transcription, action items, live translation</li><li>Drive — file references across every prompt; grounded responses</li></ul></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Deep Research Max</div><div class="section-desc">The flagship Pro feature</div></div></div><div class="content-body"><p class="prose">Deep Research Max is the most capable consumer research agent in 2026. It plans a research strategy, executes against the web, and (new in 2026) can use your uploaded files as additional sources alongside the web. Output: a structured report with citations, optionally rendered as interactive visuals or a quiz via Canvas.</p><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🔬  USE FOR REAL RESEARCH</div><div class="callout-text">Deep Research Max produces material that&#39;s genuinely useful for first-pass research — competitive analysis, literature review, market scans. Set it running with a clear brief; come back in 5-15 minutes to a structured report.</div></div></div><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🔍</div><div class="feat-title">Multi-Step Planning</div><div class="feat-desc">Agent shows research strategy before executing. You can adjust scope, sources, time period.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">⚙️</div><div class="feat-title">Autonomous Execution</div><div class="feat-desc">Browses 10-30 sources, captures findings, cross-references, synthesises. 5-15 minutes.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📊</div><div class="feat-title">Multiple Output Formats</div><div class="feat-desc">Report + Canvas + Audio Overview + Infographic + Quiz — same research, multiple consumption modes.</div></div></div><p class="prose">Deep Research Max is genuinely the strongest autonomous research agent across mainstream AI tools in 2026. The combination of Gemini 3.1 Pro reasoning, MCP integration (pull from external tools mid-research), upload-as-source (combine private knowledge with web), and multiple output formats produces material that&#39;s competitive with junior-analyst work.</p><p class="prose">Best uses: competitive analysis, literature review, market scans, regulatory analysis, due diligence. The 5-15 minute run time is the price of multi-step quality — set it running, do other work, come back to a structured report.</p></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">NotebookLM Integration</div><div class="section-desc">Notes that sync across Gemini and NotebookLM</div></div></div><div class="content-body"><p class="prose">Pro and Ultra get the full NotebookLM integration: notebooks sync between the Gemini app and NotebookLM, Video Overviews and Infographics, and Gems can connect to a notebook with hundreds of sources (vs the free-tier 10-source limit).</p><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📚  NOTEBOOKS SYNC — PRO+ FEATURE</div><div class="callout-text">Pro and Ultra get the full NotebookLM integration: notebooks sync between Gemini app and NotebookLM (any source added in one place appears in the other), Video and Infographic Overviews ship in NotebookLM, Gems can connect to NotebookLM notebooks with hundreds of sources (vs free-tier 10-source limit).</div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Image and Video Generation</div><div class="section-desc">Imagen + video models</div></div></div><div class="content-body"><ul class="bullets"><li>Imagen — image generation, dramatically improved text-in-image rendering</li><li>Video — short-form video generation for Pro and Ultra</li><li>Slides integration — image generation directly into Slides</li><li>Editing — refine existing images via prompts</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🖼️</div><div class="feat-title">Imagen</div><div class="feat-desc">Image generation. Better text-in-image rendering in 2026. Brand consistency via reusable briefs.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🎬</div><div class="feat-title">Video Generation</div><div class="feat-desc">Short-form clips on Pro/Ultra. Quality competitive with leading models in 2026.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📐</div><div class="feat-title">Slides Native</div><div class="feat-desc">Image generation directly into Slides — describe per slide, get on-brand visual.</div></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">What Pro Doesn&#39;t Add</div><div class="section-desc">Honest limits</div></div></div><div class="content-body"><ul class="bullets"><li>Doesn&#39;t change consumer privacy posture — for tenant-grade compliance, Workspace Business/Enterprise plans matter</li><li>Doesn&#39;t unlock Deep Think — that&#39;s Ultra-only</li><li>Doesn&#39;t give API access — that&#39;s separate (AI Studio / Vertex)</li><li>Doesn&#39;t add admin tools — for org deployment, see Gemini for Teams on Google Workspace</li></ul><h3 class="sub-h3">Honest limits of the Pro tier</h3><p class="sub-body">Pro is meaningfully better than free, but it isn&#39;t a complete solution. Knowing what it doesn&#39;t add prevents disappointment.</p><ul class="bullets"><li>Doesn&#39;t change consumer privacy posture — for tenant-grade compliance, Workspace Business/Enterprise matter</li><li>Doesn&#39;t unlock Deep Think — that&#39;s Ultra-only</li><li>Doesn&#39;t give API access — separate (AI Studio / Vertex)</li><li>Doesn&#39;t add admin tools — for org deployment, see Gemini for Teams on Workspace</li><li>Doesn&#39;t replace ChatGPT or Claude for tasks they&#39;re stronger at</li></ul></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Gemini Advanced as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">UPGRADE DECISION</div><div class="prompt-text">I use Gemini daily, mostly for [tasks]. I&#39;m hitting [limit]. Should I upgrade to Pro or Ultra? Justify with my specific use case, and tell me what I&#39;d be giving up by staying free.</div></div><div class="prompt-card"><div class="prompt-label">PRO FEATURE WALKTHROUGH</div><div class="prompt-text">I just upgraded to Google AI Pro. What&#39;s the first thing I should try? Walk me through the 5 most valuable Pro-only features I should explore this week.</div></div><div class="prompt-card"><div class="prompt-label">ULTRA THRESHOLD CHECK</div><div class="prompt-text">My work is [type of reasoning work]. Is Deep Think worth Ultra for me? Give me 3 specific test prompts I could try to feel the difference between Pro Gemini 3.1 and Ultra Deep Think.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Gemini Advanced on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

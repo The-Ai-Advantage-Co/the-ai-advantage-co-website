@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copilot vs ChatGPT — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #5E17EB; --primary-l: #8B5CF6; --primary-soft: #F0EAFF;
+  --accent1: #0078D4; --accent1-soft: #EFF6FF;
+  --accent2: #EA6C1A; --accent2-soft: #FFF7ED;
+  --page-bg: #EBF1FF; --sidebar-bg: #1E1456;
+  --card-bg: #F7F4FF; --hdr-bg: #EDE8FF; --border: #D0C5F5;
+  --ink: #1E1456; --body-text: #3D3080; --muted: #7264A8;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">MICROSOFT COPILOT</div>
+      <div class="brand-name">Copilot vs ChatGPT</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Copilot vs ChatGPT?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Where Copilot Wins</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Where ChatGPT Wins</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Feature-by-Feature</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Pricing — The Real Numbers</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Deployment Patterns</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Data and Compliance</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Migration Patterns</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">MICROSOFT COPILOT</div>
+      <h1>Copilot vs ChatGPT</h1>
+      <div class="subtitle">When to use Microsoft Copilot, when to use OpenAI ChatGPT, and how to deploy both well</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Copilot vs ChatGPT?</div><div class="section-desc">When to use Microsoft Copilot, when to use OpenAI ChatGPT, and how to deploy both well</div></div></div><div class="content-body"><p class="prose">Microsoft Copilot and OpenAI ChatGPT are both built on the same underlying GPT family, but they&#39;re optimised for different jobs. Copilot is the in-flow tool for work that happens inside M365 — your emails, your documents, your meetings. ChatGPT is the open canvas for any reasoning or generation task where the work product is the conversation itself.</p><p class="prose">Most organisations end up using both. This guide is the working framework for which tool to reach for, and how to deploy them together.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🏢</div><div class="feat-title">Copilot = In-Flow M365</div><div class="feat-desc">Embedded in Outlook, Teams, Word, Excel, PowerPoint. Tenant data via Graph. Required if your work is in M365.</div></div><div class="feat-card"><div class="feat-icon">🎨</div><div class="feat-title">ChatGPT = Open Canvas</div><div class="feat-desc">Canvas, Custom GPTs, Agent, voice — the open-canvas reasoning tool. Required for power users outside M365.</div></div><div class="feat-card"><div class="feat-icon">⚖️</div><div class="feat-title">Most Orgs Use Both</div><div class="feat-desc">Copilot for everyone + ChatGPT for select cohorts (engineering, product, marketing leadership).</div></div><div class="feat-card"><div class="feat-icon">💰</div><div class="feat-title">Combined Cost Justified</div><div class="feat-desc">~$50-60/user/month for cohorts that get both — small vs the productivity gain.</div></div></div><div class="deco-band">✨  Pick by use case, not by tool — most orgs deploy both  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚖️  2026 REALITY — BOTH, NOT EITHER</div><div class="callout-text">The &#39;pick one&#39; framing is outdated. Mature organisations deploy both: Copilot for in-flow M365 work (where data residency, permissions, and tenant grounding matter) and ChatGPT for open-canvas reasoning, custom GPTs, and anything where the conversation is the deliverable.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Where Copilot Wins</div><div class="section-desc">In-flow, tenant-grounded, M365-native work</div></div></div><div class="content-body"><ul class="bullets"><li>Drafting an email in your own thread — Copilot in Outlook reads the chain</li><li>Summarising a Teams meeting you just attended — Copilot has the transcript</li><li>Analysing your own Excel data — Copilot inherits your permissions</li><li>Generating slides from a Word doc — Copilot in PowerPoint pulls from M365</li><li>Anything where data residency, tenant grounding, or Graph access matters</li></ul><p class="prose">The clearest &#39;Copilot wins&#39; case is any work that happens inside the M365 apps you already use. The friction of leaving Word to paste content into ChatGPT, edit it there, copy back, and re-format is the friction Copilot eliminates. For the work that&#39;s already happening in M365 — emails, documents, spreadsheets, meetings, decks — Copilot is the in-flow tool.</p><p class="prose">The other clear Copilot win is anything that needs tenant data grounding. ChatGPT can&#39;t see your SharePoint, your Outlook, your Teams transcripts. Copilot (with the paid tier) can. For any prompt that benefits from &#39;use my actual data, not generic patterns&#39;, Copilot is the right tool.</p><h3 class="sub-h3">The five most-cited Copilot-wins from real rollouts</h3><p class="sub-body">These are the patterns that consistently produce &#39;wouldn&#39;t go back&#39; moments in Copilot rollouts. They share a structural property: each is high-friction work that lives inside M365 apps.</p><ul class="bullets"><li>Outlook thread summarisation — 30-50 minutes daily reclaimed across long threads</li><li>Teams meeting recap — instant action item extraction, accurate speaker attribution</li><li>Excel data analysis on tenant data — natural-language queries on actual sheets</li><li>Word drafting with Reference doc context — pulls from /Q4-Plan.docx automatically</li><li>Cross-app context via Copilot Chat — &#39;brief me on Project Atlas across emails and Teams&#39;</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Where ChatGPT Wins</div><div class="section-desc">Open canvas, broader reasoning, deeper customisation</div></div></div><div class="content-body"><ul class="bullets"><li>Long-form writing where the conversation IS the workspace (Canvas)</li><li>Code generation and debugging — broader model coverage and longer context</li><li>Custom GPTs — build a tailored assistant in 10 minutes</li><li>Research with Atlas Browser — Agent navigates the web on your behalf</li><li>Image generation — the latest DALL-E and image models</li><li>Anything where the work isn&#39;t in your M365 tenant</li></ul><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚖️  DON&#39;T FORCE A CHOICE</div><div class="callout-text">The &#39;pick one&#39; framing is outdated for 2026. Most mature deployments use both: Copilot for in-flow M365 work, ChatGPT for open-canvas reasoning and Custom GPTs. The combined cost (~$50-$60 per user per month) is meaningful but proportional to the productivity gain when both are available for the right tasks.</div></div></div><p class="prose">ChatGPT&#39;s clearest wins are open-canvas reasoning, deeper coding work, and the Custom GPT ecosystem. Canvas mode is meaningfully better than Copilot&#39;s in-document panels for long-form writing where the conversation IS the workspace. Custom GPTs are faster to build than Copilot Studio agents (10 minutes vs an hour) and have a larger third-party ecosystem.</p><p class="prose">Agent (formerly Operator) is the other distinctive ChatGPT capability — an autonomous task surface that operates a virtual browser and can complete multi-step tasks across websites. Copilot has similar agentic capabilities but optimised for M365 workflows, not arbitrary web tasks.</p><h3 class="sub-h3">The five most-cited ChatGPT-wins from real rollouts</h3><p class="sub-body">ChatGPT&#39;s distinctive strengths cluster around open-canvas work, custom assistants, and capabilities Copilot doesn&#39;t replicate. These are why power-user cohorts ask for ChatGPT even when Copilot is deployed.</p><ul class="bullets"><li>Canvas for long-form writing — meaningfully better than in-app panels for sustained work</li><li>Custom GPTs — faster to build than Copilot Studio agents (10 min vs 30-60 min)</li><li>Agent (Operator) — autonomous web tasks Copilot doesn&#39;t replicate</li><li>Code Interpreter with file uploads — Python data analysis without engineering effort</li><li>Polished voice mode — best consumer voice experience in 2026</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Feature-by-Feature</div><div class="section-desc">Direct comparison on common tasks</div></div></div><div class="content-body"><p class="prose">The feature-by-feature comparison is where &#39;which tool&#39; decisions actually get made. Treat the table below as a starting point — the right answer for your team depends on which tasks dominate your workflow, not on the absolute capability per row.</p><table class="ref-table"><thead><tr><th>Task</th><th>Copilot</th><th>ChatGPT</th><th>Winner</th></tr></thead><tbody><tr><td>Draft email in inbox</td><td>Native, reads thread</td><td>Paste content</td><td>Copilot</td></tr><tr><td>Summarise meeting</td><td>Native (Teams)</td><td>Paste transcript</td><td>Copilot</td></tr><tr><td>Analyse spreadsheet</td><td>Native (Excel)</td><td>Upload CSV</td><td>Copilot if tenant data</td></tr><tr><td>Long-form writing</td><td>In-document panels</td><td>Canvas (better)</td><td>ChatGPT</td></tr><tr><td>Generate code</td><td>Good (Word/Excel)</td><td>Excellent (Canvas)</td><td>ChatGPT</td></tr><tr><td>Custom assistant</td><td>Copilot Studio</td><td>Custom GPTs</td><td>Tie (different strengths)</td></tr><tr><td>Image generation</td><td>Microsoft Designer</td><td>DALL-E</td><td>ChatGPT typically</td></tr><tr><td>Research web</td><td>BizChat grounding</td><td>Atlas + Agent</td><td>ChatGPT</td></tr><tr><td>Reasoning</td><td>Think Deeper</td><td>GPT-5.5 Pro / o-series</td><td>Roughly equal</td></tr><tr><td>Voice mode</td><td>Available</td><td>More polished</td><td>ChatGPT</td></tr><tr><td>Tenant data</td><td>Native via Graph</td><td>Not available</td><td>Copilot</td></tr></tbody></table><p class="prose">Two notes on reading the comparison. First, &#39;native&#39; means the tool can do this task without you copy-pasting content between surfaces — that friction is what kills hybrid AI workflows in practice. Second, &#39;better&#39; is contextual; ChatGPT being &#39;better&#39; at code generation matters less if 80% of your team&#39;s work is in Word and Excel.</p><p class="prose">For most decisions, three rows in the comparison matter most: where the work happens (in M365 apps, or in a standalone surface), what data needs to be referenced (tenant data, or open canvas), and what the output shape is (a document you&#39;ll edit, or a conversation you&#39;ll consume). Optimise for those three, the rest follows.</p></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Pricing — The Real Numbers</div><div class="section-desc">Cost per seat</div></div></div><div class="content-body"><ul class="bullets"><li>Copilot Chat — free with eligible M365</li><li>Microsoft 365 Copilot Business — $18-$21/user/mo</li><li>Microsoft 365 Copilot Enterprise — $30/user/mo</li><li>ChatGPT Free — free</li><li>ChatGPT Plus — $20/user/mo</li><li>ChatGPT Team — $25-$30/user/mo</li><li>ChatGPT Enterprise — custom pricing (typically $60+/user/mo)</li></ul><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">💰  ANNUALISED VIEW</div><div class="callout-text">At list prices, deploying both Copilot Enterprise ($360/yr) and ChatGPT Team ($300-$360/yr) to a single user is roughly $700/year. That&#39;s less than a week&#39;s salary for most knowledge workers. The math almost always works in favour of deploying both for the cohorts that benefit.</div></div></div><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">💵</div><div class="feat-title">Copilot</div><div class="feat-desc">Free Chat / Business $18-$21 / Enterprise $30. Bundled with M365 plans.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">💵</div><div class="feat-title">ChatGPT</div><div class="feat-desc">Free / Plus $20 / Pro $200 / Team $25-30 / Enterprise $60+. Standalone.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">💵</div><div class="feat-title">Combined</div><div class="feat-desc">Both deployed ~$50-60/user/month for cohorts. Annual ~$700/year — fraction of saving.</div></div></div><p class="prose">Pricing as of 2026-05. Note that the M365 Copilot Business price has been on a promotional rate of $18-$21 through mid-2026; the standard rate is $21. For Enterprise tenants on E3/E5, the M365 Copilot Enterprise add-on is $30/user/mo. ChatGPT Team is $25-$30 depending on commitment; Enterprise is typically $60+/user/mo with custom negotiation at 500+ seats.</p><p class="prose">The decision isn&#39;t just absolute price — it&#39;s price relative to the productivity multiplier. A $30/user/mo tool that saves 4 hours per week per user pays back roughly 30x at average professional hourly rates. Both Copilot and ChatGPT comfortably clear this bar for most knowledge workers. The optimisation question is which one yields the productivity gain for which roles.</p></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Deployment Patterns</div><div class="section-desc">How real organisations use both</div></div></div><div class="content-body"><ul class="bullets"><li>Everyone gets Copilot — it&#39;s the everyday in-flow tool for M365 work</li><li>Select roles get ChatGPT Team/Enterprise — typically engineering, research, product, marketing leadership</li><li>Custom GPTs in ChatGPT for tasks where Copilot Studio is overkill</li><li>Copilot Studio for agents that need to touch tenant data and integrate with M365 workflows</li><li>Both with clear scope guidance — Copilot for work in M365, ChatGPT for anything else</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Default to Copilot for everyone if you&#39;re a Microsoft 365 org</li><li>Layer ChatGPT Team/Enterprise on top for engineering, product, marketing leadership, research</li><li>Use ChatGPT for open-canvas tasks; Copilot for in-flow M365 work</li><li>Have a single AI Acceptable Use Policy covering both tools</li><li>Provide tool-of-choice guidance per role</li><li>Centralise procurement to manage licence sprawl</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Forcing a single-tool standard when both tools have distinct strengths</li><li>Letting individuals expense ChatGPT outside of a managed contract — shadow IT compounds</li><li>Buying ChatGPT Plus consumer licences for business use — no data protections</li><li>Comparing tools on raw capability — compare on workflow fit</li><li>Switching tools mid-rollout — momentum loss is expensive</li><li>Skipping the tool-of-choice guidance — users default to whatever&#39;s installed</li></ul></div></div><p class="prose">The most common deployment shape we see in 2026: Copilot for everyone in the organisation (it&#39;s the in-flow productivity tool), ChatGPT Team or Enterprise for specific cohorts (engineering, product, marketing leadership, research). This produces the best of both — universal in-flow AI plus deep capability where it&#39;s most needed.</p><p class="prose">The cost per user works out at $40-$60 per month for the 20-30% of staff who get both, and $20-$30 for the rest. For most organisations this is a fraction of what either tool saves them per user per month.</p><h3 class="sub-h3">Common multi-tool deployment governance</h3><ul class="bullets"><li>Single AI Acceptable Use Policy covering both tools</li><li>Tool-of-choice guidance per role (sales uses X, eng uses Y)</li><li>Data classification rules — what data can go to which tool</li><li>Centralised procurement and licence management</li><li>Aggregated usage and ROI reporting across tools</li></ul></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Data and Compliance</div><div class="section-desc">Why the answer often isn&#39;t &#39;just pick one&#39;</div></div></div><div class="content-body"><p class="prose">For regulated industries (financial services, healthcare, public sector), the data residency and tenant grounding of Copilot makes it the default for anything touching customer/employee data. ChatGPT Team and Enterprise have improved meaningfully on compliance, but Copilot&#39;s M365 integration remains the path of least resistance for the highest-sensitivity work.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚖️  COMPLIANCE DEFAULT</div><div class="callout-text">Default to Copilot for any work that touches sensitive tenant data. Default to ChatGPT for open-canvas reasoning where the work is the conversation. Most organisations land on this exact split within 6 months of deploying both.</div></div></div><h3 class="sub-h3">Compliance comparison — what&#39;s now equivalent</h3><p class="sub-body">Through 2025-2026, both Copilot and ChatGPT matured to near-equivalent compliance postures. The decision rarely hinges on compliance gaps now — both tick the boxes mature regulated industries need.</p><ul class="bullets"><li>Both: SOC 2 Type II, ISO 27001/27017/27018, GDPR compliant</li><li>Both: data not used for model training (on paid tiers)</li><li>Both: BAA available for HIPAA workloads</li><li>Both: data residency options at higher tiers</li><li>Both: audit logging and eDiscovery support</li><li>Difference: Copilot is M365-tenant-native; ChatGPT is standalone with optional integrations</li></ul></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Migration Patterns</div><div class="section-desc">If you start with one, when to add the other</div></div></div><div class="content-body"><ul class="bullets"><li>Started with Copilot? Add ChatGPT for product, engineering, research — the open-canvas use cases Copilot doesn&#39;t cover</li><li>Started with ChatGPT? Add Copilot when M365 in-flow work becomes the bottleneck</li><li>Don&#39;t try to replace one with the other — they&#39;re complements, not substitutes</li></ul></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Copilot vs ChatGPT as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">WHICH TOOL BRIEF</div><div class="prompt-text">My team does customer success — meeting prep, follow-up emails, account research, and writing renewal proposals. Which of these tasks are better in Copilot, which in ChatGPT, and what&#39;s the rough cost if I roll out the right tool for each?</div></div><div class="prompt-card"><div class="prompt-label">DEPLOYMENT PLAN</div><div class="prompt-text">We have 200 staff. We&#39;re deploying both Copilot and ChatGPT. Help me design the rollout: who gets which, what training each cohort needs, what governance applies to each, and what success looks like at 90 days.</div></div><div class="prompt-card"><div class="prompt-label">COMPLIANCE COMPARISON</div><div class="prompt-text">We&#39;re a regulated financial services firm. Compare Copilot and ChatGPT on: data residency, audit logging, eDiscovery support, sensitivity labels, and BAA availability. Recommend a deployment that meets our compliance requirements.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Copilot vs ChatGPT on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

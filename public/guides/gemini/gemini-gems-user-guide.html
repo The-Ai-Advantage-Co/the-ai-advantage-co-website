@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gemini Gems | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF5F4;color:#1C0800}
+:root{--blue:#1A73E8;--green:#34A853;--yellow:#F9AB00;--orange:#EA4335;--sidebar:#1A0D00;--card:#fff;--hdr:#FFEBE8;--border:#FDDCDA;--soft:#FFF5F4;--ink:#1C0800;--mid:#4A2A24;--muted:#8A6A64}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:#FBBD33;padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(255,245,244,.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#fff;border-left-color:var(--blue);background:rgba(26,115,232,.15)}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#FBBD33;opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--sidebar);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'💎';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.12;line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:#FBBD33;text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(255,245,244,.7);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(26,13,0,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#EAF7EE;border-color:var(--green)}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FEF9C3;border-color:#B45309}.callout.warning strong{color:#92400E}
+.callout.info{background:#EAF1FD;border-color:var(--blue)}.callout.info strong{color:#1565C0}
+.callout.gemini{background:#FEF7E0;border-color:var(--yellow)}.callout.gemini strong{color:#92400E}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:8px;padding:16px}
+.feature-card.green{border-top-color:var(--green)}.feature-card.yellow{border-top-color:var(--yellow)}.feature-card.orange{border-top-color:var(--orange)}
+.feature-card h4{color:var(--ink);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;color:#fff;background:var(--blue)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--sidebar);color:#FBBD33;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--hdr)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.prompt-box{display:none;background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:#FBBD33;background:var(--sidebar);padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
+.prompt-text{font-size:13px;color:var(--mid);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#2A1A0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+/* Gem instruction editor mockup */
+.gem-editor{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:16px 0}
+.gem-editor-header{background:var(--sidebar);padding:12px 16px;font-size:12px;color:#FBBD33;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.gem-editor-body{background:#fff;padding:16px;font-size:13px;color:var(--mid);line-height:1.7;font-family:'Courier New',monospace;border-bottom:1px solid var(--border)}
+.gem-field{margin-bottom:12px}
+.gem-field label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;font-family:'Segoe UI',Arial,sans-serif}
+.gem-field .val{background:var(--hdr);border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-size:13px;color:var(--ink);font-family:'Segoe UI',Arial,sans-serif}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--ink)}
+h3{font-size:16px;font-weight:700;color:var(--ink);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Gemini Gems</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What are Gems?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>Creating Your First Gem</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Writing Instructions</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Gem Personas & Roles</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Context & Knowledge</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Managing Your Library</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Gemini User Guide</div>
+    <h1>Gemini Gems</h1>
+    <p>Create personalised AI assistants for specific tasks — with custom instructions, personas, and built-in knowledge that persist across every conversation.</p>
+  </div>
+
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">1</div><h2>What are Gems?</h2></div>
+    <div class="section-body">
+      <p>Gems are customised versions of Gemini you build yourself. Each Gem has its own name, instructions, persona, and optionally, files or knowledge you upload. When you start a conversation with a Gem, it already knows its role, your preferences, and any context you've given it — without you having to explain again.</p>
+      <p>Think of a Gem as a specialist on your team. You might have a Gem for writing, a different Gem for code review, another for brainstorming, and one for customer support scripts. Each is tuned for its purpose and ready instantly.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>🎭 Custom persona</h4><p>Give the Gem a role, tone, and personality. It will maintain that character across all conversations.</p></div>
+        <div class="feature-card green"><h4>📋 Persistent instructions</h4><p>Set rules that apply to every response — formatting, length, audience, approach.</p></div>
+        <div class="feature-card yellow"><h4>📂 Embedded knowledge</h4><p>Upload files, documents, or paste content that the Gem always has access to.</p></div>
+        <div class="feature-card orange"><h4>🔁 Reusable workflows</h4><p>Automate your most-repeated AI tasks into a one-click Gem conversation.</p></div>
+      </div>
+      <div class="callout info"><strong>Where to find Gems:</strong><p>Gems are available in Gemini Advanced. Access them from the left sidebar of gemini.google.com or via the Gems Manager at gemini.google.com/gems.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">2</div><h2>Creating Your First Gem</h2></div>
+    <div class="section-body">
+      <div class="step"><div class="step-num" style="background:var(--green)">1</div><div class="step-body"><h4>Open Gems Manager</h4><p>Go to gemini.google.com and click "Gems" in the left sidebar, then click "Create a Gem" or the "+" button.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Name your Gem</h4><p>Give it a clear, descriptive name: "Email Drafter", "Code Reviewer", "Marketing Strategist". You'll see this in the sidebar.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">3</div><div class="step-body"><h4>Write the instructions</h4><p>This is the core of your Gem — the persistent prompt that shapes every conversation. Be specific about role, tone, and behaviour.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">4</div><div class="step-body"><h4>Upload files (optional)</h4><p>Upload documents, style guides, brand guidelines, or reference material the Gem should always know about.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">5</div><div class="step-body"><h4>Save and test</h4><p>Click Save, then open the Gem and send a few test messages. Refine the instructions based on how it responds.</p></div></div>
+      <div class="callout tip"><strong>Google also provides pre-built Gems:</strong><p>Gemini includes a library of ready-made Gems for common tasks like "Learning Coach," "Brainstorm Partner," and "Writing Editor." Browse these first — they may cover your use case already, and they make great starting templates.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">3</div><h2>Writing Instructions</h2></div>
+    <div class="section-body">
+      <p>The instructions field is the most important part of a Gem. Well-written instructions produce consistently useful, on-brand responses. Vague instructions produce inconsistent output.</p>
+      <div class="gem-editor">
+        <div class="gem-editor-header">Example: Email Drafter Gem Instructions</div>
+        <div class="gem-editor-body">
+          You are a professional email writing assistant for a B2B software company.<br><br>
+          <strong>Your role:</strong> Draft clear, concise, professional emails on behalf of the user.<br><br>
+          <strong>Tone:</strong> Warm but professional. Avoid jargon. Use plain English. Never use phrases like "Hope this finds you well."<br><br>
+          <strong>Format:</strong> Subject line first, then email body. Keep emails under 200 words unless the user specifies otherwise.<br><br>
+          <strong>Always ask:</strong> If the user doesn't provide the recipient's context or relationship, ask one clarifying question before drafting.
+        </div>
+      </div>
+      <h3>Instruction components that work best</h3>
+      <table class="ref-table">
+        <tr><th>Component</th><th>What to Include</th><th>Example</th></tr>
+        <tr><td>Role definition</td><td>Who the Gem is and what it does</td><td>"You are a senior data analyst specialising in marketing metrics."</td></tr>
+        <tr><td>Tone and voice</td><td>How it should communicate</td><td>"Use a direct, practical tone. Avoid fluff. Use bullet points for lists."</td></tr>
+        <tr><td>Format rules</td><td>How responses should be structured</td><td>"Always start with a summary, then detail. Use headers for long responses."</td></tr>
+        <tr><td>Constraints</td><td>What it should NOT do</td><td>"Never make up data. If unsure, say so and suggest how to find out."</td></tr>
+        <tr><td>Clarifying behaviour</td><td>When to ask questions vs proceed</td><td>"If the brief is ambiguous, ask one clarifying question before starting."</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">4</div><h2>Gem Personas & Roles</h2></div>
+    <div class="section-body">
+      <p>Personas make Gems dramatically more useful. When Gemini is playing a specific, well-defined role, its responses are more focused, more consistent, and more useful than general-purpose Gemini.</p>
+      <h3>Persona types that work well</h3>
+      <div class="feature-grid">
+        <div class="feature-card orange"><h4>👔 Professional role</h4><p>"You are a senior HR consultant specialising in performance management frameworks." — gives expertise and perspective.</p></div>
+        <div class="feature-card"><h4>🎓 Teacher / coach</h4><p>"You are a patient Socratic tutor who helps people learn by asking questions rather than giving answers." — shapes the interaction style.</p></div>
+        <div class="feature-card green"><h4>✍️ Editor / critic</h4><p>"You are a professional copyeditor with high standards for clarity and concision. Be direct about what needs improving." — enables honest feedback.</p></div>
+        <div class="feature-card yellow"><h4>🔎 Analyst</h4><p>"You are a business analyst who thinks in frameworks, quantifies where possible, and always identifies assumptions." — shapes analytical output.</p></div>
+      </div>
+      <div class="callout gemini"><strong>Add a perspective to your persona:</strong><p>Rather than just a job title, add a point of view: "You are a UX designer who believes that most software is over-engineered and always advocates for simplicity." The perspective makes responses more distinctive and useful.</p></div>
+      <h3>Audience awareness</h3>
+      <p>Tell your Gem who it's talking to: "The user is always a non-technical business owner — never assume technical knowledge." This one instruction prevents Gemini from defaulting to technical jargon when you need plain-English explanations.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">5</div><h2>Context & Knowledge</h2></div>
+    <div class="section-body">
+      <p>Gems can be given persistent knowledge — information they always have access to, regardless of what you ask in a given conversation. This is what separates a generic Gemini conversation from a truly personalised AI assistant.</p>
+      <h3>What to upload as Gem knowledge</h3>
+      <ul>
+        <li><strong>Brand guidelines</strong> — tone of voice, vocabulary, dos and don'ts</li>
+        <li><strong>Company information</strong> — what you do, who your customers are, your positioning</li>
+        <li><strong>Product documentation</strong> — features, pricing, FAQs for a customer-support Gem</li>
+        <li><strong>Previous work</strong> — sample emails, past reports, as style reference</li>
+        <li><strong>Research reports</strong> — from Deep Research sessions, used to create a topic-expert Gem</li>
+      </ul>
+      <div class="callout tip"><strong>Paste vs upload:</strong><p>For shorter knowledge (under a few thousand words), pasting directly into the instructions field is often more reliable than uploading a file — it's immediately visible and easier to edit later.</p></div>
+      <h3>Knowledge limitations</h3>
+      <p>Gemini Gems have a context limit. Very large uploads may be truncated. For extensive knowledge bases (full product documentation, multiple lengthy reports), consider using NotebookLM instead — it's designed for large document corpora.</p>
+      <div class="callout warning"><strong>Sensitive information:</strong><p>Don't upload files containing passwords, PII, or confidential financial data into Gems. Gem knowledge is stored in your Google account but review the Google privacy policy for how this data is handled.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">6</div><h2>Managing Your Library</h2></div>
+    <div class="section-body">
+      <p>Over time you'll build a library of Gems — each tuned for a specific purpose. Good library management keeps your Gems useful and easy to find.</p>
+      <h3>Naming conventions</h3>
+      <p>Use a consistent naming pattern: [Role/Function] — [Audience/Context]. Examples:</p>
+      <ul>
+        <li>"Email Drafter — Client-Facing"</li>
+        <li>"Code Reviewer — Python"</li>
+        <li>"Blog Writer — AI & Tech Topics"</li>
+        <li>"Meeting Coach — Executive Presentations"</li>
+      </ul>
+      <h3>When to update a Gem</h3>
+      <table class="ref-table">
+        <tr><th>Trigger</th><th>What to Update</th></tr>
+        <tr><td>Gem gives consistently off-tone responses</td><td>Refine the tone and voice instructions; add a "do not" example</td></tr>
+        <tr><td>Your role or product changes</td><td>Update the company/context information in the knowledge section</td></tr>
+        <tr><td>You find yourself adding the same context every session</td><td>That context belongs in the Gem instructions permanently</td></tr>
+        <tr><td>Gem asks for information it should already know</td><td>Add that information to the knowledge section</td></tr>
+      </table>
+      <div class="callout info"><strong>Duplicate before you experiment:</strong><p>Before making major changes to a working Gem, duplicate it first (via the Gems Manager menu). This way you can experiment without losing a version that's already working well.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>The "start with a question" instruction</h3>
+      <p>Add to your Gem instructions: "When the user starts a conversation, always ask one clarifying question before responding." This prevents Gems from making assumptions and produces better first drafts.</p>
+      <h3>Build a Gem from a Deep Research report</h3>
+      <p>Run a Deep Research session on a topic. Export to Google Docs. Then create a Gem and paste the key findings into the instructions as "background knowledge." The Gem becomes a subject-matter expert on that specific topic.</p>
+      <h3>Chain Gems in a workflow</h3>
+      <p>Use Gem A to create a first draft → copy output → use Gem B (your editor Gem) to refine it → copy to Gem C (your formatter Gem) to apply final structure. Each Gem does one thing well.</p>
+      <h3>Response format templates</h3>
+      <p>Include a desired output template directly in the instructions:</p>
+      <div class="callout gemini"><strong>Template instruction example:</strong><p>Always structure your analysis responses as: <br>**Situation:** [2 sentences max]<br>**Key finding:** [1 sentence]<br>**Options:** [3 bullet points]<br>**Recommendation:** [1 sentence with reasoning]</p></div>
+      <h3>Use Gems for recurring client work</h3>
+      <p>Create a separate Gem for each major client — loaded with their brand guidelines, product info, and communication preferences. Consistency across months of work becomes automatic.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr>
+        <tr><td>Instructions too vague</td><td>"Be helpful and professional" applies to everything — gives Gemini no specific guidance</td><td>Add role, tone, format, constraints, and audience as separate explicit items</td></tr>
+        <tr><td>Never testing after setup</td><td>Saving a Gem without running test conversations</td><td>Send 5 different test prompts after setup; refine instructions based on responses</td></tr>
+        <tr><td>Uploading too much</td><td>Trying to put entire company wikis into one Gem</td><td>Keep knowledge focused on what the Gem actually needs. Use NotebookLM for large corpora</td></tr>
+        <tr><td>One Gem for everything</td><td>Building one "super Gem" instead of specialised ones</td><td>Separate Gems by task — a writing Gem and an analysis Gem will each outperform a combined one</td></tr>
+        <tr><td>Not updating after use</td><td>Treating Gems as set-and-forget</td><td>After each session, note anything the Gem got wrong and update instructions accordingly</td></tr>
+        <tr><td>Forgetting which Gem to use</td><td>Library grows without a clear naming system</td><td>Use a consistent [Role]—[Context] naming convention from the start</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'gm-a')">Building Gems</button>
+          <button class="tab-btn" onclick="switchTab(this,'gm-b')">Using Gems</button>
+        </div>
+        <div class="prompt-box active" id="gm-a">
+          <div class="prompt-item">
+            <div class="prompt-label">Instruction Generator</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Help me write Gem instructions for a Gemini Gem that will act as a [role] for [audience]. It should always [key behaviour]. The tone should be [tone description]. It should never [constraint]. Here's an example of a good response it should give: [example]."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Gem Audit</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Review these Gem instructions and identify: (1) anything vague or ambiguous that could produce inconsistent responses, (2) missing constraints that could lead to unhelpful outputs, (3) improvements to the structure or clarity. Here are the instructions: [paste instructions]"</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Knowledge Summary</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Condense the following document into a concise knowledge summary suitable for pasting into a Gem's instructions. Keep the most important facts, remove examples that won't generalise, and format it as labelled sections: [paste document]"</div>
+          </div>
+        </div>
+        <div class="prompt-box" id="gm-b">
+          <div class="prompt-item">
+            <div class="prompt-label">Writing Assistant</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"[Start a conversation with your writing Gem] Here's a first draft I need you to review: [paste draft]. Focus on: clarity, concision, and whether the opening paragraph hooks the reader. Give me specific line-level suggestions."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Strategy Gem</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"[Start a conversation with your strategy Gem] I'm trying to decide between these two options: [Option A] and [Option B]. The key factors are [factors]. Using your framework, what would you recommend and why? What am I potentially missing?"</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Daily Briefing Gem</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"[Start a conversation with a morning briefing Gem] Today is [day/date]. I have these items on my agenda: [list]. My priorities for this week are [priorities]. Give me a structured start to my day: what to focus on first and any potential blockers to flag."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A content marketer builds a "Brand Voice Editor" Gem with the company's style guide embedded.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span style="font-size:12px;color:rgba(255,245,244,.5);margin-left:8px">Gemini Gems — Brand Voice Editor</span></div>
+        <div style="padding:20px">
+          <div style="background:#1A3050;border-radius:8px;padding:14px;margin-bottom:16px">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Gem Instructions (summary)</div>
+            <div style="font-size:12px;color:rgba(255,245,244,.8);line-height:1.6;font-style:italic">You are a brand editor for Acme Corp. Tone: confident, plain-spoken, never corporate-speak. Never use: "leverage," "synergy," "ecosystem." Always use active voice. Keep sentences under 20 words. [Brand guide uploaded as PDF]</div>
+          </div>
+          <div style="background:#2A1A0A;border-radius:8px;padding:12px;margin-bottom:12px;font-size:13px;color:rgba(255,245,244,.8);font-style:italic">"Edit this paragraph for our brand voice: 'We leverage our robust ecosystem of integrated solutions to synergise client outcomes across all verticals.'"</div>
+          <div style="background:rgba(52,168,83,.1);border:1px solid rgba(52,168,83,.3);border-radius:8px;padding:14px">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:8px">Brand Voice Editor</div>
+            <div style="font-size:13px;color:rgba(255,245,244,.85);line-height:1.7">
+              <strong style="color:#81C784">Revised:</strong> "Our tools work together — so your clients get better results, faster."<br><br>
+              <strong style="color:rgba(255,245,244,.6);font-size:12px">Changes: removed "leverage," "ecosystem," "synergise," "verticals." Replaced corporate noun stack with concrete benefit. Cut from 14 words to 10.</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>Same Gem, every piece of copy — consistent brand voice without briefing a human editor each time.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn" style="color:var(--blue)">01</div><h4>Use a pre-built Gem</h4><p>Start with Google's ready-made Gems. Try "Writing Editor" or "Learning Coach" to understand the format.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--green)">02</div><h4>Build your first Gem</h4><p>Pick your most repeated AI task. Write specific instructions with role, tone, format, and constraints.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--yellow)">03</div><h4>Add knowledge</h4><p>Upload a brand guide, style doc, or company overview. Test whether the Gem uses it correctly.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--orange)">04</div><h4>Build a Gem library</h4><p>Create 3–5 specialised Gems for your most common workflows. Refine each based on real use.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){
+  const tabs=el.closest('.prompt-tabs');
+  tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  tabs.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function copyPrompt(btn){
+  const text=btn.nextElementSibling.textContent;
+  navigator.clipboard.writeText(text).catch(()=>{});
+  const orig=btn.textContent;btn.textContent='Copied!';
+  setTimeout(()=>btn.textContent=orig,1500);
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+      const link=document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(link)link.classList.add('active');
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

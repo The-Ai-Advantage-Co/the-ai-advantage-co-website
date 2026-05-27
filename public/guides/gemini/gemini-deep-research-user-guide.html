@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gemini Deep Research | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF5F4;color:#1C0800}
+:root{--blue:#1A73E8;--green:#34A853;--yellow:#F9AB00;--orange:#EA4335;--sidebar:#1A0D00;--card:#fff;--hdr:#FFEBE8;--border:#FDDCDA;--soft:#FFF5F4;--ink:#1C0800;--mid:#4A2A24;--muted:#8A6A64}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:#FBBD33;padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(255,245,244,.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#fff;border-left-color:var(--blue);background:rgba(26,115,232,.15)}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#FBBD33;opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--sidebar);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'🔬';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.12;line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:#FBBD33;text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(255,245,244,.7);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(26,13,0,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#EAF7EE;border-color:var(--green)}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FEF9C3;border-color:#B45309}.callout.warning strong{color:#92400E}
+.callout.info{background:#EAF1FD;border-color:var(--blue)}.callout.info strong{color:#1565C0}
+.callout.gemini{background:#FEF7E0;border-color:var(--yellow)}.callout.gemini strong{color:#92400E}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:8px;padding:16px}
+.feature-card.green{border-top-color:var(--green)}.feature-card.yellow{border-top-color:var(--yellow)}.feature-card.orange{border-top-color:var(--orange)}
+.feature-card h4{color:var(--ink);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;color:#fff;background:var(--blue)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--sidebar);color:#FBBD33;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--hdr)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.prompt-box{display:none;background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:#FBBD33;background:var(--sidebar);padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
+.prompt-text{font-size:13px;color:var(--mid);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#2A1A0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+/* Research Trace */
+.rtrace{border-radius:10px;overflow:hidden;border:1px solid var(--border);margin:16px 0}
+.rtrace-header{background:var(--sidebar);padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.rtrace-header span{font-size:13px;color:rgba(255,245,244,.7);font-style:italic}
+.rtrace-meta{display:flex;gap:20px}
+.rtrace-meta div{font-size:11px;color:#FBBD33;text-transform:uppercase;letter-spacing:.5px}
+.rtrace-meta strong{display:block;font-size:14px;color:#fff;text-transform:none;letter-spacing:0}
+.rtrace-row{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--border);background:#fff}
+.rtrace-row:last-child{border-bottom:none}
+.rtrace-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.rtrace-text{font-size:13px;color:var(--mid)}
+/* Source Tiles */
+.source-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.source-tile{background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:14px}
+.source-tile .st-name{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.source-tile .st-desc{font-size:12px;color:var(--muted);line-height:1.4}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--ink)}
+h3{font-size:16px;font-weight:700;color:var(--ink);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Gemini Deep Research</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Deep Research?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>How Deep Research Works</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Crafting the Right Query</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Reading & Using Reports</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Source Evaluation</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Research Strategies</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Gemini User Guide</div>
+    <h1>Gemini Deep Research</h1>
+    <p>Turn hours of manual research into comprehensive, cited reports in minutes — with Gemini's autonomous multi-step research agent.</p>
+  </div>
+
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">1</div><h2>What is Deep Research?</h2></div>
+    <div class="section-body">
+      <p>Deep Research is Gemini's autonomous research agent. Unlike a standard web search, it doesn't return a list of links — it reads dozens of sources, synthesises findings, and delivers a fully structured report with inline citations, all without you having to click anything.</p>
+      <p>It's available in Gemini Advanced (1.5 Pro and 2.0 models) and is designed for complex questions that would normally take hours of reading to answer properly: competitive analysis, academic topic overviews, market research, policy summaries, and technical deep-dives.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>🔍 Multi-step searching</h4><p>Runs 20–100+ individual web searches, following leads across sources to build a complete picture.</p></div>
+        <div class="feature-card green"><h4>📄 Cited reports</h4><p>Every claim links back to a specific source, so you can verify and explore further.</p></div>
+        <div class="feature-card yellow"><h4>⏱ Research in minutes</h4><p>Tasks that take human researchers hours complete in 5–15 minutes.</p></div>
+        <div class="feature-card orange"><h4>📥 Export to Docs</h4><p>Send the finished report directly to Google Docs for editing, sharing, and collaboration.</p></div>
+      </div>
+      <div class="callout info"><strong>Who it's for:</strong><p>Professionals, researchers, students, and business owners who need reliable, comprehensive information fast — without reading 40 browser tabs.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">2</div><h2>How Deep Research Works</h2></div>
+    <div class="section-body">
+      <p>Deep Research works in two phases: planning and execution. Understanding both phases helps you write better queries and interpret results accurately.</p>
+      <h3>Phase 1 — Research Plan</h3>
+      <p>When you submit a Deep Research query, Gemini first generates a research plan — a bullet-point outline of the sub-questions it intends to answer. You can review and edit this plan before research begins. This is your opportunity to redirect, narrow, or expand the scope.</p>
+      <div class="step"><div class="step-num" style="background:var(--green)">1</div><div class="step-body"><h4>You submit the query</h4><p>Type your research question in the Gemini chat interface and select "Deep Research" mode.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Gemini generates a plan</h4><p>A structured outline appears showing what it will research. Review and edit as needed.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">3</div><div class="step-body"><h4>Autonomous research begins</h4><p>Gemini searches the web iteratively, reads pages, follows sources, and builds its knowledge base.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">4</div><div class="step-body"><h4>Report is delivered</h4><p>A fully structured report with headings, bullet points, and inline citations appears in chat.</p></div></div>
+      <div class="callout tip"><strong>Edit the plan:</strong><p>The research plan stage is underused. If you see the plan missing a key angle — competitor, geography, time period — add it before confirming. You'll get a much better report.</p></div>
+      <h3>What it searches</h3>
+      <p>Deep Research uses Google Search and reads the full text of web pages, PDFs, and documents it finds. It does not currently read content behind paywalls or from your private Google Drive files.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">3</div><h2>Crafting the Right Query</h2></div>
+    <div class="section-body">
+      <p>Deep Research works best with specific, scoped questions — not vague topics. The more context you provide, the more targeted the research plan and the more relevant the final report.</p>
+      <table class="ref-table">
+        <tr><th>Query Type</th><th>Weak Example</th><th>Strong Example</th></tr>
+        <tr><td>Business</td><td>"Tell me about the EV market"</td><td>"Compare the top 5 EV manufacturers by global market share in 2024, focusing on revenue, charging infrastructure, and fleet partnerships"</td></tr>
+        <tr><td>Academic</td><td>"What is ADHD?"</td><td>"Summarise the current research on ADHD in adults, including diagnosis rates, treatment options, and workplace accommodations, from 2020–2024"</td></tr>
+        <tr><td>Competitor</td><td>"Tell me about my competitors"</td><td>"Research the top 3 B2B SaaS CRM platforms competing with Salesforce: HubSpot, Pipedrive, and Zoho. Cover pricing, features, and target segments."</td></tr>
+        <tr><td>Policy</td><td>"AI regulation"</td><td>"Summarise the key provisions of the EU AI Act as it applies to high-risk AI systems in healthcare, including compliance timelines and penalties."</td></tr>
+      </table>
+      <div class="callout gemini"><strong>The scope formula:</strong><p>Topic + specific angle + time period or geography + what you want to do with the information. Example: "Research [topic] focusing on [angle] in [period/region] to help me [purpose]."</p></div>
+      <h3>Query add-ons that improve output</h3>
+      <ul>
+        <li><strong>"Include statistics and data where available"</strong> — gets numerical evidence rather than just commentary</li>
+        <li><strong>"Focus on [year range]"</strong> — prevents outdated content from dominating</li>
+        <li><strong>"Exclude [company/topic]"</strong> — useful when you already know certain sources well</li>
+        <li><strong>"Structure the report with sections for [X, Y, Z]"</strong> — shapes the report outline directly</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">4</div><h2>Reading & Using Reports</h2></div>
+    <div class="section-body">
+      <p>A Deep Research report can be 2,000–8,000 words long. Knowing how to navigate and use the report efficiently is as important as knowing how to request one.</p>
+      <h3>Report structure</h3>
+      <p>Reports follow a consistent structure: executive summary → thematic sections → conclusion → sources list. The inline citations are numbered superscripts linking to the sources panel.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>📋 Executive summary</h4><p>Read this first — it gives you the 3–5 key findings. Often this is all you need for a quick brief.</p></div>
+        <div class="feature-card green"><h4>📑 Thematic sections</h4><p>Each section covers one angle from the research plan. Jump to the sections most relevant to your use case.</p></div>
+        <div class="feature-card yellow"><h4>🔗 Inline citations</h4><p>Click any citation number to see the source. Use these to dig deeper into any specific claim.</p></div>
+        <div class="feature-card orange"><h4>📊 Sources panel</h4><p>The full list of sources used. Review this to assess the breadth and quality of the research.</p></div>
+      </div>
+      <h3>Exporting and using the report</h3>
+      <div class="step"><div class="step-num" style="background:var(--orange)">1</div><div class="step-body"><h4>Export to Google Docs</h4><p>Click "Export to Docs" to create a fully editable Google Doc — with all headings and citations intact.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--orange)">2</div><div class="step-body"><h4>Follow up in chat</h4><p>Ask Gemini to expand a specific section, rewrite it for a different audience, or pull out just the key statistics.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--orange)">3</div><div class="step-body"><h4>Combine with other tools</h4><p>Paste the report into a Google Slides deck, use it as context for a Gem, or share via Gmail as a briefing.</p></div></div>
+      <div class="callout tip"><strong>Follow-up prompts that add value:</strong><p>After the report is delivered, try: "Summarise the top 5 takeaways as a bullet list" or "Rewrite the executive summary for a non-technical audience" or "What are the most surprising findings in this report?"</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">5</div><h2>Source Evaluation</h2></div>
+    <div class="section-body">
+      <p>Deep Research is powerful, but it can only synthesise what's available on the public web. Understanding how to evaluate the sources it uses prevents you from relying on low-quality information.</p>
+      <h3>What makes a good source in a Deep Research report?</h3>
+      <table class="ref-table">
+        <tr><th>Signal</th><th>Good</th><th>Caution</th></tr>
+        <tr><td>Publisher</td><td>Government sites, universities, major news outlets, peer-reviewed journals</td><td>Personal blogs, single-author sites, forums</td></tr>
+        <tr><td>Recency</td><td>Published within the last 2 years for fast-moving topics</td><td>Articles from 5+ years ago on technology or market topics</td></tr>
+        <tr><td>Specificity</td><td>Data-backed claims with named studies or statistics</td><td>Vague assertions without sourced figures</td></tr>
+        <tr><td>Diversity</td><td>Multiple independent sources corroborating the same finding</td><td>One source repeated multiple times</td></tr>
+      </table>
+      <div class="callout warning"><strong>Always verify high-stakes claims:</strong><p>Deep Research does an excellent job of synthesis, but it can occasionally misrepresent a source or include outdated data. For any claim you plan to act on or publish, click through to the original source and verify directly.</p></div>
+      <h3>Prompting for better sources</h3>
+      <ul>
+        <li>Add <strong>"prioritise peer-reviewed or government sources"</strong> to your query</li>
+        <li>Specify <strong>"from [year] onwards"</strong> to avoid outdated research</li>
+        <li>Ask for <strong>"statistics with named sources"</strong> to force attribution</li>
+        <li>After the report: <strong>"Which of these findings are supported by multiple sources?"</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">6</div><h2>Research Strategies</h2></div>
+    <div class="section-body">
+      <p>Deep Research isn't just for one-off questions. Used strategically, it becomes a repeatable research workflow for your role.</p>
+      <h3>Strategy 1 — Competitive intelligence sprint</h3>
+      <p>Run one Deep Research session per competitor per quarter. Use the same query template each time so reports are comparable. Export to Docs, then use Gemini in Docs to generate a competitive comparison table from all reports.</p>
+      <h3>Strategy 2 — Topic mastery onboarding</h3>
+      <p>When entering a new field or project, start with a broad "overview of [topic]" report, then run 3–5 narrower follow-up queries on the most important sub-topics the overview surfaced. Within an afternoon you have deep background on a field that would otherwise take weeks to read.</p>
+      <h3>Strategy 3 — Evidence gathering for proposals</h3>
+      <p>Before writing a business case, use Deep Research to gather supporting statistics and precedents. Ask specifically: "Find evidence that [investment/initiative] has delivered ROI for similar organisations." Then use the citations in your proposal directly.</p>
+      <div class="callout gemini"><strong>Stack with Gems:</strong><p>Create a Gem with your research report as context (paste it into the system instructions). The Gem then becomes a subject-matter expert on that topic — able to answer follow-up questions, draft content, and give advice grounded in the report.</p></div>
+      <h3>Strategy 4 — Newsletter and content research</h3>
+      <p>Content creators can use Deep Research to rapidly understand a topic before writing. Run the research, export to Docs, then ask Gemini to draft a post, newsletter section, or script based on the findings.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>Chain multiple research sessions</h3>
+      <p>Run a broad research session first to identify the key themes, then run targeted sessions on each theme. The second wave of reports will be far more precise because you now know what to ask.</p>
+      <h3>Edit the research plan aggressively</h3>
+      <p>The research plan is shown before research begins. Remove sections that aren't relevant, add specific companies or data points you want covered, and reorder sections to match how you'll use the report. A 2-minute plan review saves significant post-processing.</p>
+      <h3>Use Deep Research as a fact-checking tool</h3>
+      <p>If you have an existing document with claims you're unsure about, ask: "Research whether the following statistics are accurate and find the original sources: [paste claims]." Gemini will search for corroboration or contradictions.</p>
+      <h3>Set a scope boundary explicitly</h3>
+      <p>Deep Research can go wide. If you want depth over breadth, say: "Focus only on academic research, not industry commentary" or "Limit this to the US market." Scope constraints prevent the report from becoming unfocused.</p>
+      <div class="callout tip"><strong>Synthesis prompt after research:</strong><p>Once the report is delivered, ask: "Based on this research, what are the 3 most important things someone in [my role] should do differently?" This turns a descriptive report into an actionable brief.</p></div>
+      <h3>Combine Deep Research with NotebookLM</h3>
+      <p>Export the report to Google Docs, then add that Doc to a NotebookLM notebook. NotebookLM can then run Q&A, generate audio overviews, and create study guides from the research — turning a single report into a multi-format knowledge resource.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr>
+        <tr><td>Too-vague query</td><td>"Research AI" gives a surface-level overview of a massive topic</td><td>Add specific angle, time period, geography, and purpose to every query</td></tr>
+        <tr><td>Skipping the plan review</td><td>Clicking "Start Research" immediately without checking the plan</td><td>Always read the research plan and edit at least one item to confirm scope</td></tr>
+        <tr><td>Treating output as final</td><td>Publishing or presenting the report without verification</td><td>Click through to 3–5 sources for any important claims before using them</td></tr>
+        <tr><td>Not exporting</td><td>Leaving the report in the chat where it's hard to share and loses formatting</td><td>Always export to Google Docs immediately after the report completes</td></tr>
+        <tr><td>One-session thinking</td><td>Expecting one report to answer everything</td><td>Plan a 2-stage approach: broad overview first, then targeted follow-up sessions</td></tr>
+        <tr><td>Ignoring the sources panel</td><td>Reading only the synthesised content without checking source quality</td><td>Scan the sources list for recency and publisher credibility before acting on findings</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'dr-a')">Business Research</button>
+          <button class="tab-btn" onclick="switchTab(this,'dr-b')">Learning & Analysis</button>
+        </div>
+        <div class="prompt-box active" id="dr-a">
+          <div class="prompt-item">
+            <div class="prompt-label">Competitive Analysis</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Research the top 5 competitors to [my company/product] in [market]. For each, cover: key differentiators, pricing model, target customer, recent product changes, and customer sentiment from reviews. Highlight where they are weakest."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Market Opportunity</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Research the [industry] market in [region/country] focusing on: current market size, growth projections to 2027, key trends, regulatory environment, and which customer segments are underserved. Prioritise data from 2022–2024."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Evidence for Proposal</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Research evidence that [initiative — e.g. flexible working / AI adoption / sustainability investment] has delivered measurable business outcomes for companies similar to [my company size/sector]. Find statistics, case studies, and named examples with sources."</div>
+          </div>
+        </div>
+        <div class="prompt-box" id="dr-b">
+          <div class="prompt-item">
+            <div class="prompt-label">Topic Mastery</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Give me a comprehensive overview of [topic] including: history and key milestones, current state of knowledge, main schools of thought or competing approaches, open questions, and recommended resources for deeper study."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Trend Analysis</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Research the key trends shaping [field] in 2024–2025. For each trend, explain: what's driving it, who is affected, what early signals indicate, and what the implications are for [my role/industry]. Include quantitative data where available."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Technology Evaluation</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Research [technology/tool] for use in [context]. Cover: how it works, key vendors and pricing, real-world implementation examples, known limitations or risks, and how it compares to [alternative approach]. I want to make a procurement decision."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A marketing manager asks Deep Research to analyse the competitive landscape for a new product launch.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span style="font-size:12px;color:rgba(255,245,244,.5);margin-left:8px">gemini.google.com — Deep Research</span></div>
+        <div style="padding:20px">
+          <div style="background:#2A1A0A;border-radius:8px;padding:14px;margin-bottom:16px">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Research Query</div>
+            <div style="font-size:14px;color:rgba(255,245,244,.85);font-style:italic">"Research the top 4 project management SaaS tools competing with Asana in 2024: Monday.com, ClickUp, Notion, and Linear. Cover pricing tiers, target team size, key differentiators, and what enterprise customers say are the pain points."</div>
+          </div>
+          <div class="rtrace">
+            <div class="rtrace-header">
+              <span>🔬 Deep Research in progress...</span>
+              <div class="rtrace-meta">
+                <div>Duration<strong>8 min</strong></div>
+                <div>Sources<strong>47</strong></div>
+                <div>Searches<strong>31</strong></div>
+              </div>
+            </div>
+            <div class="rtrace-row"><div class="rtrace-dot" style="background:var(--blue)"></div><div class="rtrace-text">Researching Monday.com pricing and enterprise tier features...</div></div>
+            <div class="rtrace-row"><div class="rtrace-dot" style="background:var(--green)"></div><div class="rtrace-text">Analysing ClickUp vs Asana comparison reviews from G2 and Capterra...</div></div>
+            <div class="rtrace-row"><div class="rtrace-dot" style="background:var(--yellow)"></div><div class="rtrace-text">Reading Notion enterprise case studies and team size data...</div></div>
+            <div class="rtrace-row"><div class="rtrace-dot" style="background:var(--orange)"></div><div class="rtrace-text">Searching for Linear user reviews focused on pain points...</div></div>
+          </div>
+          <div style="margin-top:16px">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Sources Used</div>
+            <div class="source-row">
+              <div class="source-tile"><div class="st-name">G2 Reviews</div><div class="st-desc">2,400+ verified reviews across all 4 platforms</div></div>
+              <div class="source-tile"><div class="st-name">Vendor Pricing Pages</div><div class="st-desc">Direct pricing data from all competitor websites</div></div>
+              <div class="source-tile"><div class="st-name">TechCrunch / Forbes</div><div class="st-desc">Recent funding, enterprise wins, and product launches</div></div>
+            </div>
+          </div>
+          <div style="background:#1A3A1A;border-radius:8px;padding:14px;margin-top:8px">
+            <div style="font-size:11px;color:#81C784;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Report Complete — 4,200 words</div>
+            <div style="font-size:13px;color:rgba(255,245,244,.8)">Executive Summary · Pricing Comparison · Feature Analysis · Target Segments · Enterprise Pain Points · Recommendations → <span style="color:#FBBD33">Export to Google Docs</span></div>
+          </div>
+        </div>
+      </div>
+      <p>The full report would replace 6–8 hours of manual competitor research — with cited sources the user can verify immediately.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn" style="color:var(--blue)">01</div><h4>Run your first report</h4><p>Pick a topic you know well. Run a Deep Research query and compare the output to what you already know — calibrate quality.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--green)">02</div><h4>Edit the plan</h4><p>On your next session, actively edit the research plan before starting. Add at least one item you want covered that wasn't in the default plan.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--yellow)">03</div><h4>Build a research workflow</h4><p>Identify one recurring research task in your role. Create a template query for it and run it monthly to stay current.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--orange)">04</div><h4>Stack with other tools</h4><p>Export reports to NotebookLM, use findings to brief a Gem, or feed them into Google Slides for instant presentation decks.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){
+  const tabs=el.closest('.prompt-tabs');
+  tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  tabs.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function copyPrompt(btn){
+  const text=btn.nextElementSibling.textContent;
+  navigator.clipboard.writeText(text).catch(()=>{});
+  const orig=btn.textContent;btn.textContent='Copied!';
+  setTimeout(()=>btn.textContent=orig,1500);
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+      const link=document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(link)link.classList.add('active');
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

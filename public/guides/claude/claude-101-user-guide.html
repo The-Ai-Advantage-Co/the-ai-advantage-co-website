@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude 101 — User Guide | The AI Advantage Co</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    :root {
+      --orange:        #C97040;
+      --orange-light:  #E09868;
+      --orange-soft:   rgba(201, 112, 64, 0.09);
+      --orange-border: rgba(201, 112, 64, 0.20);
+      --sidebar-bg:    #3C1E0A;
+      --sidebar-hover: #4E2A12;
+      --sidebar-act:   rgba(201, 112, 64, 0.16);
+      --page-bg:       #FEF8F0;
+      --white:         #FFFFFF;
+      --card-bg:       #FFFCF8;
+      --ink:           #2C1408;
+      --body-text:     #4A3020;
+      --muted:         #8A6040;
+      --muted-light:   #B08060;
+      --border:        #F0DEC8;
+      --divider:       #EDD8BE;
+      --sidebar-w:   268px;
+      --radius:      10px;
+      --radius-sm:   6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--page-bg); color: var(--ink); line-height: 1.75; font-size: 15px;
+    }
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ── SIDEBAR ─────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      background: var(--sidebar-bg); display: flex; flex-direction: column;
+      position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(201,112,64,0.30); border-radius: 4px; }
+    .sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(201,112,64,0.14); }
+    .sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--orange-light); margin-bottom: 4px; }
+    .sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+    .sidebar-meta { padding: 14px 24px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .sidebar-guide-title { font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.45; font-weight: 400; }
+    .nav-label { padding: 18px 24px 6px; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(201,112,64,0.45); }
+    nav#sidebar-nav { flex: 1; padding: 0 12px 24px; }
+    nav#sidebar-nav a {
+      display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: var(--radius-sm);
+      font-size: 13.5px; font-weight: 400; color: rgba(255,255,255,0.55); text-decoration: none;
+      line-height: 1.35; transition: background 0.15s, color 0.15s; margin-bottom: 1px;
+    }
+    nav#sidebar-nav a:hover { background: var(--sidebar-hover); color: rgba(255,255,255,0.88); }
+    nav#sidebar-nav a.active { background: var(--sidebar-act); color: var(--orange-light); font-weight: 500; }
+    nav#sidebar-nav a svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.60; }
+    nav#sidebar-nav a.active svg { opacity: 1; }
+    .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 11px; color: rgba(255,255,255,0.28); line-height: 1.7; }
+    .sidebar-footer a { color: rgba(201,112,64,0.55); text-decoration: none; }
+    .sidebar-footer a:hover { color: var(--orange-light); }
+
+    /* ── MAIN ────────────────────────────────────────────── */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .banner { width: 100%; line-height: 0; }
+
+    /* ── DOC HEADER ──────────────────────────────────────── */
+    .doc-header { padding: 40px 56px 32px; border-bottom: 1px solid var(--divider); background: var(--white); }
+    .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .breadcrumb span { opacity: 0.5; }
+    .doc-title { font-size: 30px; font-weight: 700; color: var(--ink); letter-spacing: -0.4px; line-height: 1.2; margin-bottom: 10px; }
+    .doc-subtitle { font-size: 15.5px; color: var(--body-text); line-height: 1.65; max-width: 680px; margin-bottom: 18px; }
+    .doc-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .badge { display: inline-flex; align-items: center; background: var(--orange-soft); color: var(--orange); border: 1px solid var(--orange-border); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; }
+    .meta-item { font-size: 12.5px; color: var(--muted); }
+    .meta-item strong { color: var(--body-text); }
+
+    /* ── CONTENT ─────────────────────────────────────────── */
+    .content-body { padding: 0 56px 80px; }
+    .section { padding-top: 52px; border-bottom: 1px solid var(--divider); padding-bottom: 44px; }
+    .section:last-child { border-bottom: none; }
+    .section-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+    .section-num { width: 40px; height: 40px; border-radius: 8px; background: var(--orange); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .section-title { font-size: 21px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; line-height: 1.2; }
+    .section-desc { font-size: 13.5px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+
+    /* ── PROSE ───────────────────────────────────────────── */
+    .prose p { font-size: 15px; color: var(--body-text); line-height: 1.75; margin-bottom: 16px; }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose em { font-style: italic; }
+    .prose h3 { font-size: 15.5px; font-weight: 600; color: var(--ink); margin: 28px 0 10px; letter-spacing: -0.1px; }
+    .prose ul { padding-left: 20px; margin-bottom: 16px; color: var(--body-text); }
+    .prose ul li { margin-bottom: 6px; font-size: 15px; line-height: 1.65; }
+
+    /* ── CARDS ───────────────────────────────────────────── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; margin: 28px 0; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 18px; }
+    .card-icon { font-size: 22px; margin-bottom: 10px; }
+    .card-title { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* ── CALLOUTS ────────────────────────────────────────── */
+    .callout { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border-radius: var(--radius); margin: 24px 0; font-size: 14px; line-height: 1.6; }
+    .callout.tip  { background: #FFF7ED; border-left: 3px solid var(--orange); color: var(--body-text); }
+    .callout.warn { background: #FFF3CD; border-left: 3px solid #D4A017; color: #5A4010; }
+    .callout.info { background: #EEF4FF; border-left: 3px solid #3B7FD4; color: #1A3A6A; }
+    .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .callout strong { font-weight: 600; }
+
+    /* ── STEPS ───────────────────────────────────────────── */
+    .steps { margin: 24px 0; }
+    .step { display: flex; gap: 16px; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .step:last-child { border-bottom: none; }
+    .step-num { width: 30px; height: 30px; border-radius: 50%; background: var(--orange); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .step-content { flex: 1; }
+    .step-title { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .step-desc { font-size: 14px; color: var(--body-text); line-height: 1.6; }
+
+    /* ── REF TABLE ───────────────────────────────────────── */
+    .ref-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13.5px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .ref-table th { background: var(--sidebar-bg); color: rgba(255,255,255,0.85); font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; padding: 11px 16px; text-align: left; }
+    .ref-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--body-text); vertical-align: top; line-height: 1.55; }
+    .ref-table tr:last-child td { border-bottom: none; }
+    .ref-table tr:nth-child(even) td { background: rgba(240,222,200,0.15); }
+    .ref-table strong { color: var(--ink); }
+
+    /* ── UI MOCKUP ───────────────────────────────────────── */
+    .mockup-wrap { margin: 28px 0; }
+    .mockup-window { background: #FAF5EF; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 4px 24px rgba(60,30,10,0.08); }
+    .mockup-titlebar { background: var(--sidebar-bg); padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #FF5F57; } .dot-y { background: #FFBD2E; } .dot-g { background: #28C840; }
+    .mockup-tab-label { font-size: 11px; color: rgba(255,255,255,0.35); font-family: monospace; margin-left: 8px; }
+    .ui-layout { display: flex; height: 420px; }
+    .ui-sidebar { width: 220px; background: var(--sidebar-bg); padding: 16px 12px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; }
+    .ui-sidebar-brand { font-size: 11px; font-weight: 700; color: var(--orange-light); letter-spacing: 1px; text-transform: uppercase; padding: 8px 8px 12px; border-bottom: 1px solid rgba(201,112,64,0.15); margin-bottom: 8px; }
+    .ui-new-chat { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; background: var(--orange); color: #fff; font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+    .ui-nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 5px; font-size: 12px; color: rgba(255,255,255,0.50); }
+    .ui-nav-item.active { background: rgba(201,112,64,0.14); color: var(--orange-light); }
+    .ui-section-label { font-size: 10px; color: rgba(255,255,255,0.25); letter-spacing: 1px; text-transform: uppercase; padding: 10px 10px 4px; }
+    .ui-chat-item { padding: 6px 10px; border-radius: 4px; font-size: 11.5px; color: rgba(255,255,255,0.38); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ui-main { flex: 1; display: flex; flex-direction: column; background: var(--page-bg); }
+    .ui-topbar { padding: 12px 20px; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 600; color: var(--ink); display: flex; align-items: center; justify-content: space-between; background: var(--white); }
+    .ui-topbar-right { display: flex; gap: 8px; }
+    .ui-btn { padding: 5px 12px; border-radius: 5px; font-size: 11.5px; font-weight: 600; background: var(--orange-soft); color: var(--orange); border: 1px solid var(--orange-border); }
+    .ui-messages { flex: 1; padding: 20px 24px; overflow: hidden; display: flex; flex-direction: column; gap: 14px; }
+    .ui-msg { display: flex; gap: 10px; align-items: flex-start; }
+    .ui-msg.user { flex-direction: row-reverse; }
+    .ui-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+    .ui-avatar.claude { background: var(--orange-soft); border: 1.5px solid var(--orange-border); color: var(--orange); font-size: 11px; }
+    .ui-avatar.user { background: #E8E0D8; color: var(--muted); }
+    .ui-bubble { max-width: 70%; padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.6; }
+    .ui-bubble.claude { background: var(--white); border: 1px solid var(--border); color: var(--body-text); border-radius: 2px 10px 10px 10px; }
+    .ui-bubble.user { background: var(--orange); color: #fff; border-radius: 10px 2px 10px 10px; }
+    .ui-input-area { padding: 12px 20px; border-top: 1px solid var(--border); background: var(--white); }
+    .ui-input-box { display: flex; align-items: center; gap: 10px; background: var(--page-bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+    .ui-input-text { flex: 1; font-size: 13px; color: var(--muted); }
+    .ui-send { width: 30px; height: 30px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 13px; color:#fff; }
+    .ui-annotations { padding: 16px 20px; background: var(--white); border-top: 1px solid var(--border); display: flex; gap: 24px; flex-wrap: wrap; }
+    .ui-annotation { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); }
+    .ui-dot-label { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── PROMPT TABS ─────────────────────────────────────── */
+    .prompt-section { margin: 24px 0; }
+    .prompt-tabs { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
+    .tab-btn { padding: 7px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--white); color: var(--muted); font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .tab-btn.active { background: var(--orange); color: #fff; border-color: var(--orange); font-weight: 600; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+    .prompt-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px; position: relative; }
+    .prompt-label { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+    .prompt-text { font-size: 13.5px; color: var(--body-text); line-height: 1.6; font-style: italic; }
+    .copy-btn { position: absolute; top: 12px; right: 14px; background: var(--orange-soft); border: 1px solid var(--orange-border); color: var(--orange); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: background 0.15s; }
+    .copy-btn:hover { background: var(--orange); color: #fff; }
+
+    /* ── PLAN CARDS ──────────────────────────────────────── */
+    .plan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin: 24px 0; }
+    .plan-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 18px; }
+    .plan-card.featured { border-color: var(--orange); background: var(--orange-soft); }
+    .plan-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .plan-price { font-size: 13px; color: var(--orange); font-weight: 600; margin-bottom: 10px; }
+    .plan-features { font-size: 12.5px; color: var(--muted); line-height: 1.65; list-style: none; }
+    .plan-features li { margin-bottom: 4px; }
+    .plan-features li::before { content: "✓ "; color: var(--orange); font-weight: 700; }
+
+    /* ── ROADMAP ─────────────────────────────────────────── */
+    .roadmap { margin: 24px 0; }
+    .roadmap-step { display: flex; gap: 20px; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .roadmap-step:last-child { border-bottom: none; }
+    .roadmap-num { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--orange); color: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+    .roadmap-content { flex: 1; }
+    .roadmap-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .roadmap-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.6; }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    .page-footer { padding: 28px 56px; border-top: 1px solid var(--divider); background: var(--white); display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--muted); }
+    .page-footer a { color: var(--orange); text-decoration: none; }
+
+  </style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">The AI Advantage Co</div>
+      <div class="brand-name">Documentation Hub</div>
+    </div>
+    <div class="sidebar-meta">
+      <div class="sidebar-guide-title">Claude 101<br>Getting Started Guide</div>
+    </div>
+    <div class="nav-label">Contents</div>
+    <nav id="sidebar-nav">
+      <a href="#overview" class="active">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l1.5 1.5"/></svg>
+        What is Claude?
+      </a>
+      <a href="#creating-account">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M8 2a3 3 0 100 6 3 3 0 000-6zM2 14s-1 0-1-1 1-4 7-4 7 3 7 4-1 1-1 1H2z"/></svg>
+        Creating Your Account
+      </a>
+      <a href="#chat-interface">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="14" height="10" rx="2"/><path d="M5 14h6M8 12v2"/></svg>
+        The Chat Interface
+      </a>
+      <a href="#writing-prompts">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12M2 8h8M2 12h6"/></svg>
+        Writing Effective Prompts
+      </a>
+      <a href="#projects">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+        Projects &amp; Organisation
+      </a>
+      <a href="#files-artifacts">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M3 2h6l4 4v8a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M9 2v4h4"/></svg>
+        Files &amp; Artifacts
+      </a>
+      <a href="#modes-features">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.5 3.5l1.4 1.4M11.1 11.1l1.4 1.4M3.5 12.5l1.4-1.4M11.1 4.9l1.4-1.4"/></svg>
+        Modes &amp; Features
+      </a>
+      <a href="#values-limits">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5"/><circle cx="8" cy="11.5" r="0.5" fill="currentColor"/></svg>
+        Claude's Values &amp; Limits
+      </a>
+      <a href="#suggested-prompts">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M8 2l1.5 4.5H14l-3.8 2.8 1.4 4.4L8 11.2l-3.6 2.5 1.4-4.4L2 6.5h4.5z"/></svg>
+        Suggested Prompts
+      </a>
+      <a href="#see-it-in-action">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M2 8h12M8 2l6 6-6 6"/></svg>
+        See It In Action
+      </a>
+      <a href="#your-roadmap">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="3" cy="8" r="2"/><circle cx="13" cy="8" r="2"/><path d="M5 8h6"/><path d="M11 5l2 3-2 3"/></svg>
+        Your Roadmap
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div>© 2026 The AI Advantage Co</div>
+      <div><a href="https://www.theaiadvantageco.com.au">theaiadvantageco.com.au</a></div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="main">
+
+    <!-- BANNER -->
+    <div class="banner">
+      <svg viewBox="0 0 1400 260" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;">
+        <defs>
+          <radialGradient id="bg-g" cx="50%" cy="50%" r="75%">
+            <stop offset="0%" stop-color="#FDE8C8"/>
+            <stop offset="55%" stop-color="#F5DCBA"/>
+            <stop offset="100%" stop-color="#E8C898"/>
+          </radialGradient>
+          <radialGradient id="glow-r" cx="88%" cy="60%" r="35%">
+            <stop offset="0%" stop-color="#E8A060" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#E8A060" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="glow-c" cx="50%" cy="42%" r="18%">
+            <stop offset="0%" stop-color="#E09060" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#E09060" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="1400" height="260" fill="url(#bg-g)"/>
+        <circle cx="700" cy="130" r="320" fill="none" stroke="rgba(160,100,40,0.06)" stroke-width="1.5"/>
+        <circle cx="700" cy="130" r="250" fill="none" stroke="rgba(160,100,40,0.05)" stroke-width="1"/>
+        <circle cx="700" cy="130" r="180" fill="none" stroke="rgba(160,100,40,0.04)" stroke-width="1"/>
+        <ellipse cx="1240" cy="170" rx="280" ry="190" fill="url(#glow-r)"/>
+        <ellipse cx="700" cy="112" rx="170" ry="150" fill="url(#glow-c)"/>
+        <g opacity="0.92">
+          <polygon points="700,38 762,162 738,162 700,72 662,162 638,162" fill="#D07848"/>
+          <rect x="666" y="120" width="68" height="10" fill="#D07848" rx="2"/>
+          <polygon points="700,38 762,162 738,162 700,72 662,162 638,162" fill="white" opacity="0.08"/>
+          <circle cx="700" cy="38" r="6" fill="#F0A070"/>
+          <circle cx="638" cy="162" r="5" fill="#E89060"/>
+          <circle cx="762" cy="162" r="5" fill="#E89060"/>
+          <circle cx="666" cy="120" r="4" fill="#F0A070"/>
+          <circle cx="734" cy="120" r="4" fill="#F0A070"/>
+          <line x1="700" y1="38" x2="666" y2="120" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="700" y1="38" x2="734" y2="120" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="666" y1="120" x2="638" y2="162" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="734" y1="120" x2="762" y2="162" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+        </g>
+        <text x="700" y="26" font-family="Georgia,'Times New Roman',serif" font-size="19" font-weight="700" fill="#9A5C28" text-anchor="middle" letter-spacing="5">THE Ai ADVANTAGE</text>
+        <text x="700" y="194" font-family="Georgia,'Times New Roman',serif" font-size="30" font-weight="700" fill="#C07038" text-anchor="middle" letter-spacing="6">CLAUDE  101</text>
+        <text x="700" y="244" font-family="Georgia,'Times New Roman',serif" font-size="54" font-weight="800" fill="#8A4820" text-anchor="middle" letter-spacing="3">USER GUIDE</text>
+        <g transform="translate(1330,215)" fill="none" stroke="#C97040" stroke-linecap="round">
+          <line x1="0" y1="-32" x2="0" y2="32" stroke-width="6"/>
+          <line x1="-32" y1="0" x2="32" y2="0" stroke-width="6"/>
+          <line x1="-23" y1="-23" x2="23" y2="23" stroke-width="6"/>
+          <line x1="23" y1="-23" x2="-23" y2="23" stroke-width="6"/>
+          <line x1="-12" y1="-30" x2="12" y2="30" stroke-width="3"/>
+          <line x1="-30" y1="-12" x2="30" y2="12" stroke-width="3"/>
+          <line x1="-30" y1="12" x2="30" y2="-12" stroke-width="3"/>
+          <line x1="12" y1="-30" x2="-12" y2="30" stroke-width="3"/>
+        </g>
+        <rect width="1400" height="260" fill="none" stroke="rgba(160,100,40,0.12)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <!-- DOC HEADER -->
+    <div class="doc-header">
+      <div class="breadcrumb">Documentation <span>›</span> Claude 101 <span>›</span> Getting Started Guide</div>
+      <h1 class="doc-title">Claude 101 — Getting Started &amp; Interface Walkthrough</h1>
+      <p class="doc-subtitle">Everything you need to start using Claude with confidence — from creating your account to navigating the interface, writing prompts, organising your work, and understanding what Claude can and can't do.</p>
+      <div class="doc-meta">
+        <span class="badge">Version 1.0</span>
+        <span class="meta-item"><strong>Updated:</strong> April 2026</span>
+        <span class="meta-item"><strong>Audience:</strong> New Users</span>
+      </div>
+    </div>
+
+    <div class="content-body">
+
+      <!-- ── 01 WHAT IS CLAUDE ── -->
+      <section class="section" id="overview">
+        <div class="section-header">
+          <div class="section-num">01</div>
+          <div>
+            <div class="section-title">What is Claude?</div>
+            <div class="section-desc">An AI assistant built to be genuinely helpful, honest, and safe</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p><strong>Claude</strong> is an AI assistant made by Anthropic. You talk to it in plain English — or any language — and it responds with thoughtful, well-reasoned answers. It can write, analyse, summarise, research, code, brainstorm, and reason through complex problems. It works like a very capable colleague who is always available and never impatient.</p>
+          <p>What sets Claude apart is how it's built. Anthropic has trained Claude to be helpful <em>and</em> honest — it will tell you when it doesn't know something, push back on instructions that seem wrong, and decline requests that could cause harm. It's designed to work <em>with</em> you, not just for you.</p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">✍️</div>
+              <div class="card-title">Write &amp; Edit</div>
+              <div class="card-desc">Drafts, emails, reports, blog posts, scripts — any written task, any tone.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🔍</div>
+              <div class="card-title">Research &amp; Analyse</div>
+              <div class="card-desc">Summarise documents, compare options, extract insights from data.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">💻</div>
+              <div class="card-title">Code &amp; Build</div>
+              <div class="card-desc">Write, review, explain, and debug code across dozens of languages.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🧠</div>
+              <div class="card-title">Think &amp; Plan</div>
+              <div class="card-desc">Work through decisions, structure complex problems, stress-test ideas.</div>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <div class="callout-icon">💡</div>
+            <div><strong>Claude is not a search engine.</strong> It doesn't browse the web by default — it reasons from its training and any context you provide. For current events, use the web search feature (available in Claude.ai) or paste the information directly into your message.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 02 CREATING YOUR ACCOUNT ── -->
+      <section class="section" id="creating-account">
+        <div class="section-header">
+          <div class="section-num">02</div>
+          <div>
+            <div class="section-title">Creating Your Account</div>
+            <div class="section-desc">Sign up, choose a plan, and get in</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Getting started with Claude takes under five minutes. Go to <strong>claude.ai</strong> and sign up with your email address or Google account. No credit card is required for the free plan.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-title">Go to claude.ai and click "Sign up"</div>
+                <div class="step-desc">Use your email address or sign in with Google. You'll receive a verification email — click the link to confirm your account.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-title">Choose a plan</div>
+                <div class="step-desc">Start on the Free plan — it gives you access to Claude with a daily usage limit. Upgrade to Pro for higher limits, priority access, and all models including Opus.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-title">You're in — start chatting</div>
+                <div class="step-desc">No setup required. Type your first message in the input box at the bottom of the screen and press Enter or click the send button.</div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Plans at a Glance</h3>
+          <div class="plan-grid">
+            <div class="plan-card">
+              <div class="plan-name">Free</div>
+              <div class="plan-price">$0 / month</div>
+              <ul class="plan-features">
+                <li>Claude with daily limits</li>
+                <li>Access to Claude Sonnet</li>
+                <li>Basic features</li>
+              </ul>
+            </div>
+            <div class="plan-card featured">
+              <div class="plan-name">Pro ⭐</div>
+              <div class="plan-price">~$20 / month</div>
+              <ul class="plan-features">
+                <li>5× more usage than Free</li>
+                <li>All Claude models</li>
+                <li>Projects &amp; memory</li>
+                <li>Priority access</li>
+              </ul>
+            </div>
+            <div class="plan-card">
+              <div class="plan-name">Team</div>
+              <div class="plan-price">~$25 / user / month</div>
+              <ul class="plan-features">
+                <li>Everything in Pro</li>
+                <li>Shared Projects</li>
+                <li>Admin &amp; billing tools</li>
+              </ul>
+            </div>
+            <div class="plan-card">
+              <div class="plan-name">Enterprise</div>
+              <div class="plan-price">Custom pricing</div>
+              <ul class="plan-features">
+                <li>Highest usage limits</li>
+                <li>SSO &amp; security controls</li>
+                <li>Custom integrations</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <div class="callout-icon">ℹ️</div>
+            <div><strong>Pricing changes frequently.</strong> Check <strong>anthropic.com/pricing</strong> for the latest plan details and feature availability before purchasing.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 03 CHAT INTERFACE ── -->
+      <section class="section" id="chat-interface">
+        <div class="section-header">
+          <div class="section-num">03</div>
+          <div>
+            <div class="section-title">The Chat Interface</div>
+            <div class="section-desc">Anatomy of the Claude.ai window</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>The Claude.ai interface is deliberately simple. Here's what each area does.</p>
+        </div>
+
+        <div class="mockup-wrap">
+          <div class="mockup-window">
+            <div class="mockup-titlebar">
+              <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+              <div class="mockup-tab-label">claude.ai — Interface Overview</div>
+            </div>
+            <div class="ui-layout">
+              <div class="ui-sidebar">
+                <div class="ui-sidebar-brand">Claude</div>
+                <div class="ui-new-chat">✏️ &nbsp;New chat</div>
+                <div class="ui-nav-item active">🏠 &nbsp;Home</div>
+                <div class="ui-nav-item">📁 &nbsp;Projects</div>
+                <div class="ui-nav-item">⭐ &nbsp;Starred</div>
+                <div class="ui-section-label">Recent</div>
+                <div class="ui-chat-item">Q3 board report draft</div>
+                <div class="ui-chat-item">Python script for CSV parsing</div>
+                <div class="ui-chat-item">Email to client re: delay</div>
+                <div class="ui-chat-item">Market research – APAC</div>
+              </div>
+              <div class="ui-main">
+                <div class="ui-topbar">
+                  <span>New conversation</span>
+                  <div class="ui-topbar-right">
+                    <div class="ui-btn">Claude Sonnet 4.6 ▾</div>
+                    <div class="ui-btn">⋯</div>
+                  </div>
+                </div>
+                <div class="ui-messages">
+                  <div class="ui-msg">
+                    <div class="ui-avatar claude">A</div>
+                    <div class="ui-bubble claude">Hello! How can I help you today? I can write, analyse, code, research, brainstorm — just tell me what you need.</div>
+                  </div>
+                  <div class="ui-msg user">
+                    <div class="ui-avatar user">B</div>
+                    <div class="ui-bubble user">Can you summarise this 10-page report for me?</div>
+                  </div>
+                  <div class="ui-msg">
+                    <div class="ui-avatar claude">A</div>
+                    <div class="ui-bubble claude">Of course — please paste the report text or upload the file and I'll produce a concise summary with key findings.</div>
+                  </div>
+                </div>
+                <div class="ui-input-area">
+                  <div class="ui-input-box">
+                    <div class="ui-input-text">Message Claude…</div>
+                    <span style="font-size:16px;color:var(--muted)">📎</span>
+                    <div class="ui-send">↑</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-annotations">
+              <div class="ui-annotation"><div class="ui-dot-label" style="background:var(--sidebar-bg)"></div> Left sidebar — history, Projects, navigation</div>
+              <div class="ui-annotation"><div class="ui-dot-label" style="background:var(--orange)"></div> Top bar — model selector, options</div>
+              <div class="ui-annotation"><div class="ui-dot-label" style="background:#3B7FD4"></div> Message area — your conversation</div>
+              <div class="ui-annotation"><div class="ui-dot-label" style="background:#267A40"></div> Input box — type &amp; attach files (📎)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prose">
+          <h3>Key Controls</h3>
+          <table class="ref-table">
+            <thead><tr><th>Element</th><th>Where</th><th>What It Does</th></tr></thead>
+            <tbody>
+              <tr><td><strong>New chat</strong></td><td>Top of sidebar</td><td>Starts a fresh conversation with no prior context</td></tr>
+              <tr><td><strong>Model selector</strong></td><td>Top bar, right</td><td>Switch between Claude Haiku, Sonnet, or Opus</td></tr>
+              <tr><td><strong>Attach file (📎)</strong></td><td>Input box</td><td>Upload PDFs, images, documents, code files</td></tr>
+              <tr><td><strong>Projects</strong></td><td>Left sidebar</td><td>Group related conversations with shared instructions</td></tr>
+              <tr><td><strong>Starred</strong></td><td>Left sidebar</td><td>Conversations you've pinned for easy access</td></tr>
+              <tr><td><strong>Copy / Thumbs up/down</strong></td><td>Below each response</td><td>Copy output text; send feedback to Anthropic</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ── 04 WRITING PROMPTS ── -->
+      <section class="section" id="writing-prompts">
+        <div class="section-header">
+          <div class="section-num">04</div>
+          <div>
+            <div class="section-title">Writing Effective Prompts</div>
+            <div class="section-desc">How to talk to Claude to get the best results</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>You don't need a special skill to use Claude — but a few habits make a noticeable difference in the quality of responses you get. The single biggest factor is <strong>specificity</strong>. The more Claude knows about what you need, the better it can deliver.</p>
+
+          <h3>The Four Things That Matter Most</h3>
+          <table class="ref-table">
+            <thead><tr><th>Element</th><th>Why It Matters</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Role / context</strong></td><td>Tells Claude who it's speaking to and what background applies</td><td>"I'm a marketing manager at a B2B software company…"</td></tr>
+              <tr><td><strong>The task</strong></td><td>Be specific about what you want produced</td><td>"…write a 3-paragraph cold outreach email…"</td></tr>
+              <tr><td><strong>Format</strong></td><td>Tell Claude how to structure the output</td><td>"…as bullet points, no longer than 200 words…"</td></tr>
+              <tr><td><strong>Constraints</strong></td><td>What to include, avoid, or prioritise</td><td>"…avoid jargon, keep the tone friendly but professional"</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Weak vs. Strong Prompts</h3>
+          <div class="callout warn">
+            <div class="callout-icon">❌</div>
+            <div><strong>Weak:</strong> "Write me an email about the project." — Claude doesn't know who it's for, what the project is, what tone to use, or how long it should be.</div>
+          </div>
+          <div class="callout tip">
+            <div class="callout-icon">✅</div>
+            <div><strong>Strong:</strong> "Write a short email (under 150 words) to a client explaining that their project will be delayed by two weeks due to a supplier issue. Tone: apologetic but confident. End with a specific next step."</div>
+          </div>
+
+          <h3>Other Useful Habits</h3>
+          <ul>
+            <li><strong>Iterate, don't start over.</strong> If the first response isn't right, reply with what to change — Claude uses the full conversation as context.</li>
+            <li><strong>Paste in your content.</strong> Give Claude the document, data, or text it's working with directly in the chat.</li>
+            <li><strong>Ask Claude to explain its reasoning.</strong> Adding "explain your thinking" surfaces assumptions and catches errors early.</li>
+            <li><strong>Use follow-up questions.</strong> Claude works well in back-and-forth. Dig deeper, ask for alternatives, or request a different angle.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── 05 PROJECTS ── -->
+      <section class="section" id="projects">
+        <div class="section-header">
+          <div class="section-num">05</div>
+          <div>
+            <div class="section-title">Projects &amp; Organisation</div>
+            <div class="section-desc">Keep related work together with shared context and instructions</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p><strong>Projects</strong> let you group related conversations together and give Claude persistent instructions that apply to every conversation within that Project. Instead of re-explaining your role, team, or preferences in every new chat, you set it once in the Project and it applies automatically.</p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">📋</div>
+              <div class="card-title">Custom Instructions</div>
+              <div class="card-desc">Set Claude's persona, rules, and context once — applies to every chat in the Project.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">📂</div>
+              <div class="card-title">Shared Files</div>
+              <div class="card-desc">Upload documents to the Project and Claude can reference them in any conversation.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🗂️</div>
+              <div class="card-title">Grouped History</div>
+              <div class="card-desc">All conversations in a Project stay grouped and easy to find later.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">👥</div>
+              <div class="card-title">Team Sharing</div>
+              <div class="card-desc">Share Projects with teammates on Team and Enterprise plans.</div>
+            </div>
+          </div>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-title">Click "Projects" in the sidebar and create a new Project</div>
+                <div class="step-desc">Give it a clear name — e.g. "Client Comms — Acme Co" or "Q3 Marketing Campaign".</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-title">Add Project Instructions</div>
+                <div class="step-desc">Write a system-level description: who you are, what this Project is for, Claude's role, and any rules to follow. This is applied to every chat automatically.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-title">Upload reference files</div>
+                <div class="step-desc">Brand guidelines, product docs, templates, previous reports — anything Claude should know across all chats in this Project.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <div class="step-title">Start conversations inside the Project</div>
+                <div class="step-desc">Every new chat opened within this Project will have your instructions and files available automatically.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <div class="callout-icon">💡</div>
+            <div><strong>Good Project Instructions make every chat better.</strong> Invest 10 minutes writing a strong set of instructions the first time — you'll save far more time across every subsequent conversation.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 06 FILES & ARTIFACTS ── -->
+      <section class="section" id="files-artifacts">
+        <div class="section-header">
+          <div class="section-num">06</div>
+          <div>
+            <div class="section-title">Files &amp; Artifacts</div>
+            <div class="section-desc">Uploading content and what Claude creates for you</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>You can give Claude content to work with by uploading files directly into the chat. Claude can read and reason over the contents — no copy-pasting required. When Claude produces significant outputs, it often creates them as <strong>Artifacts</strong> — a separate preview pane alongside the conversation.</p>
+
+          <h3>What You Can Upload</h3>
+          <table class="ref-table">
+            <thead><tr><th>File Type</th><th>What Claude Can Do With It</th></tr></thead>
+            <tbody>
+              <tr><td><strong>PDF / Word doc</strong></td><td>Summarise, extract key points, answer questions about the content, rewrite sections</td></tr>
+              <tr><td><strong>Images (PNG, JPG)</strong></td><td>Describe, analyse, read text in images (OCR), identify objects, review diagrams and charts</td></tr>
+              <tr><td><strong>CSV / spreadsheet data</strong></td><td>Analyse patterns, calculate values, explain trends, suggest next steps</td></tr>
+              <tr><td><strong>Code files</strong></td><td>Review, debug, explain, refactor, or extend existing code</td></tr>
+              <tr><td><strong>Text / transcript files</strong></td><td>Meeting notes, transcripts, logs, plain text content of any kind</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Artifacts</h3>
+          <p>When Claude creates something substantial — a document, a code snippet, an HTML page — it displays it as an <strong>Artifact</strong> in a side panel. Artifacts make it easy to view, copy, and iterate on Claude's output without cluttering the chat.</p>
+          <ul>
+            <li><strong>Documents</strong> — formatted text, reports, emails, templates</li>
+            <li><strong>Code</strong> — runnable scripts with syntax highlighting</li>
+            <li><strong>HTML / React</strong> — live-rendered previews you can interact with</li>
+            <li><strong>SVG / Diagrams</strong> — visual outputs rendered in the side panel</li>
+          </ul>
+
+          <div class="callout info">
+            <div class="callout-icon">ℹ️</div>
+            <div><strong>Artifacts are not saved automatically.</strong> Copy or download what you need before closing the conversation, or save important outputs to a Project for easier access later.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 07 MODES & FEATURES ── -->
+      <section class="section" id="modes-features">
+        <div class="section-header">
+          <div class="section-num">07</div>
+          <div>
+            <div class="section-title">Modes &amp; Features</div>
+            <div class="section-desc">Voice, vision, web search, and extended thinking</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Beyond standard text chat, Claude.ai includes several additional capabilities. Availability depends on your plan and device.</p>
+
+          <table class="ref-table">
+            <thead><tr><th>Feature</th><th>What It Does</th><th>How to Access</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Voice Mode</strong></td><td>Speak to Claude and hear responses — real-time two-way conversation</td><td>Microphone icon in the input bar (mobile &amp; desktop)</td></tr>
+              <tr><td><strong>Image Understanding</strong></td><td>Upload or paste images; Claude can see, describe, and reason about them</td><td>Attach icon (📎) → select image file</td></tr>
+              <tr><td><strong>Web Search</strong></td><td>Claude searches the web for current information when enabled</td><td>Globe icon in the input bar; Pro plan and above</td></tr>
+              <tr><td><strong>Extended Thinking</strong></td><td>Claude reasons step-by-step through hard problems before responding</td><td>Available with certain models; toggle in model options</td></tr>
+              <tr><td><strong>Code Execution</strong></td><td>Claude can run Python code and show you the output directly</td><td>Used automatically when Claude writes and tests code</td></tr>
+              <tr><td><strong>Cowork Mode</strong></td><td>Desktop app with file access, browser control, and tool integrations</td><td>Separate Claude desktop application</td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout tip">
+            <div class="callout-icon">💡</div>
+            <div><strong>Not all features are available on all plans.</strong> If you don't see a feature, it may require a Pro or Team upgrade, or may only be available on specific platforms (web, mobile, or desktop app).</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 08 VALUES & LIMITS ── -->
+      <section class="section" id="values-limits">
+        <div class="section-header">
+          <div class="section-num">08</div>
+          <div>
+            <div class="section-title">Claude's Values &amp; Limits</div>
+            <div class="section-desc">How Claude thinks, what it won't do, and why</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Claude is not a neutral tool that will do anything asked of it. Anthropic has trained it with specific values — to be helpful, honest, and to avoid causing harm. Understanding these values helps you work with Claude more effectively and sets realistic expectations.</p>
+
+          <h3>Claude Will Always</h3>
+          <ul>
+            <li><strong>Tell you when it's uncertain.</strong> Claude says "I don't know" rather than making things up — though it can still make mistakes. Verify important claims independently.</li>
+            <li><strong>Push back constructively.</strong> If a request seems misguided, Claude will say so — but it will still try to help with the underlying goal where possible.</li>
+            <li><strong>Explain its reasoning on request.</strong> Ask Claude to show its thinking and it will. Useful for auditing important outputs.</li>
+            <li><strong>Acknowledge it's an AI.</strong> Claude won't pretend to be human when sincerely asked.</li>
+          </ul>
+
+          <h3>Claude Will Not</h3>
+          <ul>
+            <li>Provide instructions for creating weapons, malware, or content designed to cause harm</li>
+            <li>Produce sexual content involving minors under any circumstances</li>
+            <li>Help with clearly illegal activities targeting other people</li>
+            <li>Fabricate citations, quotes, or sources (though it can still hallucinate — always check)</li>
+          </ul>
+
+          <h3>What to Do When Claude Declines</h3>
+          <p>If Claude refuses a request, the framing may have triggered a concern — not necessarily that the underlying need is illegitimate. Try rephrasing with more context about your purpose. If the refusal still seems too cautious, use the thumbs-down button to give Anthropic feedback.</p>
+
+          <div class="callout info">
+            <div class="callout-icon">ℹ️</div>
+            <div><strong>Claude can be wrong.</strong> It's a capable assistant, not an infallible expert. For medical, legal, financial, or safety-critical decisions, always verify Claude's output with a qualified professional.</div>
+          </div>
+
+          <h3>Context Window</h3>
+          <p>Claude has a <strong>context window</strong> — the amount of text it can hold in memory at once. Claude currently processes up to 200,000 tokens (roughly 150,000 words) per conversation. For very long conversations, earlier messages may eventually fall outside this window, which can affect response continuity.</p>
+        </div>
+      </section>
+
+      <!-- ── 09 SUGGESTED PROMPTS ── -->
+      <section class="section" id="suggested-prompts">
+        <div class="section-header">
+          <div class="section-num">09</div>
+          <div>
+            <div class="section-title">Suggested Prompts</div>
+            <div class="section-desc">Ready-to-use prompts to get you started immediately</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Copy any of these directly into Claude to see what it can do. They're designed as templates — replace the bracketed parts with your own details.</p>
+        </div>
+
+        <div class="prompt-section">
+          <div class="prompt-tabs">
+            <button class="tab-btn active" onclick="switchTab(this,'personal')">Personal Use</button>
+            <button class="tab-btn" onclick="switchTab(this,'work')">Work Use</button>
+          </div>
+
+          <div class="tab-pane active" id="tab-personal">
+            <div class="prompt-card">
+              <div class="prompt-label">Learning Something New</div>
+              <div class="prompt-text">"Explain [topic] to me as if I have no background in it. Use simple language, give a concrete real-world example, and tell me the three most important things I should understand first."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">Making a Decision</div>
+              <div class="prompt-text">"I'm trying to decide between [option A] and [option B]. Here's my situation: [brief context]. Help me think through the key trade-offs. Don't give me a final answer — help me reason it through myself."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">Planning &amp; Organisation</div>
+              <div class="prompt-text">"I need to [achieve goal] by [date]. I have [resources/constraints]. Help me create a practical, step-by-step plan that is realistic for someone with limited time. Flag anything I might have missed."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">Writing Feedback</div>
+              <div class="prompt-text">"Please review the following text and give me honest feedback. Focus on: (1) clarity, (2) tone, (3) structure. Tell me what's working, what isn't, and give specific suggestions to improve it. [paste your text below]"</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">Summarise Anything</div>
+              <div class="prompt-text">"Summarise the following in plain English. Give me: (1) a one-sentence summary, (2) three key takeaways, and (3) one thing I should do or think about as a result. [paste content below]"</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="tab-work">
+            <div class="prompt-card">
+              <div class="prompt-label">Draft a Professional Email</div>
+              <div class="prompt-text">"Write a professional email from me to [recipient/role] about [subject]. Tone: [formal/friendly/assertive]. Key points to cover: [list them]. Keep it under [word count] words. End with a clear call to action."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">Meeting Prep</div>
+              <div class="prompt-text">"I have a meeting with [who] about [topic] on [date]. My goal is [outcome]. Help me prepare: suggest 5 questions I should ask, 3 things I should know going in, and a one-paragraph summary I could send beforehand."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">Analyse a Document</div>
+              <div class="prompt-text">"I'm going to paste a [report/proposal/contract] below. Read it carefully and tell me: (1) the main argument or purpose, (2) any gaps or weak points, (3) three questions I should be asking about it. [paste document below]"</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">Build a Project Instruction Set</div>
+              <div class="prompt-text">"Help me write a Claude Project instruction set for this use case: I am a [role] at a [company type]. I'll be using this Project to [task description]. Ask me three clarifying questions first, then draft the instructions."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">Stress-Test an Idea</div>
+              <div class="prompt-text">"Here is a plan I'm considering: [describe it]. Play devil's advocate. What are the three strongest arguments against it? What assumptions am I making that might be wrong? What would need to be true for this to fail?"</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 10 SEE IT IN ACTION ── -->
+      <section class="section" id="see-it-in-action">
+        <div class="section-header">
+          <div class="section-num">10</div>
+          <div>
+            <div class="section-title">See It In Action</div>
+            <div class="section-desc">A real session from first message to finished output</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Here's what a productive Claude session looks like — using a Project, writing a clear prompt, and iterating on the output.</p>
+        </div>
+
+        <div class="mockup-wrap">
+          <div class="mockup-window">
+            <div class="mockup-titlebar">
+              <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+              <div class="mockup-tab-label">Project: Q3 Board Report — New conversation</div>
+            </div>
+            <div class="ui-layout" style="height:460px;">
+              <div class="ui-sidebar">
+                <div class="ui-sidebar-brand">Claude</div>
+                <div class="ui-nav-item">🏠 &nbsp;Home</div>
+                <div class="ui-nav-item active">📁 &nbsp;Q3 Board Report</div>
+                <div class="ui-section-label">Project chats</div>
+                <div class="ui-chat-item" style="color:var(--orange-light);">● Draft exec summary</div>
+                <div class="ui-chat-item">Slide outline</div>
+                <div class="ui-chat-item">Revenue analysis</div>
+                <div class="ui-chat-item">Risk section draft</div>
+              </div>
+              <div class="ui-main">
+                <div class="ui-topbar">
+                  <span>Draft exec summary</span>
+                  <div class="ui-topbar-right"><div class="ui-btn">Claude Sonnet 4.6 ▾</div></div>
+                </div>
+                <div class="ui-messages" style="gap:12px;">
+                  <div class="ui-msg user">
+                    <div class="ui-avatar user">B</div>
+                    <div class="ui-bubble user" style="max-width:82%;">Write a 3-paragraph executive summary for our Q3 board report. Revenue was up 18% YoY, we missed our NPS target by 4 points, and we're launching a new product in Q4. Keep it confident but honest.</div>
+                  </div>
+                  <div class="ui-msg">
+                    <div class="ui-avatar claude">A</div>
+                    <div class="ui-bubble claude" style="max-width:82%;">
+                      <strong>Q3 Executive Summary</strong><br><br>
+                      The third quarter delivered strong financial performance, with revenue growth of 18% year-on-year reflecting continued demand across our core segments…<br><br>
+                      <span style="color:var(--muted);font-size:12px;">[Artifact: Board Report Draft — opens in side panel]</span>
+                    </div>
+                  </div>
+                  <div class="ui-msg user">
+                    <div class="ui-avatar user">B</div>
+                    <div class="ui-bubble user">Good. Make the NPS miss more direct — don't soften it. Add one sentence about what we're doing to fix it.</div>
+                  </div>
+                  <div class="ui-msg">
+                    <div class="ui-avatar claude">A</div>
+                    <div class="ui-bubble claude">Updated. Paragraph two now reads: "Customer satisfaction fell short of our 72-point NPS target, finishing at 68 — a gap we take seriously. In response, we have initiated a structured voice-of-customer programme commencing Q4."</div>
+                  </div>
+                </div>
+                <div class="ui-input-area">
+                  <div class="ui-input-box">
+                    <div class="ui-input-text">Message Claude… (Project instructions active)</div>
+                    <span style="font-size:16px;color:var(--muted)">📎</span>
+                    <div class="ui-send">↑</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prose" style="margin-top:20px;">
+          <p>Notice the pattern: a specific, context-rich prompt → a strong first draft → a targeted follow-up refinement. The Project instructions (set once) mean Claude already knows the company context, audience, and expected tone — the user only provides what's unique to this task.</p>
+        </div>
+      </section>
+
+      <!-- ── 11 YOUR ROADMAP ── -->
+      <section class="section" id="your-roadmap">
+        <div class="section-header">
+          <div class="section-num">11</div>
+          <div>
+            <div class="section-title">Your Roadmap</div>
+            <div class="section-desc">Five steps to get up and running with confidence</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>You don't need to master everything at once. Follow these five steps in order and you'll be using Claude effectively within a week.</p>
+        </div>
+
+        <div class="roadmap">
+          <div class="roadmap-step">
+            <div class="roadmap-num">1</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Create your account and have three real conversations</div>
+              <div class="roadmap-desc">Don't use test prompts — use something you actually need today. Draft an email, summarise a document, plan your week. Real use cases reveal what Claude can do for you faster than any tutorial.</div>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">2</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Practice writing specific, structured prompts</div>
+              <div class="roadmap-desc">Take a vague request and rewrite it using the four elements: role, task, format, constraints. Compare the quality of the two responses. Do this three times and the habit will stick.</div>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">3</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Set up your first Project</div>
+              <div class="roadmap-desc">Pick one recurring work area — client comms, research, content creation — and create a Project for it. Write the instructions carefully. Use it for a week and notice how much less re-explaining you're doing.</div>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">4</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Try uploading a file</div>
+              <div class="roadmap-desc">Upload a real document — a PDF report, a spreadsheet, a meeting transcript — and ask Claude meaningful questions about it. This is one of the highest-value use cases and most people discover it too late.</div>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">5</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Identify your top three recurring tasks and build prompts for them</div>
+              <div class="roadmap-desc">Think about what you do repeatedly — weekly reports, client updates, research summaries. Write a reusable prompt template for each one and save them somewhere accessible. This is the point where Claude stops being occasional and becomes essential.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout tip" style="margin-top:28px;">
+          <div class="callout-icon">🚀</div>
+          <div><strong>The fastest way to get value from Claude is to use it on real work, not test prompts.</strong> Bring it into something you're already doing today and let the results speak for themselves.</div>
+        </div>
+      </section>
+
+    </div><!-- /content-body -->
+
+    <div class="page-footer">
+      <div>© 2026 The AI Advantage Co — Claude 101 User Guide v1.0</div>
+      <div><a href="#">All Guides</a></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks  = document.querySelectorAll('#sidebar-nav a');
+  const observer  = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`#sidebar-nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  function switchTab(btn, tabId) {
+    btn.closest('.prompt-section').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    btn.closest('.prompt-section').querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+  }
+
+  function copyPrompt(btn) {
+    const text = btn.closest('.prompt-card').querySelector('.prompt-text').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.style.background = 'var(--orange)';
+      btn.style.color = '#fff';
+      setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1800);
+    });
+  }
+</script>
+</body>
+</html>

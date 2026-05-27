@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT User Guide — The AI Advantage Co Template — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #10A37F; --primary-l: #2EC4A9; --primary-soft: #E6F7F1;
+  --accent1: #1A6FBE; --accent1-soft: #E8F1FB;
+  --accent2: #8B5CF6; --accent2-soft: #F0EAFF;
+  --page-bg: #F9F9F9; --sidebar-bg: #1C1C1C;
+  --card-bg: #FFFFFF; --hdr-bg: #F0F0F0; --border: #D0D0D0;
+  --ink: #1C1C1C; --body-text: #3A3A3A; --muted: #6F6F6F;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <div class="brand-name">GPT User Guide — The AI Advantage Co Template</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is GPT User Guide — The AI Advantage Co Template?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Section 1 — What is [Topic]?</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Sections 2-7 — Topic-Specific</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Section 8 — Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Section 9 — Suggested Prompts</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Section 10 — See It In Action</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Section 11 — Your Roadmap</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Voice and Visual Identity</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <h1>GPT User Guide — The AI Advantage Co Template</h1>
+      <div class="subtitle">The reusable template for any ChatGPT-related user guide</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is GPT User Guide — The AI Advantage Co Template?</div><div class="section-desc">The reusable template for any ChatGPT-related user guide</div></div></div><div class="content-body"><p class="prose">This is the standard template for any new ChatGPT user guide. It includes the section structure, voice guidelines, and visual identity that The AI Advantage Co uses across all ChatGPT content. Use it as the starting point when scaffolding a new ChatGPT guide.</p><p class="prose">Each guide has 11 sections. The first is always &#39;What is X?&#39;. The last three are always Suggested Prompts, See It In Action, and Your Roadmap.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">Section 1 — What is [Topic]?</div><div class="feat-desc">Always the opening section</div></div><div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">Sections 2-7 — Topic-Specific</div><div class="feat-desc">The substance of the guide</div></div><div class="feat-card"><div class="feat-icon">🔧</div><div class="feat-title">Section 8 — Common Mistakes &amp; Fixes</div><div class="feat-desc">What goes wrong</div></div><div class="feat-card"><div class="feat-icon">💡</div><div class="feat-title">Section 9 — Suggested Prompts</div><div class="feat-desc">3-5 ready-to-use prompts</div></div></div><div class="deco-band">✨  Here&#39;s what&#39;s inside this guide  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📝  TEMPLATE MAINTENANCE</div><div class="callout-text">This template gets reviewed quarterly. If you&#39;re using it as a starting point and find the structure isn&#39;t fitting your topic, propose a change — better to fix the template than work around it.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Section 1 — What is [Topic]?</div><div class="section-desc">Always the opening section</div></div></div><div class="content-body"><p class="prose">Two paragraphs. Paragraph 1: what the thing is, named with the current product naming. Paragraph 2: who it&#39;s for, when to use it.</p><ul class="bullets"><li>Use current product naming (avoid &#39;GPT-4o&#39;, use &#39;GPT-5.5 family&#39;)</li><li>Include a 2026 update callout where there&#39;s been a material change</li><li>Lead with outcomes, not features</li></ul><h3 class="sub-h3">The opening section pattern</h3><p class="sub-body">Section 1 sets up everything that follows. Two paragraphs, current product naming, who the guide is for. The 2026 Update callout flags material changes — added when topic has shifted in the last 6 months.</p><ul class="bullets"><li>Paragraph 1 — what the thing is, with current product naming (GPT-5.5 family)</li><li>Paragraph 2 — who it&#39;s for, when to use it</li><li>Include 2026 Update callout where there&#39;s been material change</li><li>Lead with outcomes, not features</li><li>Use current model names (GPT-5.5, not GPT-4o)</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Sections 2-7 — Topic-Specific</div><div class="section-desc">The substance of the guide</div></div></div><div class="content-body"><p class="prose">6 sections covering the substance. Each has: clear title, 1-line description, 1-2 paragraphs of body, often a bulleted list, optionally a callout.</p><ul class="bullets"><li>Start with the easiest entry point</li><li>Always include at least one &#39;common mistake&#39; section</li><li>Concrete examples beat abstract descriptions</li><li>Include actual prompts wherever helpful</li></ul><h3 class="sub-h3">The 6 main content sections</h3><p class="sub-body">These sections carry the substance of the guide. Each has clear title, 1-line description, 1-2 paragraphs body, often a bulleted list, optionally a callout.</p><ul class="bullets"><li>Start with the easiest entry point, end with the most advanced</li><li>Always include at least one &#39;common mistakes&#39; section</li><li>Concrete examples beat abstract descriptions</li><li>Include actual prompts where they help</li><li>Mix media — bullets, paragraphs, callouts, occasional tables</li><li>Build sense of progression — each section depends on previous</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Section 8 — Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong</div></div></div><div class="content-body"><p class="prose">5 bullets. Each: a specific mistake followed by what to do instead.</p><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📋</div><div class="feat-title">5 Bullets</div><div class="feat-desc">No more. More than 5 dilutes attention; fewer doesn&#39;t cover the patterns.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🔄</div><div class="feat-title">Pattern: &#39;Doing X — instead, do Y&#39;</div><div class="feat-desc">Each bullet has a fail + fix. Mistakes ranked by frequency.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🎯</div><div class="feat-title">Non-Scolding Tone</div><div class="feat-desc">These are normal patterns, not moral failures. Recovery path always clear.</div></div></div></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Section 9 — Suggested Prompts</div><div class="section-desc">3-5 ready-to-use prompts</div></div></div><div class="content-body"><p class="prose">Each has a label (the use case) and the actual prompt text. Specific enough to use immediately.</p><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">✍️  3-5 PROMPTS, QUALITY OVER QUANTITY</div><div class="callout-text">Each prompt has a label (the use case it solves) and the actual prompt text. Specific enough to use immediately, generic enough to adapt to your context. Picking the right 3-5 beats listing 10.</div></div></div></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Section 10 — See It In Action</div><div class="section-desc">A short walkthrough</div></div></div><div class="content-body"><p class="prose">One paragraph. A concrete scenario showing the user applying the guide to a real situation.</p><h3 class="sub-h3">The recognition test</h3><p class="sub-body">Section 10 is one paragraph. A concrete scenario showing the user applying the guide to a real situation. Pick a scenario the reader will recognise — a Monday morning, a board prep, a difficult customer email.</p><ul class="bullets"><li>One paragraph, no longer</li><li>Concrete scenario — specific people, specific tasks</li><li>The goal is recognition, not exhaustive coverage</li><li>Should read like a moment in someone&#39;s real work</li><li>Often the most-quoted section in client-facing material</li></ul></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Section 11 — Your Roadmap</div><div class="section-desc">4 steps from first try to confident use</div></div></div><div class="content-body"><p class="prose">Week-by-week roadmap. Week 1: first real use. Week 2: try harder prompts. Week 3: share with team. Week 4: build a library.</p><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Week 1 — First Real Use</div><div class="step-desc">Use [topic] on one real task per day. Don&#39;t optimise; build the habit.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Week 2 — Try Harder Prompts</div><div class="step-desc">Test the harder prompts in this guide. Notice what works for your context.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Week 3 — Share with Team</div><div class="step-desc">Share results. Capture the patterns that consistently produce good outputs.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Week 4 — Build Personal Library</div><div class="step-desc">Build a small library of your best prompts. Decide which workflows are now AI-first.</div></div></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Voice and Visual Identity</div><div class="section-desc">Brand application</div></div></div><div class="content-body"><ul class="bullets"><li>Plain language, no hype</li><li>Lead with outcomes</li><li>Acknowledge limits honestly</li><li>Australian English</li><li>ChatGPT palette: green primary (#10A37F), charcoal sidebar (#1C1C1C), light grey page (#F9F9F9)</li><li>Include 2026 Update callout where relevant</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Plain language, no hype</li><li>Lead with outcomes (&#39;cut meeting prep from 45 min to 10&#39;)</li><li>Acknowledge limits honestly</li><li>Australian English where applicable</li><li>ChatGPT palette: green (#10A37F), charcoal (#1C1C1C), light grey page (#F9F9F9)</li><li>Include 2026 Update callout where relevant</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>&#39;Transformative&#39;, &#39;unlock&#39;, &#39;leverage&#39;, &#39;revolutionary&#39; — hype tells</li><li>Throat-clearing openers (&#39;In today&#39;s fast-paced world...&#39;)</li><li>Feature-list framing — readers skim past it</li><li>Soft-pedalling limits — undermines credibility</li><li>Mixing model versions across sections — pick current canonical</li><li>Letting sections drift past 500 words — restructure into sub-sections</li></ul></div></div></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating GPT User Guide — The AI Advantage Co Template as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">NEW GUIDE SCAFFOLD</div><div class="prompt-text">I&#39;m scaffolding a new ChatGPT guide on [topic]. Using this template, propose: section 1 framing, section 2-7 topic-specific titles and rough scope, and a 2026 Update callout if there&#39;s been a material change.</div></div><div class="prompt-card"><div class="prompt-label">EXISTING GUIDE AUDIT</div><div class="prompt-text">Audit this ChatGPT guide against the template. Check: section structure complete? Voice fits the brand? Outcomes-focused not feature-focused? 2026 callout reflects current state?</div></div><div class="prompt-card"><div class="prompt-label">TEMPLATE IMPROVEMENT</div><div class="prompt-text">This template feels off for [topic]. Suggest what structural changes would fit better — but only if genuinely needed.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use GPT User Guide — The AI Advantage Co Template on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

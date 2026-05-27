@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT Operator Mode and System Prompts — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #10A37F; --primary-l: #2EC4A9; --primary-soft: #E6F7F1;
+  --accent1: #1A6FBE; --accent1-soft: #E8F1FB;
+  --accent2: #8B5CF6; --accent2-soft: #F0EAFF;
+  --page-bg: #F9F9F9; --sidebar-bg: #1C1C1C;
+  --card-bg: #FFFFFF; --hdr-bg: #F0F0F0; --border: #D0D0D0;
+  --ink: #1C1C1C; --body-text: #3A3A3A; --muted: #6F6F6F;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <div class="brand-name">ChatGPT Operator Mode and System Prompts</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is ChatGPT Operator Mode and System Prompts?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>What Agent (Operator) Does</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>When Agent is the Right Tool</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>When Agent is Wrong</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>System Prompts — What They Are</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Writing Strong System Prompts</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>System Prompts in Custom GPTs</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>System Prompts via API</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <h1>ChatGPT Operator Mode and System Prompts</h1>
+      <div class="subtitle">Autonomous task execution and the system-prompt layer that controls Custom GPTs</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is ChatGPT Operator Mode and System Prompts?</div><div class="section-desc">Autonomous task execution and the system-prompt layer that controls Custom GPTs</div></div></div><div class="content-body"><p class="prose">Operator was OpenAI&#39;s autonomous task-execution mode launched January 2025 for Pro users. In 2026 it&#39;s been renamed to &#39;Agent&#39; for consumer-facing use but the underlying capability is the same: a model that operates a virtual machine with a browser, terminal, and APIs, and executes multi-step tasks on the user&#39;s behalf.</p><p class="prose">System prompts are the configuration layer for Custom GPTs and API use — the &#39;role description&#39; that shapes how the model responds across every conversation.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">What Agent (Operator) Does</div><div class="feat-desc">Autonomous task execution</div></div><div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">When Agent is the Right Tool</div><div class="feat-desc">Use cases that justify the latency</div></div><div class="feat-card"><div class="feat-icon">🔧</div><div class="feat-title">When Agent is Wrong</div><div class="feat-desc">Where it&#39;s a bad fit</div></div><div class="feat-card"><div class="feat-icon">💡</div><div class="feat-title">System Prompts — What They Are</div><div class="feat-desc">The role description for the model</div></div></div><div class="deco-band">✨  Here&#39;s what&#39;s inside this guide  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🤖  2026 UPDATE — OPERATOR IS NOW AGENT</div><div class="callout-text">OpenAI renamed Operator to &#39;Agent&#39; for the consumer experience. The capability is the same — virtual machine, visual browser, terminal, OpenAI API access. The Agent surfaces inside ChatGPT (no separate app) for Pro and Enterprise users.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">What Agent (Operator) Does</div><div class="section-desc">Autonomous task execution</div></div></div><div class="content-body"><p class="prose">You give Agent a task — &#39;research and compare these 3 products&#39;, &#39;book the restaurant&#39;, &#39;pull data from this website into a spreadsheet&#39;. Agent operates a sandboxed virtual environment: browses websites, fills forms, runs code, downloads files, and assembles the result. You see what it&#39;s doing in real time and can intervene.</p><ul class="bullets"><li>Visual browser — see exactly what Agent is doing on each page</li><li>Terminal — Agent can run shell commands in its sandbox</li><li>OpenAI APIs — Agent can use search, code interpreter, and other tools</li><li>Third-party connections — Gmail, GitHub, and other connected services act as the user</li><li>Confirmation steps — Agent asks before destructive or expensive actions</li></ul><h3 class="sub-h3">The capability stack</h3><p class="sub-body">Agent operates a sandboxed virtual environment with multiple tools. You give it a goal; it browses, executes, and assembles the result. You see what it&#39;s doing in real time and can intervene.</p><ul class="bullets"><li>Visual browser — see exactly what Agent is doing on each page</li><li>Terminal — Agent can run shell commands in its sandbox</li><li>OpenAI APIs — Agent can use search, code interpreter, and other tools</li><li>Third-party connections — Gmail, GitHub, and other connected services act as the user</li><li>Confirmation steps — Agent asks before destructive or expensive actions</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">When Agent is the Right Tool</div><div class="section-desc">Use cases that justify the latency</div></div></div><div class="content-body"><ul class="bullets"><li>Multi-site research — comparing options across 10+ websites</li><li>Form-filling at scale — completing tedious online forms with structured input</li><li>Data extraction from sites without APIs</li><li>Repetitive tasks where the script-writing cost exceeds the one-time use</li><li>Tasks where you want a human to spot-check rather than write</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🔍</div><div class="feat-title">Multi-Site Research</div><div class="feat-desc">Comparing options across 10+ websites. Tedious but valuable work.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📝</div><div class="feat-title">Form-Filling at Scale</div><div class="feat-desc">Completing tedious online forms with structured input. Higher accuracy than rules.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📊</div><div class="feat-title">Data Extraction</div><div class="feat-desc">Pulling structured data from sites without APIs. Replaces brittle scrapers.</div></div></div><p class="prose">Agent&#39;s latency is real — 30 seconds to several minutes per task vs sub-second for chat responses. The use case for Agent is multi-step tasks where the alternative is human work, not where you want a fast answer. Compare to the time the human would spend, not to the time a chat response would take.</p><p class="prose">The pattern that consistently works: tedious multi-site research, form-filling at scale, data extraction from sites without APIs, repetitive workflows that don&#39;t justify writing custom code. Where Agent is wrong: fast tasks, tasks needing human judgement, anything irreversible without a clear confirmation step.</p></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">When Agent is Wrong</div><div class="section-desc">Where it&#39;s a bad fit</div></div></div><div class="content-body"><ul class="bullets"><li>Tasks faster done manually in &lt;2 minutes</li><li>Tasks involving sensitive data the user doesn&#39;t want in a sandboxed VM</li><li>Time-critical tasks — Agent is slower than direct human action</li><li>Tasks requiring judgement only a human has</li><li>Anything irreversible without a clear confirmation loop</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Use Agent for tasks where the alternative is human work (not chat responses)</li><li>Compare latency to human time, not chat time</li><li>Set clear success criteria upfront — Agent works best with defined endpoints</li><li>Watch the visual browser pane for the first few runs — catch errors early</li><li>Use confirmation gates for any irreversible action</li><li>Save Agent transcripts for tasks you&#39;ll repeat — patterns emerge</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Tasks faster done manually in under 2 minutes</li><li>Tasks involving sensitive data that shouldn&#39;t be in a sandboxed VM</li><li>Time-critical tasks — Agent is slower than direct human action</li><li>Tasks requiring judgement only a human has</li><li>Anything irreversible without a clear confirmation loop</li><li>Production-critical workflows without monitoring and fallbacks</li></ul></div></div></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">System Prompts — What They Are</div><div class="section-desc">The role description for the model</div></div></div><div class="content-body"><p class="prose">Every conversation with a model has a &#39;system prompt&#39; — usually invisible to the user — that shapes the model&#39;s behaviour. For ChatGPT consumer use, the system prompt is OpenAI&#39;s. For Custom GPTs and API use, you write the system prompt.</p><ul class="bullets"><li>Defines the role (&#39;You are a financial analysis assistant&#39;)</li><li>Sets the tone and personality</li><li>Establishes constraints (&#39;Never give legal advice&#39;)</li><li>Pre-loads context the user doesn&#39;t need to repeat</li><li>Specifies output format and structure</li></ul><h3 class="sub-h3">The role description layer</h3><p class="sub-body">Every conversation with a model has a &#39;system prompt&#39; — usually invisible to the user — that shapes the model&#39;s behaviour. For ChatGPT consumer use, the system prompt is OpenAI&#39;s. For Custom GPTs and API use, you write the system prompt.</p><ul class="bullets"><li>Defines the role (&#39;You are a financial analysis assistant&#39;)</li><li>Sets the tone and personality</li><li>Establishes constraints (&#39;Never give legal advice&#39;)</li><li>Pre-loads context the user doesn&#39;t need to repeat</li><li>Specifies output format and structure</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Writing Strong System Prompts</div><div class="section-desc">The 5-part template</div></div></div><div class="content-body"><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📝  ROLE, SCOPE, TONE, LIMITS, FORMAT</div><div class="callout-text">Role (&#39;You are X for Y&#39;), Scope (&#39;Help users with A, B, C&#39;), Tone (&#39;Plain English, no jargon, warm but professional&#39;), Limits (&#39;Never do D, E, F&#39;), Format (&#39;Always respond with: section 1, section 2, section 3&#39;).</div></div></div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📝  THE 5-PART TEMPLATE</div><div class="callout-text">Role (&#39;You are X for Y&#39;). Scope (&#39;Help users with A, B, C&#39;). Tone (&#39;Plain English, no jargon, warm but professional&#39;). Limits (&#39;Never do D, E, F&#39;). Format (&#39;Always respond with: section 1, section 2, section 3&#39;). 200 words covers most needs.</div></div></div><h3 class="sub-h3">The 5-part system prompt template</h3><ul class="bullets"><li>Role — &#39;You are X for Y&#39;</li><li>Scope — &#39;Help users with A, B, C&#39;</li><li>Tone — &#39;Plain English, no jargon, warm but professional&#39;</li><li>Limits — &#39;Never do D, E, F&#39;</li><li>Format — &#39;Always respond with: section 1, section 2, section 3&#39;</li></ul><h3 class="sub-h3">Each element matters</h3><p class="sub-body">Strong system prompts have each of the 5 parts explicitly. Weak system prompts skip parts and produce inconsistent behaviour as a result.</p><ul class="bullets"><li>Role — be specific. &#39;You are a senior B2B SaaS marketing strategist&#39; beats &#39;You are a marketing expert.&#39;</li><li>Scope — list what&#39;s in scope. Anything outside the list, the GPT escalates or refuses.</li><li>Tone — describe voice. 3-4 specific adjectives beats &#39;professional&#39;.</li><li>Limits — explicit prohibitions. &#39;Never recommend specific stocks&#39; beats &#39;avoid financial advice&#39;.</li><li>Format — define output structure. Reduces variance dramatically across users.</li></ul></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">System Prompts in Custom GPTs</div><div class="section-desc">Where most people meet them</div></div></div><div class="content-body"><p class="prose">When you build a Custom GPT, the &#39;Instructions&#39; field is the system prompt. It&#39;s the single biggest lever on the GPT&#39;s quality — far more impactful than the knowledge files or Actions.</p><ul class="bullets"><li>Be specific — &#39;You help with X&#39; beats &#39;You are helpful&#39;</li><li>Use negative examples — &#39;Don&#39;t do Y when users ask Z&#39;</li><li>Specify the escape — &#39;If asked about [out of scope], say [what to say]&#39;</li><li>Test with adversarial prompts — what happens if a user tries to misuse the GPT?</li></ul><h3 class="sub-h3">Where most users meet system prompts</h3><p class="sub-body">The &#39;Instructions&#39; field in Custom GPT builder IS the system prompt. It&#39;s the single biggest lever on GPT quality — more impactful than knowledge files or Actions.</p><ul class="bullets"><li>Be specific — &#39;You help with X&#39; beats &#39;You are helpful&#39;</li><li>Use negative examples — &#39;Don&#39;t do Y when users ask Z&#39;</li><li>Specify the escape — &#39;If asked about [out of scope], say [what to say]&#39;</li><li>Test with adversarial prompts — what happens if a user tries to misuse the GPT?</li><li>Iterate — system prompts get noticeably better after 3-4 revisions</li><li>Save versions — keep what worked</li></ul></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">System Prompts via API</div><div class="section-desc">For embedded use cases</div></div></div><div class="content-body"><p class="prose">When you use the API directly, the system prompt is the first message in the conversation (role: &#39;system&#39;). For long-running applications, the system prompt is part of your application code and templated per use case.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🔧  FOR EMBEDDED USE CASES</div><div class="callout-text">When you use the API directly, the system prompt is the first message in the conversation (role: &#39;system&#39;). For long-running applications, the system prompt is part of your application code and templated per use case. Keep it under 2000 tokens for performance.</div></div></div></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating ChatGPT Operator Mode and System Prompts as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">AGENT TASK BRIEF</div><div class="prompt-text">Use Agent to: research the top 5 [product type] under $X. For each, capture: features, pricing, customer reviews summary, and the best 3 user complaints. Compile into a comparison table I can open in Excel.</div></div><div class="prompt-card"><div class="prompt-label">SYSTEM PROMPT — CUSTOM GPT</div><div class="prompt-text">Write a system prompt for a Custom GPT called [name]. Role: [role]. Scope: [what it helps with]. Tone: [tone]. Limits: [what it won&#39;t do]. Format: [response structure]. Include a clear escape hatch for out-of-scope questions.</div></div><div class="prompt-card"><div class="prompt-label">ADVERSARIAL TEST</div><div class="prompt-text">Here&#39;s a system prompt I&#39;m using: [paste]. Stress-test it: give me 10 prompts a user might send that could push the GPT outside its intended scope. For each, what should the GPT do? Suggest specific system prompt changes to make it robust.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use ChatGPT Operator Mode and System Prompts on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

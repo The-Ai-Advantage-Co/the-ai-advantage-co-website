@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gemini in Google Docs | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF5F4;color:#1C0800}
+:root{--blue:#1A73E8;--green:#34A853;--yellow:#F9AB00;--orange:#EA4335;--sidebar:#1A0D00;--card:#fff;--hdr:#FFEBE8;--border:#FDDCDA;--ink:#1C0800;--mid:#4A2A24;--muted:#8A6A64}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:#FBBD33;padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(255,245,244,.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#fff;border-left-color:var(--blue);background:rgba(26,115,232,.15)}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#FBBD33;opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--sidebar);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'📄';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.12;line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:#FBBD33;text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(255,245,244,.7);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(26,13,0,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#EAF7EE;border-color:var(--green)}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FEF9C3;border-color:#B45309}.callout.warning strong{color:#92400E}
+.callout.info{background:#EAF1FD;border-color:var(--blue)}.callout.info strong{color:#1565C0}
+.callout.gemini{background:#FEF7E0;border-color:var(--yellow)}.callout.gemini strong{color:#92400E}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:8px;padding:16px}
+.feature-card.green{border-top-color:var(--green)}.feature-card.yellow{border-top-color:var(--yellow)}.feature-card.orange{border-top-color:var(--orange)}
+.feature-card h4{color:var(--ink);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;color:#fff;background:var(--blue)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--sidebar);color:#FBBD33;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--hdr)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.prompt-box{display:none;background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:#FBBD33;background:var(--sidebar);padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
+.prompt-text{font-size:13px;color:var(--mid);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#2A1A0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--ink)}
+h3{font-size:16px;font-weight:700;color:var(--ink);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Gemini in Google Docs</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Gemini in Docs?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>Help Me Write</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Rewriting & Refining</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Summarising Documents</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Q&A on Your Documents</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Side Panel & Research</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Gemini User Guide</div>
+    <h1>Gemini in Google Docs</h1>
+    <p>Write faster, refine smarter, and understand any document instantly — with Gemini built directly into your Google Docs workflow.</p>
+  </div>
+
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">1</div><h2>What is Gemini in Docs?</h2></div>
+    <div class="section-body">
+      <p>Gemini is embedded throughout Google Docs — accessible via the "Help me write" prompt bar, the side panel, the toolbar, and inline via the @ menu. It can generate new content, refine what you've already written, summarise long documents, and answer questions about the text — all without leaving the document.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>✍️ Help Me Write</h4><p>Generate a first draft, section, or outline from a brief description — insert directly into your document.</p></div>
+        <div class="feature-card green"><h4>🔄 Refine selection</h4><p>Select any text and use Gemini to rewrite, shorten, elaborate, or change the tone.</p></div>
+        <div class="feature-card yellow"><h4>📋 Summarise</h4><p>Condense any document or section into a concise summary — great for long reports and research.</p></div>
+        <div class="feature-card orange"><h4>❓ Ask questions</h4><p>Use the side panel to ask questions about your document: "What are the key recommendations?"</p></div>
+      </div>
+      <div class="callout info"><strong>Access points:</strong><p>Click the sparkle/pencil icon at the top of a blank doc, use Insert → Gemini, press "@" for inline access, or open the side panel via the Gemini icon on the right toolbar.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">2</div><h2>Help Me Write</h2></div>
+    <div class="section-body">
+      <p>Help Me Write in Google Docs generates content directly into your document. It works best for creating first drafts, generating section content, and building structured documents from a brief.</p>
+      <div class="step"><div class="step-num" style="background:var(--green)">1</div><div class="step-body"><h4>Open the prompt bar</h4><p>Click the sparkle "Help me write" button at the top of the document, or place your cursor and press "@" → "Help me write".</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Describe what you want</h4><p>Be specific: "Write a 500-word executive summary for a market entry strategy report targeting retail customers in Southeast Asia."</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">3</div><div class="step-body"><h4>Review and insert</h4><p>Gemini generates a draft. Click Insert to add it to your document, or Refine to adjust before inserting.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">4</div><div class="step-body"><h4>Edit and continue</h4><p>Once inserted, edit the text as normal. Use Help Me Write again for the next section or to fill gaps.</p></div></div>
+      <div class="callout tip"><strong>Document-level context:</strong><p>If content already exists in your document, Gemini can use it as context. Ask: "Based on the section above, write a conclusions section that ties together the main points." Gemini reads your existing content.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">3</div><h2>Rewriting & Refining</h2></div>
+    <div class="section-body">
+      <p>The refine feature is one of the most powerful in Docs — select any text, click the Gemini icon that appears, and instruct Gemini to rewrite it in any way you specify.</p>
+      <h3>Built-in refine options</h3>
+      <ul>
+        <li><strong>Formalise</strong> — makes the selected text more professional and formal</li>
+        <li><strong>Shorten</strong> — cuts length while preserving meaning</li>
+        <li><strong>Elaborate</strong> — expands with more detail and explanation</li>
+        <li><strong>Rephrase</strong> — rewrites with different word choices while keeping the same meaning</li>
+        <li><strong>Custom instruction</strong> — type any instruction: "Make this more persuasive" or "Rewrite for a non-technical audience"</li>
+      </ul>
+      <div class="callout gemini"><strong>Rewrite for a different audience:</strong><p>Select a technical paragraph and instruct: "Rewrite this for a senior executive who needs the business impact, not the technical detail." This is one of the most practical uses of Gemini in Docs for knowledge workers.</p></div>
+      <h3>Before/after comparison</h3>
+      <table class="ref-table">
+        <tr><th>Original (technical)</th><th>After: "Rewrite for non-technical CFO"</th></tr>
+        <tr><td>"The API integration uses REST architecture with OAuth 2.0 authentication, enabling asynchronous data synchronisation across all microservices."</td><td>"The system connects to our existing software automatically and keeps data up to date across all platforms — no manual uploads required."</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">4</div><h2>Summarising Documents</h2></div>
+    <div class="section-body">
+      <p>Gemini can summarise the entire document or specific sections — making it easy to create executive summaries, extract key points, or understand a long document quickly.</p>
+      <h3>How to summarise</h3>
+      <ul>
+        <li><strong>Whole document:</strong> Open the side panel → click "Summarise document" or type "Summarise this document"</li>
+        <li><strong>Selected text:</strong> Highlight a section → click the Gemini icon → choose "Summarise"</li>
+        <li><strong>Custom summary:</strong> "Summarise the key risks and mitigation strategies mentioned in this document"</li>
+      </ul>
+      <h3>Summary use cases</h3>
+      <div class="feature-grid">
+        <div class="feature-card orange"><h4>📋 Executive brief</h4><p>Summarise a 30-page report into a 5-bullet executive brief before a leadership meeting.</p></div>
+        <div class="feature-card"><h4>📊 Key decisions</h4><p>"What decisions or recommendations are made in this document?" — extract actionables from meeting notes.</p></div>
+        <div class="feature-card green"><h4>🔍 Document review</h4><p>Summarise a contract or policy doc: "What are the key obligations for our organisation in this document?"</p></div>
+        <div class="feature-card yellow"><h4>📝 Review prep</h4><p>Before editing someone else's document, summarise it first to understand the intent before changing anything.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">5</div><h2>Q&A on Your Documents</h2></div>
+    <div class="section-body">
+      <p>The Gemini side panel turns your document into an interactive knowledge source. Ask questions about the content and get specific answers — without searching manually.</p>
+      <h3>What you can ask</h3>
+      <ul>
+        <li>"What is the proposed budget in section 3?"</li>
+        <li>"Who is responsible for each action item in this document?"</li>
+        <li>"What are the assumptions underlying the financial projections?"</li>
+        <li>"Does this document mention any compliance requirements?"</li>
+        <li>"What is the timeline for the project phases?"</li>
+        <li>"Are there any conflicting statements in this document?"</li>
+      </ul>
+      <div class="callout tip"><strong>Great for document review:</strong><p>Before approving or signing off on a long document, use Q&A to check: "What does this document commit us to?" and "What are the exit clauses?" — faster and more targeted than reading every paragraph.</p></div>
+      <h3>Combining with external context</h3>
+      <p>You can add external context in your question: "Given that our standard terms require 30-day payment, does this contract conflict with our policy?" Gemini answers with both the document content and your added context.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">6</div><h2>Side Panel & Research</h2></div>
+    <div class="section-body">
+      <p>The Gemini side panel in Google Docs is a full AI assistant that operates alongside your document. Unlike the inline tools, it supports multi-turn conversation and can bring in web context alongside your document.</p>
+      <h3>Side panel capabilities</h3>
+      <div class="feature-grid">
+        <div class="feature-card green"><h4>💬 Document Q&A</h4><p>Ask multi-turn questions about the document. Follow up to narrow down to specific sections.</p></div>
+        <div class="feature-card yellow"><h4>🌐 Web research</h4><p>Ask Gemini to research a topic related to your document and insert the findings as a new section.</p></div>
+        <div class="feature-card orange"><h4>✅ Content review</h4><p>"Review this draft for logical consistency" or "Check if the conclusions follow from the evidence presented."</p></div>
+        <div class="feature-card"><h4>📐 Formatting help</h4><p>"Reformat the next 3 paragraphs as a numbered list" or "Create a table from the data in section 2."</p></div>
+      </div>
+      <div class="callout gemini"><strong>Research within context:</strong><p>Use the side panel for inline research while writing: "Find the current global market size for electric vehicles and suggest where I should include this data in my document." Gemini points to the right location and provides the statistic.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>AI-first document drafting</h3>
+      <p>Instead of starting with a blank page, use Help Me Write to generate a full outline first: "Create a 10-section outline for a business case document for [project]." Then use Help Me Write section by section to fill each part.</p>
+      <h3>Style and tone consistency</h3>
+      <p>If a document has been written by multiple people and the voice is inconsistent, select all and instruct: "Rewrite this document so it has a consistent, professional tone throughout — keep all facts and figures but standardise the language."</p>
+      <h3>Document translation</h3>
+      <p>Select text and use a custom refine instruction: "Translate this section into French, maintaining the professional tone." Useful for multilingual reports without leaving Docs.</p>
+      <h3>Generate structured content from raw notes</h3>
+      <p>Paste meeting notes or bullet points into a document and use Help Me Write: "Based on the notes below [paste notes], write a structured project update document with sections for: Progress, Blockers, Next Steps, and Decisions Made."</p>
+      <div class="callout tip"><strong>Use Docs as a staging area:</strong><p>For complex AI tasks — writing a long report, developing a strategy document — Docs is better than Gemini chat because you can see and edit the output in context, use refine on specific sections, and maintain document structure throughout the drafting process.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr>
+        <tr><td>Vague Help Me Write prompts</td><td>"Write a section about marketing" produces generic content</td><td>Specify audience, tone, length, purpose, and any key points to include</td></tr>
+        <tr><td>Not using refine before inserting</td><td>Accepting the first draft directly into the document</td><td>Always check the draft before inserting — use Refine to adjust length and tone first</td></tr>
+        <tr><td>Ignoring document context</td><td>Asking Gemini for new content without referencing what's already written</td><td>Reference existing sections: "Based on the introduction above, write a supporting section that..."</td></tr>
+        <tr><td>Using Help Me Write for sensitive content</td><td>Letting AI write legal, financial, or HR content without expert review</td><td>Use AI for structure and language; always have qualified people review any professional advice content</td></tr>
+        <tr><td>Not exploring the side panel</td><td>Only using inline Help Me Write, missing the Q&A and research features</td><td>Open the side panel (Gemini icon on right toolbar) for document Q&A and multi-turn assistance</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'gd-a')">Writing & Drafting</button>
+          <button class="tab-btn" onclick="switchTab(this,'gd-b')">Review & Analysis</button>
+        </div>
+        <div class="prompt-box active" id="gd-a">
+          <div class="prompt-item">
+            <div class="prompt-label">Document Outline</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Create a detailed outline for a [type of document] on [topic] aimed at [audience]. Include suggested headings, the purpose of each section, and approximate word counts. The total document should be around [length]."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Section Draft</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Write the [section name] section of this document. It should: explain [key point], include [specific elements], and transition logically from the previous section on [prior topic]. Tone: [description]. Length: [word count]."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Audience Rewrite</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Rewrite the selected text for a [new audience — e.g. board of directors / general public / technical team]. Preserve all key information and facts but adjust the vocabulary, level of detail, and emphasis to match what matters to that audience."</div>
+          </div>
+        </div>
+        <div class="prompt-box" id="gd-b">
+          <div class="prompt-item">
+            <div class="prompt-label">Document Review</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Review this document and tell me: (1) Are the conclusions supported by the evidence presented? (2) Are there any gaps in the argument? (3) Is the structure logical? (4) What would a critical reader challenge? Be direct."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Key Extraction</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Extract from this document: (1) all decisions made, (2) all action items and who owns them, (3) all deadlines mentioned, (4) any risks or concerns flagged. Format as a structured summary I can share with people who haven't read the document."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Consistency Check</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Check this document for: (1) internal contradictions or conflicting statements, (2) inconsistent terminology for the same concept, (3) sections where the tone shifts abruptly. List any issues you find with the location in the document."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A product manager uses Gemini in Docs to turn raw meeting notes into a structured project update in under 5 minutes.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span style="font-size:12px;color:rgba(255,245,244,.5);margin-left:8px">Google Docs — Project Update — Help Me Write</span></div>
+        <div style="padding:20px">
+          <div style="background:#2A1A0A;border-radius:8px;padding:12px;margin-bottom:14px">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:4px">Raw notes (pasted in)</div>
+            <div style="font-size:12px;color:rgba(255,245,244,.7);line-height:1.6;font-style:italic">"sprint 3 done. api integration working. delayed on UI — waiting for design sign off. james to chase design team by friday. risks: timeline slipping if design not done by eod friday. launched beta to 5 users, feedback positive. next sprint starts monday."</div>
+          </div>
+          <div style="background:#2A1A0A;border-radius:8px;padding:12px;margin-bottom:14px">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:4px">Help Me Write prompt</div>
+            <div style="font-size:12px;color:rgba(255,245,244,.85);font-style:italic">"Based on the notes above, write a structured project update with sections for: Completed, In Progress, Blockers, Risks, and Next Steps. Professional tone. Use bullet points."</div>
+          </div>
+          <div style="background:rgba(52,168,83,.08);border:1px solid rgba(52,168,83,.3);border-radius:8px;padding:14px">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:8px">✨ Generated Update</div>
+            <div style="font-size:13px;color:rgba(255,245,244,.85);line-height:1.8">
+              <strong style="color:#81C784">Completed</strong><br>• Sprint 3 delivered on schedule<br>• API integration fully functional<br>• Beta launched to 5 users — initial feedback positive<br><br>
+              <strong style="color:#FBBD33">In Progress</strong><br>• UI finalisation — awaiting design sign-off (owner: James, due: Friday)<br><br>
+              <strong style="color:#EA4335">Risks</strong><br>• Timeline at risk if design sign-off not received by end of day Friday
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn" style="color:var(--blue)">01</div><h4>Use Help Me Write</h4><p>Open a document, click the sparkle icon, and draft one section from a brief. Compare to your usual process.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--green)">02</div><h4>Refine a selection</h4><p>Select a paragraph in an existing document and try Shorten or Formalise. See how quickly tone shifts.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--yellow)">03</div><h4>Ask questions via side panel</h4><p>Open any long document and use the side panel to ask "What are the key decisions?" — measure time saved vs reading.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--orange)">04</div><h4>Draft from notes</h4><p>Next time you have rough meeting notes, use Help Me Write to structure them into a formal document in one pass.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){const tabs=el.closest('.prompt-tabs');tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));tabs.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById(id).classList.add('active');}
+function copyPrompt(btn){const text=btn.nextElementSibling.textContent;navigator.clipboard.writeText(text).catch(()=>{});const orig=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=orig,1500);}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));const link=document.querySelector(`.nav-link[href="#${e.target.id}"]`);if(link)link.classList.add('active');}});},{threshold:.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

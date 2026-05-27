@@ -1,0 +1,657 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Copilot in Teams | The AI Advantage Co</title>
+<style>
+  :root{
+    --purple:#5E17EB; --purple-l:#8B5CF6; --purple-soft:#F0EAFF;
+    --blue:#0078D4;   --blue-l:#60A5FA;   --blue-soft:#EFF6FF;
+    --orange:#EA6C1A; --orange-l:#F97316; --orange-soft:#FFF7ED;
+    --yellow:#CA8A04; --yellow-soft:#FEFCE8;
+    --page:#EBF1FF;   --sidebar:#1E1456;
+    --ink:#1E1456;    --mid:#3D3080;       --muted:#7264A8;
+    --card:#F7F4FF;   --hdr:#EDE8FF;      --border:#D0C5F5;
+    --white:#fff;
+    --green:#1B6B3A;  --green-bg:#E6F4EC;
+    --warn:#B45309;   --warn-bg:#FFF8E1;
+    --red:#C0392B;    --red-bg:#FEF0EE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--page);color:var(--ink);}
+  a{color:inherit;text-decoration:none;}
+
+  /* Layout */
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+
+  /* Sidebar */
+  .sidebar{background:var(--sidebar);color:#C8B8FF;position:sticky;top:0;height:100vh;overflow-y:auto;padding:0 0 40px;}
+  .sidebar-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:8px;}
+  .sidebar-logo .brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--blue-l);text-transform:uppercase;}
+  .sidebar-logo .guide-name{font-size:14px;font-weight:600;color:#fff;margin-top:4px;line-height:1.3;}
+  .nav-section{padding:4px 0;}
+  .nav-link{display:block;padding:8px 20px;font-size:13px;color:#A78BFA;cursor:pointer;border-left:3px solid transparent;transition:all .2s;}
+  .nav-link:hover{color:#fff;background:rgba(255,255,255,.07);}
+  .nav-link.active{color:#fff;border-left-color:var(--blue-l);background:rgba(96,165,250,.12);}
+  .nav-num{display:inline-block;width:20px;font-size:11px;opacity:.6;}
+
+  /* Content */
+  .content{padding:0 40px 80px;max-width:900px;}
+
+  /* Banner */
+  .banner{background:linear-gradient(135deg,#1E1456 0%,#0D3B7A 60%,#1E1456 100%);color:#fff;padding:56px 48px 48px;position:relative;overflow:hidden;margin:0 -40px 40px;}
+  .banner::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='30' r='2' fill='%2360A5FA' opacity='.5'/%3E%3Ccircle cx='80' cy='10' r='1.5' fill='%2393C5FD' opacity='.4'/%3E%3Ccircle cx='160' cy='50' r='2.5' fill='%2360A5FA' opacity='.35'/%3E%3Ccircle cx='40' cy='80' r='1' fill='%23BAE6FD' opacity='.5'/%3E%3Ccircle cx='130' cy='20' r='1.5' fill='%2393C5FD' opacity='.45'/%3E%3Ccircle cx='180' cy='90' r='2' fill='%2360A5FA' opacity='.3'/%3E%3C/svg%3E") repeat;}
+  .banner-inner{position:relative;z-index:1;}
+  .banner-badge{display:inline-block;background:rgba(0,120,212,.25);border:1px solid rgba(96,165,250,.4);color:#93C5FD;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:20px;}
+  .banner h1{font-size:38px;font-weight:800;line-height:1.15;margin-bottom:12px;}
+  .banner h1 span{color:#93C5FD;}
+  .banner p{font-size:16px;color:#BAE6FD;max-width:580px;line-height:1.6;}
+
+  /* Section cards */
+  .section-card{background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 2px 8px rgba(94,23,235,.06);}
+  .section-header{background:var(--hdr);padding:18px 24px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);}
+  .section-num{background:var(--purple);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .section-title{font-size:19px;font-weight:700;color:var(--ink);}
+  .section-subtitle{font-size:13px;color:var(--muted);margin-top:2px;}
+  .section-body{padding:28px 24px;}
+
+  /* Typography */
+  p.body-text{font-size:15px;line-height:1.7;color:var(--mid);margin-bottom:16px;}
+  h3.sub{font-size:16px;font-weight:700;color:var(--ink);margin:24px 0 10px;}
+  ul.bullet{padding-left:20px;margin-bottom:16px;}
+  ul.bullet li{font-size:14.5px;color:var(--mid);line-height:1.65;margin-bottom:6px;}
+
+  /* Callouts */
+  .callout{display:flex;gap:0;border-radius:8px;overflow:hidden;margin-bottom:16px;}
+  .callout-bar{width:5px;flex-shrink:0;}
+  .callout-body{padding:14px 18px;flex:1;}
+  .callout-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+  .callout-text{font-size:14px;line-height:1.6;}
+  .callout.tip .callout-bar{background:var(--green);}
+  .callout.tip .callout-body{background:var(--green-bg);}
+  .callout.tip .callout-label{color:var(--green);}
+  .callout.tip .callout-text{color:#1a3a22;}
+  .callout.info .callout-bar{background:var(--blue);}
+  .callout.info .callout-body{background:var(--blue-soft);}
+  .callout.info .callout-label{color:var(--blue);}
+  .callout.info .callout-text{color:#0d2a47;}
+  .callout.warn .callout-bar{background:var(--warn);}
+  .callout.warn .callout-body{background:var(--warn-bg);}
+  .callout.warn .callout-label{color:var(--warn);}
+  .callout.warn .callout-text{color:#3d2200;}
+  .callout.copilot .callout-bar{background:var(--purple);}
+  .callout.copilot .callout-body{background:var(--purple-soft);}
+  .callout.copilot .callout-label{color:var(--purple);}
+  .callout.copilot .callout-text{color:#2a0a6e;}
+
+  /* Feature card grid */
+  .card-grid{display:grid;gap:14px;margin-bottom:20px;}
+  .card-grid.col2{grid-template-columns:1fr 1fr;}
+  .card-grid.col4{grid-template-columns:1fr 1fr 1fr 1fr;}
+  .feature-card{border-radius:10px;padding:18px;border:1px solid var(--border);}
+  .feature-card .card-icon{font-size:22px;margin-bottom:8px;}
+  .feature-card .card-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+  .feature-card .card-desc{font-size:13px;color:var(--mid);line-height:1.55;}
+  .card-purple{background:var(--card);border-top:3px solid var(--purple);}
+  .card-blue{background:var(--blue-soft);border-top:3px solid var(--blue);}
+  .card-orange{background:var(--orange-soft);border-top:3px solid var(--orange);}
+  .card-yellow{background:var(--yellow-soft);border-top:3px solid var(--yellow);}
+
+  /* Steps */
+  .step-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+  .step-item{display:flex;gap:14px;align-items:flex-start;}
+  .step-num{background:var(--purple);color:#fff;font-size:13px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .step-body .step-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+  .step-body .step-desc{font-size:14px;color:var(--mid);line-height:1.6;}
+
+  /* Workflow row */
+  .workflow-row{display:flex;gap:16px;align-items:flex-start;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:10px;}
+  .workflow-icon{font-size:22px;flex-shrink:0;padding-top:2px;}
+  .workflow-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .workflow-desc{font-size:13.5px;color:var(--mid);line-height:1.6;font-style:italic;}
+
+  /* Ref table */
+  .ref-table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px;}
+  .ref-table th{background:var(--sidebar);color:var(--purple-l);font-size:12px;font-weight:700;padding:10px 14px;text-align:left;letter-spacing:.04em;}
+  .ref-table td{padding:10px 14px;color:var(--mid);border:1px solid var(--border);}
+  .ref-table tr:nth-child(even) td{background:var(--card);}
+  .ref-table tr:nth-child(odd) td{background:var(--white);}
+
+  /* Do/Avoid */
+  .do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .do-box,.avoid-box{border-radius:8px;padding:18px;}
+  .do-box{background:var(--green-bg);border-top:3px solid var(--green);}
+  .avoid-box{background:var(--red-bg);border-top:3px solid var(--red);}
+  .do-box .box-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green);text-transform:uppercase;margin-bottom:10px;}
+  .avoid-box .box-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--red);text-transform:uppercase;margin-bottom:10px;}
+  .do-box li,.avoid-box li{font-size:14px;color:var(--mid);line-height:1.6;margin-bottom:6px;list-style:none;padding-left:14px;position:relative;}
+  .do-box li::before{content:'â€¢';position:absolute;left:0;color:var(--green);}
+  .avoid-box li::before{content:'â€¢';position:absolute;left:0;color:var(--red);}
+
+  /* Trouble item */
+  .trouble-item{border:1px solid var(--border);border-left:4px solid var(--purple);border-radius:8px;overflow:hidden;margin-bottom:12px;}
+  .trouble-q{background:var(--hdr);padding:12px 16px;font-size:15px;font-weight:700;color:var(--ink);}
+  .trouble-a{background:var(--white);padding:14px 16px;font-size:14px;color:var(--mid);line-height:1.6;}
+
+  /* Prompt tabs */
+  .prompt-tabs{margin-bottom:20px;}
+  .tab-btns{display:flex;gap:8px;margin-bottom:14px;}
+  .tab-btn{padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--muted);transition:all .2s;}
+  .tab-btn.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .prompt-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px;}
+  .prompt-label{background:var(--sidebar);padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--purple-l);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;}
+  .copy-btn{background:transparent;border:1px solid rgba(139,92,246,.4);color:var(--purple-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;transition:all .2s;}
+  .copy-btn:hover{background:var(--purple);color:#fff;}
+  .prompt-text{background:var(--white);padding:14px 16px;font-size:14px;color:var(--mid);line-height:1.6;font-style:italic;}
+
+  /* Mockup */
+  .mockup{background:#1A1A2E;border-radius:12px;padding:24px;margin-bottom:20px;}
+  .mockup-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-l);margin-bottom:16px;}
+  .teams-mock{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .mock-panel{background:#0F0F1A;border-radius:8px;overflow:hidden;}
+  .mock-panel-hdr{background:#1A1A2E;padding:10px 14px;font-size:12px;font-weight:700;color:var(--blue-l);border-bottom:1px solid rgba(96,165,250,.2);}
+  .mock-panel-body{padding:14px;}
+  .mock-section-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--purple-l);margin-bottom:8px;}
+  .mock-summary-text{font-size:12px;color:#c8b8ff;line-height:1.6;margin-bottom:12px;}
+  .mock-action-item{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;}
+  .mock-checkbox{width:14px;height:14px;border:2px solid var(--blue-l);border-radius:3px;flex-shrink:0;margin-top:1px;}
+  .mock-action-text{font-size:12px;color:#BAE6FD;line-height:1.5;}
+  .mock-owner{font-size:10px;color:var(--muted);margin-top:2px;}
+  .mock-chat-msg{background:#1E1456;border-radius:6px;padding:10px 12px;margin-bottom:8px;}
+  .mock-chat-role{font-size:10px;font-weight:700;color:var(--blue-l);margin-bottom:4px;}
+  .mock-chat-text{font-size:12px;color:#c8b8ff;line-height:1.55;}
+
+  /* Roadmap */
+  .roadmap{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+  .roadmap-step{border-radius:10px;padding:20px 16px;border:1px solid var(--border);}
+  .roadmap-num{font-size:32px;font-weight:800;margin-bottom:8px;}
+  .roadmap-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .roadmap-desc{font-size:13px;color:var(--mid);line-height:1.55;}
+  .rm-purple{background:var(--card);border-top:3px solid var(--purple);} .rm-purple .roadmap-num{color:var(--purple);}
+  .rm-orange{background:var(--orange-soft);border-top:3px solid var(--orange);} .rm-orange .roadmap-num{color:var(--orange);}
+  .rm-blue{background:var(--blue-soft);border-top:3px solid var(--blue);} .rm-blue .roadmap-num{color:var(--blue);}
+  .rm-yellow{background:var(--yellow-soft);border-top:3px solid var(--yellow);} .rm-yellow .roadmap-num{color:var(--yellow);}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+<!-- â•â•â• SIDEBAR â•â•â• -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">The AI Advantage Co</div>
+    <div class="guide-name">Copilot in Teams</div>
+  </div>
+  <nav class="nav-section">
+    <a class="nav-link active" onclick="scrollTo('s1')"><span class="nav-num">01</span>What is Copilot in Teams?</a>
+    <a class="nav-link" onclick="scrollTo('s2')"><span class="nav-num">02</span>Meeting Recaps & Summaries</a>
+    <a class="nav-link" onclick="scrollTo('s3')"><span class="nav-num">03</span>Real-Time Meeting Assistance</a>
+    <a class="nav-link" onclick="scrollTo('s4')"><span class="nav-num">04</span>Channel & Chat Intelligence</a>
+    <a class="nav-link" onclick="scrollTo('s5')"><span class="nav-num">05</span>Action Items & Follow-Ups</a>
+    <a class="nav-link" onclick="scrollTo('s6')"><span class="nav-num">06</span>Collaborative Drafting</a>
+    <a class="nav-link" onclick="scrollTo('s7')"><span class="nav-num">07</span>Advanced Techniques</a>
+    <a class="nav-link" onclick="scrollTo('s8')"><span class="nav-num">08</span>Common Mistakes & Fixes</a>
+    <a class="nav-link" onclick="scrollTo('s9')"><span class="nav-num">09</span>Suggested Prompts</a>
+    <a class="nav-link" onclick="scrollTo('s10')"><span class="nav-num">10</span>See It In Action</a>
+    <a class="nav-link" onclick="scrollTo('s11')"><span class="nav-num">11</span>Your Roadmap</a>
+  </nav>
+</aside>
+
+<!-- â•â•â• CONTENT â•â•â• -->
+<main class="content">
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-inner">
+      <div class="banner-badge">Microsoft Copilot Â· Teams</div>
+      <h1>Copilot in <span>Teams</span></h1>
+      <p>Recap meetings, assist in real-time, summarise chats, and draft follow-ups â€” AI built into every Teams moment.</p>
+    </div>
+  </div>
+
+  <!-- S1 -->
+  <div class="section-card" id="s1">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div><div class="section-title">What is Copilot in Teams?</div><div class="section-subtitle">AI woven into your meetings, chats, and channels</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Microsoft Teams is where most collaborative work happens â€” and Copilot brings AI assistance directly into that flow. Whether you're in a live meeting, catching up on a channel you missed, or trying to find a decision buried in a long chat thread, Copilot in Teams helps you get oriented, stay focused, and act faster.</p>
+      <p class="body-text">Copilot in Teams has two main modes: <strong>during a meeting</strong> (real-time assistance while the meeting is live) and <strong>after a meeting</strong> (generating recaps, summaries, and action items from the transcript). It also works in <strong>chats and channels</strong> to catch you up on conversations you've missed.</p>
+      <div class="card-grid col2" style="margin-bottom:20px;">
+        <div class="feature-card card-purple"><div class="card-icon">ðŸŽ™ï¸</div><div class="card-title">Meeting Recap</div><div class="card-desc">After a meeting ends, Copilot generates a structured summary with key points, decisions, and action items â€” automatically, from the transcript.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">âš¡</div><div class="card-title">Real-Time Assistance</div><div class="card-desc">During a live meeting, ask Copilot questions like "What has been discussed so far?" or "What are the open questions?" â€” without interrupting the flow.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">ðŸ’¬</div><div class="card-title">Chat & Channel Catch-Up</div><div class="card-desc">Missed a busy channel or group chat? Ask Copilot to summarise the conversation and surface the key points you need to know.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">ðŸ“‹</div><div class="card-title">Action Items & Follow-Ups</div><div class="card-desc">Copilot extracts commitments and next steps from meeting recaps, and can draft follow-up messages or meeting summaries to share with the team.</div></div>
+      </div>
+      <div class="callout info">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">â„¹ï¸ Transcript Required for Full Features</div>
+          <div class="callout-text">Most Copilot in Teams features â€” especially meeting recap â€” require meeting transcription to be enabled. Your IT admin must enable transcription at the tenant level, and the meeting organiser (or a participant) must start the transcript at the beginning of the meeting.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section-card" id="s2">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div><div class="section-title">Meeting Recaps & Summaries</div><div class="section-subtitle">What happened, who said what, and what was decided</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The meeting recap is Copilot's flagship Teams feature. After a meeting with transcription enabled, Copilot automatically generates a structured summary in the meeting's <strong>Recap tab</strong>. You don't need to prompt it â€” the recap is produced automatically within a few minutes of the meeting ending.</p>
+      <p class="body-text">The recap includes: a meeting summary, key discussion points, decisions made, and action items with suggested owners. You can also ask follow-up questions about the meeting using natural language.</p>
+      <div class="step-list">
+        <div class="step-item"><div class="step-num">1</div><div class="step-body"><div class="step-title">Ensure transcription is enabled</div><div class="step-desc">The meeting organiser or a participant must click the three-dot menu (Â·Â·Â·) â†’ Start transcription at the beginning of the meeting. Transcription must be on for Copilot to generate a recap.</div></div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-body"><div class="step-title">Wait for the recap to generate</div><div class="step-desc">After the meeting ends, navigate to the meeting in your Teams calendar. Click the meeting â†’ then click the <strong>Recap</strong> tab. The summary typically appears within 5â€“10 minutes.</div></div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-body"><div class="step-title">Review the auto-generated summary</div><div class="step-desc">Copilot produces: a high-level summary, key points organised by topic, decisions made, and action items. Scroll through these sections to verify accuracy.</div></div></div>
+        <div class="step-item"><div class="step-num">4</div><div class="step-body"><div class="step-title">Ask follow-up questions</div><div class="step-desc">In the Recap tab, use the Copilot chat box to ask specific questions: "What did Sarah say about the budget?" or "What were the open disagreements?" Copilot searches the transcript to answer.</div></div></div>
+        <div class="step-item"><div class="step-num">5</div><div class="step-body"><div class="step-title">Share or export the recap</div><div class="step-desc">Use the share options to send the meeting notes to participants, or copy the action items into a follow-up message. You can also ask Copilot to draft a recap email for you.</div></div></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">ðŸ’¡ Tip: Catch Up Without Attending</div>
+          <div class="callout-text">If you missed a meeting you were invited to but that was recorded, you can still access the Recap tab. This is one of the most valuable use cases â€” getting a complete briefing on a one-hour meeting in under two minutes.</div>
+        </div>
+      </div>
+      <h3 class="sub">What the Recap Tab Contains</h3>
+      <table class="ref-table">
+        <thead><tr><th>Section</th><th>What It Shows</th><th>Use It To</th></tr></thead>
+        <tbody>
+          <tr><td>Summary</td><td>High-level overview of the meeting's purpose and outcomes</td><td>Share with stakeholders who didn't attend</td></tr>
+          <tr><td>Chapters</td><td>Meeting broken into topic segments with timestamps</td><td>Jump to a specific discussion point in the recording</td></tr>
+          <tr><td>Action Items</td><td>Tasks extracted from discussion with suggested owners</td><td>Copy into your task manager or share with assignees</td></tr>
+          <tr><td>Mentions</td><td>Every time a specific person was mentioned or spoke</td><td>Find out what was said about/by a specific attendee</td></tr>
+          <tr><td>Transcript</td><td>Full word-for-word record of the meeting</td><td>Verify Copilot's summary or find an exact quote</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section-card" id="s3">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div><div class="section-title">Real-Time Meeting Assistance</div><div class="section-subtitle">AI assistance while the meeting is still happening</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot doesn't wait until after the meeting. During a live meeting with transcription active, you can open the Copilot panel and ask questions about the conversation in real time â€” without interrupting anyone or asking them to repeat themselves.</p>
+      <p class="body-text">This is particularly useful if you join late, lose focus for a moment, or want to quickly check what was said before you contribute. Copilot reads from the live transcript and answers based on what has been discussed so far.</p>
+      <div class="callout warn">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">âš ï¸ Transcription Must Be Started First</div>
+          <div class="callout-text">The Copilot panel in a live meeting will be inactive until transcription is started. If you open Copilot and see "Transcription hasn't started yet", ask the meeting organiser to start it via the three-dot menu (Â·Â·Â·) â†’ Start transcription.</div>
+        </div>
+      </div>
+      <h3 class="sub">Questions to Ask During a Meeting</h3>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">ðŸ“</div><div class="card-title">Catch Up Fast</div><div class="card-desc">"What has been discussed so far?" â€” Perfect when you join late. Copilot gives you a 3â€“5 sentence briefing on what you missed.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">â“</div><div class="card-title">Find Open Questions</div><div class="card-desc">"What questions have been raised but not answered?" â€” Helps you identify where you can add value or what still needs resolution.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">âœ…</div><div class="card-title">Track Decisions</div><div class="card-desc">"What decisions have been made so far?" â€” Keeps you oriented without interrupting the meeting to ask for a recap.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">ðŸ—£ï¸</div><div class="card-title">Follow a Thread</div><div class="card-desc">"What did [Name] say about [topic]?" â€” Instantly surfaces a specific contribution without rewinding a recording.</div></div>
+      </div>
+      <h3 class="sub">How to Open Copilot in a Live Meeting</h3>
+      <div class="workflow-row"><div class="workflow-icon">1ï¸âƒ£</div><div><div class="workflow-title">Join or be in an active Teams meeting</div><div class="workflow-desc">The meeting must have transcription enabled. Look for the transcription indicator at the top of the meeting window.</div></div></div>
+      <div class="workflow-row"><div class="workflow-icon">2ï¸âƒ£</div><div><div class="workflow-title">Click the Copilot button in the meeting toolbar</div><div class="workflow-desc">It appears as a sparkle âœ¨ icon in the meeting controls toolbar at the top or bottom of the meeting window. Click it to open the Copilot side panel.</div></div></div>
+      <div class="workflow-row"><div class="workflow-icon">3ï¸âƒ£</div><div><div class="workflow-title">Type your question in the Copilot chat box</div><div class="workflow-desc">Use natural language. Copilot draws from the live transcript â€” everything said since transcription was started is in scope.</div></div></div>
+      <div class="workflow-row"><div class="workflow-icon">4ï¸âƒ£</div><div><div class="workflow-title">Read the response silently and continue the meeting</div><div class="workflow-desc">No one else can see your Copilot panel. You get the context you need without disrupting the flow â€” then contribute when ready.</div></div></div>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section-card" id="s4">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div><div class="section-title">Channel & Chat Intelligence</div><div class="section-subtitle">Catch up on conversations without reading everything</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Teams channels and group chats can move fast. Copilot can summarise threads you've missed, surface key decisions buried in long conversations, and answer questions about what was discussed â€” without requiring you to scroll through hundreds of messages.</p>
+      <p class="body-text">This works in both <strong>channel conversations</strong> (public or private team channels) and <strong>group chats</strong>. Copilot reads the visible conversation and generates a natural-language answer to your question.</p>
+      <div class="callout info">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">â„¹ï¸ How to Open Copilot in a Chat or Channel</div>
+          <div class="callout-text">Open the chat or channel â†’ click the <strong>Copilot button (âœ¨)</strong> at the top right of the conversation window. A Copilot panel will open on the right side where you can type questions about the conversation.</div>
+        </div>
+      </div>
+      <h3 class="sub">What to Ask in Chats & Channels</h3>
+      <table class="ref-table">
+        <thead><tr><th>Question</th><th>When to Use It</th></tr></thead>
+        <tbody>
+          <tr><td>"Summarise the last 7 days of this channel"</td><td>Catching up after time off or a busy week</td></tr>
+          <tr><td>"What decisions were made about [topic]?"</td><td>Finding a specific outcome buried in a long thread</td></tr>
+          <tr><td>"What action items were assigned to me?"</td><td>Checking if anything was asked of you in a conversation</td></tr>
+          <tr><td>"What are the open issues in this channel?"</td><td>Getting a quick picture of unresolved problems before joining a call</td></tr>
+          <tr><td>"Who disagreed about [topic] and what were their reasons?"</td><td>Understanding context behind a decision or escalation</td></tr>
+          <tr><td>"Has anything been agreed about [topic]?"</td><td>Before raising a question that may have already been addressed</td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">ðŸ’¡ Monday Morning Routine</div>
+          <div class="callout-text">Start Monday by opening your top 3 active channels and asking Copilot: "Summarise what happened in this channel over the weekend." You'll be caught up across all key projects in under five minutes.</div>
+        </div>
+      </div>
+      <h3 class="sub">Limitations to Know</h3>
+      <ul class="bullet">
+        <li>Copilot in chats summarises the <strong>visible conversation history</strong> â€” it cannot surface files, images, or content from linked SharePoint sites unless you ask specifically.</li>
+        <li>In very long channels with thousands of messages, Copilot may focus on recent activity. Use a specific date range ("from last Tuesday") for better precision.</li>
+        <li>Private chats between two people do not currently support the Copilot panel â€” this feature is for group chats and channels with 3+ participants.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="section-card" id="s5">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div><div class="section-title">Action Items & Follow-Ups</div><div class="section-subtitle">Turn meeting output into team momentum</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">One of the biggest value points of Copilot in Teams is converting meeting conversations into structured next steps. Copilot extracts action items automatically in the Recap tab, but you can also ask it to generate, refine, or communicate follow-ups using natural language.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">ðŸ“Œ</div><div class="card-title">Extract Action Items</div><div class="card-desc">Ask: "List all action items from this meeting with owners and due dates mentioned." Copilot scans the transcript and returns a structured task list.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">ðŸ“§</div><div class="card-title">Draft a Follow-Up Email</div><div class="card-desc">Ask Copilot in the Recap tab: "Draft a follow-up email summarising this meeting and the action items." Copy the output into Outlook in seconds.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">ðŸ“„</div><div class="card-title">Create Meeting Notes</div><div class="card-desc">Ask: "Write formal meeting notes for this session including attendees, key decisions, and next steps." Export to Word or paste into your team wiki.</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">ðŸ”</div><div class="card-title">Prepare for the Next Meeting</div><div class="card-desc">Ask: "Based on this meeting's action items, draft an agenda for our follow-up session." Copilot turns today's outputs into next week's inputs.</div></div>
+      </div>
+      <div class="callout copilot">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">âœ¨ Copilot Tip: Prompt for Precision</div>
+          <div class="callout-text">If Copilot's auto-generated action items are too vague, prompt it to go deeper: "List only the action items that have a named owner and a specific deadline mentioned." Specificity in your prompt produces more usable output.</div>
+        </div>
+      </div>
+      <h3 class="sub">Workflow: Meeting Recap to Action</h3>
+      <div class="workflow-row"><div class="workflow-icon">ðŸŽ™ï¸</div><div><div class="workflow-title">Meeting ends â€” navigate to the Recap tab</div><div class="workflow-desc">Open the calendar entry in Teams â†’ click the Recap tab. Wait for Copilot's summary to generate (usually 5â€“10 minutes).</div></div></div>
+      <div class="workflow-row"><div class="workflow-icon">ðŸ“‹</div><div><div class="workflow-title">Review and refine the auto-generated action items</div><div class="workflow-desc">Copilot's list is a starting point. Ask: "Are there any commitments made in the meeting that are missing from this list?" to catch anything missed.</div></div></div>
+      <div class="workflow-row"><div class="workflow-icon">ðŸ“§</div><div><div class="workflow-title">Draft and send the follow-up</div><div class="workflow-desc">Ask Copilot: "Draft a follow-up message to the team summarising what we agreed and who is responsible for what." Copy into Outlook or send directly from Teams.</div></div></div>
+      <div class="workflow-row"><div class="workflow-icon">âœ…</div><div><div class="workflow-title">Move action items into your task system</div><div class="workflow-desc">Copy action items into Microsoft To Do, Planner, or your team's project management tool. Copilot doesn't currently write to external task systems, so this step is manual.</div></div></div>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="section-card" id="s6">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div><div class="section-title">Collaborative Drafting with Copilot</div><div class="section-subtitle">Agendas, posts, messages â€” written from your Teams context</div></div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot in Teams can draft content using the context already in your meetings and conversations. Instead of starting from scratch, you give Copilot the meeting context or channel background and ask it to produce a draft â€” which you then refine and send.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">ðŸ“…</div><div class="card-title">Draft a Meeting Agenda</div><div class="card-desc">Open a channel discussion on a topic â†’ ask Copilot: "Based on this conversation, draft an agenda for a 45-minute planning meeting." Structured and contextual.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">ðŸ“¢</div><div class="card-title">Write a Channel Announcement</div><div class="card-desc">After a decision is made in a meeting, ask: "Write a channel post announcing this decision to the broader team in a clear and positive tone."</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">ðŸ“</div><div class="card-title">Summarise for Stakeholders</div><div class="card-desc">Ask Copilot: "Write a short executive summary of this meeting's outcomes suitable for sharing with senior leadership who weren't present."</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">ðŸ”„</div><div class="card-title">Rewrite for Clarity</div><div class="card-desc">Paste a rough draft into Copilot chat and ask: "Rewrite this to be more concise and professional. Audience: external stakeholders." Copilot refines your voice.</div></div>
+      </div>
+      <h3 class="sub">Using Copilot in the Teams Chat Compose Box</h3>
+      <p class="body-text">In any Teams chat or channel compose box, you can access Copilot directly to help you write a message. Click the <strong>Copilot icon (âœ¨)</strong> below the compose box â€” this opens a "Rewrite" or "Coaching" prompt. You can either:</p>
+      <ul class="bullet">
+        <li><strong>Rewrite</strong> â€” write a rough message, then ask Copilot to make it more concise, professional, or friendly</li>
+        <li><strong>Draft from scratch</strong> â€” type a brief instruction like "Tell the team the Friday deadline has moved to Monday" and let Copilot write the message</li>
+      </ul>
+      <div class="callout tip">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">ðŸ’¡ Adjust Tone Before Sending</div>
+          <div class="callout-text">Use the Copilot rewrite options â€” "More professional", "More casual", "Shorter" â€” to dial in the right tone for your audience before hitting Send. What works for a direct report may not be right for a VP.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="section-card" id="s7">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div><div class="section-title">Advanced Techniques</div><div class="section-subtitle">Cross-app workflows, deep recap queries, and power patterns</div></div>
+    </div>
+    <div class="section-body">
+      <h3 class="sub">Cross-App Workflows</h3>
+      <p class="body-text">Copilot's real power emerges when you chain Teams with other M365 apps. Use Teams for the meeting context, then use Copilot in Outlook to draft the follow-up email, and Copilot in Word to write the full meeting report â€” all informed by the same transcript.</p>
+      <div class="card-grid col2">
+        <div class="feature-card card-purple"><div class="card-icon">ðŸ“Š</div><div class="card-title">Teams â†’ Word Report</div><div class="card-desc">Copy Copilot's meeting summary from Teams, open Word, and ask Copilot to expand it into a formal meeting report with sections and formatting.</div></div>
+        <div class="feature-card card-blue"><div class="card-icon">ðŸ“§</div><div class="card-title">Teams â†’ Outlook Follow-Up</div><div class="card-desc">After a client call in Teams, open Outlook and ask Copilot: "Draft a follow-up email based on the summary I'll paste below." Paste the Teams recap.</div></div>
+        <div class="feature-card card-orange"><div class="card-icon">ðŸ“‘</div><div class="card-title">Teams â†’ PowerPoint Brief</div><div class="card-desc">Copy the key decisions from a Teams recap and ask Copilot in PowerPoint: "Turn these meeting outcomes into a 5-slide stakeholder brief."</div></div>
+        <div class="feature-card card-yellow"><div class="card-icon">ðŸ”</div><div class="card-title">Multi-Meeting Synthesis</div><div class="card-desc">Review recaps from 2â€“3 related meetings and ask Copilot Chat: "Based on these summaries, what are the recurring themes and unresolved issues?"</div></div>
+      </div>
+      <h3 class="sub">Advanced Recap Queries</h3>
+      <p class="body-text">The Copilot chat box in the Recap tab can answer highly specific questions about the meeting. The more precise your question, the more useful the answer.</p>
+      <table class="ref-table">
+        <thead><tr><th>Query</th><th>What Copilot Returns</th></tr></thead>
+        <tbody>
+          <tr><td>"What did [Name] commit to before the end of the meeting?"</td><td>Specific commitments attributed to that person</td></tr>
+          <tr><td>"Were there any risks or concerns raised?"</td><td>Any language indicating uncertainty, risk, or objection</td></tr>
+          <tr><td>"What was the final consensus on [topic]?"</td><td>The agreed position after discussion</td></tr>
+          <tr><td>"Were there any disagreements that weren't resolved?"</td><td>Identifies open conflicts or differing views</td></tr>
+          <tr><td>"What numbers or figures were mentioned?"</td><td>Extracts quantitative data from the discussion</td></tr>
+        </tbody>
+      </table>
+      <h3 class="sub">Setting Up Meetings for Better Copilot Output</h3>
+      <ul class="bullet">
+        <li><strong>Start transcription immediately</strong> â€” Copilot can only recap what was transcribed. A recap that misses the first 10 minutes misses critical context.</li>
+        <li><strong>Use structured meeting openings</strong> â€” Begin each meeting by stating the agenda aloud. Copilot's chapter segmentation is better when the conversation has clear topical shifts.</li>
+        <li><strong>Name action items explicitly</strong> â€” Say "Sarah, can you own the timeline by Friday?" rather than "someone should handle that". Copilot extracts named owners more reliably.</li>
+        <li><strong>Summarise decisions out loud at the end</strong> â€” A brief verbal summary at the close ("So we've agreed to X, Y, and Z") gives Copilot crisp material for the decision section of the recap.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="section-card" id="s8">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div><div class="section-title">Common Mistakes & Fixes</div><div class="section-subtitle">What goes wrong â€” and how to avoid it</div></div>
+    </div>
+    <div class="section-body">
+      <div class="trouble-item">
+        <div class="trouble-q">âŒ "The Copilot button is greyed out in my Teams meeting"</div>
+        <div class="trouble-a">Transcription hasn't been started. Click the three-dot menu (Â·Â·Â·) in the meeting toolbar â†’ Start transcription. The Copilot button becomes active once transcription is running. If you don't see this option, your IT admin may not have enabled transcription for your organisation.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">âŒ "The meeting recap tab isn't showing any content"</div>
+        <div class="trouble-a">Wait 5â€“15 minutes after the meeting ends â€” recap generation is not instant. If it still doesn't appear, check whether transcription was actually started during the meeting. No transcript = no recap. The Recap tab only appears in your Teams calendar for meetings you organised or were invited to.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">âŒ "The action items Copilot extracted are too vague or incomplete"</div>
+        <div class="trouble-a">This usually means action items weren't stated clearly during the meeting (e.g. "someone will look into that"). Go back to the Recap tab and ask: "Are there any implied commitments in this meeting that weren't listed as action items?" Then review the transcript to verify. Going forward, name owners explicitly in meetings.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">âŒ "Copilot's meeting summary is missing the first 20 minutes"</div>
+        <div class="trouble-a">Transcription was not started at the beginning of the meeting. This is the most common Teams Copilot issue. Make it a team norm to start transcription as soon as the meeting opens â€” or set calendar meetings to auto-transcribe (requires admin configuration).</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">âŒ "Copilot can't find the channel conversation I'm asking about"</div>
+        <div class="trouble-a">The Copilot panel in a channel reads the visible conversation thread. If the channel has been inactive for a long time or the conversation happened in a sub-thread that hasn't loaded, Copilot may not have access to it. Try scrolling the channel to load older messages before asking Copilot, or narrow your question to a recent date range.</div>
+      </div>
+      <div class="do-avoid">
+        <div class="do-box">
+          <div class="box-label">âœ… DO THIS</div>
+          <ul>
+            <li>Start transcription before anyone speaks</li>
+            <li>Name action item owners explicitly in the meeting</li>
+            <li>Review the recap before sharing â€” verify accuracy</li>
+            <li>Use Copilot during the meeting for real-time context</li>
+            <li>Ask follow-up questions in the Recap tab for precision</li>
+          </ul>
+        </div>
+        <div class="avoid-box">
+          <div class="box-label">âŒ AVOID THIS</div>
+          <ul>
+            <li>Assuming transcription is on by default (it isn't)</li>
+            <li>Sharing Copilot recaps without a human review</li>
+            <li>Expecting Copilot to capture decisions from side conversations</li>
+            <li>Relying on Copilot to track commitments instead of your task system</li>
+            <li>Using Copilot recaps as the sole record for compliance-sensitive meetings</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S9 -->
+  <div class="section-card" id="s9">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <div><div class="section-title">Suggested Prompts</div><div class="section-subtitle">Ready-to-use prompts for meetings and conversations</div></div>
+    </div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="showTab('meetings')">Meetings</button>
+          <button class="tab-btn" onclick="showTab('chats')">Chats & Channels</button>
+        </div>
+        <div class="tab-panel active" id="tab-meetings">
+          <div class="prompt-card">
+            <div class="prompt-label">Meeting Recap â€” Quick Catch-Up <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Summarise this meeting in 5 bullet points. Include the main purpose, key decisions made, any unresolved issues, and the top 3 action items with the person responsible for each.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Real-Time â€” Late Joiner Brief <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">I just joined this meeting. What has been discussed so far, what decisions have been made, and are there any open questions I should be aware of before I contribute?</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Follow-Up Draft â€” Action-Focused <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Draft a follow-up email to all meeting participants summarising what we agreed, listing each action item with the named owner and deadline discussed, and confirming the date of our next check-in.</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="tab-chats">
+          <div class="prompt-card">
+            <div class="prompt-label">Channel Catch-Up â€” Weekly Summary <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Summarise the key discussions, decisions, and outstanding questions from this channel over the past 7 days. Highlight anything that requires my attention or input.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Decision Finder â€” Specific Topic <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Has a decision been made in this channel about [topic]? If so, what was agreed, who agreed to it, and when was it discussed? If not, what are the current open positions?</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Action Tracker â€” Personal Check <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Review this conversation and identify any tasks, commitments, or questions that have been directed at me specifically. List them with context so I know what I need to respond to or act on.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div><div class="section-title">See It In Action</div><div class="section-subtitle">Teams meeting recap with Copilot â€” live example</div></div>
+    </div>
+    <div class="section-body">
+      <div class="mockup">
+        <div class="mockup-title">Teams Meeting Recap â€” Copilot Output</div>
+        <div class="teams-mock">
+          <div class="mock-panel">
+            <div class="mock-panel-hdr">ðŸ“‹ Meeting Summary â€” Q3 Marketing Review</div>
+            <div class="mock-panel-body">
+              <div class="mock-section-label">Meeting Overview</div>
+              <div class="mock-summary-text">The team reviewed Q3 campaign performance, identified underperforming channels, and agreed on a revised budget allocation for Q4. The LinkedIn campaign exceeded targets by 22%, while paid search fell short by 15%.</div>
+              <div class="mock-section-label">Key Decisions</div>
+              <div class="mock-summary-text">â€¢ Shift Â£8k from paid search to LinkedIn for Q4<br>â€¢ Pause display advertising until creative refresh is complete<br>â€¢ Launch A/B test on email subject lines by 20 Oct</div>
+              <div class="mock-section-label">Ask Copilot About This Meeting</div>
+              <div class="mock-chat-msg"><div class="mock-chat-role">You</div><div class="mock-chat-text">What did Emma say about the email campaign results?</div></div>
+              <div class="mock-chat-msg"><div class="mock-chat-role">Copilot âœ¨</div><div class="mock-chat-text">Emma reported that the October email campaign achieved a 31% open rate, above the 24% benchmark, but click-through was 2.1% against a target of 3.5%. She attributed this to the subject line not matching the landing page offer and proposed A/B testing subject lines next quarter.</div></div>
+            </div>
+          </div>
+          <div class="mock-panel">
+            <div class="mock-panel-hdr">âœ… Action Items</div>
+            <div class="mock-panel-body">
+              <div class="mock-section-label">Extracted by Copilot</div>
+              <div class="mock-action-item"><div class="mock-checkbox"></div><div><div class="mock-action-text">Reallocate Â£8k budget from paid search to LinkedIn Ads</div><div class="mock-owner">Owner: Jamie Â· Due: 15 Oct</div></div></div>
+              <div class="mock-action-item"><div class="mock-checkbox"></div><div><div class="mock-action-text">Submit creative brief for display ad refresh to agency</div><div class="mock-owner">Owner: Emma Â· Due: 22 Oct</div></div></div>
+              <div class="mock-action-item"><div class="mock-checkbox"></div><div><div class="mock-action-text">Set up A/B test framework for November email campaign</div><div class="mock-owner">Owner: Marcus Â· Due: 20 Oct</div></div></div>
+              <div class="mock-action-item"><div class="mock-checkbox"></div><div><div class="mock-action-text">Share Q3 performance report with CMO by end of week</div><div class="mock-owner">Owner: Sarah Â· Due: 10 Oct</div></div></div>
+              <div style="margin-top:16px;">
+                <div class="mock-section-label">Follow-Up Draft Requested</div>
+                <div class="mock-chat-msg"><div class="mock-chat-role">Copilot âœ¨</div><div class="mock-chat-text">Draft follow-up email ready. Subject: "Q3 Review â€” Agreed Actions &amp; Next Steps". Summary covers all 4 action items with owners and deadlines. Ready to copy into Outlook.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="body-text" style="font-size:13px;color:var(--muted);">The left panel shows Copilot's auto-generated meeting summary and the ability to ask follow-up questions about the transcript. The right panel shows the action item extraction with named owners and due dates â€” ready to share or copy to your task system.</p>
+    </div>
+  </div>
+
+  <!-- S11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <div><div class="section-title">Your Roadmap</div><div class="section-subtitle">From first recap to fully AI-assisted meeting workflow</div></div>
+    </div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step rm-purple"><div class="roadmap-num">1</div><div class="roadmap-title">Access Your First Recap</div><div class="roadmap-desc">Find a recent meeting in your calendar with transcription enabled. Open the Recap tab and review Copilot's auto-generated summary and action items.</div></div>
+        <div class="roadmap-step rm-orange"><div class="roadmap-num">2</div><div class="roadmap-title">Use It Live</div><div class="roadmap-desc">In your next meeting, open the Copilot panel and ask "What has been discussed so far?" at least once. Practice using it when you need to catch up fast.</div></div>
+        <div class="roadmap-step rm-blue"><div class="roadmap-num">3</div><div class="roadmap-title">Build the Habit</div><div class="roadmap-desc">After every meeting, spend 2 minutes in the Recap tab: verify action items, draft a follow-up, and ask one specific question about the conversation.</div></div>
+        <div class="roadmap-step rm-yellow"><div class="roadmap-num">4</div><div class="roadmap-title">Integrate Across M365</div><div class="roadmap-desc">Chain Teams recaps with Outlook and Word. Use Copilot to turn meeting outcomes into emails, reports, and agendas â€” closing the loop on every meeting automatically.</div></div>
+      </div>
+      <div class="callout copilot">
+        <div class="callout-bar"></div>
+        <div class="callout-body">
+          <div class="callout-label">âœ¨ The Goal: Zero-Admin Meetings</div>
+          <div class="callout-text">The ideal state is a meeting workflow where Copilot handles the recap, extracts the action items, drafts the follow-up, and prepares the next agenda â€” all while you focus on the conversation itself. Start with one meeting recap this week. The habit builds from there.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-card').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text);
+  const orig = btn.innerText;
+  btn.innerText = 'âœ“ Copied';
+  setTimeout(() => btn.innerText = orig, 1800);
+}
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+}
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[onclick="scrollTo('${id}')"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, {threshold:0.25});
+document.querySelectorAll('.section-card[id]').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

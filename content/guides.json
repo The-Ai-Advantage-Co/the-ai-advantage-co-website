@@ -1,0 +1,821 @@
+[
+  {
+    "slug": "master-guide-chatgpt",
+    "platform": "chatgpt",
+    "group": "master",
+    "title": "ChatGPT Master Guide",
+    "sub": "",
+    "file": "chatgpt/master-guide-chatgpt.html",
+    "order": 0
+  },
+  {
+    "slug": "chatgpt-101-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "101",
+    "sub": "",
+    "file": "chatgpt/chatgpt-101-user-guide.html",
+    "order": 10
+  },
+  {
+    "slug": "chatgpt-advanced-reasoning-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "Advanced Reasoning",
+    "sub": "",
+    "file": "chatgpt/chatgpt-advanced-reasoning-user-guide.html",
+    "order": 20
+  },
+  {
+    "slug": "chatgpt-gpts-custom-assistants-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "GPTs Custom Assistants",
+    "sub": "",
+    "file": "chatgpt/chatgpt-gpts-custom-assistants-user-guide.html",
+    "order": 30
+  },
+  {
+    "slug": "chatgpt-memory-custom-instructions-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "Memory Custom Instructions",
+    "sub": "",
+    "file": "chatgpt/chatgpt-memory-custom-instructions-user-guide.html",
+    "order": 40
+  },
+  {
+    "slug": "chatgpt-projects-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "Projects",
+    "sub": "",
+    "file": "chatgpt/chatgpt-projects-user-guide.html",
+    "order": 50
+  },
+  {
+    "slug": "chatgpt-prompt-guide-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "Prompt Guide",
+    "sub": "",
+    "file": "chatgpt/chatgpt-prompt-guide-user-guide.html",
+    "order": 60
+  },
+  {
+    "slug": "chatgpt-research-web-search-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "Research Web Search",
+    "sub": "",
+    "file": "chatgpt/chatgpt-research-web-search-user-guide.html",
+    "order": 70
+  },
+  {
+    "slug": "chatgpt-voice-vision-files-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "Voice Vision Files",
+    "sub": "",
+    "file": "chatgpt/chatgpt-voice-vision-files-user-guide.html",
+    "order": 80
+  },
+  {
+    "slug": "chatgpt-workflows-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "Workflows",
+    "sub": "",
+    "file": "chatgpt/chatgpt-workflows-user-guide.html",
+    "order": 90
+  },
+  {
+    "slug": "chatgpt-writing-editing-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "Writing Editing",
+    "sub": "",
+    "file": "chatgpt/chatgpt-writing-editing-user-guide.html",
+    "order": 100
+  },
+  {
+    "slug": "gpt-user-guide",
+    "platform": "chatgpt",
+    "group": "core",
+    "title": "GPT",
+    "sub": "",
+    "file": "chatgpt/gpt-user-guide.html",
+    "order": 110
+  },
+  {
+    "slug": "chatgpt-actions",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Actions",
+    "sub": "",
+    "file": "chatgpt/chatgpt-actions.html",
+    "order": 10
+  },
+  {
+    "slug": "chatgpt-api-basics-for-non-developers",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "API Basics For Non Developers",
+    "sub": "",
+    "file": "chatgpt/chatgpt-api-basics-for-non-developers.html",
+    "order": 20
+  },
+  {
+    "slug": "chatgpt-canvas",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Canvas",
+    "sub": "",
+    "file": "chatgpt/chatgpt-canvas.html",
+    "order": 30
+  },
+  {
+    "slug": "chatgpt-custom-instructions",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Custom Instructions",
+    "sub": "",
+    "file": "chatgpt/chatgpt-custom-instructions.html",
+    "order": 40
+  },
+  {
+    "slug": "chatgpt-customer-facing-use",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Customer Facing Use",
+    "sub": "",
+    "file": "chatgpt/chatgpt-customer-facing-use.html",
+    "order": 50
+  },
+  {
+    "slug": "chatgpt-for-content-and-social-media",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "For Content And Social Media",
+    "sub": "",
+    "file": "chatgpt/chatgpt-for-content-and-social-media.html",
+    "order": 60
+  },
+  {
+    "slug": "chatgpt-for-data-analysis",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "For Data Analysis",
+    "sub": "",
+    "file": "chatgpt/chatgpt-for-data-analysis.html",
+    "order": 70
+  },
+  {
+    "slug": "chatgpt-for-meeting-prep-and-follow-up",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "For Meeting Prep And Follow Up",
+    "sub": "",
+    "file": "chatgpt/chatgpt-for-meeting-prep-and-follow-up.html",
+    "order": 80
+  },
+  {
+    "slug": "chatgpt-image-generation",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Image Generation",
+    "sub": "",
+    "file": "chatgpt/chatgpt-image-generation.html",
+    "order": 90
+  },
+  {
+    "slug": "chatgpt-operator-mode-and-system-prompts",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Operator Mode And System Prompts",
+    "sub": "",
+    "file": "chatgpt/chatgpt-operator-mode-and-system-prompts.html",
+    "order": 100
+  },
+  {
+    "slug": "chatgpt-team-and-enterprise-plan-guide",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Team And Enterprise Plan Guide",
+    "sub": "",
+    "file": "chatgpt/chatgpt-team-and-enterprise-plan-guide.html",
+    "order": 110
+  },
+  {
+    "slug": "chatgpt-vs-other-tools",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "vs Other Tools",
+    "sub": "",
+    "file": "chatgpt/chatgpt-vs-other-tools.html",
+    "order": 120
+  },
+  {
+    "slug": "master-guide-claude",
+    "platform": "claude",
+    "group": "master",
+    "title": "Claude Master Guide",
+    "sub": "",
+    "file": "claude/master-guide-claude.html",
+    "order": 0
+  },
+  {
+    "slug": "claude-101-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "101",
+    "sub": "",
+    "file": "claude/claude-101-user-guide.html",
+    "order": 10
+  },
+  {
+    "slug": "claude-agents-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "Agents",
+    "sub": "",
+    "file": "claude/claude-agents-user-guide.html",
+    "order": 20
+  },
+  {
+    "slug": "claude-api-basics-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "API Basics",
+    "sub": "",
+    "file": "claude/claude-api-basics-user-guide.html",
+    "order": 30
+  },
+  {
+    "slug": "claude-code-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "Code",
+    "sub": "",
+    "file": "claude/claude-code-user-guide.html",
+    "order": 40
+  },
+  {
+    "slug": "claude-cowork-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "Cowork",
+    "sub": "",
+    "file": "claude/claude-cowork-user-guide.html",
+    "order": 50
+  },
+  {
+    "slug": "claude-memory-context-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "Memory Context",
+    "sub": "",
+    "file": "claude/claude-memory-context-user-guide.html",
+    "order": 60
+  },
+  {
+    "slug": "claude-multimodal-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "Multimodal",
+    "sub": "",
+    "file": "claude/claude-multimodal-user-guide.html",
+    "order": 70
+  },
+  {
+    "slug": "claude-projects-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "Projects",
+    "sub": "",
+    "file": "claude/claude-projects-user-guide.html",
+    "order": 80
+  },
+  {
+    "slug": "claude-prompt-engineering-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "Prompt Engineering",
+    "sub": "",
+    "file": "claude/claude-prompt-engineering-user-guide.html",
+    "order": 90
+  },
+  {
+    "slug": "claude-workflows-user-guide",
+    "platform": "claude",
+    "group": "core",
+    "title": "Workflows",
+    "sub": "",
+    "file": "claude/claude-workflows-user-guide.html",
+    "order": 100
+  },
+  {
+    "slug": "claude-cowork-mode",
+    "platform": "claude",
+    "group": "topical",
+    "title": "Cowork Mode",
+    "sub": "",
+    "file": "claude/claude-cowork-mode.html",
+    "order": 10
+  },
+  {
+    "slug": "claude-for-coding-assistance",
+    "platform": "claude",
+    "group": "topical",
+    "title": "For Coding Assistance",
+    "sub": "",
+    "file": "claude/claude-for-coding-assistance.html",
+    "order": 20
+  },
+  {
+    "slug": "claude-for-data-extraction-and-document-processing",
+    "platform": "claude",
+    "group": "topical",
+    "title": "For Data Extraction And Document Processing",
+    "sub": "",
+    "file": "claude/claude-for-data-extraction-and-document-processing.html",
+    "order": 30
+  },
+  {
+    "slug": "claude-for-internal-knowledge-base-building",
+    "platform": "claude",
+    "group": "topical",
+    "title": "For Internal Knowledge Base Building",
+    "sub": "",
+    "file": "claude/claude-for-internal-knowledge-base-building.html",
+    "order": 40
+  },
+  {
+    "slug": "claude-for-sensitive-and-nuanced-business-writing",
+    "platform": "claude",
+    "group": "topical",
+    "title": "For Sensitive And Nuanced Business Writing",
+    "sub": "",
+    "file": "claude/claude-for-sensitive-and-nuanced-business-writing.html",
+    "order": 50
+  },
+  {
+    "slug": "claude-for-systems-thinking-and-strategic-planning",
+    "platform": "claude",
+    "group": "topical",
+    "title": "For Systems Thinking And Strategic Planning",
+    "sub": "",
+    "file": "claude/claude-for-systems-thinking-and-strategic-planning.html",
+    "order": 60
+  },
+  {
+    "slug": "claude-for-writing-editing-and-tone-refinement",
+    "platform": "claude",
+    "group": "topical",
+    "title": "For Writing Editing And Tone Refinement",
+    "sub": "",
+    "file": "claude/claude-for-writing-editing-and-tone-refinement.html",
+    "order": 70
+  },
+  {
+    "slug": "claude-safety-and-refusals",
+    "platform": "claude",
+    "group": "topical",
+    "title": "Safety And Refusals",
+    "sub": "",
+    "file": "claude/claude-safety-and-refusals.html",
+    "order": 80
+  },
+  {
+    "slug": "master-guide-gemini",
+    "platform": "gemini",
+    "group": "master",
+    "title": "Gemini Master Guide",
+    "sub": "",
+    "file": "gemini/master-guide-gemini.html",
+    "order": 0
+  },
+  {
+    "slug": "gemini-101-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "101",
+    "sub": "",
+    "file": "gemini/gemini-101-user-guide.html",
+    "order": 10
+  },
+  {
+    "slug": "gemini-deep-research-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Deep Research",
+    "sub": "",
+    "file": "gemini/gemini-deep-research-user-guide.html",
+    "order": 20
+  },
+  {
+    "slug": "gemini-docs-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Docs",
+    "sub": "",
+    "file": "gemini/gemini-docs-user-guide.html",
+    "order": 30
+  },
+  {
+    "slug": "gemini-extensions-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Extensions",
+    "sub": "",
+    "file": "gemini/gemini-extensions-user-guide.html",
+    "order": 40
+  },
+  {
+    "slug": "gemini-gems-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Gems",
+    "sub": "",
+    "file": "gemini/gemini-gems-user-guide.html",
+    "order": 50
+  },
+  {
+    "slug": "gemini-gmail-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Gmail",
+    "sub": "",
+    "file": "gemini/gemini-gmail-user-guide.html",
+    "order": 60
+  },
+  {
+    "slug": "gemini-meet-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Meet",
+    "sub": "",
+    "file": "gemini/gemini-meet-user-guide.html",
+    "order": 70
+  },
+  {
+    "slug": "gemini-notebooklm-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Notebooklm",
+    "sub": "",
+    "file": "gemini/gemini-notebooklm-user-guide.html",
+    "order": 80
+  },
+  {
+    "slug": "gemini-prompt-guide-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Prompt Guide",
+    "sub": "",
+    "file": "gemini/gemini-prompt-guide-user-guide.html",
+    "order": 90
+  },
+  {
+    "slug": "gemini-sheets-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Sheets",
+    "sub": "",
+    "file": "gemini/gemini-sheets-user-guide.html",
+    "order": 100
+  },
+  {
+    "slug": "gemini-slides-user-guide",
+    "platform": "gemini",
+    "group": "core",
+    "title": "Slides",
+    "sub": "",
+    "file": "gemini/gemini-slides-user-guide.html",
+    "order": 110
+  },
+  {
+    "slug": "gemini-advanced",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "Advanced",
+    "sub": "",
+    "file": "gemini/gemini-advanced.html",
+    "order": 10
+  },
+  {
+    "slug": "gemini-api-basics-for-non-developers",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "API Basics For Non Developers",
+    "sub": "",
+    "file": "gemini/gemini-api-basics-for-non-developers.html",
+    "order": 20
+  },
+  {
+    "slug": "gemini-as-an-agent-notebooklm-and-autonomous-research",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "As An Agent Notebooklm And Autonomous Research",
+    "sub": "",
+    "file": "gemini/gemini-as-an-agent-notebooklm-and-autonomous-research.html",
+    "order": 30
+  },
+  {
+    "slug": "gemini-for-content-creation-and-drafting",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "For Content Creation And Drafting",
+    "sub": "",
+    "file": "gemini/gemini-for-content-creation-and-drafting.html",
+    "order": 40
+  },
+  {
+    "slug": "gemini-for-customer-facing-use-cases",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "For Customer Facing Use Cases",
+    "sub": "",
+    "file": "gemini/gemini-for-customer-facing-use-cases.html",
+    "order": 50
+  },
+  {
+    "slug": "gemini-for-image-generation-and-creative-work",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "For Image Generation And Creative Work",
+    "sub": "",
+    "file": "gemini/gemini-for-image-generation-and-creative-work.html",
+    "order": 60
+  },
+  {
+    "slug": "gemini-for-research-with-web-grounding",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "For Research With Web Grounding",
+    "sub": "",
+    "file": "gemini/gemini-for-research-with-web-grounding.html",
+    "order": 70
+  },
+  {
+    "slug": "gemini-for-teams-on-google-workspace",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "For Teams On Google Workspace",
+    "sub": "",
+    "file": "gemini/gemini-for-teams-on-google-workspace.html",
+    "order": 80
+  },
+  {
+    "slug": "gemini-in-google-chat",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "In Google Chat",
+    "sub": "",
+    "file": "gemini/gemini-in-google-chat.html",
+    "order": 90
+  },
+  {
+    "slug": "gemini-in-workflows",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "In Workflows",
+    "sub": "",
+    "file": "gemini/gemini-in-workflows.html",
+    "order": 100
+  },
+  {
+    "slug": "gemini-live-voice-and-real-time-conversation-mode",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "Live Voice And Real Time Conversation Mode",
+    "sub": "",
+    "file": "gemini/gemini-live-voice-and-real-time-conversation-mode.html",
+    "order": 110
+  },
+  {
+    "slug": "gemini-multimodal",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "Multimodal",
+    "sub": "",
+    "file": "gemini/gemini-multimodal.html",
+    "order": 120
+  },
+  {
+    "slug": "gemini-vs-chatgpt",
+    "platform": "gemini",
+    "group": "topical",
+    "title": "vs ChatGPT",
+    "sub": "",
+    "file": "gemini/gemini-vs-chatgpt.html",
+    "order": 130
+  },
+  {
+    "slug": "master-guide-copilot",
+    "platform": "copilot",
+    "group": "master",
+    "title": "Copilot Master Guide",
+    "sub": "",
+    "file": "copilot/master-guide-copilot.html",
+    "order": 0
+  },
+  {
+    "slug": "copilot-101-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "101",
+    "sub": "",
+    "file": "copilot/copilot-101-user-guide.html",
+    "order": 10
+  },
+  {
+    "slug": "copilot-agents-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "Agents",
+    "sub": "",
+    "file": "copilot/copilot-agents-user-guide.html",
+    "order": 20
+  },
+  {
+    "slug": "copilot-excel-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "Excel",
+    "sub": "",
+    "file": "copilot/copilot-excel-user-guide.html",
+    "order": 30
+  },
+  {
+    "slug": "copilot-notebooks-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "Notebooks",
+    "sub": "",
+    "file": "copilot/copilot-notebooks-user-guide.html",
+    "order": 40
+  },
+  {
+    "slug": "copilot-outlook-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "Outlook",
+    "sub": "",
+    "file": "copilot/copilot-outlook-user-guide.html",
+    "order": 50
+  },
+  {
+    "slug": "copilot-pages-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "Pages",
+    "sub": "",
+    "file": "copilot/copilot-pages-user-guide.html",
+    "order": 60
+  },
+  {
+    "slug": "copilot-powerpoint-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "Powerpoint",
+    "sub": "",
+    "file": "copilot/copilot-powerpoint-user-guide.html",
+    "order": 70
+  },
+  {
+    "slug": "copilot-prompt-guide-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "Prompt Guide",
+    "sub": "",
+    "file": "copilot/copilot-prompt-guide-user-guide.html",
+    "order": 80
+  },
+  {
+    "slug": "copilot-teams-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "Teams",
+    "sub": "",
+    "file": "copilot/copilot-teams-user-guide.html",
+    "order": 90
+  },
+  {
+    "slug": "copilot-word-user-guide",
+    "platform": "copilot",
+    "group": "core",
+    "title": "Word",
+    "sub": "",
+    "file": "copilot/copilot-word-user-guide.html",
+    "order": 100
+  },
+  {
+    "slug": "copilot-adoption-guide",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "Adoption Guide",
+    "sub": "",
+    "file": "copilot/copilot-adoption-guide.html",
+    "order": 10
+  },
+  {
+    "slug": "copilot-bizchat-microsoft-365-chat",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "Bizchat Microsoft 365 Chat",
+    "sub": "",
+    "file": "copilot/copilot-bizchat-microsoft-365-chat.html",
+    "order": 20
+  },
+  {
+    "slug": "copilot-for-business-m365-enterprise-setup-and-rollout",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "For Business M365 Enterprise Setup And Rollout",
+    "sub": "",
+    "file": "copilot/copilot-for-business-m365-enterprise-setup-and-rollout.html",
+    "order": 30
+  },
+  {
+    "slug": "copilot-for-it-and-admin-teams",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "For IT And Admin Teams",
+    "sub": "",
+    "file": "copilot/copilot-for-it-and-admin-teams.html",
+    "order": 40
+  },
+  {
+    "slug": "copilot-in-dynamics-365",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "In Dynamics 365",
+    "sub": "",
+    "file": "copilot/copilot-in-dynamics-365.html",
+    "order": 50
+  },
+  {
+    "slug": "copilot-in-loop",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "In Loop",
+    "sub": "",
+    "file": "copilot/copilot-in-loop.html",
+    "order": 60
+  },
+  {
+    "slug": "copilot-in-onenote",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "In Onenote",
+    "sub": "",
+    "file": "copilot/copilot-in-onenote.html",
+    "order": 70
+  },
+  {
+    "slug": "copilot-in-power-automate",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "In Power Automate",
+    "sub": "",
+    "file": "copilot/copilot-in-power-automate.html",
+    "order": 80
+  },
+  {
+    "slug": "copilot-in-sharepoint",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "In Sharepoint",
+    "sub": "",
+    "file": "copilot/copilot-in-sharepoint.html",
+    "order": 90
+  },
+  {
+    "slug": "copilot-security-and-compliance",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "Security And Compliance",
+    "sub": "",
+    "file": "copilot/copilot-security-and-compliance.html",
+    "order": 100
+  },
+  {
+    "slug": "copilot-studio",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "Studio",
+    "sub": "",
+    "file": "copilot/copilot-studio.html",
+    "order": 110
+  },
+  {
+    "slug": "copilot-vs-chatgpt",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "vs ChatGPT",
+    "sub": "",
+    "file": "copilot/copilot-vs-chatgpt.html",
+    "order": 120
+  }
+]

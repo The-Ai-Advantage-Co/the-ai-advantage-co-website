@@ -30,7 +30,14 @@ assets/logos/*.psd
 assets/logos/*.ai
 assets/logos/*.svg.backup
 
-# Env / secrets (none today, but future-proof)
+# Env / secrets
 .env
 .env.local
 *.key
+
+# Next.js build output
+.next/
+out/
+
+# Node dependencies
+node_modules/

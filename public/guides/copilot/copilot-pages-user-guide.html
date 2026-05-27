@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Copilot Pages — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --purple:#5E17EB;--purple-l:#8B5CF6;--purple-soft:#F0EAFF;
+  --blue:#0078D4;--blue-l:#60A5FA;--blue-soft:#EFF6FF;
+  --blue-mid:#005A9E;
+  --orange:#EA6C1A;--orange-l:#F97316;--orange-soft:#FFF7ED;
+  --yellow:#CA8A04;--yellow-soft:#FEFCE8;
+  --page-bg:#EBF1FF;--sidebar-bg:#1E1456;
+  --card-bg:#F0F6FF;--hdr-bg:#E0EDFF;--border:#B8D4F5;
+  --ink:#0A2540;--text-mid:#1E4A7A;--muted:#4A7AAA;
+  --green:#1B6B3A;--green-bg:#E6F4EC;
+  --warn:#B45309;--warn-bg:#FFF8E1;
+  --red:#C43E00;--red-soft:#FFF0E8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--blue-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:#4A7AAA;padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#93C5FD;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--blue-l);background:rgba(96,165,250,.15)}
+
+/* main */
+.content{max-width:860px;padding:40px 40px 80px}
+
+/* banner */
+.banner{background:linear-gradient(135deg,#1E1456 0%,#003A7A 60%,#1E1456 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'⬡ ⬢ ⬡ ⬢ ⬡';position:absolute;top:14px;right:22px;font-size:18px;opacity:.15;letter-spacing:8px;color:#93C5FD}
+.banner::after{content:'⬡ ⬢ ⬡ ⬢ ⬡';position:absolute;bottom:14px;left:22px;font-size:18px;opacity:.12;letter-spacing:8px;color:#93C5FD}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--blue-l);text-transform:uppercase;margin-bottom:10px}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px}
+.banner p{font-size:15px;color:#93C5FD;max-width:580px;margin:0 auto}
+.banner-badge{display:inline-block;background:rgba(96,165,250,.25);color:#93C5FD;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:16px;letter-spacing:.06em}
+
+/* section card */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 2px 8px rgba(0,120,212,.07)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--blue);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--blue-l);margin-top:2px}
+.section-body{padding:22px}
+
+/* callouts */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.copilot{background:#EFF6FF;border-left:4px solid var(--blue-mid)}
+.callout.copilot .callout-body strong{color:var(--blue-mid)}
+
+/* feature cards */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{border-radius:8px;padding:18px;border:1px solid var(--border)}
+.feature-card .card-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.fc-blue{background:var(--card-bg);border-top:3px solid var(--blue)}
+.fc-purple{background:#F0EAFF;border-top:3px solid var(--purple)}
+.fc-orange{background:var(--orange-soft);border-top:3px solid var(--orange)}
+.fc-yellow{background:var(--yellow-soft);border-top:3px solid var(--yellow)}
+
+/* steps */
+.step{display:flex;gap:14px;margin:10px 0;align-items:flex-start}
+.step-num{background:var(--blue);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--text-mid);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:#93C5FD;font-weight:600;font-size:12px;padding:9px 12px;text-align:left}
+.ref-table td{padding:9px 12px;color:var(--text-mid);vertical-align:top;border:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+.ref-table tr:nth-child(odd) td{background:#fff}
+
+/* ── page block — unique to Pages guide ──────────────────── */
+/* Shows the Copilot chat → "Edit in Pages" → live document flow */
+.page-block{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:14px 0;box-shadow:0 2px 10px rgba(0,120,212,.08)}
+/* Top: Copilot chat response */
+.pb-chat{background:#0F1E3A;padding:16px 20px}
+.pb-chat-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--blue-l);text-transform:uppercase;margin-bottom:10px}
+.pb-prompt{font-size:13px;color:#93C5FD;font-style:italic;margin-bottom:10px;padding:8px 12px;background:rgba(96,165,250,.1);border-radius:5px;border-left:3px solid var(--blue-l)}
+.pb-response{font-size:13px;color:#CBD5E1;line-height:1.6;margin-bottom:12px}
+.pb-response strong{color:#fff}
+.pb-cta{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:700;padding:7px 14px;border-radius:5px;letter-spacing:.04em}
+.pb-cta-sub{font-size:11px;color:#60A5FA;margin-left:12px}
+/* Bottom: Resulting Pages document */
+.pb-page{background:#fff}
+.pb-page-toolbar{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:9px 16px;display:flex;align-items:center;gap:10px}
+.pb-page-icon{font-size:14px}
+.pb-page-name{font-size:13px;font-weight:700;color:var(--ink)}
+.pb-page-toolbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.pb-avatar{width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;border:2px solid #fff}
+.pb-avatar.a2{background:var(--orange);margin-left:-6px}
+.pb-avatar.a3{background:var(--green);margin-left:-6px}
+.pb-share{font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-soft);border:1px solid var(--border);border-radius:4px;padding:3px 9px}
+.pb-page-body{padding:20px 24px}
+.pb-page-title{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:14px;border-bottom:2px solid var(--border);padding-bottom:10px}
+.pb-content-block{background:var(--card-bg);border-radius:6px;padding:12px 14px;margin-bottom:10px;border-left:3px solid var(--blue)}
+.pb-content-block h5{font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.pb-content-block p{font-size:13px;color:var(--text-mid);line-height:1.55}
+.pb-content-block ul{list-style:none;padding:0;margin-top:4px}
+.pb-content-block li{font-size:13px;color:var(--text-mid);padding:2px 0 2px 14px;position:relative}
+.pb-content-block li::before{content:'›';position:absolute;left:2px;color:var(--blue);font-weight:700}
+.pb-inline-copilot{background:var(--hdr-bg);border-top:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:10px}
+.pb-inline-copilot span{font-size:12px;color:var(--muted);font-style:italic}
+.pb-inline-btn{background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;white-space:nowrap}
+.pb-gap{height:10px}
+
+/* loop chip */
+.loop-chip{display:inline-flex;align-items:center;gap:5px;background:var(--blue-soft);border:1px solid var(--border);border-radius:12px;padding:3px 10px;font-size:12px;color:var(--blue);font-weight:600;margin:3px 3px 3px 0}
+
+/* use-case grid */
+.use-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0}
+.use-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px}
+.use-card .uc-icon{font-size:20px;margin-bottom:8px}
+.use-card h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.use-card p{font-size:12px;color:var(--text-mid);line-height:1.5}
+
+/* prompt tabs */
+.prompt-tabs{margin:12px 0}
+.tab-buttons{display:flex;gap:0;border-bottom:2px solid var(--border)}
+.tab-btn{padding:8px 18px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.prompt-box{display:none;padding:16px 0}
+.prompt-box.active{display:block}
+.prompt-item{background:var(--sidebar-bg);border-radius:8px;margin:10px 0;overflow:hidden}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.06em;color:#93C5FD;padding:9px 16px;text-transform:uppercase}
+.prompt-text{background:var(--card-bg);border:1px solid var(--border);border-top:none;padding:14px 16px;font-size:13px;color:var(--text-mid);font-style:italic;line-height:1.6;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.copy-btn{background:var(--blue);color:#fff;border:none;border-radius:5px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.copy-btn:hover{background:var(--blue-l)}
+
+/* trouble */
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:10px 0}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--blue);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{padding:12px 16px;font-size:13px;color:var(--text-mid);line-height:1.55}
+
+/* do / avoid */
+.do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.do-col{border-radius:8px;padding:18px}
+.do-col.do{background:var(--green-bg);border-top:3px solid var(--green)}
+.do-col.avoid{background:var(--red-soft);border-top:3px solid var(--red)}
+.do-col h4{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.do-col.do h4{color:var(--green)}
+.do-col.avoid h4{color:var(--red)}
+.do-col ul{list-style:none;padding:0}
+.do-col li{font-size:13px;color:var(--text-mid);padding:4px 0 4px 16px;position:relative}
+.do-col.do li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+.do-col.avoid li::before{content:'✗';position:absolute;left:0;color:var(--red);font-weight:700}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{border-radius:8px;padding:18px;background:#fff;border:1px solid var(--border)}
+.roadmap-step.s1{border-top:4px solid var(--blue)}
+.roadmap-step.s2{border-top:4px solid var(--orange)}
+.roadmap-step.s3{border-top:4px solid var(--purple)}
+.roadmap-step.s4{border-top:4px solid var(--yellow)}
+.roadmap-num{font-size:28px;font-weight:800;margin-bottom:6px}
+.roadmap-step.s1 .roadmap-num{color:var(--blue)}
+.roadmap-step.s2 .roadmap-num{color:var(--orange)}
+.roadmap-step.s3 .roadmap-num{color:var(--purple)}
+.roadmap-step.s4 .roadmap-num{color:var(--yellow)}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12px;color:var(--text-mid);line-height:1.5}
+
+h3.sub{font-size:15px;font-weight:700;color:var(--ink);margin:18px 0 10px}
+p.body-text{font-size:14px;color:var(--text-mid);line-height:1.65;margin:8px 0}
+.sec-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:#60A5FA;text-transform:uppercase;margin:18px 0 10px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <nav>
+    <div class="nav-section">Copilot Pages</div>
+    <a class="nav-link" href="#s01" onclick="scrollTo('s01')">01 · What is Copilot Pages?</a>
+    <a class="nav-link" href="#s02" onclick="scrollTo('s02')">02 · Creating a Page from Copilot</a>
+    <a class="nav-link" href="#s03" onclick="scrollTo('s03')">03 · Editing &amp; Refining in Pages</a>
+    <a class="nav-link" href="#s04" onclick="scrollTo('s04')">04 · Real-Time Collaboration</a>
+    <a class="nav-link" href="#s05" onclick="scrollTo('s05')">05 · Pages as Loop Components</a>
+    <a class="nav-link" href="#s06" onclick="scrollTo('s06')">06 · Page Types &amp; Use Cases</a>
+    <a class="nav-link" href="#s07" onclick="scrollTo('s07')">07 · Advanced Techniques</a>
+    <a class="nav-link" href="#s08" onclick="scrollTo('s08')">08 · Common Mistakes &amp; Fixes</a>
+    <a class="nav-link" href="#s09" onclick="scrollTo('s09')">09 · Suggested Prompts</a>
+    <a class="nav-link" href="#s10" onclick="scrollTo('s10')">10 · See It In Action</a>
+    <a class="nav-link" href="#s11" onclick="scrollTo('s11')">11 · Your Roadmap</a>
+  </nav>
+</aside>
+
+<main class="content">
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-eyebrow">The AI Advantage Co · Copilot Series</div>
+    <h1>📄&nbsp; Copilot Pages</h1>
+    <p>Turn Copilot responses into persistent, collaborative documents — shareable across your entire M365 world</p>
+    <div class="banner-badge">Microsoft 365 Copilot · Pages &amp; Loop</div>
+  </div>
+
+  <!-- 01 -->
+  <div class="section-card" id="s01">
+    <div class="section-header">
+      <div class="sec-num">01</div>
+      <div>
+        <h2>What is Copilot Pages?</h2>
+        <p>AI responses that live on — as editable, shareable, collaborative documents</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Every time you use Copilot in chat, the responses disappear the moment you close the conversation. Copilot Pages solves this. With one click — "Edit in Pages" — any Copilot response becomes a persistent, editable document that you can refine, share with your team, and embed across Microsoft 365.</p>
+      <p class="body-text">Pages are built on Microsoft Loop technology, which means they're more than static documents. They're live components that stay in sync wherever they're shared — paste a Page into a Teams message and it updates when anyone edits the original. Send it in Outlook and it stays current. Embed it in a Loop workspace and it becomes part of your team's shared canvas.</p>
+
+      <div class="card-grid" style="margin-top:18px">
+        <div class="feature-card fc-blue">
+          <div class="card-icon">📌</div>
+          <h4>Persist Great Responses</h4>
+          <p>Stop losing valuable Copilot output to chat history. Click "Edit in Pages" and any response becomes a permanent document you can return to, build on, and share.</p>
+        </div>
+        <div class="feature-card fc-purple">
+          <div class="card-icon">✏️</div>
+          <h4>Keep Refining with AI</h4>
+          <p>Copilot doesn't stop at the Page boundary. Continue asking Copilot to expand, rewrite, and improve content directly inside the Page — AI stays available throughout.</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">👥</div>
+          <h4>Collaborate in Real Time</h4>
+          <p>Share a Page link with colleagues and edit simultaneously. Everyone sees changes instantly — no emailing attachments, no version conflicts.</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">🔗</div>
+          <h4>Embed Everywhere</h4>
+          <p>Paste a Page into Teams, Outlook, or Loop as a live component. It stays in sync — edit the Page and every embed updates automatically.</p>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:18px">Where Pages Fits in Your M365 World</h3>
+      <table class="ref-table">
+        <thead><tr><th>Tool</th><th>What It Does</th><th>How Pages Connects</th></tr></thead>
+        <tbody>
+          <tr><td>Copilot Chat</td><td>Generates AI responses conversationally</td><td>"Edit in Pages" turns any response into a Page</td></tr>
+          <tr><td>Microsoft Teams</td><td>Team communication and meetings</td><td>Paste a Page as a live Loop component in any chat or channel</td></tr>
+          <tr><td>Outlook</td><td>Email and calendar</td><td>Insert a Page into an email — recipients see the live, editable content</td></tr>
+          <tr><td>Microsoft Loop</td><td>Flexible team workspaces</td><td>Pages are Loop components — they live natively in Loop workspaces</td></tr>
+          <tr><td>Copilot Notebook</td><td>Persistent project context</td><td>Export Page content as reference material into a project Notebook</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout copilot" style="margin-top:14px">
+        <span class="callout-icon">✨</span>
+        <div class="callout-body">
+          <strong>Chat Is Temporary. Pages Are Permanent.</strong>
+          <p>Think of Copilot chat as a workspace for generating ideas, and Pages as where the best ideas land. Any time Copilot produces something worth keeping — a plan, a summary, a draft — move it to a Page immediately. That's where it becomes a document your organisation can actually use.</p>
+        </div>
+      </div>
+      <div class="callout copilot" style="margin-top:14px">
+        <span class="callout-icon">🤖</span>
+        <div class="callout-body">
+          <strong>2026 Update — Agentic Pages</strong>
+          <p>Pages now plays host to Copilot agents alongside your team. With Wave 1 agentic features GA, you can drop an agent into a Page to keep a section continuously updated — a project tracker that pulls fresh status from your tenant data, a meeting briefing that refreshes ahead of every recurring call, or a deliverable that auto-fills from a shared Notebook. Humans and agents co-edit the same Page in real time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="section-card" id="s02">
+    <div class="section-header">
+      <div class="sec-num">02</div>
+      <div>
+        <h2>Creating a Page from Copilot</h2>
+        <p>One click turns any Copilot response into a shareable document</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The core Pages workflow starts in Copilot chat. You ask Copilot something useful — draft a plan, summarise a document, generate a proposal — and when the response is good enough to keep, you click "Edit in Pages." The response opens as a full document that you and your team can edit and build on.</p>
+
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Generate a useful Copilot response in chat</h4><p>Work in Copilot chat until you have something worth keeping. For Pages, the most valuable content is structured output: plans, summaries, proposals, agendas, briefs, or frameworks — anything with clear sections that benefits from collaborative refinement.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Click "Edit in Pages" below the response</h4><p>Every Copilot response has an "Edit in Pages" button underneath it. Click it — the response opens as a new Page in your browser, with the content already populated and formatted.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Give the Page a clear, findable name</h4><p>Pages are stored in your Microsoft 365 environment and appear in search. Name them so they're easy to find later: "Project Kickoff — Contoso Rebrand — June 2026" beats "Untitled Page 3."</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Continue refining inside the Page</h4><p>Once in the Page, Copilot is still available. Ask it to expand a section, add a missing element, or rewrite a paragraph — all while you (and colleagues) can also edit manually.</p></div></div>
+
+      <h3 class="sub" style="margin-top:20px">What It Looks Like — Chat to Page</h3>
+
+      <div class="page-block">
+        <div class="pb-chat">
+          <div class="pb-chat-label">✨ Copilot Chat</div>
+          <div class="pb-prompt">"Create a project kickoff agenda for a new client rebrand. 90-minute session. Cover: introductions, project goals, scope review, timeline walkthrough, open questions, and next steps."</div>
+          <div class="pb-response">
+            <strong>Project Kickoff Agenda — Client Rebrand</strong><br>
+            Duration: 90 minutes · Format: In-person / hybrid<br><br>
+            <strong>00:00</strong> — Welcome &amp; introductions (10 min)<br>
+            <strong>00:10</strong> — Project goals &amp; success criteria (15 min)<br>
+            <strong>00:25</strong> — Scope review &amp; deliverables (20 min)<br>
+            <strong>00:45</strong> — Timeline walkthrough &amp; milestones (15 min)<br>
+            <strong>01:00</strong> — Open questions &amp; decisions needed (20 min)<br>
+            <strong>01:20</strong> — Next steps, owners &amp; close (10 min)
+          </div>
+          <span class="pb-cta">📄 Edit in Pages</span>
+          <span class="pb-cta-sub">→ Opens as a collaborative document</span>
+        </div>
+        <div class="pb-page">
+          <div class="pb-page-toolbar">
+            <span class="pb-page-icon">📄</span>
+            <span class="pb-page-name">Project Kickoff Agenda — Contoso Rebrand — June 2026</span>
+            <div class="pb-page-toolbar-right">
+              <span class="pb-avatar">SK</span>
+              <span class="pb-avatar a2">MR</span>
+              <span class="pb-avatar a3">EJ</span>
+              <span class="pb-share">Share</span>
+            </div>
+          </div>
+          <div class="pb-page-body">
+            <div class="pb-page-title">Project Kickoff Agenda — Client Rebrand</div>
+            <div class="pb-content-block">
+              <h5>Session Overview</h5>
+              <p>Duration: 90 minutes &nbsp;·&nbsp; Format: In-person / hybrid &nbsp;·&nbsp; 3 collaborators editing</p>
+            </div>
+            <div class="pb-content-block">
+              <h5>Agenda</h5>
+              <ul>
+                <li>00:00 — Welcome &amp; introductions (10 min)</li>
+                <li>00:10 — Project goals &amp; success criteria (15 min)</li>
+                <li>00:25 — Scope review &amp; deliverables (20 min)</li>
+                <li>00:45 — Timeline walkthrough &amp; milestones (15 min)</li>
+                <li>01:00 — Open questions &amp; decisions needed (20 min)</li>
+                <li>01:20 — Next steps, owners &amp; close (10 min)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pb-inline-copilot">
+            <span>✨ Ask Copilot to improve this page…</span>
+            <span class="pb-inline-btn">Add pre-read notes for each section</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip" style="margin-top:14px">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Prompt for Structure, Not Just Content</strong>
+          <p>Pages work best when the Copilot response already has clear headings and sections. Before clicking "Edit in Pages," ask Copilot to format the response with headers and bullet points if it hasn't already. Structured input produces a cleaner, more editable Page.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="section-card" id="s03">
+    <div class="section-header">
+      <div class="sec-num">03</div>
+      <div>
+        <h2>Editing &amp; Refining in Pages</h2>
+        <p>Copilot stays available — keep improving after the Page is created</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Opening a Page is not the end of the AI process — it's the continuation. The Copilot panel stays available within the Page, so you can keep refining content section by section. Meanwhile, team members can edit manually and leave comments in parallel.</p>
+
+      <div class="card-grid">
+        <div class="feature-card fc-blue">
+          <div class="card-icon">➕</div>
+          <h4>Expand a Section</h4>
+          <p>"Expand the 'scope review' section to include a detailed breakdown of what is and isn't in scope. Add a table with three columns: In Scope, Out of Scope, and To Be Confirmed."</p>
+        </div>
+        <div class="feature-card fc-purple">
+          <div class="card-icon">✂️</div>
+          <h4>Condense &amp; Sharpen</h4>
+          <p>"The open questions section is too long. Condense to the 5 most important questions and remove anything that can be resolved before the meeting."</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">🎯</div>
+          <h4>Rewrite for Audience</h4>
+          <p>"Rewrite the goals section for a client who isn't familiar with our process. Avoid internal jargon and focus on the outcomes they care about."</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">📋</div>
+          <h4>Add Missing Elements</h4>
+          <p>"Add a pre-read section at the top listing the three documents attendees should review before the session. Format it as a checklist."</p>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:18px">Manual Editing + AI Editing</h3>
+      <p class="body-text">Pages support both approaches simultaneously. You can type directly into any block — adding context, correcting details, or inserting data that Copilot couldn't know — while also using the Copilot panel to restructure or rewrite other sections. The two modes are designed to work together, not replace each other.</p>
+
+      <table class="ref-table">
+        <thead><tr><th>Use Manual Editing When…</th><th>Use Copilot Editing When…</th></tr></thead>
+        <tbody>
+          <tr><td>Adding specific names, dates, or figures Copilot doesn't know</td><td>Expanding a brief section into detailed content</td></tr>
+          <tr><td>Correcting a fact or updating a detail</td><td>Restructuring a long section into a table or bullets</td></tr>
+          <tr><td>Adding your own commentary or analysis</td><td>Rewriting for a different tone or audience</td></tr>
+          <tr><td>Inserting a Loop component or link</td><td>Generating a missing section from scratch</td></tr>
+          <tr><td>Reviewing and approving colleague edits</td><td>Summarising a long section into a TL;DR</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">
+          <strong>Select Text to Target Copilot's Edits</strong>
+          <p>In Pages, you can select a specific block of text before opening the Copilot panel. Copilot then targets its suggestions to that selection rather than the whole document. This is the most precise way to improve a specific paragraph without affecting the rest of the Page.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section-card" id="s04">
+    <div class="section-header">
+      <div class="sec-num">04</div>
+      <div>
+        <h2>Real-Time Collaboration</h2>
+        <p>Share a Page and your whole team edits together — live</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Pages are designed for teams. Share a link and multiple people can edit simultaneously — like Google Docs, but within Microsoft 365. Everyone sees changes in real time. There are no attachments to email, no "which version is current?" confusion, and no merge conflicts.</p>
+
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Share via link</h4><p>Click Share in the Page toolbar. You can share with specific people (who get notified), with your whole organisation, or generate a view-only link for external stakeholders. Set edit vs view-only permissions as needed.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Edit simultaneously</h4><p>When multiple people have the Page open, you'll see each person's cursor and the section they're editing. Changes appear instantly — no need to save or refresh. The presence indicators show who's active.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Leave comments and @mentions</h4><p>Highlight any text and leave a comment to flag something for a specific colleague. Use @mention to notify them directly — they receive a Teams or Outlook notification and can reply in-context without leaving the Page.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Review the version history</h4><p>Pages keep a full version history. Click the version icon to see who changed what and when. You can restore any previous version if a change needs to be undone.</p></div></div>
+
+      <h3 class="sub" style="margin-top:20px">Collaboration Roles &amp; Permissions</h3>
+      <table class="ref-table">
+        <thead><tr><th>Permission Level</th><th>What They Can Do</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr><td>Owner</td><td>Edit, share, delete, manage permissions</td><td>The person who created the Page or leads the project</td></tr>
+          <tr><td>Editor</td><td>Edit content, add comments</td><td>Active project team members</td></tr>
+          <tr><td>Commenter</td><td>Add comments only — cannot edit</td><td>Reviewers, stakeholders giving input</td></tr>
+          <tr><td>Viewer</td><td>Read only — no edits or comments</td><td>External stakeholders, reference sharing</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Use Pages Instead of Email Attachments</strong>
+          <p>Next time you're about to email a Word document for review, share a Page instead. Reviewers comment in-context, you see all feedback in one place, and there's no "v2_FINAL_revised" naming chaos. The Page is always the current version — and Copilot is still available to help you action the feedback.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section-card" id="s05">
+    <div class="section-header">
+      <div class="sec-num">05</div>
+      <div>
+        <h2>Pages as Loop Components</h2>
+        <p>Embed your Page anywhere in M365 — it stays live wherever it's shared</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The most powerful feature of Pages is that they're built on Microsoft Loop — which means they can be embedded as live components in Teams, Outlook, and other Microsoft 365 apps. When someone edits the component in any of these places, it updates everywhere it's been shared. One source of truth, accessible from everywhere.</p>
+
+      <div class="card-grid">
+        <div class="feature-card fc-blue">
+          <div class="card-icon">💬</div>
+          <h4>Embed in Teams</h4>
+          <p>Paste a Page link into a Teams chat or channel message. It appears as an interactive component that team members can read and edit directly in Teams — without opening a separate browser tab.</p>
+        </div>
+        <div class="feature-card fc-purple">
+          <div class="card-icon">📧</div>
+          <h4>Insert into Outlook</h4>
+          <p>In Outlook, insert a Page as a Loop component into your email. Recipients see the live, editable content inside the email — and any edits they make update the source Page instantly.</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">🔄</div>
+          <h4>Sync Across Locations</h4>
+          <p>Edit the Page in the browser and it updates in the Teams embed. Edit it in the Outlook email and it updates in the Page. All instances stay in sync — automatically, in real time.</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">🏠</div>
+          <h4>Live in Loop Workspaces</h4>
+          <p>Add a Page to a Microsoft Loop workspace as a persistent workspace component. This is the most structured use — a dedicated shared space where the team's active Pages live together.</p>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:18px">The Loop Component Advantage</h3>
+      <p class="body-text">Traditional documents break when shared: you email a Word doc, someone edits their copy, and now you have two versions. Loop components eliminate this. There is always one version. Here's how it plays out in practice:</p>
+
+      <div class="page-block">
+        <div class="pb-chat">
+          <div class="pb-chat-label">📋 The Traditional Problem</div>
+          <div class="pb-response">
+            Sarah creates a meeting agenda in Word and emails it to 5 people.<br>
+            <strong>3 people reply with edits. 2 people edit their own copy.</strong><br>
+            Sarah now has 5 different versions to reconcile — before the meeting has even happened.
+          </div>
+        </div>
+        <div class="pb-page">
+          <div class="pb-page-toolbar">
+            <span class="pb-page-icon">✅</span>
+            <span class="pb-page-name">The Pages Solution</span>
+            <div class="pb-page-toolbar-right">
+              <span class="pb-avatar">SK</span>
+              <span class="pb-avatar a2">MR</span>
+              <span class="pb-avatar a3">EJ</span>
+              <span style="font-size:11px;color:var(--blue);margin-left:4px">+2 more</span>
+            </div>
+          </div>
+          <div class="pb-page-body">
+            <div class="pb-content-block">
+              <h5>How It Works Instead</h5>
+              <ul>
+                <li>Sarah creates the agenda as a Page and pastes it into the Teams channel</li>
+                <li>All 5 colleagues edit the same Page — in Teams, in their browser, wherever</li>
+                <li>Every edit is visible to everyone instantly — no emailing, no merging</li>
+                <li>Sarah opens the meeting with the agenda already finalised and agreed by the team</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pb-inline-copilot">
+            <span>✨ One Page. One source of truth. Five people, zero version conflicts.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn" style="margin-top:14px">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Loop Components Require Microsoft 365 Licences</strong>
+          <p>Loop component embedding in Teams and Outlook requires appropriate Microsoft 365 licences for all participants. External collaborators (outside your organisation) can view Pages via a shared link but may not be able to edit embedded Loop components depending on your tenant settings. Check with your IT team if you need external editing access.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="section-card" id="s06">
+    <div class="section-header">
+      <div class="sec-num">06</div>
+      <div>
+        <h2>Page Types &amp; Use Cases</h2>
+        <p>The six most valuable ways to use Pages in day-to-day work</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Pages work for any structured content that benefits from persistence and collaboration. These six use cases cover the vast majority of day-to-day scenarios where Pages deliver the most value.</p>
+
+      <div class="use-grid">
+        <div class="use-card">
+          <div class="uc-icon">📋</div>
+          <h4>Meeting Follow-Ups</h4>
+          <p>Create a Page from a Teams Copilot meeting summary. Add action items with owners, share with attendees, and let everyone update their status directly in the Page.</p>
+        </div>
+        <div class="use-card">
+          <div class="uc-icon">🚀</div>
+          <h4>Project Kick-Offs</h4>
+          <p>Generate an agenda, scope summary, and RACI in one Copilot prompt. Click "Edit in Pages," fill in specifics with the team, and share as the living kick-off document.</p>
+        </div>
+        <div class="use-card">
+          <div class="uc-icon">📊</div>
+          <h4>Status &amp; Update Docs</h4>
+          <p>Create a weekly status Page and embed it in your Teams channel. Update it in place each week — the team always has the current status without searching through threads.</p>
+        </div>
+        <div class="use-card">
+          <div class="uc-icon">💡</div>
+          <h4>Brainstorm Capture</h4>
+          <p>Ask Copilot to generate options or ideas, click "Edit in Pages," then invite the team to add, vote, and refine together — a shared brainstorm board with AI as the starting point.</p>
+        </div>
+        <div class="use-card">
+          <div class="uc-icon">📝</div>
+          <h4>Shared Drafts</h4>
+          <p>Use Copilot to draft a proposal, report, or policy doc. Open it as a Page and have the team review and contribute — replacing the "email a Word doc" review cycle.</p>
+        </div>
+        <div class="use-card">
+          <div class="uc-icon">🎯</div>
+          <h4>Decision Records</h4>
+          <p>After a key decision, ask Copilot to structure the rationale, alternatives considered, and outcome. A Page becomes the permanent, shareable record of why the decision was made.</p>
+        </div>
+      </div>
+
+      <div class="callout tip" style="margin-top:14px">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Start with Meeting Follow-Ups</strong>
+          <p>The fastest way to build a Pages habit is meeting follow-ups. After every significant meeting, take the Teams Copilot recap, click "Edit in Pages," and share the action items as a Page in the Teams channel. It takes under two minutes and immediately shows the team the value — clear ownership, persistent record, real-time updates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section-card" id="s07">
+    <div class="section-header">
+      <div class="sec-num">07</div>
+      <div>
+        <h2>Advanced Techniques</h2>
+        <p>Cross-app flows, Pages libraries, and connecting Pages to Notebooks</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <h3 class="sub">Cross-App Workflows with Pages</h3>
+      <div class="card-grid">
+        <div class="feature-card fc-blue">
+          <div class="card-icon">💬→📄</div>
+          <h4>Teams Meeting → Page</h4>
+          <p>After a meeting, open the Copilot recap in Teams. Click "Edit in Pages" on the summary. Add action owners and due dates, then post the Page link back into the channel as the official follow-up.</p>
+        </div>
+        <div class="feature-card fc-purple">
+          <div class="card-icon">📈→📄</div>
+          <h4>Excel Analysis → Page</h4>
+          <p>Copy Copilot's data narrative from Excel. Paste it into a Copilot chat prompt: "Format this as a structured analysis Page with an executive summary, key findings, and recommendations." Click "Edit in Pages."</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">📄→📊</div>
+          <h4>Page → PowerPoint</h4>
+          <p>Share a finished Page with Copilot in PowerPoint: "Create a presentation from the structure in this Page." The Page's headings become slides — skipping the blank-deck starting point entirely.</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">📄→📓</div>
+          <h4>Page → Notebook Reference</h4>
+          <p>Export key Pages as reference documents into a project Notebook. Approved decisions, finalised briefs, and completed deliverables belong in the Notebook for Copilot to reference going forward.</p>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:20px">Building a Pages Library</h3>
+      <p class="body-text">As you create more Pages, they accumulate across Teams channels, Outlook threads, and Loop workspaces. Without a system, they become hard to find. A simple library structure prevents this:</p>
+
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Use a consistent naming convention</h4><p>Format: "[Project] — [Page Type] — [Date]" e.g. "Contoso Rebrand — Kickoff Agenda — 2026-06-03". This makes Pages findable in Microsoft Search and scannable in Loop.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Organise Pages into Loop workspaces</h4><p>Create one Loop workspace per project or team. Add all related Pages to that workspace. The workspace becomes the single location for all AI-assisted documents on that project.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Pin active Pages to Teams channels</h4><p>For Pages that the team accesses frequently — a running status doc, an action tracker — pin them as tabs in the relevant Teams channel. One click from any channel message to the current document.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Archive completed Pages</h4><p>When a project phase closes, move its Pages to an "Archive" section in the Loop workspace. They remain searchable but don't clutter the active workspace.</p></div></div>
+
+      <h3 class="sub" style="margin-top:20px">Pages + Notebooks: The Full Picture</h3>
+      <table class="ref-table">
+        <thead><tr><th>Scenario</th><th>Use Pages</th><th>Use Notebooks</th></tr></thead>
+        <tbody>
+          <tr><td>Capturing a Copilot response to share</td><td>✓ "Edit in Pages" immediately</td><td></td></tr>
+          <tr><td>Ongoing project AI context</td><td></td><td>✓ Persistent instruction + doc store</td></tr>
+          <tr><td>Collaborative team editing</td><td>✓ Real-time co-editing</td><td></td></tr>
+          <tr><td>Approved deliverable for reference</td><td>Create in Pages first</td><td>✓ Add to Notebook as reference doc</td></tr>
+          <tr><td>Meeting follow-up document</td><td>✓ Page shared in Teams</td><td></td></tr>
+          <tr><td>Onboarding / context source of truth</td><td></td><td>✓ Notebook with project instructions</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="section-card" id="s08">
+    <div class="section-header">
+      <div class="sec-num">08</div>
+      <div>
+        <h2>Common Mistakes &amp; Fixes</h2>
+        <p>What goes wrong — and how to fix it</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="trouble-item">
+        <div class="trouble-q">I can't find Pages I created last week</div>
+        <div class="trouble-a">Pages are searchable in Microsoft Search (the search bar in any M365 app). Search for the Page name or keywords from the content. If you didn't name Pages consistently, use Microsoft Search to filter by type: "Pages" or "Loop." Going forward, use the naming convention "[Project] — [Type] — [Date]" for every Page you create — this makes them reliably findable weeks or months later.</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">A colleague edited the Page and removed content I needed</div>
+        <div class="trouble-a">Pages have full version history. Click the version history icon in the toolbar to see every edit, who made it, and when. You can restore any previous version or copy specific content from an earlier version. For Pages where content stability matters, restrict edit permissions to key team members and use "Commenter" access for reviewers who only need to provide feedback.</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">The Loop component in Teams isn't updating when I edit the Page</div>
+        <div class="trouble-a">Loop components sync in real time, but there can be a brief delay on slow connections. Refresh the Teams client if changes don't appear within 30 seconds. If the problem persists, check that the component was inserted correctly — a link to a Page is not the same as a Loop component. Re-paste the Page link into Teams using the Loop component insert option, not just a plain URL.</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">The Page Copilot generated is too long and poorly structured</div>
+        <div class="trouble-a">Before clicking "Edit in Pages," ask Copilot to reformat: "Rewrite this response with clear H2 headings for each section, no more than 4 bullet points per section, and a one-sentence summary at the top." A well-structured Copilot response produces a cleaner, more navigable Page than a wall of text or an overly long list.</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">External collaborators can't edit the Page I shared with them</div>
+        <div class="trouble-a">External editing depends on your organisation's Microsoft 365 tenant settings — some organisations restrict Loop component editing to internal users only. If external editing isn't available, share the Page as a PDF snapshot for review, or use the "Commenter" link to allow comment-only access. Check with your IT administrator if you need to enable external Loop collaboration.</div>
+      </div>
+
+      <div class="do-avoid" style="margin-top:20px">
+        <div class="do-col do">
+          <h4>✓ Do This</h4>
+          <ul>
+            <li>Name every Page consistently from day one</li>
+            <li>Ask Copilot to structure output before clicking "Edit in Pages"</li>
+            <li>Use Pages instead of emailing Word doc attachments</li>
+            <li>Pin frequently-used Pages as tabs in Teams channels</li>
+            <li>Use version history before assuming content is lost</li>
+          </ul>
+        </div>
+        <div class="do-col avoid">
+          <h4>✗ Avoid This</h4>
+          <ul>
+            <li>Leaving Pages named "Untitled" — they become unfindable</li>
+            <li>Giving everyone edit access when Commenter is enough</li>
+            <li>Creating a new Page every week instead of updating the existing one</li>
+            <li>Sharing a plain link when a Loop component embed would keep it live</li>
+            <li>Forgetting to export important Pages to your project Notebook</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 -->
+  <div class="section-card" id="s09">
+    <div class="section-header">
+      <div class="sec-num">09</div>
+      <div>
+        <h2>Suggested Prompts</h2>
+        <p>Ready-to-use prompts for creating and refining Pages</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="showTab(this,'creating')">Creating Pages</button>
+          <button class="tab-btn" onclick="showTab(this,'refining')">Refining &amp; Extending</button>
+        </div>
+
+        <div class="prompt-box active" id="tab-creating">
+          <div class="prompt-item">
+            <div class="prompt-label">Meeting Follow-Up Page</div>
+            <div class="prompt-text">
+              <span>Based on this meeting summary [paste summary or Teams recap], create a structured follow-up document with: (1) a 3-bullet executive summary of what was decided, (2) a table of action items with columns for Action, Owner, Due Date, and Status, (3) a list of open questions that still need resolution, and (4) the date of the next meeting. Format with clear H2 headings for each section — I'll click "Edit in Pages" to share this with the team.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Project Kickoff Document</div>
+            <div class="prompt-text">
+              <span>Create a project kickoff document for [project name]. Include: project overview and goals, scope (in scope / out of scope / TBC), key milestones and target dates, team roles and responsibilities (RACI format), key risks and mitigations, and open decisions needed in the first two weeks. Use clear H2 headings and bullet points throughout — this will become a shared Page for the whole project team to edit.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Decision Record Page</div>
+            <div class="prompt-text">
+              <span>Create a decision record document for the following decision: [describe the decision]. Structure it with: the decision summary in one sentence, the context and problem it addresses, the alternatives that were considered (with pros and cons for each), the rationale for the chosen option, who was involved in the decision, the date agreed, and any conditions or review dates attached to the decision. This will be saved as a permanent Page record.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-box" id="tab-refining">
+          <div class="prompt-item">
+            <div class="prompt-label">Expand a Section in the Page</div>
+            <div class="prompt-text">
+              <span>The [section name] section of this Page is too brief. Expand it to cover: [what's missing — e.g. specific risks with likelihood and impact ratings / a worked example / the step-by-step process]. Keep the same heading and formatting style as the rest of the Page. Aim for [number] bullet points or [number] paragraphs.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Prepare a Page for External Sharing</div>
+            <div class="prompt-text">
+              <span>I'm about to share this Page with [external stakeholder / client / partner]. Review the content and: (1) flag any internal jargon, acronyms, or references that an external reader won't understand, (2) suggest where I should add context or explanation, (3) identify anything that looks sensitive or that we might not want to share externally, and (4) suggest a brief cover note I can add at the top for the external reader.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Summarise a Long Page into a TL;DR</div>
+            <div class="prompt-text">
+              <span>Add a TL;DR section at the very top of this Page. It should be no more than 5 bullet points and cover: the key decision or conclusion, the most important actions, any critical deadlines, and one thing the reader absolutely must not miss. Write it for someone who will only read the TL;DR and nothing else. Keep it under 100 words.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header">
+      <div class="sec-num">10</div>
+      <div>
+        <h2>See It In Action</h2>
+        <p>A meeting follow-up Page — from Teams recap to shared action tracker in two minutes</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The most common and immediately useful Pages workflow is turning a Teams meeting recap into a shared follow-up document. The example below shows the full journey: Copilot generates the follow-up structure, it's opened as a Page, and three team members are already editing and updating their action items in real time.</p>
+
+      <div class="page-block" style="margin-top:16px">
+        <div class="pb-chat">
+          <div class="pb-chat-label">✨ Copilot in Teams — Meeting Recap</div>
+          <div class="pb-prompt">After the Q3 planning meeting (52 min) — Copilot generated this recap and follow-up structure automatically</div>
+          <div class="pb-response">
+            <strong>Meeting Summary — Q3 Planning</strong> · 3 June 2026 · 9 attendees<br><br>
+            <strong>Key decisions:</strong> Budget allocation confirmed at £240K. Product roadmap priority order agreed. Customer research phase to begin 15 June.<br><br>
+            <strong>Action items:</strong> Sarah K to finalise supplier contracts by 10 June · Marcus P to brief product team by 5 June · Emma R to send customer research brief to agency this week<br><br>
+            <strong>Next meeting:</strong> 17 June — progress check against actions
+          </div>
+          <span class="pb-cta">📄 Edit in Pages</span>
+          <span class="pb-cta-sub">→ Shared with 9 attendees</span>
+        </div>
+        <div class="pb-page">
+          <div class="pb-page-toolbar">
+            <span class="pb-page-icon">📄</span>
+            <span class="pb-page-name">Q3 Planning Follow-Up — 3 June 2026</span>
+            <div class="pb-page-toolbar-right">
+              <span class="pb-avatar">SK</span>
+              <span class="pb-avatar a2">MP</span>
+              <span class="pb-avatar a3">ER</span>
+              <span style="font-size:11px;color:var(--blue);margin-left:4px">+6 viewing</span>
+              <span class="pb-share">Pinned in Teams</span>
+            </div>
+          </div>
+          <div class="pb-page-body">
+            <div class="pb-page-title">Q3 Planning Follow-Up</div>
+            <div class="pb-content-block">
+              <h5>Decisions Made</h5>
+              <ul>
+                <li>Budget: £240K confirmed for Q3 programme</li>
+                <li>Roadmap priorities agreed — see attached order</li>
+                <li>Customer research phase starts 15 June</li>
+              </ul>
+            </div>
+            <div class="pb-content-block">
+              <h5>Action Tracker</h5>
+              <ul>
+                <li>Supplier contracts finalised · Sarah K · Due 10 June · 🟡 In progress</li>
+                <li>Product team briefed · Marcus P · Due 5 June · ✅ Complete</li>
+                <li>Research brief to agency · Emma R · Due 7 June · 🔴 Not started</li>
+              </ul>
+            </div>
+            <div class="pb-content-block">
+              <h5>Next Meeting</h5>
+              <p>17 June 2026 — Progress check · Agenda will be added here by 14 June</p>
+            </div>
+          </div>
+          <div class="pb-inline-copilot">
+            <span>✨ Ask Copilot to add a risk section based on the open actions…</span>
+            <span class="pb-inline-btn">Add risk summary</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header">
+      <div class="sec-num">11</div>
+      <div>
+        <h2>Your Roadmap</h2>
+        <p>From first Page to a fully connected M365 collaboration workflow</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step s1">
+          <div class="roadmap-num">1</div>
+          <h4>First Page</h4>
+          <p>Next time Copilot gives you a useful response, click "Edit in Pages." Name it properly and share it with one colleague. That's the habit started.</p>
+        </div>
+        <div class="roadmap-step s2">
+          <div class="roadmap-num">2</div>
+          <h4>Meeting Flow</h4>
+          <p>After every significant meeting, turn the Teams Copilot recap into a Page. Share it in the Teams channel. Replace email-attachment follow-ups with this workflow.</p>
+        </div>
+        <div class="roadmap-step s3">
+          <div class="roadmap-num">3</div>
+          <h4>Loop Embeds</h4>
+          <p>Start embedding Pages as Loop components in Teams and Outlook instead of sharing links. Experience the sync — edit once, updated everywhere.</p>
+        </div>
+        <div class="roadmap-step s4">
+          <div class="roadmap-num">4</div>
+          <h4>Connected System</h4>
+          <p>Pages for collaboration + Notebooks for project context. Every approved Page flows into the Notebook. Your M365 workspace becomes a connected, AI-powered knowledge system.</p>
+        </div>
+      </div>
+
+      <div class="callout copilot" style="margin-top:20px">
+        <span class="callout-icon">✨</span>
+        <div class="callout-body">
+          <strong>The Goal: AI Output That Actually Gets Used</strong>
+          <p>The most common waste in Copilot adoption is great AI output that disappears into chat history and never influences anything. Pages close that gap. The moment you click "Edit in Pages," that output becomes a document your team can find, edit, act on, and build from. Start with your next meeting follow-up — and never send a Word attachment for review again.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+function showTab(btn,id){
+  btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  btn.closest('.prompt-tabs').querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function copyPrompt(btn){
+  const text=btn.previousElementSibling.textContent.trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.textContent;btn.textContent='✓ Copied';
+    setTimeout(()=>{btn.textContent=orig},2000);
+  });
+}
+function scrollTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}
+const links=document.querySelectorAll('.nav-link');
+const sections=[...document.querySelectorAll('[id^="s0"],[id^="s1"]')];
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

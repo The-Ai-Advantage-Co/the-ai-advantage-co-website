@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude for Internal Knowledge Base Building — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #C97040; --primary-l: #E08F5B; --primary-soft: #FBEEDE;
+  --accent1: #6B4226; --accent1-soft: #F4E8DC;
+  --accent2: #1F6B7A; --accent2-soft: #E0EEF1;
+  --page-bg: #FEF8F0; --sidebar-bg: #3C1E0A;
+  --card-bg: #FFFAF1; --hdr-bg: #FAEEDA; --border: #E5C8A5;
+  --ink: #3C1E0A; --body-text: #5B3A1F; --muted: #8A6240;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <div class="brand-name">Claude for Internal Knowledge Base Building</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Claude for Internal Knowledge Base Building?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>The Source Audit</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>The Synthesis Pattern</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Citation Discipline</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Tribal Knowledge Extraction</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Maintenance — The Hardest Part</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Question Coverage Audit</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Claude + Vector Search</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <h1>Claude for Internal Knowledge Base Building</h1>
+      <div class="subtitle">Turning scattered docs, emails, and tribal knowledge into a queryable knowledge base</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Claude for Internal Knowledge Base Building?</div><div class="section-desc">Turning scattered docs, emails, and tribal knowledge into a queryable knowledge base</div></div></div><div class="content-body"><p class="prose">Most organisations have a knowledge problem, not a documentation problem. The knowledge exists — it&#39;s in emails, Slack threads, meeting recaps, scattered Google Docs, and the heads of senior staff. Claude is excellent at the underlying work of building a coherent knowledge base: synthesising scattered content, extracting evergreen patterns from one-off communications, and producing searchable, citation-bearing summaries.</p><p class="prose">Best for: ops teams formalising how the business runs, product teams capturing decision history, and customer success teams building first-time-right answer libraries.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🧠</div><div class="feat-title">Knowledge Synthesis</div><div class="feat-desc">Turn scattered docs, emails, recaps into structured knowledge with citations.</div></div><div class="feat-card"><div class="feat-icon">📚</div><div class="feat-title">1M Context</div><div class="feat-desc">Drop a year of Slack archives or a whole SharePoint subfolder; Claude synthesises across all of it.</div></div><div class="feat-card"><div class="feat-icon">📎</div><div class="feat-title">Citation Discipline</div><div class="feat-desc">Every claim cites the source. Trust survives the first verification attempt.</div></div><div class="feat-card"><div class="feat-icon">🔌</div><div class="feat-title">MCP for RAG</div><div class="feat-desc">Connect to your vector DB via MCP for KBs past ~50 articles.</div></div></div><div class="deco-band">✨  From scattered tribal knowledge to queryable institutional memory  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🧠  2026 UPDATE — 1M TOKEN CONTEXT</div><div class="callout-text">Opus 4.6 and Sonnet 5 support 1M token context windows (with the beta header). For knowledge base work, this means you can drop a year of Slack archives or an entire SharePoint subfolder into one conversation and have Claude synthesise across all of it without chunking.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">The Source Audit</div><div class="section-desc">Where the knowledge actually lives</div></div></div><div class="content-body"><p class="prose">Before building anything, map where knowledge currently lives. Most organisations have 5-8 sources holding the bulk of real institutional knowledge — and the most valuable ones are usually the least documented.</p><ul class="bullets"><li>Email archives — particularly leadership and customer-facing roles</li><li>Slack/Teams channels — especially eng, support, and product channels</li><li>Meeting recaps — leadership recurring meetings, post-mortems, planning sessions</li><li>Google Docs / Confluence — the actual docs people write</li><li>CRM/help desk — customer-context-rich knowledge in support tickets</li><li>Tribal — senior staff who know things that aren&#39;t written down</li></ul><h3 class="sub-h3">Where institutional knowledge actually lives</h3><p class="sub-body">Before building anything, audit where real knowledge lives in your organisation. Most orgs concentrate 80% of useful knowledge in 5-8 places — and the most valuable sources are usually the least documented.</p><ul class="bullets"><li>Email archives — particularly leadership and customer-facing roles</li><li>Slack/Teams channels — especially eng, support, and product channels</li><li>Meeting recaps — leadership recurring meetings, post-mortems, planning sessions</li><li>Google Docs / Confluence / SharePoint — the explicit doc layer</li><li>CRM/help desk — customer-context-rich knowledge in support tickets</li><li>Tribal — senior staff who know things that aren&#39;t written down anywhere</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">The Synthesis Pattern</div><div class="section-desc">Turning scattered into structured</div></div></div><div class="content-body"><ul class="bullets"><li>Collect a topic-scoped set of sources (e.g. &#39;everything about our refund policy&#39;)</li><li>Ask Claude to identify the 5-10 evergreen patterns</li><li>Pull out the explicit decisions and policies (with sources)</li><li>Flag where sources contradict each other</li><li>Draft the synthesised KB article with verbatim quotes for high-stakes statements</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Collect topic-scoped sources</div><div class="step-desc">&#39;Everything about our refund policy&#39; — emails, Slack threads, recap notes, current policy doc.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Ask Claude to identify evergreen patterns</div><div class="step-desc">What hasn&#39;t changed across the time period? What recurs across sources?</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Extract explicit decisions and policies</div><div class="step-desc">With citations to the source document or message.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Flag contradictions between sources</div><div class="step-desc">Where sources disagree, surface it explicitly — needs human resolution.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Draft synthesised KB article</div><div class="step-desc">Verbatim quotes for high-stakes statements; source links on every claim.</div></div></div></div><p class="prose">Synthesis turns scattered content into structured knowledge. The pattern: collect topic-scoped sources, ask Claude to identify the evergreen patterns, pull out the explicit decisions and policies (with sources), flag where sources contradict each other, draft synthesised KB articles with verbatim quotes for high-stakes statements.</p><p class="prose">What this replaces: the failed knowledge-base approach where someone writes &#39;final&#39; articles that drift out of date the moment they&#39;re published. Synthesised articles trace back to their sources, which makes them easy to update — when the source changes, the article changes.</p></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Citation Discipline</div><div class="section-desc">Never let a KB article stand without citing the source</div></div></div><div class="content-body"><p class="prose">The fastest way to lose trust in a KB is to have one article that turns out to be wrong. Every claim in a Claude-synthesised KB article should cite the underlying source — the original email, the decision recap, the policy doc. This makes correction trivial when something changes.</p><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📎  CITE OR DON&#39;T SHIP</div><div class="callout-text">A KB article without citations is technical debt. The first time someone tries to verify the answer and can&#39;t find the source, they stop trusting the KB. Always include source links or quotes.</div></div></div><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📎  CITE OR DON&#39;T SHIP</div><div class="callout-text">A KB article without source citations is technical debt waiting to happen. The first time someone tries to verify a claim and can&#39;t find the source, they stop trusting the KB. Every article that claims a fact should link the source document. No exceptions.</div></div></div><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📎  CITE OR DON&#39;T SHIP</div><div class="callout-text">The first time someone tries to verify a KB claim and can&#39;t find the source, they stop trusting the KB. Every article that claims a fact should link the source document. No exceptions. KB articles without citations are technical debt waiting to happen.</div></div></div></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Tribal Knowledge Extraction</div><div class="section-desc">Capturing what&#39;s in people&#39;s heads</div></div></div><div class="content-body"><p class="prose">For knowledge that lives only in someone&#39;s head, use a structured interview pattern. Claude can help by drafting the question list, processing the interview transcript, and turning it into a KB-ready article.</p><ul class="bullets"><li>Draft 20 open questions about a domain (Claude is good at this)</li><li>Run the interview, transcribe it</li><li>Feed the transcript to Claude with the question list</li><li>Ask Claude to draft KB articles for each question, citing specific transcript moments</li></ul><h3 class="sub-h3">The structured interview pattern</h3><p class="sub-body">For knowledge that lives only in someone&#39;s head, structured interviews capture it. Claude helps with question generation, transcript processing, and KB article drafting.</p><ul class="bullets"><li>Draft 15-20 open questions about the domain (Claude is excellent at this)</li><li>Run the interview — record with consent, transcribe via Whisper or similar</li><li>Feed transcript to Claude with the question list and the source person&#39;s role</li><li>Ask Claude to draft a KB article per question, citing specific transcript moments</li><li>Have the interview source review and refine before publishing</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Maintenance — The Hardest Part</div><div class="section-desc">What kills knowledge bases</div></div></div><div class="content-body"><p class="prose">Most KBs degrade not because the original articles were bad, but because no one maintained them. Build maintenance into the design from day one.</p><ul class="bullets"><li>Ownership — every article has a named owner</li><li>Review cadence — quarterly review of high-value articles</li><li>Decay flags — articles older than 18 months auto-flag for review</li><li>Update workflow — when a relevant decision is made, KB article is updated as part of the decision</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Assign a named owner to every article</li><li>Set quarterly review cadence for high-value articles</li><li>Auto-flag articles older than 18 months for review</li><li>Integrate KB updates into the decision-making workflow</li><li>Track article usage — popular articles get more frequent review</li><li>Decommission stale articles deliberately, with a redirect note</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Publishing articles without a named owner</li><li>Setting and forgetting — KBs degrade without active maintenance</li><li>Letting articles accumulate without review</li><li>Updating an article without updating the citation links</li><li>Keeping outdated articles &#39;just in case&#39;</li><li>Conflating recently-updated with up-to-date — verify the substance</li></ul></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Question Coverage Audit</div><div class="section-desc">What questions does the KB actually answer?</div></div></div><div class="content-body"><p class="prose">Periodically test the KB against the actual questions people ask. Pull the last 50 questions from your support queue or Slack help channels. For each, can the KB answer it? Where it can&#39;t, that&#39;s the next article.</p><ul class="bullets"><li>Pull recent real questions from support/Slack</li><li>For each: &#39;Does the KB answer this? If yes, find the article. If no, what would the article say?&#39;</li><li>Prioritise gaps by question frequency, not abstract value</li><li>Write the missing articles first</li></ul></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Claude + Vector Search</div><div class="section-desc">For mid-to-large KBs</div></div></div><div class="content-body"><p class="prose">Beyond ~50 articles, a flat search becomes inadequate. Combine Claude with a vector search layer (Pinecone, Weaviate, or your CRM&#39;s built-in semantic search). Vector search finds the candidate articles; Claude synthesises the answer with citations.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🔍  RAG, IN PLAIN TERMS</div><div class="callout-text">This is what &#39;RAG&#39; (Retrieval-Augmented Generation) means: retrieve the relevant docs via vector search, then ask Claude to synthesise an answer grounded only in those docs. Cleaner than letting Claude reason from training alone.</div></div></div><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🔍</div><div class="feat-title">Vector DB</div><div class="feat-desc">Pinecone, Weaviate, or built-in semantic search finds candidate articles for a query.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">✨</div><div class="feat-title">Claude Synthesis</div><div class="feat-desc">Claude reads the candidates and synthesises a grounded answer with citations.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🔗</div><div class="feat-title">MCP Integration</div><div class="feat-desc">2026 makes this seamless — connect via MCP, Claude handles retrieval automatically.</div></div></div><p class="prose">For knowledge bases past ~50 articles, flat search becomes inadequate. The pattern that works is RAG: a vector search layer (Pinecone, Weaviate, your CRM&#39;s built-in semantic search) finds candidate articles for a query; Claude synthesises an answer grounded only in those candidates. Cleaner than letting Claude reason from training alone, more flexible than rigid templated answers.</p><p class="prose">MCP integrations make this cleaner in 2026. Instead of building custom RAG infrastructure, point Claude at an MCP server that exposes your knowledge base; Claude handles retrieval and synthesis automatically. For most teams, MCP + a hosted vector DB is now the right starting architecture.</p><p class="prose">Beyond ~50 articles, flat search becomes inadequate. The RAG pattern (retrieval + augmented generation) is what scales KB systems. Vector search finds relevant articles by meaning, not just keyword; Claude synthesises a grounded answer from those candidates.</p><p class="prose">MCP integrations make this cleaner in 2026. Instead of building custom RAG infrastructure, point Claude at an MCP server that exposes your KB; Claude handles retrieval and synthesis automatically. For most teams, MCP + a hosted vector DB is now the right starting architecture for any KB past 50 articles.</p></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Claude for Internal Knowledge Base Building as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">SOURCE SYNTHESIS</div><div class="prompt-text">I&#39;ve collected 30 emails, 15 Slack threads, and 8 meeting recaps about our refund policy from the last 18 months. Synthesise: what&#39;s the actual current policy, where has it evolved, are there any inconsistencies in how it&#39;s been applied, and what should the KB article say? Cite sources for every claim.</div></div><div class="prompt-card"><div class="prompt-label">TRIBAL INTERVIEW PREP</div><div class="prompt-text">I&#39;m interviewing our most senior customer success rep about how she handles enterprise renewals. Draft 20 open questions that would surface the patterns I should capture in our KB — what she watches for, what signals matter, how she handles common objections.</div></div><div class="prompt-card"><div class="prompt-label">KB GAP AUDIT</div><div class="prompt-text">Here are the 50 most recent questions from our support queue. For each: was the KB able to answer it (yes/partial/no)? Group the &#39;no&#39; and &#39;partial&#39; answers by topic. Rank the topic gaps by question frequency.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Claude for Internal Knowledge Base Building on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatGPT Advanced Reasoning — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --green:#10A37F;--green-l:#2EC4A9;--green-soft:#E6F7F4;
+  --blue:#1A6FE8;--blue-soft:#EEF3FD;
+  --purple:#7C3AED;--purple-soft:#F3EEFF;
+  --orange:#E07B39;--orange-soft:#FEF3EB;
+  --page-bg:#F9F9F9;--sidebar-bg:#1C1C1C;
+  --card-bg:#FFFFFF;--hdr-bg:#F0F0F0;--border:#E5E5E5;
+  --ink:#0D0D0D;--text-mid:#353740;--muted:#6E6E80;
+  --green-bg:#E6F7F4;--warn:#B45309;--warn-bg:#FEF9C3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--green-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:#555;padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#A0A0A0;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--green);background:rgba(16,163,127,.12)}
+
+/* main */
+.content{max-width:860px;padding:40px 40px 80px}
+
+/* banner */
+.banner{background:linear-gradient(135deg,#1C1C1C 0%,#2A2A2A 60%,#1C1C1C 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(16,163,127,.15) 0%,transparent 60%)}
+.banner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(16,163,127,.08) 0%,transparent 60%)}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--green-l);text-transform:uppercase;margin-bottom:10px;position:relative}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px;position:relative}
+.banner p{font-size:15px;color:#B0B0B0;max-width:560px;margin:0 auto;position:relative}
+.banner-badge{display:inline-block;background:rgba(16,163,127,.2);color:var(--green-l);font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:16px;letter-spacing:.06em;position:relative;border:1px solid rgba(16,163,127,.3)}
+
+/* section card */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--green);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--muted);margin-top:2px}
+.section-body{padding:22px}
+
+/* callouts */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.gpt{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.gpt .callout-body strong{color:var(--green)}
+
+/* feature grid */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.feature-card .fc-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.feature-card.blue{border-top-color:var(--blue)}
+.feature-card.purple{border-top-color:var(--purple)}
+.feature-card.orange{border-top-color:var(--orange)}
+
+/* steps */
+.step-list{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--green);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-num.blue{background:var(--blue)}
+.step-num.purple{background:var(--purple)}
+.step-num.orange{background:var(--orange)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--text-mid);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:#A0A0A0;font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #2D2D2D}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--text-mid);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+
+/* sub labels */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--green);text-transform:uppercase;margin:20px 0 10px}
+
+/* prompt tabs */
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px}
+.tab-btn{padding:7px 18px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--text-mid);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green-l);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.copy-btn{background:none;border:1px solid rgba(46,196,169,.3);color:var(--green-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600}
+.copy-btn:hover{background:rgba(16,163,127,.15)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--text-mid);line-height:1.6;font-style:italic}
+
+/* trouble items */
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--green);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{background:#fff;padding:12px 16px;font-size:13.5px;color:var(--text-mid);line-height:1.55}
+
+/* mockup */
+.mockup{background:#1C1C1C;border-radius:10px;padding:20px;margin:16px 0;border:1px solid #2D2D2D}
+.mockup-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #2D2D2D}
+.mockup-model{background:#2D2D2D;color:var(--green-l);font-size:12px;font-weight:700;padding:4px 12px;border-radius:12px}
+.mockup-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:#555;text-transform:uppercase}
+.mockup-row{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.mockup-row.right{justify-content:flex-end}
+.mockup-bubble{max-width:82%;border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5}
+.mockup-bubble.user{background:#2D2D2D;color:#E0E0E0;border-radius:10px 10px 2px 10px}
+.mockup-bubble.gpt{background:rgba(16,163,127,.1);color:#C0E8DF;border-radius:10px 10px 10px 2px;border:1px solid rgba(16,163,127,.2)}
+.gpt-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(16,163,127,.15);color:var(--green-l);font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.roadmap-step .rs-num{font-size:28px;font-weight:700;color:var(--green);margin-bottom:6px}
+.roadmap-step.blue{border-top-color:var(--blue)} .roadmap-step.blue .rs-num{color:var(--blue)}
+.roadmap-step.purple{border-top-color:var(--purple)} .roadmap-step.purple .rs-num{color:var(--purple)}
+.roadmap-step.orange{border-top-color:var(--orange)} .roadmap-step.orange .rs-num{color:var(--orange)}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--text-mid);line-height:1.5}
+
+/* ── MODEL CARD — unique to this guide ── */
+.model-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0}
+.model-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.mc-header{padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.mc-name{font-size:20px;font-weight:700}
+.mc-tier{font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:10px;text-transform:uppercase}
+.mc-body{padding:0 16px 16px}
+.mc-tagline{font-size:12.5px;color:var(--muted);margin-bottom:10px;font-style:italic}
+.mc-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12.5px;color:var(--text-mid)}
+.mc-label{font-weight:700;width:70px;flex-shrink:0;color:var(--ink);font-size:12px}
+.mc-dots{display:flex;gap:3px}
+.mc-dot{width:10px;height:10px;border-radius:50%}
+.mc-dot.on{background:var(--green)}
+.mc-dot.off{background:var(--border)}
+.mc-dot.half{background:linear-gradient(90deg,var(--green) 50%,var(--border) 50%)}
+.mc-best{margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.mc-best-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.mc-best li{font-size:12px;color:var(--text-mid);margin-left:14px;margin-bottom:3px}
+
+/* model card colour variants */
+.model-card.o1 .mc-header{background:#F0FAF6}
+.model-card.o1 .mc-name{color:var(--green)}
+.model-card.o1 .mc-tier{background:var(--green-soft);color:var(--green)}
+.model-card.o1-mini .mc-header{background:var(--blue-soft)}
+.model-card.o1-mini .mc-name{color:var(--blue)}
+.model-card.o1-mini .mc-tier{background:var(--blue-soft);color:var(--blue)}
+.model-card.o3 .mc-header{background:var(--purple-soft)}
+.model-card.o3 .mc-name{color:var(--purple)}
+.model-card.o3 .mc-tier{background:var(--purple-soft);color:var(--purple)}
+.model-card.o3-mini .mc-header{background:var(--orange-soft)}
+.model-card.o3-mini .mc-name{color:var(--orange)}
+.model-card.o3-mini .mc-tier{background:var(--orange-soft);color:var(--orange)}
+
+/* ── THINKING TRACE — unique to this guide ── */
+.think-trace{background:#1C1C1C;border-radius:10px;overflow:hidden;margin:16px 0;border:1px solid #2D2D2D}
+.tt-header{background:#141414;padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2D2D2D}
+.tt-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#555}
+.tt-badge{font-size:10px;font-weight:700;padding:2px 10px;border-radius:10px;background:rgba(124,58,237,.25);color:#C4B5FD;border:1px solid rgba(124,58,237,.3)}
+.tt-steps{padding:14px 16px}
+.tt-step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.tt-step:last-child{margin-bottom:0}
+.tt-dot-col{display:flex;flex-direction:column;align-items:center;gap:0}
+.tt-dot{width:8px;height:8px;border-radius:50%;background:#555;flex-shrink:0;margin-top:5px}
+.tt-line{width:1px;background:#2D2D2D;flex:1;min-height:16px;margin-top:4px}
+.tt-text{font-size:12.5px;color:#999;line-height:1.55;font-style:italic}
+.tt-answer{background:rgba(16,163,127,.08);border-top:1px solid rgba(16,163,127,.2);padding:14px 16px}
+.tt-answer-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-l);margin-bottom:6px}
+.tt-answer-text{font-size:13px;color:#C0E8DF;line-height:1.55}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <div class="nav-section">Advanced Reasoning</div>
+  <a class="nav-link" href="#s01">01 — What is Advanced Reasoning?</a>
+  <a class="nav-link" href="#s02">02 — The Reasoning Model Family</a>
+  <a class="nav-link" href="#s03">03 — When to Use Reasoning Models</a>
+  <a class="nav-link" href="#s04">04 — How They Think Differently</a>
+  <a class="nav-link" href="#s05">05 — Prompting for Reasoning Models</a>
+  <a class="nav-link" href="#s06">06 — Deep Research</a>
+  <a class="nav-link" href="#s07">07 — Advanced Techniques</a>
+  <a class="nav-link" href="#s08">08 — Common Mistakes & Fixes</a>
+  <a class="nav-link" href="#s09">09 — Suggested Prompts</a>
+  <a class="nav-link" href="#s10">10 — See It In Action</a>
+  <a class="nav-link" href="#s11">11 — Your Roadmap</a>
+</aside>
+<main class="content">
+
+<div class="banner">
+  <div class="banner-eyebrow">The AI Advantage Co · User Guide</div>
+  <h1>🧮 ChatGPT Advanced Reasoning</h1>
+  <p>When to use o1 and o3 — OpenAI's reasoning models for complex analysis, multi-step logic, and problems GPT-4o can't reliably solve</p>
+  <div class="banner-badge">OpenAI · o1 · o3 · Deep Research · Reasoning Models</div>
+</div>
+
+<!-- 01 -->
+<div class="section-card" id="s01">
+  <div class="section-header">
+    <div class="sec-num">01</div>
+    <div><h2>What is Advanced Reasoning?</h2><p>A different kind of intelligence — slow thinking for hard problems</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">ChatGPT's standard model (GPT-4o) is optimised for speed and conversation — it produces high-quality responses very quickly. But for genuinely complex, multi-step problems, speed can come at the cost of accuracy. That's where reasoning models come in.</p>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">OpenAI's reasoning models — o1, o3, and their mini variants — are built differently. Rather than generating an answer immediately, they spend time internally exploring the problem: checking logic, considering counterarguments, and working through steps before committing to a response. They <em>think before they speak</em>.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">⚡</div>
+        <h4>GPT-4o (Standard)</h4>
+        <p>Fast, conversational, excellent for writing, summarisation, brainstorming, and most everyday tasks. Generates responses in seconds.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🧮</div>
+        <h4>o1 / o3 (Reasoning)</h4>
+        <p>Slower, more deliberate. Excels at logic, maths, complex coding, legal analysis, and any problem requiring precise multi-step thinking.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>The Core Difference</strong><p>GPT-4o answers like a brilliant person thinking out loud in real time. Reasoning models answer like a brilliant person who went away, thought hard, ran through edge cases, and came back with a considered position. Same intelligence — different process.</p></div>
+    </div>
+
+    <p class="sub-label">The Trade-Off at a Glance</p>
+    <table class="ref-table">
+      <tr><th>Dimension</th><th>GPT-4o</th><th>o1 / o3</th></tr>
+      <tr><td>Response speed</td><td>Seconds</td><td>15 seconds – 2+ minutes</td></tr>
+      <tr><td>Conversational fluency</td><td>Excellent</td><td>Good (less natural)</td></tr>
+      <tr><td>Complex logic accuracy</td><td>Good</td><td>Excellent</td></tr>
+      <tr><td>Creative writing</td><td>Excellent</td><td>Adequate</td></tr>
+      <tr><td>Cost per query</td><td>Lower</td><td>Higher (uses more compute)</td></tr>
+      <tr><td>Best for</td><td>Most everyday tasks</td><td>Hard problems where accuracy matters</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section-card" id="s02">
+  <div class="section-header">
+    <div class="sec-num">02</div>
+    <div><h2>The Reasoning Model Family</h2><p>o1, o1-mini, o3, o3-mini — knowing which to reach for</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">OpenAI has released a family of reasoning models, each with different capability-speed trade-offs. Understanding which one fits your task saves time and cost.</p>
+
+    <div class="model-grid">
+      <div class="model-card o1">
+        <div class="mc-header">
+          <div class="mc-name">o1</div>
+          <div class="mc-tier">Professional</div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-tagline">The original reasoning model — proven, reliable, broad STEM strength</div>
+          <div class="mc-row"><span class="mc-label">Capability</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot half"></div></div></div>
+          <div class="mc-row"><span class="mc-label">Speed</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot off"></div><div class="mc-dot off"></div><div class="mc-dot off"></div></div></div>
+          <div class="mc-row"><span class="mc-label">Cost</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot off"></div><div class="mc-dot off"></div></div></div>
+          <div class="mc-best">
+            <div class="mc-best-label">Best for</div>
+            <ul><li>Complex coding & debugging</li><li>Maths & quantitative analysis</li><li>Scientific reasoning</li><li>Legal & contract analysis</li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="model-card o3">
+        <div class="mc-header">
+          <div class="mc-name">o3</div>
+          <div class="mc-tier">Frontier</div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-tagline">Next-generation reasoning — significantly stronger than o1 across all domains</div>
+          <div class="mc-row"><span class="mc-label">Capability</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div></div></div>
+          <div class="mc-row"><span class="mc-label">Speed</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot off"></div><div class="mc-dot off"></div><div class="mc-dot off"></div><div class="mc-dot off"></div></div></div>
+          <div class="mc-row"><span class="mc-label">Cost</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div></div></div>
+          <div class="mc-best">
+            <div class="mc-best-label">Best for</div>
+            <ul><li>The hardest problems in any domain</li><li>Multi-step strategic analysis</li><li>PhD-level research questions</li><li>Complex software architecture</li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="model-card o1-mini">
+        <div class="mc-header">
+          <div class="mc-name">o1-mini</div>
+          <div class="mc-tier">Standard</div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-tagline">Fast, affordable reasoning for STEM tasks — less nuanced on non-technical problems</div>
+          <div class="mc-row"><span class="mc-label">Capability</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot off"></div><div class="mc-dot off"></div></div></div>
+          <div class="mc-row"><span class="mc-label">Speed</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot off"></div><div class="mc-dot off"></div></div></div>
+          <div class="mc-row"><span class="mc-label">Cost</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot off"></div><div class="mc-dot off"></div><div class="mc-dot off"></div><div class="mc-dot off"></div></div></div>
+          <div class="mc-best">
+            <div class="mc-best-label">Best for</div>
+            <ul><li>Coding tasks needing logical precision</li><li>Maths with clear right/wrong answers</li><li>Algorithmic problem solving</li><li>High-volume reasoning tasks</li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="model-card o3-mini">
+        <div class="mc-header">
+          <div class="mc-name">o3-mini</div>
+          <div class="mc-tier">Everyday</div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-tagline">Next-gen reasoning at mini speed — the everyday workhorse for structured thinking</div>
+          <div class="mc-row"><span class="mc-label">Capability</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot half"></div><div class="mc-dot off"></div></div></div>
+          <div class="mc-row"><span class="mc-label">Speed</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot off"></div></div></div>
+          <div class="mc-row"><span class="mc-label">Cost</span><div class="mc-dots"><div class="mc-dot on"></div><div class="mc-dot on"></div><div class="mc-dot off"></div><div class="mc-dot off"></div><div class="mc-dot off"></div></div></div>
+          <div class="mc-best">
+            <div class="mc-best-label">Best for</div>
+            <ul><li>Structured analysis of moderate complexity</li><li>Decision frameworks with trade-offs</li><li>Review and critique tasks</li><li>Day-to-day reasoning needs</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body"><strong>Availability by Plan</strong><p>o1 and o3 are available on ChatGPT Plus, Team, Enterprise, and Pro. o3-mini is available on Plus and above. Access and rate limits vary — Pro subscribers get the highest usage caps. Check the model selector dropdown in ChatGPT to see which models are active on your plan.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section-card" id="s03">
+  <div class="section-header">
+    <div class="sec-num">03</div>
+    <div><h2>When to Use Reasoning Models</h2><p>The decision framework — GPT-4o first, reasoning models when it matters</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">The key principle: use GPT-4o for most things, and reach for a reasoning model when a wrong answer has real consequences or when the problem genuinely requires multi-step logical precision.</p>
+
+    <p class="sub-label">Use a Reasoning Model When…</p>
+    <div class="feature-grid">
+      <div class="feature-card purple">
+        <div class="fc-icon">🔢</div>
+        <h4>Multi-Step Maths or Logic</h4>
+        <p>Any calculation, proof, or logical chain where GPT-4o has been unreliable. Reasoning models dramatically reduce arithmetic and logic errors.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">💻</div>
+        <h4>Complex Coding Problems</h4>
+        <p>Debugging intricate bugs, designing architecture, optimising algorithms, or writing code where correctness is non-negotiable.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">⚖️</div>
+        <h4>Legal & Contract Analysis</h4>
+        <p>Spotting ambiguities, identifying clauses that conflict, or checking a contract against specific requirements — precision matters here.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🔬</div>
+        <h4>Scientific & Technical Reasoning</h4>
+        <p>Interpreting research findings, evaluating methodology, checking statistical reasoning, or exploring technical hypotheses.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">♟️</div>
+        <h4>Strategic Analysis with Trade-offs</h4>
+        <p>Business decisions with many interdependent variables — market entry, resource allocation, risk analysis across multiple scenarios.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🧩</div>
+        <h4>Verifying GPT-4o's Work</h4>
+        <p>When GPT-4o gave you an answer but you're not sure it's right — use a reasoning model to check its logic independently.</p>
+      </div>
+    </div>
+
+    <p class="sub-label">Keep Using GPT-4o For…</p>
+    <table class="ref-table">
+      <tr><th>Task</th><th>Why GPT-4o Is Better Here</th></tr>
+      <tr><td>Writing, editing, copywriting</td><td>Speed and fluency matter more than logical precision</td></tr>
+      <tr><td>Brainstorming and ideation</td><td>Volume and variety of ideas beats deliberate analysis</td></tr>
+      <tr><td>Summarisation</td><td>Fast and accurate enough; reasoning models add no value</td></tr>
+      <tr><td>Casual Q&amp;A and research</td><td>Conversational pace, factual recall — no deep reasoning needed</td></tr>
+      <tr><td>Image generation and multimodal tasks</td><td>Reasoning models don't generate images</td></tr>
+      <tr><td>Short-form content (emails, social)</td><td>Overkill — GPT-4o produces excellent short copy quickly</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>The Quick Test</strong><p>Ask yourself: "If this answer is wrong, does it matter?" If yes — use a reasoning model. If it's a draft you'll review anyway, GPT-4o is fine and much faster.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section-card" id="s04">
+  <div class="section-header">
+    <div class="sec-num">04</div>
+    <div><h2>How They Think Differently</h2><p>Inside the reasoning process — what's happening before you see an answer</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">When you send a prompt to a reasoning model, it doesn't immediately generate an answer. Instead, it produces a hidden internal "thinking" process — a chain of reasoning tokens you don't see directly. This is what makes reasoning models qualitatively different from GPT-4o.</p>
+
+    <p class="sub-label">Example: Reasoning Trace for a Logic Problem</p>
+    <div class="think-trace">
+      <div class="tt-header">
+        <span class="tt-label">Internal Reasoning</span>
+        <span class="tt-badge">Thinking • ~45 seconds</span>
+      </div>
+      <div class="tt-steps">
+        <div class="tt-step">
+          <div class="tt-dot-col"><div class="tt-dot"></div><div class="tt-line"></div></div>
+          <div class="tt-text">The question asks whether the company can terminate without cause under clause 14.2 given the 90-day notice requirement in clause 8.1. Let me re-read both clauses carefully...</div>
+        </div>
+        <div class="tt-step">
+          <div class="tt-dot-col"><div class="tt-dot"></div><div class="tt-line"></div></div>
+          <div class="tt-text">Clause 14.2 says "either party may terminate for any reason." Clause 8.1 requires 90 days written notice "for any termination under this agreement." These appear to operate together — 14.2 grants the right, 8.1 governs the process.</div>
+        </div>
+        <div class="tt-step">
+          <div class="tt-dot-col"><div class="tt-dot"></div><div class="tt-line"></div></div>
+          <div class="tt-text">But wait — is there a conflict between 14.2 and the definition of "cause" in Schedule A? Let me check... Schedule A defines cause as "material breach, insolvency, or fraud." This is separate from the 14.2 without-cause right. No conflict.</div>
+        </div>
+        <div class="tt-step">
+          <div class="tt-dot-col"><div class="tt-dot"></div></div>
+          <div class="tt-text">What are the consequences of terminating without cause? Clause 16.3 specifies a termination fee equal to 3 months' fees. Confirming: yes, without-cause termination is permitted, 90 days notice required, termination fee applies.</div>
+        </div>
+      </div>
+      <div class="tt-answer">
+        <div class="tt-answer-label">✦ Final Answer</div>
+        <div class="tt-answer-text">Yes, the company can terminate without cause under clause 14.2. You must provide 90 days written notice (clause 8.1) and pay a termination fee equal to 3 months' fees (clause 16.3). There is no conflict between these clauses — they operate sequentially.</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>You Can See a Summary of the Thinking</strong><p>ChatGPT shows a collapsed "Thought for X seconds" indicator you can expand. You won't see the full raw reasoning tokens, but you can see a summarised account of the reasoning process — useful for checking that the model addressed your actual question.</p></div>
+    </div>
+
+    <p class="sub-label">What This Means Practically</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>More Robust to Ambiguity</h4>
+        <p>Reasoning models are better at identifying when a question is ambiguous and either resolving it or asking for clarification, rather than confidently answering the wrong question.</p>
+      </div>
+      <div class="feature-card blue">
+        <h4>Self-Corrects Mid-Reasoning</h4>
+        <p>The model actively checks its own intermediate conclusions. If step 3 contradicts step 1, it backtracks — something GPT-4o rarely does on a single generation pass.</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Slower But More Reliable</h4>
+        <p>Expect 15 seconds to 2+ minutes for complex problems. The wait is the model working — this is a feature, not a bug.</p>
+      </div>
+      <div class="feature-card orange">
+        <h4>Less Conversational</h4>
+        <p>Reasoning models are more formal and precise in tone. They're optimised for accuracy, not warmth. For conversational tasks, GPT-4o still reads better.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section-card" id="s05">
+  <div class="section-header">
+    <div class="sec-num">05</div>
+    <div><h2>Prompting for Reasoning Models</h2><p>Different rules apply — less coaching, more clarity</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">The prompting techniques that improve GPT-4o outputs don't always translate to reasoning models. Reasoning models handle the "how to think" internally — your job is to state the problem clearly and completely, then get out of the way.</p>
+
+    <p class="sub-label">Key Differences vs Prompting GPT-4o</p>
+    <table class="ref-table">
+      <tr><th>Technique</th><th>With GPT-4o</th><th>With Reasoning Models</th></tr>
+      <tr><td>Role prompting ("You are an expert…")</td><td>Helpful — improves tone and framing</td><td>Less necessary — model already reasons at expert level</td></tr>
+      <tr><td>Chain-of-thought ("think step by step")</td><td>Significantly improves accuracy</td><td>Redundant — the model already reasons step-by-step internally</td></tr>
+      <tr><td>Problem statement length</td><td>Medium — context helps</td><td>Longer is better — give all relevant information upfront</td></tr>
+      <tr><td>Format specification</td><td>Important — specify clearly</td><td>Still important — specify output structure explicitly</td></tr>
+      <tr><td>Constraints and edge cases</td><td>List if known</td><td>Include exhaustively — the model will check against them</td></tr>
+      <tr><td>Iterative refinement</td><td>Common workflow</td><td>Less needed — aim to get it right in one well-formed prompt</td></tr>
+    </table>
+
+    <p class="sub-label">The Reasoning Model Prompt Formula</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">o3</span><span class="mockup-label">Prompt Structure</span></div>
+      <div style="color:#C0E8DF;font-size:13px;line-height:1.7">
+        <span style="color:#2EC4A9;font-weight:700">1. State the problem completely</span><br>
+        Give all relevant context. Don't assume the model will ask follow-ups — it will work with what you give it.<br><br>
+        <span style="color:#2EC4A9;font-weight:700">2. Specify constraints and requirements</span><br>
+        List every constraint explicitly. "The solution must work within X, cannot assume Y, must handle edge case Z."<br><br>
+        <span style="color:#2EC4A9;font-weight:700">3. Define the output format</span><br>
+        "Produce: [specific format]. Include: [specific elements]. Avoid: [specific elements]."<br><br>
+        <span style="color:#2EC4A9;font-weight:700">4. Ask for reasoning (optional but useful)</span><br>
+        "Show your reasoning process for each key conclusion." — helps you audit the answer.
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Front-Load Everything</strong><p>Reasoning models work best on a single well-formed prompt rather than an iterative back-and-forth. Spend 5 minutes writing a thorough prompt rather than 20 minutes in a corrective loop. The model will do the thinking — your job is to give it the complete problem.</p></div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Don't Over-Constrain the Reasoning Process</strong><p>Telling a reasoning model "first do X, then do Y, then do Z" is counterproductive — it interrupts its natural reasoning flow. Specify what you want as an output; let the model decide how to get there.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section-card" id="s06">
+  <div class="section-header">
+    <div class="sec-num">06</div>
+    <div><h2>Deep Research</h2><p>Multi-source research synthesis powered by o3</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Deep Research is a specialised mode in ChatGPT (accessible from the model selector) that uses o3 to conduct multi-step web research — searching dozens of sources, synthesising findings, and producing a structured research report with citations. It's designed for tasks that would take a human researcher hours.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card purple">
+        <div class="fc-icon">🔍</div>
+        <h4>What It Does</h4>
+        <p>Searches the web iteratively — following links, reading full articles, and refining its search based on what it finds. Not a single search, but a full research process.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">📄</div>
+        <h4>What You Get</h4>
+        <p>A structured report (typically 1,000–5,000 words) with: executive summary, detailed findings, source citations, and key conclusions. Ready to use or refine.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">⏱️</div>
+        <h4>Time to Complete</h4>
+        <p>5–30 minutes depending on complexity. Deep Research runs in the background — you can leave it running and return when it notifies you it's done.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">📋</div>
+        <h4>Availability</h4>
+        <p>ChatGPT Plus, Team, Enterprise, and Pro. Rate-limited — typically 10–25 reports per month on Plus, more on Pro.</p>
+      </div>
+    </div>
+
+    <p class="sub-label">When to Use Deep Research</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num purple">✓</div>
+        <div class="step-body"><h4>Market and competitive research</h4><p>Landscape analysis, competitor mapping, market sizing, industry trends — tasks that normally require hours of reading.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">✓</div>
+        <div class="step-body"><h4>Literature reviews</h4><p>Synthesising academic or industry publications on a topic. Deep Research pulls recent sources and surfaces key findings across them.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">✓</div>
+        <div class="step-body"><h4>Due diligence and background research</h4><p>Researching a company, person, regulation, or technology before a decision. Produces a comprehensive briefing document.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">✓</div>
+        <div class="step-body"><h4>Complex technical questions</h4><p>"What are the current best practices for [technical topic]?" — Deep Research synthesises recent sources rather than relying on training data.</p></div>
+      </div>
+    </div>
+
+    <p class="sub-label">How to Structure a Deep Research Request</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">Deep Research</span><span class="mockup-label">Request Template</span></div>
+      <div style="color:#C0E8DF;font-size:13px;line-height:1.7">
+        <span style="color:#2EC4A9;font-weight:700">Research topic:</span> [clear, specific topic statement]<br><br>
+        <span style="color:#2EC4A9;font-weight:700">Scope:</span> [what's in / what's out — e.g. "Focus on UK market only, 2022–present"]<br><br>
+        <span style="color:#2EC4A9;font-weight:700">Key questions to answer:</span><br>
+        1. [specific question]<br>
+        2. [specific question]<br>
+        3. [specific question]<br><br>
+        <span style="color:#2EC4A9;font-weight:700">Output format:</span> [e.g. "Executive summary + detailed sections + source list. Approx. 2,000 words."]<br><br>
+        <span style="color:#2EC4A9;font-weight:700">Audience:</span> [who will read this — affects depth and technical level]
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Always Verify Sources</strong><p>Deep Research cites its sources, but hallucination is still possible — especially for specific statistics, quotes, and dates. Treat the output as a well-organised first draft that requires spot-checking on any claims you'll act on or publish.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section-card" id="s07">
+  <div class="section-header">
+    <div class="sec-num">07</div>
+    <div><h2>Advanced Techniques</h2><p>Getting the most from reasoning models in complex workflows</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">These techniques let you use reasoning models in more sophisticated ways — combining their strengths with GPT-4o's fluency, or applying them to specific high-value use cases.</p>
+
+    <p class="sub-label">The Two-Model Workflow</p>
+    <p style="font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:12px">Use each model for what it's best at in a single workflow:</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>GPT-4o: Gather and structure</h4><p>Use GPT-4o to brainstorm, gather information, outline the problem, and produce a first draft. Fast iteration at this stage.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">2</div>
+        <div class="step-body"><h4>Reasoning Model: Analyse and verify</h4><p>Hand the draft or problem statement to o1/o3 for logic checking, gap analysis, or precise quantitative work. Let it scrutinise what GPT-4o produced.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">3</div>
+        <div class="step-body"><h4>GPT-4o: Polish and communicate</h4><p>Take the reasoning model's analysis back to GPT-4o for writing, formatting, and making the output audience-ready. Reasoning models can be dry — GPT-4o makes it readable.</p></div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Use o3 as Your Peer Reviewer</strong><p>"Here is a plan I've drafted. Play devil's advocate — identify the three most significant logical flaws or unstated assumptions, and suggest how each could be addressed." This is one of the highest-value uses of reasoning models: critical review of your own work.</p></div>
+    </div>
+
+    <p class="sub-label">High-Value Reasoning Model Use Cases</p>
+    <div class="feature-grid">
+      <div class="feature-card purple">
+        <h4>Contract Red-Flagging</h4>
+        <p>"Review this contract. Identify: ambiguous clauses, obligations with no defined timeline, and any terms that are unusual or unfavourable. For each, explain the risk."</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Code Architecture Review</h4>
+        <p>"Review this system design. Identify: race conditions, security vulnerabilities, scalability bottlenecks, and any design patterns that will cause maintenance problems at scale."</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Financial Model Audit</h4>
+        <p>"Check this financial model for: incorrect formulas, circular references, assumptions that aren't stated, and sensitivity to key variable changes."</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Strategic Pre-Mortem</h4>
+        <p>"Assume this strategy has failed completely in 18 months. What are the five most likely causes? For each, what early warning sign would have been visible at month 3?"</p>
+      </div>
+    </div>
+
+    <p class="sub-label">Asking for Explicit Reasoning</p>
+    <p style="font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:12px">Adding these phrases to your prompt makes the model's reasoning more transparent and auditable:</p>
+    <table class="ref-table">
+      <tr><th>Phrase to Add</th><th>What It Surfaces</th></tr>
+      <tr><td>"Explain your reasoning for each conclusion"</td><td>Step-by-step justification you can audit</td></tr>
+      <tr><td>"State the key assumptions you're making"</td><td>Hidden premises that could invalidate the answer</td></tr>
+      <tr><td>"Note any places where you're uncertain"</td><td>Confidence calibration — where to do your own verification</td></tr>
+      <tr><td>"Identify alternative interpretations of the problem"</td><td>Edge cases and framings you may not have considered</td></tr>
+      <tr><td>"What would change your conclusion?"</td><td>The key variables and thresholds in the reasoning</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section-card" id="s08">
+  <div class="section-header">
+    <div class="sec-num">08</div>
+    <div><h2>Common Mistakes & Fixes</h2><p>What goes wrong with reasoning models and how to address it</p></div>
+  </div>
+  <div class="section-body">
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Using a reasoning model for everything, including simple tasks</div>
+      <div class="trouble-a"><strong>Fix:</strong> Reserve reasoning models for tasks where accuracy on complex logic is critical. For writing, summarisation, brainstorming, and most content tasks, GPT-4o is faster, equally good, and more natural. Overusing reasoning models wastes rate limits and time.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Adding "think step by step" or "let's reason carefully" to reasoning model prompts</div>
+      <div class="trouble-a"><strong>Fix:</strong> These phrases are CoT techniques designed to improve GPT-4o. Reasoning models already reason step-by-step internally — adding these instructions is redundant and can slightly interfere with the model's natural process. State the problem clearly instead.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Treating reasoning model outputs as definitively correct</div>
+      <div class="trouble-a"><strong>Fix:</strong> Reasoning models are significantly more accurate than GPT-4o on complex problems, but they're not infallible. For high-stakes decisions (legal, financial, medical), verify key claims independently. Ask the model to state its assumptions and uncertainty explicitly.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Giving an incomplete problem statement and iterating</div>
+      <div class="trouble-a"><strong>Fix:</strong> Reasoning models work best on complete, well-formed prompts. Unlike GPT-4o, where iterative refinement is a natural workflow, reasoning models benefit from a thorough upfront brief. Spend time crafting a complete problem statement rather than planning to correct mid-conversation.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Expecting reasoning models to be faster than GPT-4o</div>
+      <div class="trouble-a"><strong>Fix:</strong> Reasoning models are intentionally slower — the thinking time is the product. If a task needs an immediate response, use GPT-4o. For reasoning model tasks, set the expectation that you're waiting for a more reliable answer, not a faster one.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Not using Deep Research when it's the right tool</div>
+      <div class="trouble-a"><strong>Fix:</strong> Many users ask GPT-4o research questions that would be much better served by Deep Research — market analysis, literature synthesis, technical landscape reviews. If your research question would take a human researcher more than an hour, Deep Research is likely the right tool.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section-card" id="s09">
+  <div class="section-header">
+    <div class="sec-num">09</div>
+    <div><h2>Suggested Prompts</h2><p>Ready-to-use prompts optimised for reasoning models</p></div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'s09','analysis')">Analysis & Logic</button>
+        <button class="tab-btn" onclick="switchTab(this,'s09','research')">Research & Review</button>
+      </div>
+      <div class="prompt-panel active" id="s09-analysis">
+        <div class="prompt-box">
+          <div class="prompt-label">Contract Clause Analysis<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Review the following contract clauses. Identify: (1) any ambiguous language that could be interpreted in multiple ways, (2) any obligations without defined timelines or metrics, (3) any asymmetric terms that favour one party significantly. For each issue, state the exact clause, explain the risk, and suggest a specific rewrite. [Paste clauses here]</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Decision Analysis with Trade-offs<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I need to decide between [Option A] and [Option B]. Context: [relevant background]. Constraints: [list any hard limits]. Evaluate both options against these criteria: [list 3–5 criteria]. State your key assumptions explicitly. Give a recommendation with reasoning, and identify the single variable that would change your recommendation if it shifted.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Code Architecture Review<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Review the following system design / code. Identify: (1) security vulnerabilities, (2) performance bottlenecks at scale, (3) race conditions or concurrency issues, (4) design patterns that will cause maintenance problems, (5) any missing error handling. For each issue, cite the specific location and explain the failure mode. [Paste design or code]</div>
+        </div>
+      </div>
+      <div class="prompt-panel" id="s09-research">
+        <div class="prompt-box">
+          <div class="prompt-label">Deep Research Brief<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Research topic: [specific topic]. Scope: [boundaries — geography, time period, sector]. Key questions to answer: (1) [question], (2) [question], (3) [question]. Audience: [who will read this]. Output: executive summary (200 words) + detailed findings by section + source list. Approx. 2,000 words total.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Strategic Pre-Mortem<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Assume the following strategy has failed completely 18 months from now: [describe strategy]. Identify the five most likely causes of failure in order of probability. For each cause: (1) explain the failure mechanism, (2) identify the early warning sign visible at month 3, (3) suggest a design change that would reduce this risk. State your key assumptions.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Peer Review of My Reasoning<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Review the following argument / plan / analysis: [paste your work]. Act as a rigorous peer reviewer. Identify: (1) logical flaws or leaps, (2) unstated assumptions that, if false, would invalidate the conclusion, (3) evidence that is weak or missing, (4) alternative interpretations of the data. Be specific — cite the exact claims you're challenging.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section-card" id="s10">
+  <div class="section-header">
+    <div class="sec-num">10</div>
+    <div><h2>See It In Action</h2><p>The same problem — GPT-4o vs o3 side by side</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">The most compelling way to understand reasoning models is to see how they handle a problem that trips up GPT-4o. Here's a logic puzzle from contract analysis — the kind of problem where a wrong answer has real consequences.</p>
+
+    <p class="sub-label">The Problem</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-label">Scenario</span></div>
+      <div style="color:#C0E8DF;font-size:13px;line-height:1.6">A contract states: "Invoices are due 30 days from receipt. Late invoices incur 1.5% monthly interest. If payment is made within 10 days of the invoice date, a 2% early payment discount applies." An invoice is received on Jan 1. Payment is made on Jan 8. Is any interest owed? Does the discount apply?</div>
+    </div>
+
+    <p class="sub-label" style="color:var(--muted)">GPT-4o Response (typical)</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">GPT-4o</span></div>
+      <div class="mockup-row"><div class="mockup-bubble gpt"><div class="gpt-tag">✦ GPT-4o</div>No interest is owed because payment was made on Jan 8, which is within the 30-day window. The early payment discount of 2% applies because payment was made within 10 days of the invoice date.</div></div>
+    </div>
+
+    <p class="sub-label" style="color:var(--purple)">o3 Response</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">o3</span><span class="mockup-label">Thinking • 22 seconds</span></div>
+      <div class="mockup-row"><div class="mockup-bubble gpt"><div class="gpt-tag">✦ o3</div>
+        <strong style="color:#2EC4A9">Interest:</strong> No interest is owed. Payment on Jan 8 is within the 30-day payment window (due Jan 31), so the late payment clause is not triggered.<br><br>
+        <strong style="color:#2EC4A9">Discount:</strong> This requires attention. The contract says the discount applies "within 10 days of the invoice <em>date</em>" — not receipt date. If "invoice date" equals the date the invoice was issued (which may differ from Jan 1 receipt), the 10-day window runs from that issue date.<br><br>
+        If the invoice was dated Jan 1 (same as receipt): discount applies — Jan 8 is day 7.<br>
+        If the invoice was dated before Jan 1 (e.g. Dec 28): the 10-day window may have already passed by receipt date.<br><br>
+        <strong style="color:#2EC4A9">Recommendation:</strong> Confirm the invoice's stated date before claiming the discount. If it's Jan 1, the 2% discount applies.
+      </div></div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>What Just Happened</strong><p>GPT-4o gave a confident answer that was mostly correct but missed a critical ambiguity — "invoice date" vs "receipt date." o3 caught the distinction, mapped out both scenarios, and gave a conditional answer with a clear next step. In a real contract dispute, that distinction could matter significantly.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section-card" id="s11">
+  <div class="section-header">
+    <div class="sec-num">11</div>
+    <div><h2>Your Roadmap</h2><p>Building reasoning model skills into your workflow</p></div>
+  </div>
+  <div class="section-body">
+    <div class="roadmap">
+      <div class="roadmap-step purple">
+        <div class="rs-num">01</div>
+        <h4>Try o1 This Week</h4>
+        <p>Pick one problem you'd normally give GPT-4o where accuracy really matters. Run it through o1 instead. Compare the quality of reasoning.</p>
+      </div>
+      <div class="roadmap-step purple">
+        <div class="rs-num">02</div>
+        <h4>Run a Side-by-Side</h4>
+        <p>Give the same complex problem to GPT-4o and o3. Study the difference in reasoning quality and where each model succeeds or fails.</p>
+      </div>
+      <div class="roadmap-step purple">
+        <div class="rs-num">03</div>
+        <h4>Try Deep Research</h4>
+        <p>Use Deep Research for one market, competitive, or technical research task that would normally take you 2+ hours. Evaluate the output quality.</p>
+      </div>
+      <div class="roadmap-step purple">
+        <div class="rs-num">04</div>
+        <h4>Build the Two-Model Workflow</h4>
+        <p>For your most complex recurring tasks, establish a pattern: GPT-4o for speed + reasoning model for verification. This is the power user baseline.</p>
+      </div>
+    </div>
+    <div class="callout gpt" style="margin-top:20px">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-body"><strong>Next Guide: ChatGPT Voice, Vision & Files</strong><p>You've mastered text-based reasoning. Next, explore ChatGPT's multimodal capabilities — analysing images, working with documents, and using voice mode for hands-free productivity.</p></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function switchTab(el, section, tab) {
+  const sec = document.getElementById(section);
+  sec.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  sec.querySelectorAll('.prompt-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const panel = document.getElementById(section + '-' + tab);
+  if (panel) panel.classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-box').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent; btn.textContent = '✓ Copied'; btn.style.color = '#10A37F';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+  });
+}
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.section-card').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

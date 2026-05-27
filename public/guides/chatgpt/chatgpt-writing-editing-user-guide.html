@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ChatGPT Writing & Editing User Guide | The AI Advantage Co</title>
+<style>
+  :root{
+    --green:#10A37F; --green-l:#2EC4A9; --green-soft:#E6F7F4;
+    --blue:#1A6FE8;  --blue-soft:#EEF3FD;
+    --purple:#7C3AED; --purple-soft:#F3EEFF;
+    --orange:#E07B39; --orange-soft:#FEF3EB;
+    --red:#C0392B; --red-soft:#FEE2E2;
+    --page:#F9F9F9; --sidebar:#1C1C1C; --card:#FFFFFF;
+    --hdr:#F0F0F0; --border:#E5E5E5; --ink:#0D0D0D;
+    --mid:#353740; --muted:#6E6E80;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--page);color:var(--ink);}
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+  .sidebar{background:var(--sidebar);color:#E0E0E0;padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+  .sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:16px;}
+  .sidebar-logo .brand{font-size:10px;font-weight:700;color:var(--green-l);letter-spacing:.1em;text-transform:uppercase;}
+  .sidebar-logo .guide-title{font-size:13px;font-weight:600;color:#fff;margin-top:4px;line-height:1.3;}
+  .nav-section{font-size:9px;font-weight:700;color:#555;letter-spacing:.1em;text-transform:uppercase;padding:12px 20px 6px;}
+  .nav-link{display:block;padding:7px 20px;font-size:12px;color:#A0A0A0;cursor:pointer;border-left:3px solid transparent;transition:all .15s;}
+  .nav-link:hover{color:#E0E0E0;background:rgba(255,255,255,.05);}
+  .nav-link.active{color:#fff;border-left-color:var(--green);background:rgba(16,163,127,.1);}
+  .content{max-width:860px;padding:40px 48px;background:var(--page);}
+  .banner{background:var(--sidebar);border-radius:12px;padding:40px;margin-bottom:32px;text-align:center;}
+  .banner .eyebrow{font-size:11px;font-weight:700;color:var(--green-l);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+  .banner h1{font-size:32px;font-weight:700;color:#fff;margin-bottom:10px;}
+  .banner .sub{font-size:15px;color:#B0B0B0;margin-bottom:16px;}
+  .banner .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+  .banner .tag{font-size:11px;background:rgba(46,196,169,.15);color:var(--green-l);border:1px solid rgba(46,196,169,.3);border-radius:20px;padding:4px 12px;}
+  .section-card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:24px;overflow:hidden;}
+  .section-header{display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--hdr);border-bottom:1px solid var(--border);}
+  .section-num{background:var(--green);color:#fff;font-size:11px;font-weight:700;width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .section-header h2{font-size:16px;font-weight:700;color:var(--ink);}
+  .section-body{padding:24px;}
+  .callout{border-radius:8px;padding:14px 16px;margin:16px 0;border-left:4px solid;}
+  .callout.tip{border-color:var(--green);background:var(--green-soft);}
+  .callout.tip .callout-title{color:var(--green);}
+  .callout.warn{border-color:#B45309;background:#FEF9C3;}
+  .callout.warn .callout-title{color:#B45309;}
+  .callout.info{border-color:var(--blue);background:var(--blue-soft);}
+  .callout.info .callout-title{color:var(--blue);}
+  .callout.purple{border-color:var(--purple);background:var(--purple-soft);}
+  .callout.purple .callout-title{color:var(--purple);}
+  .callout-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+  .callout p{font-size:13px;color:var(--mid);line-height:1.6;}
+  .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+  .feature-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green);}
+  .feature-card.blue{border-top-color:var(--blue);}
+  .feature-card.purple{border-top-color:var(--purple);}
+  .feature-card.orange{border-top-color:var(--orange);}
+  .feature-card h4{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink);}
+  .feature-card p{font-size:12px;color:var(--mid);line-height:1.5;}
+  .step{display:flex;gap:0;margin:8px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+  .step-num{background:var(--green);color:#fff;font-size:16px;font-weight:700;width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-num.blue{background:var(--blue);}
+  .step-num.purple{background:var(--purple);}
+  .step-num.orange{background:var(--orange);}
+  .step-body{padding:12px 16px;background:var(--card);}
+  .step-body strong{display:block;font-size:13px;margin-bottom:4px;color:var(--ink);}
+  .step-body p{font-size:12px;color:var(--mid);line-height:1.5;}
+  .ref-table{width:100%;border-collapse:collapse;font-size:12px;margin:16px 0;}
+  .ref-table th{background:var(--sidebar);color:#A0A0A0;text-align:left;padding:8px 12px;font-size:11px;font-weight:700;}
+  .ref-table td{padding:8px 12px;border:1px solid var(--border);color:var(--mid);line-height:1.4;}
+  .ref-table tr:nth-child(even) td{background:var(--hdr);}
+  .trouble{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:10px 0;}
+  .trouble-q{background:var(--hdr);padding:12px 16px;font-size:13px;font-weight:600;color:var(--ink);border-left:4px solid var(--green);}
+  .trouble-a{background:var(--card);padding:12px 16px;font-size:12px;color:var(--mid);line-height:1.5;border-left:4px solid var(--green);}
+  .prompt-tabs{margin:16px 0;}
+  .tab-buttons{display:flex;gap:8px;margin-bottom:0;}
+  .tab-btn{padding:8px 16px;border:1px solid var(--border);border-bottom:none;border-radius:6px 6px 0 0;background:var(--hdr);font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);}
+  .tab-btn.active{background:var(--sidebar);color:#fff;border-color:var(--sidebar);}
+  .prompt-box{display:none;background:var(--sidebar);border-radius:0 8px 8px 8px;overflow:hidden;}
+  .prompt-box.active{display:block;}
+  .prompt-item{border-bottom:1px solid #333;}
+  .prompt-item:last-child{border-bottom:none;}
+  .prompt-label{padding:10px 16px;font-size:11px;font-weight:700;color:var(--green-l);background:#141414;text-transform:uppercase;letter-spacing:.06em;}
+  .prompt-text{padding:12px 16px;font-size:12px;color:#C0E8DF;line-height:1.6;font-style:italic;}
+  .copy-btn{margin:8px 16px 12px;display:inline-block;padding:4px 12px;background:rgba(16,163,127,.2);color:var(--green-l);border:1px solid rgba(16,163,127,.4);border-radius:4px;font-size:11px;cursor:pointer;}
+  .copy-btn:hover{background:rgba(16,163,127,.35);}
+  .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0;}
+  .roadmap-step{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--green);border-radius:8px;padding:16px;}
+  .roadmap-step.blue{border-top-color:var(--blue);}
+  .roadmap-step.purple{border-top-color:var(--purple);}
+  .roadmap-step.orange{border-top-color:var(--orange);}
+  .roadmap-num{font-size:28px;font-weight:700;color:var(--green);margin-bottom:6px;}
+  .roadmap-step.blue .roadmap-num{color:var(--blue);}
+  .roadmap-step.purple .roadmap-num{color:var(--purple);}
+  .roadmap-step.orange .roadmap-num{color:var(--orange);}
+  .roadmap-step h4{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink);}
+  .roadmap-step p{font-size:11px;color:var(--mid);line-height:1.5;}
+
+  /* ─── Before / After Panel ───────────────────────────────────────────────── */
+  .ba-wrap{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:16px 0;}
+  .ba-col{display:flex;flex-direction:column;}
+  .ba-header{padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;}
+  .ba-header.before{background:#FEE2E2;color:var(--red);border-bottom:1px solid #F9C0C0;}
+  .ba-header.after{background:var(--green-soft);color:var(--green);border-bottom:1px solid #B2DFD8;border-left:1px solid var(--border);}
+  .ba-body{padding:14px;flex:1;font-size:12px;line-height:1.7;}
+  .ba-body.before{background:#FFFAFA;color:var(--mid);border-right:1px solid var(--border);}
+  .ba-body.after{background:#F8FFFE;color:var(--mid);}
+  .ba-del{text-decoration:line-through;color:#C0392B;background:#FEE2E2;border-radius:2px;padding:0 2px;}
+  .ba-ins{color:#1B5E20;background:#E8F5E9;border-radius:2px;padding:0 2px;font-weight:600;}
+  .ba-label{font-size:10px;font-weight:700;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;}
+
+  /* ─── Tone Scale ─────────────────────────────────────────────────────────── */
+  .tone-scale{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin:16px 0;}
+  .tone-scale-title{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:14px;}
+  .tone-track{position:relative;height:8px;border-radius:4px;background:linear-gradient(to right,#1A6FE8,#10A37F,#7C3AED,#E07B39);margin:0 8px 24px;}
+  .tone-markers{display:flex;justify-content:space-between;margin:0 0 16px;}
+  .tone-marker{text-align:center;flex:1;position:relative;}
+  .tone-marker-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--card);margin:0 auto 6px;position:relative;top:-2px;}
+  .tone-marker-dot.formal{background:#1A6FE8;}
+  .tone-marker-dot.professional{background:#10A37F;}
+  .tone-marker-dot.conversational{background:#7C3AED;}
+  .tone-marker-dot.casual{background:#E07B39;}
+  .tone-marker-label{font-size:11px;font-weight:700;color:var(--ink);}
+  .tone-marker-desc{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.4;}
+  .tone-examples{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .tone-example{background:var(--hdr);border-radius:6px;padding:10px;border-top:3px solid;}
+  .tone-example.formal{border-color:#1A6FE8;}
+  .tone-example.professional{border-color:#10A37F;}
+  .tone-example.conversational{border-color:#7C3AED;}
+  .tone-example.casual{border-color:#E07B39;}
+  .te-label{font-size:10px;font-weight:700;margin-bottom:6px;}
+  .te-label.formal{color:#1A6FE8;}
+  .te-label.professional{color:#10A37F;}
+  .te-label.conversational{color:#7C3AED;}
+  .te-label.casual{color:#E07B39;}
+  .te-text{font-size:11px;color:var(--mid);line-height:1.5;font-style:italic;}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">The AI Advantage Co</div>
+    <div class="guide-title">ChatGPT Writing & Editing</div>
+  </div>
+  <div class="nav-section">Contents</div>
+  <a class="nav-link active" onclick="setActive(this,'s01')">01 What is ChatGPT for Writing?</a>
+  <a class="nav-link" onclick="setActive(this,'s02')">02 Drafting & First Drafts</a>
+  <a class="nav-link" onclick="setActive(this,'s03')">03 Editing & Revision</a>
+  <a class="nav-link" onclick="setActive(this,'s04')">04 Tone & Voice Control</a>
+  <a class="nav-link" onclick="setActive(this,'s05')">05 Document Types & Templates</a>
+  <a class="nav-link" onclick="setActive(this,'s06')">06 The Writing Workflow</a>
+  <a class="nav-link" onclick="setActive(this,'s07')">07 Advanced Techniques</a>
+  <a class="nav-link" onclick="setActive(this,'s08')">08 Common Mistakes & Fixes</a>
+  <a class="nav-link" onclick="setActive(this,'s09')">09 Suggested Prompts</a>
+  <a class="nav-link" onclick="setActive(this,'s10')">10 See It In Action</a>
+  <a class="nav-link" onclick="setActive(this,'s11')">11 Your Roadmap</a>
+</aside>
+
+<main class="content">
+  <div class="banner">
+    <div class="eyebrow">The AI Advantage Co · ChatGPT User Guide Series</div>
+    <h1>ChatGPT for Writing & Editing</h1>
+    <p class="sub">Drafting, editing, tone control, and writing workflows that produce polished output</p>
+    <div class="tags">
+      <span class="tag">Drafting</span>
+      <span class="tag">Editing</span>
+      <span class="tag">Tone Control</span>
+      <span class="tag">Document Templates</span>
+      <span class="tag">Writing Workflows</span>
+    </div>
+  </div>
+
+  <!-- S01 -->
+  <div class="section-card" id="s01">
+    <div class="section-header"><div class="section-num">01</div><h2>What is ChatGPT for Writing?</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">ChatGPT is an exceptionally capable writing partner — but only when you direct it well. The difference between generic, AI-sounding output and polished, on-brand writing comes down almost entirely to how specific your instructions are. ChatGPT doesn't have preferences; it mirrors yours.</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">Used well, ChatGPT functions as a writing collaborator for the full production cycle: generating first drafts to beat the blank page, editing your own writing for clarity and concision, adjusting tone for different audiences, and producing structured documents at speed.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>What ChatGPT Does Well</h4>
+          <p>Overcoming blank-page paralysis · First draft generation at speed · Structural editing and reorganisation · Concision and clarity improvements · Tone and register matching · Repurposing content across formats</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>Where Human Judgement Stays Essential</h4>
+          <p>Strategic decisions and positioning · Personal voice and authentic lived experience · Fact claims requiring verification · Audience relationships and context · Final editorial approval of anything published</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-title">The Right Mental Model</div>
+        <p>Think of ChatGPT as a capable writing assistant who needs direction, not a ghostwriter who delivers finished copy on demand. The more clearly you specify audience, tone, purpose, length, and style, the closer the first output lands to what you actually want. Vague prompts produce generic drafts — specific prompts produce usable ones.</p>
+      </div>
+      <table class="ref-table">
+        <tr><th>Use Case</th><th>What ChatGPT Handles</th><th>What You Handle</th></tr>
+        <tr><td>Blog post</td><td>Structure, draft, editing passes</td><td>Angle, unique insight, personal stories</td></tr>
+        <tr><td>Email</td><td>Draft, tone adjustment, concision</td><td>Relationship context, strategic framing</td></tr>
+        <tr><td>Report</td><td>Structure, sections, executive summary</td><td>Data, findings, professional sign-off</td></tr>
+        <tr><td>Proposal</td><td>Template, sections, language polish</td><td>Pricing, solution specifics, relationships</td></tr>
+        <tr><td>Social post</td><td>Repurposing, format adaptation</td><td>Original perspective, posting decisions</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- S02 -->
+  <div class="section-card" id="s02">
+    <div class="section-header"><div class="section-num">02</div><h2>Drafting & First Drafts</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">The blank page is the biggest writing obstacle. ChatGPT removes it — but a well-constructed drafting prompt is the difference between a generic output you'll spend an hour revising and a usable draft that needs only light editing.</p>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 10px;">The Drafting Prompt Framework</p>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Define the document type</strong><p>Be explicit: "Write a blog post", "Draft an email", "Create an executive summary". Without this, ChatGPT picks a format — and it may not be the one you need.</p></div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-body"><strong>State the topic and key message</strong><p>What is this piece about, and what is the single most important thing it should communicate? The key message is your editorial control — it keeps ChatGPT on purpose.</p></div></div>
+      <div class="step"><div class="step-num purple">3</div><div class="step-body"><strong>Specify the audience</strong><p>"For a CFO audience" vs "for a small business owner" vs "for someone who's never heard of this topic" produces dramatically different language, technical depth, and assumed knowledge.</p></div></div>
+      <div class="step"><div class="step-num orange">4</div><div class="step-body"><strong>Set tone and length</strong><p>Tone (formal, conversational, urgent, reassuring) and approximate length (300 words, 5 bullet points, 2 pages) gives ChatGPT the constraints it needs to produce something usable on the first try.</p></div></div>
+      <div class="callout tip">
+        <div class="callout-title">Provide Raw Material When You Have It</div>
+        <p>If you have notes, bullet points, a rough outline, or reference material — paste it in. "Here are my notes: [paste]. Turn these into a 400-word blog intro in a conversational tone for a B2B marketing audience." Raw material produces far better drafts than asking ChatGPT to generate content from scratch.</p>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">Weak vs Strong Drafting Prompts</p>
+      <div class="ba-wrap">
+        <div class="ba-col">
+          <div class="ba-header before">❌ Weak Prompt</div>
+          <div class="ba-body before">Write a blog post about productivity.</div>
+        </div>
+        <div class="ba-col">
+          <div class="ba-header after">✓ Strong Prompt</div>
+          <div class="ba-body after">Write a 600-word blog post for busy managers who feel overwhelmed by their task lists. The key message is that the problem isn't time management — it's decision fatigue. Conversational tone, practical examples, no jargon. Start with a relatable problem scenario, not a definition.</div>
+        </div>
+      </div>
+      <div class="ba-wrap">
+        <div class="ba-col">
+          <div class="ba-header before">❌ Weak Prompt</div>
+          <div class="ba-body before">Write me a proposal for a consulting project.</div>
+        </div>
+        <div class="ba-col">
+          <div class="ba-header after">✓ Strong Prompt</div>
+          <div class="ba-body after">Draft a consulting proposal for a 3-month AI readiness audit for a 200-person professional services firm. Audience: the COO. Include: executive summary, scope of work (3 phases), deliverables, investment, and next steps. Formal tone. Approx 800 words.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S03 -->
+  <div class="section-card" id="s03">
+    <div class="section-header"><div class="section-num">03</div><h2>Editing & Revision</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">ChatGPT is often more valuable as an editor than as a drafter — particularly for editing your own writing. When you've written something, you're too close to it to see the problems. ChatGPT provides instant, candid editorial feedback without the ego of a human collaborator.</p>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 12px;">Types of Editing ChatGPT Handles Well</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Clarity Editing</h4>
+          <p>Identifies sentences that are confusing, buried in clauses, or require re-reading. Ask: "Edit for clarity — flag and fix any sentence that requires more than one reading to understand."</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>Concision Editing</h4>
+          <p>Cuts padding, redundancy, and filler words. Ask: "Cut this by 30% without losing any substance. Show me what you removed and why." Especially valuable for executive communications.</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card purple">
+          <h4>Structural Editing</h4>
+          <p>Reorders sections, identifies where the document buries its lead, flags when the conclusion appears before the argument. Ask: "Does this structure work for the audience? What would you reorder and why?"</p>
+        </div>
+        <div class="feature-card orange">
+          <h4>Tone Editing</h4>
+          <p>Adjusts register for a different audience or purpose. Ask: "Rewrite this for a C-suite audience — more formal, shorter sentences, no jargon." Or: "Make this more human and less corporate."</p>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 12px;">Before / After: Editing in Action</p>
+      <div class="ba-wrap">
+        <div class="ba-col">
+          <div class="ba-header before">❌ Original (padded, passive)</div>
+          <div class="ba-body before">
+            <div class="ba-label">Original text</div>
+            It has been decided by the team that in order to ensure that the project is delivered in a timely manner, it will be necessary for all stakeholders to ensure their respective deliverables are submitted no later than the deadline that has been communicated previously.
+          </div>
+        </div>
+        <div class="ba-col">
+          <div class="ba-header after">✓ After editing (clear, active)</div>
+          <div class="ba-body after">
+            <div class="ba-label">Edited version</div>
+            <span class="ba-ins">To keep the project on schedule, all stakeholders must submit their deliverables by the previously communicated deadline.</span>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-title">Ask for Explanations, Not Just Edits</div>
+        <p>Add "explain your changes" to any editing request: "Edit this for concision and explain what you cut and why." This turns every editing pass into a writing lesson — you'll start catching the same patterns yourself before they make it into the draft.</p>
+      </div>
+      <table class="ref-table">
+        <tr><th>Editing Instruction</th><th>What ChatGPT Does</th><th>Best For</th></tr>
+        <tr><td>"Edit for clarity"</td><td>Untangles complex sentences, removes ambiguity</td><td>Technical or legal writing, dense prose</td></tr>
+        <tr><td>"Cut by [%] without losing substance"</td><td>Removes filler, merges redundant points</td><td>Executive summaries, emails, proposals</td></tr>
+        <tr><td>"Make this more active voice"</td><td>Converts passive constructions to active</td><td>Corporate writing, reports</td></tr>
+        <tr><td>"Improve the flow between paragraphs"</td><td>Adds transitions, improves logical sequencing</td><td>Long-form articles, reports</td></tr>
+        <tr><td>"Read this like a skeptic — what will they push back on?"</td><td>Identifies weak arguments, unsupported claims</td><td>Proposals, persuasive writing</td></tr>
+        <tr><td>"Is the structure right for the audience?"</td><td>Evaluates document architecture</td><td>Reports, proposals, presentations</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- S04 -->
+  <div class="section-card" id="s04">
+    <div class="section-header"><div class="section-num">04</div><h2>Tone & Voice Control</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">Tone is one of ChatGPT's strongest capabilities when directed well — and one of its worst tendencies when left to its own defaults (which trend toward overly helpful, slightly hollow corporate language). The key is giving ChatGPT a reference, not just a label.</p>
+      <div class="tone-scale">
+        <div class="tone-scale-title">The Tone Spectrum — From Formal to Casual</div>
+        <div class="tone-track"></div>
+        <div class="tone-markers">
+          <div class="tone-marker">
+            <div class="tone-marker-dot formal"></div>
+            <div class="tone-marker-label">Formal</div>
+            <div class="tone-marker-desc">Legal, regulatory, official communications</div>
+          </div>
+          <div class="tone-marker">
+            <div class="tone-marker-dot professional"></div>
+            <div class="tone-marker-label">Professional</div>
+            <div class="tone-marker-desc">B2B, reports, board-level comms</div>
+          </div>
+          <div class="tone-marker">
+            <div class="tone-marker-dot conversational"></div>
+            <div class="tone-marker-label">Conversational</div>
+            <div class="tone-marker-desc">Blog, email, thought leadership</div>
+          </div>
+          <div class="tone-marker">
+            <div class="tone-marker-dot casual"></div>
+            <div class="tone-marker-label">Casual</div>
+            <div class="tone-marker-desc">Social, community, consumer brands</div>
+          </div>
+        </div>
+        <div class="tone-examples">
+          <div class="tone-example formal">
+            <div class="te-label formal">Formal</div>
+            <div class="te-text">"The organisation hereby confirms its commitment to regulatory compliance in accordance with the relevant legislative framework."</div>
+          </div>
+          <div class="tone-example professional">
+            <div class="te-label professional">Professional</div>
+            <div class="te-text">"We're committed to meeting all regulatory requirements and have built compliance processes to reflect this."</div>
+          </div>
+          <div class="tone-example conversational">
+            <div class="te-label conversational">Conversational</div>
+            <div class="te-text">"Staying compliant isn't optional — and we've put real effort into making sure our processes reflect that."</div>
+          </div>
+          <div class="tone-example casual">
+            <div class="te-label casual">Casual</div>
+            <div class="te-text">"We take compliance seriously. Done the work, built the systems, no shortcuts."</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">How to Direct Tone Effectively</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Use Examples, Not Just Labels</h4>
+          <p>"Write like [Author/Publication]" or "Here's a sample of the tone I want: [paste example]" works better than "be professional." ChatGPT can match demonstrated voice far more precisely than an abstract instruction.</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>Specify What to Avoid</h4>
+          <p>"No buzzwords", "avoid corporate jargon", "don't start sentences with I", "no exclamation marks" are more actionable than positive instructions alone. Constraints shape output as powerfully as aspirations.</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card purple">
+          <h4>Describe the Emotional Effect</h4>
+          <p>"This should feel reassuring, not alarming." "The reader should feel energised, not overwhelmed." "This should read like advice from a trusted peer, not a consultant." Emotional intent is often clearer than stylistic instruction.</p>
+        </div>
+        <div class="feature-card orange">
+          <h4>Upload Your Own Writing as Reference</h4>
+          <p>Paste or upload 200–300 words of your own writing and say: "Match this voice and tone for everything in this project." This is the fastest way to get outputs that sound like you rather than ChatGPT.</p>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-title">ChatGPT's Default Tone Tendencies to Watch For</div>
+        <p>Without direction, ChatGPT tends toward: over-enthusiastic openers ("Absolutely! Great question!"), padding phrases ("It's worth noting that…", "In conclusion…"), passive constructions, and hedging language. These are easy to edit out — but easier to prevent with upfront tone instructions.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S05 -->
+  <div class="section-card" id="s05">
+    <div class="section-header"><div class="section-num">05</div><h2>Document Types & Templates</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">ChatGPT can generate or improve most professional document types — but starting with the right structure saves significant revision time. Use ChatGPT to build templates once, then fill them repeatedly.</p>
+      <table class="ref-table">
+        <tr><th>Document Type</th><th>Key Prompt Elements</th><th>What to Specify</th></tr>
+        <tr><td>Email</td><td>Recipient relationship, subject, action required</td><td>Tone (formal/casual), length, any prior context, call to action</td></tr>
+        <tr><td>Executive summary</td><td>Source document or findings</td><td>Max length, audience seniority, decision being supported</td></tr>
+        <tr><td>Blog post</td><td>Topic, key message, target reader</td><td>Approximate word count, tone, desired emotional effect</td></tr>
+        <tr><td>LinkedIn post</td><td>Core insight or story</td><td>First-person voice, no hashtag spam, word limit (~150–250 words)</td></tr>
+        <tr><td>Proposal / SOW</td><td>Client context, scope, deliverables</td><td>Section structure, formality level, pricing approach</td></tr>
+        <tr><td>Meeting agenda</td><td>Meeting purpose, attendees, time available</td><td>Time allocations per item, pre-read requirements</td></tr>
+        <tr><td>Job description</td><td>Role, team, key responsibilities</td><td>Seniority, company tone, must-have vs nice-to-have framing</td></tr>
+        <tr><td>Report section</td><td>Section topic, broader report context</td><td>Technical level, subheadings required, length target</td></tr>
+      </table>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">The Template-First Approach</p>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Ask ChatGPT to generate the template structure</strong><p>"Create a template for [document type] that I can reuse. Include the standard sections with brief guidance notes on what each section should contain." Get the bones right first.</p></div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-body"><strong>Populate with your specific content</strong><p>Use the template as a fill-in scaffold: "Using this template, draft [document] for the following situation: [details]." The structure is already correct — ChatGPT just fills it.</p></div></div>
+      <div class="step"><div class="step-num purple">3</div><div class="step-body"><strong>Save and reuse</strong><p>Once you have a template that works, upload it to the relevant project in ChatGPT. Every future draft starts from a proven structure, not a blank page.</p></div></div>
+      <div class="callout tip">
+        <div class="callout-title">Repurposing: One Piece, Multiple Formats</div>
+        <p>ChatGPT excels at format conversion. "Here's a 1,200-word blog post. Turn it into: a LinkedIn post, a 5-point email newsletter summary, and 3 tweet-length social posts." One piece of content becomes five in minutes. The key is providing the source content and specifying the constraints for each format.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S06 -->
+  <div class="section-card" id="s06">
+    <div class="section-header"><div class="section-num">06</div><h2>The Writing Workflow</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">A structured writing workflow with ChatGPT produces consistently better output than single-shot drafting. Each stage has a clear purpose and uses ChatGPT differently.</p>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Brief — Define what you're writing and why</strong><p>Before asking for a draft, articulate: purpose, audience, key message, tone, and length. If you can't answer these, ChatGPT will invent answers — and probably not the ones you want. A 2-minute brief produces a 10-minute time saving.</p></div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-body"><strong>Structure — Get the architecture right first</strong><p>"Before writing the full piece, propose an outline for [document]. Justify why this structure serves the audience." Review and adjust the outline before requesting the draft. Fixing structure at the outline stage takes seconds; fixing it in a full draft takes minutes.</p></div></div>
+      <div class="step"><div class="step-num purple">3</div><div class="step-body"><strong>Draft — Generate from the approved outline</strong><p>"Now write the full draft following this outline. [Paste approved outline]." The draft follows a structure you've already signed off on — it will be closer to the target on the first pass.</p></div></div>
+      <div class="step"><div class="step-num orange">4</div><div class="step-body"><strong>Edit — Targeted revision passes</strong><p>Run separate editing passes for different dimensions: clarity, concision, tone. "Read this draft as a sceptical [audience type] — what would they find unclear, unconvincing, or unnecessary?" Then: "Now make those fixes." Separate passes produce cleaner output than asking for everything at once.</p></div></div>
+      <div class="callout tip">
+        <div class="callout-title">Always Do a Final Human Read</div>
+        <p>ChatGPT doesn't make strategic errors obvious — it writes fluently even when it's wrong. Before publishing or sending anything, read the final output yourself as if you're the recipient. Check for factual claims, tone appropriateness, anything that doesn't sound like you, and any claims you haven't verified. The workflow makes the draft better; your read makes it safe.</p>
+      </div>
+      <div class="callout info">
+        <div class="callout-title">Staying in One Conversation vs Starting Fresh</div>
+        <p>For complex pieces, stay in one conversation — ChatGPT retains the brief, the outline decisions, and the tone direction throughout. Starting a new conversation resets all of that. Only start fresh if the piece is self-contained and brief enough that re-establishing context is faster than the prior conversation length.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S07 -->
+  <div class="section-card" id="s07">
+    <div class="section-header"><div class="section-num">07</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">These techniques unlock ChatGPT's writing capabilities beyond basic draft-and-edit — for writers who want consistently polished, on-brand output with minimal iteration.</p>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 10px;">The Persona Technique</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:12px;">Instead of describing tone abstractly, give ChatGPT a persona:</p>
+      <div class="ba-wrap">
+        <div class="ba-col">
+          <div class="ba-header before">❌ Abstract Tone Instruction</div>
+          <div class="ba-body before">"Write in a clear, professional tone that's not too formal."</div>
+        </div>
+        <div class="ba-col">
+          <div class="ba-header after">✓ Persona-Based Direction</div>
+          <div class="ba-body after">"Write as a sharp, no-nonsense CFO who values precision over polish. Short sentences. No filler. Gets to the point immediately. Would never use the word 'leverage' as a verb."</div>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">The Constraint Stack</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:12px;">Layer positive instructions with explicit prohibitions for the tightest output control:</p>
+      <table class="ref-table">
+        <tr><th>Positive Instructions</th><th>Matching Prohibitions</th></tr>
+        <tr><td>Use active voice</td><td>No passive constructions ("it was decided that…")</td></tr>
+        <tr><td>Short, punchy sentences</td><td>Nothing over 20 words; no sentence starting with "It is…"</td></tr>
+        <tr><td>Data-backed claims</td><td>No vague qualifiers ("many", "some", "often") without specifics</td></tr>
+        <tr><td>Conversational feel</td><td>No corporate jargon: no "leverage", "synergy", "value-add", "circle back"</td></tr>
+        <tr><td>Strong opener</td><td>Never start with a definition, a question, or "In today's world…"</td></tr>
+      </table>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">The Devil's Advocate Edit</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:12px;">After any persuasive draft, use this prompt before finalising:</p>
+      <div style="background:var(--sidebar);border-radius:8px;padding:16px;margin:8px 0;">
+        <div style="font-size:11px;color:var(--green-l);font-weight:700;margin-bottom:8px;">DEVIL'S ADVOCATE PROMPT</div>
+        <div style="font-size:12px;color:#C0E8DF;font-style:italic;line-height:1.7;">Read this as a sceptical [audience type] who is looking for reasons to say no. What are the 3 most likely objections they'll have? What's the weakest claim in the piece? What would they find unconvincing, unclear, or missing? Don't fix it yet — just identify the problems.</div>
+      </div>
+      <div class="callout purple">
+        <div class="callout-title">Voice Preservation for Collaborative Editing</div>
+        <p>When editing your own writing, ChatGPT sometimes overwrites your voice with its defaults. To prevent this: "Edit for [clarity/concision/tone] but preserve my voice and sentence rhythm. Don't rewrite — make minimal changes that fix the specific issue. Flag any edit you're uncertain about." The more specific the editing task, the less ChatGPT will drift into its own defaults.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S08 -->
+  <div class="section-card" id="s08">
+    <div class="section-header"><div class="section-num">08</div><h2>Common Mistakes & Fixes</h2></div>
+    <div class="section-body">
+      <div class="trouble"><div class="trouble-q">❌ Accepting the first draft without editing</div><div class="trouble-a">Fix: The first draft is a starting point, not a finished product — even when it looks good. Always run at least one editing pass focused on a specific dimension (concision, clarity, tone). First drafts optimise for coverage; edited drafts optimise for quality.</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Using vague tone instructions like "professional" or "friendly"</div><div class="trouble-a">Fix: These words mean different things to different people — and ChatGPT's interpretation may not match yours. Give it a reference example, a persona description, or explicit constraints (sentence length, banned words, structural rules). Demonstrated tone beats described tone every time.</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Asking for everything in one prompt (draft + edit + format + tone)</div><div class="trouble-a">Fix: Split the work into stages. Draft the structure first, approve it, then generate the full draft, then edit. Combining multiple conflicting objectives in a single prompt produces output that partially satisfies each rather than fully delivering any one. Sequential prompts produce better results than compound ones.</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Publishing without a human final read</div><div class="trouble-a">Fix: ChatGPT writes fluently but can be factually wrong, tonally off, or subtly generic in ways that only become obvious when you read it as a recipient. Read everything in context before it goes out. This is the final quality gate — not optional for anything that represents you or your organisation.</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Letting ChatGPT overwrite your voice when editing your own writing</div><div class="trouble-a">Fix: Be explicit: "Edit for concision only. Preserve my sentence structure and word choices where possible. Make the minimum change necessary to fix the problem. Explain what you changed." The more constrained the editing task, the less ChatGPT will substitute its voice for yours.</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Not giving ChatGPT your source material or notes</div><div class="trouble-a">Fix: ChatGPT generates much better drafts when working from your raw material than when generating from nothing. Always start with what you have: notes, bullet points, a rough structure, a previous draft, a reference document. "Here's what I have — turn this into [output]" beats "generate [output] about [topic]" every time.</div></div>
+    </div>
+  </div>
+
+  <!-- S09 -->
+  <div class="section-card" id="s09">
+    <div class="section-header"><div class="section-num">09</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="switchTab(this,'drafting')">Drafting</button>
+          <button class="tab-btn" onclick="switchTab(this,'editing')">Editing</button>
+        </div>
+        <div class="prompt-box active" id="tab-drafting">
+          <div class="prompt-item">
+            <div class="prompt-label">Structured Draft Request</div>
+            <div class="prompt-text">Write a [document type] about [topic]. Audience: [describe reader]. Key message: [single most important point]. Tone: [tone description or example]. Length: approximately [word count / page count]. Do not include an introduction that defines the topic — start with the key message or a scene-setting hook. Here are my notes to work from: [paste notes].</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Outline-First Approach</div>
+            <div class="prompt-text">Before writing the full piece, propose a [3–5 section] outline for [document type] on [topic]. Audience: [describe]. Purpose: [what should the reader do or believe after reading this?]. For each section, give me: the heading, 1-sentence description of what it covers, and why it belongs in this position. I'll review and approve before you write the full draft.</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Repurposing Prompt</div>
+            <div class="prompt-text">Here's a [source document type] I've written: [paste content]. Repurpose this into the following formats: (1) A LinkedIn post of ~200 words in first person, no hashtags, that leads with the most surprising or counterintuitive point. (2) A 5-bullet email newsletter summary for a B2B audience. (3) A 60-word abstract suitable for a conference submission. Keep my original voice in each version.</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+        </div>
+        <div class="prompt-box" id="tab-editing">
+          <div class="prompt-item">
+            <div class="prompt-label">Clarity & Concision Edit</div>
+            <div class="prompt-text">Edit the following text for clarity and concision. Cut by approximately 25% without losing any substantive point. Specifically: remove filler phrases, cut redundant qualifiers, convert passive voice to active, and break up any sentence over 25 words. After the edited version, list the 3 most significant changes you made and explain why each improves the writing. [Paste text].</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Sceptical Reader Edit</div>
+            <div class="prompt-text">Read the following as a sceptical [target audience] who is looking for reasons not to be convinced. Identify: (1) the 3 most likely objections they'll raise, (2) the weakest or most unsupported claim in the piece, (3) anything that will feel generic, over-promised, or unsubstantiated to this reader, (4) what's missing that they'll expect to see. Don't rewrite yet — just diagnose. [Paste text].</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Voice Preservation Edit</div>
+            <div class="prompt-text">Edit the following text for [clarity / concision / tone]. Important: preserve my voice, sentence rhythm, and word choices wherever possible. Make only the minimum change necessary to fix the specific problem. Do not rewrite sentences that don't need changing. For each edit you make, note what you changed and why — flag any change you're uncertain about. [Paste text].</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="section-num">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">This example shows the Brief → Structure → Draft → Edit workflow applied to a real writing task: producing a 500-word thought leadership article for a B2B technology audience.</p>
+      <div style="background:var(--sidebar);border-radius:10px;overflow:hidden;border:1px solid #333;">
+        <div style="background:#141414;padding:10px 16px;border-bottom:1px solid #2D2D2D;">
+          <span style="font-size:13px;font-weight:700;color:var(--green-l);">GPT-4o</span>
+          <span style="font-size:12px;color:#555;margin-left:12px;">Writing Workflow Demo — Thought Leadership Article</span>
+        </div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:16px;">
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Step 1 — Brief</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:12px;font-size:12px;color:#D0D0D0;line-height:1.6;"><span style="color:#A0A0A0;">You: </span>Before writing anything — the brief: I want a 500-word thought leadership article on why most AI implementations fail. Audience: mid-to-senior tech leaders who've been through at least one failed digital transformation. Tone: direct, peer-to-peer, slightly wry — not consultant-speak. Key message: the problem is always adoption, never the technology. Start with a strong opening line, not a statistic.</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Step 2 — Structure approval</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:12px;font-size:12px;color:#D0D0D0;line-height:1.6;"><span style="color:#A0A0A0;">You: </span>Now propose an outline. Justify each section's position before writing the draft.</div>
+            <div style="background:rgba(16,163,127,.07);border-radius:0 0 6px 6px;padding:12px;font-size:12px;color:#C0E8DF;line-height:1.7;border-top:1px solid rgba(16,163,127,.15);"><span style="color:var(--green-l);font-weight:700;">✦ </span><strong style="color:#E0E0E0;">Proposed outline:</strong><br>1. Hook (the uncomfortable truth) — Opens with a provocative statement to cut through the noise immediately.<br>2. The failure pattern (it's not the AI) — Establishes the core argument; gives the reader something to agree with from their own experience.<br>3. Why adoption fails (the human side) — The substantive section; covers the 3 real failure modes: leadership misalignment, no clear ownership, no change management.<br>4. What actually works (the fix) — Short and actionable. Converts the reader from diagnosed to empowered.<br>5. Closing challenge — Ends with a direct ask, not a soft summary. Matches the peer-to-peer tone.<br><br><span style="color:#888;">Does this structure work for you?</span></div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Step 3 — Draft (approved outline applied)</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:12px;font-size:12px;color:#D0D0D0;line-height:1.6;"><span style="color:#A0A0A0;">You: </span>Outline approved. Now write the full 500-word draft.</div>
+            <div style="background:rgba(16,163,127,.07);border-radius:0 0 6px 6px;padding:12px;font-size:12px;color:#C0E8DF;line-height:1.7;border-top:1px solid rgba(16,163,127,.15);"><span style="color:var(--green-l);font-weight:700;">✦ </span><em>Your AI project didn't fail because of the model. It failed because nobody owned it.</em><br><br>This is the conclusion most post-mortems eventually reach — usually about eighteen months and several consultants too late. The technology worked. The integration was fine. The pilot results were solid. And then, somewhere between the steering committee presentation and the actual rollout, it quietly stopped happening...<br><br><span style="color:#888;font-style:italic;">[Full 500-word draft continues…]</span></div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Step 4 — Editing pass</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:12px;font-size:12px;color:#D0D0D0;line-height:1.6;"><span style="color:#A0A0A0;">You: </span>Read this as a sceptical CTO who's heard every AI pitch. What's the weakest paragraph? What would they skip? What rings false?</div>
+            <div style="background:rgba(16,163,127,.07);border-radius:0 0 6px 6px;padding:12px;font-size:12px;color:#C0E8DF;line-height:1.7;border-top:1px solid rgba(16,163,127,.15);"><span style="color:var(--green-l);font-weight:700;">✦ </span><strong style="color:#E0E0E0;">Weakest section: paragraph 4.</strong> The "what actually works" section is too generic — "strong leadership and clear ownership" could be in any transformation article from 2016. A sceptical CTO will skim it. Suggest replacing with a specific, counterintuitive recommendation — something they haven't heard before. The rest holds up well for this audience.</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip" style="margin-top:16px;">
+        <div class="callout-title">What the Workflow Produced</div>
+        <p>Four focused interactions, each with a clear purpose. The structure conversation caught an architecture issue before the draft was written. The sceptical edit identified the weakest section precisely. The result: a draft that needs one targeted revision rather than a full rewrite. This is the workflow advantage over single-shot prompting.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="section-num">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step">
+          <div class="roadmap-num">01</div>
+          <h4>Edit Your Own Writing First</h4>
+          <p>Take something you've already written and run it through one targeted editing pass: clarity, concision, or tone. Notice the difference. Editing before drafting builds your eye for what ChatGPT improves.</p>
+        </div>
+        <div class="roadmap-step blue">
+          <div class="roadmap-num">02</div>
+          <h4>Use the Brief → Structure → Draft Workflow</h4>
+          <p>Next time you write something longer than 300 words, follow the four-step workflow: brief, outline approval, draft, edit. Compare the output quality to your previous single-shot approach.</p>
+        </div>
+        <div class="roadmap-step purple">
+          <div class="roadmap-num">03</div>
+          <h4>Build Your Tone Reference</h4>
+          <p>Collect 3–4 examples of writing you want to emulate — your own best work, or writers you admire. Upload these to your ChatGPT projects as tone references. Use them in every drafting request.</p>
+        </div>
+        <div class="roadmap-step orange">
+          <div class="roadmap-num">04</div>
+          <h4>Build Document Templates</h4>
+          <p>For your 3 most common document types, ask ChatGPT to create reusable templates with section guidance. Upload them to your projects. Every future document starts from a proven structure.</p>
+        </div>
+      </div>
+      <div class="callout tip" style="margin-top:8px;">
+        <div class="callout-title">Next Guide: ChatGPT in Workflows</div>
+        <p>You've mastered ChatGPT as a writing partner. The final guide in this series covers ChatGPT in broader workflows — connecting it to tools, building repeatable processes, and moving from ad hoc use to systematic AI integration in your work.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function setActive(el,id){document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));el.classList.add('active');document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+function switchTab(btn,id){btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');btn.closest('.prompt-tabs').querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');}
+function copyPrompt(btn){const t=btn.previousElementSibling.textContent;navigator.clipboard.writeText(t).then(()=>{btn.textContent='✓ Copied';setTimeout(()=>btn.textContent='Copy',1800);});}
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){const id=en.target.id;document.querySelectorAll('.nav-link').forEach(l=>{l.classList.toggle('active',l.getAttribute('onclick')?.includes(id));});}});},{threshold:0.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

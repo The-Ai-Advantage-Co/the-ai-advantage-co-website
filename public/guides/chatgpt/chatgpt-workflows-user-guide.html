@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ChatGPT in Workflows User Guide | The AI Advantage Co</title>
+<style>
+  :root{
+    --green:#10A37F; --green-l:#2EC4A9; --green-soft:#E6F7F4;
+    --blue:#1A6FE8;  --blue-soft:#EEF3FD;
+    --purple:#7C3AED; --purple-soft:#F3EEFF;
+    --orange:#E07B39; --orange-soft:#FEF3EB;
+    --page:#F9F9F9; --sidebar:#1C1C1C; --card:#FFFFFF;
+    --hdr:#F0F0F0; --border:#E5E5E5; --ink:#0D0D0D;
+    --mid:#353740; --muted:#6E6E80;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--page);color:var(--ink);}
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+  .sidebar{background:var(--sidebar);color:#E0E0E0;padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+  .sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:16px;}
+  .sidebar-logo .brand{font-size:10px;font-weight:700;color:var(--green-l);letter-spacing:.1em;text-transform:uppercase;}
+  .sidebar-logo .guide-title{font-size:13px;font-weight:600;color:#fff;margin-top:4px;line-height:1.3;}
+  .nav-section{font-size:9px;font-weight:700;color:#555;letter-spacing:.1em;text-transform:uppercase;padding:12px 20px 6px;}
+  .nav-link{display:block;padding:7px 20px;font-size:12px;color:#A0A0A0;cursor:pointer;border-left:3px solid transparent;transition:all .15s;}
+  .nav-link:hover{color:#E0E0E0;background:rgba(255,255,255,.05);}
+  .nav-link.active{color:#fff;border-left-color:var(--green);background:rgba(16,163,127,.1);}
+  .content{max-width:860px;padding:40px 48px;background:var(--page);}
+  .banner{background:var(--sidebar);border-radius:12px;padding:40px;margin-bottom:32px;text-align:center;}
+  .banner .eyebrow{font-size:11px;font-weight:700;color:var(--green-l);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+  .banner h1{font-size:32px;font-weight:700;color:#fff;margin-bottom:10px;}
+  .banner .sub{font-size:15px;color:#B0B0B0;margin-bottom:16px;}
+  .banner .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+  .banner .tag{font-size:11px;background:rgba(46,196,169,.15);color:var(--green-l);border:1px solid rgba(46,196,169,.3);border-radius:20px;padding:4px 12px;}
+  .section-card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:24px;overflow:hidden;}
+  .section-header{display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--hdr);border-bottom:1px solid var(--border);}
+  .section-num{background:var(--green);color:#fff;font-size:11px;font-weight:700;width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .section-header h2{font-size:16px;font-weight:700;color:var(--ink);}
+  .section-body{padding:24px;}
+  .callout{border-radius:8px;padding:14px 16px;margin:16px 0;border-left:4px solid;}
+  .callout.tip{border-color:var(--green);background:var(--green-soft);}
+  .callout.tip .callout-title{color:var(--green);}
+  .callout.warn{border-color:#B45309;background:#FEF9C3;}
+  .callout.warn .callout-title{color:#B45309;}
+  .callout.info{border-color:var(--blue);background:var(--blue-soft);}
+  .callout.info .callout-title{color:var(--blue);}
+  .callout.purple{border-color:var(--purple);background:var(--purple-soft);}
+  .callout.purple .callout-title{color:var(--purple);}
+  .callout-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+  .callout p{font-size:13px;color:var(--mid);line-height:1.6;}
+  .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+  .feature-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green);}
+  .feature-card.blue{border-top-color:var(--blue);}
+  .feature-card.purple{border-top-color:var(--purple);}
+  .feature-card.orange{border-top-color:var(--orange);}
+  .feature-card h4{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink);}
+  .feature-card p{font-size:12px;color:var(--mid);line-height:1.5;}
+  .step{display:flex;gap:0;margin:8px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+  .step-num{background:var(--green);color:#fff;font-size:16px;font-weight:700;width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-num.blue{background:var(--blue);}
+  .step-num.purple{background:var(--purple);}
+  .step-num.orange{background:var(--orange);}
+  .step-body{padding:12px 16px;background:var(--card);}
+  .step-body strong{display:block;font-size:13px;margin-bottom:4px;color:var(--ink);}
+  .step-body p{font-size:12px;color:var(--mid);line-height:1.5;}
+  .ref-table{width:100%;border-collapse:collapse;font-size:12px;margin:16px 0;}
+  .ref-table th{background:var(--sidebar);color:#A0A0A0;text-align:left;padding:8px 12px;font-size:11px;font-weight:700;}
+  .ref-table td{padding:8px 12px;border:1px solid var(--border);color:var(--mid);line-height:1.4;}
+  .ref-table tr:nth-child(even) td{background:var(--hdr);}
+  .trouble{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:10px 0;}
+  .trouble-q{background:var(--hdr);padding:12px 16px;font-size:13px;font-weight:600;color:var(--ink);border-left:4px solid var(--green);}
+  .trouble-a{background:var(--card);padding:12px 16px;font-size:12px;color:var(--mid);line-height:1.5;border-left:4px solid var(--green);}
+  .prompt-tabs{margin:16px 0;}
+  .tab-buttons{display:flex;gap:8px;}
+  .tab-btn{padding:8px 16px;border:1px solid var(--border);border-bottom:none;border-radius:6px 6px 0 0;background:var(--hdr);font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);}
+  .tab-btn.active{background:var(--sidebar);color:#fff;border-color:var(--sidebar);}
+  .prompt-box{display:none;background:var(--sidebar);border-radius:0 8px 8px 8px;overflow:hidden;}
+  .prompt-box.active{display:block;}
+  .prompt-item{border-bottom:1px solid #333;}
+  .prompt-item:last-child{border-bottom:none;}
+  .prompt-label{padding:10px 16px;font-size:11px;font-weight:700;color:var(--green-l);background:#141414;text-transform:uppercase;letter-spacing:.06em;}
+  .prompt-text{padding:12px 16px;font-size:12px;color:#C0E8DF;line-height:1.6;font-style:italic;}
+  .copy-btn{margin:8px 16px 12px;display:inline-block;padding:4px 12px;background:rgba(16,163,127,.2);color:var(--green-l);border:1px solid rgba(16,163,127,.4);border-radius:4px;font-size:11px;cursor:pointer;}
+  .copy-btn:hover{background:rgba(16,163,127,.35);}
+  .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0;}
+  .roadmap-step{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--green);border-radius:8px;padding:16px;}
+  .roadmap-step.blue{border-top-color:var(--blue);}
+  .roadmap-step.purple{border-top-color:var(--purple);}
+  .roadmap-step.orange{border-top-color:var(--orange);}
+  .roadmap-num{font-size:28px;font-weight:700;color:var(--green);margin-bottom:6px;}
+  .roadmap-step.blue .roadmap-num{color:var(--blue);}
+  .roadmap-step.purple .roadmap-num{color:var(--purple);}
+  .roadmap-step.orange .roadmap-num{color:var(--orange);}
+  .roadmap-step h4{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink);}
+  .roadmap-step p{font-size:11px;color:var(--mid);line-height:1.5;}
+
+  /* ─── Workflow Pipeline ───────────────────────────────────────────────────── */
+  .pipeline{display:flex;align-items:stretch;gap:0;margin:16px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+  .pipeline-step{flex:1;padding:16px;background:var(--card);position:relative;border-right:1px solid var(--border);}
+  .pipeline-step:last-child{border-right:none;}
+  .pipeline-step::after{content:"→";position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--green);font-weight:700;z-index:1;background:var(--card);padding:0 2px;}
+  .pipeline-step:last-child::after{display:none;}
+  .ps-num{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+  .ps-tool{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .ps-action{font-size:11px;color:var(--muted);line-height:1.4;}
+  .ps-badge{display:inline-block;font-size:9px;font-weight:700;border-radius:4px;padding:2px 6px;margin-top:6px;}
+  .ps-badge.auto{background:var(--green-soft);color:var(--green);}
+  .ps-badge.manual{background:var(--blue-soft);color:var(--blue);}
+  .ps-badge.chatgpt{background:rgba(16,163,127,.15);color:var(--green-l);}
+
+  /* ─── Integration Map ────────────────────────────────────────────────────── */
+  .int-map{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0;}
+  .int-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;}
+  .int-card-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .int-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .int-icon.green{background:var(--green-soft);}
+  .int-icon.blue{background:var(--blue-soft);}
+  .int-icon.purple{background:var(--purple-soft);}
+  .int-icon.orange{background:var(--orange-soft);}
+  .int-card h4{font-size:12px;font-weight:700;color:var(--ink);}
+  .int-card p{font-size:11px;color:var(--mid);line-height:1.5;margin-bottom:6px;}
+  .int-tag{display:inline-block;font-size:10px;background:var(--hdr);color:var(--muted);border-radius:4px;padding:2px 6px;margin:2px 2px 0 0;}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">The AI Advantage Co</div>
+    <div class="guide-title">ChatGPT in Workflows</div>
+  </div>
+  <div class="nav-section">Contents</div>
+  <a class="nav-link active" onclick="setActive(this,'s01')">01 What is ChatGPT in Workflows?</a>
+  <a class="nav-link" onclick="setActive(this,'s02')">02 Prompt Workflows & SOPs</a>
+  <a class="nav-link" onclick="setActive(this,'s03')">03 Data Processing Workflows</a>
+  <a class="nav-link" onclick="setActive(this,'s04')">04 Integration with Other Tools</a>
+  <a class="nav-link" onclick="setActive(this,'s05')">05 The ChatGPT API Basics</a>
+  <a class="nav-link" onclick="setActive(this,'s06')">06 Building Repeatable Processes</a>
+  <a class="nav-link" onclick="setActive(this,'s07')">07 Advanced Techniques</a>
+  <a class="nav-link" onclick="setActive(this,'s08')">08 Common Mistakes & Fixes</a>
+  <a class="nav-link" onclick="setActive(this,'s09')">09 Suggested Prompts</a>
+  <a class="nav-link" onclick="setActive(this,'s10')">10 See It In Action</a>
+  <a class="nav-link" onclick="setActive(this,'s11')">11 Your Roadmap</a>
+</aside>
+
+<main class="content">
+  <div class="banner">
+    <div class="eyebrow">The AI Advantage Co · ChatGPT User Guide Series</div>
+    <h1>ChatGPT in Workflows</h1>
+    <p class="sub">Automation, integration, repeatable processes, and API basics for non-developers</p>
+    <div class="tags">
+      <span class="tag">Workflow Automation</span>
+      <span class="tag">Tool Integration</span>
+      <span class="tag">Repeatable Processes</span>
+      <span class="tag">API Basics</span>
+      <span class="tag">Zapier & Make</span>
+    </div>
+  </div>
+
+  <!-- S01 -->
+  <div class="section-card" id="s01">
+    <div class="section-header"><div class="section-num">01</div><h2>What is ChatGPT in Workflows?</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">Most people use ChatGPT reactively — open a tab, type a question, get an answer, close the tab. This guide is about the next level: making ChatGPT a systematic part of how work actually gets done. That means building repeatable prompt workflows, connecting ChatGPT to other tools, and eventually automating tasks that previously required human attention.</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">You don't need to be a developer to benefit from this. The bulk of high-value workflow integration happens at three accessible levels: structured prompt workflows you can run manually, no-code automation via tools like Zapier and Make, and direct API use for straightforward text tasks.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Level 1 — Manual Prompt Workflows</h4>
+          <p>Structured sequences of prompts you run yourself — a checklist, an SOP, a template library. No technical setup. Just consistent inputs producing consistent outputs. Accessible to everyone.</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>Level 2 — No-Code Automation</h4>
+          <p>Zapier, Make, and similar platforms connect ChatGPT to other apps without code. An email arrives → ChatGPT summarises it → summary posted to Slack. Powerful, accessible, no development required.</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card purple">
+          <h4>Level 3 — API Integration</h4>
+          <p>Direct access to ChatGPT's capabilities from any app, script, or system. Requires some technical comfort but not full software development. Unlocks automation at scale, custom interfaces, and deep integration.</p>
+        </div>
+        <div class="feature-card orange">
+          <h4>Level 4 — Custom GPTs & Agents</h4>
+          <p>Configured assistants with specific instructions, tools, and knowledge — behaving consistently without per-conversation setup. Covered in the GPTs guide; this guide focuses on Levels 1–3.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-title">Start at Level 1 — Always</div>
+        <p>The biggest ROI in AI workflow integration almost always comes from Level 1: systematising what you're already doing manually. Before automating anything, build a structured prompt workflow that works reliably. Then, and only then, look at automation. Automating a broken process just breaks it faster.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S02 -->
+  <div class="section-card" id="s02">
+    <div class="section-header"><div class="section-num">02</div><h2>Prompt Workflows & SOPs</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">A prompt workflow is a documented sequence of prompts that produces a consistent, repeatable output for a recurring task. Think of it as a Standard Operating Procedure (SOP) for your AI work. Once built, anyone on the team can run it and get the same quality output.</p>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 12px;">Anatomy of a Prompt Workflow</p>
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <div class="ps-num">Input</div>
+          <div class="ps-tool">Raw material</div>
+          <div class="ps-action">What you provide: data, document, brief, URL, notes</div>
+          <span class="ps-badge manual">Manual</span>
+        </div>
+        <div class="pipeline-step">
+          <div class="ps-num">Step 1</div>
+          <div class="ps-tool">Prompt A</div>
+          <div class="ps-action">First transformation: extract, classify, or analyse the input</div>
+          <span class="ps-badge chatgpt">ChatGPT</span>
+        </div>
+        <div class="pipeline-step">
+          <div class="ps-num">Step 2</div>
+          <div class="ps-tool">Prompt B</div>
+          <div class="ps-action">Second transformation: structure, rewrite, or enrich the Step 1 output</div>
+          <span class="ps-badge chatgpt">ChatGPT</span>
+        </div>
+        <div class="pipeline-step">
+          <div class="ps-num">Output</div>
+          <div class="ps-tool">Deliverable</div>
+          <div class="ps-action">Final output: document, summary, data table, draft</div>
+          <span class="ps-badge auto">Reusable</span>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">Building a Prompt Workflow</p>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Identify the recurring task</strong><p>Pick a task you do regularly that involves reading, writing, analysing, or formatting. The higher the frequency, the higher the ROI of a workflow. Good candidates: meeting summaries, competitor monitoring, onboarding emails, report sections, data categorisation.</p></div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-body"><strong>Map the steps and the ideal output</strong><p>What does excellent output look like for this task? What information is always needed? What's the standard structure? Write down the steps a human expert would take — ChatGPT will mirror them.</p></div></div>
+      <div class="step"><div class="step-num purple">3</div><div class="step-body"><strong>Write and test each prompt in sequence</strong><p>Build prompt by prompt, testing each output before moving to the next step. Run the workflow 3–5 times on real examples. Refine until it produces consistent, usable output without manual correction.</p></div></div>
+      <div class="step"><div class="step-num orange">4</div><div class="step-body"><strong>Document it as an SOP</strong><p>Save the workflow as a numbered checklist: Step 1 prompt [copy], Step 2 prompt [copy], expected output for each step, quality checks. Upload it to the relevant ChatGPT project or team knowledge base.</p></div></div>
+      <div class="callout tip">
+        <div class="callout-title">The Prompt Workflow SOP Template</div>
+        <p>Document every workflow with: (1) Task name and purpose, (2) Input required, (3) Each prompt in numbered sequence — copy-pasteable, (4) Expected output at each step, (5) Quality checklist — what does good output look like? (6) Common failure modes and fixes. This makes the workflow transferable and improvable.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S03 -->
+  <div class="section-card" id="s03">
+    <div class="section-header"><div class="section-num">03</div><h2>Data Processing Workflows</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">ChatGPT can process, classify, transform, and extract structured data from unstructured inputs — turning raw text into organised outputs at a scale and speed that would take a human hours.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Classification & Tagging</h4>
+          <p>Paste a list of customer feedback, support tickets, or comments and ask ChatGPT to classify each by category, sentiment, or priority. Returns a structured list ready for sorting or importing.</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>Extraction & Structuring</h4>
+          <p>Provide unstructured text (emails, contracts, notes) and ask ChatGPT to extract specific fields into a table: names, dates, action items, key figures. Eliminates manual copy-paste data entry.</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card purple">
+          <h4>Transformation & Normalisation</h4>
+          <p>Convert data between formats: "Turn this JSON into a readable summary table", "Convert these addresses to a standardised format", "Reformat these dates from DD/MM/YY to YYYY-MM-DD".</p>
+        </div>
+        <div class="feature-card orange">
+          <h4>Batch Summarisation</h4>
+          <p>Paste multiple documents, articles, or responses and ask for a comparative summary or a synthesised briefing. ChatGPT processes all inputs at once and produces a single organised output.</p>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">Data Processing Prompt Patterns</p>
+      <table class="ref-table">
+        <tr><th>Task</th><th>Prompt Pattern</th><th>Output Format</th></tr>
+        <tr><td>Classify feedback</td><td>"Classify each item below as [Category A / B / C]. Return a table with Item and Category columns."</td><td>Markdown table</td></tr>
+        <tr><td>Extract action items</td><td>"Read this meeting transcript and extract all action items. Return: Owner, Task, Deadline (if mentioned)."</td><td>Table or list</td></tr>
+        <tr><td>Sentiment tagging</td><td>"For each review below, add a Sentiment column: Positive / Neutral / Negative. Keep the original text."</td><td>Augmented list</td></tr>
+        <tr><td>Data normalisation</td><td>"Reformat the following data so all dates are YYYY-MM-DD and all names are Last, First."</td><td>Formatted text</td></tr>
+        <tr><td>Multi-doc summary</td><td>"Here are 5 reports. Produce a comparison table: Report Name, Key Finding, Recommendation."</td><td>Comparison table</td></tr>
+      </table>
+      <div class="callout warn">
+        <div class="callout-title">Never Process Sensitive Personal Data</div>
+        <p>Don't paste customer PII (names, emails, addresses, financial data) into ChatGPT unless your organisation has a data processing agreement with OpenAI (available on Enterprise plans). For sensitive data processing, use anonymised or synthetic examples to test your workflow, then run the live process through an enterprise-grade system.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S04 -->
+  <div class="section-card" id="s04">
+    <div class="section-header"><div class="section-num">04</div><h2>Integration with Other Tools</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">ChatGPT becomes significantly more powerful when connected to the tools your team already uses. No-code automation platforms — primarily Zapier and Make — make these connections accessible without developer resources.</p>
+      <div class="int-map">
+        <div class="int-card">
+          <div class="int-card-header"><div class="int-icon green">📧</div><h4>Email (Gmail / Outlook)</h4></div>
+          <p>Trigger ChatGPT when emails arrive: summarise, classify, draft replies, extract action items.</p>
+          <span class="int-tag">Zapier</span><span class="int-tag">Make</span><span class="int-tag">Power Automate</span>
+        </div>
+        <div class="int-card">
+          <div class="int-card-header"><div class="int-icon blue">💬</div><h4>Slack / Teams</h4></div>
+          <p>Post AI-generated summaries, alerts, or responses into channels. Slash-command triggered or automated.</p>
+          <span class="int-tag">Zapier</span><span class="int-tag">Make</span><span class="int-tag">Native app</span>
+        </div>
+        <div class="int-card">
+          <div class="int-card-header"><div class="int-icon purple">📋</div><h4>Notion / Confluence</h4></div>
+          <p>Auto-populate meeting notes, generate summaries, create structured pages from raw content.</p>
+          <span class="int-tag">Zapier</span><span class="int-tag">Make</span><span class="int-tag">API</span>
+        </div>
+        <div class="int-card">
+          <div class="int-card-header"><div class="int-icon orange">📊</div><h4>Google Sheets / Excel</h4></div>
+          <p>Classify, transform, or enrich spreadsheet data. Pull AI analysis back into cells automatically.</p>
+          <span class="int-tag">Zapier</span><span class="int-tag">Make</span><span class="int-tag">Apps Script</span>
+        </div>
+        <div class="int-card">
+          <div class="int-card-header"><div class="int-icon green">🎫</div><h4>CRM / Support (HubSpot, Zendesk)</h4></div>
+          <p>Summarise tickets, classify leads, draft personalised follow-up emails, tag records automatically.</p>
+          <span class="int-tag">Zapier</span><span class="int-tag">Make</span><span class="int-tag">API</span>
+        </div>
+        <div class="int-card">
+          <div class="int-card-header"><div class="int-icon blue">✅</div><h4>Project Tools (Asana, Linear, Jira)</h4></div>
+          <p>Generate task descriptions, summarise project updates, draft status reports from ticket data.</p>
+          <span class="int-tag">Zapier</span><span class="int-tag">Make</span><span class="int-tag">API</span>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">Zapier vs Make — Which to Choose</p>
+      <table class="ref-table">
+        <tr><th>Criterion</th><th>Zapier</th><th>Make</th></tr>
+        <tr><td>Ease of setup</td><td>Easiest — designed for non-technical users</td><td>Moderate — more visual, more powerful</td></tr>
+        <tr><td>ChatGPT integration</td><td>Native OpenAI action available</td><td>OpenAI module with full parameter control</td></tr>
+        <tr><td>Multi-step workflows</td><td>Good for linear sequences</td><td>Excellent for branching, loops, error handling</td></tr>
+        <tr><td>Pricing</td><td>Per-task pricing — adds up at scale</td><td>Per-operation — generally cheaper at scale</td></tr>
+        <tr><td>Best for</td><td>Simple, frequent triggers (email → ChatGPT → Slack)</td><td>Complex workflows with conditions and data transformation</td></tr>
+      </table>
+      <div class="callout info">
+        <div class="callout-title">Microsoft Power Automate for Microsoft 365 Users</div>
+        <p>If your organisation runs on Microsoft 365, Power Automate is already included in most plans. It connects to Teams, Outlook, SharePoint, and Excel natively — and has an OpenAI connector for ChatGPT integration. For Teams-heavy organisations, this is often the lowest-friction starting point.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S05 -->
+  <div class="section-card" id="s05">
+    <div class="section-header"><div class="section-num">05</div><h2>The ChatGPT API Basics</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">The ChatGPT API gives you direct programmatic access to the same models that power ChatGPT — without the web interface. For non-developers, the most important thing to understand is when the API is the right tool and what it makes possible that no-code automation can't.</p>
+      <div class="feature-grid">
+        <div class="feature-card purple">
+          <h4>What the API Enables That No-Code Can't</h4>
+          <p>Processing thousands of items in batch · Embedding ChatGPT into your own interface or product · Fine-grained control over model parameters · Real-time integration in applications · Processing data that can't leave your systems via third-party automation tools</p>
+        </div>
+        <div class="feature-card purple">
+          <h4>When No-Code Is Sufficient</h4>
+          <p>Connecting two existing SaaS tools · Workflow triggered by events in external apps · Processing volumes under ~1,000 items/month · When your team has no technical capacity at all · When time to deployment matters more than total cost</p>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:16px 0 10px;">Key API Concepts for Non-Developers</p>
+      <table class="ref-table">
+        <tr><th>Concept</th><th>What It Means in Plain English</th><th>Why It Matters</th></tr>
+        <tr><td>API key</td><td>A password that gives your application access to the OpenAI API</td><td>Keep it secret — anyone with it can use your account</td></tr>
+        <tr><td>Model</td><td>Which version of ChatGPT you're calling (gpt-4o, gpt-4o-mini, etc.)</td><td>Affects capability, speed, and cost per call</td></tr>
+        <tr><td>System prompt</td><td>Standing instructions that apply to every call — like project instructions but for the API</td><td>Sets consistent behaviour without repeating in every request</td></tr>
+        <tr><td>Temperature</td><td>How creative/random the output is (0 = deterministic, 1 = varied)</td><td>Lower for data tasks; higher for creative writing</td></tr>
+        <tr><td>Tokens</td><td>Units of text — roughly 1 token per word. Input + output tokens are both counted.</td><td>Affects cost and context window limits</td></tr>
+        <tr><td>Context window</td><td>How much text the model can see at once (input + output combined)</td><td>Limits how much you can process in a single call</td></tr>
+      </table>
+      <div class="callout tip">
+        <div class="callout-title">Starting Point for Non-Developers: Python + OpenAI SDK</div>
+        <p>The simplest API implementation is a Python script using the OpenAI library. A basic call takes about 10 lines of code: import the library, set your API key, define a system prompt, send a user message, print the response. If your team has even one technically comfortable person, this is accessible within an afternoon — and unlocks batch processing of hundreds of items at low cost.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S06 -->
+  <div class="section-card" id="s06">
+    <div class="section-header"><div class="section-num">06</div><h2>Building Repeatable Processes</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">The highest-value outcome of AI workflow integration isn't any single automation — it's systematising your team's best practices so every person, every time, produces consistent high-quality output. Here's how to move from ad hoc ChatGPT use to embedded process.</p>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Audit what your team already uses ChatGPT for</strong><p>Ask everyone: "What ChatGPT tasks do you run more than once a week?" List them. These are your workflow candidates — tasks already proven valuable enough to repeat, without systematic structure yet.</p></div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-body"><strong>Identify the highest-frequency, highest-stakes tasks</strong><p>Prioritise by: (1) frequency — how often is this done? (2) stakes — what's the cost of inconsistent output? (3) replicability — how much does the task vary? High-frequency, high-stakes, low-variation tasks are your first workflow targets.</p></div></div>
+      <div class="step"><div class="step-num purple">3</div><div class="step-body"><strong>Build a shared prompt library for your team</strong><p>Document the best prompts for each recurring task in a shared, searchable format — a Notion database, a Google Doc, a shared ChatGPT project. Include: task name, when to use, the prompt itself, expected output format, and quality checklist. This is your team's AI SOP library.</p></div></div>
+      <div class="step"><div class="step-num orange">4</div><div class="step-body"><strong>Create feedback loops for continuous improvement</strong><p>Every 2–4 weeks, review the prompt library. Which prompts are being used? Which produce the best output? Which need updating because the task or output format has changed? Assign a single owner to each workflow — someone responsible for keeping it current.</p></div></div>
+      <div class="callout purple">
+        <div class="callout-title">The Prompt Library Structure That Works</div>
+        <p>For each entry in your shared prompt library: Task name · Use case description · Prerequisites (what input do you need?) · The prompt (copy-pasteable) · Expected output format · Quality criteria (what does good look like?) · Last reviewed date · Owner. This is a living document — not a one-time build.</p>
+      </div>
+      <div class="callout info">
+        <div class="callout-title">Shared ChatGPT Projects as Team Infrastructure</div>
+        <p>On Team and Enterprise plans, a shared ChatGPT project can serve as your team's AI workspace: consistent instructions, shared reference files, and organised conversation history. Combined with a prompt library in Notion or Google Docs, this gives your team a complete, low-maintenance AI workflow infrastructure.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S07 -->
+  <div class="section-card" id="s07">
+    <div class="section-header"><div class="section-num">07</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">These techniques take you beyond individual prompt workflows into multi-step automation and AI-enhanced decision-making processes.</p>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:0 0 10px;">Chained Prompts with Structured Outputs</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:12px;">Ask ChatGPT to produce structured output at each step (JSON or Markdown table) so the output of Step 1 feeds cleanly into Step 2 without manual reformatting:</p>
+      <div style="background:var(--sidebar);border-radius:8px;padding:16px;margin:8px 0;">
+        <div style="font-size:11px;color:var(--green-l);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;">Chained Prompt Pattern</div>
+        <div style="font-size:12px;color:#C0E8DF;line-height:1.8;font-style:italic;">
+          Step 1: "Read the following 10 customer reviews. Return a JSON array where each item has: {id, sentiment: positive|neutral|negative, main_theme: string, action_required: true|false}. Nothing else — just the JSON."<br><br>
+          Step 2: "Here is the JSON output from step 1: [paste]. Now summarise: total by sentiment, top 3 themes by frequency, and list all items where action_required is true with the main_theme."
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:20px 0 10px;">The Human-in-the-Loop Checkpoint</p>
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:12px;">For workflows where errors have real consequences, build explicit human review into the process rather than automating end-to-end:</p>
+      <table class="ref-table">
+        <tr><th>Workflow Step</th><th>Who Handles It</th><th>Why</th></tr>
+        <tr><td>Data input / trigger</td><td>Automated or manual</td><td>Standard, low-risk</td></tr>
+        <tr><td>ChatGPT processing</td><td>AI</td><td>Fast, consistent, scalable</td></tr>
+        <tr><td>Output review</td><td>Human checkpoint</td><td>Catch errors, add judgment, verify tone</td></tr>
+        <tr><td>Action / send / publish</td><td>Human approval OR automated (if low-risk)</td><td>Irreversible actions need human sign-off</td></tr>
+      </table>
+      <p style="font-size:13px;font-weight:700;color:var(--ink);margin:20px 0 10px;">Monitoring & Quality Control at Scale</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Spot-Check Sampling</h4>
+          <p>For high-volume automated workflows, manually review a random 5–10% of outputs weekly. Track error rates. If quality degrades, the prompt likely needs updating — tasks or source data may have changed.</p>
+        </div>
+        <div class="feature-card blue">
+          <h4>Output Validation Prompts</h4>
+          <p>After a processing step, add a validation prompt: "Review the output above. Does it meet these criteria: [list]? If not, identify what's wrong." Use the result as a quality gate before the output moves to the next stage.</p>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-title">Never Fully Automate High-Stakes, Irreversible Actions</div>
+        <p>Sending emails to customers, publishing content publicly, modifying financial records, deleting data — these actions need a human checkpoint, even in an otherwise automated workflow. The speed gain from removing human review is never worth the cost of an error at scale. Automate the work; keep humans in the approval loop.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S08 -->
+  <div class="section-card" id="s08">
+    <div class="section-header"><div class="section-num">08</div><h2>Common Mistakes & Fixes</h2></div>
+    <div class="section-body">
+      <div class="trouble"><div class="trouble-q">❌ Automating before the manual workflow is reliable</div><div class="trouble-a">Fix: Run any workflow manually 10–20 times before automating it. The automation will inherit all the failures of the underlying prompts — and make them happen faster and at scale. Automation amplifies, it doesn't fix. Get the manual version right first.</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Building workflows that don't account for input variation</div><div class="trouble-a">Fix: Real-world inputs are messy — emails have unusual formatting, data has missing fields, documents have different structures. Test your workflow against edge cases before deploying. Add instructions for how ChatGPT should handle unexpected input: "If the input is missing [field], note it as 'not provided' rather than guessing."</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Skipping the human checkpoint for consequential outputs</div><div class="trouble-a">Fix: Any output that could embarrass your organisation, mislead a customer, or cause a compliance issue needs a human review step. Build it explicitly into the workflow design. "AI drafts, human approves" is the right model for customer-facing, public, or regulated content.</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Storing sensitive customer data in ChatGPT conversations</div><div class="trouble-a">Fix: The standard ChatGPT interface is not a secure data repository. Don't paste customer PII, confidential business data, or regulated information into ChatGPT unless you have an Enterprise agreement with appropriate data handling terms. Anonymise data before processing, or use an enterprise-grade solution.</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Building a workflow once and never reviewing it</div><div class="trouble-a">Fix: Prompts that worked 6 months ago may not work as well today — tasks evolve, data formats change, ChatGPT models get updated. Schedule a quarterly review of your prompt library. Assign ownership of each workflow so there's a named person responsible for keeping it current.</div></div><br>
+      <div class="trouble"><div class="trouble-q">❌ Trying to build everything at once</div><div class="trouble-a">Fix: Start with one workflow, run it for 2–4 weeks, measure the time saving, and learn from the edge cases. Then build the next one. Trying to automate 10 workflows simultaneously means none of them get the attention needed to be reliable. Depth over breadth, especially early on.</div></div>
+    </div>
+  </div>
+
+  <!-- S09 -->
+  <div class="section-card" id="s09">
+    <div class="section-header"><div class="section-num">09</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="switchTab(this,'process')">Process Building</button>
+          <button class="tab-btn" onclick="switchTab(this,'data')">Data Processing</button>
+        </div>
+        <div class="prompt-box active" id="tab-process">
+          <div class="prompt-item">
+            <div class="prompt-label">Workflow Design Brief</div>
+            <div class="prompt-text">Help me design a ChatGPT prompt workflow for the following recurring task: [describe task]. The input is always: [describe input]. The desired output is: [describe output format and content]. The person running this workflow has [low/moderate/high] technical comfort. Design: (1) the step-by-step workflow with numbered prompts, (2) what to check at each step, and (3) common failure modes to watch for.</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Prompt Library Entry Generator</div>
+            <div class="prompt-text">Create a prompt library entry for the following task: [task name]. Format it as: Task Name, Use Case (1 sentence), Prerequisites (what input is needed), The Prompt (copy-pasteable, with [PLACEHOLDERS] for variable content), Expected Output Format, Quality Criteria (3 bullet points on what good output looks like), Common Issues (2 failure modes and fixes).</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Automation Readiness Check</div>
+            <div class="prompt-text">I'm considering automating the following manual ChatGPT workflow: [describe workflow]. Assess its automation readiness by answering: (1) Is the input format consistent enough to automate? (2) What are the most likely failure modes at scale? (3) Does this workflow require human judgment at any step — and which step? (4) What's the minimum viable version to automate first? (5) What should I test before going live?</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+        </div>
+        <div class="prompt-box" id="tab-data">
+          <div class="prompt-item">
+            <div class="prompt-label">Bulk Classification</div>
+            <div class="prompt-text">Classify each item in the following list into one of these categories: [Category A / B / C / D]. For each item, return only: the original item text and its category. Format as a Markdown table with columns: Item | Category. If an item doesn't clearly fit any category, use "Unclear" and note why in a third column. [Paste list].</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Structured Data Extraction</div>
+            <div class="prompt-text">Extract the following fields from each entry in the text below: [Field 1], [Field 2], [Field 3]. Return the results as a Markdown table. If a field is not present for a particular entry, write "Not stated" — do not guess or infer. After the table, list any entries that were ambiguous and explain why. [Paste text].</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Batch Summarisation</div>
+            <div class="prompt-text">Below are [N] documents / articles / reports. For each one, produce: (1) a 2-sentence summary, (2) the single most important takeaway, (3) any action recommended or implied. Format as a numbered list matching the order of the inputs. After all summaries, add a brief synthesis: what themes appear across multiple documents? [Paste documents with clear separators].</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="section-num">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">This example shows a complete workflow build: a weekly competitor monitoring process that goes from raw inputs to a structured briefing, with a Zapier automation to distribute the output automatically.</p>
+      <div style="background:var(--sidebar);border-radius:10px;overflow:hidden;border:1px solid #333;">
+        <div style="background:#141414;padding:10px 16px;border-bottom:1px solid #2D2D2D;">
+          <span style="font-size:13px;font-weight:700;color:var(--green-l);">Workflow: Weekly Competitor Intelligence Briefing</span>
+        </div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:20px;">
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Step 1 — Manual Prompt Workflow (Level 1)</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:12px;font-size:12px;color:#D0D0D0;line-height:1.6;"><span style="color:#A0A0A0;">Prompt 1: </span>Search the web for news about [Competitor A], [Competitor B], and [Competitor C] published in the last 7 days. For each, return: company name, headline, date, URL, and a 1-sentence summary. Format as a table.</div>
+            <div style="background:rgba(16,163,127,.07);border-radius:0 0 6px 6px;padding:12px;font-size:12px;color:#C0E8DF;line-height:1.7;border-top:1px solid rgba(16,163,127,.15);"><span style="color:var(--green-l);font-weight:700;">✦ </span>Returns a structured table with 8 news items across 3 competitors, all from the last 7 days. Each has source, date, and a 1-sentence précis.</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Step 2 — Analysis Layer</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:12px;font-size:12px;color:#D0D0D0;line-height:1.6;"><span style="color:#A0A0A0;">Prompt 2: </span>Based on the news table above, produce a 200-word competitive intelligence briefing for our leadership team. Structure: (1) Most significant development this week — why it matters. (2) Pattern or trend across competitors. (3) One recommended action for our team. Professional tone, no fluff.</div>
+            <div style="background:rgba(16,163,127,.07);border-radius:0 0 6px 6px;padding:12px;font-size:12px;color:#C0E8DF;line-height:1.7;border-top:1px solid rgba(16,163,127,.15);"><span style="color:var(--green-l);font-weight:700;">✦ </span><em>This week's most significant development: Competitor B announced a partnership with [Major Platform] — this extends their distribution to 2M additional users and directly overlaps our Q3 target segment [1]...</em></div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Step 3 — Zapier Automation (Level 2)</div>
+            <div style="background:#1C1C1C;border-radius:6px;padding:14px;font-size:12px;color:#D0D0D0;line-height:1.8;">
+              <div style="color:#888;margin-bottom:8px;font-weight:700;">Automation: Every Monday 08:00</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="background:rgba(16,163,127,.2);color:var(--green-l);font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;">TRIGGER</span><span>Scheduled Zapier trigger fires at 08:00 Monday</span></div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="background:rgba(26,111,232,.2);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;">ACTION 1</span><span>OpenAI action runs Prompt 1 → competitor news table</span></div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="background:rgba(26,111,232,.2);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;">ACTION 2</span><span>OpenAI action runs Prompt 2 with table as input → briefing</span></div>
+              <div style="display:flex;align-items:center;gap:8px;"><span style="background:rgba(124,58,237,.2);color:var(--purple);font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;">DELIVER</span><span>Briefing posted to #competitive-intel Slack channel</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Result</div>
+            <div style="background:rgba(16,163,127,.07);border-radius:6px;padding:12px;font-size:12px;color:#C0E8DF;line-height:1.6;border:1px solid rgba(16,163,127,.15);">Every Monday morning at 08:00, the leadership team receives a structured 200-word competitive briefing in Slack — without anyone spending time on it. Total setup time: ~3 hours. Weekly time saving: ~90 minutes of manual research and writing.</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip" style="margin-top:16px;">
+        <div class="callout-title">The Progression in This Example</div>
+        <p>The workflow started as a manual Level 1 prompt sequence — tested, refined, proven reliable. Only once the prompts were producing consistent output was it worth the 3-hour investment to automate via Zapier. This is the right order: manual first, then automate.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="section-num">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step">
+          <div class="roadmap-num">01</div>
+          <h4>Build Your First Prompt Workflow</h4>
+          <p>Pick one recurring task. Document the prompts, test it 10 times, refine until it's reliable. Add it to a shared prompt library. This is your first workflow SOP.</p>
+        </div>
+        <div class="roadmap-step blue">
+          <div class="roadmap-num">02</div>
+          <h4>Create a Team Prompt Library</h4>
+          <p>Audit what your team already uses ChatGPT for. Document the best 5–10 prompts in a shared location with clear instructions. Make high-quality AI output the default, not the exception.</p>
+        </div>
+        <div class="roadmap-step purple">
+          <div class="roadmap-num">03</div>
+          <h4>Connect One Tool via Zapier or Make</h4>
+          <p>Take a reliable prompt workflow and automate the trigger and delivery. One Zapier connection — even a simple one — teaches you how automation works and opens the door to every integration that follows.</p>
+        </div>
+        <div class="roadmap-step orange">
+          <div class="roadmap-num">04</div>
+          <h4>Build an AI-Integrated Process Map</h4>
+          <p>Map your team's 10 most time-intensive recurring processes. Identify where ChatGPT can reduce effort at each stage. Prioritise by time saving × reliability. This becomes your AI integration roadmap.</p>
+        </div>
+      </div>
+      <div class="callout tip" style="margin-top:8px;">
+        <div class="callout-title">You've Completed the ChatGPT Core Guide Series</div>
+        <p>10 guides, covering everything from the interface and prompting fundamentals to advanced reasoning, research, projects, writing, and workflows. The next step is applying these capabilities systematically to your specific context — use the AI Advantage Co resources and coaching to build your personalised AI integration strategy.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function setActive(el,id){document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));el.classList.add('active');document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+function switchTab(btn,id){btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');btn.closest('.prompt-tabs').querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');}
+function copyPrompt(btn){const t=btn.previousElementSibling.textContent;navigator.clipboard.writeText(t).then(()=>{btn.textContent='✓ Copied';setTimeout(()=>btn.textContent='Copy',1800);});}
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){const id=en.target.id;document.querySelectorAll('.nav-link').forEach(l=>{l.classList.toggle('active',l.getAttribute('onclick')?.includes(id));});}});},{threshold:0.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

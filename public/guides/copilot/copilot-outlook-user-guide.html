@@ -1,0 +1,608 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Copilot in Outlook | The AI Advantage Co</title>
+<style>
+:root {
+  --purple:      #5E17EB;
+  --purple-l:    #8B5CF6;
+  --purple-soft: #F0EAFF;
+  --blue:        #0078D4;
+  --blue-l:      #60A5FA;
+  --blue-soft:   #EFF6FF;
+  --orange:      #EA6C1A;
+  --orange-l:    #F97316;
+  --orange-soft: #FFF7ED;
+  --yellow:      #CA8A04;
+  --yellow-l:    #FBBF24;
+  --yellow-soft: #FEFCE8;
+  --page-bg:     #EBF1FF;
+  --sidebar-bg:  #1E1456;
+  --card-bg:     #F7F4FF;
+  --hdr-bg:      #EDE8FF;
+  --border:      #D0C5F5;
+  --ink:         #1E1456;
+  --body-text:   #3D3080;
+  --muted:       #7264A8;
+  --green:       #1B6B3A;
+  --green-bg:    #E6F4EC;
+  --warn:        #B45309;
+  --warn-bg:     #FFF8E1;
+  --red:         #C0392B;
+  --red-bg:      #FEF0EE;
+  --white:       #FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--page-bg);color:var(--body-text);line-height:1.6}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 0}
+.sidebar-brand{padding:0 20px 20px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px}
+.sidebar-brand .co{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--purple-l);text-transform:uppercase}
+.sidebar-brand .title{font-size:14px;font-weight:700;color:#fff;margin-top:4px;line-height:1.3}
+.nav-link{display:flex;align-items:center;gap:10px;padding:9px 20px;font-size:13px;color:rgba(255,255,255,0.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,0.06)}
+.nav-link.active{color:#fff;border-left-color:var(--purple-l);background:rgba(139,92,246,0.15)}
+.nav-num{font-size:11px;font-weight:700;color:var(--purple-l);min-width:20px}
+.content{max-width:860px;padding:0 0 60px}
+.banner{background:linear-gradient(135deg,#1E1456 0%,#0D3B7A 60%,#1E1456 100%);padding:56px 48px 48px;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 80% 40%,rgba(0,120,212,0.25),transparent)}
+.banner-sparkles{position:absolute;top:0;right:0;width:220px;height:100%;opacity:0.12;pointer-events:none}
+.banner .co{font-size:11px;font-weight:700;letter-spacing:3px;color:var(--blue-l);text-transform:uppercase;margin-bottom:10px}
+.banner h1{font-size:34px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner h1 span{color:#93C5FD}
+.banner .sub{font-size:15px;color:#93C5FD}
+.banner-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,120,212,0.25);border:1px solid rgba(96,165,250,0.4);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600;color:#93C5FD;margin-top:16px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin:24px 24px 0;overflow:hidden;box-shadow:0 2px 8px rgba(94,23,235,0.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:16px 24px;background:var(--hdr-bg);border-bottom:1px solid var(--border)}
+.sec-num{width:32px;height:32px;border-radius:8px;background:var(--purple);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:12px;color:var(--muted);margin-top:2px}
+.section-body{padding:24px}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{border-radius:10px;padding:18px;border:1px solid var(--border);border-top-width:3px}
+.feature-card.purple-a{border-top-color:var(--purple);background:var(--card-bg)}
+.feature-card.blue-a{border-top-color:var(--blue);background:var(--blue-soft)}
+.feature-card.orange-a{border-top-color:var(--orange);background:var(--orange-soft)}
+.feature-card.yellow-a{border-top-color:var(--yellow);background:var(--yellow-soft)}
+.feature-card .fc-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--body-text);line-height:1.5}
+.callout{border-radius:8px;padding:14px 18px;margin:14px 0;display:flex;gap:14px;align-items:flex-start}
+.callout-bar{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0}
+.callout.tip .callout-bar{background:var(--green)}
+.callout.tip{background:var(--green-bg)}
+.callout.warning .callout-bar{background:var(--warn)}
+.callout.warning{background:var(--warn-bg)}
+.callout.info .callout-bar{background:var(--blue)}
+.callout.info{background:var(--blue-soft)}
+.callout.copilot .callout-bar{background:var(--purple)}
+.callout.copilot{background:var(--purple-soft)}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warning .callout-body strong{color:var(--warn)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.copilot .callout-body strong{color:var(--purple)}
+.callout-body p{font-size:13px;line-height:1.55}
+.steps{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--purple);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--body-text)}
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--blue-l);padding:10px 14px;text-align:left;font-size:12px;font-weight:700;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border:1px solid var(--border);vertical-align:top;color:var(--body-text)}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+.prompt-tabs{margin:16px 0}
+.tab-bar{display:flex;gap:8px;margin-bottom:12px}
+.tab-btn{padding:7px 16px;border-radius:6px;border:1px solid var(--border);background:#fff;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.prompt-box{display:none;flex-direction:column;gap:10px}
+.prompt-box.active{display:flex}
+.prompt-item{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.prompt-label{background:var(--sidebar-bg);padding:8px 16px;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--blue-l);text-transform:uppercase}
+.prompt-text{padding:12px 16px;font-size:13px;color:var(--body-text);font-style:italic;line-height:1.55;background:var(--card-bg)}
+.copy-btn{display:block;margin:8px 16px 12px auto;padding:5px 14px;border-radius:5px;background:var(--purple);color:#fff;font-size:12px;font-weight:600;border:none;cursor:pointer}
+.copy-btn:hover{background:var(--purple-l)}
+.mockup{background:#0D0B2E;border-radius:10px;padding:20px;margin:16px 0}
+.mockup-bar{background:#1A1748;border-radius:6px;padding:8px 14px;font-size:11px;color:var(--blue-l);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px}
+.mockup-layout{display:grid;grid-template-columns:1fr 300px;gap:12px}
+.mock-email{background:#131040;border-radius:8px;padding:16px;border:1px solid rgba(94,23,235,0.3)}
+.mock-thread-item{padding:10px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.mock-thread-item:last-child{border-bottom:none}
+.mock-thread-from{font-size:12px;font-weight:700;color:var(--blue-l);margin-bottom:3px}
+.mock-thread-time{font-size:10px;color:var(--muted);float:right}
+.mock-thread-preview{font-size:12px;color:#BBA8F0;line-height:1.4}
+.mock-panel{background:#0A0A24;border-radius:8px;padding:16px;border:1px solid rgba(94,23,235,0.4)}
+.mock-panel-hdr{font-size:12px;font-weight:700;color:var(--blue-l);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.mock-summary-label{font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--purple-l);text-transform:uppercase;margin-bottom:6px;margin-top:12px}
+.mock-summary-label:first-child{margin-top:0}
+.mock-summary-text{font-size:12px;color:#C8B8FF;line-height:1.5}
+.mock-action{font-size:12px;color:#F9A96A;margin-top:4px}
+.mock-chip{display:inline-block;background:rgba(0,120,212,0.2);border:1px solid rgba(0,120,212,0.4);border-radius:12px;padding:3px 10px;font-size:11px;color:var(--blue-l);margin:4px 4px 0 0}
+.do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.do-box,.avoid-box{border-radius:10px;padding:18px;border:1px solid}
+.do-box{background:var(--green-bg);border-color:var(--green);border-top:3px solid var(--green)}
+.avoid-box{background:var(--red-bg);border-color:var(--red);border-top:3px solid var(--red)}
+.do-box h4{color:var(--green);font-size:13px;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.avoid-box h4{color:var(--red);font-size:13px;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.do-box ul,.avoid-box ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.do-box li,.avoid-box li{font-size:13px;color:var(--body-text);padding-left:16px;position:relative}
+.do-box li::before{content:'â€¢';position:absolute;left:0;color:var(--green)}
+.avoid-box li::before{content:'â€¢';position:absolute;left:0;color:var(--red)}
+.trouble-item{border-radius:8px;overflow:hidden;margin:10px 0;border:1px solid var(--border)}
+.trouble-q{background:var(--hdr-bg);padding:12px 18px;font-size:14px;font-weight:700;color:var(--ink);border-left:4px solid var(--purple)}
+.trouble-a{background:#fff;padding:12px 18px;font-size:13px;color:var(--body-text);line-height:1.55}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{border-radius:10px;padding:20px;background:#fff;border:1px solid var(--border);border-top-width:4px}
+.roadmap-step:nth-child(1){border-top-color:var(--purple)}
+.roadmap-step:nth-child(2){border-top-color:var(--orange)}
+.roadmap-step:nth-child(3){border-top-color:var(--blue)}
+.roadmap-step:nth-child(4){border-top-color:var(--yellow)}
+.roadmap-step .rs-num{font-size:32px;font-weight:800;margin-bottom:8px}
+.roadmap-step:nth-child(1) .rs-num{color:var(--purple)}
+.roadmap-step:nth-child(2) .rs-num{color:var(--orange)}
+.roadmap-step:nth-child(3) .rs-num{color:var(--blue)}
+.roadmap-step:nth-child(4) .rs-num{color:var(--yellow)}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12px;color:var(--body-text);line-height:1.5}
+.workflow-row{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--card-bg);border-radius:8px;border:1px solid var(--border);margin:8px 0}
+.workflow-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.workflow-content h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.workflow-content p{font-size:12px;color:var(--body-text);line-height:1.5}
+.workflow-content em{font-size:12px;color:var(--purple);font-style:italic}
+h3{font-size:15px;font-weight:700;color:var(--ink);margin:18px 0 8px}
+p{font-size:13px;line-height:1.6;margin-bottom:10px}
+ul{padding-left:18px;margin-bottom:10px}
+li{font-size:13px;line-height:1.6;margin-bottom:4px;color:var(--body-text)}
+strong{color:var(--ink)}
+footer{text-align:center;padding:24px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);margin-top:24px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="co">The AI Advantage Co</div>
+    <div class="title">ðŸ“§ Copilot in Outlook</div>
+  </div>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Copilot in Outlook?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>Summarising Email Threads</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Drafting Replies & Emails</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Coaching Your Tone</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Scheduling & Follow-Ups</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Managing Your Inbox</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes & Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+
+<main class="content">
+
+<div class="banner">
+  <svg class="banner-sparkles" viewBox="0 0 220 300" fill="none">
+    <path d="M170 40 L175 58 L193 63 L175 68 L170 86 L165 68 L147 63 L165 58Z" fill="#60A5FA"/>
+    <path d="M100 120 L104 134 L118 138 L104 142 L100 156 L96 142 L82 138 L96 134Z" fill="#0078D4"/>
+    <path d="M150 200 L153 211 L164 214 L153 217 L150 228 L147 217 L136 214 L147 211Z" fill="#93C5FD"/>
+    <rect x="40" y="80" width="30" height="2" rx="1" fill="#60A5FA" opacity="0.6"/>
+    <rect x="160" y="150" width="20" height="2" rx="1" fill="#0078D4" opacity="0.5"/>
+  </svg>
+  <div class="co">The AI Advantage Co Â· Copilot Core Series</div>
+  <h1>ðŸ“§ Copilot in <span>Outlook</span></h1>
+  <div class="sub">Email summaries, AI drafts, tone coaching &amp; inbox management</div>
+  <div class="banner-badge">ðŸ“§ Outlook Desktop &amp; Web Â· Microsoft 365 Copilot</div>
+</div>
+
+<!-- 01 -->
+<div class="section-card" id="s1">
+  <div class="section-header">
+    <div class="sec-num">01</div>
+    <div><h2>What is Copilot in Outlook?</h2><p>Where it lives, what it does, and why it changes how you handle email</p></div>
+  </div>
+  <div class="section-body">
+    <p>Copilot in Outlook is an AI assistant embedded directly into your email experience. It reads the email you're viewing â€” including the full thread history â€” and can summarise it, draft a reply, adjust your tone, identify action items, or help you schedule a meeting, all without leaving Outlook.</p>
+    <p>Unlike a generic AI chatbot, Copilot in Outlook has context. It knows who sent the email, what's been said across the full thread, and who the participants are. That context is what makes it genuinely useful rather than generic.</p>
+    <div class="card-grid">
+      <div class="feature-card purple-a"><div class="fc-icon">ðŸ“‹</div><h4>Summarise Any Thread</h4><p>Collapse long email chains into a concise summary of key points, decisions, and outstanding actions â€” in seconds.</p></div>
+      <div class="feature-card blue-a"><div class="fc-icon">âœï¸</div><h4>Draft Replies Instantly</h4><p>Tell Copilot what you want to say and it writes a complete, professional email â€” you edit and send.</p></div>
+      <div class="feature-card orange-a"><div class="fc-icon">ðŸŽ¯</div><h4>Coach Your Tone</h4><p>Paste a draft and ask Copilot to review it before you send â€” it flags tone issues and suggests improvements.</p></div>
+      <div class="feature-card yellow-a"><div class="fc-icon">ðŸ“…</div><h4>Schedule & Follow Up</h4><p>Draft meeting requests, schedule follow-ups, and manage replies to invitations â€” all with Copilot assistance.</p></div>
+    </div>
+    <h3>Where to Find Copilot in Outlook</h3>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Outlook Desktop (Windows)</h4><p>Open any email â†’ click the <strong>âœ¨ Copilot</strong> button in the Home ribbon â†’ the Copilot panel opens on the right. Also available when composing: look for Copilot in the compose toolbar.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Outlook on the Web (OWA)</h4><p>Open an email thread â†’ a <strong>Summarise by Copilot</strong> button appears at the top of the email. The full Copilot panel is also accessible from the toolbar.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>New Outlook (Windows)</h4><p>The Copilot panel icon (sparkle âœ¨) appears in the right-hand toolbar. Click it to open. When composing, look for the Copilot Draft option in the compose window.</p></div></div>
+    </div>
+    <div class="callout info"><div class="callout-bar"></div><div class="callout-icon">â„¹ï¸</div><div class="callout-body"><strong>Licence Note</strong><p>Copilot in Outlook requires a Microsoft 365 Copilot licence (add-on to M365 Business Standard, Business Premium, E3, or E5). If you can't see the Copilot button, contact your IT admin to confirm licence assignment.</p></div></div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section-card" id="s2">
+  <div class="section-header">
+    <div class="sec-num">02</div>
+    <div><h2>Summarising Email Threads</h2><p>Cut through long chains instantly â€” key points, decisions, and actions in one click</p></div>
+  </div>
+  <div class="section-body">
+    <p>The fastest Copilot win in Outlook is thread summarisation. Open any long email chain and ask Copilot to summarise it. Within seconds you have the core issue, what's been agreed, what's outstanding, and who needs to act â€” without reading every email.</p>
+    <h3>How to Summarise a Thread</h3>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Open the email thread</h4><p>Click on any email in your inbox â€” Copilot reads the entire conversation thread, not just the email you clicked.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Click Summarise (or open Copilot panel)</h4><p>In Outlook web, the <em>Summarise by Copilot</em> button appears at the top of the email. In desktop Outlook, open the Copilot panel and type your request.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Read the summary and ask follow-ups</h4><p>Copilot shows the summary in the panel. You can then ask follow-up questions about the thread in the same conversation.</p></div></div>
+    </div>
+    <h3>Summary Prompt Patterns</h3>
+    <table class="ref-table">
+      <tr><th>What You Want</th><th>Prompt to Use</th></tr>
+      <tr><td>Quick overview</td><td>"Summarise this email thread in 3 bullet points."</td></tr>
+      <tr><td>Key decisions only</td><td>"What decisions have been made in this thread? List only confirmed decisions."</td></tr>
+      <tr><td>What I need to do</td><td>"What action (if any) is required from me based on this thread?"</td></tr>
+      <tr><td>Outstanding questions</td><td>"What questions or issues in this thread are still unresolved?"</td></tr>
+      <tr><td>Full structured recap</td><td>"Summarise this thread. Include: the core issue, what's been agreed, any action items with owner, and what's still open."</td></tr>
+      <tr><td>Who said what</td><td>"What did [Name] say about [topic] in this thread?"</td></tr>
+    </table>
+    <div class="callout tip"><div class="callout-bar"></div><div class="callout-icon">ðŸ’¡</div><div class="callout-body"><strong>Inbox Zero Power Move</strong><p>When you return from leave or a busy day, open your highest-priority threads one by one and ask: <em>"What action is required from me and what's the deadline?"</em> â€” Copilot extracts just what you need without forcing you to read the entire chain.</p></div></div>
+    <h3>Use Cases by Email Type</h3>
+    <div class="card-grid">
+      <div class="feature-card purple-a"><div class="fc-icon">ðŸ”—</div><h4>Project Update Threads</h4><p>Summarise status updates, extract blockers and decisions, identify who committed to what.</p></div>
+      <div class="feature-card blue-a"><div class="fc-icon">ðŸ“</div><h4>Approval Chains</h4><p>Track where approvals stand, who has responded, and what conditions or caveats have been added.</p></div>
+      <div class="feature-card orange-a"><div class="fc-icon">ðŸ¤</div><h4>Client Correspondence</h4><p>Get a clean brief on a client relationship before a call â€” what's been discussed, agreed, and what they're waiting for.</p></div>
+      <div class="feature-card yellow-a"><div class="fc-icon">âš¡</div><h4>Issue Escalations</h4><p>Understand complex escalation threads quickly â€” what the problem is, what's been tried, and what's still needed.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section-card" id="s3">
+  <div class="section-header">
+    <div class="sec-num">03</div>
+    <div><h2>Drafting Replies &amp; New Emails</h2><p>From a short brief to a polished, professional email â€” instantly</p></div>
+  </div>
+  <div class="section-body">
+    <p>Copilot can write a complete email reply or new message from a brief description of what you want to say. Instead of writing from scratch, you give Copilot the key points and it produces a fully structured draft â€” you review, edit lightly, and send.</p>
+    <h3>Drafting a Reply</h3>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Open the email you want to reply to</h4><p>Copilot will use the thread context automatically â€” it knows who wrote what and what the conversation is about.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>In the Copilot panel, describe your reply</h4><p>Type what you want the reply to say. Be specific about tone, length, and any key points to include or exclude.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Review and insert the draft</h4><p>Click <strong>Insert</strong> to place the draft in your reply window. Edit as needed, then send. Never send without reviewing.</p></div></div>
+    </div>
+    <h3>Reply Prompt Patterns</h3>
+    <table class="ref-table">
+      <tr><th>Scenario</th><th>Prompt Pattern</th><th>Example</th></tr>
+      <tr><td>Confirm attendance</td><td>"Draft a reply confirming [action]. Add [extra detail]. Tone: [register]. Under [X] words."</td><td>"Draft a reply confirming I can attend the Thursday meeting. Ask for the agenda and let them know I'll bring [name]. Friendly. Under 80 words."</td></tr>
+      <tr><td>Decline politely</td><td>"Draft a polite decline to [request]. Explain [reason]. Offer [alternative if any]."</td><td>"Draft a polite decline to the invite. I have a conflict. Suggest I join via recording or get a recap. Professional tone."</td></tr>
+      <tr><td>Request information</td><td>"Draft a reply asking for [specific information]. Explain why it's needed. Polite but direct."</td><td>"Draft a reply asking for the updated project timeline and the Q3 budget figures. I need them before our board meeting Friday."</td></tr>
+      <tr><td>Provide an update</td><td>"Draft a reply updating [name/team] on [status]. Include [key points]. Tone: [confident/reassuring]."</td><td>"Draft a reply updating the client on where the proposal stands. We're on track for delivery Friday. Confident and concise."</td></tr>
+      <tr><td>Push back professionally</td><td>"Draft a reply respectfully pushing back on [request]. Explain [concern]. Propose [alternative]."</td><td>"Draft a reply pushing back on the shortened timeline. Explain the quality risk. Propose a 3-day extension. Professional."</td></tr>
+    </table>
+    <h3>Drafting New Emails (Not Replies)</h3>
+    <p>When composing a new email, use <strong>Draft with Copilot</strong> in the compose window (look for the Copilot icon). Describe what you want to write and Copilot generates the full email.</p>
+    <div class="workflow-row"><div class="workflow-icon">ðŸ“</div><div class="workflow-content"><h4>New Email Prompt Formula</h4><p>"Draft an email to [recipient/team] about [topic]. Include: [point 1], [point 2], [point 3]. Tone: [formal/warm/direct]. Length: [brief/standard/detailed]."</p><em>Example: "Draft an email to the marketing team about the Q4 campaign launch. Include: launch date (Nov 1), approvals needed by Oct 20, and who to contact with questions. Professional tone. Standard length."</em></div></div>
+    <div class="callout tip"><div class="callout-bar"></div><div class="callout-icon">ðŸ’¡</div><div class="callout-body"><strong>Draft Length Shortcut</strong><p>When Copilot asks about length (in the desktop "Draft with Copilot" panel), choose: Short for quick confirmations, Medium for standard updates, Long for detailed proposals or reports. You can always ask Copilot to adjust after seeing the first draft.</p></div></div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section-card" id="s4">
+  <div class="section-header">
+    <div class="sec-num">04</div>
+    <div><h2>Coaching Your Tone</h2><p>Review before you send â€” Copilot checks your email's tone and impact</p></div>
+  </div>
+  <div class="section-body">
+    <p>One of Copilot's most underused Outlook features is <strong>Coaching by Copilot</strong> â€” available when composing an email. Write your draft, then ask Copilot to review it before you hit send. It analyses tone, clarity, reader impact, and suggests specific improvements.</p>
+    <h3>How to Use Email Coaching</h3>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Write your email draft as normal</h4><p>Compose your reply or new email the way you usually would.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Click "Coaching by Copilot" in the compose toolbar</h4><p>In the new Outlook, look for the Copilot icon in the compose window and select Coaching. In the panel, ask Copilot to review your tone.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Review feedback and apply suggestions</h4><p>Copilot shows a tone assessment and specific suggestions. Click on suggestions to apply them, or ask Copilot to rewrite specific sections.</p></div></div>
+    </div>
+    <h3>Tone Coaching Prompts</h3>
+    <table class="ref-table">
+      <tr><th>What You Want</th><th>Prompt</th></tr>
+      <tr><td>General tone review</td><td>"Review my draft. How does the tone come across? What could be improved?"</td></tr>
+      <tr><td>Make it warmer</td><td>"Rewrite this email to sound warmer and more collaborative. It currently reads too cold."</td></tr>
+      <tr><td>Make it more assertive</td><td>"Rewrite this to be more direct and confident. Remove hedging language like 'just' and 'maybe'."</td></tr>
+      <tr><td>Check reader impact</td><td>"How might the recipient interpret this email? Is there any language that could be taken negatively?"</td></tr>
+      <tr><td>Make it shorter</td><td>"Rewrite this email to be more concise. Cut it to under 100 words without losing the key message."</td></tr>
+      <tr><td>Fix passive voice</td><td>"Rewrite this email in active voice. Make it clearer who is responsible for each action."</td></tr>
+    </table>
+    <div class="card-grid">
+      <div class="feature-card purple-a"><div class="fc-icon">ðŸ˜¤</div><h4>When You're Frustrated</h4><p>Written a heated email? Ask: <em>"I'm frustrated â€” does this come across as too aggressive? Rewrite to be firm but professional."</em></p></div>
+      <div class="feature-card blue-a"><div class="fc-icon">ðŸ¤”</div><h4>Ambiguity Check</h4><p>Ask: <em>"Is there anything in this email that could be misunderstood? Identify ambiguous phrases."</em></p></div>
+      <div class="feature-card orange-a"><div class="fc-icon">ðŸ‘”</div><h4>Register Mismatch</h4><p>Ask: <em>"Is the formality level appropriate for an email to [CEO / external client / new team member]?"</em></p></div>
+      <div class="feature-card yellow-a"><div class="fc-icon">ðŸ“£</div><h4>Persuasion Check</h4><p>Ask: <em>"I need to convince [recipient] to approve [request]. Is this email persuasive enough? What would strengthen it?"</em></p></div>
+    </div>
+    <div class="callout copilot"><div class="callout-bar"></div><div class="callout-icon">âœ¨</div><div class="callout-body"><strong>The 30-Second Pre-Send Check</strong><p>For any email that matters â€” a senior stakeholder, a difficult conversation, a client complaint â€” spend 30 seconds asking Copilot: <em>"How does this tone come across? Anything I should change?"</em> It's the fastest way to catch tone issues before they cause problems.</p></div></div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section-card" id="s5">
+  <div class="section-header">
+    <div class="sec-num">05</div>
+    <div><h2>Scheduling &amp; Follow-Ups</h2><p>Meeting requests, RSVPs, follow-up emails, and calendar workflows</p></div>
+  </div>
+  <div class="section-body">
+    <p>Copilot in Outlook helps with the scheduling overhead that eats time â€” drafting meeting requests, responding to invitations, writing follow-up emails after meetings, and chasing outstanding items from email threads.</p>
+    <h3>Meeting Request Prompts</h3>
+    <table class="ref-table">
+      <tr><th>Task</th><th>Prompt Pattern</th><th>Example</th></tr>
+      <tr><td>Request a meeting</td><td>"Draft an email to [name/team] requesting a [duration] meeting about [topic]. Include [agenda points]. Suggest [timing]."</td><td>"Draft an email to the design team requesting a 45-minute review session for the new brand guidelines. Suggest times next Tuesday or Wednesday afternoon."</td></tr>
+      <tr><td>Respond to an invite</td><td>"Draft a reply [accepting/declining] this meeting invite. Add [context or request]."</td><td>"Draft a reply accepting this invite. Let them know I'll need to leave 10 minutes early and ask if there's a pre-read."</td></tr>
+      <tr><td>Meeting follow-up</td><td>"Draft a follow-up email for [meeting name]. Include: [summary], [action items], [next steps]."</td><td>"Draft a follow-up email for today's project standup. Include a brief summary, the 3 actions agreed, owners, and next meeting date."</td></tr>
+      <tr><td>Chase outstanding items</td><td>"Draft a polite follow-up to [name] chasing [item] from our [date] conversation. Friendly but firm."</td><td>"Draft a polite follow-up to [name] chasing the signed contract we discussed two weeks ago. Friendly but clear that I need it by Friday."</td></tr>
+      <tr><td>Reschedule a meeting</td><td>"Draft an email rescheduling [meeting] with [name]. Explain [reason briefly]. Suggest [new times]."</td><td>"Draft an email rescheduling Thursday's catch-up with Sarah. Conflict came up. Suggest Monday or Tuesday next week."</td></tr>
+    </table>
+    <div class="callout tip"><div class="callout-bar"></div><div class="callout-icon">ðŸ’¡</div><div class="callout-body"><strong>Post-Meeting Routine</strong><p>After every significant meeting, draft your follow-up with Copilot immediately while the context is fresh. Prompt: <em>"Draft a follow-up email for [meeting]. Include: what was decided, who owns each action, and the next check-in date."</em> Takes 60 seconds and saves confusion later.</p></div></div>
+    <h3>Chasing & Escalating</h3>
+    <div class="card-grid">
+      <div class="feature-card purple-a"><div class="fc-icon">ðŸ””</div><h4>Gentle Reminder</h4><p><em>"Draft a friendly reminder to [name] that [item] is due this week. Warm tone â€” we have a good relationship."</em></p></div>
+      <div class="feature-card blue-a"><div class="fc-icon">âš ï¸</div><h4>Firm Chase</h4><p><em>"Draft a firm but professional follow-up to [name] â€” this is the second reminder about [item]. Clear deadline needed."</em></p></div>
+      <div class="feature-card orange-a"><div class="fc-icon">ðŸ“ˆ</div><h4>Escalation Email</h4><p><em>"Draft an escalation email to [manager] about the delay in [item]. Include: what was agreed, what's happened, and what I need now."</em></p></div>
+      <div class="feature-card yellow-a"><div class="fc-icon">âœ…</div><h4>Closure Confirmation</h4><p><em>"Draft an email confirming that [issue/request] has been resolved. Thank [name] and outline what was done."</em></p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section-card" id="s6">
+  <div class="section-header">
+    <div class="sec-num">06</div>
+    <div><h2>Managing Your Inbox</h2><p>Prioritise, categorise, and clear your inbox with Copilot</p></div>
+  </div>
+  <div class="section-body">
+    <p>Beyond individual emails, Copilot can help you triage and manage your inbox more strategically â€” identifying what needs action, what's just FYI, and what can wait. This works best in Microsoft 365 Copilot Chat where Copilot can see across your inbox, but individual thread queries work in Outlook directly.</p>
+    <h3>Inbox Triage Prompts</h3>
+    <table class="ref-table">
+      <tr><th>Task</th><th>Prompt</th></tr>
+      <tr><td>Priority check</td><td>"What emails in my inbox require action from me today? Summarise each in one line."</td></tr>
+      <tr><td>Flag unread by sender</td><td>"Summarise all unread emails from [name or domain] this week."</td></tr>
+      <tr><td>Find a specific email</td><td>"Find the email about [topic] from [approximate time period]. What was the key ask?"</td></tr>
+      <tr><td>Catch up after leave</td><td>"I've been out for [X days]. What emails need my attention? Prioritise by urgency."</td></tr>
+      <tr><td>Weekly digest</td><td>"Give me a digest of important emails from this week. What needs action and what can I archive?"</td></tr>
+    </table>
+    <div class="callout info"><div class="callout-bar"></div><div class="callout-icon">â„¹ï¸</div><div class="callout-body"><strong>Use Copilot Chat for Inbox-Wide Views</strong><p>Inbox triage across many emails works best in Microsoft 365 Copilot Chat (m365.cloud.microsoft), where Copilot can search and filter your entire mailbox. Individual email Copilot in Outlook works on the thread you've opened â€” not your whole inbox.</p></div></div>
+    <h3>Copilot in Outlook â€” Quick Reference</h3>
+    <table class="ref-table">
+      <tr><th>Feature</th><th>Where to Access</th><th>Best Used For</th></tr>
+      <tr><td>Thread Summary</td><td>Open email â†’ Copilot panel or Summarise button</td><td>Any email thread longer than 5 exchanges</td></tr>
+      <tr><td>Draft Reply</td><td>Copilot panel â†’ describe reply</td><td>Any reply requiring careful phrasing</td></tr>
+      <tr><td>Draft with Copilot</td><td>Compose window â†’ Copilot icon â†’ Draft</td><td>New emails from scratch</td></tr>
+      <tr><td>Coaching by Copilot</td><td>Compose window â†’ Copilot icon â†’ Coaching</td><td>Before sending to senior stakeholders</td></tr>
+      <tr><td>Inbox queries</td><td>Copilot Chat at m365.cloud.microsoft</td><td>Searching across your full mailbox</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section-card" id="s7">
+  <div class="section-header">
+    <div class="sec-num">07</div>
+    <div><h2>Advanced Techniques</h2><p>Power-user patterns for high-volume email, complex threads, and team workflows</p></div>
+  </div>
+  <div class="section-body">
+    <h3>Multi-Turn Drafting</h3>
+    <p>Don't accept the first draft as final. Use Copilot's conversation memory within the same session to refine iteratively:</p>
+    <div class="workflow-row"><div class="workflow-icon">1ï¸âƒ£</div><div class="workflow-content"><h4>Start broad</h4><p>Ask Copilot to draft the email with the key points you need.</p></div></div>
+    <div class="workflow-row"><div class="workflow-icon">2ï¸âƒ£</div><div class="workflow-content"><h4>Refine the tone</h4><p><em>"Make it warmer â€” this is a long-term client relationship."</em></p></div></div>
+    <div class="workflow-row"><div class="workflow-icon">3ï¸âƒ£</div><div class="workflow-content"><h4>Adjust length</h4><p><em>"Cut it to under 120 words â€” keep the three key points but remove the background paragraph."</em></p></div></div>
+    <div class="workflow-row"><div class="workflow-icon">4ï¸âƒ£</div><div class="workflow-content"><h4>Run a tone check</h4><p><em>"How might [recipient] interpret this? Anything that could land badly?"</em></p></div></div>
+    <h3>Turning Emails into Documents</h3>
+    <p>Long email threads often contain information that should live in a document. Copy a thread summary from Copilot into Word, then ask Word Copilot to structure it as a formal brief, decision record, or meeting minutes.</p>
+    <h3>Prompt Templates for Recurring Emails</h3>
+    <p>Save your best prompts as Outlook Quick Parts or a reference document. For emails you write regularly (weekly updates, client check-ins, meeting requests), keep a prompt template that you paste into Copilot with the specifics filled in.</p>
+    <div class="workflow-row"><div class="workflow-icon">ðŸ“‹</div><div class="workflow-content"><h4>Weekly Team Update Template</h4><em>"Draft a weekly update email to the [team name]. Include: top 3 achievements this week, 2 blockers or risks, next week's priorities, and one shout-out to a team member. Upbeat but professional. Under 200 words."</em></div></div>
+    <h3>Sensitivity and Confidentiality</h3>
+    <div class="callout warning"><div class="callout-bar"></div><div class="callout-icon">âš ï¸</div><div class="callout-body"><strong>Handle with Care</strong><p>Copilot processes email content to generate its responses. Do not use Copilot with emails containing highly sensitive information (legal privilege, HR matters, M&A activity) without understanding your organisation's data governance and Copilot data handling policies. Check with your IT or Legal team if in doubt.</p></div></div>
+    <div class="do-avoid">
+      <div class="do-box"><h4>âœ… Do This</h4><ul>
+        <li>Always review Copilot drafts before sending</li>
+        <li>Use tone coaching before senior stakeholder emails</li>
+        <li>Give Copilot context about the relationship and purpose</li>
+        <li>Iterate with follow-up prompts rather than starting over</li>
+        <li>Use thread summaries to brief yourself before replying</li>
+        <li>Specify tone, length, and recipient in your prompt</li>
+      </ul></div>
+      <div class="avoid-box"><h4>âŒ Avoid This</h4><ul>
+        <li>Sending Copilot drafts without reading them first</li>
+        <li>Using vague prompts with no context</li>
+        <li>Assuming Copilot knows relationship nuances</li>
+        <li>Using Copilot for legally sensitive communications</li>
+        <li>Accepting the first draft without considering tone</li>
+        <li>Treating Copilot's suggested actions as confirmed facts</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section-card" id="s8">
+  <div class="section-header">
+    <div class="sec-num">08</div>
+    <div><h2>Common Mistakes &amp; Fixes</h2><p>What goes wrong â€” and how to get better results</p></div>
+  </div>
+  <div class="section-body">
+    <div class="trouble-item"><div class="trouble-q">â“ Copilot's draft sounds generic â€” not like me or my relationship with this person.</div><div class="trouble-a">Add relationship context to your prompt. Instead of "Draft a reply confirming the meeting," try "Draft a friendly reply to [name] â€” we've worked together for 3 years and have an informal relationship. Confirm the meeting and suggest we catch up for 5 minutes before it starts." The more context you give, the more tailored the draft.</div></div>
+    <div class="trouble-item"><div class="trouble-q">â“ The tone coaching feedback is too vague â€” it just says "could be more engaging."</div><div class="trouble-a">Ask a more specific question. Instead of "Review my tone," try "This email is going to a CFO who values brevity and directness â€” does this come across as too long-winded? What specific phrases should I cut or rephrase?" Targeted questions produce targeted feedback.</div></div>
+    <div class="trouble-item"><div class="trouble-q">â“ Copilot's thread summary missed important information from earlier in the chain.</div><div class="trouble-a">Very long or complex threads can be summarised at a high level â€” Copilot may not extract every detail. Follow up with specific questions: "What did [Name] say about [topic] in this thread?" or "Was a deadline mentioned anywhere in this thread?" to extract specific information.</div></div>
+    <div class="trouble-item"><div class="trouble-q">â“ The Copilot button isn't visible in my Outlook.</div><div class="trouble-a">This is almost always a licence or app version issue. Check: (1) your account has a Microsoft 365 Copilot licence assigned, (2) you're on a supported version of Outlook (current channel or monthly enterprise channel), (3) your admin has enabled Copilot in your tenant. Contact IT if all three check out.</div></div>
+    <div class="trouble-item"><div class="trouble-q">â“ Copilot drafted an email with incorrect facts or made-up details.</div><div class="trouble-a">Copilot generates based on your prompt and the email thread â€” if the prompt implied specific details, it may have filled them in. Always check facts, names, dates, and figures in Copilot drafts before sending. For emails with specific data, provide that data explicitly in your prompt rather than relying on Copilot to recall it.</div></div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section-card" id="s9">
+  <div class="section-header">
+    <div class="sec-num">09</div>
+    <div><h2>Suggested Prompts</h2><p>Ready-to-use Outlook prompts for everyday and advanced use</p></div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-tabs">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="showTab(this,'s9','everyday')">Everyday Use</button>
+        <button class="tab-btn" onclick="showTab(this,'s9','advanced')">Advanced</button>
+      </div>
+      <div class="prompt-box active" id="s9-everyday">
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸ“‹ Thread Summary</div>
+          <div class="prompt-text">"Summarise this email thread. What is the core issue, what has been agreed, what is still outstanding, and is there any action required from me? Keep it to 5 bullet points."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-item">
+          <div class="prompt-label">âœï¸ Draft a Reply</div>
+          <div class="prompt-text">"Draft a reply to this email. [Describe what you want to say â€” e.g. confirm attendance / request more information / provide an update]. Tone: [friendly/professional/formal]. Keep it under [X] words."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸŽ¯ Pre-Send Tone Check</div>
+          <div class="prompt-text">"Review the email I've written. How does the tone come across? Is there anything that could be interpreted negatively? Suggest specific improvements."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+      <div class="prompt-box" id="s9-advanced">
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸ“… Meeting Follow-Up</div>
+          <div class="prompt-text">"Draft a follow-up email for today's [meeting name] meeting. Include: a 2-sentence summary of what was discussed, all action items with owner and deadline, any decisions made, and the next steps. Send to all attendees. Professional tone."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-item">
+          <div class="prompt-label">âš ï¸ Difficult Message</div>
+          <div class="prompt-text">"Draft an email delivering [difficult news / rejection / escalation] to [name/team]. Be direct but empathetic. Acknowledge their perspective, explain the decision clearly, and where possible offer a constructive next step. Professional but human tone."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-item">
+          <div class="prompt-label">ðŸ”” Firm Chase (2nd Follow-Up)</div>
+          <div class="prompt-text">"Draft a firm but professional follow-up to [name] about [outstanding item]. This is the second reminder. Make it clear I need a response by [date] to avoid [impact]. Maintain a professional relationship â€” firm, not aggressive."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section-card" id="s10">
+  <div class="section-header">
+    <div class="sec-num">10</div>
+    <div><h2>See It In Action</h2><p>Copilot summarising a complex email thread and drafting a reply</p></div>
+  </div>
+  <div class="section-body">
+    <p>A 12-email thread about a delayed software delivery. Copilot summarises the full chain and drafts a professional escalation reply â€” all in under 30 seconds.</p>
+    <div class="mockup">
+      <div class="mockup-bar">ðŸ“§ OUTLOOK â€” COPILOT THREAD SUMMARY & DRAFT REPLY</div>
+      <div class="mockup-layout">
+        <div class="mock-email">
+          <div style="font-size:11px;color:#60A5FA;font-weight:700;letter-spacing:.5px;margin-bottom:10px">EMAIL THREAD (12 MESSAGES)</div>
+          <div class="mock-thread-item">
+            <div class="mock-thread-from">James R. (Vendor PM) <span class="mock-thread-time">Mon 9:14am</span></div>
+            <div class="mock-thread-preview">Hi Brad â€” update on the delivery. We've hit a blocker in the integration layer. Pushing to next Friday...</div>
+          </div>
+          <div class="mock-thread-item">
+            <div class="mock-thread-from">Sarah K. (Your manager) <span class="mock-thread-time">Mon 2:30pm</span></div>
+            <div class="mock-thread-preview">This is the third delay. Can we escalate? Client is asking questions...</div>
+          </div>
+          <div class="mock-thread-item">
+            <div class="mock-thread-from">James R. <span class="mock-thread-time">Tue 8:45am</span></div>
+            <div class="mock-thread-preview">We've identified the root cause â€” auth token issue. Fix confirmed by Wed...</div>
+          </div>
+          <div class="mock-thread-item">
+            <div class="mock-thread-from">Brad P. (You) <span class="mock-thread-time">Tue 10:20am</span></div>
+            <div class="mock-thread-preview">James â€” we need a firm commitment with a penalty clause if this slips again...</div>
+          </div>
+          <div style="text-align:center;padding:8px;font-size:11px;color:#7264A8">+ 8 more messages...</div>
+        </div>
+        <div class="mock-panel">
+          <div class="mock-panel-hdr">âœ¨ Copilot</div>
+          <div class="mock-summary-label">THREAD SUMMARY</div>
+          <div class="mock-summary-text">Vendor (James R.) has delayed software delivery 3 times. Current reason: auth token integration bug, fix committed by Wednesday. Sarah K. has requested escalation. You requested a penalty clause commitment.</div>
+          <div class="mock-summary-label">OUTSTANDING</div>
+          <div class="mock-action">âš¡ No written penalty clause commitment received</div>
+          <div class="mock-action">âš¡ Client hasn't been updated yet</div>
+          <div class="mock-action">âš¡ Wednesday fix not yet confirmed</div>
+          <div class="mock-summary-label">SUGGESTED CHIPS</div>
+          <div><span class="mock-chip">Draft escalation</span><span class="mock-chip">Request penalty clause</span><span class="mock-chip">Client update</span></div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:14px">Copilot read all 12 emails and extracted the core issue, history, and outstanding items in seconds. One click on "Draft escalation" produces a ready-to-send email â€” you review, adjust names, and send. What would have taken 15 minutes of re-reading the chain took 30 seconds.</p>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section-card" id="s11">
+  <div class="section-header">
+    <div class="sec-num">11</div>
+    <div><h2>Your Roadmap</h2><p>From occasional use to Copilot-powered inbox mastery</p></div>
+  </div>
+  <div class="section-body">
+    <div class="roadmap">
+      <div class="roadmap-step"><div class="rs-num">01</div><h4>Summarise First</h4><p>Start every long thread with a Copilot summary. Build the habit before you try drafting. One week of summaries only.</p></div>
+      <div class="roadmap-step"><div class="rs-num">02</div><h4>Draft Replies</h4><p>Use Copilot to draft any reply that needs careful phrasing. Review, edit, and send. Stop writing difficult emails from scratch.</p></div>
+      <div class="roadmap-step"><div class="rs-num">03</div><h4>Coach Before Sending</h4><p>Add the pre-send tone check to your routine for any email going to a senior stakeholder, client, or sensitive situation.</p></div>
+      <div class="roadmap-step"><div class="rs-num">04</div><h4>Build Templates</h4><p>Save your best prompts as reusable templates for recurring emails. Share the most useful ones with your team.</p></div>
+    </div>
+    <div class="callout copilot"><div class="callout-bar"></div><div class="callout-icon">âœ¨</div><div class="callout-body"><strong>The Email Habit That Sticks</strong><p>The users who get the most from Copilot in Outlook do three things consistently: summarise every long thread before replying, draft any sensitive or complex email with Copilot first, and run a tone check before anything goes to a senior stakeholder. These three habits take under 2 minutes combined and eliminate most email-related regret.</p></div></div>
+    <h3>What to Read Next</h3>
+    <ul>
+      <li>Copilot in Teams â€” Meeting recaps, live queries, and channel intelligence</li>
+      <li>Copilot in Word â€” Document drafting, rewriting, and transformation</li>
+      <li>Copilot Prompt Guide â€” Prompt patterns across all M365 apps</li>
+    </ul>
+  </div>
+</div>
+
+<footer>Â© 2026 The AI Advantage Co Â· theaiadvantageco.com.au</footer>
+</main>
+</div>
+
+<script>
+function showTab(btn, section, tab) {
+  const card = document.getElementById(section);
+  card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  card.querySelectorAll('.prompt-box').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(section + '-' + tab).classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-item').querySelector('.prompt-text').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'âœ“ Copied';
+    setTimeout(() => btn.textContent = orig, 1800);
+  });
+}
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.section-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

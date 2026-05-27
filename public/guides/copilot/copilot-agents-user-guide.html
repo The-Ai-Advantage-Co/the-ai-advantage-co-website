@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Copilot Agents — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --purple:#5E17EB;--purple-l:#8B5CF6;--purple-soft:#F0EAFF;
+  --blue:#0078D4;--blue-l:#60A5FA;--blue-soft:#EFF6FF;
+  --orange:#EA6C1A;--orange-l:#F97316;--orange-soft:#FFF7ED;
+  --yellow:#CA8A04;--yellow-soft:#FEFCE8;
+  --page-bg:#EBF1FF;--sidebar-bg:#1E1456;
+  --card-bg:#F7F4FF;--hdr-bg:#EDE8FF;--border:#D0C5F5;
+  --ink:#1E1456;--text-mid:#3D3080;--muted:#7264A8;
+  --green:#1B6B3A;--green-bg:#E6F4EC;
+  --warn:#B45309;--warn-bg:#FFF8E1;
+  --red:#C43E00;--red-soft:#FFF0E8;
+  --agent-dark:#100A2E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--purple-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--muted);padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#C8B8FF;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--purple-l);background:rgba(139,92,246,.15)}
+
+/* main */
+.content{max-width:860px;padding:40px 40px 80px}
+
+/* banner */
+.banner{background:linear-gradient(135deg,#1E1456 0%,#1A0050 60%,#0A0030 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'⬡ ⬡ ⬡ ⬡ ⬡';position:absolute;top:14px;right:22px;font-size:18px;opacity:.12;letter-spacing:10px;color:var(--purple-l)}
+.banner::after{content:'⬡ ⬡ ⬡ ⬡ ⬡';position:absolute;bottom:14px;left:22px;font-size:18px;opacity:.10;letter-spacing:10px;color:var(--purple-l)}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--purple-l);text-transform:uppercase;margin-bottom:10px}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px}
+.banner p{font-size:15px;color:#C8B8FF;max-width:580px;margin:0 auto}
+.banner-badge{display:inline-block;background:rgba(139,92,246,.3);color:#C8B8FF;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:16px;letter-spacing:.06em}
+
+/* section card */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 2px 8px rgba(94,23,235,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--purple);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--purple-l);margin-top:2px}
+.section-body{padding:22px}
+
+/* callouts */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.copilot{background:var(--purple-soft);border-left:4px solid var(--purple)}
+.callout.copilot .callout-body strong{color:var(--purple)}
+
+/* feature cards */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--purple)}
+.feature-card .fc-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.feature-card.blue{border-top-color:var(--blue)}
+.feature-card.orange{border-top-color:var(--orange)}
+.feature-card.yellow{border-top-color:var(--yellow)}
+.feature-card.green{border-top-color:var(--green)}
+
+/* steps */
+.step-list{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--purple);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--text-mid);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--purple-l);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid var(--sidebar-bg)}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--text-mid);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+
+/* sub-labels */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--purple-l);text-transform:uppercase;margin:20px 0 10px}
+
+/* prompt tabs */
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px}
+.tab-btn{padding:7px 18px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--text-mid);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;padding:0;margin-bottom:10px;overflow:hidden}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--purple-l);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.copy-btn{background:none;border:1px solid rgba(139,92,246,.4);color:var(--purple-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s}
+.copy-btn:hover{background:rgba(139,92,246,.2)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--text-mid);line-height:1.6;font-style:italic}
+
+/* trouble items */
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--purple);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{background:#fff;padding:12px 16px;font-size:13.5px;color:var(--text-mid);line-height:1.55}
+
+/* do / avoid */
+.do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.do-col{background:var(--green-bg);border:1px solid #A7D7BC;border-top:3px solid var(--green);border-radius:8px;padding:14px}
+.do-col h4{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--green);text-transform:uppercase;margin-bottom:8px}
+.avoid-col{background:var(--red-soft);border:1px solid #F5C4B8;border-top:3px solid var(--red);border-radius:8px;padding:14px}
+.avoid-col h4{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--red);text-transform:uppercase;margin-bottom:8px}
+.do-col li,.avoid-col li{font-size:13px;color:var(--text-mid);line-height:1.5;margin-left:14px;margin-bottom:5px}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--purple)}
+.roadmap-step .rs-num{font-size:28px;font-weight:700;color:var(--purple);margin-bottom:6px}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--text-mid);line-height:1.5}
+
+/* ── AGENT CARD — unique to Agents guide ── */
+.agent-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:14px 0}
+/* top: agent definition */
+.ac-header{background:var(--agent-dark);padding:16px 20px;display:flex;align-items:center;gap:12px}
+.ac-icon{width:36px;height:36px;border-radius:8px;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ac-title{color:#fff;font-size:15px;font-weight:700}
+.ac-subtitle{color:#C8B8FF;font-size:12px;margin-top:2px}
+.ac-meta{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.08)}
+.ac-meta-block{background:rgba(255,255,255,.04);padding:12px 16px;border-right:1px solid rgba(255,255,255,.08)}
+.ac-meta-block:last-child{border-right:none}
+.ac-meta-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:#7264A8;text-transform:uppercase;margin-bottom:4px}
+.ac-meta-value{font-size:12.5px;color:#C8B8FF}
+.ac-meta-value span{display:block;font-size:11.5px;color:#A78BFA;margin-top:1px}
+/* bottom: execution output */
+.ac-output{background:#fff}
+.ac-output-header{background:var(--hdr-bg);padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--purple);text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.ac-output-body{padding:14px 16px}
+.ac-output-body p{font-size:13.5px;color:var(--text-mid);line-height:1.55;margin-bottom:8px}
+.ac-output-body p:last-child{margin-bottom:0}
+.ac-action-list{list-style:none;margin:6px 0}
+.ac-action-list li{font-size:13px;color:var(--text-mid);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.ac-action-list li:last-child{border-bottom:none}
+.ac-action-list li::before{content:'▶';color:var(--purple-l);font-size:10px;margin-top:3px;flex-shrink:0}
+.ac-status{display:inline-flex;align-items:center;gap:5px;background:var(--green-bg);color:var(--green);font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;margin-top:8px}
+.ac-status::before{content:'●';font-size:8px}
+
+/* use-case grid */
+.use-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0}
+.use-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:14px;border-top:3px solid var(--purple)}
+.use-card .uc-icon{font-size:20px;margin-bottom:6px}
+.use-card h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.use-card p{font-size:12.5px;color:var(--text-mid);line-height:1.45}
+
+/* mockup */
+.mockup{background:var(--agent-dark);border-radius:10px;padding:20px;margin:16px 0;border:1px solid rgba(139,92,246,.3)}
+.mockup-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--purple-l);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.mockup-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--purple-l)}
+.mockup-row{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.mockup-row.right{justify-content:flex-end}
+.mockup-bubble{max-width:75%;border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5}
+.mockup-bubble.user{background:var(--purple);color:#fff;border-radius:10px 10px 2px 10px}
+.mockup-bubble.agent{background:rgba(255,255,255,.06);color:#D0C8FF;border-radius:10px 10px 10px 2px;border:1px solid rgba(139,92,246,.2)}
+.mockup-bubble.system{background:rgba(96,165,250,.1);color:#93C5FD;border-radius:8px;font-size:12px;border:1px solid rgba(96,165,250,.2);width:100%;font-style:italic}
+.mockup-name{font-size:11px;color:var(--muted);margin-bottom:3px;padding-left:2px}
+.agent-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(94,23,235,.3);color:#C8B8FF;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <div class="nav-section">Copilot Agents</div>
+  <a class="nav-link" href="#s01">01 — What is a Copilot Agent?</a>
+  <a class="nav-link" href="#s02">02 — Types of Agents</a>
+  <a class="nav-link" href="#s03">03 — Building Your First Agent</a>
+  <a class="nav-link" href="#s04">04 — Connecting Actions & Data</a>
+  <a class="nav-link" href="#s05">05 — Deploying & Sharing</a>
+  <a class="nav-link" href="#s06">06 — Governance & Controls</a>
+  <a class="nav-link" href="#s07">07 — Advanced Techniques</a>
+  <a class="nav-link" href="#s08">08 — Common Mistakes & Fixes</a>
+  <a class="nav-link" href="#s09">09 — Suggested Prompts</a>
+  <a class="nav-link" href="#s10">10 — See It In Action</a>
+  <a class="nav-link" href="#s11">11 — Your Roadmap</a>
+</aside>
+<main class="content">
+
+<div class="banner">
+  <div class="banner-eyebrow">The AI Advantage Co · User Guide</div>
+  <h1>⬡ Copilot Agents</h1>
+  <p>Autonomous AI assistants that act on your behalf — connecting your data, your systems, and your workflows</p>
+  <div class="banner-badge">Microsoft 365 Copilot · Copilot Studio</div>
+</div>
+
+<!-- 01 -->
+<div class="section-card" id="s01">
+  <div class="section-header">
+    <div class="sec-num">01</div>
+    <div>
+      <h2>What is a Copilot Agent?</h2>
+      <p>AI that doesn't just answer questions — it takes action</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">A Copilot Agent is an autonomous AI assistant that you configure to handle a specific job. Unlike standard Copilot — which responds to prompts on demand — an Agent can monitor triggers, retrieve data from connected sources, run multi-step workflows, and take actions across Microsoft 365 and beyond, with minimal human input.</p>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:20px">Think of it as hiring a specialised AI team member with a defined role. You tell the Agent what it knows, what it can do, and when to act. Then it operates — answering questions from colleagues, routing requests, generating documents, sending notifications, or updating records — consistently and at scale.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">🎯</div>
+        <h4>Purpose-Built</h4>
+        <p>Each Agent is scoped to a specific role — helpdesk assistant, onboarding guide, project tracker, or policy advisor. Focused agents outperform general ones.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">🔗</div>
+        <h4>Connected to Your Data</h4>
+        <p>Agents can access SharePoint, Teams, Outlook, Dataverse, and external APIs. They answer from your actual information — not generic AI knowledge.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">⚡</div>
+        <h4>Action-Capable</h4>
+        <p>Beyond answering questions, Agents can create tasks, send emails, update records, trigger Power Automate flows, and interact with external systems.</p>
+      </div>
+      <div class="feature-card yellow">
+        <div class="fc-icon">📡</div>
+        <h4>Always Available</h4>
+        <p>Deployed to Teams, SharePoint, Outlook, or a web channel, your Agent is available to colleagues 24/7 — handling routine requests without human handoff.</p>
+      </div>
+    </div>
+
+    <div class="sub-label">Copilot vs Copilot Agent — what's the difference?</div>
+    <table class="ref-table">
+      <tr><th>Dimension</th><th>Standard Copilot</th><th>Copilot Agent</th></tr>
+      <tr><td>How it works</td><td>Responds to your prompts on demand</td><td>Operates autonomously within defined parameters</td></tr>
+      <tr><td>Knowledge</td><td>Your M365 content + general AI</td><td>Specifically configured knowledge sources you define</td></tr>
+      <tr><td>Actions</td><td>Drafts, summarises, answers</td><td>Creates, sends, updates, routes, triggers flows</td></tr>
+      <tr><td>Audience</td><td>You (the individual user)</td><td>You + your team + the whole organisation</td></tr>
+      <tr><td>Built in</td><td>M365 apps (Word, Teams, Outlook…)</td><td>Copilot Studio, M365 Copilot chat</td></tr>
+      <tr><td>Best for</td><td>Personal productivity tasks</td><td>Scalable, repeatable team or org-wide workflows</td></tr>
+    </table>
+
+    <div class="callout copilot">
+      <div class="callout-icon">⬡</div>
+      <div class="callout-body"><strong>Agents multiply your impact</strong><p>An Agent you configure once can handle hundreds of interactions — answering policy questions, routing IT tickets, onboarding new staff, or briefing executives. The effort is in the setup; the return is continuous.</p></div>
+    </div>
+
+    <div class="callout copilot">
+      <div class="callout-icon">🏛️</div>
+      <div class="callout-body"><strong>2026 Update — Agent 365 &amp; Copilot Studio GA</strong><p>The 2026 release brought Agent 365 — a unified governance layer for every Copilot agent in your tenant — and pushed Copilot Studio's no-code builder to general availability. Together they give IT one place to see, secure, and audit every agent (declarative, custom, or Studio-built), while business teams build agents without writing code. If you're scaling agents past a handful of pilots, Agent 365 + Studio is now the recommended path.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section-card" id="s02">
+  <div class="section-header">
+    <div class="sec-num">02</div>
+    <div>
+      <h2>Types of Agents</h2>
+      <p>Pre-built agents you can use now, and custom agents you can build</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Microsoft provides a growing library of pre-built agents ready to deploy with minimal configuration. You can also build custom agents in Copilot Studio — either by describing what you want in plain language, or by configuring every component yourself.</p>
+
+    <div class="sub-label">Pre-Built Agents</div>
+    <div class="use-grid">
+      <div class="use-card">
+        <div class="uc-icon">💻</div>
+        <h4>IT Helpdesk Agent</h4>
+        <p>Answers common IT questions, resets access, routes unresolved tickets to the right team — connected to your IT knowledge base.</p>
+      </div>
+      <div class="use-card">
+        <div class="uc-icon">🧑‍💼</div>
+        <h4>Employee Self-Service Agent</h4>
+        <p>Handles HR queries: leave balances, policies, benefits, payroll FAQs — connected to your HR documentation and systems.</p>
+      </div>
+      <div class="use-card">
+        <div class="uc-icon">📦</div>
+        <h4>Project Tracker Agent</h4>
+        <p>Provides project status, surfaces blockers, updates task lists, and escalates overdue items — connected to Planner and SharePoint.</p>
+      </div>
+      <div class="use-card">
+        <div class="uc-icon">🛒</div>
+        <h4>Sales Assistant Agent</h4>
+        <p>Answers product and pricing questions, surfaces relevant case studies, helps reps prepare for meetings — connected to CRM and sales collateral.</p>
+      </div>
+      <div class="use-card">
+        <div class="uc-icon">📚</div>
+        <h4>Knowledge Base Agent</h4>
+        <p>Answers questions from a defined document library — policies, procedures, guides — so teams stop hunting through SharePoint folders.</p>
+      </div>
+      <div class="use-card">
+        <div class="uc-icon">🔔</div>
+        <h4>Meeting Intelligence Agent</h4>
+        <p>Provides meeting recaps, surfaces action items, sends follow-up reminders, and answers questions about past discussions.</p>
+      </div>
+    </div>
+
+    <div class="sub-label">Custom Agent Types (Copilot Studio)</div>
+    <table class="ref-table">
+      <tr><th>Type</th><th>How you build it</th><th>Best for</th></tr>
+      <tr><td>Conversational Agent</td><td>Define topics, triggers, and responses — no code needed</td><td>Q&A, guidance, policy lookup, triage</td></tr>
+      <tr><td>Action Agent</td><td>Connect to Power Automate flows or APIs for real-world actions</td><td>Creating records, sending messages, updating systems</td></tr>
+      <tr><td>Autonomous Agent</td><td>Set triggers and let the Agent decide and act without prompts</td><td>Monitoring, routing, scheduled processing</td></tr>
+      <tr><td>Declarative Agent</td><td>Configure via natural language — Copilot Studio builds the agent</td><td>Fast prototyping, non-technical builders</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Start with a pre-built agent</strong><p>Deploy a pre-built agent before building a custom one. It teaches you how agents work in practice — what colleagues ask, where agents struggle, what additional knowledge they need — and gives you a working baseline to extend rather than starting from scratch.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section-card" id="s03">
+  <div class="section-header">
+    <div class="sec-num">03</div>
+    <div>
+      <h2>Building Your First Agent</h2>
+      <p>From idea to deployed agent in Copilot Studio — step by step</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Copilot Studio is the no-code builder for custom agents. You can create an agent by describing it in plain English — Copilot Studio generates the initial structure — then refine it by adding knowledge sources, configuring topics, and connecting actions. Most first agents can be built and tested in under an hour.</p>
+
+    <div class="sub-label">Before You Build — Define Your Agent</div>
+    <div class="agent-card" style="margin-bottom:20px">
+      <div class="ac-header">
+        <div class="ac-icon">📋</div>
+        <div>
+          <div class="ac-title">Agent Design Brief</div>
+          <div class="ac-subtitle">Answer these before opening Copilot Studio</div>
+        </div>
+      </div>
+      <div class="ac-meta">
+        <div class="ac-meta-block">
+          <div class="ac-meta-label">Job to be done</div>
+          <div class="ac-meta-value">What specific task will this Agent handle?<span>e.g. "Answer IT policy questions from staff"</span></div>
+        </div>
+        <div class="ac-meta-block">
+          <div class="ac-meta-label">Who will use it</div>
+          <div class="ac-meta-value">Who is the audience for this Agent?<span>e.g. "All staff via Teams"</span></div>
+        </div>
+        <div class="ac-meta-block">
+          <div class="ac-meta-label">What it needs to know</div>
+          <div class="ac-meta-value">What data / docs should it access?<span>e.g. "IT policies SharePoint site"</span></div>
+        </div>
+      </div>
+      <div class="ac-output">
+        <div class="ac-output-header">⬡ What actions should it take?</div>
+        <div class="ac-output-body">
+          <p>Beyond answering questions, should your agent create tickets, send emails, update lists, trigger approvals, or escalate to a human? Define this before building — it determines which connectors you need.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label">Building in Copilot Studio</div>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Open Copilot Studio</h4><p>Go to copilotstudio.microsoft.com (or open it from the M365 app launcher). Sign in with your work account. You'll see your agent library and a 'Create' button.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body"><h4>Describe your agent</h4><p>Click 'Create' and type a plain-English description: "An agent that answers IT helpdesk questions from staff, using our IT policy documentation on SharePoint." Copilot Studio generates a draft agent with suggested topics, a name, and an initial system prompt.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body"><h4>Add knowledge sources</h4><p>In the Knowledge tab, connect the SharePoint sites, OneDrive folders, or external URLs your agent should draw from. The agent will answer questions grounded in these sources — not from general AI knowledge.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-body"><h4>Configure topics and responses</h4><p>Topics define how your agent handles specific requests. Review the auto-generated topics, add any gaps, and set fallback behaviour for questions outside scope — either a polite decline or escalation to a human.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-body"><h4>Test in the built-in test panel</h4><p>Use the test chat on the right side of Copilot Studio to try common questions. Check for accuracy, tone, and coverage. Adjust topics or knowledge sources based on what the agent gets wrong.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">6</div>
+        <div class="step-body"><h4>Publish and deploy</h4><p>When you're satisfied, click Publish. Then go to Channels to deploy: Teams, SharePoint, Outlook, a custom web chat widget, or the M365 Copilot chat interface.</p></div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📝</div>
+      <div class="callout-body"><strong>Write a strong system prompt</strong><p>The system prompt is the Agent's "job description" — it shapes every response. Be specific: define the role, the tone, what the agent should and shouldn't do, and how it should handle out-of-scope questions. A strong system prompt is the single biggest factor in agent quality.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section-card" id="s04">
+  <div class="section-header">
+    <div class="sec-num">04</div>
+    <div>
+      <h2>Connecting Actions & Data</h2>
+      <p>Give your agent access to real information and the ability to act</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">An agent without connected data can only answer from its own training — which means generic, often unhelpful responses. Connected agents answer from your actual SharePoint, your real policies, your live systems. And agents with actions can do things, not just say things.</p>
+
+    <div class="sub-label">Knowledge Sources</div>
+    <table class="ref-table">
+      <tr><th>Source</th><th>What it gives your agent</th><th>How to connect</th></tr>
+      <tr><td>SharePoint sites & libraries</td><td>Policies, procedures, documents, wikis</td><td>Paste the SharePoint URL in the Knowledge tab</td></tr>
+      <tr><td>OneDrive files</td><td>Specific documents or folders you own</td><td>Share files with the agent's service account, add URL</td></tr>
+      <tr><td>Public websites</td><td>External reference content, product docs</td><td>Add the URL — agent crawls and indexes it</td></tr>
+      <tr><td>Dataverse tables</td><td>Structured business data (CRM, inventory, HR)</td><td>Connect via the Dataverse connector in Studio</td></tr>
+      <tr><td>Microsoft Graph</td><td>Emails, calendars, Teams messages, tasks</td><td>Enable Graph connector — requires admin consent</td></tr>
+      <tr><td>Custom APIs</td><td>Any external system with a REST API</td><td>Create a custom connector in Power Platform</td></tr>
+    </table>
+
+    <div class="sub-label">Actions — What Your Agent Can Do</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">📬</div>
+        <h4>Send Messages & Emails</h4>
+        <p>Trigger Teams messages or Outlook emails as part of a workflow — confirmations, escalations, notifications, follow-ups.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">📋</div>
+        <h4>Create & Update Records</h4>
+        <p>Add tasks to Planner, update SharePoint lists, create Dataverse records, log interactions — any writeable system.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">⚡</div>
+        <h4>Trigger Power Automate Flows</h4>
+        <p>Call any Power Automate flow as an action — approval requests, multi-system updates, complex conditional logic.</p>
+      </div>
+      <div class="feature-card green">
+        <div class="fc-icon">🔌</div>
+        <h4>Call External APIs</h4>
+        <p>POST data to external systems, retrieve live information from third-party tools, or trigger webhooks in other platforms.</p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Actions need careful scoping</strong><p>Every action your agent can take is something it might do incorrectly. Scope actions narrowly — a helpdesk agent should log tickets, not delete them. Add confirmation steps for irreversible actions and test edge cases before deploying broadly.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section-card" id="s05">
+  <div class="section-header">
+    <div class="sec-num">05</div>
+    <div>
+      <h2>Deploying & Sharing Agents</h2>
+      <p>Get your agent in front of the people who need it</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Publishing your agent in Copilot Studio is only half the job. Deployment is how you get it to the right audience — as a Teams app, embedded in SharePoint, accessible via Copilot chat, or shared as a link. The channel you choose determines how colleagues discover and interact with it.</p>
+
+    <div class="sub-label">Deployment Channels</div>
+    <table class="ref-table">
+      <tr><th>Channel</th><th>How it appears</th><th>Best for</th></tr>
+      <tr><td>Microsoft Teams</td><td>As a Teams app — colleagues chat with it like a contact</td><td>Team-wide or org-wide deployments, daily-use agents</td></tr>
+      <tr><td>M365 Copilot Chat</td><td>Listed in the Copilot chat agent directory</td><td>Knowledge-base agents, policy advisors, specialist Q&A</td></tr>
+      <tr><td>SharePoint page</td><td>Embedded chat widget on a specific page</td><td>Context-specific agents (e.g. on the HR or IT page)</td></tr>
+      <tr><td>Outlook</td><td>Available in Copilot panel within email compose</td><td>Email drafting, context-aware communication agents</td></tr>
+      <tr><td>Custom website</td><td>Embedded web chat widget (iframe)</td><td>External-facing agents, partner portals, public FAQs</td></tr>
+      <tr><td>Direct link</td><td>Web URL that opens the agent chat</td><td>Quick sharing, testing, limited internal rollout</td></tr>
+    </table>
+
+    <div class="sub-label">Publishing to Teams — Step by Step</div>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Publish the agent</h4><p>In Copilot Studio, click Publish. This creates a version of the agent that can be deployed. Unpublished agents are test-only — they can't be shared externally.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body"><h4>Open the Teams channel</h4><p>Go to Channels → Microsoft Teams → Turn on Teams. This creates a Teams app package for your agent. You can customise the app icon and description here.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body"><h4>Submit for admin approval (if required)</h4><p>In most organisations, Teams apps must be approved by an admin before appearing in the app catalogue. Submit the agent app and notify your Teams or M365 admin to approve it in the Teams Admin Centre.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-body"><h4>Share with your team</h4><p>Once approved, colleagues can find the agent in the Teams app store and add it. You can also share a direct install link or ask an admin to pre-install it for specific Teams or the whole org.</p></div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Start with a pilot group</strong><p>Before org-wide deployment, run a 2-week pilot with 10–20 users who represent your target audience. Collect their questions, review where the agent struggled, and refine knowledge sources and topics. You'll catch 80% of issues before they affect everyone.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section-card" id="s06">
+  <div class="section-header">
+    <div class="sec-num">06</div>
+    <div>
+      <h2>Governance & Controls</h2>
+      <p>Permissions, responsible AI, and keeping agents in bounds</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Agents that access company data and take actions on behalf of users require clear governance. Microsoft builds responsible AI guardrails into Copilot Studio by default — but you're responsible for how you configure and deploy agents in your organisation.</p>
+
+    <div class="sub-label">Key Governance Controls</div>
+    <table class="ref-table">
+      <tr><th>Control</th><th>What it does</th><th>Who manages it</th></tr>
+      <tr><td>Data access scoping</td><td>Limits which SharePoint sites, files, and systems the agent can access</td><td>Agent builder + SharePoint admin</td></tr>
+      <tr><td>User authentication</td><td>Ensures the agent operates within the logged-in user's own permissions — it can't access data the user couldn't access manually</td><td>Platform (automatic)</td></tr>
+      <tr><td>Action approvals</td><td>Requires human confirmation before irreversible actions (delete, send, update)</td><td>Agent builder (configure in topics)</td></tr>
+      <tr><td>Content moderation</td><td>Built-in filters block harmful or inappropriate outputs</td><td>Platform (automatic) + IT admin</td></tr>
+      <tr><td>Tenant admin controls</td><td>IT admins can enable/disable Copilot Studio, restrict who can build agents, and control which channels are available</td><td>M365/Teams admin</td></tr>
+      <tr><td>Agent publishing approval</td><td>Agents can require admin sign-off before appearing in the Teams app catalogue</td><td>Teams admin</td></tr>
+    </table>
+
+    <div class="sub-label">Responsible AI Principles for Agents</div>
+    <div class="do-avoid">
+      <div class="do-col">
+        <h4>Do This</h4>
+        <ul>
+          <li>Define clear scope — what the agent should and shouldn't handle</li>
+          <li>Build an escalation path to a human for complex or sensitive issues</li>
+          <li>Tell users they're talking to an AI agent</li>
+          <li>Review agent analytics regularly for unexpected behaviour</li>
+          <li>Test edge cases before broad deployment</li>
+          <li>Document what data sources and actions the agent uses</li>
+        </ul>
+      </div>
+      <div class="avoid-col">
+        <h4>Avoid This</h4>
+        <ul>
+          <li>Don't give agents access to data broader than their task requires</li>
+          <li>Don't deploy agents that can take irreversible actions without human review</li>
+          <li>Don't let agents make decisions about individual people (HR, performance)</li>
+          <li>Don't skip the pilot phase before org-wide rollout</li>
+          <li>Don't connect agents to financial transaction systems without strict controls</li>
+          <li>Don't ignore user feedback — complaints signal real problems</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Agents inherit user permissions</strong><p>A Copilot Agent can only access data that the user interacting with it has permission to see. It cannot bypass SharePoint permissions, break data residency rules, or access confidential content the user is not authorised for. Governance starts with your data permissions, not just the agent configuration.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section-card" id="s07">
+  <div class="section-header">
+    <div class="sec-num">07</div>
+    <div>
+      <h2>Advanced Techniques</h2>
+      <p>Multi-step agents, chaining, orchestration, and Power Platform integration</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Once you have a working agent, the next level is making it smarter: handling complex multi-step conversations, handing off between agents, integrating deeply with Power Automate, and using adaptive cards to create rich interactive responses inside Teams.</p>
+
+    <div class="sub-label">Multi-Step Conversations</div>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">A basic agent answers one question at a time. An advanced agent guides the user through a structured flow — gathering information, validating inputs, and taking action at the end. Design these as topics with multiple "nodes": a question node, a condition node, and an action node.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">🔀</div>
+        <h4>Conditional Logic</h4>
+        <p>Branch conversations based on user input. "Is this a hardware or software issue?" routes to different knowledge sources and escalation paths automatically.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">🤝</div>
+        <h4>Agent Handoff</h4>
+        <p>When a request exceeds scope, transfer to a human agent or a specialist AI agent. Copilot Studio supports seamless handoff with context preserved.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">🎴</div>
+        <h4>Adaptive Cards</h4>
+        <p>Return rich formatted cards in Teams — with buttons, forms, and dropdowns — instead of plain text. Users interact with your agent through structured UI elements.</p>
+      </div>
+      <div class="feature-card yellow">
+        <div class="fc-icon">🔁</div>
+        <h4>Power Automate Chaining</h4>
+        <p>Trigger multi-step Power Automate flows from agent actions — update three systems, send an approval, and log the outcome, all from a single user request.</p>
+      </div>
+    </div>
+
+    <div class="sub-label">Notebooks + Agents: The Full AI Stack</div>
+    <table class="ref-table">
+      <tr><th>Layer</th><th>Tool</th><th>Role</th></tr>
+      <tr><td>Project context & output generation</td><td>Copilot Notebook</td><td>Maintains project knowledge; generates drafts, reports, plans</td></tr>
+      <tr><td>Collaborative document editing</td><td>Copilot Pages</td><td>Shares AI output with team; enables real-time co-editing</td></tr>
+      <tr><td>Scalable team interaction</td><td>Copilot Agent</td><td>Handles team Q&A, routes requests, takes automated actions</td></tr>
+      <tr><td>Complex multi-system workflows</td><td>Power Automate</td><td>Connects agents to business systems, approvals, and external APIs</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Use Agents to Scale What Works</strong><p>The best agents are built from processes that already work. Find a workflow your team runs manually — answering the same 20 questions every week, routing the same type of request, generating the same status update — and replicate it as an agent. Automation works best when it copies a proven human process, not when it invents a new one.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section-card" id="s08">
+  <div class="section-header">
+    <div class="sec-num">08</div>
+    <div>
+      <h2>Common Mistakes & Fixes</h2>
+      <p>The most frequent agent failures — and how to prevent them</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="trouble-item">
+      <div class="trouble-q">My agent gives generic answers instead of using our documents</div>
+      <div class="trouble-a">The knowledge sources aren't connected, are stale, or the agent can't access them. Check the Knowledge tab in Copilot Studio — confirm sources are indexed (green status). If a SharePoint site is showing an error, verify the agent's service account has read access to that site. Re-index after fixing access.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">The agent answers questions it's supposed to decline</div>
+      <div class="trouble-a">Your system prompt isn't scoped tightly enough. Add explicit out-of-scope instructions: "You are an IT helpdesk agent. Do not answer questions about HR, finance, or any topic outside IT systems and policy. For those, respond: 'I'm not set up to help with that — please contact [team].'" Be explicit; the agent won't infer limits.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">Users can't find the agent in Teams</div>
+      <div class="trouble-a">The agent app likely hasn't been approved by your Teams admin yet, or it's only been made available to specific users. Check the Teams Admin Centre under 'Manage apps' — look for the agent and confirm its status. Ask your admin to approve and push it to the right audience.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">The agent action fails silently — nothing happens when it should take action</div>
+      <div class="trouble-a">Test the action independently in Power Automate or the connector settings first. Common causes: the agent's service account doesn't have write permissions to the target system; the flow is disabled; or a required field isn't being passed from the conversation. Check the agent's analytics in Copilot Studio for error logs.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">The agent hallucinates — it makes up information not in the knowledge sources</div>
+      <div class="trouble-a">Add this instruction to your system prompt: "Only answer questions using the provided knowledge sources. If you cannot find the answer in the knowledge sources, say 'I don't have that information — please contact [team].' Never guess or infer information not explicitly in your sources." Also check that relevant documents are actually indexed.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">My agent worked in testing but fails in production</div>
+      <div class="trouble-a">The most common cause is that the test environment uses your personal credentials (which have broad access), while production uses the agent's service account (which may not). Validate that the service account has access to every knowledge source and action target before publishing. Run a pre-deployment checklist against a non-admin test user account.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section-card" id="s09">
+  <div class="section-header">
+    <div class="sec-num">09</div>
+    <div>
+      <h2>Suggested Prompts</h2>
+      <p>Ready-to-use prompts for designing, building, and improving agents</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="showTab(this,'design')">Designing Agents</button>
+        <button class="tab-btn" onclick="showTab(this,'improving')">Improving Agents</button>
+      </div>
+      <div class="prompt-panel active" id="tab-design">
+        <div class="prompt-box">
+          <div class="prompt-label">System prompt template
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">You are [Agent Name], a specialist assistant for [Organisation Name]. Your job is to [specific role — e.g. answer IT helpdesk questions from staff]. You have access to [knowledge sources]. Always answer from these sources — never guess or use general knowledge. If a question is outside your scope, say: "I'm not set up to help with that — please contact [team/email]." Keep answers clear, concise, and professional. When you're unsure, say so and suggest who can help.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Scoping a new agent (use with Copilot Studio AI builder)
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">I want to build a Copilot Agent that [job description — e.g. helps new staff answer onboarding questions]. The agent will be used by [audience] via [channel — e.g. Teams]. It should draw from [knowledge sources] and be able to [specific actions]. What topics should I configure, what knowledge should I add, and what actions will it need? Also flag any risks or limitations I should design for.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Defining out-of-scope behaviour
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Help me write the "out of scope" section of a system prompt for a [type] agent. The agent should handle [in-scope topics]. For anything outside these areas, write response scripts that are polite, helpful, and route the user to the right alternative. Include at least 6 specific examples of out-of-scope topics with tailored redirect messages.</div>
+        </div>
+      </div>
+      <div class="prompt-panel" id="tab-improving">
+        <div class="prompt-box">
+          <div class="prompt-label">Reviewing agent conversation logs
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Here are conversation logs from our Copilot Agent over the past [time period]: [paste logs]. Analyse these for: (1) questions the agent answered incorrectly or incompletely, (2) questions that fell outside its scope but shouldn't have, (3) patterns in what users are actually asking versus what we designed the agent for, and (4) specific improvements to the system prompt or knowledge sources that would fix the top 3 issues.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Improving a weak system prompt
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Here is the current system prompt for our [agent name] agent: [paste prompt]. Users are reporting that it [specific problem — e.g. gives vague answers / goes off-topic / doesn't escalate correctly]. Rewrite the system prompt to fix these issues while keeping the same core role and scope. Explain what you changed and why.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Designing an escalation flow
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Design an escalation flow for our [type] agent. When should it escalate to a human? What information should it collect before escalating — so the human receiving the handoff has full context? Write the escalation topic logic, including: the trigger conditions, the data-gathering questions, the handoff message to the user, and the notification to the human team.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section-card" id="s10">
+  <div class="section-header">
+    <div class="sec-num">10</div>
+    <div>
+      <h2>See It In Action</h2>
+      <p>An IT Helpdesk Agent handling a real support interaction</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Below is the IT Helpdesk Agent in action inside Microsoft Teams. It's connected to the IT policy SharePoint site, the device request form (SharePoint list), and a Power Automate flow that creates ServiceNow tickets. It's handling a common multi-step request — from initial question through to ticket creation.</p>
+
+    <div class="agent-card">
+      <div class="ac-header">
+        <div class="ac-icon">💻</div>
+        <div>
+          <div class="ac-title">IT Helpdesk Agent</div>
+          <div class="ac-subtitle">Deployed to Teams · Connected to IT Policy SharePoint + ServiceNow via Power Automate</div>
+        </div>
+      </div>
+      <div class="ac-meta">
+        <div class="ac-meta-block">
+          <div class="ac-meta-label">Knowledge</div>
+          <div class="ac-meta-value">IT Policy Hub (SharePoint)<span>+ Device catalogue, Software approvals list</span></div>
+        </div>
+        <div class="ac-meta-block">
+          <div class="ac-meta-label">Actions</div>
+          <div class="ac-meta-value">Log ServiceNow ticket<span>Send confirmation email · Escalate to IT lead</span></div>
+        </div>
+        <div class="ac-meta-block">
+          <div class="ac-meta-label">Escalation</div>
+          <div class="ac-meta-value">Human IT team (P1 issues)<span>Notified via Teams channel alert</span></div>
+        </div>
+      </div>
+      <div class="ac-output">
+        <div class="ac-output-header">⬡ Live conversation in Teams</div>
+        <div class="ac-output-body">
+          <div class="mockup" style="margin:0">
+            <div class="mockup-label">IT Helpdesk Agent · Teams</div>
+            <div class="mockup-row right">
+              <div class="mockup-bubble user">Hi, my laptop won't connect to the VPN. It was working fine yesterday. I'm using the GlobalProtect app on Windows 11.</div>
+            </div>
+            <div class="mockup-row">
+              <div>
+                <div class="agent-tag">⬡ IT Helpdesk Agent</div>
+                <div class="mockup-bubble agent">Sorry to hear that — VPN issues can be frustrating. Let me help you troubleshoot. Based on our IT policy documentation, here are the most common fixes for GlobalProtect on Windows 11:<br><br>1. Restart the GlobalProtect app (right-click system tray → Disconnect, then reconnect)<br>2. Check your network — GlobalProtect requires a stable internet connection before connecting<br>3. Run Windows Update — a pending update can block VPN connections<br><br>Have you tried these steps already?</div>
+              </div>
+            </div>
+            <div class="mockup-row right">
+              <div class="mockup-bubble user">Yes, tried all of those. Still not connecting. Getting error: "Gateway not responding"</div>
+            </div>
+            <div class="mockup-row">
+              <div>
+                <div class="agent-tag">⬡ IT Helpdesk Agent</div>
+                <div class="mockup-bubble agent">"Gateway not responding" usually means the VPN gateway itself is unreachable — this could be a temporary outage or a configuration issue specific to your device. I'll log a Priority 2 ticket with IT for you.<br><br>Can you confirm your employee ID and office location so IT can prioritise correctly?</div>
+              </div>
+            </div>
+            <div class="mockup-row right">
+              <div class="mockup-bubble user">EMP-04821, London office</div>
+            </div>
+            <div class="mockup-row">
+              <div>
+                <div class="agent-tag">⬡ IT Helpdesk Agent</div>
+                <div class="mockup-bubble agent">Done — I've logged ticket #INC0048219 in ServiceNow for EMP-04821 (London). IT will respond within 4 business hours per your SLA. You'll receive an email confirmation now. In the meantime, if you need urgent network access, you can use the web-based intranet at intranet.company.com without VPN.<br><br>Is there anything else I can help with?</div>
+              </div>
+            </div>
+            <div class="mockup-row">
+              <div class="mockup-bubble system">⚡ Action completed — ServiceNow ticket #INC0048219 created · Confirmation email sent to EMP-04821</div>
+            </div>
+          </div>
+          <div class="ac-status" style="margin-top:14px">Ticket logged and confirmation sent without human intervention</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout copilot" style="margin-top:20px">
+      <div class="callout-icon">⬡</div>
+      <div class="callout-body"><strong>What the agent just did automatically</strong><p>Answered from the IT policy knowledge base → identified the error as a known issue pattern → collected the required ticket fields through conversation → called the Power Automate flow to create a ServiceNow ticket → sent the user a confirmation email — all without any human IT involvement. This interaction would have taken 10–15 minutes of IT staff time. The agent handled it in under 2 minutes.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section-card" id="s11">
+  <div class="section-header">
+    <div class="sec-num">11</div>
+    <div>
+      <h2>Your Roadmap</h2>
+      <p>From first agent to a fully orchestrated AI workflow</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">The four stages below take you from deploying your first agent to building a connected AI ecosystem across your organisation. Each stage produces real value before the next begins.</p>
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="rs-num">01</div>
+        <h4>Deploy a Pre-Built Agent</h4>
+        <p>Deploy an IT Helpdesk or Employee Self-Service agent from the catalogue. Connect your SharePoint knowledge. Run a 2-week pilot with a small team and collect feedback.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--blue)">
+        <div class="rs-num" style="color:var(--blue)">02</div>
+        <h4>Build Your First Custom Agent</h4>
+        <p>Use Copilot Studio to build an agent for a specific team need. Write a strong system prompt, add knowledge sources, test thoroughly, and deploy to Teams.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--orange)">
+        <div class="rs-num" style="color:var(--orange)">03</div>
+        <h4>Add Actions & Automate</h4>
+        <p>Connect your agent to Power Automate flows. Build a multi-step conversation that collects information and takes a real action — create a ticket, send a notification, update a record.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--yellow)">
+        <div class="rs-num" style="color:var(--yellow)">04</div>
+        <h4>Orchestrate the Full Stack</h4>
+        <p>Connect Notebooks (project context) + Pages (collaborative output) + Agents (team interaction) + Power Automate (cross-system action) into end-to-end intelligent workflows.</p>
+      </div>
+    </div>
+
+    <div class="callout tip" style="margin-top:20px">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Your Quick Win</strong><p>Open Copilot Studio today and deploy the Employee Self-Service agent with your HR policy SharePoint site as the knowledge source. Share it with your HR team for a week. You'll have a working agent in production, real user feedback, and a clear picture of what to build next — all within 5 days.</p></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script>
+function showTab(btn, id) {
+  btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.closest('.prompt-tabs').querySelectorAll('.prompt-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-box').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig = btn.innerText;
+    btn.innerText = '✓ Copied';
+    setTimeout(()=>btn.innerText=orig, 2000);
+  });
+}
+const sections = document.querySelectorAll('.section-card');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

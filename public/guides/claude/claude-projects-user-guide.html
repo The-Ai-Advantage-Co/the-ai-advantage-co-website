@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claude Projects — The AI Advantage Co</title>
+<style>
+  :root {
+    --orange:#C97040; --orange-l:#E09868; --orange-soft:#FFF7F0;
+    --sidebar:#3C1E0A; --ink:#2C1408; --body:#4A3020; --muted:#8A6040;
+    --muted-l:#B08060; --page:#FEF8F0; --card:#FFFCF8; --hdr:#F9F0E6;
+    --border:#F0DEC8; --info-bg:#FDEBD8; --info-blue:#3B7FD4;
+    --warn-bg:#FFF3CD; --warn-border:#D4A017; --white:#fff;
+    --code-bg:#2C1408; --code-text:#F5DEB3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--page);font-family:'Segoe UI',Arial,sans-serif;color:var(--body);display:flex;min-height:100vh;}
+
+  /* ── SIDEBAR ── */
+  nav{width:260px;min-width:260px;background:var(--sidebar);padding:0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+  .nav-brand{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .nav-brand .co{font-size:10px;font-weight:700;color:var(--orange);letter-spacing:.16em;text-transform:uppercase;}
+  .nav-brand .guide-name{font-size:13px;color:#e8d8c4;margin-top:4px;line-height:1.4;}
+  .nav-sections{padding:16px 0 24px;flex:1;}
+  .nav-label{font-size:9px;font-weight:700;color:var(--orange-l);letter-spacing:.18em;text-transform:uppercase;padding:12px 20px 6px;}
+  nav a{display:block;padding:7px 20px;font-size:12.5px;color:#c8b8a4;text-decoration:none;border-left:3px solid transparent;transition:all .18s;}
+  nav a:hover{color:#fff;background:rgba(255,255,255,.06);}
+  nav a.active{color:#fff;border-left-color:var(--orange);background:rgba(201,112,64,.15);}
+  .nav-num{display:inline-block;width:18px;font-size:11px;color:var(--orange);font-weight:700;}
+
+  /* ── MAIN ── */
+  main{flex:1;max-width:860px;padding:48px 52px;overflow-x:hidden;}
+
+  /* ── BANNER ── */
+  .banner{background:var(--hdr);border-radius:10px;overflow:hidden;margin-bottom:40px;}
+  .banner-brand{background:var(--hdr);padding:10px 28px;border-bottom:1px solid var(--border);font-size:10px;font-weight:700;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;}
+  .banner-body{background:var(--orange-soft);padding:36px 28px;text-align:center;}
+  .banner-a{font-size:72px;font-weight:900;color:var(--orange);line-height:1;}
+  .banner-title{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:.22em;margin-top:8px;}
+  .banner-sub{font-size:18px;font-weight:700;color:var(--orange);letter-spacing:.14em;margin-top:6px;}
+  .banner-stripe{height:8px;background:var(--orange);}
+
+  /* ── INTRO ── */
+  .guide-title{font-size:28px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:12px;}
+  .guide-intro{font-size:15px;color:var(--body);line-height:1.7;margin-bottom:20px;}
+  .meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+  .meta-tag{padding:4px 14px;border-radius:4px;font-size:11.5px;font-weight:600;}
+  .meta-tag.version{background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange);}
+  .meta-tag.date{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+  .meta-tag.audience{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+  .divider{border:none;border-top:2px solid var(--border);margin:28px 0;}
+
+  /* ── SECTION HEADER ── */
+  .sec-hdr{display:grid;grid-template-columns:52px 1fr;border-radius:8px;overflow:hidden;margin-bottom:24px;}
+  .sec-num{background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
+  .sec-meta{background:var(--hdr);border-bottom:2px solid var(--border);padding:12px 18px;}
+  .sec-meta h2{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+  .sec-meta p{font-size:12px;color:var(--muted);}
+
+  /* ── BODY TEXT ── */
+  p.body{font-size:14.5px;color:var(--body);line-height:1.75;margin-bottom:14px;}
+  h3.sub{font-size:15px;font-weight:700;color:var(--ink);margin:24px 0 10px;}
+
+  /* ── CARDS ── */
+  .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;}
+  .card-icon{width:40px;height:40px;background:var(--orange-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px;}
+  .card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .card p{font-size:13px;color:var(--muted);line-height:1.5;}
+
+  /* ── CALLOUTS ── */
+  .callout{display:grid;grid-template-columns:48px 1fr;border-radius:8px;overflow:hidden;margin:18px 0;}
+  .callout-icon{display:flex;align-items:flex-start;justify-content:center;padding:16px 0 0;font-size:20px;}
+  .callout-body{padding:14px 16px 14px 0;}
+  .callout-label{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+  .callout-text{font-size:13.5px;line-height:1.6;}
+  .callout.tip{background:var(--orange-soft);}
+  .callout.tip .callout-icon{background:var(--orange-soft);color:var(--orange);}
+  .callout.tip .callout-label{color:var(--orange);}
+  .callout.tip .callout-text{color:var(--body);}
+  .callout.info{background:var(--info-bg);}
+  .callout.info .callout-icon{background:var(--info-bg);color:var(--info-blue);}
+  .callout.info .callout-label{color:var(--info-blue);}
+  .callout.info .callout-text{color:var(--body);}
+  .callout.warn{background:var(--warn-bg);}
+  .callout.warn .callout-icon{background:var(--warn-bg);color:var(--warn-border);}
+  .callout.warn .callout-label{color:var(--warn-border);}
+  .callout.warn .callout-text{color:var(--body);}
+
+  /* ── STEPS ── */
+  .step{display:grid;grid-template-columns:48px 1fr;gap:0;margin-bottom:14px;}
+  .step-num{background:var(--orange);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:flex-start;justify-content:center;padding-top:13px;border-radius:6px 0 0 6px;}
+  .step-body{background:var(--card);border:1px solid var(--border);border-left:none;border-radius:0 6px 6px 0;padding:13px 16px;}
+  .step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .step-body p{font-size:13.5px;color:var(--body);line-height:1.55;}
+
+  /* ── REF TABLE ── */
+  .ref-table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:13px;}
+  .ref-table th{background:var(--sidebar);color:var(--orange-l);font-size:11.5px;font-weight:700;text-align:left;padding:9px 14px;letter-spacing:.04em;}
+  .ref-table td{background:var(--card);border:1px solid var(--border);padding:9px 14px;color:var(--body);vertical-align:top;line-height:1.5;}
+  .ref-table tr:nth-child(even) td{background:#fffaf5;}
+
+  /* ── COMPARISON TABLE ── */
+  .comp-table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:13px;}
+  .comp-table th{background:var(--sidebar);color:var(--orange-l);font-size:11.5px;font-weight:700;text-align:left;padding:9px 14px;}
+  .comp-table td{background:var(--card);border:1px solid var(--border);padding:9px 14px;color:var(--body);line-height:1.5;}
+  .comp-table .check{color:#4CAF50;font-weight:700;}
+  .comp-table .cross{color:#e57373;font-weight:700;}
+  .comp-table .highlight{background:var(--orange-soft)!important;font-weight:600;color:var(--ink);}
+
+  /* ── PROMPT TABS ── */
+  .prompt-tabs{margin:20px 0;}
+  .tab-btns{display:flex;gap:0;border-bottom:2px solid var(--border);}
+  .tab-btn{padding:8px 20px;font-size:12.5px;font-weight:600;color:var(--muted);background:transparent;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .18s;}
+  .tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);}
+  .tab-pane{display:none;padding-top:16px;}
+  .tab-pane.active{display:block;}
+  .prompt-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin-bottom:14px;position:relative;}
+  .prompt-label{font-size:10.5px;font-weight:700;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+  .prompt-text{font-size:13.5px;color:var(--body);line-height:1.65;font-style:italic;}
+  .copy-btn{position:absolute;top:14px;right:14px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--orange);background:var(--orange-soft);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .18s;}
+  .copy-btn:hover{background:var(--orange);color:#fff;}
+
+  /* ── MOCKUP ── */
+  .mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:20px 0;}
+  .mockup-bar{background:#2a1408;padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.06);}
+  .mockup-dot{width:10px;height:10px;border-radius:50%;}
+  .mockup-title{font-size:11px;color:#8A7060;margin-left:8px;font-family:'Courier New',monospace;letter-spacing:.04em;}
+  .mockup-body{display:grid;grid-template-columns:200px 1fr;}
+  .mockup-sidebar{background:#2a1408;border-right:1px solid rgba(255,255,255,.06);padding:14px 0;}
+  .mockup-nav-item{padding:7px 16px;font-size:12px;font-family:'Courier New',monospace;}
+  .mockup-nav-item.active{background:rgba(201,112,64,.2);color:var(--orange-l);border-left:3px solid var(--orange);}
+  .mockup-nav-item.dim{color:#6A5040;}
+  .mockup-section-label{padding:10px 16px 4px;font-size:9px;font-weight:700;color:var(--orange);letter-spacing:.14em;text-transform:uppercase;}
+  .mockup-main{padding:20px;}
+  .mockup-project-header{background:rgba(201,112,64,.15);border:1px solid rgba(201,112,64,.3);border-radius:6px;padding:12px 14px;margin-bottom:14px;}
+  .mockup-project-name{font-size:13px;font-weight:700;color:var(--orange-l);font-family:'Courier New',monospace;}
+  .mockup-project-desc{font-size:11px;color:#8A7060;margin-top:3px;font-family:'Courier New',monospace;}
+  .mockup-msg{margin-bottom:12px;}
+  .mockup-msg .label{font-size:10px;font-weight:700;font-family:'Courier New',monospace;margin-bottom:4px;}
+  .mockup-msg .label.user{color:var(--orange);}
+  .mockup-msg .label.claude{color:#8BC48A;}
+  .mockup-msg .text{font-size:12px;color:#C8B8A4;font-family:'Courier New',monospace;line-height:1.5;}
+  .mockup-input{background:#1a0e06;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:10px 14px;margin-top:10px;}
+  .mockup-input-text{font-size:12px;color:#6A5040;font-family:'Courier New',monospace;}
+
+  /* ── INSTRUCTION BUILDER ── */
+  .instr-builder{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:20px 0;}
+  .instr-builder-hdr{background:var(--hdr);padding:12px 18px;border-bottom:1px solid var(--border);}
+  .instr-builder-hdr h4{font-size:13px;font-weight:700;color:var(--ink);}
+  .instr-builder-hdr p{font-size:12px;color:var(--muted);margin-top:2px;}
+  .instr-row{display:grid;grid-template-columns:180px 1fr;border-bottom:1px solid var(--border);}
+  .instr-row:last-child{border-bottom:none;}
+  .instr-key{background:var(--orange-soft);padding:12px 14px;font-size:12.5px;font-weight:700;color:var(--ink);border-right:1px solid var(--border);}
+  .instr-val{padding:12px 14px;font-size:13px;color:var(--body);line-height:1.55;}
+  .instr-val em{color:var(--muted);font-style:normal;}
+
+  /* ── ROADMAP ── */
+  .roadmap{display:flex;flex-direction:column;gap:0;}
+  .roadmap-step{display:grid;grid-template-columns:56px 1fr;margin-bottom:0;}
+  .roadmap-left{display:flex;flex-direction:column;align-items:center;}
+  .roadmap-circle{width:44px;height:44px;border-radius:50%;background:var(--orange);color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .roadmap-line{width:2px;background:var(--border);flex:1;margin:4px 0;}
+  .roadmap-content{padding:0 0 28px 16px;}
+  .roadmap-content h4{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .roadmap-content p{font-size:13.5px;color:var(--muted);line-height:1.6;}
+
+  /* ── BULLETS ── */
+  ul.styled{margin:10px 0 16px 0;padding-left:0;list-style:none;}
+  ul.styled li{font-size:14px;color:var(--body);line-height:1.65;padding:4px 0 4px 24px;position:relative;}
+  ul.styled li::before{content:"•";color:var(--orange);font-size:16px;position:absolute;left:6px;top:3px;}
+
+  /* ── SECTION SPACING ── */
+  section{margin-bottom:56px;}
+
+  /* ── FOOTER ── */
+  footer{border-top:1px solid var(--border);padding-top:24px;margin-top:40px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted-l);}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+
+<!-- ══ SIDEBAR ══════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <div class="co">The AI Advantage Co</div>
+    <div class="guide-name">Claude Projects<br>User Guide</div>
+  </div>
+  <div class="nav-sections">
+    <div class="nav-label">Contents</div>
+    <a href="#s01" class="active"><span class="nav-num">01</span> What are Projects?</a>
+    <a href="#s02"><span class="nav-num">02</span> Creating a Project</a>
+    <a href="#s03"><span class="nav-num">03</span> Project Instructions</a>
+    <a href="#s04"><span class="nav-num">04</span> The Knowledge Base</a>
+    <a href="#s05"><span class="nav-num">05</span> Organising Conversations</a>
+    <a href="#s06"><span class="nav-num">06</span> Projects vs. Default Chat</a>
+    <a href="#s07"><span class="nav-num">07</span> Team &amp; Shared Projects</a>
+    <a href="#s08"><span class="nav-num">08</span> Best Practices</a>
+    <a href="#s09"><span class="nav-num">09</span> Suggested Prompts</a>
+    <a href="#s10"><span class="nav-num">10</span> See It In Action</a>
+    <a href="#s11"><span class="nav-num">11</span> Your Roadmap</a>
+  </div>
+</nav>
+
+<!-- ══ MAIN ═════════════════════════════════════════════════════ -->
+<main>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-brand">THE &nbsp; AI &nbsp; ADVANTAGE &nbsp; CO</div>
+    <div class="banner-body">
+      <div class="banner-a">A</div>
+      <div class="banner-title">CLAUDE &nbsp; PROJECTS</div>
+      <div class="banner-sub">ORGANISE &nbsp; YOUR &nbsp; AI &nbsp; WORK</div>
+    </div>
+    <div class="banner-stripe"></div>
+  </div>
+
+  <!-- INTRO -->
+  <h1 class="guide-title">Claude Projects — Organise Your AI Work</h1>
+  <p class="guide-intro">Projects are Claude's built-in system for organising related conversations with shared context, persistent instructions, and a shared knowledge base. Instead of re-explaining yourself every time you open a new chat, you set it once — and every conversation in that Project benefits automatically.</p>
+  <div class="meta-row">
+    <span class="meta-tag version">Version 1.0</span>
+    <span class="meta-tag date">April 2026</span>
+    <span class="meta-tag audience">Audience: Pro / Team Users</span>
+  </div>
+  <hr class="divider" />
+
+  <!-- ══ 01 ══ -->
+  <section id="s01">
+    <div class="sec-hdr">
+      <div class="sec-num">01</div>
+      <div class="sec-meta">
+        <h2>What are Claude Projects?</h2>
+        <p>A persistent workspace that keeps context, instructions, and files in one place</p>
+      </div>
+    </div>
+
+    <p class="body">In a standard Claude conversation, every new chat starts blank. Claude has no memory of what you discussed yesterday, no knowledge of your role or preferences, and no access to your documents unless you paste them in again. Projects solve this.</p>
+    <p class="body">A Project is a persistent workspace. You define it once — give it a name, write a set of instructions, and upload any relevant files — and every conversation you open inside that Project automatically inherits that context. Claude knows who you are, what the Project is for, and what rules apply, without you having to repeat it.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h4>Custom Instructions</h4>
+        <p>Set Claude's role, tone, rules, and background once. Applied to every conversation in the Project automatically.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📂</div>
+        <h4>Shared Knowledge Base</h4>
+        <p>Upload documents, templates, guidelines, and data. Claude can reference them in any conversation within the Project.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗂️</div>
+        <h4>Grouped Conversations</h4>
+        <p>All chats stay organised under the Project — easy to find, easy to continue, no more hunting through history.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👥</div>
+        <h4>Team Sharing</h4>
+        <p>Share Projects with teammates on Team and Enterprise plans. Consistent context for the whole team.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Think of it like a briefing folder</div>
+        <div class="callout-text">A Project is the briefing document you hand to Claude every time it joins one of your conversations — except it's automatic. The better the briefing, the less time you spend re-explaining and the more time Claude spends producing useful output.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 02 ══ -->
+  <section id="s02">
+    <div class="sec-hdr">
+      <div class="sec-num">02</div>
+      <div class="sec-meta">
+        <h2>Creating a Project</h2>
+        <p>Set up a new Project in under five minutes</p>
+      </div>
+    </div>
+
+    <p class="body">Creating a Project takes a few minutes. The setup investment pays back across every conversation you have inside it — so it's worth doing properly from the start.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Open the Projects panel</h4>
+        <p>Click <strong>Projects</strong> in the left sidebar of Claude.ai. If you don't see it, make sure you're on a Pro, Team, or Enterprise plan — Projects are not available on the Free plan.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Click "New Project"</h4>
+        <p>Give it a clear, specific name. Use the naming pattern <em>[Area] — [Purpose]</em> to keep things organised as your list grows. Examples: <em>Client Comms — Acme Co</em>, <em>Q3 Marketing Campaign</em>, <em>Legal — Contract Reviews</em>.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Write your Project Instructions</h4>
+        <p>This is the most important step. Instructions are the standing brief Claude follows in every conversation. Cover: who you are, what this Project is for, Claude's role, tone, and any rules or constraints. See Section 03 for a detailed guide.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Upload your knowledge base files</h4>
+        <p>Add any documents Claude should know about — brand guidelines, templates, product specs, past reports. These are available in every conversation in the Project. See Section 04 for what to include.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Start your first conversation</h4>
+        <p>Click <strong>New chat</strong> from inside the Project. Notice that you don't need to re-explain the context — Claude already has it. Jump straight to the task.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">You can edit anytime</div>
+        <div class="callout-text">Project Instructions and knowledge base files can be updated at any time. Changes apply to new conversations immediately. Existing conversations retain the context they were started with.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 03 ══ -->
+  <section id="s03">
+    <div class="sec-hdr">
+      <div class="sec-num">03</div>
+      <div class="sec-meta">
+        <h2>Project Instructions</h2>
+        <p>The standing brief that shapes every conversation in the Project</p>
+      </div>
+    </div>
+
+    <p class="body">Project Instructions are the most powerful part of a Project. They act as a persistent system prompt — a background brief that Claude reads before every conversation. A well-written instruction set means every chat starts with Claude already oriented to your needs.</p>
+
+    <h3 class="sub">What to Include</h3>
+    <div class="instr-builder">
+      <div class="instr-builder-hdr">
+        <h4>Instruction Builder — Cover These Five Areas</h4>
+        <p>Work through each section and you'll have a strong Project instruction set in under 10 minutes.</p>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">Who you are</div>
+        <div class="instr-val">Your role, company, industry, and relevant background. <em>Example: "I am a senior marketing manager at a B2B SaaS company in the HR tech space, managing a team of three."</em></div>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">What this Project is for</div>
+        <div class="instr-val">The purpose of this specific Project. <em>Example: "This Project is used for drafting client-facing communications, proposals, and follow-up emails."</em></div>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">Claude's role</div>
+        <div class="instr-val">How Claude should behave — as an editor, strategist, drafter, analyst, etc. <em>Example: "Act as a professional communications advisor. Prioritise clarity, brevity, and a confident tone."</em></div>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">Tone &amp; style rules</div>
+        <div class="instr-val">Specific language preferences, things to avoid, formatting expectations. <em>Example: "Always write in Australian English. Avoid jargon. Use short paragraphs. Never use exclamation marks."</em></div>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">Constraints &amp; priorities</div>
+        <div class="instr-val">What matters most, what to avoid, and any mandatory inclusions. <em>Example: "Always end emails with a clear next step. Never make commitments about pricing without flagging it to me first."</em></div>
+      </div>
+    </div>
+
+    <h3 class="sub">Weak vs. Strong Instructions</h3>
+    <div class="callout warn">
+      <div class="callout-icon">❌</div>
+      <div class="callout-body">
+        <div class="callout-label">Weak</div>
+        <div class="callout-text">"Help me with work emails." — Claude has no idea who you are, what kind of work, what tone to use, or what kind of emails. Every conversation will start with re-explaining.</div>
+      </div>
+    </div>
+    <div class="callout tip">
+      <div class="callout-icon">✅</div>
+      <div class="callout-body">
+        <div class="callout-label">Strong</div>
+        <div class="callout-text">"I'm a client success manager at a logistics software company. This Project is for client communications — account updates, escalation responses, and renewal discussions. Write in a professional but warm tone. Keep emails under 200 words. Always end with a specific next step. Avoid passive voice."</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Ask Claude to write your instructions for you</div>
+        <div class="callout-text">Open a regular (non-Project) chat and ask: "Help me write a Claude Project instruction set for [your use case]. Ask me questions first." Claude will interview you and produce a draft you can paste straight in.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 04 ══ -->
+  <section id="s04">
+    <div class="sec-hdr">
+      <div class="sec-num">04</div>
+      <div class="sec-meta">
+        <h2>The Knowledge Base</h2>
+        <p>Upload files that Claude can reference across every conversation in the Project</p>
+      </div>
+    </div>
+
+    <p class="body">The knowledge base is where you give Claude the documents it needs to do your work properly. Upload once — Claude can reference the content in any conversation inside the Project without you needing to paste it in again.</p>
+
+    <h3 class="sub">What to Upload</h3>
+    <table class="ref-table">
+      <tr><th>File Type</th><th>What to Include</th><th>Why It Helps</th></tr>
+      <tr><td>Brand guidelines</td><td>Tone of voice docs, style guides, logo rules</td><td>Claude writes on-brand without being told every time</td></tr>
+      <tr><td>Templates</td><td>Email templates, report formats, proposal structures</td><td>Claude produces work in your format, not its default</td></tr>
+      <tr><td>Product / service docs</td><td>Feature lists, pricing, FAQs, case studies</td><td>Accurate, informed output with no hallucinated details</td></tr>
+      <tr><td>Reference reports</td><td>Past outputs, client history, research papers</td><td>Claude can build on and remain consistent with prior work</td></tr>
+      <tr><td>Process docs</td><td>SOPs, checklists, internal playbooks</td><td>Claude follows your process, not a generic one</td></tr>
+      <tr><td>Data / CSV files</td><td>Metrics, financials, audience data</td><td>Claude can reason over real numbers, not guesses</td></tr>
+    </table>
+
+    <h3 class="sub">Supported File Types</h3>
+    <p class="body">Claude accepts PDFs, Word documents (.docx), plain text files (.txt), Markdown (.md), images (PNG, JPG), and CSV files. For large files, Claude reads and indexes the content — upload quality, readable documents for best results.</p>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">Knowledge base vs. uploading in chat</div>
+        <div class="callout-text">Files in the knowledge base are always available across all conversations in the Project. Files uploaded directly in a chat are only available in that specific conversation. Use the knowledge base for anything you'll reference repeatedly. Upload in-chat for one-off files.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Keep It Curated</h3>
+    <ul class="styled">
+      <li>Only include files Claude actually needs. Irrelevant content dilutes focus.</li>
+      <li>Use clear, descriptive file names — Claude uses them to understand what each file is.</li>
+      <li>Remove or replace outdated documents when information changes.</li>
+      <li>Split very large documents into focused sections if possible — more digestible for Claude.</li>
+    </ul>
+  </section>
+
+  <!-- ══ 05 ══ -->
+  <section id="s05">
+    <div class="sec-hdr">
+      <div class="sec-num">05</div>
+      <div class="sec-meta">
+        <h2>Organising Conversations</h2>
+        <p>How to structure and navigate your Project conversations effectively</p>
+      </div>
+    </div>
+
+    <p class="body">A Project can contain many conversations over time. Good organisation habits keep things findable and manageable as your use of Claude scales.</p>
+
+    <h3 class="sub">Starting a New Conversation</h3>
+    <p class="body">Always open new conversations from inside the Project — click the Project name in the sidebar first, then click New chat. This ensures Claude has the Project instructions and knowledge base available. A conversation started outside the Project won't have access to them.</p>
+
+    <h3 class="sub">One Topic Per Conversation</h3>
+    <p class="body">Don't try to do everything in one long conversation. Claude has a context window — the amount of text it can process at once. Very long conversations can start to lose coherence. Better practice: one conversation per discrete task or topic.</p>
+
+    <table class="ref-table">
+      <tr><th>Instead of…</th><th>Do this</th></tr>
+      <tr><td>One massive "work" chat with everything</td><td>Separate conversations per client, campaign, or deliverable</td></tr>
+      <tr><td>Continuing an old chat on a new topic</td><td>Open a new chat — the instructions persist, so context isn't lost</td></tr>
+      <tr><td>Unnamed conversations in a list</td><td>Claude auto-names chats; rename them manually if the name is unclear</td></tr>
+    </table>
+
+    <h3 class="sub">Finding Past Conversations</h3>
+    <ul class="styled">
+      <li>All conversations under a Project are listed when you open it in the sidebar.</li>
+      <li>Use the search function (top of sidebar) to find conversations by keyword.</li>
+      <li>Star important conversations for fast access.</li>
+      <li>Rename conversations manually for clarity — click the chat name to edit it.</li>
+    </ul>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Use multiple Projects for different work areas</div>
+        <div class="callout-text">Don't try to make one Project do everything. Create a separate Project for each distinct work context — one for client comms, one for internal reporting, one for research. Each gets its own tailored instructions and knowledge base.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 06 ══ -->
+  <section id="s06">
+    <div class="sec-hdr">
+      <div class="sec-num">06</div>
+      <div class="sec-meta">
+        <h2>Projects vs. Default Chat</h2>
+        <p>When to use a Project and when a standard conversation is fine</p>
+      </div>
+    </div>
+
+    <p class="body">Not everything needs a Project. Understanding when to use each saves setup time and keeps your workspace clean.</p>
+
+    <table class="comp-table">
+      <tr>
+        <th style="width:36%">Scenario</th>
+        <th style="width:32%">Use a Project</th>
+        <th style="width:32%">Use Default Chat</th>
+      </tr>
+      <tr>
+        <td>Recurring work area (client, campaign, function)</td>
+        <td class="check highlight">✓ Yes — context accumulates</td>
+        <td class="cross">✗ Re-explain every time</td>
+      </tr>
+      <tr>
+        <td>One-off question or quick task</td>
+        <td class="cross">✗ Overkill</td>
+        <td class="check highlight">✓ Yes — faster to just chat</td>
+      </tr>
+      <tr>
+        <td>Multiple conversations on the same topic</td>
+        <td class="check highlight">✓ Yes — shared context saves time</td>
+        <td class="cross">✗ No link between chats</td>
+      </tr>
+      <tr>
+        <td>Specific documents Claude needs to know</td>
+        <td class="check highlight">✓ Yes — knowledge base available always</td>
+        <td class="cross">✗ Must re-upload every chat</td>
+      </tr>
+      <tr>
+        <td>Experimental or exploratory use</td>
+        <td class="cross">✗ No need yet</td>
+        <td class="check highlight">✓ Yes — low commitment</td>
+      </tr>
+      <tr>
+        <td>Team needs same context</td>
+        <td class="check highlight">✓ Yes — share the Project</td>
+        <td class="cross">✗ No sharing option</td>
+      </tr>
+      <tr>
+        <td>Consistent tone / style rules</td>
+        <td class="check highlight">✓ Yes — enforced via instructions</td>
+        <td class="cross">✗ Must specify each time</td>
+      </tr>
+    </table>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">Rule of thumb</div>
+        <div class="callout-text">If you find yourself explaining the same context at the start of a new conversation more than twice, that work belongs in a Project.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 07 ══ -->
+  <section id="s07">
+    <div class="sec-hdr">
+      <div class="sec-num">07</div>
+      <div class="sec-meta">
+        <h2>Team &amp; Shared Projects</h2>
+        <p>Giving your whole team consistent, configured access to Claude</p>
+      </div>
+    </div>
+
+    <p class="body">On Team and Enterprise plans, Projects can be shared with other members of your workspace. Shared Projects give everyone access to the same instructions and knowledge base — meaning the whole team benefits from well-configured context, not just the person who set it up.</p>
+
+    <h3 class="sub">How Sharing Works</h3>
+    <table class="ref-table">
+      <tr><th>Feature</th><th>How It Works</th></tr>
+      <tr><td>Shared instructions</td><td>Everyone who opens the Project sees the same instructions — consistent Claude behaviour across the team</td></tr>
+      <tr><td>Shared knowledge base</td><td>Files uploaded to the Project are accessible to all members in any conversation</td></tr>
+      <tr><td>Individual conversations</td><td>Each team member's conversations within the Project are private by default — sharing the Project doesn't share your specific chats</td></tr>
+      <tr><td>Editing permissions</td><td>Project owners can update instructions and knowledge base; members can start conversations but typically cannot change the setup</td></tr>
+    </table>
+
+    <h3 class="sub">Good Use Cases for Shared Projects</h3>
+    <ul class="styled">
+      <li><strong>Sales team:</strong> One Project with product docs, objection handling guides, and email templates — every rep uses the same configured Claude.</li>
+      <li><strong>Content team:</strong> Brand voice guidelines, tone of voice docs, and content briefs in one place — consistent output across all writers.</li>
+      <li><strong>Operations:</strong> Process documentation and SOPs uploaded once — every team member can ask questions and get consistent, accurate answers.</li>
+      <li><strong>Legal / compliance:</strong> Approved contract templates and policy documents — Claude drafts within approved boundaries automatically.</li>
+    </ul>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body">
+        <div class="callout-label">Review what's in the knowledge base before sharing</div>
+        <div class="callout-text">When you share a Project, all knowledge base files become accessible to everyone with access. Review your uploaded files before sharing to ensure no sensitive or confidential documents are included that shouldn't be accessible to all members.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 08 ══ -->
+  <section id="s08">
+    <div class="sec-hdr">
+      <div class="sec-num">08</div>
+      <div class="sec-meta">
+        <h2>Best Practices</h2>
+        <p>How to get the most out of Projects over time</p>
+      </div>
+    </div>
+
+    <p class="body">Projects improve with use. The habits below will help you build a set of Projects that become genuinely useful over time — not just tidy shortcuts.</p>
+
+    <h3 class="sub">Instructions: Write Once, Refine Often</h3>
+    <ul class="styled">
+      <li>Start with a solid draft, then update it after your first few conversations once you see what Claude gets wrong or misses.</li>
+      <li>Be specific about what you want Claude to do <em>and</em> what you want it to avoid — both matter.</li>
+      <li>Add examples of good output to the instructions if tone or format keeps coming out wrong. Claude learns from examples.</li>
+      <li>Review instructions quarterly — your needs and context change over time.</li>
+    </ul>
+
+    <h3 class="sub">Knowledge Base: Quality Over Quantity</h3>
+    <ul class="styled">
+      <li>Upload clean, well-formatted documents — Claude reads them better than messy or scanned files.</li>
+      <li>Remove outdated files immediately when information changes. Stale documents confuse Claude.</li>
+      <li>Add a brief description at the top of each document explaining what it is and when to use it.</li>
+      <li>Keep the total knowledge base focused — 10 high-quality, relevant files outperform 50 loosely related ones.</li>
+    </ul>
+
+    <h3 class="sub">Conversations: Stay Purposeful</h3>
+    <ul class="styled">
+      <li>Start each conversation with a clear task — don't open-endedly browse. The instructions handle the context; you focus on the task.</li>
+      <li>Use conversation names to label what was done — e.g. "Acme renewal email — v2 approved". Future you will thank present you.</li>
+      <li>When a task is done and the output is saved, the conversation has served its purpose. Don't keep editing indefinitely.</li>
+    </ul>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">The Project Audit Habit</div>
+        <div class="callout-text">Once a month, spend 10 minutes reviewing your active Projects. Update instructions, remove stale files, archive Projects you no longer use. A well-maintained set of Projects is dramatically more useful than a cluttered one.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 09 ══ -->
+  <section id="s09">
+    <div class="sec-hdr">
+      <div class="sec-num">09</div>
+      <div class="sec-meta">
+        <h2>Suggested Prompts</h2>
+        <p>Ready-to-use prompts for setting up and using Projects effectively</p>
+      </div>
+    </div>
+
+    <p class="body">Use these prompts to set up strong Projects and get the most from your conversations inside them. Replace the bracketed parts with your specifics.</p>
+
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'setup')">Project Setup</button>
+        <button class="tab-btn" onclick="switchTab(this,'use')">Using Projects</button>
+      </div>
+
+      <div class="tab-pane active" id="pane-setup">
+        <div class="prompt-card">
+          <div class="prompt-label">Build My Project Instructions</div>
+          <div class="prompt-text">"Help me write a set of Claude Project instructions for this use case: I am a [role] at a [company/industry]. This Project is for [purpose]. Ask me five clarifying questions first, then draft the instructions in a structured format I can paste directly into Claude."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Improve Existing Instructions</div>
+          <div class="prompt-text">"Here are my current Claude Project instructions: [paste them]. Review them and tell me: (1) what's missing, (2) what's unclear or too vague, and (3) give me an improved version I can use straight away."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Plan My Project Structure</div>
+          <div class="prompt-text">"I want to use Claude Projects more systematically at work. My main work areas are: [list them]. Help me design a Project structure — how many Projects to create, what to name them, and what instructions and files each one needs."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Create a Shared Team Project Brief</div>
+          <div class="prompt-text">"Write a Claude Project instruction set for a shared team Project. Our team is [describe team]. The Project is for [purpose]. Team members have varying experience with AI. The instructions need to be clear enough that anyone on the team can use them effectively without training."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Summarise a Document for the Knowledge Base</div>
+          <div class="prompt-text">"I'm going to add the following document to a Claude Project knowledge base. Write a brief summary paragraph (3–4 sentences) I can paste at the top of the document so Claude knows what it is and when to use it. [paste document]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="pane-use">
+        <div class="prompt-card">
+          <div class="prompt-label">Jump Straight Into a Task</div>
+          <div class="prompt-text">"[Task description]. Use the relevant files in the knowledge base if they apply. Output format: [specify]. Length: [specify]. Flag any assumptions you're making."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Use a Specific Knowledge Base File</div>
+          <div class="prompt-text">"Using the [file name] document in the knowledge base as your primary reference, [task]. If anything in the document is unclear or out of date, flag it rather than filling in gaps with assumptions."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Stay Consistent with Previous Work</div>
+          <div class="prompt-text">"I'm going to paste an example of previous work from this Project. Study the tone, structure, and style. Then produce [new task] that matches the same standard. [paste example output]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Audit Your Instructions Mid-Project</div>
+          <div class="prompt-text">"Here are my current Project instructions: [paste them]. Based on our recent conversations in this Project, are there any gaps, assumptions that aren't stated, or rules I should add to make your output more consistent and useful?"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Batch Multiple Tasks in One Session</div>
+          <div class="prompt-text">"I need to complete the following [number] tasks in this session. Work through them in order and present each output clearly labelled before moving to the next. Task 1: [describe]. Task 2: [describe]. Task 3: [describe]."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 10 ══ -->
+  <section id="s10">
+    <div class="sec-hdr">
+      <div class="sec-num">10</div>
+      <div class="sec-meta">
+        <h2>See It In Action</h2>
+        <p>A real Project setup and conversation walkthrough</p>
+      </div>
+    </div>
+
+    <p class="body">Here's what a well-configured Project looks like in practice — from the initial setup through to a productive conversation that needs zero re-explaining.</p>
+
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="mockup-dot" style="background:#ff5f57;"></div>
+        <div class="mockup-dot" style="background:#febc2e;"></div>
+        <div class="mockup-dot" style="background:#28c840;"></div>
+        <div class="mockup-title">Claude.ai — Project: Client Comms — Meridian Group</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-sidebar">
+          <div class="mockup-section-label">Projects</div>
+          <div class="mockup-nav-item active">📁 Client Comms — Meridian</div>
+          <div class="mockup-nav-item dim">📁 Q3 Marketing</div>
+          <div class="mockup-nav-item dim">📁 Legal — Contracts</div>
+          <div class="mockup-section-label">This Project</div>
+          <div class="mockup-nav-item dim" style="color:#8A7060;">Renewal email — May</div>
+          <div class="mockup-nav-item dim" style="color:#8A7060;">Escalation — invoice</div>
+          <div class="mockup-nav-item active">New chat ✦</div>
+        </div>
+        <div class="mockup-main">
+          <div class="mockup-project-header">
+            <div class="mockup-project-name">📋 Project Instructions Active</div>
+            <div class="mockup-project-desc">Role: Client Success Lead · Tone: professional, warm · Files: Meridian-brief.pdf, email-templates.docx</div>
+          </div>
+          <div class="mockup-msg">
+            <div class="label user">You</div>
+            <div class="text">Write a follow-up email to Meridian's procurement lead after our Q2 review call. They were happy overall but raised concerns about support response times. I want to acknowledge it, give them a concrete commitment, and tee up the renewal conversation for next month.</div>
+          </div>
+          <div class="mockup-msg">
+            <div class="label claude">Claude</div>
+            <div class="text">Subject: Following up on our Q2 review — and a commitment on support<br><br>Hi Sarah,<br><br>Thank you for the time today — it was a great conversation and it's clear your team is getting real value from the platform. I want to address the support response time feedback directly: you're right that we fell short of our SLA during the March spike, and I've raised it with our head of support as a priority item.<br><br>From this week, you'll have a dedicated support contact for all Meridian tickets — [name] will reach out by Friday to introduce themselves. Our target is &lt;4-hour first response for P1 issues.<br><br>I'd also love to catch up in the next few weeks to start talking through your renewal. Would a 30-minute call the week of 2 June work for you?<br><br>Best,<br>[Your name]</div>
+          </div>
+          <div class="mockup-msg">
+            <div class="label user">You</div>
+            <div class="text">Good. Tighten the second paragraph — too long. And remove the reference to the March spike, I don't want to dwell on it.</div>
+          </div>
+          <div class="mockup-msg">
+            <div class="label claude">Claude</div>
+            <div class="text">Updated second paragraph: "From this week, you'll have a dedicated Meridian support contact who will reach out by Friday to introduce themselves — our target is a &lt;4-hour first response on all P1 issues going forward."</div>
+          </div>
+          <div class="mockup-input">
+            <div class="mockup-input-text">Message Claude... (Project: Client Comms — Meridian Group) 📎 ↑</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:20px;">Notice what didn't happen: the user didn't explain who they are, what company they work for, what tone to use, or what Meridian is. The Project instructions and the Meridian-brief.pdf in the knowledge base handled all of that. The user went straight to the task — and the refinement round was one precise instruction, not a re-brief.</p>
+  </section>
+
+  <!-- ══ 11 ══ -->
+  <section id="s11">
+    <div class="sec-hdr">
+      <div class="sec-num">11</div>
+      <div class="sec-meta">
+        <h2>Your Roadmap</h2>
+        <p>Five steps to a well-organised, high-value Project setup</p>
+      </div>
+    </div>
+
+    <p class="body">You don't need to set up everything at once. Follow this sequence and you'll have a properly configured, genuinely useful Project workspace within a week.</p>
+
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">1</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Identify your top recurring work area</h4>
+          <p>Pick the one thing you do most often that involves writing, analysis, or research. That's your first Project. Don't start with your most complex use case — start with the most frequent one.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">2</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Write a proper instruction set</h4>
+          <p>Use the five-area framework from Section 03. Take 10 minutes. If you're not sure what to write, use the "Build My Project Instructions" prompt from Section 09 and let Claude help you draft it.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">3</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Upload 3–5 high-value knowledge base files</h4>
+          <p>Don't upload everything — upload what Claude actually needs. A brand guide, a template, and one reference document is often enough to start. You can add more as you discover gaps.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">4</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Use the Project for a full week</h4>
+          <p>Do your actual work inside the Project — don't just test it. After a week, you'll know exactly what the instructions are missing, which files you needed but didn't have, and what to refine. Update accordingly.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">5</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Build out your Project suite</h4>
+          <p>Once your first Project is running well, apply the same process to your next two or three work areas. Within a month, you'll have a configured workspace where Claude knows your context for every area of your work — and you'll spend far less time re-explaining and far more time getting useful output.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-body">
+        <div class="callout-label">The compounding effect</div>
+        <div class="callout-text">Projects get better the more you refine them. Every time you notice Claude getting something wrong or missing context, update the instructions. Over time, your Projects become increasingly accurate representations of how you work — and Claude's output gets proportionally better.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 The AI Advantage Co — theaiadvantageco.com.au</span>
+    <span>Claude Projects User Guide v1.0 — April 2026</span>
+  </footer>
+
+</main>
+
+<script>
+// Scroll-spy
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('nav a');
+const observer  = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      navLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => observer.observe(s));
+
+// Tab switcher
+function switchTab(btn, paneId){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-'+paneId).classList.add('active');
+}
+
+// Copy prompt
+function copyPrompt(btn){
+  const text = btn.closest('.prompt-card').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--orange)';
+    btn.style.color = '#fff';
+    setTimeout(() => { btn.textContent = orig; btn.style.background=''; btn.style.color=''; }, 1800);
+  });
+}
+</script>
+</body>
+</html>

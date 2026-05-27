@@ -1,0 +1,1439 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude API Basics â€” User Guide | The AI Advantage Co</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    :root {
+      --orange:        #C97040;
+      --orange-light:  #E09868;
+      --orange-soft:   rgba(201, 112, 64, 0.09);
+      --orange-border: rgba(201, 112, 64, 0.20);
+      --sidebar-bg:    #3C1E0A;
+      --sidebar-hover: #4E2A12;
+      --sidebar-act:   rgba(201, 112, 64, 0.16);
+      --page-bg:       #FEF8F0;
+      --white:         #FFFFFF;
+      --card-bg:       #FFFCF8;
+      --ink:           #2C1408;
+      --body-text:     #4A3020;
+      --muted:         #8A6040;
+      --muted-light:   #B08060;
+      --border:        #F0DEC8;
+      --divider:       #EDD8BE;
+      --sidebar-w:   268px;
+      --radius:      10px;
+      --radius-sm:   6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--page-bg);
+      color: var(--ink);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    /* â”€â”€ SIDEBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(201,112,64,0.30); border-radius: 4px; }
+
+    .sidebar-brand {
+      padding: 28px 24px 18px;
+      border-bottom: 1px solid rgba(201,112,64,0.14);
+    }
+    .sidebar-brand .brand-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--orange-light); margin-bottom: 4px;
+    }
+    .sidebar-brand .brand-name {
+      font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3;
+    }
+    .sidebar-meta {
+      padding: 14px 24px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .sidebar-guide-title {
+      font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.45; font-weight: 400;
+    }
+    .nav-label {
+      padding: 18px 24px 6px;
+      font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(201,112,64,0.45);
+    }
+    nav#sidebar-nav { flex: 1; padding: 0 12px 24px; }
+    nav#sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: var(--radius-sm);
+      font-size: 13.5px; font-weight: 400;
+      color: rgba(255,255,255,0.55); text-decoration: none;
+      line-height: 1.35; transition: background 0.15s, color 0.15s;
+      margin-bottom: 1px;
+    }
+    nav#sidebar-nav a:hover { background: var(--sidebar-hover); color: rgba(255,255,255,0.88); }
+    nav#sidebar-nav a.active {
+      background: var(--sidebar-act); color: var(--orange-light); font-weight: 500;
+    }
+    nav#sidebar-nav a svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.60; }
+    nav#sidebar-nav a.active svg { opacity: 1; }
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 11px;
+      color: rgba(255,255,255,0.28);
+      line-height: 1.7;
+    }
+    .sidebar-footer a { color: rgba(201,112,64,0.55); text-decoration: none; }
+    .sidebar-footer a:hover { color: var(--orange-light); }
+
+    /* â”€â”€ MAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+    /* â”€â”€ BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .banner { width: 100%; line-height: 0; }
+
+    /* â”€â”€ DOC HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .doc-header {
+      padding: 40px 56px 32px;
+      border-bottom: 1px solid var(--divider);
+      background: var(--white);
+    }
+    .breadcrumb {
+      font-size: 12px; color: var(--muted); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .breadcrumb span { opacity: 0.5; }
+    .doc-title {
+      font-size: 30px; font-weight: 700; color: var(--ink);
+      letter-spacing: -0.4px; line-height: 1.2; margin-bottom: 10px;
+    }
+    .doc-subtitle {
+      font-size: 15.5px; color: var(--body-text); line-height: 1.65;
+      max-width: 680px; margin-bottom: 18px;
+    }
+    .doc-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .badge {
+      display: inline-flex; align-items: center;
+      background: var(--orange-soft); color: var(--orange);
+      border: 1px solid var(--orange-border);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+      padding: 3px 9px; border-radius: 20px; text-transform: uppercase;
+    }
+    .meta-item { font-size: 12.5px; color: var(--muted); }
+    .meta-item strong { color: var(--body-text); }
+
+    /* â”€â”€ CONTENT BODY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .content-body { padding: 0 56px 80px; }
+
+    /* â”€â”€ SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .section {
+      padding-top: 52px;
+      border-bottom: 1px solid var(--divider);
+      padding-bottom: 44px;
+    }
+    .section:last-child { border-bottom: none; }
+
+    .section-header {
+      display: flex; align-items: flex-start; gap: 16px;
+      margin-bottom: 28px;
+    }
+    .section-num {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--orange); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+    }
+    .section-title {
+      font-size: 21px; font-weight: 700; color: var(--ink);
+      letter-spacing: -0.2px; line-height: 1.2;
+    }
+    .section-desc {
+      font-size: 13.5px; color: var(--muted); margin-top: 4px; line-height: 1.4;
+    }
+
+    /* â”€â”€ PROSE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .prose p {
+      font-size: 15px; color: var(--body-text);
+      line-height: 1.75; margin-bottom: 16px;
+    }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose h3 {
+      font-size: 15.5px; font-weight: 600; color: var(--ink);
+      margin: 28px 0 10px; letter-spacing: -0.1px;
+    }
+    .prose ul {
+      padding-left: 20px; margin-bottom: 16px; color: var(--body-text);
+    }
+    .prose ul li { margin-bottom: 6px; font-size: 15px; line-height: 1.65; }
+
+    /* â”€â”€ CARDS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px; margin: 28px 0;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+    }
+    .card-icon { font-size: 22px; margin-bottom: 10px; }
+    .card-title { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* â”€â”€ CALLOUTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .callout {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 16px 18px; border-radius: var(--radius);
+      margin: 24px 0; font-size: 14px; line-height: 1.6;
+    }
+    .callout.tip  { background: #FFF7ED; border-left: 3px solid var(--orange); color: var(--body-text); }
+    .callout.warn { background: #FFF3CD; border-left: 3px solid #D4A017; color: #5A4010; }
+    .callout.info { background: #EEF4FF; border-left: 3px solid #3B7FD4; color: #1A3A6A; }
+    .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .callout strong { font-weight: 600; }
+
+    /* â”€â”€ STEPS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .steps { margin: 24px 0; }
+    .step {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--orange); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .step-content { flex: 1; }
+    .step-title { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .step-desc { font-size: 14px; color: var(--body-text); line-height: 1.6; }
+
+    /* â”€â”€ REFERENCE TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .ref-table {
+      width: 100%; border-collapse: collapse;
+      margin: 24px 0; font-size: 13.5px;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .ref-table th {
+      background: var(--sidebar-bg); color: rgba(255,255,255,0.85);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
+      text-transform: uppercase; padding: 11px 16px; text-align: left;
+    }
+    .ref-table td {
+      padding: 11px 16px; border-bottom: 1px solid var(--border);
+      color: var(--body-text); vertical-align: top; line-height: 1.55;
+    }
+    .ref-table tr:last-child td { border-bottom: none; }
+    .ref-table tr:nth-child(even) td { background: rgba(240,222,200,0.15); }
+    .ref-table strong { color: var(--ink); }
+
+    /* â”€â”€ CODE BLOCK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .code-block {
+      background: #2C1408;
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+    .code-block pre {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #F5DEB3;
+      margin: 0;
+      white-space: pre;
+    }
+    .code-block .code-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(201,112,64,0.6);
+      margin-bottom: 10px; font-family: 'Inter', sans-serif;
+    }
+    .code-comment { color: rgba(201,112,64,0.55); }
+    .code-key { color: #F0A070; }
+    .code-val { color: #C8E6A0; }
+    .code-str { color: #FFD580; }
+    .code-punct { color: rgba(255,255,255,0.45); }
+
+    /* â”€â”€ PROMPT TABS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .prompt-section { margin: 24px 0; }
+    .prompt-tabs { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 7px 16px; border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--white); color: var(--muted);
+      font-size: 12.5px; font-weight: 500; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab-btn.active {
+      background: var(--orange); color: #fff;
+      border-color: var(--orange); font-weight: 600;
+    }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+    .prompt-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .prompt-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase; color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .prompt-text {
+      font-size: 13.5px; color: var(--body-text);
+      line-height: 1.6; font-style: italic;
+    }
+    .copy-btn {
+      position: absolute; top: 12px; right: 14px;
+      background: var(--orange-soft); border: 1px solid var(--orange-border);
+      color: var(--orange); font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 4px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .copy-btn:hover { background: var(--orange); color: #fff; }
+
+    /* â”€â”€ MOCKUP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .mockup-wrap { margin: 28px 0; }
+    .mockup-window {
+      background: #1A0E06;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(201,112,64,0.20);
+    }
+    .mockup-titlebar {
+      background: #2C1408;
+      padding: 10px 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #FF5F57; }
+    .dot-y { background: #FFBD2E; }
+    .dot-g { background: #28C840; }
+    .mockup-tab-label {
+      font-size: 11px; color: rgba(255,255,255,0.35);
+      font-family: 'Courier New', monospace; margin-left: 8px;
+    }
+    .mockup-body { padding: 24px 28px; }
+    .mockup-flow {
+      display: flex; align-items: center; gap: 12px;
+      flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .mockup-node {
+      background: rgba(201,112,64,0.10);
+      border: 1px solid rgba(201,112,64,0.25);
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: center;
+      min-width: 140px;
+    }
+    .mockup-node-icon { font-size: 20px; margin-bottom: 6px; }
+    .mockup-node-title { font-size: 12px; font-weight: 600; color: #F0A070; }
+    .mockup-node-sub { font-size: 11px; color: rgba(255,255,255,0.40); margin-top: 3px; }
+    .mockup-arrow {
+      font-size: 18px; color: rgba(201,112,64,0.50); flex-shrink: 0;
+    }
+    .mockup-code {
+      background: rgba(0,0,0,0.30);
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #F5DEB3;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .mc { color: rgba(201,112,64,0.55); }
+    .mk { color: #F0A070; }
+    .mv { color: #C8E6A0; }
+    .ms { color: #FFD580; }
+    .mockup-response {
+      background: rgba(40, 200, 64, 0.06);
+      border: 1px solid rgba(40,200,64,0.18);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: rgba(255,255,255,0.70);
+      line-height: 1.6;
+    }
+    .mockup-response-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: rgba(40,200,64,0.65);
+      margin-bottom: 8px; font-family: 'Inter', sans-serif;
+    }
+
+    /* â”€â”€ ROADMAP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .roadmap { margin: 24px 0; }
+    .roadmap-step {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .roadmap-step:last-child { border-bottom: none; }
+    .roadmap-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 2px solid var(--orange); color: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; flex-shrink: 0;
+    }
+    .roadmap-content { flex: 1; }
+    .roadmap-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .roadmap-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.6; }
+
+    /* â”€â”€ TAG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .tag {
+      display: inline-flex; align-items: center;
+      background: var(--orange-soft); color: var(--orange);
+      border: 1px solid var(--orange-border);
+      font-size: 11px; font-weight: 600;
+      padding: 2px 8px; border-radius: 12px;
+    }
+    .tag.green { background: #EDFBF0; color: #267A40; border-color: #A8DDB8; }
+    .tag.blue  { background: #EEF4FF; color: #2A5DB0; border-color: #A8C4F0; }
+    .tag.grey  { background: #F5F0EB; color: #7A5A40; border-color: #DDD0BE; }
+
+    /* â”€â”€ TROUBLESHOOT TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .trouble-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-bottom: 12px;
+    }
+    .trouble-cell {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+    }
+    .trouble-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .trouble-label.prob { color: #C04830; }
+    .trouble-label.fix  { color: #267A40; }
+    .trouble-text { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+    /* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .page-footer {
+      padding: 28px 56px;
+      border-top: 1px solid var(--divider);
+      background: var(--white);
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; color: var(--muted);
+    }
+    .page-footer a { color: var(--orange); text-decoration: none; }
+
+  </style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+
+<div class="layout">
+
+  <!-- â•â•â• SIDEBAR â•â•â• -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-brand">
+      <div class="brand-label">The AI Advantage Co</div>
+      <div class="brand-name">Documentation Hub</div>
+    </div>
+
+    <div class="sidebar-meta">
+      <div class="sidebar-guide-title">Claude API Basics<br>User Guide</div>
+    </div>
+
+    <div class="nav-label">Contents</div>
+
+    <nav id="sidebar-nav">
+      <a href="#overview" class="active">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l1.5 1.5"/></svg>
+        Overview
+      </a>
+      <a href="#getting-started">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M2 8h12M8 2l6 6-6 6"/></svg>
+        Getting Started
+      </a>
+      <a href="#core-concepts">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+        Core Concepts
+      </a>
+      <a href="#first-api-call">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><polyline points="2,12 6,7 10,9 14,4"/></svg>
+        Your First API Call
+      </a>
+      <a href="#prompt-structure">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M3 2h6l4 4v8a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M9 2v4h4"/></svg>
+        Prompt Structure
+      </a>
+      <a href="#models-pricing">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 4v2.5l2 1"/></svg>
+        Models &amp; Pricing
+      </a>
+      <a href="#best-practices">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M8 2l1.5 4.5H14l-3.8 2.8 1.4 4.4L8 11.2l-3.6 2.5 1.4-4.4L2 6.5h4.5z"/></svg>
+        Best Practices
+      </a>
+      <a href="#no-code-tools">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="4" cy="8" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="12" cy="12" r="2"/><path d="M6 8h2m2-3l-2 3m2 3l-2-3"/></svg>
+        No-Code Tools
+      </a>
+      <a href="#suggested-prompts">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12M2 8h8M2 12h6"/></svg>
+        Suggested Prompts
+      </a>
+      <a href="#see-it-in-action">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="14" height="10" rx="2"/><path d="M5 14h6M8 12v2"/></svg>
+        See It In Action
+      </a>
+      <a href="#your-roadmap">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="3" cy="8" r="2"/><circle cx="13" cy="8" r="2"/><path d="M5 8h6"/><path d="M11 5l2 3-2 3"/></svg>
+        Your Roadmap
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div>Â© 2026 The AI Advantage Co</div>
+      <div><a href="https://www.theaiadvantageco.com.au">theaiadvantageco.com.au</a></div>
+    </div>
+  </aside>
+
+  <!-- â•â•â• MAIN â•â•â• -->
+  <main class="main">
+
+    <!-- BANNER -->
+    <div class="banner">
+      <svg viewBox="0 0 1400 260" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;">
+        <defs>
+          <radialGradient id="bg-g" cx="50%" cy="50%" r="75%">
+            <stop offset="0%" stop-color="#FDE8C8"/>
+            <stop offset="55%" stop-color="#F5DCBA"/>
+            <stop offset="100%" stop-color="#E8C898"/>
+          </radialGradient>
+          <radialGradient id="glow-r" cx="88%" cy="60%" r="35%">
+            <stop offset="0%" stop-color="#E8A060" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#E8A060" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="glow-c" cx="50%" cy="42%" r="18%">
+            <stop offset="0%" stop-color="#E09060" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#E09060" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="1400" height="260" fill="url(#bg-g)"/>
+        <circle cx="700" cy="130" r="320" fill="none" stroke="rgba(160,100,40,0.06)" stroke-width="1.5"/>
+        <circle cx="700" cy="130" r="250" fill="none" stroke="rgba(160,100,40,0.05)" stroke-width="1"/>
+        <circle cx="700" cy="130" r="180" fill="none" stroke="rgba(160,100,40,0.04)" stroke-width="1"/>
+        <circle cx="700" cy="130" r="120" fill="none" stroke="rgba(160,100,40,0.03)" stroke-width="1"/>
+        <ellipse cx="1240" cy="170" rx="280" ry="190" fill="url(#glow-r)"/>
+        <ellipse cx="700" cy="112" rx="170" ry="150" fill="url(#glow-c)"/>
+        <g opacity="0.92">
+          <polygon points="700,38 762,162 738,162 700,72 662,162 638,162" fill="#D07848"/>
+          <rect x="666" y="120" width="68" height="10" fill="#D07848" rx="2"/>
+          <polygon points="700,38 762,162 738,162 700,72 662,162 638,162" fill="white" opacity="0.08"/>
+          <circle cx="700" cy="38" r="6" fill="#F0A070"/>
+          <circle cx="638" cy="162" r="5" fill="#E89060"/>
+          <circle cx="762" cy="162" r="5" fill="#E89060"/>
+          <circle cx="666" cy="120" r="4" fill="#F0A070"/>
+          <circle cx="734" cy="120" r="4" fill="#F0A070"/>
+          <circle cx="674" cy="140" r="3" fill="#E09058"/>
+          <circle cx="726" cy="140" r="3" fill="#E09058"/>
+          <circle cx="700" cy="90" r="3" fill="#E09058"/>
+          <line x1="700" y1="38" x2="666" y2="120" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="700" y1="38" x2="734" y2="120" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="700" y1="38" x2="638" y2="162" stroke="#D07848" stroke-width="1" opacity="0.45"/>
+          <line x1="700" y1="38" x2="762" y2="162" stroke="#D07848" stroke-width="1" opacity="0.45"/>
+          <line x1="666" y1="120" x2="638" y2="162" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="734" y1="120" x2="762" y2="162" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="700" y1="38" x2="700" y2="90" stroke="#E09058" stroke-width="1" opacity="0.5"/>
+          <line x1="666" y1="120" x2="674" y2="140" stroke="#E09058" stroke-width="1" opacity="0.6"/>
+          <line x1="734" y1="120" x2="726" y2="140" stroke="#E09058" stroke-width="1" opacity="0.6"/>
+        </g>
+        <text x="700" y="26" font-family="Georgia,'Times New Roman',serif" font-size="19" font-weight="700" fill="#9A5C28" text-anchor="middle" letter-spacing="5">THE Ai ADVANTAGE</text>
+        <text x="700" y="194" font-family="Georgia,'Times New Roman',serif" font-size="30" font-weight="700" fill="#C07038" text-anchor="middle" letter-spacing="6">CLAUDE  API  BASICS</text>
+        <text x="700" y="244" font-family="Georgia,'Times New Roman',serif" font-size="54" font-weight="800" fill="#8A4820" text-anchor="middle" letter-spacing="3">USER GUIDE</text>
+        <g transform="translate(1330,215)" fill="none" stroke="#C97040" stroke-linecap="round">
+          <line x1="0" y1="-32" x2="0" y2="32" stroke-width="6"/>
+          <line x1="-32" y1="0" x2="32" y2="0" stroke-width="6"/>
+          <line x1="-23" y1="-23" x2="23" y2="23" stroke-width="6"/>
+          <line x1="23" y1="-23" x2="-23" y2="23" stroke-width="6"/>
+          <line x1="-12" y1="-30" x2="12" y2="30" stroke-width="3"/>
+          <line x1="-30" y1="-12" x2="30" y2="12" stroke-width="3"/>
+          <line x1="-30" y1="12" x2="30" y2="-12" stroke-width="3"/>
+          <line x1="12" y1="-30" x2="-12" y2="30" stroke-width="3"/>
+        </g>
+        <rect width="1400" height="260" fill="none" stroke="rgba(160,100,40,0.12)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <!-- DOC HEADER -->
+    <div class="doc-header">
+      <div class="breadcrumb">
+        Documentation <span>â€º</span> Claude API Basics <span>â€º</span> User Guide
+      </div>
+      <h1 class="doc-title">Claude API Basics â€” User Guide</h1>
+      <p class="doc-subtitle">
+        A plain-English guide to accessing Claude via the API â€” no prior development experience required. Learn what the API is, how it works, and how to start using it through no-code tools or simple calls.
+      </p>
+      <div class="doc-meta">
+        <span class="badge">Version 1.0</span>
+        <span class="meta-item"><strong>Updated:</strong> April 2026</span>
+        <span class="meta-item"><strong>Audience:</strong> Non-Developers</span>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-body">
+
+      <!-- â”€â”€ 01 OVERVIEW â”€â”€ -->
+      <section class="section" id="overview">
+        <div class="section-header">
+          <div class="section-num">01</div>
+          <div>
+            <div class="section-title">What is the Claude API?</div>
+            <div class="section-desc">Claude beyond the chat interface â€” programmatic access explained simply</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            The <strong>Claude API</strong> is a way to send messages to Claude and receive responses â€” not through a browser chat window, but directly from an app, workflow, or automation tool. Instead of typing in a conversation, your software sends a request and Claude sends back an answer.
+          </p>
+          <p>
+            Think of it like a phone line between your tools and Claude. Any app, automation, or website that can make a web request can talk to Claude through the API. No chat interface required.
+          </p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">âš™ï¸</div>
+              <div class="card-title">Embed in Any App</div>
+              <div class="card-desc">Add Claude to your own website, tool, or internal system without a separate chat window.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">ðŸ”</div>
+              <div class="card-title">Automate Workflows</div>
+              <div class="card-desc">Trigger Claude automatically in response to events â€” new emails, form submissions, data changes.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">ðŸŽ›ï¸</div>
+              <div class="card-title">Full Control</div>
+              <div class="card-desc">Set Claude's role, tone, and behaviour with a system prompt unique to each use case.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">ðŸ“¦</div>
+              <div class="card-title">No-Code Friendly</div>
+              <div class="card-desc">Tools like Zapier, Make, and n8n connect to the API visually â€” no code required at all.</div>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <div class="callout-icon">ðŸ’¡</div>
+            <div><strong>Chat vs. API:</strong> The Claude.ai chat interface is built on top of the same API. When you use the API directly, you get the same intelligence â€” with more flexibility over how it behaves and where it lives.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 02 GETTING STARTED â”€â”€ -->
+      <section class="section" id="getting-started">
+        <div class="section-header">
+          <div class="section-num">02</div>
+          <div>
+            <div class="section-title">Getting Started</div>
+            <div class="section-desc">Account, API key, and your first connection</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Getting access to the Claude API takes four steps. You don't need to be a developer to complete them â€” but you will need an Anthropic account and a way to make web requests, whether that's a tool like Zapier or a simple API testing app.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-title">Create an Anthropic account</div>
+                <div class="step-desc">Go to <strong>console.anthropic.com</strong> and sign up. This is separate from Claude.ai â€” the console is where developers and builders manage API access and usage.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-title">Add a payment method and set usage limits</div>
+                <div class="step-desc">API usage is billed per token (units of text). Add a card in the billing section and set a monthly spend limit so there are no surprises. New accounts receive a small free credit to get started.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-title">Generate your API key</div>
+                <div class="step-desc">In the console, go to <strong>API Keys</strong> and create a new key. Copy it immediately â€” it won't be shown again. This key is your credential for every API call you make.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <div class="step-title">Choose how you'll connect</div>
+                <div class="step-desc">You can use a <strong>no-code tool</strong> (Zapier, Make), an <strong>API testing app</strong> (like Postman or Hoppscotch), or a <strong>direct HTTP request</strong> from a script. All methods use the same API key and endpoint.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout warn">
+            <div class="callout-icon">âš ï¸</div>
+            <div><strong>Keep your API key secret.</strong> Anyone with your key can make API calls billed to your account. Never paste it into a shared document, commit it to a code repository, or send it over email. If it's exposed, delete it immediately and generate a new one.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 03 CORE CONCEPTS â”€â”€ -->
+      <section class="section" id="core-concepts">
+        <div class="section-header">
+          <div class="section-num">03</div>
+          <div>
+            <div class="section-title">Core Concepts</div>
+            <div class="section-desc">Models, tokens, messages, and temperature â€” explained plainly</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Before making your first API call, it helps to understand five key concepts. None of them require a technical background â€” they're just the vocabulary the API uses.
+          </p>
+
+          <h3>Models</h3>
+          <p>
+            A model is the specific version of Claude you're talking to. Different models have different strengths, speeds, and costs. You specify which one you want in every API call. (See Section 06 for a full comparison.)
+          </p>
+
+          <h3>Tokens</h3>
+          <p>
+            Claude doesn't count words â€” it counts <strong>tokens</strong>. A token is roughly 3â€“4 characters, or about Â¾ of a word. A 1,000-word document is approximately 1,300 tokens. API pricing is measured in tokens â€” both what you send (input) and what Claude responds with (output).
+          </p>
+
+          <div class="callout info">
+            <div class="callout-icon">â„¹ï¸</div>
+            <div><strong>Quick estimate:</strong> 1,000 tokens â‰ˆ 750 words. A typical business email is 200â€“400 tokens. A detailed research brief might be 1,500â€“3,000 tokens.</div>
+          </div>
+
+          <h3>Messages</h3>
+          <p>
+            Every API call is structured as a list of messages. There are three roles: <strong>system</strong> (sets the context and Claude's behaviour), <strong>user</strong> (your question or instruction), and <strong>assistant</strong> (Claude's response). Most simple calls just need a system message and a user message.
+          </p>
+
+          <h3>Temperature</h3>
+          <p>
+            Temperature controls how creative or precise Claude's responses are. It's a number from 0 to 1. A temperature of <strong>0</strong> gives consistent, deterministic responses â€” ideal for structured tasks like data extraction or classification. A temperature of <strong>1</strong> gives more varied, creative output â€” good for brainstorming or writing. The default (around 0.7) works well for most tasks.
+          </p>
+
+          <h3>Max Tokens</h3>
+          <p>
+            This setting limits how long Claude's response can be. Useful for keeping outputs short and costs predictable. If you don't set it, Claude will respond at whatever length it judges appropriate.
+          </p>
+
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Concept</th>
+                <th>What It Controls</th>
+                <th>Typical Setting</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Model</strong></td>
+                <td>Intelligence level, speed, cost</td>
+                <td>claude-sonnet-4-6 for most tasks</td>
+              </tr>
+              <tr>
+                <td><strong>Temperature</strong></td>
+                <td>Creativity vs. precision</td>
+                <td>0â€“0.3 for structured, 0.7â€“1 for creative</td>
+              </tr>
+              <tr>
+                <td><strong>Max tokens</strong></td>
+                <td>Maximum response length</td>
+                <td>500â€“2000 for most business tasks</td>
+              </tr>
+              <tr>
+                <td><strong>System prompt</strong></td>
+                <td>Claude's role and rules</td>
+                <td>Set once per use case</td>
+              </tr>
+              <tr>
+                <td><strong>User message</strong></td>
+                <td>Your instruction or question</td>
+                <td>Sent with each individual call</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 04 YOUR FIRST API CALL â”€â”€ -->
+      <section class="section" id="first-api-call">
+        <div class="section-header">
+          <div class="section-num">04</div>
+          <div>
+            <div class="section-title">Your First API Call</div>
+            <div class="section-desc">What a request looks like and what comes back</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            An API call is simply a structured message sent to Anthropic's servers over the internet. Your tool sends it, Claude reads it, and a response comes back â€” typically in under two seconds. Here's what the request looks like, broken into plain language.
+          </p>
+
+          <h3>The Request</h3>
+          <p>
+            You send a <strong>POST request</strong> to <code style="background:var(--orange-soft);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--orange);">https://api.anthropic.com/v1/messages</code> with three things: your API key (in the headers), the model you want, and your messages.
+          </p>
+
+          <div class="code-block">
+            <div class="code-label">Example Request (JSON body)</div>
+            <pre><span class="code-punct">{</span>
+  <span class="code-key">"model"</span><span class="code-punct">:</span>       <span class="code-str">"claude-sonnet-4-6"</span><span class="code-punct">,</span>
+  <span class="code-key">"max_tokens"</span><span class="code-punct">:</span>   <span class="code-val">1024</span><span class="code-punct">,</span>
+  <span class="code-key">"system"</span><span class="code-punct">:</span>       <span class="code-str">"You are a helpful business assistant. Be concise."</span><span class="code-punct">,</span>
+  <span class="code-key">"messages"</span><span class="code-punct">: [</span>
+    <span class="code-punct">{</span>
+      <span class="code-key">"role"</span><span class="code-punct">:</span>    <span class="code-str">"user"</span><span class="code-punct">,</span>
+      <span class="code-key">"content"</span><span class="code-punct">:</span> <span class="code-str">"Summarise the key benefits of prompt caching."</span>
+    <span class="code-punct">}</span>
+  <span class="code-punct">]</span>
+<span class="code-punct">}</span></pre>
+          </div>
+
+          <h3>The Response</h3>
+          <p>
+            Anthropic sends back a JSON object containing Claude's reply, the model used, how many tokens were consumed, and the reason the response ended (e.g. reached max_tokens, or finished naturally).
+          </p>
+
+          <div class="code-block">
+            <div class="code-label">Example Response (JSON)</div>
+            <pre><span class="code-punct">{</span>
+  <span class="code-key">"id"</span><span class="code-punct">:</span>           <span class="code-str">"msg_01XFDUDYJgAACzvnptvVoYEL"</span><span class="code-punct">,</span>
+  <span class="code-key">"type"</span><span class="code-punct">:</span>         <span class="code-str">"message"</span><span class="code-punct">,</span>
+  <span class="code-key">"model"</span><span class="code-punct">:</span>        <span class="code-str">"claude-sonnet-4-6"</span><span class="code-punct">,</span>
+  <span class="code-key">"stop_reason"</span><span class="code-punct">:</span>  <span class="code-str">"end_turn"</span><span class="code-punct">,</span>
+  <span class="code-key">"content"</span><span class="code-punct">: [</span>
+    <span class="code-punct">{</span>
+      <span class="code-key">"type"</span><span class="code-punct">:</span> <span class="code-str">"text"</span><span class="code-punct">,</span>
+      <span class="code-key">"text"</span><span class="code-punct">:</span> <span class="code-str">"Prompt caching reduces costs and latency by reusing...</span>
+<span class="code-str">              previously processed context."</span>
+    <span class="code-punct">}</span>
+  <span class="code-punct">],</span>
+  <span class="code-key">"usage"</span><span class="code-punct">: {</span>
+    <span class="code-key">"input_tokens"</span><span class="code-punct">:</span>  <span class="code-val">42</span><span class="code-punct">,</span>
+    <span class="code-key">"output_tokens"</span><span class="code-punct">:</span> <span class="code-val">38</span>
+  <span class="code-punct">}</span>
+<span class="code-punct">}</span></pre>
+          </div>
+
+          <div class="callout tip">
+            <div class="callout-icon">ðŸ’¡</div>
+            <div><strong>Test without code first.</strong> Use a free API testing tool like <strong>Hoppscotch</strong> (hoppscotch.io) or <strong>Postman</strong> to paste in your API key and send your first request visually. No programming required.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 05 PROMPT STRUCTURE â”€â”€ -->
+      <section class="section" id="prompt-structure">
+        <div class="section-header">
+          <div class="section-num">05</div>
+          <div>
+            <div class="section-title">Prompt Structure</div>
+            <div class="section-desc">System prompts, user messages, and how they work together</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            The most powerful thing you can do with the API is write a strong <strong>system prompt</strong>. This tells Claude who it is, what it's for, what format to use, and what to avoid â€” before any user message arrives. Think of it as the briefing you'd give a new team member on their first day.
+          </p>
+
+          <h3>The Three Roles</h3>
+
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Purpose</th>
+                <th>Changes per call?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>system</strong></td>
+                <td>Defines Claude's persona, rules, tone, and output format for this use case</td>
+                <td>Usually fixed â€” set once</td>
+              </tr>
+              <tr>
+                <td><strong>user</strong></td>
+                <td>The actual instruction or question being sent</td>
+                <td>Yes â€” different each time</td>
+              </tr>
+              <tr>
+                <td><strong>assistant</strong></td>
+                <td>Claude's previous response (used when building multi-turn conversations)</td>
+                <td>Optional â€” for conversation history</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Worked Example: Customer Support Bot</h3>
+
+          <div class="code-block">
+            <div class="code-label">System Prompt</div>
+            <pre><span class="code-str">You are a customer support assistant for Acme Software.
+Your role is to help users troubleshoot issues with the product.
+
+Rules:
+- Be friendly but concise. No more than 3 paragraphs per response.
+- Never promise features that don't exist.
+- If you can't resolve the issue, offer to escalate to a human agent.
+- Always end with: "Is there anything else I can help you with?"</span></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-label">User Message</div>
+            <pre><span class="code-str">My dashboard isn't loading. I've tried refreshing the page.</span></pre>
+          </div>
+
+          <div class="callout tip">
+            <div class="callout-icon">ðŸ’¡</div>
+            <div><strong>Invest in your system prompt.</strong> A well-crafted system prompt is the single biggest lever for getting consistent, high-quality output. Spend time on it. Test variations. The more specific you are about format, tone, and constraints, the better Claude performs.</div>
+          </div>
+
+          <h3>Multi-turn Conversations</h3>
+          <p>
+            The API is stateless â€” it doesn't remember previous calls. To build a back-and-forth conversation, you include the full message history (alternating user and assistant turns) in each request. For most automation use cases, this isn't needed â€” single-turn calls (one message, one response) are sufficient.
+          </p>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 06 MODELS & PRICING â”€â”€ -->
+      <section class="section" id="models-pricing">
+        <div class="section-header">
+          <div class="section-num">06</div>
+          <div>
+            <div class="section-title">Models &amp; Pricing</div>
+            <div class="section-desc">Choosing the right Claude model for your use case and budget</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Anthropic offers three tiers of Claude models, each with a different balance of speed, intelligence, and cost. For most business automation tasks, <strong>Claude Sonnet</strong> is the right default â€” it delivers strong results at a reasonable price. Use Haiku when volume and speed matter most; use Opus when the task genuinely demands the highest reasoning capability.
+          </p>
+
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Speed</th>
+                <th>Best For</th>
+                <th>Cost Tier</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Claude Haiku</strong></td>
+                <td>âš¡ Fastest</td>
+                <td>High-volume, simple tasks â€” classification, tagging, short replies, chat widgets</td>
+                <td><span class="tag green">Lowest</span></td>
+              </tr>
+              <tr>
+                <td><strong>Claude Sonnet</strong></td>
+                <td>ðŸ”„ Balanced</td>
+                <td>Most business use cases â€” drafting, analysis, summarisation, customer support</td>
+                <td><span class="tag">Mid</span></td>
+              </tr>
+              <tr>
+                <td><strong>Claude Opus</strong></td>
+                <td>ðŸ§  Thorough</td>
+                <td>Complex reasoning, long-form research, nuanced decisions, agentic tasks</td>
+                <td><span class="tag grey">Highest</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Understanding Costs</h3>
+          <p>
+            API pricing is charged per million tokens, split between <strong>input tokens</strong> (what you send) and <strong>output tokens</strong> (what Claude sends back). Output tokens are typically more expensive than input tokens.
+          </p>
+          <p>
+            To estimate your costs: multiply your average message length (in tokens) by the number of calls you expect per month, then multiply by the per-token rate for your chosen model. Anthropic publishes current pricing at <strong>anthropic.com/pricing</strong>.
+          </p>
+
+          <div class="callout tip">
+            <div class="callout-icon">ðŸ’¡</div>
+            <div><strong>Prompt caching</strong> can dramatically reduce costs if you're sending the same large system prompt with every call. Cached input tokens cost significantly less than uncached ones. Worth enabling once your usage is consistent.</div>
+          </div>
+
+          <h3>Model String Reference</h3>
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>API String (as of April 2026)</th>
+                <th>Context Window</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Claude Haiku 4.5</strong></td>
+                <td><code style="font-size:12px;">claude-haiku-4-5-20251001</code></td>
+                <td>200K tokens</td>
+              </tr>
+              <tr>
+                <td><strong>Claude Sonnet 4.6</strong></td>
+                <td><code style="font-size:12px;">claude-sonnet-4-6</code></td>
+                <td>200K tokens</td>
+              </tr>
+              <tr>
+                <td><strong>Claude Opus 4.7</strong></td>
+                <td><code style="font-size:12px;">claude-opus-4-7</code></td>
+                <td>200K tokens</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 07 BEST PRACTICES â”€â”€ -->
+      <section class="section" id="best-practices">
+        <div class="section-header">
+          <div class="section-num">07</div>
+          <div>
+            <div class="section-title">Best Practices</div>
+            <div class="section-desc">How to get consistent, high-quality results and keep costs in check</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Getting reliable output from the API is mostly a function of how well you write your prompts and structure your calls. These practices apply whether you're using no-code tools or writing code directly.
+          </p>
+
+          <h3>Prompting</h3>
+          <ul>
+            <li><strong>Be specific about format.</strong> If you want a bullet list, say so. If you want JSON output, specify the schema. Vague instructions produce variable results.</li>
+            <li><strong>Give examples.</strong> A single before/after example in your system prompt often improves output quality more than extra instructions.</li>
+            <li><strong>Set constraints explicitly.</strong> Max length, tone, what to exclude, what to do if unsure â€” spell these out upfront.</li>
+            <li><strong>Use a role framing.</strong> "You are a senior marketing copywriter for a B2B SaaS company" outperforms "You are a helpful assistant" for most professional tasks.</li>
+          </ul>
+
+          <h3>Cost Management</h3>
+          <ul>
+            <li><strong>Set a max_tokens limit</strong> on every call. Without it, Claude will respond at full length even for simple tasks.</li>
+            <li><strong>Use Haiku for triage.</strong> Run a cheap Haiku call first to classify or filter requests, then route only complex ones to Sonnet or Opus.</li>
+            <li><strong>Enable prompt caching</strong> if your system prompt is long and consistent across many calls.</li>
+            <li><strong>Set a monthly budget cap</strong> in the Anthropic console. This prevents unexpected bills during testing.</li>
+          </ul>
+
+          <h3>Security</h3>
+          <ul>
+            <li><strong>Never expose your API key</strong> client-side (e.g. in a website's JavaScript). Always make API calls server-side or through a backend proxy.</li>
+            <li><strong>Rotate keys regularly</strong> and immediately if you suspect exposure.</li>
+            <li><strong>Avoid passing sensitive user data</strong> (personal details, financial information) in API calls unless your security and privacy requirements are clearly understood.</li>
+          </ul>
+
+          <div class="callout warn">
+            <div class="callout-icon">âš ï¸</div>
+            <div><strong>Test in a sandbox first.</strong> Run new prompts and workflows on sample data before connecting live systems. A prompt that works on one input may behave unexpectedly on edge cases.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 08 NO-CODE TOOLS â”€â”€ -->
+      <section class="section" id="no-code-tools">
+        <div class="section-header">
+          <div class="section-num">08</div>
+          <div>
+            <div class="section-title">No-Code &amp; Low-Code Tools</div>
+            <div class="section-desc">Using Claude via the API without writing a single line of code</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            You don't need to be a developer to use the Claude API. Several popular automation and no-code platforms have native Claude integrations that handle the API connection for you. You provide your API key and write your prompts â€” they handle the rest.
+          </p>
+
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>Best For</th>
+                <th>Difficulty</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Zapier</strong></td>
+                <td>Simple triggers and actions â€” e.g. email arrives â†’ Claude summarises â†’ sends to Slack</td>
+                <td><span class="tag green">Beginner</span></td>
+              </tr>
+              <tr>
+                <td><strong>Make (Integromat)</strong></td>
+                <td>Multi-step visual workflows with branching logic and data transformation</td>
+                <td><span class="tag">Intermediate</span></td>
+              </tr>
+              <tr>
+                <td><strong>n8n</strong></td>
+                <td>Open-source automation; self-hostable; powerful for developers and advanced builders</td>
+                <td><span class="tag grey">Intermediate+</span></td>
+              </tr>
+              <tr>
+                <td><strong>Bubble</strong></td>
+                <td>Build full web apps with Claude embedded as an AI feature â€” no code</td>
+                <td><span class="tag">Intermediate</span></td>
+              </tr>
+              <tr>
+                <td><strong>Glide / AppSheet</strong></td>
+                <td>Add AI to spreadsheet-powered apps with simple API HTTP calls</td>
+                <td><span class="tag green">Beginner</span></td>
+              </tr>
+              <tr>
+                <td><strong>Postman / Hoppscotch</strong></td>
+                <td>Test API calls manually before building automations â€” great for learning</td>
+                <td><span class="tag green">Beginner</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Typical Zapier Setup</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-title">Create a Zap and choose a trigger</div>
+                <div class="step-desc">For example: "New email in Gmail" or "New row in Google Sheets" â€” this is what kicks off the workflow.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-title">Add a "Claude AI" or "Webhooks by Zapier" action</div>
+                <div class="step-desc">Zapier has a native Claude integration. Alternatively, use the Webhooks action to call the API directly with your key and a JSON body.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-title">Paste in your system prompt and map the user message</div>
+                <div class="step-desc">Set your system prompt as a fixed field, then map the dynamic content (e.g. email body) to the user message field.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <div class="step-title">Use Claude's response in a follow-on action</div>
+                <div class="step-desc">Send the output to Slack, write it to a CRM, create a task, or drop it into a Google Doc â€” whatever your workflow requires.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 09 SUGGESTED PROMPTS â”€â”€ -->
+      <section class="section" id="suggested-prompts">
+        <div class="section-header">
+          <div class="section-num">09</div>
+          <div>
+            <div class="section-title">Suggested Prompts</div>
+            <div class="section-desc">Ready-to-use system prompts and user message templates</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Use these as starting points. Paste the system prompts directly into your API calls or no-code tool configurations, then adapt them to your specific use case.</p>
+        </div>
+
+        <div class="prompt-section">
+          <div class="prompt-tabs">
+            <button class="tab-btn active" onclick="switchTab(this,'business')">For Business Workflows</button>
+            <button class="tab-btn" onclick="switchTab(this,'building')">For Building &amp; Testing</button>
+          </div>
+
+          <div class="tab-pane active" id="tab-business">
+            <div class="prompt-card">
+              <div class="prompt-label">System Prompt â€” Email Triage Assistant</div>
+              <div class="prompt-text">"You are an email triage assistant. Read each email and respond with a JSON object containing: 'priority' (high/medium/low), 'category' (sales/support/internal/spam), and 'one_line_summary'. Be consistent and concise."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">System Prompt â€” Document Summariser</div>
+              <div class="prompt-text">"You are a professional document summariser. When given a document, produce: (1) a 2-sentence executive summary, (2) 3â€“5 key points as bullets, and (3) a list of any action items or decisions required. Format your output in Markdown."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">System Prompt â€” Customer Support Agent</div>
+              <div class="prompt-text">"You are a friendly customer support agent for [Company Name]. Help users resolve issues with [product/service]. Be concise â€” no more than 3 short paragraphs. If you cannot resolve the issue, say: 'Let me connect you with our team.' Never make up product details."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">System Prompt â€” CRM Note Formatter</div>
+              <div class="prompt-text">"You convert raw meeting notes into structured CRM entries. Output a JSON object with fields: 'summary' (max 2 sentences), 'next_actions' (array of strings), 'sentiment' (positive/neutral/negative), and 'follow_up_date' (if mentioned, else null)."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">System Prompt â€” Content Repurposer</div>
+              <div class="prompt-text">"You repurpose long-form content for social media. Given a blog post or article, produce: (1) a LinkedIn post of 150â€“200 words, (2) three Twitter/X posts of under 280 characters each, and (3) a subject line for an email newsletter promoting the content. Maintain the original tone."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="tab-building">
+            <div class="prompt-card">
+              <div class="prompt-label">System Prompt â€” API Test Harness</div>
+              <div class="prompt-text">"You are a testing assistant. For every user message, respond with a JSON object containing: 'echo' (repeat the user message), 'word_count' (integer), 'sentiment' (positive/neutral/negative), and 'timestamp_utc' (current time in ISO 8601). This is for testing API connectivity and response parsing."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">System Prompt â€” Structured Output Enforcer</div>
+              <div class="prompt-text">"You always respond in valid JSON only. No prose, no markdown, no explanation â€” only a JSON object. If the task is unclear, return: {'error': 'Task unclear', 'reason': '[brief explanation]'}. Validate your output mentally before responding."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">User Message â€” Prompt Stress Test</div>
+              <div class="prompt-text">"[Test input with edge cases: empty string handling, very long input (5000+ words), special characters, mixed languages, and conflicting instructions. How does the system prompt hold up across all of these?]"</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">System Prompt â€” Token Counter &amp; Cost Estimator</div>
+              <div class="prompt-text">"For each message you receive, respond with: {'input_token_estimate': [number], 'output_token_estimate': [number], 'total_estimate': [number], 'haiku_cost_usd': [number], 'sonnet_cost_usd': [number]}. Use Anthropic's current pricing. Show your working as a comment field."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-card">
+              <div class="prompt-label">System Prompt â€” Multi-turn Conversation Simulator</div>
+              <div class="prompt-text">"You are simulating a multi-turn customer conversation for testing purposes. Play the role of a frustrated customer returning a product. Respond naturally to whatever the support agent says, escalating or de-escalating based on how well they handle your concern. Start in a mildly annoyed state."</div>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 10 SEE IT IN ACTION â”€â”€ -->
+      <section class="section" id="see-it-in-action">
+        <div class="section-header">
+          <div class="section-num">10</div>
+          <div>
+            <div class="section-title">See It In Action</div>
+            <div class="section-desc">A full request-response cycle, end to end</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Here's what a complete API interaction looks like from start to finish â€” from your app sending a request to Claude returning a structured response.</p>
+        </div>
+
+        <div class="mockup-wrap">
+          <div class="mockup-window">
+            <div class="mockup-titlebar">
+              <div class="dot dot-r"></div>
+              <div class="dot dot-y"></div>
+              <div class="dot dot-g"></div>
+              <div class="mockup-tab-label">API Call Flow â€” Email Triage Example</div>
+            </div>
+            <div class="mockup-body">
+
+              <div class="mockup-flow">
+                <div class="mockup-node">
+                  <div class="mockup-node-icon">ðŸ“§</div>
+                  <div class="mockup-node-title">Your App</div>
+                  <div class="mockup-node-sub">New email arrives<br>triggers workflow</div>
+                </div>
+                <div class="mockup-arrow">â†’</div>
+                <div class="mockup-node">
+                  <div class="mockup-node-icon">ðŸ”‘</div>
+                  <div class="mockup-node-title">HTTP Request</div>
+                  <div class="mockup-node-sub">POST to API<br>with API key</div>
+                </div>
+                <div class="mockup-arrow">â†’</div>
+                <div class="mockup-node">
+                  <div class="mockup-node-icon">ðŸ§ </div>
+                  <div class="mockup-node-title">Claude</div>
+                  <div class="mockup-node-sub">Reads system prompt<br>+ email content</div>
+                </div>
+                <div class="mockup-arrow">â†’</div>
+                <div class="mockup-node">
+                  <div class="mockup-node-icon">ðŸ“¦</div>
+                  <div class="mockup-node-title">Response</div>
+                  <div class="mockup-node-sub">JSON returned<br>to your app</div>
+                </div>
+              </div>
+
+              <div class="mockup-code">
+<span class="mc">// Request sent by your app</span>
+POST https://api.anthropic.com/v1/messages
+Headers: <span class="mk">x-api-key</span>: <span class="ms">sk-ant-api03-â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</span>
+         <span class="mk">anthropic-version</span>: <span class="ms">"2023-06-01"</span>
+
+Body:
+<span class="mv">{</span>
+  <span class="mk">"model"</span>: <span class="ms">"claude-haiku-4-5-20251001"</span>,
+  <span class="mk">"max_tokens"</span>: <span class="mv">200</span>,
+  <span class="mk">"system"</span>: <span class="ms">"Classify emails. Return JSON with priority, category, summary."</span>,
+  <span class="mk">"messages"</span>: [<span class="mv">{</span> <span class="mk">"role"</span>: <span class="ms">"user"</span>, <span class="mk">"content"</span>: <span class="ms">"[email body pasted here]"</span> <span class="mv">}</span>]
+<span class="mv">}</span>
+              </div>
+
+              <div class="mockup-response">
+                <div class="mockup-response-label">âœ“ Response received (avg 480ms)</div>
+{
+  "priority": "high",
+  "category": "sales",
+  "one_line_summary": "Enterprise prospect requesting urgent pricing for 200-seat deal."
+}
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="prose" style="margin-top:20px;">
+          <p>
+            The entire call â€” from sending to receiving â€” typically completes in under one second for Haiku and under two seconds for Sonnet. For high-volume automation, Haiku's speed and low cost make it the default choice for classification and triage tasks like this one.
+          </p>
+        </div>
+      </section>
+
+      <!-- â”€â”€ 11 YOUR ROADMAP â”€â”€ -->
+      <section class="section" id="your-roadmap">
+        <div class="section-header">
+          <div class="section-num">11</div>
+          <div>
+            <div class="section-title">Your Roadmap</div>
+            <div class="section-desc">Five steps to go from zero to a working Claude API integration</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Start simple. Build one working integration before expanding. Each step here delivers value on its own â€” you don't need to complete all five to benefit.</p>
+        </div>
+
+        <div class="roadmap">
+          <div class="roadmap-step">
+            <div class="roadmap-num">1</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Get your API key and make a test call</div>
+              <div class="roadmap-desc">Create your Anthropic console account, generate a key, and send one test request using Hoppscotch or Postman. Verify you get a valid response back. This confirms your key is active and you understand the request format.</div>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">2</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Build one no-code automation</div>
+              <div class="roadmap-desc">Pick a tool you already use â€” Zapier, Make, or n8n â€” and connect it to Claude. Automate one real task: email summarisation, support ticket classification, or content reformatting. Keep it simple and focused.</div>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">3</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Write and refine your system prompt</div>
+              <div class="roadmap-desc">Invest in a strong system prompt for your specific use case. Test it on 10â€“20 real examples. Adjust the tone, format instructions, and edge case handling until you're getting consistent output you'd be happy to ship.</div>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">4</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Connect to your real data and workflows</div>
+              <div class="roadmap-desc">Expand from a test trigger to live data â€” your actual CRM, email inbox, project management tool, or database. Add error handling for edge cases and test thoroughly before going live with production traffic.</div>
+            </div>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">5</div>
+            <div class="roadmap-content">
+              <div class="roadmap-title">Monitor, optimise, and expand</div>
+              <div class="roadmap-desc">Review your usage in the Anthropic console monthly. Check costs per workflow, look for prompt improvements, and identify tasks where a cheaper or faster model would perform equally well. Once your first integration is stable, replicate the pattern for the next use case.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout tip" style="margin-top:28px;">
+          <div class="callout-icon">ðŸš€</div>
+          <div><strong>One integration, done well, is worth more than five half-built ones.</strong> Pick the highest-value task, build it properly, and learn the pattern before scaling. The second one will take half the time.</div>
+        </div>
+      </section>
+
+    </div><!-- /content-body -->
+
+    <div class="page-footer">
+      <div>Â© 2026 The AI Advantage Co â€” Claude API Basics User Guide v1.0</div>
+      <div><a href="#">All Guides</a></div>
+    </div>
+
+  </main>
+</div><!-- /layout -->
+
+<script>
+  // â”€â”€ Scroll-spy â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks  = document.querySelectorAll('#sidebar-nav a');
+  const observer  = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`#sidebar-nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // â”€â”€ Tab switching â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  function switchTab(btn, tabId) {
+    btn.closest('.prompt-section').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    btn.closest('.prompt-section').querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+  }
+
+  // â”€â”€ Copy prompt â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  function copyPrompt(btn) {
+    const text = btn.closest('.prompt-card').querySelector('.prompt-text').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.style.background = 'var(--orange)';
+      btn.style.color = '#fff';
+      setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1800);
+    });
+  }
+</script>
+
+</body>
+</html>

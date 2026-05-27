@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gemini in Google Slides | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF5F4;color:#1C0800}
+:root{--blue:#1A73E8;--green:#34A853;--yellow:#F9AB00;--orange:#EA4335;--sidebar:#1A0D00;--card:#fff;--hdr:#FFEBE8;--border:#FDDCDA;--ink:#1C0800;--mid:#4A2A24;--muted:#8A6A64}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:#FBBD33;padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(255,245,244,.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#fff;border-left-color:var(--blue);background:rgba(26,115,232,.15)}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#FBBD33;opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--sidebar);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'🖥️';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.12;line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:#FBBD33;text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(255,245,244,.7);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(26,13,0,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#EAF7EE;border-color:var(--green)}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FEF9C3;border-color:#B45309}.callout.warning strong{color:#92400E}
+.callout.info{background:#EAF1FD;border-color:var(--blue)}.callout.info strong{color:#1565C0}
+.callout.gemini{background:#FEF7E0;border-color:var(--yellow)}.callout.gemini strong{color:#92400E}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:8px;padding:16px}
+.feature-card.green{border-top-color:var(--green)}.feature-card.yellow{border-top-color:var(--yellow)}.feature-card.orange{border-top-color:var(--orange)}
+.feature-card h4{color:var(--ink);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;color:#fff;background:var(--blue)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--sidebar);color:#FBBD33;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--hdr)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.prompt-box{display:none;background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:#FBBD33;background:var(--sidebar);padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
+.prompt-text{font-size:13px;color:var(--mid);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#2A1A0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--ink)}
+h3{font-size:16px;font-weight:700;color:var(--ink);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Gemini in Google Slides</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Gemini in Slides?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>Help Me Create a Presentation</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Adding & Editing Slides</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Image Generation</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Speaker Notes</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Design & Formatting Help</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Gemini User Guide</div>
+    <h1>Gemini in Google Slides</h1>
+    <p>Generate complete presentations, create custom images, write speaker notes, and refine your decks — with Gemini built into Slides.</p>
+  </div>
+
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">1</div><h2>What is Gemini in Slides?</h2></div>
+    <div class="section-body">
+      <p>Gemini is integrated into Google Slides to accelerate presentation creation — from generating a full deck from a brief, to writing speaker notes, creating custom images, and refining slide content. It's available through the "Help me create a presentation" panel and the Gemini side panel.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>📽️ Create presentations</h4><p>Generate a full slide deck with structure, content, and layout from a brief description.</p></div>
+        <div class="feature-card green"><h4>🖼️ Image generation</h4><p>Create custom images for slides using Imagen AI — no stock photos needed.</p></div>
+        <div class="feature-card yellow"><h4>🎤 Speaker notes</h4><p>Generate speaker notes for any slide — from talking points to full scripts.</p></div>
+        <div class="feature-card orange"><h4>✍️ Content refinement</h4><p>Rewrite, shorten, or improve slide content via the side panel or inline tools.</p></div>
+      </div>
+      <div class="callout info"><strong>Access:</strong><p>Open the "Help me create a presentation" panel via the sparkle icon in the toolbar, or use the Gemini side panel for refining existing presentations. Image generation requires Gemini Advanced.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">2</div><h2>Help Me Create a Presentation</h2></div>
+    <div class="section-body">
+      <p>The most powerful feature — generate a complete slide deck from a single description. Gemini creates the slide structure, content, layout suggestions, and even placeholder images.</p>
+      <div class="step"><div class="step-num" style="background:var(--green)">1</div><div class="step-body"><h4>Open the creation panel</h4><p>Click the sparkle "Help me create a presentation" icon in the Slides toolbar.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Describe your presentation</h4><p>Provide: topic, audience, purpose, number of slides, and tone. The more detail, the better the output.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">3</div><div class="step-body"><h4>Generate and review</h4><p>Gemini creates the full deck. Review structure and content — each slide is editable like any Google Slides content.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">4</div><div class="step-body"><h4>Refine slide by slide</h4><p>Select individual slides and use the side panel to rewrite specific content, add slides, or strengthen weak sections.</p></div></div>
+      <div class="callout tip"><strong>Good brief structure:</strong><p>"Create a 10-slide presentation for [audience] on [topic]. Purpose: [goal — e.g. get sign-off / educate / sell]. Tone: [professional/inspirational/technical]. Must include: [any essential sections — e.g. problem statement, solution, ROI, next steps]."</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">3</div><h2>Adding & Editing Slides</h2></div>
+    <div class="section-body">
+      <p>Beyond creating a full deck, Gemini can add individual slides to existing presentations or rewrite specific slide content on demand.</p>
+      <h3>Adding slides</h3>
+      <ul>
+        <li>Open the side panel and ask: "Add a slide that covers [topic] and fits after the current slide on [subject]"</li>
+        <li>"Create a title slide for this section: [section name]"</li>
+        <li>"Add an agenda slide at the start based on the rest of the presentation"</li>
+        <li>"Create a summary/conclusions slide based on the content of this deck"</li>
+      </ul>
+      <h3>Editing slide content</h3>
+      <ul>
+        <li>Select slide text → right-click → "Help me refine this" for targeted rewrites</li>
+        <li>Side panel: "Rewrite this slide to be more concise — max 4 bullet points"</li>
+        <li>"Strengthen the headline on slide 3 to be more compelling"</li>
+        <li>"Convert this paragraph of text into 5 bullet points"</li>
+      </ul>
+      <div class="callout gemini"><strong>One idea per slide rule:</strong><p>Ask Gemini: "Review this deck and tell me which slides are trying to say too much. Suggest how to split them." Strong presentations have one clear point per slide — Gemini can help enforce this discipline.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">4</div><h2>Image Generation</h2></div>
+    <div class="section-body">
+      <p>Gemini in Slides includes Imagen — Google's AI image generator — so you can create custom, original images for your slides without searching stock photo libraries.</p>
+      <div class="step"><div class="step-num" style="background:var(--orange)">1</div><div class="step-body"><h4>Insert → Image → Generate image</h4><p>Via the Insert menu or the side panel: "Create an image of..." Describe what you need.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--orange)">2</div><div class="step-body"><h4>Describe specifically</h4><p>Include style, mood, composition: "A professional, minimal illustration of a team working collaboratively — flat design, blue and white palette, no faces visible."</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--orange)">3</div><div class="step-body"><h4>Choose from options</h4><p>Imagen generates multiple options. Select the best fit for your slide. Regenerate if none match your needs.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--orange)">4</div><div class="step-body"><h4>Resize and position</h4><p>Once inserted, treat the image like any Slides image — resize, reposition, and layer with text.</p></div></div>
+      <div class="callout warning"><strong>Avoid generating images of real people:</strong><p>Imagen should not be used to generate realistic images of specific named individuals. Use it for abstract visuals, illustrations, diagrams, scenes, or conceptual imagery.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">5</div><h2>Speaker Notes</h2></div>
+    <div class="section-body">
+      <p>Speaker notes turn a slide deck into a complete presentation tool. Gemini can generate notes for any slide — from bullet-point talking points to full scripts.</p>
+      <h3>Generating notes</h3>
+      <ul>
+        <li>Select a slide → right-click → "Generate speaker notes"</li>
+        <li>Side panel: "Write speaker notes for each slide in this deck — aim for 3-4 talking points per slide, 30 seconds each"</li>
+        <li>"Write speaker notes for slide 5 that explain the data on the chart for a non-technical audience"</li>
+      </ul>
+      <h3>Note types</h3>
+      <table class="ref-table">
+        <tr><th>Type</th><th>Prompt to use</th><th>Best for</th></tr>
+        <tr><td>Talking points</td><td>"3 bullet points per slide"</td><td>Experienced presenters who need prompts, not scripts</td></tr>
+        <tr><td>Full script</td><td>"Full script, 60 seconds per slide"</td><td>New presenters, high-stakes presentations, recorded content</td></tr>
+        <tr><td>Q&A prep</td><td>"What questions might the audience ask about this slide?"</td><td>Preparing for challenging Q&A sessions</td></tr>
+        <tr><td>Transition cues</td><td>"Add a transition phrase at the end of each slide's notes"</td><td>Maintaining flow between sections</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">6</div><h2>Design & Formatting Help</h2></div>
+    <div class="section-body">
+      <p>Gemini can advise on design and structure — even if it can't apply all formatting changes automatically, it can guide you to improve visual consistency and readability.</p>
+      <h3>What Gemini can help with</h3>
+      <div class="feature-grid">
+        <div class="feature-card green"><h4>📐 Structure review</h4><p>"Review this deck's structure. Does the flow make sense? Where might the audience lose interest?"</p></div>
+        <div class="feature-card yellow"><h4>✂️ Content reduction</h4><p>"This slide has too much text — rewrite it as 3 concise bullets that can be read in 5 seconds."</p></div>
+        <div class="feature-card orange"><h4>🎯 Headline writing</h4><p>"Rewrite the slide titles to be action-oriented — each should communicate the key message, not just label the topic."</p></div>
+        <div class="feature-card"><h4>🖼️ Visual suggestions</h4><p>"What type of visual would best illustrate the concept on slide 4? Describe what I should create or search for."</p></div>
+      </div>
+      <div class="callout tip"><strong>Action headlines vs label headlines:</strong><p>Label headline: "Revenue Performance" — tells the audience nothing. Action headline: "Revenue grew 34% — driven entirely by enterprise accounts." Ask Gemini to convert all your label headlines to action headlines. Your deck immediately becomes more persuasive.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>Build from a document</h3>
+      <p>If you have a Google Docs report or strategy document, open Slides and ask: "Based on the following document [paste key content], create a 12-slide executive summary presentation. Focus on: key findings, recommendations, and next steps."</p>
+      <h3>Adapt for different audiences</h3>
+      <p>Build one "master" deck, then ask Gemini to adapt versions: "Rewrite slides 3-7 for a technical engineering audience" and separately "Rewrite slides 3-7 for a board-level financial audience." Same content, different framing.</p>
+      <h3>Create a leave-behind</h3>
+      <p>After presenting, use the side panel: "Based on this presentation, create a one-page executive summary I can send as a follow-up. Include: the problem, our solution, key benefits, and call to action."</p>
+      <h3>Storyboard with Gemini</h3>
+      <p>Before creating slides, ask Gemini in chat: "Help me storyboard a 15-minute presentation on [topic] for [audience]. What's the right narrative arc? What should each section achieve? What visual metaphors work?" Build the story first, then create the deck.</p>
+      <div class="callout gemini"><strong>Use Deep Research → Slides pipeline:</strong><p>Run a Deep Research session → export to Docs → open Slides → "Create a presentation based on this research document." The research becomes the slide content in one workflow.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr>
+        <tr><td>Using AI content verbatim</td><td>Accepting generated slides without personalising with real data</td><td>Replace placeholder text with actual figures, names, and company-specific context</td></tr>
+        <tr><td>Vague briefs</td><td>"Create a presentation about our product" — no audience, purpose, or structure</td><td>Always specify: audience, purpose, number of slides, tone, and must-include sections</td></tr>
+        <tr><td>Too much text per slide</td><td>Accepting AI drafts that include paragraphs instead of bullets</td><td>After generation, ask "Reduce every slide to max 4 bullet points" before finalising</td></tr>
+        <tr><td>Skipping speaker notes</td><td>Not generating notes because slides "look complete"</td><td>Always generate notes — they're where the real presentation value lives</td></tr>
+        <tr><td>Generic images</td><td>Not providing enough description for Imagen</td><td>Include style, colour, composition, mood in every image generation prompt</td></tr>
+        <tr><td>Not adapting for audience</td><td>Using one version for all audiences</td><td>Ask Gemini to create audience-specific versions of technical or sales slides</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'sl-a')">Creating Presentations</button>
+          <button class="tab-btn" onclick="switchTab(this,'sl-b')">Refining & Notes</button>
+        </div>
+        <div class="prompt-box active" id="sl-a">
+          <div class="prompt-item">
+            <div class="prompt-label">Full Deck Brief</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Create a [number]-slide presentation for [audience — e.g. board of directors / sales prospects / new employees] about [topic]. Purpose: [goal]. Tone: [professional/conversational/inspirational]. Must include slides on: [list key sections]. Keep bullet points to max 4 per slide."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">From Document</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Based on the following report content, create a 10-slide executive presentation. Focus on: the 3 key findings, 2 strategic recommendations, and a clear call to action for the leadership team. [Paste document content or key sections]"</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Image Generation</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Create a visual for this slide. The concept is [describe what the slide is about]. Style: [e.g. clean corporate illustration / abstract data visualisation / warm professional photography]. Colour palette: [colours]. Mood: [professional / energetic / calm]. No text in the image."</div>
+          </div>
+        </div>
+        <div class="prompt-box" id="sl-b">
+          <div class="prompt-item">
+            <div class="prompt-label">Speaker Notes</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Write speaker notes for this slide. Format: 3-4 talking points (not a full script). Each point should expand on a bullet, add a concrete example or statistic, and take about 20 seconds to deliver. End with a transition to the next topic."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Content Tightening</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Review all slides in this deck and: (1) convert any label-style headlines to action headlines that state the key message, (2) flag any slides with more than 4 bullet points, (3) suggest which slides could be merged. Be specific."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Q&A Preparation</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Based on this presentation, what are the 10 most challenging questions the audience might ask? For each question, give me: the question, why someone might ask it, and a concise 2-sentence answer I could give."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A consultant uses Gemini to build a 12-slide proposal deck in under 10 minutes from a project brief.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span style="font-size:12px;color:rgba(255,245,244,.5);margin-left:8px">Google Slides — Help me create a presentation</span></div>
+        <div style="padding:20px">
+          <div style="background:#2A1A0A;border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:rgba(255,245,244,.8);font-style:italic">"Create a 12-slide proposal deck for a retail client considering a supply chain AI implementation. Audience: COO and CFO. Purpose: get sign-off on a £180k pilot project. Tone: professional and data-driven. Must include: problem statement, current cost analysis, solution overview, implementation timeline, ROI projection, and next steps."</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
+            <div style="background:rgba(26,115,232,.15);border:1px solid rgba(26,115,232,.3);border-radius:6px;padding:10px;font-size:11px;color:rgba(255,245,244,.8)"><strong style="color:#FBBD33;display:block;margin-bottom:4px">Slide 1</strong>Project Proposal: AI-Driven Supply Chain Optimisation</div>
+            <div style="background:rgba(52,168,83,.12);border:1px solid rgba(52,168,83,.3);border-radius:6px;padding:10px;font-size:11px;color:rgba(255,245,244,.8)"><strong style="color:#FBBD33;display:block;margin-bottom:4px">Slide 2</strong>The Problem: £2.3M in annual supply chain inefficiencies</div>
+            <div style="background:rgba(249,171,0,.1);border:1px solid rgba(249,171,0,.3);border-radius:6px;padding:10px;font-size:11px;color:rgba(255,245,244,.8)"><strong style="color:#FBBD33;display:block;margin-bottom:4px">Slide 3</strong>Current State Analysis: 3 key cost drivers identified</div>
+            <div style="background:rgba(234,67,53,.1);border:1px solid rgba(234,67,53,.3);border-radius:6px;padding:10px;font-size:11px;color:rgba(255,245,244,.8)"><strong style="color:#FBBD33;display:block;margin-bottom:4px">Slide 4</strong>Proposed Solution: AI demand forecasting + inventory AI</div>
+          </div>
+          <div style="background:rgba(52,168,83,.08);border:1px solid rgba(52,168,83,.3);border-radius:8px;padding:10px;font-size:12px;color:rgba(255,245,244,.7)">✓ 12 slides generated · Speaker notes ready · Images suggested · 8 min from brief to complete deck</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn" style="color:var(--blue)">01</div><h4>Generate your first deck</h4><p>Use "Help me create a presentation" with a detailed brief. See what comes back before editing.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--green)">02</div><h4>Generate speaker notes</h4><p>For an existing presentation, generate notes for every slide. Use them in your next delivery.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--yellow)">03</div><h4>Create a custom image</h4><p>Replace one stock photo in a presentation with a Gemini-generated image matched to your slide content.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--orange)">04</div><h4>Rewrite headlines</h4><p>Take an existing deck and ask Gemini to convert all label headlines to action headlines. Compare before/after.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){const tabs=el.closest('.prompt-tabs');tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));tabs.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById(id).classList.add('active');}
+function copyPrompt(btn){const text=btn.nextElementSibling.textContent;navigator.clipboard.writeText(text).catch(()=>{});const orig=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=orig,1500);}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));const link=document.querySelector(`.nav-link[href="#${e.target.id}"]`);if(link)link.classList.add('active');}});},{threshold:.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

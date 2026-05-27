@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT Image Generation — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #10A37F; --primary-l: #2EC4A9; --primary-soft: #E6F7F1;
+  --accent1: #1A6FBE; --accent1-soft: #E8F1FB;
+  --accent2: #8B5CF6; --accent2-soft: #F0EAFF;
+  --page-bg: #F9F9F9; --sidebar-bg: #1C1C1C;
+  --card-bg: #FFFFFF; --hdr-bg: #F0F0F0; --border: #D0D0D0;
+  --ink: #1C1C1C; --body-text: #3A3A3A; --muted: #6F6F6F;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <div class="brand-name">ChatGPT Image Generation</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is ChatGPT Image Generation?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Prompting for Images</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Style Vocabulary</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Brand Consistency</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Iteration Pattern</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Common Use Cases</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>What It&#39;s Not Good At</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Rights and Disclosure</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <h1>ChatGPT Image Generation</h1>
+      <div class="subtitle">Generating, editing, and iterating images with DALL-E and the newer 2026 image models</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is ChatGPT Image Generation?</div><div class="section-desc">Generating, editing, and iterating images with DALL-E and the newer 2026 image models</div></div></div><div class="content-body"><p class="prose">Image generation in ChatGPT runs on OpenAI&#39;s image models (the latest DALL-E lineage plus newer 2026 models). For most users it&#39;s the integrated experience in ChatGPT — type a prompt, get an image, iterate.</p><p class="prose">Best for: content teams creating social/blog imagery, product teams generating mockup illustrations, anyone who needs custom imagery without a designer in the loop.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🎨</div><div class="feat-title">DALL-E + 2026 Models</div><div class="feat-desc">Latest DALL-E lineage plus newer 2026 image models. Better text-in-image rendering.</div></div><div class="feat-card"><div class="feat-icon">✍️</div><div class="feat-title">Four-Element Prompts</div><div class="feat-desc">Subject, style, composition, constraints — the prompt structure that consistently lands.</div></div><div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">Brand Consistency</div><div class="feat-desc">Define visual brief once; reuse across every prompt. Encode in Custom GPT for teams.</div></div><div class="feat-card"><div class="feat-icon">⚖️</div><div class="feat-title">Rights &amp; Restrictions</div><div class="feat-desc">Commercial rights generally granted on paid tiers. Named real people restricted.</div></div></div><div class="deco-band">✨  Generating, editing, and iterating images in flow  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎨  2026 UPDATE — BETTER TEXT RENDERING</div><div class="callout-text">The single biggest 2026 image-model improvement is text-in-image rendering. Earlier models scrambled letters; current models render clean readable text in posters, mockups, and infographics. Charts and labelled diagrams now work where they previously failed.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Prompting for Images</div><div class="section-desc">What good prompts look like</div></div></div><div class="content-body"><p class="prose">Image prompts have 4 elements: subject, style, composition, and constraints.</p><ul class="bullets"><li>Subject — what&#39;s in the image, specifically</li><li>Style — photorealistic / illustration / 3D render / watercolor / brand-specific</li><li>Composition — viewpoint, lighting, mood, framing</li><li>Constraints — what to avoid (text, logos, specific colors)</li></ul><h3 class="sub-h3">The four elements that consistently land</h3><p class="sub-body">Image prompts have 4 elements. Skip any one and quality drops. The four-element discipline is what separates publishable images from &#39;AI-generated&#39; ones.</p><ul class="bullets"><li>Subject — what&#39;s in the image, specifically</li><li>Style — photorealistic / illustration / 3D render / watercolor / brand-specific</li><li>Composition — viewpoint, lighting, mood, framing</li><li>Constraints — what to avoid (text, logos, specific colors)</li><li>Example: &#39;Hero image for blog post. Subject: business team in collaborative discussion. Style: photorealistic editorial, warm natural lighting. Composition: rule of thirds, centered subject. Avoid: visible text, brand logos, gimmicky elements.&#39;</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Style Vocabulary</div><div class="section-desc">Words that change the output dramatically</div></div></div><div class="content-body"><ul class="bullets"><li>Photorealistic / cinematic / documentary</li><li>Illustration / vector / line art / flat design</li><li>3D render / isometric / low-poly</li><li>Watercolor / oil painting / pencil sketch</li><li>Editorial / minimalist / brutalist / retro / synthwave</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📸</div><div class="feat-title">Photorealistic</div><div class="feat-desc">Cinematic, documentary, editorial, lifestyle. Look-and-feel of professional photography.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🎨</div><div class="feat-title">Illustration</div><div class="feat-desc">Vector, line art, flat design, watercolor, oil painting, pencil sketch.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">💎</div><div class="feat-title">3D / Synthetic</div><div class="feat-desc">3D render, isometric, low-poly, claymation, surreal, futuristic.</div></div></div><h3 class="sub-h3">Style vocabulary that changes outputs dramatically</h3><p class="sub-body">These specific words shift image outputs meaningfully. Vague style descriptions (&#39;professional&#39;) produce generic output; specific style words produce coherent visual direction.</p><ul class="bullets"><li>Photorealistic / cinematic / documentary / editorial</li><li>Illustration / vector / line art / flat design</li><li>3D render / isometric / low-poly / claymation</li><li>Watercolor / oil painting / pencil sketch / charcoal</li><li>Editorial / minimalist / brutalist / retro / synthwave</li><li>Brand-specific — describe your style in 3-4 words you&#39;ve defined</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Brand Consistency</div><div class="section-desc">Getting on-brand images consistently</div></div></div><div class="content-body"><p class="prose">Define a visual style brief once. Reuse it across every image prompt. For ongoing brand work, save it as a Custom GPT.</p><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎨  THE BRAND VISUAL BRIEF</div><div class="callout-text">Tone (warm/cool, soft/sharp), palette (primary + 2 accents), illustration style (specific), composition rules (centred / asymmetric / negative space), what to never include (specific elements). 5 sentences max — reuse on every image.</div></div></div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎨  THE BRAND VISUAL BRIEF</div><div class="callout-text">Tone (warm/cool, soft/sharp), palette (primary + 2 accents with specific hex), illustration style (specific), composition rules (centred / asymmetric / negative space), what to never include (specific elements). 5 sentences. Reuse on every image — keeps a hundred different images visually consistent.</div></div></div><p class="prose">Brand-consistent imagery requires reusing a visual brief across every prompt. Define once: tone (warm/cool, soft/sharp), palette (primary + 2 accents), illustration style (specific), composition rules (centred / asymmetric), things to avoid. Five sentences. Apply to every image prompt.</p><p class="prose">For ongoing brand work, encode the brief in a Custom GPT — every image generated through the GPT inherits the brand. Saves the 30 seconds of pasting the brief each time and prevents drift over hundreds of images.</p><p class="prose">Brand consistency at scale requires reusing a visual brief across every prompt. Define once: tone, palette, illustration style, composition rules, things to avoid. Apply to every image prompt by pasting the brief alongside the specific image description.</p><p class="prose">For ongoing brand work, encode the brief in a Custom GPT — every image generated through the GPT inherits the brand. Saves the 30 seconds of pasting the brief each time and prevents drift over hundreds of images. Particularly valuable for teams with multiple content creators.</p></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Iteration Pattern</div><div class="section-desc">From first draft to final</div></div></div><div class="content-body"><ul class="bullets"><li>First generation — accept it&#39;s a draft</li><li>Refine — &#39;same image but with [specific change]&#39;</li><li>Variations — &#39;show me 4 variations of [aspect]&#39;</li><li>Specific edits — point at part of the image, request a change</li><li>Final — once you have the right composition, regenerate at higher quality</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Generate first image</div><div class="step-desc">Accept it&#39;s a draft. The first generation establishes baseline.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Refine via &#39;same image but with X&#39;</div><div class="step-desc">&#39;Same image but warmer lighting&#39; / &#39;same image but subject facing left&#39;.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Generate variations</div><div class="step-desc">&#39;Show me 4 variations of [aspect]&#39; — composition, mood, style.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Specific edits</div><div class="step-desc">Point at part of the image, request a change. Local edits vs full regeneration.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Final at quality</div><div class="step-desc">Once composition is right, regenerate at highest quality for final asset.</div></div></div></div></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Common Use Cases</div><div class="section-desc">What teams actually produce</div></div></div><div class="content-body"><ul class="bullets"><li>Blog and social header images</li><li>Slide deck illustrations</li><li>Product mockup illustrations (not photo-real product shots — those still need real photography)</li><li>Infographics and labelled diagrams (text rendering is now reliable)</li><li>Concept art for early-stage product design</li><li>Custom illustrations for newsletters and email campaigns</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📝</div><div class="feat-title">Editorial</div><div class="feat-desc">Blog headers, social headers, newsletter imagery. The volume use case.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📊</div><div class="feat-title">Mockups</div><div class="feat-desc">Product mockups (not photo-real product shots), concept art, slide illustrations.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📈</div><div class="feat-title">Infographics</div><div class="feat-desc">Diagrams with text — text rendering is now reliable. Charts, labelled visuals.</div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">What It&#39;s Not Good At</div><div class="section-desc">Honest limits</div></div></div><div class="content-body"><ul class="bullets"><li>Photo-real product photography — fingers, faces, and product details still glitch</li><li>Recognisable people — generates likenesses but with policy restrictions on real public figures</li><li>Highly technical diagrams (engineering schematics, anatomical accuracy)</li><li>Brand logos — never let AI generate a brand logo, it won&#39;t be defensible</li><li>Anything you&#39;ll print at scale without manual cleanup</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Use for editorial imagery, illustrations, concept art</li><li>Use for slide deck visuals</li><li>Use for blog and social headers</li><li>Use for mockup illustrations</li><li>Use for infographics with text</li><li>Combine with brand brief for consistency</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Photo-real product photography — fingers, faces, product details glitch</li><li>Recognisable real people — restricted by policy</li><li>Brand logos — never let AI generate; not defensible</li><li>Highly technical diagrams (engineering schematics, anatomical accuracy)</li><li>Anything you&#39;ll print at scale without manual cleanup</li><li>Customer-facing assets without human review pass</li></ul></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Rights and Disclosure</div><div class="section-desc">Who owns the output</div></div></div><div class="content-body"><ul class="bullets"><li>OpenAI&#39;s terms — you generally own commercial use rights on generated images</li><li>Training data risk — small risk that elements resemble copyrighted training images; review for high-stakes uses</li><li>Disclosure — be honest about AI-generated visuals where audiences expect human work (illustrations, fine art)</li><li>Public figures — restricted; don&#39;t generate likenesses of named real people for commercial use</li></ul><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚠️  RESTRICTIONS WORTH KNOWING</div><div class="callout-text">Don&#39;t generate named real people for commercial use — restricted by policy and often by jurisdiction. Don&#39;t generate brand logos — won&#39;t be defensible. Watermark or disclose AI-generated images where audiences expect human work (fine art, illustrations, regulated industries).</div></div></div><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⚖️  RIGHTS AND DISCLOSURE</div><div class="callout-text">OpenAI&#39;s terms generally grant commercial rights on paid tiers. Small risk that elements resemble copyrighted training images — review for high-stakes uses. Be honest about AI-generated visuals where audiences expect human work (fine art, illustrations). Public figures and named real people are restricted by design.</div></div></div></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating ChatGPT Image Generation as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">BRAND IMAGE BRIEF</div><div class="prompt-text">Generate an image. Subject: [subject]. Style: photorealistic editorial, soft natural lighting. Palette: warm cream and deep teal. Composition: centred, negative space top-left, mood is calm and focused. Avoid: text, logos, gimmicky elements.</div></div><div class="prompt-card"><div class="prompt-label">ITERATION</div><div class="prompt-text">Same image but: [specific change]. Keep everything else identical.</div></div><div class="prompt-card"><div class="prompt-label">VARIATIONS BRIEF</div><div class="prompt-text">Show me 4 variations of [the current image]. Vary: composition only (one centred, one rule-of-thirds, one asymmetric, one wide). Keep subject and style identical.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use ChatGPT Image Generation on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

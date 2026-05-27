@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatGPT Prompt Guide — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --green:#10A37F;--green-l:#2EC4A9;--green-soft:#E6F7F4;
+  --blue:#1A6FE8;--blue-soft:#EEF3FD;
+  --purple:#7C3AED;--purple-soft:#F3EEFF;
+  --orange:#E07B39;--orange-soft:#FEF3EB;
+  --red:#C13B3B;--red-soft:#FEEEEE;
+  --page-bg:#F9F9F9;--sidebar-bg:#1C1C1C;
+  --card-bg:#FFFFFF;--hdr-bg:#F0F0F0;--border:#E5E5E5;
+  --ink:#0D0D0D;--text-mid:#353740;--muted:#6E6E80;
+  --green-bg:#E6F7F4;--warn:#B45309;--warn-bg:#FEF9C3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--green-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:#555;padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#A0A0A0;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--green);background:rgba(16,163,127,.12)}
+
+/* main */
+.content{max-width:860px;padding:40px 40px 80px}
+
+/* banner */
+.banner{background:linear-gradient(135deg,#1C1C1C 0%,#2A2A2A 60%,#1C1C1C 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(16,163,127,.15) 0%,transparent 60%)}
+.banner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(16,163,127,.08) 0%,transparent 60%)}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--green-l);text-transform:uppercase;margin-bottom:10px;position:relative}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px;position:relative}
+.banner p{font-size:15px;color:#B0B0B0;max-width:560px;margin:0 auto;position:relative}
+.banner-badge{display:inline-block;background:rgba(16,163,127,.2);color:var(--green-l);font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:16px;letter-spacing:.06em;position:relative;border:1px solid rgba(16,163,127,.3)}
+
+/* section card */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--green);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--muted);margin-top:2px}
+.section-body{padding:22px}
+
+/* callouts */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.gpt{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.gpt .callout-body strong{color:var(--green)}
+
+/* feature grid */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.feature-card .fc-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.feature-card.blue{border-top-color:var(--blue)}
+.feature-card.purple{border-top-color:var(--purple)}
+.feature-card.orange{border-top-color:var(--orange)}
+
+/* steps */
+.step-list{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--green);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--text-mid);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:#A0A0A0;font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #2D2D2D}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--text-mid);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+
+/* sub labels */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--green);text-transform:uppercase;margin:20px 0 10px}
+
+/* prompt tabs */
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px}
+.tab-btn{padding:7px 18px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--text-mid);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green-l);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.copy-btn{background:none;border:1px solid rgba(46,196,169,.3);color:var(--green-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600}
+.copy-btn:hover{background:rgba(16,163,127,.15)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--text-mid);line-height:1.6;font-style:italic}
+
+/* trouble items */
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--green);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{background:#fff;padding:12px 16px;font-size:13.5px;color:var(--text-mid);line-height:1.55}
+
+/* mockup */
+.mockup{background:#1C1C1C;border-radius:10px;padding:20px;margin:16px 0;border:1px solid #2D2D2D}
+.mockup-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #2D2D2D}
+.mockup-model{background:#2D2D2D;color:var(--green-l);font-size:12px;font-weight:700;padding:4px 12px;border-radius:12px}
+.mockup-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:#555;text-transform:uppercase}
+.mockup-row{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.mockup-row.right{justify-content:flex-end}
+.mockup-bubble{max-width:80%;border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5}
+.mockup-bubble.user{background:#2D2D2D;color:#E0E0E0;border-radius:10px 10px 2px 10px}
+.mockup-bubble.gpt{background:rgba(16,163,127,.1);color:#C0E8DF;border-radius:10px 10px 10px 2px;border:1px solid rgba(16,163,127,.2)}
+.gpt-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(16,163,127,.15);color:var(--green-l);font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.roadmap-step .rs-num{font-size:28px;font-weight:700;color:var(--green);margin-bottom:6px}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--text-mid);line-height:1.5}
+
+/* ── BEFORE / AFTER — unique to ChatGPT Prompt Guide ── */
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:16px 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.ba-col{padding:16px 18px}
+.ba-col.before{background:#FFF8F8;border-right:1px solid var(--border)}
+.ba-col.after{background:var(--green-soft)}
+.ba-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ba-col.before .ba-label{color:var(--red,#C13B3B)}
+.ba-col.after .ba-label{color:var(--green)}
+.ba-dot{width:8px;height:8px;border-radius:50%}
+.ba-col.before .ba-dot{background:#C13B3B}
+.ba-col.after .ba-dot{background:var(--green)}
+.ba-prompt{font-size:13px;color:var(--text-mid);line-height:1.55;font-style:italic;background:#fff;border-radius:6px;padding:10px 12px;border:1px solid var(--border)}
+.ba-col.after .ba-prompt{border-color:#B2E5D8}
+.ba-note{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4}
+.ba-col.after .ba-note{color:#2E7D5E}
+
+/* pattern card */
+.pattern-grid{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.pattern-card{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;display:grid;grid-template-columns:52px 1fr}
+.pc-icon{background:var(--green);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center}
+.pc-body{padding:12px 16px}
+.pc-name{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.pc-when{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:6px}
+.pc-example{font-size:12.5px;color:var(--text-mid);line-height:1.45;font-style:italic;background:var(--hdr-bg);border-radius:4px;padding:6px 10px;margin-top:6px}
+.pattern-card.blue .pc-icon{background:var(--blue)}
+.pattern-card.blue .pc-when{color:var(--blue)}
+.pattern-card.purple .pc-icon{background:var(--purple)}
+.pattern-card.purple .pc-when{color:var(--purple)}
+.pattern-card.orange .pc-icon{background:var(--orange)}
+.pattern-card.orange .pc-when{color:var(--orange)}
+
+/* anatomy block */
+.anatomy{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.anatomy-block{border-radius:8px;padding:14px;text-align:center}
+.anatomy-block .ab-letter{font-size:28px;font-weight:700;margin-bottom:4px}
+.anatomy-block h4{font-size:12px;font-weight:700;margin-bottom:4px}
+.anatomy-block p{font-size:11.5px;line-height:1.4}
+.ab-role{background:#E6F7F4;border:1px solid #A8DDD2} .ab-role .ab-letter{color:var(--green)} .ab-role h4{color:var(--green)}
+.ab-task{background:#EEF3FD;border:1px solid #B0CCEF} .ab-task .ab-letter{color:var(--blue)} .ab-task h4{color:var(--blue)}
+.ab-ctx{background:#F3EEFF;border:1px solid #C4A8F0} .ab-ctx .ab-letter{color:var(--purple)} .ab-ctx h4{color:var(--purple)}
+.ab-fmt{background:#FEF3EB;border:1px solid #F0C4A0} .ab-fmt .ab-letter{color:var(--orange)} .ab-fmt h4{color:var(--orange)}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <div class="nav-section">ChatGPT Prompt Guide</div>
+  <a class="nav-link" href="#s01">01 — What is Prompt Engineering?</a>
+  <a class="nav-link" href="#s02">02 — Anatomy of a Great Prompt</a>
+  <a class="nav-link" href="#s03">03 — Prompt Patterns & Techniques</a>
+  <a class="nav-link" href="#s04">04 — Loading Context Effectively</a>
+  <a class="nav-link" href="#s05">05 — Iterating & Refining</a>
+  <a class="nav-link" href="#s06">06 — Output Format Mastery</a>
+  <a class="nav-link" href="#s07">07 — Advanced Techniques</a>
+  <a class="nav-link" href="#s08">08 — Common Mistakes & Fixes</a>
+  <a class="nav-link" href="#s09">09 — Suggested Prompts</a>
+  <a class="nav-link" href="#s10">10 — See It In Action</a>
+  <a class="nav-link" href="#s11">11 — Your Roadmap</a>
+</aside>
+<main class="content">
+
+<div class="banner">
+  <div class="banner-eyebrow">The AI Advantage Co · User Guide</div>
+  <h1>◉ ChatGPT Prompt Guide</h1>
+  <p>The complete prompting playbook — patterns, techniques, and frameworks that turn average results into exceptional ones</p>
+  <div class="banner-badge">OpenAI · GPT-4o · Prompting Mastery</div>
+</div>
+
+<!-- 01 -->
+<div class="section-card" id="s01">
+  <div class="section-header">
+    <div class="sec-num">01</div>
+    <div><h2>What is Prompt Engineering?</h2><p>Why the words you choose determine everything you get</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Prompt engineering is the practice of crafting inputs to AI models to reliably produce high-quality outputs. It's not about memorising tricks — it's about understanding how language models process information and communicating in a way that gives them exactly what they need to do their best work.</p>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:20px">The same question, phrased two different ways, can produce results that are worlds apart. A skilled prompter consistently gets results that feel like they came from a subject matter expert. An unskilled prompter gets generic responses and concludes that AI isn't very good. The difference is technique, not the tool.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">🎯</div>
+        <h4>Specificity Beats Brevity</h4>
+        <p>The more specific and contextual your prompt, the better the output. ChatGPT doesn't benefit from vague instructions — it thrives on precision.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">🔁</div>
+        <h4>Prompting is a Conversation</h4>
+        <p>One-shot prompts are rarely optimal. The best results come from treating ChatGPT as a collaborator — an initial prompt followed by targeted refinements.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🧠</div>
+        <h4>Context is the Multiplier</h4>
+        <p>ChatGPT has no knowledge of your specific situation unless you provide it. Every piece of relevant context you add multiplies the relevance of the output.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">📐</div>
+        <h4>Structure Drives Quality</h4>
+        <p>Structured prompts produce structured outputs. Learning a small number of reusable prompt structures gives you reliable, predictable results across any topic.</p>
+      </div>
+    </div>
+    <div class="callout gpt">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>The prompting payoff</strong><p>Research consistently shows that well-structured prompts improve output quality by 30–50% compared to vague equivalents. In practice, that gap is often larger — a bad prompt produces something you can't use; a great prompt produces something you can send or publish with minimal editing.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section-card" id="s02">
+  <div class="section-header">
+    <div class="sec-num">02</div>
+    <div><h2>Anatomy of a Great Prompt</h2><p>The four building blocks — and how to use them together</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Every high-performing prompt is built from the same four components. You won't always use all four — but knowing each one means you know what's missing when results fall short.</p>
+    <div class="anatomy">
+      <div class="anatomy-block ab-role">
+        <div class="ab-letter">R</div>
+        <h4>Role</h4>
+        <p>Who ChatGPT should be — expertise, perspective, persona</p>
+      </div>
+      <div class="anatomy-block ab-task">
+        <div class="ab-letter">T</div>
+        <h4>Task</h4>
+        <p>What it should produce — verb, deliverable, scope</p>
+      </div>
+      <div class="anatomy-block ab-ctx">
+        <div class="ab-letter">C</div>
+        <h4>Context</h4>
+        <p>What it needs to know — audience, background, constraints</p>
+      </div>
+      <div class="anatomy-block ab-fmt">
+        <div class="ab-letter">F</div>
+        <h4>Format</h4>
+        <p>How to structure the output — length, layout, style</p>
+      </div>
+    </div>
+    <div class="sub-label">Weak vs strong — the same request, two very different results</div>
+    <div class="before-after">
+      <div class="ba-col before">
+        <div class="ba-label"><div class="ba-dot"></div>Weak prompt</div>
+        <div class="ba-prompt">Write a case study about a client.</div>
+        <div class="ba-note">No role, no context, no format. ChatGPT will invent everything — industry, client type, outcomes, tone. The result will feel generic and unusable.</div>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label"><div class="ba-dot"></div>Strong prompt</div>
+        <div class="ba-prompt">You are a B2B marketing copywriter. Write a 400-word case study for a UK-based HR software company. The client is a 200-person professional services firm that reduced onboarding time by 40% using our platform. Audience: CFOs and HR directors. Tone: confident, data-led. Structure: challenge → solution → result. No jargon.</div>
+        <div class="ba-note">Role + specific task + full context + format instructions. Outputs something close to final copy.</div>
+      </div>
+    </div>
+    <div class="sub-label">Building a prompt — step by step</div>
+    <div class="step-list">
+      <div class="step-item"><div class="step-num">1</div><div class="step-body"><h4>Start with the Role (optional but powerful)</h4><p>"Act as a senior financial analyst…" or "You are an experienced HR business partner…" — this primes ChatGPT with the right knowledge base, vocabulary, and perspective before you ask for anything.</p></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-body"><h4>State the Task precisely</h4><p>Use a strong verb: write, analyse, summarise, compare, critique, rewrite, list, draft. Then specify the deliverable and its scope. "Write a 250-word email" beats "write an email" every time.</p></div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-body"><h4>Load the Context</h4><p>Audience, industry, company size, goal, existing material, constraints, what to avoid. Don't make ChatGPT guess — anything it doesn't know, it invents. Anything you tell it, it uses.</p></div></div>
+      <div class="step-item"><div class="step-num">4</div><div class="step-body"><h4>Specify the Format</h4><p>Word count, structure (bullet / paragraph / table / numbered list), sections to include, tone (professional, casual, direct, warm). Without format instructions, ChatGPT defaults to padded paragraphs.</p></div></div>
+    </div>
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>You don't need all four every time</strong><p>A simple question doesn't need a full RTCF structure. Use it for anything where output quality matters — documents, emails, analysis, creative work. The more consequential the output, the more components you should include.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section-card" id="s03">
+  <div class="section-header">
+    <div class="sec-num">03</div>
+    <div><h2>Prompt Patterns & Techniques</h2><p>Eight proven patterns that unlock different capabilities</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Prompt patterns are reusable structures that reliably produce specific types of output. Learn these eight and you have a toolkit for almost any task.</p>
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <div class="pc-icon">🎭</div>
+        <div class="pc-body">
+          <div class="pc-name">Role Prompting</div>
+          <div class="pc-when">When: you need expert-level knowledge or a specific perspective</div>
+          <p style="font-size:13px;color:var(--text-mid)">Assign ChatGPT a specific expert identity. The role shapes vocabulary, depth, assumptions, and framing throughout the entire response.</p>
+          <div class="pc-example">"You are a senior employment lawyer in England. Advise me on the key risks of the following contract clause: [paste clause]"</div>
+        </div>
+      </div>
+      <div class="pattern-card blue">
+        <div class="pc-icon">🪜</div>
+        <div class="pc-body">
+          <div class="pc-name">Chain of Thought</div>
+          <div class="pc-when">When: complex analysis, multi-step problems, decisions with many variables</div>
+          <p style="font-size:13px;color:var(--text-mid)">Ask ChatGPT to reason step-by-step before giving a conclusion. Reduces errors and surfaces assumptions you can challenge.</p>
+          <div class="pc-example">"Before answering, think through this step by step: [problem]. Show your reasoning, then give your recommendation."</div>
+        </div>
+      </div>
+      <div class="pattern-card purple">
+        <div class="pc-icon">📝</div>
+        <div class="pc-body">
+          <div class="pc-name">Few-Shot Prompting</div>
+          <div class="pc-when">When: you need output that matches a specific style, format, or pattern</div>
+          <p style="font-size:13px;color:var(--text-mid)">Show ChatGPT 2–3 examples of what good looks like before asking it to produce something new. It learns the pattern and replicates it.</p>
+          <div class="pc-example">"Here are two examples of the tone I want: [Example 1] / [Example 2]. Now write a similar paragraph about [topic]."</div>
+        </div>
+      </div>
+      <div class="pattern-card orange">
+        <div class="pc-icon">🔄</div>
+        <div class="pc-body">
+          <div class="pc-name">Reverse Prompting</div>
+          <div class="pc-when">When: you're not sure what to ask, or want to discover the right question</div>
+          <p style="font-size:13px;color:var(--text-mid)">Ask ChatGPT what it would need to know to answer your question well. Surfaces missing context you hadn't thought to provide.</p>
+          <div class="pc-example">"I want help with [vague goal]. Before we start, what information do you need from me to give the best possible answer?"</div>
+        </div>
+      </div>
+      <div class="pattern-card">
+        <div class="pc-icon">⚖️</div>
+        <div class="pc-body">
+          <div class="pc-name">Critic & Revise</div>
+          <div class="pc-when">When: you want to improve your own work or ChatGPT's first output</div>
+          <p style="font-size:13px;color:var(--text-mid)">Ask ChatGPT to critique first, then revise. Self-critique produces significantly better second drafts than simple "improve this" requests.</p>
+          <div class="pc-example">"First, identify the three biggest weaknesses in the following text. Then rewrite it fixing those weaknesses: [paste text]"</div>
+        </div>
+      </div>
+      <div class="pattern-card blue">
+        <div class="pc-icon">🌿</div>
+        <div class="pc-body">
+          <div class="pc-name">Constraint Setting</div>
+          <div class="pc-when">When: outputs are too long, too generic, or off-tone</div>
+          <p style="font-size:13px;color:var(--text-mid)">Set explicit constraints — what to include, exclude, length, reading level, tone, format. Constraints force precision and prevent padding.</p>
+          <div class="pc-example">"Write this in under 120 words. No bullet points. No filler phrases. No opening sentence that begins with 'I'. Get straight to the point."</div>
+        </div>
+      </div>
+      <div class="pattern-card purple">
+        <div class="pc-icon">🔀</div>
+        <div class="pc-body">
+          <div class="pc-name">Perspective Shifting</div>
+          <div class="pc-when">When: you need to stress-test an idea or see it from multiple angles</div>
+          <p style="font-size:13px;color:var(--text-mid)">Ask ChatGPT to respond as different stakeholders, critics, or personas. Surfaces objections and considerations you might have missed.</p>
+          <div class="pc-example">"Respond to this proposal from three perspectives: (1) a sceptical CFO focused on ROI, (2) a team member worried about workload, (3) a customer who would be affected."</div>
+        </div>
+      </div>
+      <div class="pattern-card orange">
+        <div class="pc-icon">🔗</div>
+        <div class="pc-body">
+          <div class="pc-name">Prompt Chaining</div>
+          <div class="pc-when">When: a complex deliverable that's too large for a single prompt</div>
+          <p style="font-size:13px;color:var(--text-mid)">Break the task into sequential prompts where each output feeds the next. Produces higher-quality results than trying to do everything in one go.</p>
+          <div class="pc-example">Prompt 1: "Outline the structure for a report on [topic]." → Prompt 2: "Write Section 1 from the outline above." → Prompt 3: "Write Section 2…"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section-card" id="s04">
+  <div class="section-header">
+    <div class="sec-num">04</div>
+    <div><h2>Loading Context Effectively</h2><p>How to give ChatGPT the information it needs to do its best work</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Context is the single biggest lever in prompting. ChatGPT has no knowledge of your company, your clients, your industry nuances, or your specific situation. Every gap you leave, it fills with a generic default. Every context you provide, it uses to tailor the output.</p>
+    <div class="sub-label">Types of context — what to load and when</div>
+    <table class="ref-table">
+      <tr><th>Context type</th><th>What to include</th><th>Example</th></tr>
+      <tr><td><strong>Who you are</strong></td><td>Role, industry, organisation type, team size</td><td>"I'm a marketing director at a 50-person UK SaaS company targeting enterprise clients."</td></tr>
+      <tr><td><strong>Who the audience is</strong></td><td>Job title, knowledge level, concerns, what they care about</td><td>"The audience is non-technical HR directors who are sceptical of AI tools."</td></tr>
+      <tr><td><strong>What already exists</strong></td><td>Previous drafts, source material, related documents</td><td>Paste the relevant text directly into the prompt or upload the file.</td></tr>
+      <tr><td><strong>What the goal is</strong></td><td>Desired outcome, action you want the reader to take</td><td>"The goal is to get the CFO to approve a £50K budget for a pilot."</td></tr>
+      <tr><td><strong>What to avoid</strong></td><td>Tone traps, forbidden phrases, topics out of scope</td><td>"Don't mention competitors by name. Avoid technical jargon. No passive voice."</td></tr>
+    </table>
+    <div class="sub-label">The context block technique</div>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">For complex tasks, open with a dedicated context block before the task instruction. This keeps context separate and readable:</p>
+    <div class="before-after">
+      <div class="ba-col before">
+        <div class="ba-label"><div class="ba-dot"></div>Buried context</div>
+        <div class="ba-prompt">Write me a proposal for a project management tool for my company which is a mid-sized UK firm in professional services that has about 150 staff and currently uses spreadsheets and the audience is the ops director and it needs to be persuasive and professional.</div>
+        <div class="ba-note">Context is buried in one long run-on sentence. Easy for the model to miss elements.</div>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label"><div class="ba-dot"></div>Structured context block</div>
+        <div class="ba-prompt">Context: I work at a 150-person UK professional services firm. Current state: managing projects in spreadsheets. Audience: Operations Director. Goal: approve investment in a project management platform. Tone: persuasive, professional, concise.<br><br>Task: Write a one-page business case for upgrading to a dedicated project management tool. Include: problem statement, proposed solution, business benefits, indicative ROI, and recommended next step.</div>
+        <div class="ba-note">Context block + clear task. Every element is visible and used.</div>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body"><strong>Use Custom Instructions for permanent context</strong><p>Anything that's always true — your role, your industry, your default tone preference — belongs in Custom Instructions (Settings → Personalisation → Custom Instructions), not in every prompt. Reserve prompt-level context for task-specific information that changes between requests.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section-card" id="s05">
+  <div class="section-header">
+    <div class="sec-num">05</div>
+    <div><h2>Iterating & Refining</h2><p>How to turn a good first draft into the output you actually need</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">The best prompters don't write perfect prompts first time — they iterate efficiently. The conversation is the feature. ChatGPT remembers everything in the current session, so each message builds on what came before.</p>
+    <div class="sub-label">Refinement types — and when to use each</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">✂️</div>
+        <h4>Length & Density</h4>
+        <p>"Cut this to 150 words keeping only the three strongest points." / "Expand the second section — it's underdeveloped." Be specific about what to keep and what to cut.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">🎨</div>
+        <h4>Tone Adjustment</h4>
+        <p>"Make this more direct — less diplomatic." / "Rewrite in a warmer, more conversational tone." / "Remove any language that sounds like corporate jargon." Tone refinements are often where the biggest quality jumps happen.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🔀</div>
+        <h4>Structure Change</h4>
+        <p>"Reorganise this — lead with the recommendation, then the rationale." / "Convert this into a table." / "Break this into three distinct sections with headings."</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">🎯</div>
+        <h4>Focus Narrowing</h4>
+        <p>"This is too broad — focus only on the commercial implications." / "Ignore the technical aspects, the audience won't care. Focus on business outcomes."</p>
+      </div>
+    </div>
+    <div class="sub-label">The refinement conversation — what good looks like</div>
+    <div class="step-list">
+      <div class="step-item"><div class="step-num">1</div><div class="step-body"><h4>Send a solid first prompt</h4><p>Use the RTCF structure. Don't try to write the perfect prompt — a strong first prompt gives you a useful starting point, not a finished product.</p></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-body"><h4>Evaluate specifically</h4><p>Don't just say "this isn't right." Identify exactly what's wrong: too long, wrong tone, missing a section, wrong audience assumption. The more specific your diagnosis, the better the revision.</p></div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-body"><h4>Give targeted instructions</h4><p>"Keep everything except the third paragraph — rewrite that to focus on cost savings rather than features." Targeted beats vague every time.</p></div></div>
+      <div class="step-item"><div class="step-num">4</div><div class="step-body"><h4>Ask for alternatives when stuck</h4><p>"Give me three alternative versions of the opening sentence with different tones." Multiple options unstick you faster than iterating on one version that isn't working.</p></div></div>
+      <div class="step-item"><div class="step-num">5</div><div class="step-body"><h4>Use self-critique to raise the bar</h4><p>"What are the three weakest parts of your last response?" Then: "Now fix them." This often surfaces issues you wouldn't have spotted yourself.</p></div></div>
+    </div>
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>2–3 iterations is the sweet spot</strong><p>Most professional outputs reach publishable quality in 2–3 exchanges. If you're on iteration 6 and it still isn't right, the issue is usually a missing piece of context. Stop iterating and add the context explicitly.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section-card" id="s06">
+  <div class="section-header">
+    <div class="sec-num">06</div>
+    <div><h2>Output Format Mastery</h2><p>How to get the exact structure, length, and layout you need</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">ChatGPT defaults to long, padded paragraphs unless you tell it otherwise. Format instructions are one of the highest-leverage additions to any prompt — they change not just how the output looks, but how usable it actually is.</p>
+    <table class="ref-table">
+      <tr><th>Format goal</th><th>What to say in your prompt</th></tr>
+      <tr><td>Short, tight output</td><td>"Maximum 150 words. No filler. No preamble. Start with the first substantive point."</td></tr>
+      <tr><td>Bullet list</td><td>"Return this as a bullet list. Maximum 6 bullets. Each bullet: one idea, one sentence."</td></tr>
+      <tr><td>Table</td><td>"Format as a table with columns: [Column A] / [Column B] / [Column C]."</td></tr>
+      <tr><td>Structured document</td><td>"Use the following structure: [Heading 1] / [Heading 2] / [Heading 3]. Each section: 2–3 paragraphs."</td></tr>
+      <tr><td>Numbered steps</td><td>"Return as numbered steps. Each step: bold action verb title + one explanatory sentence."</td></tr>
+      <tr><td>Executive summary</td><td>"Write a 3-paragraph executive summary: paragraph 1 = situation, paragraph 2 = key findings, paragraph 3 = recommendation."</td></tr>
+      <tr><td>Email format</td><td>"Format as a professional email. Subject line: [topic]. Opening: [context]. Body: [key points]. Close: [clear CTA]."</td></tr>
+      <tr><td>JSON / structured data</td><td>"Return the output as valid JSON with the following fields: name, summary, priority (high/medium/low), owner."</td></tr>
+    </table>
+    <div class="sub-label">Tone vocabulary — say exactly what you mean</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">💼</div>
+        <h4>Professional</h4>
+        <p>Use: "professional, confident, authoritative, direct, plain English, no jargon, no hedging, no filler phrases, active voice."</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">🤝</div>
+        <h4>Warm & Conversational</h4>
+        <p>Use: "warm, conversational, friendly, approachable, human, informal but not casual, second person (you/your)."</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🔬</div>
+        <h4>Technical</h4>
+        <p>Use: "technical, precise, detailed, assume the reader has domain expertise, include specifics, avoid simplification."</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">📣</div>
+        <h4>Persuasive</h4>
+        <p>Use: "persuasive, benefit-led, action-oriented, compelling, address objections, create urgency without pressure."</p>
+      </div>
+    </div>
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Avoid vague tone words</strong><p>"Make it better" or "make it more engaging" gives ChatGPT almost nothing to work with. Be precise: "Remove all passive voice sentences." "Replace every adjective with a specific example." "Cut every sentence that doesn't add new information." Specific instructions produce specific improvements.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section-card" id="s07">
+  <div class="section-header">
+    <div class="sec-num">07</div>
+    <div><h2>Advanced Techniques</h2><p>Power-user patterns for complex tasks and consistent results</p></div>
+  </div>
+  <div class="section-body">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">📌</div>
+        <h4>Session Anchoring</h4>
+        <p>Open a complex session with a detailed context block: "For this entire conversation: I am [role], working on [project], the audience is [audience], and all outputs should follow [style rules]." Every follow-up inherits this context automatically.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">🧩</div>
+        <h4>Meta Prompting</h4>
+        <p>Ask ChatGPT to write the prompt for you: "I need to produce [deliverable]. What's the best prompt I should use to get it? Show me the prompt, then run it." Useful when you're not sure how to frame a complex request.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🎲</div>
+        <h4>Parallel Drafts</h4>
+        <p>"Give me three completely different versions of this — vary the tone, structure, and opening significantly." Review all three, take the best elements of each, and ask ChatGPT to synthesise them into one final version.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">🔁</div>
+        <h4>Prompt Templates</h4>
+        <p>Once you've found a prompt structure that works well for a recurring task, save it with [PLACEHOLDERS] in square brackets. Build a GPT or keep a notes file of your best templates — they compound in value over time.</p>
+      </div>
+    </div>
+    <div class="sub-label">The advanced briefing format</div>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">For high-stakes outputs, use this 6-part briefing structure. It takes 2 minutes to fill in and typically produces a near-final output on the first attempt:</p>
+    <table class="ref-table">
+      <tr><th>Section</th><th>What to write</th></tr>
+      <tr><td><strong>Role</strong></td><td>Act as a [specific expert identity]</td></tr>
+      <tr><td><strong>Goal</strong></td><td>The purpose of this output and what success looks like</td></tr>
+      <tr><td><strong>Audience</strong></td><td>Who will read this, their level of knowledge, what they care about</td></tr>
+      <tr><td><strong>Context</strong></td><td>Background information, existing material, relevant constraints</td></tr>
+      <tr><td><strong>Deliverable</strong></td><td>Exactly what to produce: format, sections, length, structure</td></tr>
+      <tr><td><strong>Rules</strong></td><td>Tone requirements, things to avoid, specific language guidelines</td></tr>
+    </table>
+    <div class="callout gpt">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>The temperature trick — ask for contrasting options</strong><p>"Write two versions: one conservative and one bold." The contrast helps you identify exactly what you're looking for and gives you raw material to combine. It's faster than iterating on one version and asking it to be "more bold" — because you're comparing, not imagining.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section-card" id="s08">
+  <div class="section-header">
+    <div class="sec-num">08</div>
+    <div><h2>Common Mistakes & Fixes</h2><p>Why prompts fail — and exactly how to fix them</p></div>
+  </div>
+  <div class="section-body">
+    <div class="trouble-item">
+      <div class="trouble-q">The output is too generic — it could apply to anyone in any industry</div>
+      <div class="trouble-a">You didn't provide specific context. Add: your industry, company size, audience job title, and the specific goal. Generic prompt = generic output. The fix is always more specificity, not a different tool.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">The response is too long and padded with obvious statements</div>
+      <div class="trouble-a">Add hard constraints: "Maximum 200 words." + "Remove every sentence that doesn't add new information." + "No filler openers like 'Great question' or 'Certainly'." These three instructions together cut output length by 40–60% and raise quality significantly.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">ChatGPT keeps misunderstanding what I want</div>
+      <div class="trouble-a">Try reverse prompting first: "Before you answer, tell me what you think I'm asking for and what you plan to produce. Wait for my confirmation before proceeding." This surfaces the misalignment before it produces unusable output.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">The tone is wrong — too formal, too casual, or too generic</div>
+      <div class="trouble-a">Tone descriptions like "professional" are too vague. Instead: "Write like a direct, experienced senior consultant — no hedging, no filler, no passive voice. Say what you mean." Or paste a short example: "Match the tone of this: [paste sample text]."</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">I'm getting the same kind of output no matter how I refine it</div>
+      <div class="trouble-a">You've hit the ceiling of that prompt structure. Switch patterns: try few-shot (give examples), try parallel drafts ("give me three very different versions"), or try starting fresh with a completely reframed prompt. Sometimes the initial framing locks you into a response mode you need to break out of.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">ChatGPT adds caveats and disclaimers I didn't ask for</div>
+      <div class="trouble-a">Add to your prompt: "Do not add caveats, disclaimers, or recommendations to seek professional advice unless I ask for them." Or: "Respond as if you are writing for a professional audience who understands the limitations of AI-generated content." This removes most unsolicited hedging.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section-card" id="s09">
+  <div class="section-header">
+    <div class="sec-num">09</div>
+    <div><h2>Suggested Prompts</h2><p>Ready-to-use prompt templates for common scenarios</p></div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="showTab(this,'structure')">Prompt Structures</button>
+        <button class="tab-btn" onclick="showTab(this,'refine')">Refinement Prompts</button>
+      </div>
+      <div class="prompt-panel active" id="tab-structure">
+        <div class="prompt-box">
+          <div class="prompt-label">The full RTCF brief <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Role: Act as a [specific expert — e.g. senior copywriter / financial analyst / HR business partner]. Goal: [what this output needs to achieve]. Audience: [who will read this — job title, knowledge level, what they care about]. Context: [relevant background, existing material, key facts]. Deliverable: [exactly what to produce — format, length, structure]. Rules: [tone, what to avoid, style requirements]. Now produce the deliverable.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Chain of thought analysis <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I need you to analyse [problem / situation / decision]. Before giving your conclusion, reason through this step by step: (1) What are the key factors at play? (2) What assumptions is this analysis making? (3) What are the strongest arguments for each option? (4) What are the risks and trade-offs? Only after completing this reasoning, give me your conclusion and recommendation in no more than 150 words.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Few-shot style matching <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I need you to produce [deliverable type] that matches this exact tone and style. Here are two examples of what I'm looking for: Example 1: [paste example]. Example 2: [paste example]. Study the style carefully — notice the sentence length, vocabulary level, level of formality, and how ideas are structured. Now write [specific new deliverable] in exactly the same style. Topic: [topic].</div>
+        </div>
+      </div>
+      <div class="prompt-panel" id="tab-refine">
+        <div class="prompt-box">
+          <div class="prompt-label">Self-critique and improve <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Review your last response. Identify the three specific weaknesses — things that are too vague, too long, poorly argued, or off-tone. List them explicitly. Then rewrite the response fixing exactly those weaknesses. Do not simply rephrase — make substantive improvements to each identified issue.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Targeted refinement <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Keep everything in your last response except [specific section or element]. Rewrite just that part to [specific instruction — e.g. focus on cost savings not features / reduce to 50 words / use a more direct tone / lead with the conclusion]. Leave the rest unchanged.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Parallel options <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Give me three completely different versions of [specific element — e.g. the opening paragraph / the subject line / the recommendation]. Version 1: [tone A — e.g. direct and concise]. Version 2: [tone B — e.g. warm and persuasive]. Version 3: [tone C — e.g. bold and challenging]. I'll tell you which direction to develop further.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section-card" id="s10">
+  <div class="section-header">
+    <div class="sec-num">10</div>
+    <div><h2>See It In Action</h2><p>A live prompting session — from vague request to polished output</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Watch how a weak initial request is transformed through context, structure, and targeted refinement into a polished final output — using the techniques from this guide.</p>
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="mockup-model">◉ GPT-4o</div>
+        <div class="mockup-label">Prompt Engineering — Live session</div>
+      </div>
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">Write something for my newsletter about AI in the workplace.</div>
+      </div>
+      <div class="mockup-row">
+        <div>
+          <div class="gpt-tag">◉ ChatGPT</div>
+          <div class="mockup-bubble gpt">Artificial intelligence is transforming the workplace in profound ways. From automation to decision-making, AI tools are reshaping how we work…<br><br><em style="color:#6E6E80;font-size:12px">[Generic 400-word output with no specific angle, audience, or insight]</em></div>
+        </div>
+      </div>
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">Let me give you more to work with. Role: act as a B2B thought leadership writer. Audience: senior business leaders (MD/CEO level) at UK SMEs — they're cautious about AI but curious. Goal: make them feel informed and reassured, not pressured. Format: 250-word newsletter section with a strong opener, 3 concrete points, and a closing question to prompt replies. Tone: confident, direct, human — no corporate clichés. Topic: one practical AI tool they can use this week that takes under 10 minutes to start.</div>
+      </div>
+      <div class="mockup-row">
+        <div>
+          <div class="gpt-tag">◉ ChatGPT</div>
+          <div class="mockup-bubble gpt"><strong>The 10-minute AI experiment most leaders are skipping</strong><br><br>Most AI conversations in boardrooms are about strategy, risk, and the long term. This one is about Tuesday afternoon.<br><br>If you haven't used ChatGPT to prepare for a meeting, you're leaving a straightforward productivity gain on the table. Here's how it works in practice: paste your agenda, add three bullet points of context about the attendees, and ask it to surface the questions you should be asking and the objections you're likely to face. Takes 8 minutes. Saves you the 30 minutes of mental preparation you'd do on the drive over.<br><br>It won't replace your judgement — it will sharpen it. That's the part most leaders miss: this isn't about automation, it's about thinking better before the conversation starts.<br><br>What's one meeting this week where you could test this?</div>
+        </div>
+      </div>
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">Strong. Tighten the second paragraph — it's slightly long. And change "straightforward productivity gain" in the opener — sounds too corporate.</div>
+      </div>
+      <div class="mockup-row">
+        <div>
+          <div class="gpt-tag">◉ ChatGPT</div>
+          <div class="mockup-bubble gpt"><strong>The 10-minute AI experiment most leaders are skipping</strong><br><br>Most AI conversations in boardrooms are about strategy and risk. This one is about Tuesday afternoon.<br><br>Paste your meeting agenda into ChatGPT. Add who's attending and what you're trying to achieve. Ask it to surface the questions you should be asking and the objections you'll likely face. Eight minutes. Done. The 30 minutes of mental prep you'd normally do on the drive over — handled.<br><br>This isn't about automation. It's about thinking better before the conversation starts.<br><br>What's one meeting this week where you could test this?</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout gpt" style="margin-top:16px">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>What changed — and why</strong><p>The first prompt had no Role, no Audience, no Format, no Goal. The result was a generic essay. The second prompt loaded all four RTCF components in under 80 words. The result was close to publishable. One targeted refinement — a specific sentence to tighten, a specific phrase to replace — produced the final version. Total time: under 4 minutes.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section-card" id="s11">
+  <div class="section-header">
+    <div class="sec-num">11</div>
+    <div><h2>Your Roadmap</h2><p>From occasional user to confident prompt architect</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Four stages — each builds a skill that makes every future prompt better.</p>
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="rs-num">01</div>
+        <h4>Use RTCF on One Real Task</h4>
+        <p>Take something you'd normally send to ChatGPT with a vague prompt. Rebuild it using Role, Task, Context, Format. Compare the outputs. That difference is your benchmark.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--blue)">
+        <div class="rs-num" style="color:var(--blue)">02</div>
+        <h4>Learn Two Patterns</h4>
+        <p>Pick Chain of Thought and Critic & Revise. Apply them this week on tasks that matter. These two patterns alone solve 60% of the "ChatGPT isn't good enough" complaints.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--purple)">
+        <div class="rs-num" style="color:var(--purple)">03</div>
+        <h4>Build a Prompt Template Library</h4>
+        <p>Every time you craft a prompt that produces great results, save it with [PLACEHOLDERS]. In a month you'll have a personal library that makes every task faster and more consistent.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--orange)">
+        <div class="rs-num" style="color:var(--orange)">04</div>
+        <h4>Turn Your Best Prompts into GPTs</h4>
+        <p>Take your three most-used prompt templates and build a custom GPT for each one. Share them with your team. Your prompting expertise becomes a system anyone can use.</p>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:20px">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Your Quick Win</strong><p>Open ChatGPT now. Think of a task you completed this week where the output was "fine but not great." Rebuild the prompt using RTCF — add Role, make the Task precise, load the Context, specify the Format. Run it and compare. That improvement, applied to every task, is the compound return of learning to prompt well.</p></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script>
+function showTab(btn, id) {
+  btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.closest('.prompt-tabs').querySelectorAll('.prompt-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-box').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig = btn.innerText; btn.innerText = '✓ Copied';
+    setTimeout(()=>btn.innerText=orig, 2000);
+  });
+}
+const sections = document.querySelectorAll('.section-card');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

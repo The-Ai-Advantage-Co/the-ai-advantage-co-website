@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gemini in Google Sheets | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF5F4;color:#1C0800}
+:root{--blue:#1A73E8;--green:#34A853;--yellow:#F9AB00;--orange:#EA4335;--sidebar:#1A0D00;--card:#fff;--hdr:#FFEBE8;--border:#FDDCDA;--ink:#1C0800;--mid:#4A2A24;--muted:#8A6A64}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:#FBBD33;padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(255,245,244,.65);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#fff;border-left-color:var(--blue);background:rgba(26,115,232,.15)}
+.nav-num{display:inline-block;width:22px;font-size:11px;color:#FBBD33;opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--sidebar);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'📊';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.12;line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:#FBBD33;text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(255,245,244,.7);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(26,13,0,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.section-header h2{font-size:17px;font-weight:700;color:var(--ink)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#EAF7EE;border-color:var(--green)}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FEF9C3;border-color:#B45309}.callout.warning strong{color:#92400E}
+.callout.info{background:#EAF1FD;border-color:var(--blue)}.callout.info strong{color:#1565C0}
+.callout.gemini{background:#FEF7E0;border-color:var(--yellow)}.callout.gemini strong{color:#92400E}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:8px;padding:16px}
+.feature-card.green{border-top-color:var(--green)}.feature-card.yellow{border-top-color:var(--yellow)}.feature-card.orange{border-top-color:var(--orange)}
+.feature-card h4{color:var(--ink);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;color:#fff;background:var(--blue)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--sidebar);color:#FBBD33;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--hdr)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.prompt-box{display:none;background:var(--hdr);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:#FBBD33;background:var(--sidebar);padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
+.prompt-text{font-size:13px;color:var(--mid);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:var(--sidebar);border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#2A1A0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+/* Sheets mock */
+.sheet-grid{display:grid;font-size:12px;margin:12px 0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.sheet-row{display:grid;border-bottom:1px solid var(--border)}
+.sheet-row:last-child{border-bottom:none}
+.sheet-cell{padding:8px 10px;border-right:1px solid var(--border);color:var(--mid)}
+.sheet-cell:last-child{border-right:none}
+.sheet-hdr .sheet-cell{background:var(--sidebar);color:#FBBD33;font-weight:600}
+.formula-box{background:#1E2A3A;border-radius:8px;padding:14px;font-family:'Courier New',monospace;font-size:13px;color:#81C784;margin:12px 0}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--ink)}
+h3{font-size:16px;font-weight:700;color:var(--ink);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Gemini in Google Sheets</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Gemini in Sheets?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>Help Me Organise</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Formula Generation</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Data Analysis & Insights</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Cleaning & Transforming</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Creating Templates</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Gemini User Guide</div>
+    <h1>Gemini in Google Sheets</h1>
+    <p>Generate formulas, analyse data, clean spreadsheets, and build templates — with Gemini as your built-in spreadsheet expert.</p>
+  </div>
+
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">1</div><h2>What is Gemini in Sheets?</h2></div>
+    <div class="section-body">
+      <p>Gemini in Google Sheets helps you work with data faster — whether you're building formulas, analysing trends, cleaning messy data, or creating spreadsheet templates from scratch. It's accessible via the "Help me organise" panel and the Gemini side panel.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>🧮 Formula generation</h4><p>Describe what you want to calculate in plain English — Gemini writes the formula.</p></div>
+        <div class="feature-card green"><h4>📊 Data insights</h4><p>Ask questions about your data and get analytical answers without building pivot tables manually.</p></div>
+        <div class="feature-card yellow"><h4>🧹 Data cleaning</h4><p>Identify duplicates, fix formatting, standardise entries, and transform columns.</p></div>
+        <div class="feature-card orange"><h4>🏗️ Template creation</h4><p>Generate complete spreadsheet structures — budgets, trackers, dashboards — from a brief description.</p></div>
+      </div>
+      <div class="callout info"><strong>Access points:</strong><p>Click the sparkle/Gemini icon in the toolbar to open "Help me organise," or open the side panel via the Gemini icon on the right rail. For formula help, click any cell and describe what you need in the formula bar assistant.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">2</div><h2>Help Me Organise</h2></div>
+    <div class="section-body">
+      <p>"Help me organise" is Gemini's primary interface in Sheets. It generates structured tables and spreadsheet layouts from a plain text description — useful for creating new sheets or adding structure to existing data.</p>
+      <div class="step"><div class="step-num" style="background:var(--green)">1</div><div class="step-body"><h4>Click the sparkle icon</h4><p>In Google Sheets, click the Gemini icon in the top toolbar to open the "Help me organise" panel.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Describe the structure you need</h4><p>"Create a project tracker with columns for: task name, owner, start date, due date, status (dropdown), and priority." Gemini generates the structure.</p></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">3</div><div class="step-body"><h4>Insert or refine</h4><p>Preview the generated structure, adjust if needed, then insert it into your sheet. Add sample data or dropdowns if suggested.</p></div></div>
+      <div class="callout tip"><strong>Describe the use case, not just the columns:</strong><p>"I'm tracking marketing campaign performance across channels. I need to record spend, impressions, clicks, conversions, and CPA for each campaign." Gemini picks the right columns and can add calculated fields automatically.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">3</div><h2>Formula Generation</h2></div>
+    <div class="section-body">
+      <p>Formula generation is one of the most immediately useful Gemini features in Sheets — especially for users who know what they want but don't know the syntax. Describe the calculation in plain English and Gemini writes the formula.</p>
+      <h3>How to use it</h3>
+      <p>Click a cell, open the side panel, and type: "Write a formula that [description]." Gemini returns the formula with an explanation. Copy it into your cell.</p>
+      <h3>Examples</h3>
+      <table class="ref-table">
+        <tr><th>What you want</th><th>What Gemini writes</th></tr>
+        <tr><td>"Count all rows where column C says 'Complete'"</td><td>=COUNTIF(C:C,"Complete")</td></tr>
+        <tr><td>"Sum column D only where column B = 'Marketing'"</td><td>=SUMIF(B:B,"Marketing",D:D)</td></tr>
+        <tr><td>"Calculate the % change from last month to this month"</td><td>=(C2-B2)/B2*100</td></tr>
+        <tr><td>"Look up the price for a product code in column A from a price table on Sheet2"</td><td>=VLOOKUP(A2,Sheet2!A:B,2,FALSE)</td></tr>
+        <tr><td>"Flag rows where the due date has passed and status is not Complete"</td><td>=IF(AND(B2<TODAY(),C2<>"Complete"),"OVERDUE","")</td></tr>
+      </table>
+      <div class="callout gemini"><strong>Explain a formula you've found:</strong><p>Paste any formula into the side panel and ask "Explain what this formula does step by step." Gemini breaks down complex nested formulas into plain English — great for inheriting someone else's spreadsheet.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">4</div><h2>Data Analysis & Insights</h2></div>
+    <div class="section-body">
+      <p>The Gemini side panel can analyse your spreadsheet data and answer analytical questions — without you building pivot tables or charts manually.</p>
+      <h3>What you can ask</h3>
+      <ul>
+        <li>"What month had the highest total revenue in this sheet?"</li>
+        <li>"Which product category has the best margin percentage?"</li>
+        <li>"Is there a correlation between ad spend and conversions in this data?"</li>
+        <li>"Summarise the key trends in this data for a non-technical stakeholder"</li>
+        <li>"Which rows have the largest variance from the average?"</li>
+        <li>"What would you recommend I look into further based on this data?"</li>
+      </ul>
+      <div class="callout tip"><strong>Ask for a chart recommendation:</strong><p>"What's the best way to visualise this data? Suggest a chart type and explain why." Gemini will recommend the right chart type for the data pattern and explain how to create it in Sheets.</p></div>
+      <h3>Analytical limitations</h3>
+      <p>Gemini analyses the data it can see in your sheet. For very large datasets (100,000+ rows), it may work from a sample. For statistical significance or predictive modelling, use dedicated tools — Gemini's analysis is descriptive and analytical, not predictive modelling.</p>
+    </div>
+  </div>
+
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">5</div><h2>Cleaning & Transforming Data</h2></div>
+    <div class="section-body">
+      <p>Messy data is a universal problem. Gemini in Sheets can identify issues and write formulas to clean and standardise your data — tasks that would otherwise require manual sorting or complex formula knowledge.</p>
+      <h3>Common cleaning tasks</h3>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>🔤 Standardise text</h4><p>"Write a formula to capitalise the first letter of each word in column A" → =PROPER(A2)</p></div>
+        <div class="feature-card green"><h4>🗑️ Remove duplicates</h4><p>"Find and highlight duplicate values in column B" — Gemini explains the conditional formatting approach or UNIQUE formula.</p></div>
+        <div class="feature-card yellow"><h4>✂️ Split columns</h4><p>"Split the full name in column A into first name and last name in separate columns" — Gemini provides the SPLIT formula.</p></div>
+        <div class="feature-card orange"><h4>📅 Fix dates</h4><p>"Convert the text dates in column C (format: DD/MM/YY) into proper Google Sheets date format" — Gemini writes the DATEVALUE conversion.</p></div>
+      </div>
+      <div class="callout gemini"><strong>Audit your data first:</strong><p>Before cleaning, ask: "Look at column B and describe any inconsistencies or formatting issues you notice." Gemini scans the data and flags problems you may have missed — missing values, mixed formats, outliers.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">6</div><h2>Creating Templates</h2></div>
+    <div class="section-body">
+      <p>One of the most time-saving uses of Gemini in Sheets is generating complete spreadsheet templates from a description. Instead of building from scratch, describe what you need and insert a ready-to-use structure.</p>
+      <h3>Template types Gemini builds well</h3>
+      <ul>
+        <li><strong>Budget trackers</strong> — income vs expenses, monthly summaries, variance analysis</li>
+        <li><strong>Project trackers</strong> — tasks, owners, timelines, status, dependencies</li>
+        <li><strong>KPI dashboards</strong> — metric tracking with target vs actual columns</li>
+        <li><strong>CRM light</strong> — contact management, pipeline stages, follow-up dates</li>
+        <li><strong>Inventory trackers</strong> — stock levels, reorder points, supplier info</li>
+        <li><strong>Event planning</strong> — guest lists, budget allocation, task checklists</li>
+      </ul>
+      <div class="callout tip"><strong>Be specific about the business context:</strong><p>"Create a monthly marketing budget tracker for a small e-commerce business with £50k/month spend. Include channels (Paid Social, SEO, Email, Events), planned vs actual spend, and a variance percentage column." The more context, the more useful the template.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>Combine formula generation with data context</h3>
+      <p>Describe your sheet structure when asking for formulas: "My sheet has: Column A (Date), B (Product), C (Units Sold), D (Unit Price). Write a formula in column E that calculates total revenue, and another in a summary row that shows monthly totals." Gemini writes both formulas correctly because it knows the structure.</p>
+      <h3>Build Google Apps Script via Gemini</h3>
+      <p>For repetitive tasks, ask Gemini to write Apps Script code: "Write a Google Apps Script that runs every Monday morning and sends an email to [address] with a summary of all rows in the sheet where Status = 'Due This Week'." Gemini writes the full script — paste it into Tools → Script Editor.</p>
+      <h3>Create named ranges with explanations</h3>
+      <p>Ask: "What named ranges should I set up for this budget sheet to make formulas easier to read?" Gemini recommends meaningful named ranges and explains how they'll simplify future formula writing.</p>
+      <div class="callout warning"><strong>Always verify generated formulas:</strong><p>Gemini's formula generation is excellent but not infallible — particularly with complex nested formulas or when cell references need to be adjusted. Always test on sample data before applying to your full dataset.</p></div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num" style="background:var(--orange)">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr>
+        <tr><td>Not describing the sheet structure</td><td>Asking for formulas without saying what the columns are</td><td>Always tell Gemini: "Column A is X, Column B is Y" before asking for formulas</td></tr>
+        <tr><td>Using formulas without testing</td><td>Copying a generated formula directly into production data</td><td>Test on a sample row first; verify the output is correct before applying to the full column</td></tr>
+        <tr><td>Expecting Gemini to see your data</td><td>Asking "what's wrong with my data?" without sharing context</td><td>Describe the data or paste a sample rows into the side panel chat first</td></tr>
+        <tr><td>Ignoring Help Me Organise for new sheets</td><td>Building column headers manually instead of using the template generator</td><td>Always try "Help me organise" first for new sheets — it's much faster than starting from scratch</td></tr>
+        <tr><td>Overly complex formula requests</td><td>Asking for one formula that does 5 things</td><td>Break complex calculations into smaller helper columns; ask for each formula separately</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num" style="background:var(--blue)">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'gs-a')">Formulas & Data</button>
+          <button class="tab-btn" onclick="switchTab(this,'gs-b')">Templates & Analysis</button>
+        </div>
+        <div class="prompt-box active" id="gs-a">
+          <div class="prompt-item">
+            <div class="prompt-label">Formula Request</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"My sheet has: Column A (date), B (product name), C (region), D (sales amount). Write a formula that: sums column D, only where column C = 'Europe' and column A is within the last 30 days."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Data Audit</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Look at the data I'll paste below and tell me: what inconsistencies exist in the formatting, which columns have missing values, and what cleaning steps should I take before analysis? [paste sample rows]"</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Formula Explanation</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Explain this formula in plain English, step by step: [paste formula]. Also tell me: what would break it if the data changes, and how could I make it more robust?"</div>
+          </div>
+        </div>
+        <div class="prompt-box" id="gs-b">
+          <div class="prompt-item">
+            <div class="prompt-label">Template Generation</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Create a [budget/project/KPI/CRM] tracker spreadsheet for [context and team size]. Include: [list key columns], a summary row with totals, and a status column with dropdown options. Flag any row where [condition] using conditional formatting."</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Data Insights</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Based on the data structure I'll describe, tell me: what are the 3 most important metrics I should be tracking, what chart types would best visualise this data, and what questions should this spreadsheet be able to answer? [describe sheet]"</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Apps Script Automation</div>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy ✓</button>
+            <div class="prompt-text">"Write a Google Apps Script that: [describe the automation — e.g. sends a weekly summary email, highlights overdue rows, copies data to a new sheet monthly]. My sheet has these columns: [list columns]."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num" style="background:var(--green)">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A marketing analyst asks Gemini to generate a campaign performance formula and explain the insights from their data.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span style="font-size:12px;color:rgba(255,245,244,.5);margin-left:8px">Google Sheets — Gemini Side Panel</span></div>
+        <div style="padding:20px">
+          <div style="background:#2A1A0A;border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:rgba(255,245,244,.8);font-style:italic">"My sheet has: A=Campaign, B=Channel, C=Spend, D=Clicks, E=Conversions. Write a formula for column F that calculates Cost Per Conversion, and flag it red in column G if CPC is over £50."</div>
+          <div style="background:rgba(52,168,83,.08);border:1px solid rgba(52,168,83,.3);border-radius:8px;padding:14px">
+            <div style="font-size:11px;color:#FBBD33;margin-bottom:8px">Gemini Response</div>
+            <div style="font-size:13px;color:rgba(255,245,244,.85);line-height:1.8">
+              <strong style="color:#81C784">Column F — Cost Per Conversion:</strong>
+              <div class="formula-box">=IF(E2=0,"N/A",C2/E2)</div>
+              <strong style="color:#81C784">Column G — Flag:</strong>
+              <div class="formula-box">=IF(AND(F2<>"N/A",F2>50),"⚠️ HIGH CPC","")</div>
+              <div style="font-size:12px;color:rgba(255,245,244,.6);margin-top:8px">Column F divides Spend by Conversions. The IF prevents division by zero errors. Column G flags any row where CPC exceeds £50 with a warning label.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num" style="background:var(--yellow)">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn" style="color:var(--blue)">01</div><h4>Generate a formula</h4><p>Open a Sheets file you use regularly. Ask Gemini to write one formula you've been doing manually.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--green)">02</div><h4>Build a template</h4><p>Use "Help me organise" to create a new tracker from scratch. Compare the time to building it manually.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--yellow)">03</div><h4>Analyse your data</h4><p>Open a data sheet and ask Gemini 3 analytical questions. See what insights it surfaces that you hadn't noticed.</p></div>
+        <div class="roadmap-step"><div class="rn" style="color:var(--orange)">04</div><h4>Automate with Apps Script</h4><p>Ask Gemini to write a simple automation for one repetitive Sheets task — schedule, email, or data movement.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){const tabs=el.closest('.prompt-tabs');tabs.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));tabs.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById(id).classList.add('active');}
+function copyPrompt(btn){const text=btn.nextElementSibling.textContent;navigator.clipboard.writeText(text).catch(()=>{});const orig=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=orig,1500);}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));const link=document.querySelector(`.nav-link[href="#${e.target.id}"]`);if(link)link.classList.add('active');}});},{threshold:.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT for Data Analysis — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #10A37F; --primary-l: #2EC4A9; --primary-soft: #E6F7F1;
+  --accent1: #1A6FBE; --accent1-soft: #E8F1FB;
+  --accent2: #8B5CF6; --accent2-soft: #F0EAFF;
+  --page-bg: #F9F9F9; --sidebar-bg: #1C1C1C;
+  --card-bg: #FFFFFF; --hdr-bg: #F0F0F0; --border: #D0D0D0;
+  --ink: #1C1C1C; --body-text: #3A3A3A; --muted: #6F6F6F;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <div class="brand-name">ChatGPT for Data Analysis</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is ChatGPT for Data Analysis?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>How It Works</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>What to Upload</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Strong Question Patterns</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Charts That Land</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Statistical Work</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Limits to Know</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Workflow Patterns</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">OPENAI CHATGPT</div>
+      <h1>ChatGPT for Data Analysis</h1>
+      <div class="subtitle">Code Interpreter, chart generation, and statistical analysis without writing code</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is ChatGPT for Data Analysis?</div><div class="section-desc">Code Interpreter, chart generation, and statistical analysis without writing code</div></div></div><div class="content-body"><p class="prose">ChatGPT&#39;s data analysis capabilities (formerly Code Interpreter, now Advanced Data Analysis) let you upload a spreadsheet or CSV and ask analytical questions in plain English. Behind the scenes, ChatGPT writes Python, runs it, and returns the answer plus a chart.</p><p class="prose">Best for: anyone who has data and questions but isn&#39;t a data analyst — operations, finance, marketing, customer success teams. Replaces the &#39;can you pull this for me?&#39; ask to the data team for most everyday analysis.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">📁</div><div class="feat-title">Multi-Format Uploads</div><div class="feat-desc">CSV, Excel, JSON, Parquet, compressed archives — drag and drop.</div></div><div class="feat-card"><div class="feat-icon">🐍</div><div class="feat-title">Python in Sandbox</div><div class="feat-desc">ChatGPT writes Python, runs in sandbox, returns answers plus charts.</div></div><div class="feat-card"><div class="feat-icon">💬</div><div class="feat-title">Plain-English Queries</div><div class="feat-desc">Ask analytical questions in natural language — no SQL or Python needed.</div></div><div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">Statistical Work</div><div class="feat-desc">Descriptive, correlation, regression, time series, hypothesis tests — fully supported.</div></div></div><div class="deco-band">✨  Junior-analyst quality for non-data-scientist users  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📊  2026 UPDATE — BIGGER DATA, BETTER MODELS</div><div class="callout-text">Data analysis on GPT-5.5 handles larger files (multi-GB CSVs), longer Python sessions, and more sophisticated statistical work. Combined with GPT-5.5 Pro&#39;s reasoning, this is now genuinely competitive with junior-analyst work for most ad-hoc analysis.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">How It Works</div><div class="section-desc">From CSV to chart in 30 seconds</div></div></div><div class="content-body"><p class="prose">Drag a CSV or Excel file into ChatGPT. Ask a question in plain English. ChatGPT writes Python (you can see the code), runs it in a sandbox, and returns the answer + a chart.</p><ul class="bullets"><li>Upload CSV, Excel, JSON, Parquet</li><li>Ask questions in plain English</li><li>Code runs in sandboxed Python — files don&#39;t leave OpenAI</li><li>Output: answer text, chart, optionally a downloadable file</li></ul><h3 class="sub-h3">From upload to chart in 30 seconds</h3><p class="sub-body">Drag a CSV or Excel file into ChatGPT. Ask a question in plain English. ChatGPT writes Python (visible if you want), runs it in a sandbox, returns the answer plus a chart. The Python execution happens in OpenAI&#39;s sandbox — files don&#39;t leave their environment.</p><ul class="bullets"><li>Upload — CSV, Excel, JSON, Parquet up to several GB on Pro/Enterprise</li><li>Ask questions in plain English — no formal data query language</li><li>Code runs in sandboxed Python — files don&#39;t leave OpenAI</li><li>Output — answer text, chart, optionally a downloadable file</li><li>Re-runnable — same prompt may produce slightly different Python; save scripts you need</li></ul></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">What to Upload</div><div class="section-desc">File formats that work</div></div></div><div class="content-body"><ul class="bullets"><li>CSV — the universal format</li><li>Excel — multi-sheet works; ChatGPT can navigate sheets</li><li>JSON — for API exports or nested data</li><li>Parquet — for larger structured data</li><li>Compressed archives — ZIPs of multiple files in one go</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>CSV for tabular data — the universal format</li><li>Excel for multi-sheet workbooks — ChatGPT navigates sheets</li><li>JSON for nested/structured data — API exports, configuration</li><li>Parquet for large structured data — efficient at scale</li><li>ZIP archives for multiple files in one upload</li><li>Consistent column names — saves prompt-engineering downstream</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Files larger than your tier&#39;s limit — gracefully fails but wastes time</li><li>Files with embedded sensitive data (PII, financial credentials)</li><li>Files where formatting is messy — clean upstream is faster than instructing ChatGPT to clean</li><li>Mixing data shapes in one upload (multiple unrelated tables)</li><li>Forgetting to specify what columns mean in the prompt</li><li>Trusting the sandbox for production data pipelines — use proper infrastructure</li></ul></div></div></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Strong Question Patterns</div><div class="section-desc">What to ask</div></div></div><div class="content-body"><ul class="bullets"><li>Summarise — &#39;Give me the top-level summary: row count, columns, date range, anything unusual&#39;</li><li>Aggregations — &#39;Average order value by region, sorted&#39;</li><li>Trends — &#39;How has [metric] changed over time?&#39;</li><li>Outliers — &#39;Flag anything that looks like an outlier and explain why&#39;</li><li>Comparisons — &#39;Compare this quarter to last quarter on [dimensions]&#39;</li><li>Forecasts — &#39;Forecast next 3 months based on this data&#39;</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📈</div><div class="feat-title">Trend Questions</div><div class="feat-desc">&#39;How has X changed over [period]?&#39; — surfaces direction and inflection points.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🔢</div><div class="feat-title">Aggregation Questions</div><div class="feat-desc">&#39;Top 5 X by Y&#39; — ranking and grouping queries.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">⚠️</div><div class="feat-title">Outlier Questions</div><div class="feat-desc">&#39;Flag anything unusual and explain why&#39; — surfaces what you&#39;d otherwise miss.</div></div></div><p class="prose">The questions that produce useful analysis share a pattern: specific dimension + specific metric + specific time window. &#39;Average order value by region this quarter&#39; produces a clean answer. &#39;How&#39;s our data looking?&#39; produces vague summary.</p><p class="prose">For multi-step analysis, chain the questions. Don&#39;t ask &#39;analyse my data and tell me what&#39;s going on&#39; — ask &#39;summarise the data&#39;, then &#39;show me the trends&#39;, then &#39;identify outliers&#39;, then &#39;forecast next quarter&#39;. Each step&#39;s output becomes the input for the next.</p><h3 class="sub-h3">Analytical questions that consistently work</h3><ul class="bullets"><li>Summarise — &#39;Give me the top-level: rows, columns, date range, anything unusual&#39;</li><li>Aggregate — &#39;Average X by Y, sorted descending&#39;</li><li>Trend — &#39;How has X changed over the last [period]&#39;</li><li>Compare — &#39;Compare this [period] to last [period] on [dimensions]&#39;</li><li>Outlier — &#39;Flag anything that looks like an outlier and explain why&#39;</li><li>Forecast — &#39;Forecast next [period] based on this data&#39;</li></ul></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Charts That Land</div><div class="section-desc">Asking for the right visual</div></div></div><div class="content-body"><p class="prose">ChatGPT chooses a chart type by default. For better results, specify:</p><ul class="bullets"><li>Type — bar / line / scatter / heatmap</li><li>Axes — X-axis, Y-axis, what&#39;s plotted</li><li>Annotations — call out specific data points</li><li>Style — &#39;minimal style, no gridlines&#39;</li><li>Multiple — &#39;as a 2x2 grid of charts, one per region&#39;</li></ul><h3 class="sub-h3">Specifying charts that look right first time</h3><p class="sub-body">ChatGPT picks a default chart type based on the data shape. For better results, specify type, axes, and any annotations explicitly. The first chart is often serviceable; the second chart (with explicit specs) is usually publishable.</p><ul class="bullets"><li>Type — bar / line / scatter / heatmap / box / histogram</li><li>Axes — what&#39;s plotted on X, what&#39;s on Y, units</li><li>Annotations — call out specific data points (mean, threshold, outliers)</li><li>Style — &#39;minimal style, no gridlines&#39; or &#39;use our brand colours&#39;</li><li>Multiple — &#39;as a 2x2 grid of charts, one per region&#39;</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Statistical Work</div><div class="section-desc">What&#39;s actually feasible</div></div></div><div class="content-body"><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📈  SHOW YOUR WORKING</div><div class="callout-text">For any statistical claim, ask ChatGPT to show the Python code and explain its choice of test. If you can&#39;t explain the analysis to a stakeholder, don&#39;t ship the analysis.</div></div></div><ul class="bullets"><li>Descriptive stats — mean, median, distribution, percentiles</li><li>Correlation analysis — what moves with what</li><li>Regression — simple linear and logistic; full statsmodels output</li><li>Time series — decomposition, seasonality, forecasting</li><li>Hypothesis tests — t-tests, chi-square, ANOVA</li></ul><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📈  SHOW THE WORKING</div><div class="callout-text">For any statistical claim that will land in a stakeholder document, ask ChatGPT to show the Python code and explain its choice of test. If you can&#39;t explain the analysis to a stakeholder, don&#39;t ship the analysis.</div></div></div><table class="ref-table"><thead><tr><th>Analysis Type</th><th>Strong</th><th>Weak</th></tr></thead><tbody><tr><td>Descriptive stats</td><td>Yes (mean, median, percentiles, distribution)</td><td>-</td></tr><tr><td>Correlation analysis</td><td>Yes (Pearson, Spearman, full matrix)</td><td>-</td></tr><tr><td>Linear regression</td><td>Yes (simple, multiple, with diagnostics)</td><td>-</td></tr><tr><td>Logistic regression</td><td>Yes (binary classification)</td><td>-</td></tr><tr><td>Time series</td><td>Yes (decomposition, seasonality, ARIMA forecasts)</td><td>-</td></tr><tr><td>Hypothesis tests</td><td>Yes (t-test, chi-square, ANOVA)</td><td>-</td></tr><tr><td>Machine learning</td><td>Limited (basic models)</td><td>Don&#39;t use for production ML</td></tr><tr><td>Causal inference</td><td>Very limited</td><td>Don&#39;t trust without statistical review</td></tr></tbody></table></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Limits to Know</div><div class="section-desc">Where it falls short</div></div></div><div class="content-body"><ul class="bullets"><li>Sandbox isolation — code can&#39;t reach your DB or external APIs</li><li>Memory — sandbox resets between sessions; re-upload to continue</li><li>Reproducibility — same prompt may produce slightly different code; save scripts</li><li>Production — this is for ad-hoc analysis, not production pipelines</li></ul><div class="callout co-warn"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🔬  SHOW THE WORKING</div><div class="callout-text">For any statistical claim that will land in a stakeholder document, ask ChatGPT to show the Python code and explain its choice of test. If you can&#39;t explain the analysis to a stakeholder, don&#39;t ship the analysis. Reproducibility starts with understanding.</div></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Workflow Patterns</div><div class="section-desc">From question to shareable result</div></div></div><div class="content-body"><ul class="bullets"><li>Upload + first question → first chart</li><li>Iterate — &#39;now break this down by [dimension]&#39;</li><li>Validate — &#39;show me the underlying data for these 3 points&#39;</li><li>Export — &#39;save this analysis as an Excel workbook with the chart embedded&#39;</li><li>Document — &#39;write a 1-paragraph executive summary of these findings&#39;</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Upload + first question → first chart</div><div class="step-desc">Get the data into ChatGPT&#39;s hands; ask for top-level summary.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Iterate</div><div class="step-desc">&#39;Now break this down by [dimension]&#39; — drill into what&#39;s interesting.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Validate</div><div class="step-desc">&#39;Show me the underlying data for these 3 points&#39; — verify before publishing.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Export</div><div class="step-desc">&#39;Save this analysis as an Excel workbook with the chart embedded&#39; — for sharing.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Document</div><div class="step-desc">&#39;Write a 1-paragraph executive summary of these findings&#39; — for the deck.</div></div></div></div></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating ChatGPT for Data Analysis as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">FIRST-PASS EXPLORATION</div><div class="prompt-text">Here&#39;s [filename.csv]. Give me a first-pass summary: how many rows, what columns, the date range, distribution of the key numeric columns, and anything unusual or suspect in the data.</div></div><div class="prompt-card"><div class="prompt-label">TREND + FORECAST</div><div class="prompt-text">In this sales data, show monthly revenue by region over the last 24 months. Highlight any inflection points. Then forecast the next 6 months with confidence intervals. Brief commentary on what&#39;s driving the trend.</div></div><div class="prompt-card"><div class="prompt-label">STAKEHOLDER SUMMARY</div><div class="prompt-text">Take the analysis we just did. Write a 200-word executive summary: the 3 most important findings, what they mean for the business, and the one question I should investigate further.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use ChatGPT for Data Analysis on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

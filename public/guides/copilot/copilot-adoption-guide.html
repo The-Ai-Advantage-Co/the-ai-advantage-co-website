@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copilot Adoption Guide — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #5E17EB; --primary-l: #8B5CF6; --primary-soft: #F0EAFF;
+  --accent1: #0078D4; --accent1-soft: #EFF6FF;
+  --accent2: #EA6C1A; --accent2-soft: #FFF7ED;
+  --page-bg: #EBF1FF; --sidebar-bg: #1E1456;
+  --card-bg: #F7F4FF; --hdr-bg: #EDE8FF; --border: #D0C5F5;
+  --ink: #1E1456; --body-text: #3D3080; --muted: #7264A8;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">MICROSOFT COPILOT</div>
+      <div class="brand-name">Copilot Adoption Guide</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Copilot Adoption?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>The 90-Day Shape</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Choose Your Champions Carefully</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Use Cases Beat Features</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Measure What Matters</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Common Resistance Patterns</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Governance Without Bureaucracy</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Suggested Prompts</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">MICROSOFT COPILOT</div>
+      <h1>Copilot Adoption Guide</h1>
+      <div class="subtitle">A 90-day plan to roll out Microsoft 365 Copilot across a team or organisation</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Copilot Adoption?</div><div class="section-desc">Why most rollouts fail and what successful ones do differently</div></div></div><div class="content-body"><p class="prose">Microsoft 365 Copilot is the most capable everyday AI tool many organisations will deploy this decade — but tools alone don&#39;t change behaviour. Most failed rollouts share the same pattern: a licence is purchased, an announcement goes out, training is offered but optional, and three months later usage has plateaued at 15% of seats with no measurable business impact.</p><p class="prose">A successful adoption is engineered, not announced. It treats Copilot the same way a CRM rollout is treated: clear champions, role-specific use cases, measurable success criteria, and a structured curriculum that meets people where they are. This guide is the 90-day shape that consistently produces 70%+ active usage and demonstrable ROI.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">Engineered, Not Announced</div><div class="feat-desc">Successful rollouts treat Copilot like a CRM rollout — structured, measured, championed.</div></div><div class="feat-card"><div class="feat-icon">⏱️</div><div class="feat-title">90-Day Shape</div><div class="feat-desc">30 days foundation, 30 days expansion, 30 days embedding. One outcome per phase.</div></div><div class="feat-card"><div class="feat-icon">👥</div><div class="feat-title">Champion-Led</div><div class="feat-desc">10 peer-credible operators across functions. Not most-senior — most-respected.</div></div><div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">Two Metrics</div><div class="feat-desc">Weekly active users + time-saved per documented use case. Resist vanity metrics.</div></div></div><div class="deco-band">✨  The lever that determines whether Copilot ROI lands  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎯  ADOPTION IS THE LEVER</div><div class="callout-text">You can change models, change licences, change tenant settings — but the multiplier on Copilot ROI is whether your people actually use it for real work. Adoption is the lever; everything else is the fulcrum.</div></div></div><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">⏱️  THE 90-DAY SHAPE</div><div class="callout-text">30 days of foundation (tenant ready, champions identified, free-tier exploration), 30 days of expansion (role-specific use cases, champion-led pilots), 30 days of embedding (workflows become AI-first, documented ROI). Faster is too fast; slower loses momentum.</div></div></div><p class="prose">The pattern at the heart of every successful Copilot rollout is the same: identified champions, role-specific use cases, measurable wins captured weekly, and a curriculum that escalates from &#39;first 5 minutes&#39; to &#39;workflow redesign&#39; over 90 days. Organisations that follow the pattern reliably hit 70%+ active usage and produce documented ROI evidence. Organisations that skip the pattern reliably plateau at 15-25% usage and struggle to justify renewal.</p><p class="prose">What differentiates Copilot from previous productivity tool rollouts is that the value isn&#39;t in the features — it&#39;s in the workflow change the features enable. A user who&#39;s learnt to click the Copilot button has done the easy part. A user who&#39;s redesigned their Monday morning to start with a Copilot Chat brief, who summarises every meeting via Copilot before writing the recap, who drafts every customer email through Copilot — that user is who renewal models are built on.</p><h3 class="sub-h3">What &#39;successful adoption&#39; actually means</h3><ul class="bullets"><li>70%+ of licensed users opening Copilot at least once per week (sustained, not one-off)</li><li>Documented, named, specific time-saved cases (not &#39;productivity up&#39; — &#39;4 hours/week per Customer Success Manager&#39;)</li><li>At least 3 use cases per major function that the team can replicate from a template</li><li>Reduced reliance on &#39;how do I do this&#39; Slack/Teams questions over time</li><li>Champions promoting use cases unprompted in team meetings</li></ul></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">The 90-Day Shape</div><div class="section-desc">Three 30-day phases with a clear outcome each</div></div></div><div class="content-body"><p class="prose">Each phase has one job. Don&#39;t try to do everything at once.</p><table class="ref-table"><thead><tr><th>Phase</th><th>Goal</th><th>Key Activities</th><th>Success Signal</th></tr></thead><tbody><tr><td>Days 1-30 — Foundation</td><td>Tenant ready + 10 champions identified</td><td>Licence assignment, admin controls, identify 10 champions across roles</td><td>All champions completing 1 Copilot task/day</td></tr><tr><td>Days 31-60 — Expansion</td><td>Role-specific use cases for each department</td><td>Run 2-week sprints per department with champion-led pilots</td><td>60% of pilot users using Copilot weekly</td></tr><tr><td>Days 61-90 — Embedding</td><td>Workflows become AI-first</td><td>Capture and share the 5-10 highest-impact use cases org-wide</td><td>70%+ active usage; documented ROI cases</td></tr></tbody></table><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Phase 1 (30 days): tenant foundations, 10 champions, free-tier exploration</li><li>Phase 2 (30 days): role-specific use cases, 2-week function sprints with champions</li><li>Phase 3 (30 days): workflows become AI-first, document top 5-10 highest-impact cases</li><li>Friday champion standup throughout — capture wins, surface blockers</li><li>Org-wide comms aligned with phase milestones</li><li>Adjust pace based on champion feedback, not arbitrary timeline</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Compressing into 30 days because &#39;we want results fast&#39; — quality drops</li><li>Stretching to 6 months — champion momentum dies</li><li>Skipping the foundation phase (&#39;tenant is fine&#39;) — surfaces later as incidents</li><li>Running phases in parallel — context-switching kills focus</li><li>Pre-defining the use cases — let champions discover them</li><li>Going dark between phase milestones — needs continuous champion presence</li></ul></div></div></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Choose Your Champions Carefully</div><div class="section-desc">The single biggest predictor of adoption success</div></div></div><div class="content-body"><p class="prose">Champions are not your most senior people. They&#39;re respected operators who are credible to their peers, curious enough to experiment, and disciplined enough to document what works. Pick 10 — one from each major function (Sales, Finance, Ops, HR, Marketing, IT, Legal, Customer Success, Product, Exec). Give them early access, dedicated learning time, and a private channel.</p><ul class="bullets"><li>Credible — Their peers already ask them how to do hard things</li><li>Curious — They opt into new tools without being told</li><li>Disciplined — They write down what they did so others can replicate</li><li>Accessible — They answer DMs within a few hours, not days</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">👁️</div><div class="feat-title">Peer-Credible</div><div class="feat-desc">Their team already asks them how to do hard things. Not the most-senior person in the function.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🔬</div><div class="feat-title">Curious</div><div class="feat-desc">They opt into new tools without being told. Comfortable with imperfect-first-attempts.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📝</div><div class="feat-title">Disciplined</div><div class="feat-desc">They write down what they did. Their workflow becomes the template for the rest.</div></div></div><h3 class="sub-h3">Where champion selection goes wrong</h3><p class="sub-body">The most common mistake is picking by seniority. Senior staff are usually too busy to be effective champions and their workflow doesn&#39;t match the team&#39;s daily reality. The champion job is operational, not symbolic.</p><ul class="bullets"><li>Picking most-senior person — too busy, workflow doesn&#39;t match team&#39;s daily reality</li><li>Picking biggest enthusiast — overrepresents power-user patterns, alienates skeptics</li><li>Picking the IT-comfortable person — narrow workflow, doesn&#39;t reflect average user</li><li>Picking by volunteer alone — selection bias toward enthusiasts</li><li>Picking from only one or two functions — miss cross-functional patterns</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Use Cases Beat Features</div><div class="section-desc">What to teach in week-2 sprints</div></div></div><div class="content-body"><p class="prose">People don&#39;t adopt features; they adopt outcomes. Replace &#39;Copilot in Outlook lets you summarise emails&#39; with &#39;How to clear a 200-email inbox in 30 minutes&#39;. The use case is the unit of training.</p><ul class="bullets"><li>Sales — Meeting recap from Teams → CRM update → follow-up email in 90 seconds</li><li>Finance — Excel anomaly detection → narrative summary → board-ready chart in 5 minutes</li><li>Ops — SharePoint policy lookup → tailored response to a stakeholder query in under a minute</li><li>HR — Job description draft from a brief → tone-shifted for inclusivity → reviewer-ready in 10 minutes</li><li>Exec — Briefing prep across calendar + emails + relevant docs in one Copilot Chat session</li></ul><h3 class="sub-h3">The use case template that works</h3><p class="sub-body">Replace feature-list training with use-case demonstrations. A 5-minute Loom video of a champion completing a real task beats 60 minutes of feature walkthrough every time.</p><ul class="bullets"><li>Role / Task / Frequency — &#39;Customer Success Manager / Pre-call brief / 8x daily&#39;</li><li>Before — &#39;Manual: 12 minutes per call. Total: 96 minutes daily.&#39;</li><li>With Copilot — &#39;Auto-brief: 90 seconds per call. Total: 12 minutes daily.&#39;</li><li>Net Time Saved — &#39;Reclaimed: ~84 minutes daily, ~7 hours weekly.&#39;</li><li>Caveats — &#39;Always reviewed before customer contact. Brief is starting point not final.&#39;</li><li>Prompt Used — exact prompt for replication by other CSMs</li></ul></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Measure What Matters</div><div class="section-desc">Two metrics, no more</div></div></div><div class="content-body"><p class="prose">Most adoption dashboards drown in vanity metrics. Track exactly two: weekly active users (do people actually open Copilot?) and time-saved-per-use-case (do the workflows that used Copilot finish faster?). Everything else is noise until those two are healthy.</p><div class="callout co-tip"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📊  THE TIME-SAVED CONVERSATION</div><div class="callout-text">Ask champions every Friday: &#39;What did Copilot save you time on this week, and how much?&#39; Aggregate and share weekly. Specific examples (&#39;Sarah cut 4 hours off her board pack prep&#39;) beat any dashboard.</div></div></div><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Capture time-saved with Friday champion standups — &#39;what saved you time this week?&#39;</li><li>Get specific — &#39;Sarah cut 4 hours off her board prep&#39; beats &#39;productivity is up&#39;</li><li>Aggregate 50-80 cases by day 90 — these become renewal evidence</li><li>Compare to pre-Copilot baseline where you have one</li><li>Quote champions directly in renewal materials</li><li>Conservative annual extrapolation — multiply weekly saving by 45 weeks, not 52</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>&#39;Prompts sent&#39; metric — pure vanity, zero ROI signal</li><li>&#39;Characters generated&#39; — even worse</li><li>&#39;Are you satisfied with Copilot?&#39; survey — selection bias</li><li>Only reporting positive cases — leadership spots gaps and trust drops</li><li>Inflated extrapolations — &#39;this case 10x&#39;d&#39; usually doesn&#39;t translate</li><li>Generic &#39;productivity up by X%&#39; — needs specifics to be credible</li></ul></div></div><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📈</div><div class="feat-title">Weekly Active Users</div><div class="feat-desc">% of licensed users opening Copilot at least once per week. Target 70%+ by day 90.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">⏱️</div><div class="feat-title">Time-Saved Cases</div><div class="feat-desc">Specific named cases per function. Target 10-15 per major function by day 90.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📊</div><div class="feat-title">ROI Multiple</div><div class="feat-desc">Time saved × loaded hourly cost ÷ licence cost. Most orgs land at 15-30x ROI.</div></div></div><p class="prose">The trap most Copilot dashboards fall into is measuring effort instead of outcome. &#39;Prompts sent&#39;, &#39;summaries generated&#39;, &#39;characters output&#39; — all easy to measure, none correlate with renewal evidence. The two outcome metrics that do correlate: weekly active users and time-saved per documented use case.</p><p class="prose">Time-saved is best captured qualitatively in months 1-3. Champions report specific cases every Friday. Aggregate into a running list. By month 3 you&#39;ll have 50-80 specific cases. Three to five of those will be the renewal evidence story for executives; the rest become onboarding material for the next cohort.</p></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Common Resistance Patterns</div><div class="section-desc">What pushback sounds like and how to handle it</div></div></div><div class="content-body"><ul class="bullets"><li>&#39;I&#39;m faster doing it myself.&#39; — Usually true on day one. Pair them with a champion for one specific task they do weekly.</li><li>&#39;It&#39;s not accurate.&#39; — Often correct. Reframe Copilot as a draft generator, not an answer engine. Always reviewed before sending.</li><li>&#39;My data is sensitive.&#39; — Show them the security model. Copilot inherits permissions; nothing leaves the tenant for non-public data.</li><li>&#39;I don&#39;t have time to learn another tool.&#39; — Offer a 15-minute 1:1 in their workflow, not a 60-minute training session.</li></ul><h3 class="sub-h3">The five resistance patterns and how to handle each</h3><p class="sub-body">Resistance is data. Each pattern tells you what&#39;s missing in the rollout — not just an objection to overcome.</p><ul class="bullets"><li>&#39;I&#39;m faster doing it myself&#39; — usually true on day one; pair with a champion for one specific recurring task</li><li>&#39;It&#39;s not accurate&#39; — often correct; reframe as draft generator not answer engine; always reviewed</li><li>&#39;My data is sensitive&#39; — show the security model; Copilot inherits permissions; nothing leaves tenant</li><li>&#39;No time to learn another tool&#39; — offer 15-min 1:1 in their workflow, not 60-min training session</li><li>&#39;It feels like cheating&#39; — common in regulated/legal/medical roles; reframe as the senior partner reviewing junior work</li></ul></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Governance Without Bureaucracy</div><div class="section-desc">What IT should and shouldn&#39;t lock down</div></div></div><div class="content-body"><p class="prose">The fastest way to kill adoption is to require a ticket before anyone can use anything. The fastest way to create an incident is to leave everything wide open. Find the middle: standard users get Copilot Chat (free) + the in-app panels, with sensitivity-label-aware DLP. Agents and Copilot Studio are gated through a lightweight approval (1 form, 1 reviewer, 1 business day).</p><ul class="bullets"><li>Open by default — Chat, in-app panels, file references</li><li>Lightly governed — Custom agents, Copilot Studio, automations that touch external systems</li><li>Strictly governed — Agents with write access to financial systems, customer records, or regulated data</li></ul><table class="ref-table"><thead><tr><th>Capability</th><th>Governance Level</th><th>Approval</th></tr></thead><tbody><tr><td>Copilot Chat (free)</td><td>Open</td><td>None — included with M365</td></tr><tr><td>In-app Copilot panels</td><td>Open by default</td><td>Standard licence assignment</td></tr><tr><td>Copilot Studio agent creation</td><td>Lightly governed</td><td>1 form + 1 reviewer + 1 business day</td></tr><tr><td>Agents touching financial systems</td><td>Strictly governed</td><td>CISO + business owner review</td></tr><tr><td>Agents with external write access</td><td>Strictly governed</td><td>Full security review + 30-day pilot</td></tr><tr><td>Sensitive data agents (HR, customer PII)</td><td>Strictly governed</td><td>Privacy + legal + business owner sign-off</td></tr></tbody></table></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong - and how to avoid it</div></div></div><div class="content-body"><ul class="bullets"><li>Launching org-wide before champions have a month of real use</li><li>Running 60-minute training sessions — uptake drops after the second one</li><li>Measuring licence assignment rather than active usage</li><li>Letting IT own adoption — adoption is a People &amp; Operations job</li><li>Treating Copilot as a productivity tool instead of a workflow redesign</li></ul></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Frames that consistently land for champions</div></div></div><div class="content-body"><div class="prompt-card"><div class="prompt-label">CHAMPION BRIEF — WHAT TO ASK FOR</div><div class="prompt-text">What&#39;s one task you do every week that takes more than 30 minutes? Can I see how you do it now, so we can find where Copilot would fit?</div></div><div class="prompt-card"><div class="prompt-label">ROI CAPTURE FORMAT</div><div class="prompt-text">Briefly: what did you use Copilot for this week? How long did the task take before, and after? What part still needed a human?</div></div><div class="prompt-card"><div class="prompt-label">USE CASE WRITE-UP</div><div class="prompt-text">Capture as: Role / Task / Prompt used / Result / Time saved / What would have gone wrong without review.</div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">A Sales Director rolls out Copilot to her 12-person team. Week 1: she identifies her two best operators as champions and gives them 30 minutes to find one Copilot win each. Week 2: champions share a 5-minute Loom each at the team meeting. Week 3: every rep tries one champion&#39;s workflow in their own week. Week 4: the team votes on the 3 workflows that stick. By Day 90, those 3 workflows are the team&#39;s default — and the team&#39;s monthly call-prep time has dropped from 14 hours to 4.</p></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Copilot Adoption on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copilot in OneNote — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #5E17EB; --primary-l: #8B5CF6; --primary-soft: #F0EAFF;
+  --accent1: #0078D4; --accent1-soft: #EFF6FF;
+  --accent2: #EA6C1A; --accent2-soft: #FFF7ED;
+  --page-bg: #EBF1FF; --sidebar-bg: #1E1456;
+  --card-bg: #F7F4FF; --hdr-bg: #EDE8FF; --border: #D0C5F5;
+  --ink: #1E1456; --body-text: #3D3080; --muted: #7264A8;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">MICROSOFT COPILOT</div>
+      <div class="brand-name">Copilot in OneNote</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Copilot in OneNote?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>Opening Copilot in OneNote</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Summarise and Synthesise</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Drafting in OneNote</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Tag and Organise</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>Knowledge Base Queries</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Meeting Notes Workflow</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>Integration With Other M365 Surfaces</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">MICROSOFT COPILOT</div>
+      <h1>Copilot in OneNote</h1>
+      <div class="subtitle">AI-assisted note-taking, knowledge capture, and notebook synthesis</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Copilot in OneNote?</div><div class="section-desc">AI-assisted note-taking, knowledge capture, and notebook synthesis</div></div></div><div class="content-body"><p class="prose">OneNote is where many people already capture meeting notes, research, and personal knowledge. Copilot in OneNote turns those notebooks from a passive archive into a queryable knowledge base — summarising sections, generating to-do lists from meeting notes, and pulling answers from across an entire notebook.</p><p class="prose">Best for: anyone with a heavily-used OneNote, especially consultants, executive assistants, students, and project managers.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">📒</div><div class="feat-title">Note-Taking AI</div><div class="feat-desc">Summarise sections, extract action items, draft memos from rough notes.</div></div><div class="feat-card"><div class="feat-icon">🔍</div><div class="feat-title">Cross-Notebook Search (2026)</div><div class="feat-desc">Query across all your notebooks at once. The biggest 2026 OneNote upgrade.</div></div><div class="feat-card"><div class="feat-icon">🏷️</div><div class="feat-title">Auto-Tag Topics</div><div class="feat-desc">Auto-tag pages, surface tags across sections, suggest where new content fits.</div></div><div class="feat-card"><div class="feat-icon">📚</div><div class="feat-title">Knowledge Base Queries</div><div class="feat-desc">Long-running notebooks become queryable institutional memory.</div></div></div><div class="deco-band">✨  Where messy notes become structured outputs  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">📒  2026 UPDATE — CROSS-NOTEBOOK SEARCH</div><div class="callout-text">Copilot in OneNote can now reason across multiple notebooks at once. Ask &#39;What have I noted about supplier X across all my notebooks?&#39; and Copilot surfaces hits from anywhere in your OneDrive-stored notebooks — a major upgrade from the previous single-notebook scope.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">Opening Copilot in OneNote</div><div class="section-desc">The two access points</div></div></div><div class="content-body"><p class="prose">Copilot in OneNote shows up in two places — the right-side panel and right-click context menus. Both produce the same outputs; the difference is workflow. The panel is for sustained interaction (multi-prompt sessions, refining outputs). Right-click is for one-shot actions on selected content (summarise this section, extract action items, rewrite this paragraph).</p><ul class="bullets"><li>Home ribbon → Copilot button — opens the side panel</li><li>Right-click in a page → Copilot — context-aware actions on the selected text or section</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">🪟</div><div class="feat-title">Side Panel</div><div class="feat-desc">Home ribbon → Copilot button. Best for sustained working sessions on a section or page.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🖱️</div><div class="feat-title">Right-Click</div><div class="feat-desc">Right-click selected text. Context-aware actions: summarise, action-items, rewrite.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📑</div><div class="feat-title">Cross-Notebook</div><div class="feat-desc">Copilot Chat with / command references OneNote pages across notebooks.</div></div></div><p class="prose">Most heavy OneNote users settle into a hybrid: right-click for quick wins during a working session, panel for end-of-session synthesis. The pattern is: capture rough notes, work the content, then synthesise at the end using the panel for the structured artefact you actually need.</p></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Summarise and Synthesise</div><div class="section-desc">Turning raw notes into useful artifacts</div></div></div><div class="content-body"><ul class="bullets"><li>&#39;Summarise this section into the 5 key decisions&#39; — for meeting notes</li><li>&#39;List all the action items, with owners&#39; — pulls structured tasks from messy notes</li><li>&#39;What&#39;s the through-line across these 6 pages?&#39; — synthesises research</li><li>&#39;Generate a one-page brief from this notebook for someone new to the project&#39;</li></ul><p class="prose">The meeting-notes-to-memo workflow is the highest-leverage OneNote+Copilot pattern. Take rough notes during the meeting (bullets, not sentences), then after the meeting ask Copilot to turn them into a structured memo with decisions, actions, and open questions. Saves 30-45 minutes per recurring meeting.</p><h3 class="sub-h3">The meeting-notes-to-artefact workflow</h3><p class="sub-body">The highest-leverage OneNote+Copilot pattern is meeting notes to structured artefact. Take rough notes during the meeting (bullets, abbreviations, your shorthand), then after ask Copilot to convert into the structured artefact you need — decisions, action items, memo for absent stakeholders.</p><ul class="bullets"><li>&#39;Summarise this section into the 5 key decisions&#39; — for meeting notes</li><li>&#39;List all action items, with owners&#39; — pulls structured tasks from messy notes</li><li>&#39;What&#39;s the through-line across these 6 pages?&#39; — synthesises research</li><li>&#39;Generate a 1-page brief from this notebook for someone new to the project&#39;</li><li>&#39;Extract every commitment I made in these notes&#39; — accountability tracking</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Drafting in OneNote</div><div class="section-desc">Notes-to-content workflows</div></div></div><div class="content-body"><p class="prose">Copilot in OneNote can take messy bullets and produce a structured output — a memo, an email draft, a meeting agenda, or a status update — without leaving the notebook.</p><ul class="bullets"><li>&#39;Draft a project status email for stakeholders based on this week&#39;s notes&#39;</li><li>&#39;Turn these meeting notes into a structured agenda for next week&#39;</li><li>&#39;Rewrite these rough bullets as a polished briefing memo&#39;</li></ul><p class="prose">Drafting in OneNote benefits from OneNote&#39;s specific affordance: notebooks are already organised by project, client, or topic. When you ask Copilot to draft from your notes, the relevant context is already there — Copilot doesn&#39;t need to be told who the audience is or what&#39;s been discussed; it can read the surrounding pages.</p><p class="prose">This is what differentiates OneNote drafting from drafting in Word or Outlook with Copilot. In Word, Copilot reads the current document. In Outlook, it reads the current thread. In OneNote, it reads the project context — which is often what you actually need for a stakeholder update, a status memo, or a project brief.</p><p class="prose">Drafting in OneNote benefits from a specific affordance: notebooks are already organised by project, client, or topic. When you ask Copilot to draft from your notes, the relevant context is already there — Copilot doesn&#39;t need to be told who the audience is or what&#39;s been discussed; it can read the surrounding pages.</p><p class="prose">This differentiates OneNote drafting from drafting in Word or Outlook. In Word, Copilot reads the current document. In Outlook, it reads the current thread. In OneNote, it reads the project context — which is often what you actually need for a stakeholder update, status memo, or project brief.</p></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Tag and Organise</div><div class="section-desc">Copilot as your notebook archivist</div></div></div><div class="content-body"><p class="prose">Copilot can auto-tag pages with topics, surface relevant tags across sections, and suggest where to file new content. For people with chaotic notebooks, this is the biggest single time-saver.</p><ul class="bullets"><li>Auto-tag: &#39;Tag this page with the topics it covers&#39;</li><li>Cross-reference: &#39;Show me everything in this notebook tagged Project Phoenix&#39;</li><li>File suggestions: &#39;Where should this new page go?&#39;</li></ul><p class="prose">For people with chaotic OneNote notebooks — which is most heavy OneNote users — the tag-and-organise capability is the biggest single time-saver. Notebooks accumulate over years; finding the page you wrote 18 months ago about a recurring topic is genuinely hard without tags, and most people don&#39;t tag consistently.</p><p class="prose">Copilot can retrospectively tag old content. Pick a notebook, ask Copilot to identify the major topics, then have it auto-tag pages with those topics. What was previously a 30-minute hunt becomes a 30-second query.</p><h3 class="sub-h3">The retrospective tagging workflow</h3><ul class="bullets"><li>Pick one notebook (start with your most-used, not your largest)</li><li>Ask Copilot: &#39;What are the major topics in this notebook?&#39;</li><li>Refine the topic list — combine similar ones, split too-broad ones</li><li>Ask Copilot to auto-tag pages with those topics</li><li>Spot-check 20 pages — adjust tags where wrong</li><li>Use the tags for future cross-referencing</li></ul><h3 class="sub-h3">The retrospective tagging workflow</h3><p class="sub-body">For people with chaotic OneNote notebooks — most heavy OneNote users — the tag-and-organise capability is the biggest time-saver. Notebooks accumulate over years; finding the page you wrote 18 months ago without tags is genuinely hard.</p><ul class="bullets"><li>Pick a notebook — start with most-used, not largest</li><li>Ask: &#39;What are the major topics in this notebook?&#39;</li><li>Refine the topic list — combine similar, split too-broad</li><li>Ask Copilot to auto-tag pages with those topics</li><li>Spot-check 20 pages; adjust tags where wrong</li><li>Use the tags for future cross-referencing</li></ul></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">Knowledge Base Queries</div><div class="section-desc">Using your notebook as a knowledge source</div></div></div><div class="content-body"><p class="prose">For long-running notebooks (consulting clients, project workspaces, personal research), Copilot acts as a queryable knowledge layer. Ask questions in natural language and get answers grounded in your own notes.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🔍  PERMISSIONS APPLY</div><div class="callout-text">Copilot only queries notebooks you have permission to see. Shared notebooks work seamlessly; private ones stay private. As always, Copilot inherits the M365 permission model.</div></div></div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🔍  THE 2026 CROSS-NOTEBOOK SEARCH</div><div class="callout-text">Cross-notebook search shipped in 2026 and changed the calculus for OneNote-heavy workflows. If you previously gave up on OneNote because content was siloed in different notebooks, retry — Copilot now reasons across all notebooks you have access to in a single query.</div></div></div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🔍  THE 2026 CROSS-NOTEBOOK SEARCH</div><div class="callout-text">Cross-notebook search shipped in 2026 and changed the calculus for OneNote-heavy workflows. If you previously gave up on OneNote because content was siloed in different notebooks, retry — Copilot now reasons across all notebooks you have access to in a single query.</div></div></div><p class="prose">For consultants, executive assistants, and project managers with heavily-used OneNote, the cross-notebook search capability transforms a notebook from passive archive into queryable knowledge base. Ask &#39;what have I noted about Client X across all my notebooks?&#39; and get a synthesised answer with page references.</p><p class="prose">For long-running notebooks (consulting clients, project workspaces, personal research), Copilot acts as a queryable knowledge layer. Ask questions in natural language and get answers grounded in your own notes — with the specific page references.</p><p class="prose">For consultants, executive assistants, and project managers, this transforms a notebook from passive archive into queryable knowledge base. Ask &#39;what have I noted about Client X across all my notebooks?&#39; and get a synthesised answer with page references.</p></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Meeting Notes Workflow</div><div class="section-desc">The single most-used pattern</div></div></div><div class="content-body"><ul class="bullets"><li>Take rough notes in the meeting (or paste Teams transcript)</li><li>After: &#39;Summarise into decisions, actions, and open questions&#39;</li><li>Copy the action items to your Teams channel or task list</li><li>Tag the page with project name + meeting date</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Take rough notes in the meeting</div><div class="step-desc">Bullets, abbreviations, your own shorthand. Don&#39;t waste meeting attention on formatting.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">After the meeting, open the notes page</div><div class="step-desc">Right-click or use the Copilot panel.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Ask for structured output</div><div class="step-desc">&#39;Summarise into decisions, actions, and open questions.&#39;</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Copy actions to your task list</div><div class="step-desc">Direct paste to Teams channel, Planner, or To Do.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Tag the page</div><div class="step-desc">Project name + meeting date. Findable for the future.</div></div></div></div><p class="prose">The meeting-notes-to-structured-output workflow is the single most-used OneNote + Copilot pattern. Take rough notes during the meeting (bullets, abbreviations, your own shorthand), then after ask Copilot to convert into the structured artefact you actually need — decisions, action items with owners, open questions, a memo for absent stakeholders.</p><p class="prose">The output quality is highly correlated with note quality, but you don&#39;t need to take perfect notes. Bullets like &#39;Sarah - Q4 forecast - revisit after CFO mtg&#39; are enough for Copilot to produce &#39;Sarah Williams will revisit the Q4 forecast after the CFO meeting on the 14th.&#39; Don&#39;t waste meeting attention on formatting; capture content, let Copilot structure.</p></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">Integration With Other M365 Surfaces</div><div class="section-desc">Where OneNote sits in the stack</div></div></div><div class="content-body"><ul class="bullets"><li>Teams → OneNote — embed a notebook as a tab in any channel</li><li>Outlook → OneNote — send an email to OneNote with one click</li><li>Word → OneNote — promote a page to a Word doc for formal sharing</li><li>Copilot Chat — reference a OneNote page with the / command</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Use OneNote as the capture surface; promote outputs to formal docs</li><li>Tag pages immediately so they&#39;re findable later</li><li>Leverage cross-notebook search for long-running project knowledge</li><li>Use Copilot Chat with / to reference OneNote pages cross-app</li><li>Maintain one notebook per major context (project, client, function)</li><li>Quarterly notebook hygiene — archive completed projects, prune stale pages</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Treating OneNote as the final document format — it&#39;s the capture surface</li><li>Letting tags drift without curation — they lose value</li><li>Storing sensitive credentials or PII in OneNote without sensitivity labels</li><li>Mixing personal and work content in shared notebooks</li><li>Skipping the cross-notebook search feature — it&#39;s the 2026 unlock</li><li>Forgetting that permissions apply — Copilot inherits OneNote access</li></ul></div></div><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">📋</div><div class="feat-title">Teams</div><div class="feat-desc">Embed a OneNote tab in any channel — meeting notes live alongside meeting space.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📧</div><div class="feat-title">Outlook</div><div class="feat-desc">Send email to OneNote with one click — captures conversation for project reference.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">📄</div><div class="feat-title">Word</div><div class="feat-desc">Promote a OneNote page to Word doc when ready for formal sharing — preserves structure.</div></div></div></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Copilot in OneNote as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">MEETING NOTES → MEMO</div><div class="prompt-text">Turn these meeting notes into a 1-page memo for stakeholders who weren&#39;t there. Cover: what was decided, what&#39;s outstanding, who&#39;s doing what next, and any risks raised.</div></div><div class="prompt-card"><div class="prompt-label">ACTION ITEM EXTRACTION</div><div class="prompt-text">Find every action item in this section. For each: who owns it, what&#39;s the deadline (if stated), and what&#39;s the current status (in progress / blocked / done) if I noted it.</div></div><div class="prompt-card"><div class="prompt-label">NOTEBOOK SYNTHESIS</div><div class="prompt-text">I&#39;ve been keeping notes on Project Atlas for 3 months across 14 pages. Pull together a one-page brief for someone new joining the project — what we&#39;ve decided, what&#39;s open, where the risks are.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Copilot in OneNote on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>

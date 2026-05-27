@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Cowork Mode — User Guide | The AI Advantage Co</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    /* ============================================================
+       PALETTE — extracted directly from the Claude User Guide banner
+       Primary orange (#C97040) = banner starburst / "A" logo glow
+       Everything else works back from there into lighter, softer tones
+    ============================================================ */
+    :root {
+      --orange:        #C97040;   /* banner starburst — primary accent ONLY */
+      --orange-light:  #E09868;   /* hover states */
+      --orange-soft:   rgba(201, 112, 64, 0.09);   /* tinted bg fills */
+      --orange-border: rgba(201, 112, 64, 0.20);   /* borders / outlines */
+
+      --sidebar-bg:    #3C1E0A;   /* deep warm brown — sidebar only */
+      --sidebar-hover: #4E2A12;
+      --sidebar-act:   rgba(201, 112, 64, 0.16);
+
+      --page-bg:       #FEF8F0;   /* warm champagne — matches banner bg */
+      --white:         #FFFFFF;
+      --card-bg:       #FFFCF8;   /* slightly warm white for cards */
+
+      --ink:           #2C1408;   /* warm dark brown — headings */
+      --body-text:     #4A3020;   /* warm mid-brown — prose */
+      --muted:         #8A6040;   /* warm muted brown */
+      --muted-light:   #B08060;   /* lighter warm brown */
+      --border:        #F0DEC8;   /* warm champagne border */
+      --divider:       #EDD8BE;
+
+      --sidebar-w:   268px;
+      --radius:      10px;
+      --radius-sm:   6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--page-bg);
+      color: var(--ink);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    /* LAYOUT */
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ── SIDEBAR ─────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(201,112,64,0.30); border-radius: 4px; }
+
+    .sidebar-brand {
+      padding: 28px 24px 18px;
+      border-bottom: 1px solid rgba(201,112,64,0.14);
+    }
+    .sidebar-brand .brand-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--orange-light); margin-bottom: 4px;
+    }
+    .sidebar-brand .brand-name {
+      font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3;
+    }
+    .sidebar-meta {
+      padding: 14px 24px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .sidebar-guide-title {
+      font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.45; font-weight: 400;
+    }
+    .nav-label {
+      padding: 18px 24px 6px;
+      font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(201,112,64,0.45);
+    }
+    nav#sidebar-nav { flex: 1; padding: 0 12px 24px; }
+    nav#sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: var(--radius-sm);
+      font-size: 13.5px; font-weight: 400;
+      color: rgba(255,255,255,0.55); text-decoration: none;
+      line-height: 1.35; transition: background 0.15s, color 0.15s;
+      margin-bottom: 1px;
+    }
+    nav#sidebar-nav a:hover { background: var(--sidebar-hover); color: rgba(255,255,255,0.88); }
+    nav#sidebar-nav a.active {
+      background: var(--sidebar-act); color: var(--orange-light); font-weight: 500;
+    }
+    nav#sidebar-nav a svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.60; }
+    nav#sidebar-nav a.active svg { opacity: 1; }
+    .sidebar-footer {
+      padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 11px; color: rgba(255,255,255,0.22); line-height: 1.7;
+    }
+    .sidebar-footer a { color: rgba(201,112,64,0.50); text-decoration: none; }
+    .sidebar-footer a:hover { color: var(--orange-light); }
+
+    /* ── MAIN ─────────────────────────────────────────────── */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+    /* ── BANNER ───────────────────────────────────────────── */
+    .banner { width: 100%; line-height: 0; display: block; }
+    .banner img { width: 100%; height: auto; display: block; }
+
+    /* ── DOC HEADER ───────────────────────────────────────── */
+    .doc-header {
+      padding: 36px 60px 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11.5px; color: var(--muted-light); margin-bottom: 14px;
+    }
+    .breadcrumb span { color: var(--orange); font-size: 10px; }
+    .doc-title {
+      font-size: 28px; font-weight: 700; color: var(--ink);
+      letter-spacing: -0.5px; line-height: 1.25; margin-bottom: 10px;
+    }
+    .doc-subtitle {
+      font-size: 15.5px; color: var(--muted); font-weight: 400;
+      margin-bottom: 20px; max-width: 680px; line-height: 1.6;
+    }
+    .doc-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--orange-soft); border: 1px solid var(--orange-border);
+      color: var(--orange); font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px; letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .meta-item { font-size: 12.5px; color: var(--muted-light); }
+    .meta-item strong { color: var(--muted); font-weight: 500; }
+
+    /* ── CONTENT BODY ─────────────────────────────────────── */
+    .content-body { flex: 1; padding: 48px 60px 80px; max-width: 980px; }
+
+    /* ── SECTION ──────────────────────────────────────────── */
+    .section { margin-bottom: 56px; scroll-margin-top: 24px; }
+    .section-header {
+      display: flex; align-items: flex-start; gap: 14px;
+      margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+    .section-num {
+      width: 32px; height: 32px; min-width: 32px;
+      background: var(--orange); color: #FFF8F2;
+      font-size: 12px; font-weight: 700; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center; margin-top: 2px;
+    }
+    .section-title {
+      font-size: 21px; font-weight: 700; color: var(--ink);
+      letter-spacing: -0.3px; line-height: 1.3;
+    }
+    .section-desc { font-size: 13px; color: var(--muted); margin-top: 3px; font-weight: 400; }
+
+    /* ── PROSE ────────────────────────────────────────────── */
+    .prose p { color: var(--body-text); margin-bottom: 14px; font-size: 15px; line-height: 1.8; }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose h3 {
+      font-size: 16px; font-weight: 600; color: var(--ink);
+      margin: 28px 0 10px; letter-spacing: -0.1px;
+    }
+    .prose h4 {
+      font-size: 12px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.7px; margin: 22px 0 8px;
+    }
+    .prose ul, .prose ol { padding-left: 0; margin: 12px 0 16px; list-style: none; }
+    .prose li {
+      position: relative; padding-left: 20px; margin-bottom: 9px;
+      color: var(--body-text); font-size: 15px; line-height: 1.72;
+    }
+    .prose ul li::before {
+      content: ''; position: absolute; left: 0; top: 10px;
+      width: 5px; height: 5px; background: var(--orange); border-radius: 50%;
+    }
+    .prose ol { counter-reset: ol-c; }
+    .prose ol li { counter-increment: ol-c; }
+    .prose ol li::before {
+      content: counter(ol-c); position: absolute; left: 0; top: 1px;
+      font-size: 11.5px; font-weight: 700; color: var(--orange);
+    }
+
+    /* ── CARD GRID ────────────────────────────────────────── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; margin: 20px 0; }
+    .card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      border-color: var(--orange-border);
+      box-shadow: 0 4px 20px rgba(201,112,64,0.08);
+    }
+    .card-icon {
+      width: 34px; height: 34px; background: var(--orange-soft);
+      border-radius: var(--radius-sm); display: flex; align-items: center;
+      justify-content: center; margin-bottom: 11px; font-size: 16px;
+    }
+    .card-title { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* ── STEPS ────────────────────────────────────────────── */
+    .steps { margin: 20px 0 24px; }
+    .step { display: flex; gap: 16px; position: relative; }
+    .step:not(:last-child)::before {
+      content: ''; position: absolute; left: 15px; top: 34px;
+      width: 2px; bottom: 0; background: var(--border);
+    }
+    .step-num {
+      width: 30px; height: 30px; min-width: 30px;
+      background: var(--orange); color: #FFF8F2;
+      font-size: 12px; font-weight: 700; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .step-body { padding-bottom: 26px; flex: 1; }
+    .step-title {
+      font-size: 14.5px; font-weight: 600; color: var(--ink);
+      margin-bottom: 4px; padding-top: 4px; line-height: 1.4;
+    }
+    .step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.7; }
+
+    /* ── CALLOUTS ─────────────────────────────────────────── */
+    .callout { display: flex; gap: 13px; border-radius: var(--radius); padding: 15px 18px; margin: 20px 0; }
+    .callout-icon { font-size: 17px; line-height: 1.6; flex-shrink: 0; }
+    .callout-body { flex: 1; }
+    .callout-title { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .callout-text { font-size: 14px; line-height: 1.65; }
+
+    /* tip — orange (primary brand accent) */
+    .callout.tip { background: var(--orange-soft); border: 1px solid var(--orange-border); }
+    .callout.tip .callout-title { color: var(--orange); }
+    .callout.tip .callout-text { color: #4A2C10; }
+
+    /* info — soft warm blue to stay warm overall */
+    .callout.info { background: rgba(180, 140, 80, 0.07); border: 1px solid rgba(180, 140, 80, 0.18); }
+    .callout.info .callout-title { color: #8A6020; }
+    .callout.info .callout-text { color: #4A3010; }
+
+    /* note — warm neutral */
+    .callout.note { background: rgba(150, 120, 90, 0.07); border: 1px solid rgba(150, 120, 90, 0.16); }
+    .callout.note .callout-title { color: #7A5830; }
+    .callout.note .callout-text { color: #4A3018; }
+
+    /* warning — slightly deeper orange */
+    .callout.warning { background: rgba(201, 112, 64, 0.07); border: 1px solid rgba(201, 112, 64, 0.20); }
+    .callout.warning .callout-title { color: #A85828; }
+    .callout.warning .callout-text { color: #4A2410; }
+
+    /* ── TABLE ────────────────────────────────────────────── */
+    .doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+    .doc-table th {
+      background: var(--sidebar-bg); color: var(--orange-light);
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.8px;
+      text-transform: uppercase; padding: 10px 14px; text-align: left;
+    }
+    .doc-table td {
+      padding: 11px 14px; border-bottom: 1px solid var(--border);
+      color: var(--body-text); vertical-align: top; line-height: 1.55;
+    }
+    .doc-table tr:hover td { background: var(--orange-soft); }
+    .doc-table tr:last-child td { border-bottom: none; }
+
+    /* ── TAG ──────────────────────────────────────────────── */
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.2px; }
+    .tag.gold { background: var(--orange-soft); color: var(--orange); border: 1px solid var(--orange-border); }
+    .tag.dark { background: var(--sidebar-bg); color: rgba(255,255,255,0.75); font-size: 10.5px; }
+
+    /* ── DIVIDER ──────────────────────────────────────────── */
+    .divider { height: 1px; background: var(--divider); margin: 44px 0; }
+
+    /* ── CODE ─────────────────────────────────────────────── */
+    .code-block { background: var(--sidebar-bg); border-radius: var(--radius); padding: 16px 20px; margin: 16px 0; overflow-x: auto; }
+    .code-block code { font-family: 'SF Mono','Fira Code','Cascadia Code',monospace; font-size: 12.5px; color: #E8C090; line-height: 1.7; white-space: pre; }
+
+    /* ── DOC FOOTER ───────────────────────────────────────── */
+    .doc-footer {
+      padding: 22px 60px; border-top: 1px solid var(--border);
+      background: var(--white);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .doc-footer .footer-brand { font-size: 12px; font-weight: 500; color: var(--muted); }
+    .doc-footer .footer-links { display: flex; gap: 16px; font-size: 12px; }
+    .doc-footer .footer-links a { color: var(--muted-light); text-decoration: none; transition: color 0.15s; }
+    .doc-footer .footer-links a:hover { color: var(--orange); }
+
+    /* ── MOBILE ───────────────────────────────────────────── */
+    .sidebar-toggle {
+      display: none; position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      background: var(--sidebar-bg); color: var(--orange-light); border: none;
+      border-radius: 50%; width: 46px; height: 46px; font-size: 18px;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(60,30,10,0.25);
+      align-items: center; justify-content: center;
+    }
+    @media (max-width: 960px) {
+      .sidebar { position: fixed; left: -280px; transition: left 0.25s; height: 100%; }
+      .sidebar.open { left: 0; box-shadow: 4px 0 24px rgba(60,30,10,0.3); }
+      .sidebar-toggle { display: flex; }
+      .content-body { padding: 32px 24px 60px; }
+      .doc-header { padding: 28px 24px 24px; }
+      .doc-footer { padding: 18px 24px; flex-direction: column; align-items: flex-start; }
+      .card-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .card-grid { grid-template-columns: 1fr; }
+      .doc-title { font-size: 22px; }
+    }
+
+    /* ── PROMPT TABS ──────────────────────────────────────── */
+    .prompt-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .prompt-tab {
+      padding: 8px 20px; border-radius: 20px; font-size: 13px; font-weight: 600;
+      border: 1px solid var(--orange-border); background: transparent;
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
+    }
+    .prompt-tab.active { background: var(--orange); color: #FFF8F2; border-color: var(--orange); }
+    .prompt-tab:hover:not(.active) { border-color: var(--orange); color: var(--orange); }
+    .prompt-panel { display: none; }
+    .prompt-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 700px) { .prompt-panel.active { grid-template-columns: 1fr; } }
+    .prompt-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px;
+      transition: border-color 0.2s, box-shadow 0.2s; position: relative;
+    }
+    .prompt-card:hover { border-color: var(--orange-border); box-shadow: 0 4px 16px rgba(201,112,64,0.07); }
+    .prompt-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--orange); margin-bottom: 8px;
+    }
+    .prompt-text {
+      font-size: 13.5px; color: var(--body-text); line-height: 1.65;
+      font-style: italic;
+    }
+    .prompt-copy {
+      margin-top: 12px; padding: 5px 12px; border-radius: var(--radius-sm);
+      font-size: 11px; font-weight: 600; border: 1px solid var(--orange-border);
+      background: transparent; color: var(--orange); cursor: pointer;
+      transition: all 0.15s; display: inline-block;
+    }
+    .prompt-copy:hover { background: var(--orange); color: #FFF8F2; }
+    .prompt-copy.copied { background: var(--orange); color: #FFF8F2; }
+
+    /* ── UI MOCKUP ────────────────────────────────────────── */
+    .mockup-wrap { margin: 24px 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+    .mockup-bar {
+      background: var(--sidebar-bg); padding: 10px 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mockup-title { font-size: 11px; color: rgba(255,255,255,0.35); margin-left: 6px; font-family: monospace; }
+    .mockup-body {
+      display: flex; min-height: 260px;
+      background: #FDF6EC;
+    }
+    .mockup-sidebar {
+      width: 180px; min-width: 180px; background: var(--sidebar-bg);
+      padding: 16px 0; display: flex; flex-direction: column; gap: 2px;
+    }
+    .mockup-nav-item {
+      padding: 7px 14px; font-size: 11px; color: rgba(255,255,255,0.45);
+      display: flex; align-items: center; gap: 7px;
+    }
+    .mockup-nav-item.act { color: var(--orange-light); background: rgba(201,112,64,0.14); }
+    .mockup-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    .mockup-chat { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+    .mockup-msg {
+      max-width: 85%; padding: 10px 14px; border-radius: 10px;
+      font-size: 12px; line-height: 1.55;
+    }
+    .mockup-msg.user { background: var(--orange); color: #FFF8F2; align-self: flex-end; border-radius: 10px 10px 2px 10px; }
+    .mockup-msg.claude { background: #FFFFFF; color: var(--body-text); align-self: flex-start; border: 1px solid var(--border); border-radius: 10px 10px 10px 2px; }
+    .mockup-msg.claude strong { color: var(--orange); font-size: 10px; display: block; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .mockup-file {
+      background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 8px 12px; font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 8px;
+      align-self: flex-start;
+    }
+    .mockup-file-icon { font-size: 14px; }
+    .mockup-input {
+      margin-top: auto; border-top: 1px solid var(--border);
+      padding: 10px 14px; background: var(--white);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .mockup-input-box {
+      flex: 1; height: 28px; border-radius: 14px; background: var(--page-bg);
+      border: 1px solid var(--border); font-size: 11px; padding: 0 12px;
+      color: var(--muted); display: flex; align-items: center;
+    }
+    .mockup-send {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--orange);
+      display: flex; align-items: center; justify-content: center; font-size: 12px; color: white;
+    }
+
+    /* ── ROADMAP ──────────────────────────────────────────── */
+    .roadmap { margin: 24px 0; }
+    .roadmap-steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; position: relative; }
+    @media (max-width: 800px) { .roadmap-steps { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .roadmap-steps { grid-template-columns: 1fr; } }
+    .roadmap-step { padding: 0 8px 0 0; position: relative; }
+    .roadmap-step:not(:last-child) .roadmap-connector {
+      position: absolute; top: 20px; right: -4px;
+      width: 8px; height: 2px; background: var(--orange-border);
+    }
+    .roadmap-num {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--orange); color: #FFF8F2;
+      font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 10px;
+    }
+    .roadmap-step-title { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
+    .roadmap-step-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+    .roadmap-arrow {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--orange-border); font-size: 18px; padding-top: 10px;
+      grid-column: auto;
+    }
+    @media (max-width: 800px) { .roadmap-arrow { display: none; } }
+
+    /* ── PRINT ────────────────────────────────────────────── */
+    @media print {
+      body { background: white; font-size: 12pt; }
+      .sidebar, .sidebar-toggle { display: none !important; }
+      .layout { display: block; }
+      .main { width: 100%; }
+      .banner { margin-bottom: 0; }
+      .doc-header { padding: 24px 32px 20px; }
+      .content-body { padding: 24px 32px 40px; max-width: 100%; }
+      .doc-footer { padding: 16px 32px; }
+      .section { page-break-inside: avoid; margin-bottom: 32px; }
+      .card-grid { grid-template-columns: 1fr 1fr; }
+      .prompt-panel { display: grid !important; grid-template-columns: 1fr 1fr; }
+      .prompt-tab { display: none; }
+      .prompt-panel[data-panel="business"]::before { content: "Business Prompts"; display: block; grid-column: 1/-1; font-weight: 700; font-size: 13pt; color: var(--orange); margin-bottom: 8px; }
+      .prompt-panel[data-panel="student"]::before { content: "Student Prompts"; display: block; grid-column: 1/-1; font-weight: 700; font-size: 13pt; color: var(--orange); margin-top: 16px; margin-bottom: 8px; }
+      .mockup-wrap { display: none; }
+      .roadmap-steps { grid-template-columns: repeat(3, 1fr); }
+      a { color: var(--orange) !important; }
+      .doc-table { page-break-inside: avoid; }
+      .callout { page-break-inside: avoid; }
+      @page { margin: 1.5cm 2cm; }
+    }
+
+  </style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+
+<div class="layout">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-brand">
+      <div class="brand-label">The AI Advantage Co</div>
+      <div class="brand-name">Documentation Hub</div>
+    </div>
+
+    <div class="sidebar-meta">
+      <div class="sidebar-guide-title">Claude Cowork Mode<br>User Guide</div>
+    </div>
+
+    <div class="nav-label">Contents</div>
+
+    <nav id="sidebar-nav">
+      <a href="#overview" class="active">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l1.5 1.5"/></svg>
+        Overview
+      </a>
+      <a href="#getting-started">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M2 8h12M8 2l6 6-6 6"/></svg>
+        Getting Started
+      </a>
+      <a href="#core-features">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+        Core Features
+      </a>
+      <a href="#working-with-files">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M3 2h6l4 4v8a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M9 2v4h4"/></svg>
+        Working with Files
+      </a>
+      <a href="#plugins-skills">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M8 1l1.8 5h5.2l-4.2 3 1.6 5L8 11.2 3.6 14 5.2 9 1 6h5.2z"/></svg>
+        Plugins &amp; Skills
+      </a>
+      <a href="#connected-tools">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="4" cy="8" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="12" cy="12" r="2"/><path d="M6 8h2m2-3l-2 3m2 3l-2-3"/></svg>
+        Connected Tools
+      </a>
+      <a href="#best-practices">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M8 2l1.5 4.5H14l-3.8 2.8 1.4 4.4L8 11.2l-3.6 2.5 1.4-4.4L2 6.5h4.5z"/></svg>
+        Best Practices
+      </a>
+      <a href="#troubleshooting">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5"/><circle cx="8" cy="11.5" r="0.5" fill="currentColor"/></svg>
+        Troubleshooting
+      </a>
+      <a href="#suggested-prompts">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12M2 8h8M2 12h6"/></svg>
+        Suggested Prompts
+      </a>
+      <a href="#see-it-in-action">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="14" height="10" rx="2"/><path d="M5 14h6M8 12v2"/></svg>
+        See It In Action
+      </a>
+      <a href="#your-roadmap">
+        <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6"><circle cx="3" cy="8" r="2"/><circle cx="13" cy="8" r="2"/><path d="M5 8h6"/><path d="M11 5l2 3-2 3"/></svg>
+        Your Roadmap
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div>© 2026 The AI Advantage Co</div>
+      <div><a href="https://www.theaiadvantageco.com.au">theaiadvantageco.com.au</a></div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="main">
+
+    <!-- BANNER — inline SVG, no external file needed -->
+    <div class="banner">
+      <svg viewBox="0 0 1400 260" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;">
+        <defs>
+          <radialGradient id="bg-g" cx="50%" cy="50%" r="75%">
+            <stop offset="0%" stop-color="#FDE8C8"/>
+            <stop offset="55%" stop-color="#F5DCBA"/>
+            <stop offset="100%" stop-color="#E8C898"/>
+          </radialGradient>
+          <radialGradient id="glow-r" cx="88%" cy="60%" r="35%">
+            <stop offset="0%" stop-color="#E8A060" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#E8A060" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="glow-c" cx="50%" cy="42%" r="18%">
+            <stop offset="0%" stop-color="#E09060" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#E09060" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <!-- Background -->
+        <rect width="1400" height="260" fill="url(#bg-g)"/>
+        <!-- Circular brushed texture rings -->
+        <circle cx="700" cy="130" r="320" fill="none" stroke="rgba(160,100,40,0.06)" stroke-width="1.5"/>
+        <circle cx="700" cy="130" r="250" fill="none" stroke="rgba(160,100,40,0.05)" stroke-width="1"/>
+        <circle cx="700" cy="130" r="180" fill="none" stroke="rgba(160,100,40,0.04)" stroke-width="1"/>
+        <circle cx="700" cy="130" r="120" fill="none" stroke="rgba(160,100,40,0.03)" stroke-width="1"/>
+        <!-- Right bokeh glow -->
+        <ellipse cx="1240" cy="170" rx="280" ry="190" fill="url(#glow-r)"/>
+        <!-- Centre orange glow behind logo -->
+        <ellipse cx="700" cy="112" rx="170" ry="150" fill="url(#glow-c)"/>
+        <!-- Neural "A" logo -->
+        <g opacity="0.92">
+          <!-- A body -->
+          <polygon points="700,38 762,162 738,162 700,72 662,162 638,162" fill="#D07848"/>
+          <!-- A crossbar -->
+          <rect x="666" y="120" width="68" height="10" fill="#D07848" rx="2"/>
+          <!-- glow overlay on A -->
+          <polygon points="700,38 762,162 738,162 700,72 662,162 638,162" fill="white" opacity="0.08"/>
+          <!-- Network nodes -->
+          <circle cx="700" cy="38" r="6" fill="#F0A070"/>
+          <circle cx="638" cy="162" r="5" fill="#E89060"/>
+          <circle cx="762" cy="162" r="5" fill="#E89060"/>
+          <circle cx="666" cy="120" r="4" fill="#F0A070"/>
+          <circle cx="734" cy="120" r="4" fill="#F0A070"/>
+          <circle cx="674" cy="140" r="3" fill="#E09058"/>
+          <circle cx="726" cy="140" r="3" fill="#E09058"/>
+          <circle cx="700" cy="90" r="3" fill="#E09058"/>
+          <!-- Network lines -->
+          <line x1="700" y1="38" x2="666" y2="120" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="700" y1="38" x2="734" y2="120" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="700" y1="38" x2="638" y2="162" stroke="#D07848" stroke-width="1" opacity="0.45"/>
+          <line x1="700" y1="38" x2="762" y2="162" stroke="#D07848" stroke-width="1" opacity="0.45"/>
+          <line x1="666" y1="120" x2="638" y2="162" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="734" y1="120" x2="762" y2="162" stroke="#F0A070" stroke-width="1.2" opacity="0.7"/>
+          <line x1="700" y1="38" x2="700" y2="90" stroke="#E09058" stroke-width="1" opacity="0.5"/>
+          <line x1="666" y1="120" x2="674" y2="140" stroke="#E09058" stroke-width="1" opacity="0.6"/>
+          <line x1="734" y1="120" x2="726" y2="140" stroke="#E09058" stroke-width="1" opacity="0.6"/>
+        </g>
+        <!-- "THE Ai ADVANTAGE" -->
+        <text x="700" y="26" font-family="Georgia,'Times New Roman',serif" font-size="19" font-weight="700" fill="#9A5C28" text-anchor="middle" letter-spacing="5">THE Ai ADVANTAGE</text>
+        <!-- "CLAUDE" -->
+        <text x="700" y="194" font-family="Georgia,'Times New Roman',serif" font-size="30" font-weight="700" fill="#C07038" text-anchor="middle" letter-spacing="6">CLAUDE</text>
+        <!-- "USER GUIDE" -->
+        <text x="690" y="244" font-family="Georgia,'Times New Roman',serif" font-size="54" font-weight="800" fill="#8A4820" text-anchor="middle" letter-spacing="3">USER GUIDE</text>
+        <!-- Starburst bottom-right -->
+        <g transform="translate(1330,215)" fill="none" stroke="#C97040" stroke-linecap="round">
+          <line x1="0" y1="-32" x2="0" y2="32" stroke-width="6"/>
+          <line x1="-32" y1="0" x2="32" y2="0" stroke-width="6"/>
+          <line x1="-23" y1="-23" x2="23" y2="23" stroke-width="6"/>
+          <line x1="23" y1="-23" x2="-23" y2="23" stroke-width="6"/>
+          <line x1="-12" y1="-30" x2="12" y2="30" stroke-width="3"/>
+          <line x1="-30" y1="-12" x2="30" y2="12" stroke-width="3"/>
+          <line x1="-30" y1="12" x2="30" y2="-12" stroke-width="3"/>
+          <line x1="12" y1="-30" x2="-12" y2="30" stroke-width="3"/>
+        </g>
+        <!-- Outer border -->
+        <rect width="1400" height="260" fill="none" stroke="rgba(160,100,40,0.12)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <!-- DOC HEADER -->
+    <div class="doc-header">
+      <div class="breadcrumb">
+        Documentation <span>›</span> Cowork Mode <span>›</span> User Guide
+      </div>
+      <h1 class="doc-title">Claude Cowork Mode — User Guide</h1>
+      <p class="doc-subtitle">
+        A practical guide to getting the most out of Cowork Mode — Claude's desktop tool for automating file and task management, without needing to write code.
+      </p>
+      <div class="doc-meta">
+        <span class="badge">Version 1.0</span>
+        <span class="meta-item"><strong>Updated:</strong> April 2026</span>
+        <span class="meta-item"><strong>Audience:</strong> All Users</span>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-body">
+
+      <!-- ── 01 OVERVIEW ── -->
+      <section class="section" id="overview">
+        <div class="section-header">
+          <div class="section-num">01</div>
+          <div>
+            <div class="section-title">What is Cowork Mode?</div>
+            <div class="section-desc">Your AI-powered desktop workspace</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Cowork Mode is a feature of the <strong>Claude desktop application</strong> that gives you a persistent, AI-powered workspace directly on your computer. Unlike the standard chat interface, Cowork Mode connects Claude to your actual files, folders, and tools — so it can read, write, organise, and act on your behalf, not just advise.
+          </p>
+          <p>
+            It is designed for non-developers who want to automate real work — document creation, research, file organisation, reporting, and integration with tools like HubSpot, Google Calendar, and Stripe — without touching code or learning complex software.
+          </p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">📁</div>
+              <div class="card-title">File Access</div>
+              <div class="card-desc">Read, write, and organise files directly in your OneDrive or local folders.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🔗</div>
+              <div class="card-title">Live Integrations</div>
+              <div class="card-desc">Connected to HubSpot, Stripe, Gmail, Calendly, Figma, and more via MCP.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">⚡</div>
+              <div class="card-title">Skills & Plugins</div>
+              <div class="card-desc">Specialist capabilities like PPTX creation, PDF handling, and XLSX automation.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🎯</div>
+              <div class="card-title">Persistent Workspace</div>
+              <div class="card-desc">Files saved to your workspace folder persist between sessions on your computer.</div>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <div class="callout-icon">💡</div>
+            <div class="callout-body">
+              <div class="callout-title">Think of it this way</div>
+              <div class="callout-text">
+                Cowork Mode is like having a capable team member sitting inside your desktop — one who can open your files, draft documents, pull data from your CRM, and build reports, all from a single conversation.
+              </div>
+            </div>
+          </div>
+
+          <h3>What it is not</h3>
+          <p>
+            Cowork Mode is not a fully autonomous agent that runs in the background without your input. It acts when you ask it to, confirms before irreversible actions, and keeps you in control of all final decisions. Sensitive actions (sending emails, publishing content, financial transactions) require your explicit approval before Claude proceeds.
+          </p>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 02 GETTING STARTED ── -->
+      <section class="section" id="getting-started">
+        <div class="section-header">
+          <div class="section-num">02</div>
+          <div>
+            <div class="section-title">Getting Started</div>
+            <div class="section-desc">Set up your workspace in under five minutes</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Cowork Mode is built into the Claude desktop app. There is no separate installation required. Follow these steps to get your workspace ready.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Open the Claude desktop app</div>
+                <div class="step-desc">Launch Claude from your Applications folder (Mac) or Start menu (Windows). Make sure you are signed in with your Claude account. Cowork Mode is available on Pro and Team plans.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Select a workspace folder</div>
+                <div class="step-desc">In the Cowork Mode interface, click <strong>Select Folder</strong> and point Claude to your OneDrive, Documents folder, or any local directory. This becomes Claude's working directory — it can read and write files here. Your selection persists between sessions.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Connect your tools (optional)</div>
+                <div class="step-desc">Navigate to <strong>Settings → Connectors</strong> to link external tools: HubSpot CRM, Gmail, Google Calendar, Stripe, Calendly, Figma, Canva, and Zoom are all available. Each connector requires a one-time authorisation.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Install plugins (optional)</div>
+                <div class="step-desc">Plugins extend Claude with specialist skills. Browse the plugin marketplace in Settings or install a .plugin file directly. Installed skills appear automatically in your sessions.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Start a session and give Claude a task</div>
+                <div class="step-desc">You're ready. Open a new Cowork session and describe what you want done in plain language. Claude will ask clarifying questions if needed, then get to work.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <div class="callout-icon">ℹ️</div>
+            <div class="callout-body">
+              <div class="callout-title">Good to know</div>
+              <div class="callout-text">
+                Files created in your workspace folder are yours and persist permanently on your computer. Temporary working files in the session cache are cleared between sessions — your final outputs are always safe.
+              </div>
+            </div>
+          </div>
+
+          <h3>What you can do straight away</h3>
+          <div class="card-grid" style="margin-top:16px;">
+            <div class="card">
+              <div class="card-icon">📄</div>
+              <div class="card-title">Create Documents</div>
+              <div class="card-desc">Ask Claude to draft reports, proposals, SOPs, and summaries — saved directly to your folder.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">📊</div>
+              <div class="card-title">Build Spreadsheets</div>
+              <div class="card-desc">Generate Excel files with formulas, formatted tables, and charts from your data.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🔍</div>
+              <div class="card-title">Research &amp; Summarise</div>
+              <div class="card-desc">Search the web, read documents, and produce structured research briefs in minutes.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🔗</div>
+              <div class="card-title">Pull from Your Tools</div>
+              <div class="card-desc">With connectors active, Claude can read from HubSpot, Gmail, Calendar, and Stripe in one prompt.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 03 CORE FEATURES ── -->
+      <section class="section" id="core-features">
+        <div class="section-header">
+          <div class="section-num">03</div>
+          <div>
+            <div class="section-title">Core Features</div>
+            <div class="section-desc">What Claude can do inside your workspace</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Cowork Mode gives Claude access to a set of powerful capabilities that go well beyond standard chat. Here is what's available in every session.
+          </p>
+
+          <h3>File Tools</h3>
+          <p>Claude can read any file in your workspace, write new files, and edit existing ones. It handles plain text, Markdown, HTML, and binary files (with the right skills installed). All changes are tracked and reversible — Claude tells you what it changed.</p>
+
+          <div class="callout tip">
+            <div class="callout-icon">💡</div>
+            <div class="callout-body">
+              <div class="callout-title">Always saves to your folder</div>
+              <div class="callout-text">
+                Final deliverables (documents, spreadsheets, presentations) are always saved to your workspace folder so you can access them directly. Temporary scratch work lives in the session cache and clears automatically.
+              </div>
+            </div>
+          </div>
+
+          <h3>Web Search & Research</h3>
+          <p>Claude can search the web, fetch web pages, and read documentation — then incorporate findings into documents or reports without you switching between apps. It cites sources when it uses external content.</p>
+
+          <h3>Code Execution</h3>
+          <p>For tasks that need computation — data processing, file conversion, formula checks — Claude runs code in an isolated Linux sandbox. You don't write the code; Claude does, runs it, and gives you the result.</p>
+
+          <h3>Artifact Creation</h3>
+          <p>Claude can produce live HTML artifacts that render as interactive panels inside Cowork — dashboards, trackers, and forms that can call your connected tools and refresh data each time you open them.</p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">📄</div>
+              <div class="card-title">Documents</div>
+              <div class="card-desc">Word docs, PDFs, Markdown reports — created and formatted to spec.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">📊</div>
+              <div class="card-title">Spreadsheets</div>
+              <div class="card-desc">Excel files with formulas, formatting, charts, and structured data.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🖼️</div>
+              <div class="card-title">Presentations</div>
+              <div class="card-desc">PowerPoint decks with layouts, branding, and speaker notes.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">📈</div>
+              <div class="card-title">Live Dashboards</div>
+              <div class="card-desc">Interactive HTML artifacts that pull from your connected tools.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 04 WORKING WITH FILES ── -->
+      <section class="section" id="working-with-files">
+        <div class="section-header">
+          <div class="section-num">04</div>
+          <div>
+            <div class="section-title">Working with Files</div>
+            <div class="section-desc">Reading, writing, and organising your documents</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Your workspace folder (typically your OneDrive or a local folder you selected) is Claude's operating environment. Claude can read everything inside it and write final outputs back to it.
+          </p>
+
+          <h3>File Operations Reference</h3>
+
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>What Claude does</th>
+                <th>Example prompt</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tag gold">Read</span></td>
+                <td>Opens and reads any file in your workspace, including binary files like DOCX and XLSX.</td>
+                <td>"Summarise the proposal in /02 - Clients/Acme/proposal.docx"</td>
+              </tr>
+              <tr>
+                <td><span class="tag gold">Write</span></td>
+                <td>Creates a new file in your workspace. Overwrites if the file exists (Claude warns you first).</td>
+                <td>"Create a weekly report template and save it to /02 - Templates/"</td>
+              </tr>
+              <tr>
+                <td><span class="tag gold">Edit</span></td>
+                <td>Makes precise changes to an existing file — replaces specific text without rewriting the whole file.</td>
+                <td>"Update the pricing section in this SOW — change $4,000 to $5,500"</td>
+              </tr>
+              <tr>
+                <td><span class="tag gold">Organise</span></td>
+                <td>Moves, renames, or restructures files and folders using shell commands in the sandbox.</td>
+                <td>"Move all 2024 invoices into a new /Archive/2024/ folder"</td>
+              </tr>
+              <tr>
+                <td><span class="tag gold">Search</span></td>
+                <td>Finds files by name pattern, content keywords, or modification date across your workspace.</td>
+                <td>"Find all documents that mention 'onboarding' in the client folder"</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout warning">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-body">
+              <div class="callout-title">Permanent deletions</div>
+              <div class="callout-text">
+                Claude will not permanently delete files on your behalf — this is a safety rule. If you need to delete files, Claude will tell you which ones to remove and you do it directly. Move-to-archive is always offered as an alternative.
+              </div>
+            </div>
+          </div>
+
+          <h3>Uploading files into a session</h3>
+          <p>You can drag files directly into the Cowork chat window to attach them. Claude reads the contents immediately — useful for files outside your workspace folder. PDFs, images, CSVs, Word docs, and plain text are all supported.</p>
+
+          <h3>Linking Claude to your design system</h3>
+          <p>Store master templates (HTML, DOCX, PPTX) in a dedicated folder like <code>06 - Brand / Claude Design System /</code>. In future sessions, tell Claude to use that template and it will pull from your saved version — keeping all outputs on-brand automatically.</p>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 05 PLUGINS & SKILLS ── -->
+      <section class="section" id="plugins-skills">
+        <div class="section-header">
+          <div class="section-num">05</div>
+          <div>
+            <div class="section-title">Plugins &amp; Skills</div>
+            <div class="section-desc">Extending Claude with specialist capabilities</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            <strong>Skills</strong> are specialist capability packs that Claude activates automatically when a task matches. <strong>Plugins</strong> are installable bundles that can include skills, MCP connectors, and custom instructions — all packaged as a single <code>.plugin</code> file.
+          </p>
+
+          <h3>Built-in skills (available now)</h3>
+          <ul>
+            <li><strong>PPTX</strong> — Create, edit, and read PowerPoint presentations with full formatting control.</li>
+            <li><strong>DOCX</strong> — Generate professional Word documents with styles, tables, headers, and TOC.</li>
+            <li><strong>XLSX</strong> — Build Excel spreadsheets with formulas, conditional formatting, and charts.</li>
+            <li><strong>PDF</strong> — Create PDFs, extract content, merge files, and fill forms.</li>
+            <li><strong>Canvas Design</strong> — Generate visual designs and export as PNG or PDF.</li>
+            <li><strong>Web Artifacts Builder</strong> — Build interactive HTML/React dashboards and tools.</li>
+            <li><strong>Scheduled Tasks</strong> — Set tasks to run automatically on a recurring interval.</li>
+            <li><strong>MCP Builder</strong> — Build your own MCP server to connect a new tool or API.</li>
+          </ul>
+
+          <div class="callout tip">
+            <div class="callout-icon">💡</div>
+            <div class="callout-body">
+              <div class="callout-title">Skills trigger automatically</div>
+              <div class="callout-text">
+                You don't need to activate skills manually. When you ask Claude to "create a PowerPoint" it reads the PPTX skill guide first, then builds the file. The result is consistently better than asking without skills installed.
+              </div>
+            </div>
+          </div>
+
+          <h3>Installing a plugin</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Get a .plugin file</div>
+                <div class="step-desc">Either download from the Claude plugin marketplace or receive one from a colleague or vendor.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Open Claude Settings → Plugins</div>
+                <div class="step-desc">Click "Install Plugin" and select the .plugin file. Claude validates and installs it.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Restart the session</div>
+                <div class="step-desc">Start a new Cowork session — the plugin's skills and connectors are available immediately.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <div class="callout-icon">ℹ️</div>
+            <div class="callout-body">
+              <div class="callout-title">Creating custom plugins</div>
+              <div class="callout-text">
+                Ask Claude to use the <strong>Create Cowork Plugin</strong> skill to scaffold a new plugin from scratch. Useful for packaging your organisation's templates, connectors, and custom skills into a single shareable bundle.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 06 CONNECTED TOOLS ── -->
+      <section class="section" id="connected-tools">
+        <div class="section-header">
+          <div class="section-num">06</div>
+          <div>
+            <div class="section-title">Connected Tools</div>
+            <div class="section-desc">Your live integrations via MCP</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Connectors use the <strong>Model Context Protocol (MCP)</strong> — an open standard that lets Claude talk directly to external services. Once connected, Claude can read and act on data from those tools without you switching apps or copying information manually.
+          </p>
+
+          <h3>Currently connected tools</h3>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">📊</div>
+              <div class="card-title">HubSpot CRM</div>
+              <div class="card-desc">Pull contact data, search deals, update records, and log activities from inside Cowork.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">💳</div>
+              <div class="card-title">Stripe</div>
+              <div class="card-desc">Check balances, list invoices, review subscriptions, and analyse payment data.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">📅</div>
+              <div class="card-title">Google Calendar</div>
+              <div class="card-desc">View, create, and update calendar events. Check availability and schedule meetings.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">✉️</div>
+              <div class="card-title">Gmail</div>
+              <div class="card-desc">Search threads, draft replies, and create labels. Claude will always confirm before sending.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🗓️</div>
+              <div class="card-title">Calendly</div>
+              <div class="card-desc">Manage event types, view upcoming bookings, and check scheduling availability.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🎨</div>
+              <div class="card-title">Canva</div>
+              <div class="card-desc">Search, generate, and export Canva designs directly from a Cowork session.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🖼️</div>
+              <div class="card-title">Figma</div>
+              <div class="card-desc">Access design files, inspect components, and pull brand context for document generation.</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">🎥</div>
+              <div class="card-title">Zoom</div>
+              <div class="card-desc">Search, recap, and act on Zoom meeting recordings and transcripts.</div>
+            </div>
+          </div>
+
+          <div class="callout note">
+            <div class="callout-icon">📌</div>
+            <div class="callout-body">
+              <div class="callout-title">Connecting a new tool</div>
+              <div class="callout-text">
+                Ask Claude: <em>"Search for a [tool name] connector"</em> and it will check the MCP registry. If found, Claude will walk you through connecting it. If there's no existing connector, Claude can build one using the MCP Builder skill.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 07 BEST PRACTICES ── -->
+      <section class="section" id="best-practices">
+        <div class="section-header">
+          <div class="section-num">07</div>
+          <div>
+            <div class="section-title">Best Practices</div>
+            <div class="section-desc">How to work efficiently with Cowork Mode</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>
+            Cowork Mode is most effective when you treat Claude as a capable operator who needs clear context — not as a search engine or a guesser. The more specific your instructions, the faster and better the output.
+          </p>
+
+          <h3>Do this</h3>
+          <ul>
+            <li><strong>Give Claude the full context upfront.</strong> Tell it what you want, who it's for, and what format you need — in one message. Claude asks follow-up questions when needed, but clear briefs save time.</li>
+            <li><strong>Reference files by path.</strong> Instead of "that proposal", say "the proposal in /02 - Clients/Acme/". Specific paths prevent Claude from guessing which file you mean.</li>
+            <li><strong>Save master templates to your design system folder.</strong> Claude will pull from them automatically for consistency across all future documents.</li>
+            <li><strong>Use Markdown files as your content source of truth.</strong> Store SOPs, guides, and frameworks as .md files — Claude reads and updates them efficiently.</li>
+            <li><strong>Build incrementally.</strong> For complex workflows, start manual (ask Claude to do one step), verify the output, then ask it to do the next. Automate later once you've validated the pattern.</li>
+            <li><strong>Confirm before irreversible actions.</strong> Claude will ask you before sending emails, submitting forms, or modifying records. Read the confirmation carefully before approving.</li>
+          </ul>
+
+          <h3>Avoid this</h3>
+          <ul>
+            <li><strong>Vague briefs.</strong> "Do something with my files" gives Claude nothing to work with. Describe the specific task, format, and outcome you want.</li>
+            <li><strong>Assuming Claude remembers previous sessions.</strong> Each session starts fresh. Reference the specific file, document, or context Claude needs — don't assume it knows from last time.</li>
+            <li><strong>Jumping to automation before validating.</strong> Run any workflow manually at least twice before asking Claude to schedule it. Automating a broken process just breaks it faster.</li>
+          </ul>
+
+          <div class="callout tip">
+            <div class="callout-icon">💡</div>
+            <div class="callout-body">
+              <div class="callout-title">The 3-part brief formula</div>
+              <div class="callout-text">
+                <em>What</em> I need + <em>who/what</em> it's for + <em>format/output</em> required.<br>
+                Example: "Write a proposal summary (WHAT) for the Acme onboarding project (WHO) as a one-page Word document with our logo header (FORMAT)."
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 08 TROUBLESHOOTING ── -->
+      <section class="section" id="troubleshooting">
+        <div class="section-header">
+          <div class="section-num">08</div>
+          <div>
+            <div class="section-title">Troubleshooting</div>
+            <div class="section-desc">Common issues and how to fix them</div>
+          </div>
+        </div>
+        <div class="prose">
+
+          <h3>Claude can't find my files</h3>
+          <p>
+            Make sure you've selected a workspace folder in Cowork Mode settings. Claude can only access files inside the folder you've connected. If your files are elsewhere, you can drag them into the chat window to attach them directly, or update your workspace folder selection.
+          </p>
+
+          <h3>My file tools have stopped working</h3>
+          <p>
+            This usually means the filesystem MCP has dropped its connection. Type <code>/mcpreset</code> in the chat — this triggers the MCP reset skill which diagnoses and re-establishes the connection automatically. If the issue persists, restart the Claude desktop app.
+          </p>
+
+          <h3>A connector shows as disconnected</h3>
+          <p>
+            Authorisation tokens expire periodically. Go to <strong>Settings → Connectors</strong>, find the affected connector, and click <strong>Reconnect</strong>. You'll be asked to re-authorise with that service. This typically takes under 30 seconds.
+          </p>
+
+          <h3>Claude is producing outputs in the wrong format</h3>
+          <p>
+            Be explicit about the output format in your prompt. Say "save this as a .docx file" or "export this as PDF". If you want Claude to use your brand template, say "use the template in /06 - Brand/Claude Design System/" — without a reference Claude will use its defaults.
+          </p>
+
+          <h3>The session seems to have lost context mid-task</h3>
+          <p>
+            Very long sessions can hit context limits. If this happens, start a new session and reference the specific files and tasks you need. Good practice is to save progress checkpoints to your workspace folder so you can resume efficiently from a fresh session.
+          </p>
+
+          <div class="callout note">
+            <div class="callout-icon">📌</div>
+            <div class="callout-body">
+              <div class="callout-title">Still stuck?</div>
+              <div class="callout-text">
+                Use the thumbs-down button below any Claude response to send feedback directly to Anthropic. For business-specific questions, contact The AI Advantage Co at <a href="https://www.theaiadvantageco.com.au" style="color: var(--gold);">theaiadvantageco.com.au</a>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 09 SUGGESTED PROMPTS ── -->
+      <section class="section" id="suggested-prompts">
+        <div class="section-header">
+          <div class="section-num">09</div>
+          <div>
+            <div class="section-title">Suggested Prompts</div>
+            <div class="section-desc">Copy and paste these to get started immediately</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Not sure what to ask first? These prompts are ready to use. Copy one, paste it into your Cowork session, and Claude will handle the rest.</p>
+        </div>
+
+        <div class="prompt-tabs" style="margin-top:20px;">
+          <button class="prompt-tab active" onclick="switchTab('business',this)">For Business</button>
+          <button class="prompt-tab" onclick="switchTab('student',this)">For Students</button>
+        </div>
+
+        <!-- BUSINESS PROMPTS -->
+        <div class="prompt-panel active" id="panel-business" data-panel="business">
+          <div class="prompt-card">
+            <div class="prompt-label">CRM &amp; Pipeline</div>
+            <div class="prompt-text">"Pull my HubSpot contacts updated this week, summarise any open deals by stage, and save it as a one-page pipeline report to my client folder."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Revenue &amp; Reporting</div>
+            <div class="prompt-text">"Check my Stripe account for the last 30 days — total revenue, top products by sales, and any failed payments — then build a summary dashboard I can open each Monday morning."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Client Documents</div>
+            <div class="prompt-text">"Read the proposal in my Clients/Acme folder, update the pricing section to reflect a 15% increase, and save a revised version with today's date in the filename."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Meeting Prep</div>
+            <div class="prompt-text">"Look at my Google Calendar for next week and create a one-page briefing document for each meeting — who it's with, what we last discussed in HubSpot, and three suggested talking points."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Weekly Review</div>
+            <div class="prompt-text">"Run my weekly business review: summarise emails from this week, check any open HubSpot tasks, list Stripe transactions over $500, and compile everything into a structured markdown review file."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+        </div>
+
+        <!-- STUDENT PROMPTS -->
+        <div class="prompt-panel" id="panel-student" data-panel="student">
+          <div class="prompt-card">
+            <div class="prompt-label">Study Guide</div>
+            <div class="prompt-text">"Read my lecture notes in the attached PDF and create a structured study guide with key concepts, definitions, and five practice questions I can use to test myself."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Essay Writing</div>
+            <div class="prompt-text">"Help me write a 2,000 word essay on [topic]. Start with a detailed outline for my approval, then draft each section one at a time. Use an academic tone with in-text citations."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Research Summary</div>
+            <div class="prompt-text">"Search for three current academic perspectives on [topic] and produce a comparison table with the key argument, supporting evidence, and limitations of each view. Save it as a Word document."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Revision Planner</div>
+            <div class="prompt-text">"Build me a four-week revision timetable for my upcoming exams. My subjects are [list them]. Spread the topics evenly, allow for rest days, and format it as a printable Excel spreadsheet."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">PDF Simplification</div>
+            <div class="prompt-text">"I've attached a 40-page academic paper. Summarise it in plain English — what the researchers did, what they found, and why it matters. Pull out five key quotes I can use in my assignment."</div>
+            <button class="prompt-copy" onclick="copyPrompt(this)">Copy prompt</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 10 SEE IT IN ACTION ── -->
+      <section class="section" id="see-it-in-action">
+        <div class="section-header">
+          <div class="section-num">10</div>
+          <div>
+            <div class="section-title">See It In Action</div>
+            <div class="section-desc">What a Cowork Mode session looks like</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>Here's what happens when you run one of the business prompts above. Claude works visibly — you can see every step, every file it reads, and every output it creates.</p>
+        </div>
+
+        <!-- Mockup 1: The prompt being typed -->
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--orange);margin:24px 0 8px;">Step 1 — You type your prompt</p>
+        <div class="mockup-wrap">
+          <div class="mockup-bar">
+            <div class="mockup-dot" style="background:#E85050;"></div>
+            <div class="mockup-dot" style="background:#E8A050;margin-left:4px;"></div>
+            <div class="mockup-dot" style="background:#50C050;margin-left:4px;"></div>
+            <span class="mockup-title">Claude — Cowork Mode</span>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-sidebar">
+              <div class="mockup-nav-item" style="padding:10px 14px 6px;font-size:9px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;">Workspace</div>
+              <div class="mockup-nav-item act"><div class="mockup-nav-dot"></div> Cowork Session</div>
+              <div class="mockup-nav-item"><div class="mockup-nav-dot"></div> File Browser</div>
+              <div class="mockup-nav-item"><div class="mockup-nav-dot"></div> Connected Tools</div>
+              <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0;"></div>
+              <div class="mockup-nav-item" style="font-size:9px;color:rgba(255,255,255,0.25);">📁 The Ai Advantage Co</div>
+              <div class="mockup-nav-item" style="font-size:9px;color:rgba(255,255,255,0.20);padding-left:24px;">02 - Clients</div>
+              <div class="mockup-nav-item" style="font-size:9px;color:rgba(255,255,255,0.20);padding-left:24px;">06 - Brand</div>
+            </div>
+            <div class="mockup-chat">
+              <div class="mockup-msg claude"><strong>Claude · Cowork Mode</strong>Hi Brad — I'm connected to your workspace folder and your tools (HubSpot, Stripe, Gmail). What would you like to work on?</div>
+              <div class="mockup-msg user">Run my weekly business review: summarise emails from this week, check open HubSpot tasks, list Stripe transactions over $500, and compile everything into a weekly review file.</div>
+              <div class="mockup-input">
+                <div class="mockup-input-box">Ask Claude anything…</div>
+                <div class="mockup-send">↑</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mockup 2: Claude working -->
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--orange);margin:24px 0 8px;">Step 2 — Claude works through your tools</p>
+        <div class="mockup-wrap">
+          <div class="mockup-bar">
+            <div class="mockup-dot" style="background:#E85050;"></div>
+            <div class="mockup-dot" style="background:#E8A050;margin-left:4px;"></div>
+            <div class="mockup-dot" style="background:#50C050;margin-left:4px;"></div>
+            <span class="mockup-title">Claude — Cowork Mode</span>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-sidebar">
+              <div class="mockup-nav-item act"><div class="mockup-nav-dot"></div> Cowork Session</div>
+              <div class="mockup-nav-item"><div class="mockup-nav-dot"></div> File Browser</div>
+              <div class="mockup-nav-item"><div class="mockup-nav-dot"></div> Connected Tools</div>
+            </div>
+            <div class="mockup-chat">
+              <div class="mockup-msg claude"><strong>Claude · Working…</strong>Searching Gmail for this week's threads… found 14 emails across 6 conversations. Reading HubSpot for open tasks… 3 open. Checking Stripe for transactions over $500… found 4. Building your review file now.</div>
+              <div class="mockup-file"><span class="mockup-file-icon">📄</span> weekly-review-26-apr-2026.md — <span style="color:var(--orange);font-weight:600;">Writing…</span></div>
+              <div class="mockup-input">
+                <div class="mockup-input-box">Claude is working…</div>
+                <div class="mockup-send" style="background:var(--border);">·</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mockup 3: Output ready -->
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--orange);margin:24px 0 8px;">Step 3 — Your output is ready in your folder</p>
+        <div class="mockup-wrap">
+          <div class="mockup-bar">
+            <div class="mockup-dot" style="background:#E85050;"></div>
+            <div class="mockup-dot" style="background:#E8A050;margin-left:4px;"></div>
+            <div class="mockup-dot" style="background:#50C050;margin-left:4px;"></div>
+            <span class="mockup-title">Claude — Cowork Mode</span>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-sidebar">
+              <div class="mockup-nav-item act"><div class="mockup-nav-dot"></div> Cowork Session</div>
+              <div class="mockup-nav-item"><div class="mockup-nav-dot"></div> File Browser</div>
+              <div class="mockup-nav-item"><div class="mockup-nav-dot"></div> Connected Tools</div>
+            </div>
+            <div class="mockup-chat">
+              <div class="mockup-msg claude"><strong>Claude · Done</strong>Your weekly review is saved to your workspace folder. It covers 6 email threads (3 flagged for reply), 3 open HubSpot tasks with owners, and 4 Stripe transactions totalling $3,240. Want me to draft replies to the flagged emails?</div>
+              <div class="mockup-file"><span class="mockup-file-icon">✅</span> weekly-review-26-apr-2026.md — <span style="color:#5A8A40;font-weight:600;">Saved to your folder</span></div>
+              <div class="mockup-input">
+                <div class="mockup-input-box">Yes, draft replies to the flagged emails…</div>
+                <div class="mockup-send">↑</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout tip" style="margin-top:24px;">
+          <div class="callout-icon">💡</div>
+          <div class="callout-body">
+            <div class="callout-title">It keeps going</div>
+            <div class="callout-text">Claude doesn't just do one task and stop. Each response naturally opens the next step. You stay in control of what happens — approve, redirect, or ask it to go further.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 11 YOUR ROADMAP ── -->
+      <section class="section" id="your-roadmap">
+        <div class="section-header">
+          <div class="section-num">11</div>
+          <div>
+            <div class="section-title">Your Roadmap</div>
+            <div class="section-desc">From your first prompt to a fully repeatable workflow</div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>You don't need to set everything up perfectly before you start. Cowork Mode is designed for iteration — start with a single prompt and build from there.</p>
+        </div>
+
+        <div class="roadmap" style="margin-top:28px;">
+          <div class="roadmap-steps">
+            <div class="roadmap-step">
+              <div class="roadmap-num">1</div>
+              <div class="roadmap-step-title">Type your first prompt</div>
+              <div class="roadmap-step-desc">Plain English. Describe what you want done and what format you need.</div>
+              <div class="roadmap-connector"></div>
+            </div>
+            <div class="roadmap-step">
+              <div class="roadmap-num">2</div>
+              <div class="roadmap-step-title">Claude clarifies</div>
+              <div class="roadmap-step-desc">If anything is ambiguous, Claude asks one focused question before starting.</div>
+              <div class="roadmap-connector"></div>
+            </div>
+            <div class="roadmap-step">
+              <div class="roadmap-num">3</div>
+              <div class="roadmap-step-title">Claude reads &amp; connects</div>
+              <div class="roadmap-step-desc">It accesses your files, pulls from connected tools, and gathers what it needs.</div>
+              <div class="roadmap-connector"></div>
+            </div>
+            <div class="roadmap-step">
+              <div class="roadmap-num">4</div>
+              <div class="roadmap-step-title">Output delivered</div>
+              <div class="roadmap-step-desc">File saved to your folder. Claude confirms and offers the next logical step.</div>
+              <div class="roadmap-connector"></div>
+            </div>
+            <div class="roadmap-step">
+              <div class="roadmap-num">5</div>
+              <div class="roadmap-step-title">You review &amp; refine</div>
+              <div class="roadmap-step-desc">Approve, redirect, or ask Claude to iterate. Each session builds on the last.</div>
+              <div class="roadmap-connector"></div>
+            </div>
+            <div class="roadmap-step">
+              <div class="roadmap-num">6</div>
+              <div class="roadmap-step-title">Automate it</div>
+              <div class="roadmap-step-desc">Once the workflow is solid, schedule it to run automatically on a set interval.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout info" style="margin-top:28px;">
+          <div class="callout-icon">📍</div>
+          <div class="callout-body">
+            <div class="callout-title">Where most people start</div>
+            <div class="callout-text">Pick one recurring task you do every week — a report, a review, a document you update — and run it manually with Claude twice. Once you've confirmed the output is right, use the Schedule skill to automate it. That's the whole playbook.</div>
+          </div>
+        </div>
+
+        <div style="margin-top:32px;padding:24px 28px;background:var(--orange-soft);border:1px solid var(--orange-border);border-radius:var(--radius);">
+          <div style="font-size:13px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Suggested first prompt to try right now</div>
+          <div style="font-size:15px;color:var(--body-text);font-style:italic;line-height:1.7;margin-bottom:16px;">"Look at my workspace folder and tell me what's in it. Then suggest three tasks you could help me with based on what you find."</div>
+          <div style="font-size:13px;color:var(--muted);">This lets Claude get oriented in your setup before you ask it to do anything significant — the best possible first step.</div>
+        </div>
+      </section>
+
+    </div><!-- /content-body -->
+
+    <!-- FOOTER -->
+    <div class="doc-footer">
+      <div class="footer-brand">© 2026 The AI Advantage Co &nbsp;·&nbsp; Practical AI coaching and implementation</div>
+      <div class="footer-links">
+        <a href="https://www.theaiadvantageco.com.au">Website</a>
+        <a href="#">All Guides</a>
+        <a href="mailto:harlebrad@gmail.com">Contact</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation">☰</button>
+
+<script>
+  const toggle = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('sidebar');
+  toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+  // Scroll-spy for active nav state
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('#sidebar-nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`#sidebar-nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Prompt tab switching
+  function switchTab(panel, btn) {
+    const section = btn.closest('.section');
+    section.querySelectorAll('.prompt-tab').forEach(t => t.classList.remove('active'));
+    section.querySelectorAll('.prompt-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const target = document.getElementById('panel-' + panel);
+    if (target) target.classList.add('active');
+  }
+
+  // Copy prompt to clipboard
+  function copyPrompt(btn) {
+    const card = btn.closest('.prompt-card');
+    const text = card.querySelector('.prompt-text').textContent.trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy prompt';
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy prompt';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

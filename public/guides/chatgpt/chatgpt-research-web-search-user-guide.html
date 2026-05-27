@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatGPT Research & Web Search — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --green:#10A37F;--green-l:#2EC4A9;--green-soft:#E6F7F4;
+  --blue:#1A6FE8;--blue-soft:#EEF3FD;
+  --purple:#7C3AED;--purple-soft:#F3EEFF;
+  --orange:#E07B39;--orange-soft:#FEF3EB;
+  --page-bg:#F9F9F9;--sidebar-bg:#1C1C1C;
+  --card-bg:#FFFFFF;--hdr-bg:#F0F0F0;--border:#E5E5E5;
+  --ink:#0D0D0D;--text-mid:#353740;--muted:#6E6E80;
+  --green-bg:#E6F7F4;--warn:#B45309;--warn-bg:#FEF9C3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--green-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:#555;padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#A0A0A0;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--green);background:rgba(16,163,127,.12)}
+
+.content{max-width:860px;padding:40px 40px 80px}
+
+.banner{background:linear-gradient(135deg,#1C1C1C 0%,#2A2A2A 60%,#1C1C1C 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(16,163,127,.15) 0%,transparent 60%)}
+.banner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(16,163,127,.08) 0%,transparent 60%)}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--green-l);text-transform:uppercase;margin-bottom:10px;position:relative}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px;position:relative}
+.banner p{font-size:15px;color:#B0B0B0;max-width:560px;margin:0 auto;position:relative}
+.banner-badge{display:inline-block;background:rgba(16,163,127,.2);color:var(--green-l);font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:16px;letter-spacing:.06em;position:relative;border:1px solid rgba(16,163,127,.3)}
+
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--green);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--muted);margin-top:2px}
+.section-body{padding:22px}
+
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.gpt{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.gpt .callout-body strong{color:var(--green)}
+
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.feature-card .fc-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.feature-card.blue{border-top-color:var(--blue)}
+.feature-card.purple{border-top-color:var(--purple)}
+.feature-card.orange{border-top-color:var(--orange)}
+
+.step-list{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--green);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-num.blue{background:var(--blue)}
+.step-num.purple{background:var(--purple)}
+.step-num.orange{background:var(--orange)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--text-mid);line-height:1.5}
+
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:#A0A0A0;font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #2D2D2D}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--text-mid);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--green);text-transform:uppercase;margin:20px 0 10px}
+
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px}
+.tab-btn{padding:7px 18px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--text-mid);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green-l);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.copy-btn{background:none;border:1px solid rgba(46,196,169,.3);color:var(--green-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600}
+.copy-btn:hover{background:rgba(16,163,127,.15)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--text-mid);line-height:1.6;font-style:italic}
+
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--green);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{background:#fff;padding:12px 16px;font-size:13.5px;color:var(--text-mid);line-height:1.55}
+
+.mockup{background:#1C1C1C;border-radius:10px;padding:20px;margin:16px 0;border:1px solid #2D2D2D}
+.mockup-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #2D2D2D}
+.mockup-model{background:#2D2D2D;color:var(--green-l);font-size:12px;font-weight:700;padding:4px 12px;border-radius:12px}
+.mockup-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:#555;text-transform:uppercase}
+.mockup-row{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.mockup-bubble{max-width:82%;border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5}
+.mockup-bubble.user{background:#2D2D2D;color:#E0E0E0;border-radius:10px 10px 2px 10px}
+.mockup-bubble.gpt{background:rgba(16,163,127,.1);color:#C0E8DF;border-radius:10px 10px 10px 2px;border:1px solid rgba(16,163,127,.2)}
+.gpt-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(16,163,127,.15);color:var(--green-l);font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+.cite-ref{display:inline-block;background:#2D2D2D;color:#A0A0A0;font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;margin-left:2px}
+
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.roadmap-step .rs-num{font-size:28px;font-weight:700;color:var(--green);margin-bottom:6px}
+.roadmap-step.blue{border-top-color:var(--blue)} .roadmap-step.blue .rs-num{color:var(--blue)}
+.roadmap-step.purple{border-top-color:var(--purple)} .roadmap-step.purple .rs-num{color:var(--purple)}
+.roadmap-step.orange{border-top-color:var(--orange)} .roadmap-step.orange .rs-num{color:var(--orange)}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--text-mid);line-height:1.5}
+
+/* ── SEARCH TRACE — unique to this guide ── */
+.search-trace{background:#141414;border-radius:10px;overflow:hidden;margin:16px 0;border:1px solid #2D2D2D}
+.st-header{background:#1C1C1C;padding:10px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #2D2D2D}
+.st-icon{font-size:16px}
+.st-title{font-size:12px;font-weight:700;color:#E0E0E0;flex:1}
+.st-badge{font-size:10px;font-weight:700;padding:2px 10px;border-radius:10px;background:rgba(16,163,127,.2);color:var(--green-l);border:1px solid rgba(16,163,127,.25)}
+.st-steps{padding:16px}
+.st-step{display:flex;gap:12px;margin-bottom:12px}
+.st-step:last-child{margin-bottom:0}
+.st-indicator{display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0}
+.st-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.st-dot.done{background:var(--green)}
+.st-dot.active{background:var(--blue)}
+.st-dot.pending{background:#333}
+.st-vline{width:1px;background:#2D2D2D;flex:1;min-height:14px;margin-top:4px}
+.st-content{flex:1}
+.st-step-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.st-step-label.done{color:var(--green-l)}
+.st-step-label.active{color:var(--blue)}
+.st-step-label.pending{color:#444}
+.st-step-text{font-size:12.5px;color:#888;line-height:1.5;font-style:italic}
+.st-step-text.active{color:#B0B0B0;font-style:normal}
+.st-answer{background:rgba(16,163,127,.07);border-top:1px solid rgba(16,163,127,.15);padding:14px 16px}
+.st-answer-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-l);margin-bottom:8px}
+.st-answer-text{font-size:13px;color:#C0E8DF;line-height:1.6}
+.st-sources{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.st-source-chip{background:#2D2D2D;color:#A0A0A0;font-size:10px;font-weight:600;padding:3px 10px;border-radius:10px;border:1px solid #3D3D3D}
+
+/* ── SOURCE CARDS — unique to this guide ── */
+.source-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.source-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;position:relative}
+.sc-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px}
+.sc-name{font-size:13px;font-weight:700;color:var(--ink)}
+.sc-badge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;flex-shrink:0}
+.sc-badge.strong{background:#E8F5E9;color:#2E7D32}
+.sc-badge.moderate{background:#FFF8E1;color:#B45309}
+.sc-badge.verify{background:#FEE2E2;color:#C0392B}
+.sc-url{font-size:11px;color:var(--muted);font-family:monospace;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-excerpt{font-size:12px;color:var(--text-mid);line-height:1.5;font-style:italic;border-left:3px solid var(--border);padding-left:10px}
+.sc-why{font-size:11px;color:var(--muted);margin-top:8px}
+.sc-why strong{color:var(--text-mid)}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <div class="nav-section">Research & Web Search</div>
+  <a class="nav-link" href="#s01">01 — What is ChatGPT Web Search?</a>
+  <a class="nav-link" href="#s02">02 — How Web Search Works</a>
+  <a class="nav-link" href="#s03">03 — Building Research Queries</a>
+  <a class="nav-link" href="#s04">04 — Citations & Source Checking</a>
+  <a class="nav-link" href="#s05">05 — Deep Research Mode</a>
+  <a class="nav-link" href="#s06">06 — Research Workflows</a>
+  <a class="nav-link" href="#s07">07 — Advanced Techniques</a>
+  <a class="nav-link" href="#s08">08 — Common Mistakes & Fixes</a>
+  <a class="nav-link" href="#s09">09 — Suggested Prompts</a>
+  <a class="nav-link" href="#s10">10 — See It In Action</a>
+  <a class="nav-link" href="#s11">11 — Your Roadmap</a>
+</aside>
+<main class="content">
+
+<div class="banner">
+  <div class="banner-eyebrow">The AI Advantage Co · User Guide</div>
+  <h1>🔍 ChatGPT Research & Web Search</h1>
+  <p>Real-time web grounding, citation workflows, and research patterns — turning ChatGPT into a rigorous research partner</p>
+  <div class="banner-badge">Web Search · Citations · Deep Research · Source Verification · Research Workflows</div>
+</div>
+
+<!-- 01 -->
+<div class="section-card" id="s01">
+  <div class="section-header">
+    <div class="sec-num">01</div>
+    <div><h2>What is ChatGPT Web Search?</h2><p>Real-time information vs training data — understanding the difference</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">ChatGPT's training data has a knowledge cutoff — events, research, prices, news, and statistics after that date are unknown to the model unless it searches the web. Web search capability gives ChatGPT access to live internet results, allowing it to ground responses in current information rather than relying solely on what it was trained on.</p>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">This transforms ChatGPT from an encyclopaedia (knowing what it was trained on) into a research assistant (actively finding current information and synthesising it with its broader knowledge).</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">📚</div>
+        <h4>Without Web Search</h4>
+        <p>Answers from training data only. Accurate for established knowledge, but may be outdated for news, prices, statistics, recent research, or events after the knowledge cutoff.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">🌐</div>
+        <h4>With Web Search</h4>
+        <p>Searches the live web, reads current sources, synthesises findings, and cites where information came from. Best for anything time-sensitive or requiring current data.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>When to Use Web Search</strong><p>Enable web search for: current events and news, recent research papers, live prices and statistics, company information, regulatory updates, product comparisons, and anything where "as of today" accuracy matters. For general concepts, writing help, and analysis of content you provide — training data is usually sufficient.</p></div>
+    </div>
+
+    <p class="sub-label">Training Data vs Web Search — At a Glance</p>
+    <table class="ref-table">
+      <tr><th>Question Type</th><th>Use Training Data</th><th>Use Web Search</th></tr>
+      <tr><td>Concepts and explanations</td><td>✓ Fast and accurate</td><td>Not needed</td></tr>
+      <tr><td>Current news and events</td><td>May be outdated</td><td>✓ Live results</td></tr>
+      <tr><td>Market prices / exchange rates</td><td>Will be wrong</td><td>✓ Current data</td></tr>
+      <tr><td>Recent academic research</td><td>Cutoff-limited</td><td>✓ New papers</td></tr>
+      <tr><td>Company info and headcount</td><td>May be outdated</td><td>✓ Current</td></tr>
+      <tr><td>Established history or science</td><td>✓ Reliable</td><td>Not needed</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section-card" id="s02">
+  <div class="section-header">
+    <div class="sec-num">02</div>
+    <div><h2>How Web Search Works</h2><p>What happens between your question and the sourced answer</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">When ChatGPT uses web search, it runs a multi-step process: it formulates one or more search queries, retrieves results, reads and evaluates the most relevant pages, synthesises the information, and presents an answer with citations. Understanding this process helps you write better research prompts.</p>
+
+    <p class="sub-label">The Search Process — Step by Step</p>
+    <div class="search-trace">
+      <div class="st-header">
+        <span class="st-icon">🔍</span>
+        <span class="st-title">ChatGPT Web Search</span>
+        <span class="st-badge">Searching the web</span>
+      </div>
+      <div class="st-steps">
+        <div class="st-step">
+          <div class="st-indicator"><div class="st-dot done"></div><div class="st-vline"></div></div>
+          <div class="st-content">
+            <div class="st-step-label done">Query Formulated</div>
+            <div class="st-step-text">"UK AI regulation landscape 2024 2025" · "EU AI Act implementation timeline" · "UK AI Safety Institute developments"</div>
+          </div>
+        </div>
+        <div class="st-step">
+          <div class="st-indicator"><div class="st-dot done"></div><div class="st-vline"></div></div>
+          <div class="st-content">
+            <div class="st-step-label done">Sources Retrieved</div>
+            <div class="st-step-text">gov.uk · euaiact.eu · techcrunch.com · ft.com · computerweekly.com · 12 other sources</div>
+          </div>
+        </div>
+        <div class="st-step">
+          <div class="st-indicator"><div class="st-dot done"></div><div class="st-vline"></div></div>
+          <div class="st-content">
+            <div class="st-step-label done">Reading & Evaluating</div>
+            <div class="st-step-text">Assessing recency, authority, and relevance of top sources. Prioritising official government sources and reputable news outlets over blogs.</div>
+          </div>
+        </div>
+        <div class="st-step">
+          <div class="st-indicator"><div class="st-dot done"></div><div class="st-vline"></div></div>
+          <div class="st-content">
+            <div class="st-step-label done">Synthesising Findings</div>
+            <div class="st-step-text">Combining information across sources, resolving conflicting claims, identifying the most recent and authoritative data points.</div>
+          </div>
+        </div>
+        <div class="st-step">
+          <div class="st-indicator"><div class="st-dot active"></div></div>
+          <div class="st-content">
+            <div class="st-step-label active">Answer with Citations</div>
+            <div class="st-step-text active">Response includes numbered citation links for each factual claim — click to view the original source.</div>
+          </div>
+        </div>
+      </div>
+      <div class="st-answer">
+        <div class="st-answer-label">✦ Answer ready · 5 sources cited</div>
+        <div class="st-answer-text">The UK is developing AI regulation through a sector-led, principles-based approach rather than a single AI Act. The AI Safety Institute (AISI) is coordinating safety evaluations <span class="cite-ref">1</span>, while the EU AI Act came into force in August 2024 with a phased implementation schedule running through 2027 <span class="cite-ref">2</span>...</div>
+        <div class="st-sources">
+          <span class="st-source-chip">1 gov.uk/ai-safety-institute</span>
+          <span class="st-source-chip">2 euaiact.eu</span>
+          <span class="st-source-chip">3 ft.com</span>
+          <span class="st-source-chip">4 techcrunch.com</span>
+          <span class="st-source-chip">5 computerweekly.com</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sub-label">Enabling Web Search</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Model selector — choose a search-enabled model</h4><p>In the ChatGPT interface, click the model selector and choose GPT-4o or a model shown with a globe icon. Some models have search enabled by default; others need it toggled on.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">2</div>
+        <div class="step-body"><h4>Globe icon in the toolbar</h4><p>In the message input bar, look for a globe or "Search" icon. Click it to explicitly enable web search for your next message. When active, a small indicator appears showing search is on.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">3</div>
+        <div class="step-body"><h4>ChatGPT decides automatically (when enabled)</h4><p>With search-capable models, ChatGPT will decide whether to search based on your query. Questions about current events, prices, or recent news typically trigger automatic searches.</p></div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body"><strong>Search Availability</strong><p>Web search is available on ChatGPT Plus, Team, Enterprise, and Pro. Free users have limited search access. The search capability is built into the model rather than being a separate plugin — it's part of how newer GPT-4o variants work.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section-card" id="s03">
+  <div class="section-header">
+    <div class="sec-num">03</div>
+    <div><h2>Building Research Queries</h2><p>How to ask questions that produce well-sourced, accurate research</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">The quality of web search results depends heavily on how you frame your research request. Vague questions produce vague answers with unreliable sourcing. Specific, well-scoped questions with clear requirements produce well-cited, actionable research.</p>
+
+    <p class="sub-label">The Research Query Framework</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">🎯</div>
+        <h4>1. State the Topic Precisely</h4>
+        <p>Be specific: "venture capital investment in UK fintech startups" beats "UK fintech". The more precise the topic, the more targeted and useful the search results.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">📅</div>
+        <h4>2. Specify a Time Window</h4>
+        <p>"In the last 12 months" or "2024–2025" tells ChatGPT to prioritise recent sources. Without this, it may pull in older articles that feel current but aren't.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🌍</div>
+        <h4>3. Set Geographic Scope</h4>
+        <p>"UK only", "US and Canada", "global" — geography matters for regulation, pricing, market data, and news. Don't assume ChatGPT will default to your jurisdiction.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">📋</div>
+        <h4>4. Define the Output Format</h4>
+        <p>Tell ChatGPT what you want: a bulleted summary, a comparison table, a timeline, a report structure. Structured output requests produce organised, usable research.</p>
+      </div>
+    </div>
+
+    <p class="sub-label">Weak vs Strong Research Queries</p>
+    <table class="ref-table">
+      <tr><th>Weak Query</th><th>Stronger Version</th><th>Why It's Better</th></tr>
+      <tr><td>"What's happening in AI?"</td><td>"What were the most significant AI developments in Q1 2025, especially regulation and frontier models? Cite your sources."</td><td>Time-scoped, topic-specific, citation required</td></tr>
+      <tr><td>"Tell me about remote work trends"</td><td>"What does recent research (2024–2025) say about return-to-office mandates in the UK? Include key statistics and cite sources."</td><td>Geography, recency, format, and citations specified</td></tr>
+      <tr><td>"What's the best CRM?"</td><td>"Compare Salesforce, HubSpot, and Pipedrive for a 20-person B2B sales team. Focus on pricing, integration, and ease of use. Use 2025 sources."</td><td>Specific options, audience, dimensions, recency</td></tr>
+      <tr><td>"Is X company good?"</td><td>"What has been reported about [Company X]'s financial performance and market position in the last 6 months? Cite reputable business sources."</td><td>Specific claim type, recency, source quality</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Always Ask for Citations</strong><p>Adding "cite your sources" or "include references" to any research request ensures ChatGPT returns linked citations for every factual claim. Without this instruction, it may produce well-written summaries that blend sourced and unsourced claims — making verification harder.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section-card" id="s04">
+  <div class="section-header">
+    <div class="sec-num">04</div>
+    <div><h2>Citations & Source Checking</h2><p>Reading ChatGPT's citations — and knowing when to verify further</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">When ChatGPT searches the web, it returns numbered or linked citations for the claims it makes. Understanding how to read these citations, assess source quality, and know when to verify further is essential for research you'll act on or share with others.</p>
+
+    <p class="sub-label">Reading Citations in Practice</p>
+    <div class="source-grid">
+      <div class="source-card">
+        <div class="sc-header">
+          <div class="sc-name">ONS Labour Market Overview</div>
+          <div class="sc-badge strong">Strong</div>
+        </div>
+        <div class="sc-url">ons.gov.uk/employmentandlabourmarket/…</div>
+        <div class="sc-excerpt">"The unemployment rate for December–February 2025 was 4.4%, up 0.2 percentage points from a year earlier."</div>
+        <div class="sc-why"><strong>Why trust it:</strong> Official government statistical body. Primary source for the specific statistic cited.</div>
+      </div>
+      <div class="source-card">
+        <div class="sc-header">
+          <div class="sc-name">TechCrunch — Funding Round Report</div>
+          <div class="sc-badge strong">Strong</div>
+        </div>
+        <div class="sc-url">techcrunch.com/2025/03/funding-…</div>
+        <div class="sc-excerpt">"Startup raised $47M Series B led by Sequoia, with participation from existing investors."</div>
+        <div class="sc-why"><strong>Why trust it:</strong> Established tech media, likely based on official press release. Cross-check if specific figures matter.</div>
+      </div>
+      <div class="source-card">
+        <div class="sc-header">
+          <div class="sc-name">Industry Blog Post</div>
+          <div class="sc-badge moderate">Moderate</div>
+        </div>
+        <div class="sc-url">industryinsider.com/blog/ai-trends-…</div>
+        <div class="sc-excerpt">"AI adoption in enterprise has reportedly doubled in the past year, according to multiple surveys."</div>
+        <div class="sc-why"><strong>Why verify:</strong> "Reportedly" and "multiple surveys" without specific citation. Check the original survey source.</div>
+      </div>
+      <div class="source-card">
+        <div class="sc-header">
+          <div class="sc-name">Anonymous Forum Post</div>
+          <div class="sc-badge verify">Verify</div>
+        </div>
+        <div class="sc-url">reddit.com/r/entrepreneur/comments/…</div>
+        <div class="sc-excerpt">"I heard from someone in the industry that they're planning to shut down the UK office."</div>
+        <div class="sc-why"><strong>Why verify:</strong> Unverifiable claim, no named source. Treat as a lead to investigate, not a fact to cite.</div>
+      </div>
+    </div>
+
+    <p class="sub-label">Source Quality Signals to Watch For</p>
+    <table class="ref-table">
+      <tr><th>Signal</th><th>What It Means</th><th>Action</th></tr>
+      <tr><td>Official government or regulatory site</td><td>Primary source — highest reliability for its domain</td><td>Cite directly with confidence</td></tr>
+      <tr><td>Major news outlet (Reuters, FT, BBC)</td><td>Editorial standards applied; check publication date</td><td>Check the date; generally cite</td></tr>
+      <tr><td>Academic journal or preprint</td><td>Peer review varies; preprints are unreviewed</td><td>Note if peer-reviewed; check methodology</td></tr>
+      <tr><td>"According to sources" / "reportedly"</td><td>Second-hand; original source not identified</td><td>Find and verify the original source</td></tr>
+      <tr><td>Company press release</td><td>Marketing context — self-reported data</td><td>Use with that caveat; corroborate if critical</td></tr>
+      <tr><td>Blog or personal site</td><td>No editorial review; may be opinion or outdated</td><td>Verify claims with primary sources</td></tr>
+    </table>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Citations Don't Guarantee Accuracy</strong><p>ChatGPT can cite a real source but misquote it, cite an older version of a page, or select a source that itself has errors. For any claim you'll publish, present to a client, or make a significant decision on — click through to the original source and verify the specific claim it's cited for.</p></div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Ask ChatGPT to Assess Its Sources</strong><p>"For each claim in your response, rate your confidence in the source quality (high / medium / low) and flag anything I should verify independently." This makes gaps and weak citations visible before you rely on the research.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section-card" id="s05">
+  <div class="section-header">
+    <div class="sec-num">05</div>
+    <div><h2>Deep Research Mode</h2><p>Multi-source research synthesis for tasks that need more than a quick search</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Standard web search retrieves a handful of sources and synthesises a response in seconds. Deep Research is a different mode — powered by o3 — that conducts an extended, iterative research process: searching multiple times, following links, reading full articles, and producing a structured report. It's designed for research tasks that would take a human analyst hours.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card purple">
+        <div class="fc-icon">🔄</div>
+        <h4>Iterative Search Process</h4>
+        <p>Deep Research doesn't stop at the first set of results. It refines its search based on what it finds — following leads, reading source articles in full, and building a layered understanding of the topic.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">📑</div>
+        <h4>Structured Report Output</h4>
+        <p>Produces a long-form report (typically 1,000–5,000 words) with sections, an executive summary, findings, and a cited source list — ready to use or refine.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">⏱️</div>
+        <h4>Runs in Background</h4>
+        <p>Takes 5–30 minutes. Start it, go do other work, and return when notified. The wait reflects the depth of research — not a malfunction.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">🔒</div>
+        <h4>Availability</h4>
+        <p>ChatGPT Plus, Team, Enterprise, and Pro. Rate-limited (typically 10–25 reports/month on Plus). Access via the model selector dropdown.</p>
+      </div>
+    </div>
+
+    <p class="sub-label">Standard Search vs Deep Research — When to Use Which</p>
+    <table class="ref-table">
+      <tr><th>Scenario</th><th>Standard Search</th><th>Deep Research</th></tr>
+      <tr><td>Quick fact check or current statistic</td><td>✓ Fast, sufficient</td><td>Overkill</td></tr>
+      <tr><td>Recent news summary on a topic</td><td>✓ Good coverage</td><td>Not necessary</td></tr>
+      <tr><td>Market landscape analysis</td><td>Shallow — misses context</td><td>✓ Comprehensive</td></tr>
+      <tr><td>Literature review across papers</td><td>Surface-level only</td><td>✓ Multi-source synthesis</td></tr>
+      <tr><td>Competitive intelligence report</td><td>Too few sources</td><td>✓ Breadth + depth</td></tr>
+      <tr><td>Due diligence on a company</td><td>Misses secondary sources</td><td>✓ Full investigation</td></tr>
+    </table>
+
+    <p class="sub-label">How to Write a Strong Deep Research Brief</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">Deep Research</span><span class="mockup-label">Brief Template</span></div>
+      <div style="color:#C0E8DF;font-size:13px;line-height:1.8">
+        <span style="color:#2EC4A9;font-weight:700">Topic:</span> [Specific, bounded research topic]<br>
+        <span style="color:#2EC4A9;font-weight:700">Scope:</span> [Geography / time period / sector boundaries]<br>
+        <span style="color:#2EC4A9;font-weight:700">Key questions:</span><br>
+        &nbsp;&nbsp;1. [What I most need to understand]<br>
+        &nbsp;&nbsp;2. [Second priority question]<br>
+        &nbsp;&nbsp;3. [Third priority question]<br>
+        <span style="color:#2EC4A9;font-weight:700">Preferred sources:</span> [e.g. "Prioritise academic papers and government sources over blogs"]<br>
+        <span style="color:#2EC4A9;font-weight:700">Output format:</span> [e.g. "Executive summary + findings by section + source list. ~2,000 words"]<br>
+        <span style="color:#2EC4A9;font-weight:700">Audience:</span> [Who will read this — affects technical depth]
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section-card" id="s06">
+  <div class="section-header">
+    <div class="sec-num">06</div>
+    <div><h2>Research Workflows</h2><p>Multi-step patterns for turning raw research into usable outputs</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Effective research with ChatGPT isn't a single prompt — it's a structured workflow. Each step builds on the previous one, with ChatGPT handling the retrieval and synthesis while you direct and evaluate.</p>
+
+    <p class="sub-label">The 4-Step Research Workflow</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Orient — Get the Landscape</h4>
+          <p>Start with a broad question to understand the shape of the topic. "Give me an overview of [topic] — key players, key debates, and the most important recent developments. Cite your sources." This builds a map before you go deep.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">2</div>
+        <div class="step-body">
+          <h4>Narrow — Focus on Specific Questions</h4>
+          <p>Based on the overview, identify the two or three questions that matter most for your purpose. Ask each one separately with tight specifications — "In the last 6 months, what has been reported about [specific aspect]? UK sources only. Cite each claim."</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">3</div>
+        <div class="step-body">
+          <h4>Verify — Check the Key Claims</h4>
+          <p>For the claims you'll act on or share, ask ChatGPT to flag confidence levels, or follow the citation links yourself. "Which of the statistics in your last response are you most and least confident about? What should I verify independently?"</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num orange">4</div>
+        <div class="step-body">
+          <h4>Synthesise — Turn Research into Output</h4>
+          <p>Once the research is solid, ask ChatGPT to package it for your purpose: "Based on our research conversation, write a 300-word executive briefing suitable for a board presentation. Use only the claims you cited from primary or reputable sources."</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="sub-label">Research Workflow Variations</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Competitive Intelligence</h4>
+        <p>Orient → profile each competitor → compare on key dimensions → identify gaps and opportunities. Keep each step in one conversation for accumulated context.</p>
+      </div>
+      <div class="feature-card blue">
+        <h4>Regulatory Research</h4>
+        <p>Start with official sources (legislation, regulator websites) → summarise requirements → identify implementation timeline → flag your specific obligations.</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Market Entry Analysis</h4>
+        <p>Market size and growth → competitive landscape → regulatory environment → customer behaviour → synthesise into a go/no-go framework with evidence.</p>
+      </div>
+      <div class="feature-card orange">
+        <h4>Literature Review</h4>
+        <p>Use Deep Research for the initial synthesis → extract key findings into a table → identify conflicting evidence → produce annotated bibliography.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Keep Research in One Long Conversation</strong><p>Rather than starting fresh chats for each research step, stay in one conversation. ChatGPT retains context from earlier searches and findings — it can refer back to "the statistic we found earlier" or "the company you mentioned in step 1." This produces more coherent, connected research.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section-card" id="s07">
+  <div class="section-header">
+    <div class="sec-num">07</div>
+    <div><h2>Advanced Techniques</h2><p>Power patterns for more rigorous and efficient research</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">These techniques take ChatGPT research beyond basic search-and-summarise — making it more rigorous, more targeted, and better at surfacing what you actually need to know.</p>
+
+    <p class="sub-label">Adversarial Research</p>
+    <p style="font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:12px">After any research output, ask ChatGPT to steelman the opposing view or find contradictory evidence:</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">GPT-4o</span><span class="mockup-label">Adversarial Prompt</span></div>
+      <div class="mockup-row right"><div class="mockup-bubble user">You've summarised the bull case for [topic]. Now search for the most credible counter-arguments and contradictory evidence. What are researchers or analysts saying that challenges these conclusions? Cite sources.</div></div>
+      <div class="mockup-row"><div class="mockup-bubble gpt"><div class="gpt-tag">✦ GPT-4o</div>Counter-perspective: Three credible critiques have been raised... <span class="cite-ref">1</span> Researchers at Oxford argue that the methodology in the primary study has a significant confounding variable... <span class="cite-ref">2</span> Meanwhile, FT reported in January that market data shows the opposite trend in European markets...</div></div>
+    </div>
+
+    <p class="sub-label">Source-Constrained Research</p>
+    <p style="font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:12px">Restrict which sources ChatGPT draws from to improve reliability:</p>
+    <table class="ref-table">
+      <tr><th>Constraint</th><th>Example Instruction</th><th>Best For</th></tr>
+      <tr><td>Official sources only</td><td>"Only cite government websites, regulatory bodies, and official publications"</td><td>Legal / regulatory research</td></tr>
+      <tr><td>Academic sources</td><td>"Prioritise peer-reviewed papers and established academic institutions"</td><td>Evidence-based research</td></tr>
+      <tr><td>Tier-1 media only</td><td>"Only cite Reuters, AP, FT, BBC, WSJ, or equivalent tier-1 outlets"</td><td>News and business research</td></tr>
+      <tr><td>Date-bounded</td><td>"Only cite sources published after January 2024"</td><td>Fast-moving topics</td></tr>
+      <tr><td>Domain-specific</td><td>"Focus on sources from the medical/legal/financial domain"</td><td>Professional domain research</td></tr>
+    </table>
+
+    <p class="sub-label">The Research Audit Prompt</p>
+    <p style="font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:12px">After completing a research summary, use this to surface weaknesses:</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">GPT-4o</span><span class="mockup-label">Audit Prompt</span></div>
+      <div class="mockup-row right"><div class="mockup-bubble user">Now audit the research you've just produced. For each major claim: (1) rate the source quality as Primary, Secondary, or Weak, (2) flag any claims based on a single source, (3) identify any time-sensitive data that may have changed, and (4) list what questions the research leaves unanswered.</div></div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Use Search + File Upload Together</strong><p>Upload your own document (a report, brief, or notes) and then ask ChatGPT to search the web to supplement it: "Here is our current market analysis [uploaded file]. Search for any developments in the last 3 months that update or challenge our assumptions. Cite sources." This combines your internal knowledge with live web data.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section-card" id="s08">
+  <div class="section-header">
+    <div class="sec-num">08</div>
+    <div><h2>Common Mistakes & Fixes</h2><p>What goes wrong with ChatGPT research — and how to address it</p></div>
+  </div>
+  <div class="section-body">
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Treating ChatGPT search results as verified facts</div>
+      <div class="trouble-a"><strong>Fix:</strong> ChatGPT's web search retrieves and synthesises information — it doesn't independently verify it. For any claim you'll act on, share publicly, or present to clients, click through the citation to the original source. The synthesis may be accurate; the habit of verification protects you when it isn't.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Asking research questions without requesting citations</div>
+      <div class="trouble-a"><strong>Fix:</strong> Always include "cite your sources" or "include references for each claim" in research requests. Without this, ChatGPT may produce fluent-sounding research that blends sourced information with trained knowledge — with no way to tell which is which.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Using a single search prompt for complex research topics</div>
+      <div class="trouble-a"><strong>Fix:</strong> Break complex research into sequential questions — orient first, then narrow. A single prompt like "Tell me everything about [broad topic]" produces shallow coverage. Multiple specific prompts in one conversation produce deeper, more accurate research with better source coverage.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Not specifying recency — getting outdated results mixed with current ones</div>
+      <div class="trouble-a"><strong>Fix:</strong> Add date constraints to every research request: "from the last 12 months", "published in 2025", "focus on developments since January 2024." Without this, ChatGPT may mix sources from different years in a way that creates a misleadingly static picture of a dynamic topic.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Using standard search when Deep Research is the right tool</div>
+      <div class="trouble-a"><strong>Fix:</strong> If your research task would take a human analyst more than an hour — market landscape analysis, literature reviews, competitive intelligence, due diligence — Deep Research is the appropriate tool. Standard search is too shallow for these tasks and will miss important sources.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Starting a new conversation for each research step</div>
+      <div class="trouble-a"><strong>Fix:</strong> Stay in one long conversation for a research project. ChatGPT can refer back to earlier findings, build on previous searches, and maintain a coherent understanding of the topic across multiple steps. Each new conversation wipes that accumulated context.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section-card" id="s09">
+  <div class="section-header">
+    <div class="sec-num">09</div>
+    <div><h2>Suggested Prompts</h2><p>Ready-to-use research and source-checking prompts</p></div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'s09','research')">Research & Analysis</button>
+        <button class="tab-btn" onclick="switchTab(this,'s09','verify')">Source & Verify</button>
+      </div>
+      <div class="prompt-panel active" id="s09-research">
+        <div class="prompt-box">
+          <div class="prompt-label">Market Landscape Brief<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Search the web and give me a current overview of [market/industry] with a focus on [geography] in [year]. Cover: (1) market size and growth rate with sources, (2) the 4–5 largest players and their market positions, (3) the most significant trends or disruptions in the last 12 months, (4) any relevant regulatory developments. Cite all sources.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Competitive Intelligence<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Research [Company/Competitor Name] using current web sources. I need: (1) their main products or services and recent changes, (2) pricing model if publicly available, (3) key differentiators they claim vs customer feedback, (4) any significant news in the last 6 months (funding, leadership changes, product launches, controversies), (5) their stated strategic direction. Cite each point.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Regulatory Landscape Research<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Search for current information on [regulation/policy area] as it applies to [sector] in [geography]. Prioritise official government and regulatory body sources. I need: (1) what the current rules require, (2) any changes or consultations in the last 12 months, (3) key compliance deadlines, and (4) the most common compliance challenges reported by organisations in this space. Cite every claim.</div>
+        </div>
+      </div>
+      <div class="prompt-panel" id="s09-verify">
+        <div class="prompt-box">
+          <div class="prompt-label">Source Quality Audit<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Review the research you just produced. For each major claim: (1) classify the source as Primary (official/direct), Secondary (reporting on primary), or Weak (blog/forum/unnamed), (2) flag any claim based on a single source that I should corroborate, (3) identify any statistics that are time-sensitive and may have changed, (4) list the two or three most important things the research doesn't answer.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Counter-Evidence Search<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">You've summarised the mainstream view on [topic]. Now actively search for credible counter-arguments, contradictory data, or dissenting expert opinions. I want to understand what the critics and sceptics are saying — not to dismiss the mainstream view, but to understand where it's contested. Cite your sources and indicate how credible each counter-argument is.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Claim Verification<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I've seen the claim that "[specific claim]" — can you search for primary sources that either confirm or refute this? I want: (1) the most authoritative source that addresses this claim directly, (2) whether the claim appears to be accurate, partially accurate, or inaccurate based on what you find, (3) any important nuance or context that the claim omits. Cite everything.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section-card" id="s10">
+  <div class="section-header">
+    <div class="sec-num">10</div>
+    <div><h2>See It In Action</h2><p>A full research workflow — from brief to audited, sourced output</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">This example shows the 4-step research workflow in action — orienting, narrowing, verifying, and synthesising — using a real-world research task: understanding the current state of AI hiring in the UK.</p>
+
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">GPT-4o + Web Search</span><span class="mockup-label">Research Workflow</span></div>
+
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">Step 1: Give me an overview of AI-related hiring trends in the UK in 2024–2025. Key developments, key stats, key debates. Cite your sources.</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-bubble gpt">
+          <div class="gpt-tag">✦ Searched: "UK AI hiring trends 2025"</div>
+          UK AI hiring has seen mixed signals. LinkedIn data shows AI-skill job postings grew 40% year-on-year in 2024 <span class="cite-ref">1</span>, but simultaneously, several major tech firms reduced headcount through restructuring <span class="cite-ref">2</span>. The key debate centres on whether AI is net-creating or net-displacing roles — early ONS modelling suggests low-medium skill roles face 15–30% exposure <span class="cite-ref">3</span>...
+        </div>
+      </div>
+
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">Step 2: Narrow to this — what does the most recent evidence say about which specific job categories are growing vs shrinking due to AI? UK focus. 2025 sources only if available.</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-bubble gpt">
+          <div class="gpt-tag">✦ Searched: "UK job categories AI impact 2025 growth decline"</div>
+          Growing: AI/ML engineers (+62%) <span class="cite-ref">4</span>, prompt engineers and AI product managers (emerging roles), data scientists reorienting toward AI ops. Declining: Data entry and processing roles (-18% postings in 12 months) <span class="cite-ref">5</span>, some paralegal and junior analyst functions. Notable: marketing copywriting postings down 23% in UK <span class="cite-ref">4</span>...
+        </div>
+      </div>
+
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">Step 3: Audit what you've told me. Which statistics are you most and least confident about? What should I verify before using this in a client presentation?</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-bubble gpt">
+          <div class="gpt-tag">✦ GPT-4o</div>
+          <strong style="color:#2EC4A9">High confidence:</strong> ONS modelling figure (government primary source). LinkedIn growth stats (from LinkedIn's own platform data — robust, but LinkedIn's methodology has nuance).<br><br>
+          <strong style="color:#E07B39">Verify before presenting:</strong> The "copywriting postings down 23%" — this came from a recruitment analytics firm's blog, not a primary survey. Check their methodology. Also, the 40% AI-skill posting growth — confirm the time period and what "AI skill" is defined as in the source.
+        </div>
+      </div>
+
+      <div class="mockup-row right">
+        <div class="mockup-bubble user">Step 4: Based on the verified research, write a 200-word executive summary for a board audience on what AI is doing to the UK job market — using only the high-confidence claims.</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-bubble gpt">
+          <div class="gpt-tag">✦ GPT-4o</div>
+          <strong style="color:#2EC4A9">Executive Summary: AI and the UK Labour Market</strong><br><br>
+          The UK labour market is beginning to show measurable AI-driven structural change, though the picture is nuanced. Demand for AI-specialised roles continues to grow strongly — postings requiring AI skills have increased significantly over the past year. At the same time, ONS modelling indicates that 15–30% of low-to-medium skill roles have meaningful exposure to AI substitution over the medium term...
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>What the Workflow Achieved</strong><p>Four prompts in one conversation produced: a sourced landscape overview, targeted data on specific job categories, an honest audit of which claims to trust, and a client-ready executive summary using only verified claims. Each step built on the previous one — no context was lost between them.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section-card" id="s11">
+  <div class="section-header">
+    <div class="sec-num">11</div>
+    <div><h2>Your Roadmap</h2><p>Building rigorous research habits with ChatGPT</p></div>
+  </div>
+  <div class="section-body">
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="rs-num">01</div>
+        <h4>First Sourced Research</h4>
+        <p>Pick any topic you'd normally Google. Ask ChatGPT with web search, explicitly requesting citations. Compare the output to a standard search result.</p>
+      </div>
+      <div class="roadmap-step blue">
+        <div class="rs-num">02</div>
+        <h4>Run a Source Audit</h4>
+        <p>After any research response, use the Source Quality Audit prompt from Section 9. Practise distinguishing strong from weak citations on a low-stakes topic first.</p>
+      </div>
+      <div class="roadmap-step purple">
+        <div class="rs-num">03</div>
+        <h4>Try Deep Research</h4>
+        <p>Use Deep Research on a topic that would normally take you 2+ hours of reading. Evaluate the output quality and refine your brief template for future use.</p>
+      </div>
+      <div class="roadmap-step orange">
+        <div class="rs-num">04</div>
+        <h4>Build a Workflow Template</h4>
+        <p>For your most common research task (competitive intel, regulatory scan, market analysis), create a 4-prompt sequence you can reuse. Research becomes systematic.</p>
+      </div>
+    </div>
+    <div class="callout gpt" style="margin-top:20px">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-body"><strong>Next Guide: ChatGPT Projects</strong><p>You've built rigorous research capabilities. Next, learn how to organise your ChatGPT work into Projects — persistent workspaces that retain context, files, and custom instructions across every conversation in that project.</p></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function switchTab(el, section, tab) {
+  const sec = document.getElementById(section);
+  sec.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  sec.querySelectorAll('.prompt-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const panel = document.getElementById(section + '-' + tab);
+  if (panel) panel.classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-box').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent; btn.textContent = '✓ Copied'; btn.style.color = '#10A37F';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+  });
+}
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.section-card').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatGPT Memory & Custom Instructions — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --green:#10A37F;--green-l:#2EC4A9;--green-soft:#E6F7F4;
+  --blue:#1A6FE8;--blue-soft:#EEF3FD;
+  --purple:#7C3AED;--purple-soft:#F3EEFF;
+  --orange:#E07B39;--orange-soft:#FEF3EB;
+  --page-bg:#F9F9F9;--sidebar-bg:#1C1C1C;
+  --card-bg:#FFFFFF;--hdr-bg:#F0F0F0;--border:#E5E5E5;
+  --ink:#0D0D0D;--text-mid:#353740;--muted:#6E6E80;
+  --green-bg:#E6F7F4;--warn:#B45309;--warn-bg:#FEF9C3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--green-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:#555;padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#A0A0A0;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--green);background:rgba(16,163,127,.12)}
+
+/* main */
+.content{max-width:860px;padding:40px 40px 80px}
+
+/* banner */
+.banner{background:linear-gradient(135deg,#1C1C1C 0%,#2A2A2A 60%,#1C1C1C 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(16,163,127,.15) 0%,transparent 60%)}
+.banner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(16,163,127,.08) 0%,transparent 60%)}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--green-l);text-transform:uppercase;margin-bottom:10px;position:relative}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px;position:relative}
+.banner p{font-size:15px;color:#B0B0B0;max-width:560px;margin:0 auto;position:relative}
+.banner-badge{display:inline-block;background:rgba(16,163,127,.2);color:var(--green-l);font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:16px;letter-spacing:.06em;position:relative;border:1px solid rgba(16,163,127,.3)}
+
+/* section card */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--green);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--muted);margin-top:2px}
+.section-body{padding:22px}
+
+/* callouts */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.gpt{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.gpt .callout-body strong{color:var(--green)}
+
+/* feature grid */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.feature-card .fc-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.feature-card.blue{border-top-color:var(--blue)}
+.feature-card.purple{border-top-color:var(--purple)}
+.feature-card.orange{border-top-color:var(--orange)}
+
+/* steps */
+.step-list{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--green);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-num.blue{background:var(--blue)}
+.step-num.purple{background:var(--purple)}
+.step-num.orange{background:var(--orange)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--text-mid);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:#A0A0A0;font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #2D2D2D}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--text-mid);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+
+/* sub labels */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--green);text-transform:uppercase;margin:20px 0 10px}
+
+/* prompt tabs */
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px}
+.tab-btn{padding:7px 18px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--text-mid);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green-l);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.copy-btn{background:none;border:1px solid rgba(46,196,169,.3);color:var(--green-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600}
+.copy-btn:hover{background:rgba(16,163,127,.15)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--text-mid);line-height:1.6;font-style:italic}
+
+/* trouble items */
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--green);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{background:#fff;padding:12px 16px;font-size:13.5px;color:var(--text-mid);line-height:1.55}
+
+/* mockup */
+.mockup{background:#1C1C1C;border-radius:10px;padding:20px;margin:16px 0;border:1px solid #2D2D2D}
+.mockup-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #2D2D2D}
+.mockup-model{background:#2D2D2D;color:var(--green-l);font-size:12px;font-weight:700;padding:4px 12px;border-radius:12px}
+.mockup-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:#555;text-transform:uppercase}
+.mockup-row{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.mockup-row.right{justify-content:flex-end}
+.mockup-bubble{max-width:80%;border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5}
+.mockup-bubble.user{background:#2D2D2D;color:#E0E0E0;border-radius:10px 10px 2px 10px}
+.mockup-bubble.gpt{background:rgba(16,163,127,.1);color:#C0E8DF;border-radius:10px 10px 10px 2px;border:1px solid rgba(16,163,127,.2)}
+.gpt-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(16,163,127,.15);color:var(--green-l);font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--green)}
+.roadmap-step .rs-num{font-size:28px;font-weight:700;color:var(--green);margin-bottom:6px}
+.roadmap-step.blue{border-top-color:var(--blue)} .roadmap-step.blue .rs-num{color:var(--blue)}
+.roadmap-step.purple{border-top-color:var(--purple)} .roadmap-step.purple .rs-num{color:var(--purple)}
+.roadmap-step.orange{border-top-color:var(--orange)} .roadmap-step.orange .rs-num{color:var(--orange)}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--text-mid);line-height:1.5}
+
+/* ── CUSTOM INSTRUCTIONS BLOCK — unique to this guide ── */
+.ci-panel{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:16px 0}
+.ci-panel-header{background:var(--sidebar-bg);padding:12px 18px;display:flex;align-items:center;gap:10px}
+.ci-panel-header span{font-size:13px;font-weight:700;color:#E0E0E0}
+.ci-panel-badge{background:rgba(16,163,127,.2);color:var(--green-l);font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;border:1px solid rgba(16,163,127,.25)}
+.ci-fields{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.ci-field{padding:16px 18px;border-top:1px solid var(--border)}
+.ci-field:first-child{border-right:1px solid var(--border)}
+.ci-field-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.ci-field:first-child .ci-field-label{color:var(--blue)}
+.ci-field:last-child .ci-field-label{color:var(--purple)}
+.ci-field-content{font-size:13px;color:var(--text-mid);line-height:1.55;background:var(--hdr-bg);border-radius:6px;padding:10px 12px;border:1px solid var(--border)}
+.ci-hint{font-size:11.5px;color:var(--muted);margin-top:8px;font-style:italic}
+
+/* ── MEMORY TAGS — unique to this guide ── */
+.memory-list{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.memory-tag{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;border-left:3px solid var(--green)}
+.memory-tag.blue{border-left-color:var(--blue)}
+.memory-tag.purple{border-left-color:var(--purple)}
+.memory-tag.orange{border-left-color:var(--orange)}
+.mt-icon{font-size:16px;margin-top:1px;flex-shrink:0}
+.mt-body{flex:1}
+.mt-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.mt-text{font-size:13.5px;color:var(--text-mid);line-height:1.45}
+.mt-delete{font-size:16px;color:var(--muted);cursor:default;flex-shrink:0;margin-top:1px;opacity:.5}
+
+/* comparison toggle */
+.compare-strip{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-radius:8px;overflow:hidden;margin:16px 0}
+.cs-col{background:#fff;padding:14px 16px}
+.cs-col.left{background:var(--hdr-bg)}
+.cs-col-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.cs-col.left .cs-col-label{color:var(--muted)}
+.cs-col.right .cs-col-label{color:var(--green)}
+.cs-item{font-size:13px;color:var(--text-mid);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.4}
+.cs-item:last-child{border-bottom:none}
+.cs-icon{display:inline-block;width:18px;color:var(--green)}
+.cs-icon.no{color:#C13B3B}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <div class="nav-section">Memory & Custom Instructions</div>
+  <a class="nav-link" href="#s01">01 — What is Memory & CI?</a>
+  <a class="nav-link" href="#s02">02 — How ChatGPT Memory Works</a>
+  <a class="nav-link" href="#s03">03 — Setting Up Custom Instructions</a>
+  <a class="nav-link" href="#s04">04 — Managing Your Memory</a>
+  <a class="nav-link" href="#s05">05 — Memory in Projects</a>
+  <a class="nav-link" href="#s06">06 — Privacy & Memory Control</a>
+  <a class="nav-link" href="#s07">07 — Advanced Techniques</a>
+  <a class="nav-link" href="#s08">08 — Common Mistakes & Fixes</a>
+  <a class="nav-link" href="#s09">09 — Suggested Prompts</a>
+  <a class="nav-link" href="#s10">10 — See It In Action</a>
+  <a class="nav-link" href="#s11">11 — Your Roadmap</a>
+</aside>
+<main class="content">
+
+<div class="banner">
+  <div class="banner-eyebrow">The AI Advantage Co · User Guide</div>
+  <h1>🧠 ChatGPT Memory & Custom Instructions</h1>
+  <p>Stop repeating yourself — set up persistent context so ChatGPT always knows who you are and how you work</p>
+  <div class="banner-badge">OpenAI · GPT-4o · Memory · Custom Instructions · Projects</div>
+</div>
+
+<!-- 01 -->
+<div class="section-card" id="s01">
+  <div class="section-header">
+    <div class="sec-num">01</div>
+    <div><h2>What is Memory & Custom Instructions?</h2><p>Two features that eliminate repetitive context-setting</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">By default, ChatGPT starts every conversation completely fresh — no memory of who you are, how you prefer to work, or any previous context you've shared. Two features solve this: <strong>Custom Instructions</strong> and <strong>Memory</strong>.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">📋</div>
+        <h4>Custom Instructions</h4>
+        <p>Permanent rules <em>you write</em> that apply to every conversation. Tell ChatGPT your role, your preferences, how you want it to communicate — once, and it sticks.</p>
+      </div>
+      <div class="feature-card blue">
+        <div class="fc-icon">🧠</div>
+        <h4>Memory</h4>
+        <p>Facts ChatGPT <em>learns automatically</em> as you chat — your name, job, projects, preferences. It stores these and recalls them in future sessions.</p>
+      </div>
+      <div class="feature-card purple">
+        <div class="fc-icon">📁</div>
+        <h4>Project Instructions</h4>
+        <p>Per-project context that applies only within a specific Project. Ideal for maintaining different personas or contexts for distinct workstreams.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">⏱️</div>
+        <h4>Temporary Mode</h4>
+        <p>A session-only mode where nothing is remembered or stored. Useful for sensitive tasks or starting completely fresh without affecting your memory bank.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>The Core Problem They Solve</strong><p>Without these features, every session requires re-explaining your role, audience, tone preferences, and project context. With them, ChatGPT already knows — letting you start every conversation at the useful part.</p></div>
+    </div>
+
+    <p class="sub-label">Without vs With Context Features</p>
+    <div class="compare-strip">
+      <div class="cs-col left">
+        <div class="cs-col-label">❌ Without Memory / CI</div>
+        <div class="cs-item"><span class="cs-icon no">✗</span> Re-explain your role every session</div>
+        <div class="cs-item"><span class="cs-icon no">✗</span> Re-state tone and format preferences</div>
+        <div class="cs-item"><span class="cs-icon no">✗</span> Repeat project context each time</div>
+        <div class="cs-item"><span class="cs-icon no">✗</span> Generic responses not tailored to you</div>
+        <div class="cs-item"><span class="cs-icon no">✗</span> 10–15 minutes wasted per session</div>
+      </div>
+      <div class="cs-col right">
+        <div class="cs-col-label">✅ With Memory / CI Active</div>
+        <div class="cs-item"><span class="cs-icon">✓</span> ChatGPT knows your role and org</div>
+        <div class="cs-item"><span class="cs-icon">✓</span> Consistent tone and format every time</div>
+        <div class="cs-item"><span class="cs-icon">✓</span> Project context pre-loaded</div>
+        <div class="cs-item"><span class="cs-icon">✓</span> Responses personalised by default</div>
+        <div class="cs-item"><span class="cs-icon">✓</span> Start useful immediately</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section-card" id="s02">
+  <div class="section-header">
+    <div class="sec-num">02</div>
+    <div><h2>How ChatGPT Memory Works</h2><p>Automatic recall — what gets stored and when it's used</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Memory works automatically in the background. As you chat, ChatGPT identifies facts worth saving — about you, your work, your preferences — and stores them. On future conversations, it draws on those stored facts to give more relevant, personalised responses.</p>
+
+    <p class="sub-label">What Gets Remembered</p>
+    <div class="memory-list">
+      <div class="memory-tag">
+        <div class="mt-icon">👤</div>
+        <div class="mt-body"><div class="mt-label">Identity & Role</div><div class="mt-text">User is a senior product manager at a B2B SaaS company. Team of 8 direct reports.</div></div>
+        <div class="mt-delete">×</div>
+      </div>
+      <div class="memory-tag blue">
+        <div class="mt-icon">✍️</div>
+        <div class="mt-body"><div class="mt-label">Communication Preferences</div><div class="mt-text">Prefers concise, direct responses. No bullet points for analysis — prose paragraphs only.</div></div>
+        <div class="mt-delete">×</div>
+      </div>
+      <div class="memory-tag purple">
+        <div class="mt-icon">📌</div>
+        <div class="mt-body"><div class="mt-label">Active Projects</div><div class="mt-text">Working on a Q3 product roadmap. Target launch: September. Stakeholder: VP of Engineering.</div></div>
+        <div class="mt-delete">×</div>
+      </div>
+      <div class="memory-tag orange">
+        <div class="mt-icon">⚙️</div>
+        <div class="mt-body"><div class="mt-label">Tool Preferences</div><div class="mt-text">Uses Notion for docs, Linear for project tracking, Slack for team comms.</div></div>
+        <div class="mt-delete">×</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>How Memory Is Triggered</strong><p>ChatGPT stores memories when you share personal context ("I'm a nurse at a busy A&E"), express preferences ("I always want bullet points"), or mention ongoing work. You don't need to explicitly ask it to remember.</p></div>
+    </div>
+
+    <p class="sub-label">You Can Also Tell It Explicitly</p>
+    <div class="trouble-item">
+      <div class="trouble-q">How to manually seed a memory</div>
+      <div class="trouble-a">Simply say: "Remember that I prefer executive summaries over detailed reports" or "Please note that I work in the healthcare sector." ChatGPT will confirm it has stored the fact and you'll see it appear in your memory list.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">Where to find stored memories</div>
+      <div class="trouble-a">Go to Settings → Personalisation → Memory → Manage Memories. You'll see every stored fact, when it was created, and have the option to delete individual items or clear all memories at once.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">When memories are used</div>
+      <div class="trouble-a">ChatGPT references stored memories at the start of each new conversation. It doesn't surface them explicitly unless relevant — they work silently in the background to shape responses.</div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body"><strong>Memory Availability</strong><p>Memory is available to ChatGPT Plus, Team, Enterprise, and Edu users. Free users have limited access. Memory is disabled in Temporary Chat mode and (by default) in GPTs unless the GPT creator has enabled it.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section-card" id="s03">
+  <div class="section-header">
+    <div class="sec-num">03</div>
+    <div><h2>Setting Up Custom Instructions</h2><p>Write once, apply to every conversation</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Custom Instructions are two text fields you fill in once in Settings. Unlike Memory — which ChatGPT controls — Custom Instructions are entirely yours to write and update. They persist across every conversation and take effect immediately.</p>
+
+    <p class="sub-label">The Two Fields</p>
+    <div class="ci-panel">
+      <div class="ci-panel-header">
+        <span>⚙️ Custom Instructions</span>
+        <div class="ci-panel-badge">Settings → Personalisation</div>
+      </div>
+      <div class="ci-fields">
+        <div class="ci-field">
+          <div class="ci-field-label">📘 What would you like ChatGPT to know about you?</div>
+          <div class="ci-field-content">I'm a senior product manager at a B2B SaaS company focused on HR tech. I lead a team of 8 and report to the CPO. I work across product strategy, stakeholder management, and roadmap planning. My audience for most writing tasks is either technical leads or C-suite executives.</div>
+          <div class="ci-hint">Who you are, your role, organisation, and audience. Give ChatGPT the context it needs to calibrate expertise level and relevance.</div>
+        </div>
+        <div class="ci-field">
+          <div class="ci-field-label">🟣 How would you like ChatGPT to respond?</div>
+          <div class="ci-field-content">Be direct and concise. Lead with the most important point — no preamble. Use bullet points for lists, prose for analysis. Avoid hedging language. When I ask for options, give me your recommended choice first with clear reasoning. Max 300 words unless I ask for more.</div>
+          <div class="ci-hint">Tone, format, length, communication style. Tell ChatGPT exactly how you want it to behave by default.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="sub-label">How to Access Custom Instructions</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Open Settings</h4><p>Click your profile picture in the top-right corner of ChatGPT → select Settings from the dropdown menu.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">2</div>
+        <div class="step-body"><h4>Go to Personalisation</h4><p>Select the Personalisation tab in the left sidebar of the Settings panel.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">3</div>
+        <div class="step-body"><h4>Click Custom Instructions</h4><p>You'll see both text fields. Write your content — up to 1,500 characters per field.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num orange">4</div>
+        <div class="step-body"><h4>Save & Activate</h4><p>Click Save. Your instructions take effect on all new conversations immediately. Existing conversations are unaffected.</p></div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>What Makes Great Custom Instructions</strong><p>Field 1 (About you): Role + organisation type + primary audience. Field 2 (How to respond): Specific tone words, format rules, length limits, and what to avoid. The more concrete the instruction, the more consistently ChatGPT applies it.</p></div>
+    </div>
+
+    <p class="sub-label">Field 2 Examples by Role</p>
+    <table class="ref-table">
+      <tr><th>Role</th><th>Example "How to respond" instruction</th></tr>
+      <tr><td>Marketing Manager</td><td>Write in an engaging, conversational tone. Lead with the hook. Use active voice. Avoid jargon and corporate speak. Keep first drafts under 200 words unless asked for more.</td></tr>
+      <tr><td>Software Engineer</td><td>Be precise and technical. Skip explanations of basic concepts. Show code in the relevant language with comments. When there are multiple approaches, list trade-offs briefly.</td></tr>
+      <tr><td>Consultant</td><td>Lead with the insight, support with evidence. Use a structured format (situation → problem → recommendation). Assume a senior stakeholder audience. Be brief — executives skim.</td></tr>
+      <tr><td>Educator</td><td>Explain concepts as if to a bright 16-year-old with no prior knowledge. Use analogies. Check understanding by ending with a key question. Avoid jargon without explanation.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section-card" id="s04">
+  <div class="section-header">
+    <div class="sec-num">04</div>
+    <div><h2>Managing Your Memory</h2><p>View, edit, and curate what ChatGPT knows about you</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Memory is not set-and-forget. Over time, ChatGPT may store outdated facts, duplicate information, or things you'd prefer it didn't retain. Regular curation keeps your memory bank accurate and useful.</p>
+
+    <p class="sub-label">Managing Individual Memories</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>View All Memories</h4><p>Settings → Personalisation → Memory → Manage Memories. You'll see a full list of stored facts with timestamps.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">2</div>
+        <div class="step-body"><h4>Delete Individual Facts</h4><p>Click the × icon next to any memory to remove it permanently. Useful for removing outdated project info, old job titles, or incorrect facts.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">3</div>
+        <div class="step-body"><h4>Update via Conversation</h4><p>Tell ChatGPT "Update your memory — I've moved to a new role as Head of Design." It will store the new fact. You may still need to manually delete the old one.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num orange">4</div>
+        <div class="step-body"><h4>Clear All Memories</h4><p>Settings → Personalisation → Memory → Clear Memory. This wipes your entire memory bank — useful if your context has changed significantly or you want a fresh start.</p></div>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Clearing Memory Is Permanent</strong><p>There is no undo for clearing all memories. ChatGPT will start learning from scratch. Consider reviewing and deleting specific outdated memories rather than clearing everything.</p></div>
+    </div>
+
+    <p class="sub-label">Memory Hygiene Checklist</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Monthly Review</h4>
+        <p>Check stored memories for outdated job titles, finished projects, or preferences that have changed. Delete anything no longer accurate.</p>
+      </div>
+      <div class="feature-card blue">
+        <h4>After Role Changes</h4>
+        <p>Update ChatGPT on any significant life or career changes — new role, new employer, new audience. Old context can cause consistently misaligned responses.</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>After Project Completion</h4>
+        <p>Delete project-specific memories once a project is done. Stale project context can bleed into unrelated conversations.</p>
+      </div>
+      <div class="feature-card orange">
+        <h4>Watch for Duplicates</h4>
+        <p>ChatGPT sometimes stores similar facts twice. Duplicate memories don't cause harm but clutter your memory list — delete the older version.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Ask What It Remembers</strong><p>At any time, type "What do you remember about me?" ChatGPT will summarise its current memory of you — a quick way to audit without going into Settings.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section-card" id="s05">
+  <div class="section-header">
+    <div class="sec-num">05</div>
+    <div><h2>Memory in Projects</h2><p>Context that stays within a specific workstream</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Projects are ChatGPT's way of keeping work organised. Each Project has its own persistent instruction set, file uploads, and conversation history — separate from your global Custom Instructions and Memory. Think of Projects as dedicated workspaces for distinct areas of your work.</p>
+
+    <p class="sub-label">Global vs Project-Level Context</p>
+    <table class="ref-table">
+      <tr><th>Feature</th><th>Global (Custom Instructions / Memory)</th><th>Project Level</th></tr>
+      <tr><td>Scope</td><td>All conversations everywhere</td><td>Only inside that Project</td></tr>
+      <tr><td>Who sets it</td><td>You (CI) or ChatGPT learns it (Memory)</td><td>You write Project instructions manually</td></tr>
+      <tr><td>Best for</td><td>Permanent preferences, role, communication style</td><td>Project-specific context, brief, audience</td></tr>
+      <tr><td>Examples</td><td>"Always be concise", "I'm a product manager"</td><td>"This project is a rebrand for client X. Tone: aspirational. Audience: CMOs."</td></tr>
+      <tr><td>File access</td><td>Not persistent across sessions</td><td>Uploaded files stay in the Project</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Project Instructions Stack With CI</strong><p>When you're inside a Project, both the Project-level instructions AND your global Custom Instructions are active. Project instructions take precedence when there's a conflict. Use this to override your global defaults for a specific context.</p></div>
+    </div>
+
+    <p class="sub-label">Setting Up Project Instructions</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Create or Open a Project</h4><p>Click Projects in the left sidebar → New Project, or open an existing one.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">2</div>
+        <div class="step-body"><h4>Open Project Settings</h4><p>Click the gear icon or the Project name at the top → Edit Project Instructions.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">3</div>
+        <div class="step-body"><h4>Write Project-Specific Context</h4><p>Include: project name, goal, client or stakeholder, audience, tone, and any standing rules specific to this workstream.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num orange">4</div>
+        <div class="step-body"><h4>Upload Reference Files</h4><p>Add briefs, style guides, previous outputs, or research documents. ChatGPT will reference these throughout the Project.</p></div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body"><strong>Recommended Project Architecture</strong><p>Use one Project per major client, one per long-running internal initiative, and one as a "Personal" catch-all. Avoid creating a new Project for every task — Projects work best for workstreams lasting weeks or months.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section-card" id="s06">
+  <div class="section-header">
+    <div class="sec-num">06</div>
+    <div><h2>Privacy & Memory Control</h2><p>What's stored, what's shared, and how to stay in control</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Memory stores information in your account and uses it to personalise responses. Understanding what's stored and how to control it lets you use Memory confidently without privacy concerns.</p>
+
+    <p class="sub-label">What OpenAI Does With Memories</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Stored in Your Account</h4>
+        <p>Memories are tied to your OpenAI account and used only to personalise your own ChatGPT responses. They are not shared with other users.</p>
+      </div>
+      <div class="feature-card blue">
+        <h4>May Inform Model Training</h4>
+        <p>By default, conversations (including memory) may be used to improve OpenAI models. You can opt out in Settings → Data Controls → Improve the Model for Everyone.</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Enterprise Accounts</h4>
+        <p>ChatGPT Enterprise and Team accounts have enhanced privacy guarantees — conversations are not used for training by default, and admins control memory policies.</p>
+      </div>
+      <div class="feature-card orange">
+        <h4>Temporary Chat</h4>
+        <p>Start a Temporary Chat (top of sidebar) and nothing from that session is stored to memory or used for training. Ideal for sensitive or confidential tasks.</p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Never Store Sensitive Information in Memory</strong><p>Avoid telling ChatGPT passwords, financial account numbers, client PII, or confidential contracts in a way you'd expect it to memorise. For sensitive tasks, use Temporary Chat mode.</p></div>
+    </div>
+
+    <p class="sub-label">Privacy Control Options</p>
+    <table class="ref-table">
+      <tr><th>Control</th><th>Where to Find It</th><th>What It Does</th></tr>
+      <tr><td>Turn off Memory entirely</td><td>Settings → Personalisation → Memory toggle</td><td>ChatGPT stops storing new memories. Existing memories remain until deleted.</td></tr>
+      <tr><td>Use Temporary Chat</td><td>Top of sidebar → Temporary Chat icon</td><td>Session is not saved, nothing added to memory, not used for training.</td></tr>
+      <tr><td>Delete specific memories</td><td>Settings → Personalisation → Manage Memories → ×</td><td>Removes that specific fact from your memory bank permanently.</td></tr>
+      <tr><td>Clear all memories</td><td>Settings → Personalisation → Memory → Clear Memory</td><td>Wipes entire memory bank. Cannot be undone.</td></tr>
+      <tr><td>Opt out of model training</td><td>Settings → Data Controls → Improve the Model for Everyone</td><td>Your conversations are excluded from OpenAI training data.</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Best of Both Worlds</strong><p>Keep Memory on for everyday tasks and productivity. Switch to Temporary Chat for anything involving client data, confidential strategy, or personal financial matters. You get personalisation when useful and privacy when needed.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section-card" id="s07">
+  <div class="section-header">
+    <div class="sec-num">07</div>
+    <div><h2>Advanced Techniques</h2><p>Power user strategies for persistent context</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Once Custom Instructions and Memory are set up, these advanced techniques help you extract maximum value — building a richer, more tailored ChatGPT experience over time.</p>
+
+    <p class="sub-label">Deliberate Memory Seeding</p>
+    <p style="font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Don't wait for ChatGPT to discover your preferences. Proactively tell it what you want remembered in your first few conversations. Use clear, direct statements:</p>
+    <div class="memory-list">
+      <div class="memory-tag">
+        <div class="mt-icon">🎯</div>
+        <div class="mt-body"><div class="mt-label">Seed with intent</div><div class="mt-text">"Please remember: I always want responses under 250 words unless I specifically ask for more. No exceptions."</div></div>
+      </div>
+      <div class="memory-tag blue">
+        <div class="mt-icon">🎨</div>
+        <div class="mt-body"><div class="mt-label">Seed tone preferences</div><div class="mt-text">"Note for future reference: I write in a witty, irreverent style for my newsletter. When helping with newsletter content, match that voice."</div></div>
+      </div>
+      <div class="memory-tag purple">
+        <div class="mt-icon">🔧</div>
+        <div class="mt-body"><div class="mt-label">Seed tool preferences</div><div class="mt-text">"Remember: I use Notion for docs and Linear for tasks. When suggesting workflow steps, assume these tools."</div></div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>CI as a Style Guide</strong><p>Use the "How to respond" field as a living style guide. Include your brand voice attributes, forbidden phrases, and preferred terminology. For teams on Enterprise, the admin can set org-wide Custom Instructions so all members get consistent outputs.</p></div>
+    </div>
+
+    <p class="sub-label">Persona Switching With Projects</p>
+    <p style="font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Use different Projects to operate in genuinely different modes — even if you're the same person:</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Professional Project</h4>
+        <p>Formal tone, technical depth, report format. Overrides your global "be concise" instruction with "provide full analysis".</p>
+      </div>
+      <div class="feature-card blue">
+        <h4>Creative Project</h4>
+        <p>Experimental tone, no format constraints, permission to be unconventional. Completely different voice from your day job.</p>
+      </div>
+      <div class="feature-card purple">
+        <h4>Client Project</h4>
+        <p>Client's brand voice, client's audience, client's terminology. Keeps client context separate from your internal work.</p>
+      </div>
+      <div class="feature-card orange">
+        <h4>Learning Project</h4>
+        <p>Explain at depth, show examples, ask follow-up questions. Mode-shifts ChatGPT into a patient teacher for skill-building.</p>
+      </div>
+    </div>
+
+    <p class="sub-label">Iterative CI Refinement</p>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Start Simple</h4><p>Write a basic CI covering role + 2–3 format preferences. Don't try to anticipate everything.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num blue">2</div>
+        <div class="step-body"><h4>Notice What's Missing</h4><p>When ChatGPT misses your intent, ask yourself: "Could Custom Instructions have prevented this?" If yes, add that rule.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num purple">3</div>
+        <div class="step-body"><h4>Update Monthly</h4><p>Your role, priorities, and preferences evolve. Review and revise your CI regularly — treat it like your AI configuration file.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num orange">4</div>
+        <div class="step-body"><h4>Test After Changes</h4><p>After updating CI, run a test prompt on a typical task. Confirm the changes are having the intended effect before relying on them.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section-card" id="s08">
+  <div class="section-header">
+    <div class="sec-num">08</div>
+    <div><h2>Common Mistakes & Fixes</h2><p>What goes wrong and how to address it</p></div>
+  </div>
+  <div class="section-body">
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Custom Instructions are too vague to make a difference</div>
+      <div class="trouble-a"><strong>Fix:</strong> Replace general adjectives with specific rules. Instead of "be professional", write: "Use formal language. No contractions. Lead with conclusions. Reference data where possible." Specificity is everything.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ ChatGPT isn't using my Custom Instructions</div>
+      <div class="trouble-a"><strong>Fix:</strong> CI only applies to new conversations — not ones that were already open. Start a fresh conversation. Also check that CI is enabled (the toggle in Settings → Personalisation should be on). In Temporary Chat mode, CI is not applied.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Memory stored something incorrect or private</div>
+      <div class="trouble-a"><strong>Fix:</strong> Go to Settings → Personalisation → Manage Memories and delete the specific item. For future sessions, use Temporary Chat when discussing sensitive matters you don't want retained.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ ChatGPT applies the wrong tone for a specific task despite CI</div>
+      <div class="trouble-a"><strong>Fix:</strong> Override CI inline for that prompt: "For this one task, ignore your usual tone instructions and write in a casual, friendly voice." ChatGPT will follow the in-conversation instruction for that response without changing your global CI.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Memory has too many outdated facts and responses feel off</div>
+      <div class="trouble-a"><strong>Fix:</strong> Do a full memory review — Settings → Manage Memories. Delete anything outdated, then explicitly seed fresh facts: "Remember that I'm now [new role] at [new company], working on [current project]."</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">❌ Project instructions aren't being followed consistently</div>
+      <div class="trouble-a"><strong>Fix:</strong> Make Project instructions specific and actionable, not aspirational. Add concrete rules ("Always use British English", "Start every response with the key takeaway") rather than vague goals ("Be helpful and relevant").</div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section-card" id="s09">
+  <div class="section-header">
+    <div class="sec-num">09</div>
+    <div><h2>Suggested Prompts</h2><p>Ready-to-use prompts for memory and context management</p></div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'s09','memory')">Memory Management</button>
+        <button class="tab-btn" onclick="switchTab(this,'s09','ci')">Custom Instructions Setup</button>
+      </div>
+      <div class="prompt-panel active" id="s09-memory">
+        <div class="prompt-box">
+          <div class="prompt-label">Audit Current Memory<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">What do you currently remember about me? List every stored fact, organised by category (role, preferences, projects, tools). Flag anything that may be outdated.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Seed a Memory Deliberately<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Please remember the following permanently: I am [your role] at [your organisation]. My primary audience for most tasks is [audience]. I always prefer [key preference 1] and [key preference 2]. Confirm what you've stored.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Update After Role Change<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Update your memory about me: I've moved from [old role] to [new role] at [organisation]. My focus is now [new priorities]. Remove any stored context about [old project/context] as it's no longer relevant.</div>
+        </div>
+      </div>
+      <div class="prompt-panel" id="s09-ci">
+        <div class="prompt-box">
+          <div class="prompt-label">Draft Custom Instructions Field 1<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Help me write the "What to know about me" field for ChatGPT Custom Instructions. I am [brief description of role, org, audience]. Ask me any clarifying questions you need, then draft a 200-word summary optimised for consistent, personalised responses.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Draft Custom Instructions Field 2<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Help me write the "How to respond" field for Custom Instructions. My key preferences: [list 3–5 specific preferences — length, tone, format, what to avoid]. Draft a set of clear, actionable rules I can paste into Settings. Be specific, not aspirational.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Write Project Instructions<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Help me write Project instructions for a ChatGPT Project. Project name: [name]. Goal: [goal]. Client/stakeholder: [who]. Audience: [who they communicate with]. Tone: [description]. Standing rules: [any specific constraints]. Draft a 150-word instruction set.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section-card" id="s10">
+  <div class="section-header">
+    <div class="sec-num">10</div>
+    <div><h2>See It In Action</h2><p>Custom Instructions and Memory working together in a real scenario</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Watch how a well-configured ChatGPT account handles the same request with and without persistent context.</p>
+
+    <p class="sub-label">Scenario: Weekly Report Intro</p>
+
+    <p style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:12px 0 6px">Without Custom Instructions or Memory</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">GPT-4o</span><span class="mockup-label">No CI · No Memory</span></div>
+      <div class="mockup-row right"><div class="mockup-bubble user">Write me a weekly report intro for my team update.</div></div>
+      <div class="mockup-row">
+        <div class="mockup-bubble gpt">
+          <div class="gpt-tag">✦ ChatGPT</div>
+          Here is a weekly report introduction for your team:<br><br>
+          <em>This week, our team made significant progress across multiple key areas. We continued to execute against our goals and I want to highlight some of the important updates from the past seven days...</em><br><br>
+          Let me know if you'd like me to adjust the tone or add specific sections.
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:13px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 6px">With Custom Instructions + Memory Active</p>
+    <div class="mockup">
+      <div class="mockup-bar"><span class="mockup-model">GPT-4o</span><span class="mockup-label">CI Active · Memory: PM role, team of 8, concise style</span></div>
+      <div class="mockup-row right"><div class="mockup-bubble user">Write me a weekly report intro for my team update.</div></div>
+      <div class="mockup-row">
+        <div class="mockup-bubble gpt">
+          <div class="gpt-tag">✦ ChatGPT</div>
+          <em>Week 19 — three items worth your attention:</em><br><br>
+          <em>Roadmap Q3 scope is locked. Engineering confirmed estimates on Thursday — we're shipping on time. Two discovery interviews completed for the onboarding redesign; synthesis happening next week. Sprint 12 velocity: 94% of committed points delivered.</em><br><br>
+          <em>Full detail below.</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>What Made the Difference</strong><p>The CI told ChatGPT: concise, lead with key points, no preamble. Memory provided: PM role, team of 8, Q3 roadmap context. The result is a usable, personalised draft — not a generic template that needs complete rewriting.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section-card" id="s11">
+  <div class="section-header">
+    <div class="sec-num">11</div>
+    <div><h2>Your Roadmap</h2><p>Four steps to a fully personalised ChatGPT setup</p></div>
+  </div>
+  <div class="section-body">
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="rs-num">01</div>
+        <h4>Write Your CI Today</h4>
+        <p>Spend 15 minutes writing both Custom Instructions fields. Use the templates in Section 03. Save and test on a typical task.</p>
+      </div>
+      <div class="roadmap-step blue">
+        <div class="rs-num">02</div>
+        <h4>Seed Key Memories</h4>
+        <p>In your next session, proactively tell ChatGPT your 3–5 most important context facts. Verify they've been stored via "What do you remember about me?"</p>
+      </div>
+      <div class="roadmap-step purple">
+        <div class="rs-num">03</div>
+        <h4>Set Up One Project</h4>
+        <p>Create a Project for your most active workstream. Write specific instructions and upload any relevant reference documents.</p>
+      </div>
+      <div class="roadmap-step orange">
+        <div class="rs-num">04</div>
+        <h4>Maintain Monthly</h4>
+        <p>Review memories for accuracy, update CI when your role or preferences change, and refine Project instructions as work evolves.</p>
+      </div>
+    </div>
+    <div class="callout gpt" style="margin-top:20px">
+      <div class="callout-icon">🚀</div>
+      <div class="callout-body"><strong>Next Guide: ChatGPT GPTs & Custom Assistants</strong><p>You've personalised your own ChatGPT setup. Next, learn how to build custom GPTs — specialised AI assistants you configure for specific tasks and share with your team.</p></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function switchTab(el, section, tab) {
+  const sec = document.getElementById(section);
+  sec.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  sec.querySelectorAll('.prompt-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const panel = document.getElementById(section + '-' + tab);
+  if (panel) panel.classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-box').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent; btn.textContent = '✓ Copied'; btn.style.color = '#10A37F';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+  });
+}
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.section-card').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

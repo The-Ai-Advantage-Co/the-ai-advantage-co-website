@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Claude Multimodal | The AI Advantage Co</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FEF8F0;color:#2C1810}
+:root{--orange:#C97040;--orangeL:#E09868;--brown:#3C1E0A;--cream:#FEF8F0;--soft:#FFF7F0;--hdr:#F9F0E6;--border:#F0DEC8;--text:#2C1810;--mid:#5C3D2E;--muted:#8A6040}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--brown);color:#FEF8F0;padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h2{font-size:11px;letter-spacing:2px;color:var(--orangeL);padding:0 20px 12px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.nav-link{display:block;padding:8px 20px;font-size:13px;color:rgba(254,248,240,.7);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:#FEF8F0;border-left-color:var(--orange);background:rgba(201,112,64,.15)}
+.nav-num{display:inline-block;width:20px;font-size:11px;color:var(--orangeL);opacity:.8}
+.content{max-width:860px;padding:40px 40px 80px}
+.banner{background:var(--brown);border-radius:12px;padding:48px 40px;margin-bottom:32px;position:relative;overflow:hidden}
+.banner::before{content:'◈';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:160px;font-weight:900;color:rgba(201,112,64,.1);line-height:1}
+.banner-label{font-size:11px;letter-spacing:3px;color:var(--orangeL);text-transform:uppercase;margin-bottom:12px}
+.banner h1{font-size:36px;font-weight:800;color:#FEF8F0;line-height:1.15;margin-bottom:10px}
+.banner p{color:rgba(254,248,240,.75);font-size:15px;max-width:520px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(60,30,10,.06)}
+.section-header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--hdr);border-bottom:1px solid var(--border)}
+.sec-num{background:var(--orange);color:#fff;font-weight:800;font-size:13px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:17px;font-weight:700;color:var(--brown)}
+.section-body{padding:24px}
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:4px solid}
+.callout.tip{background:#E8F5E9;border-color:#2E7D32}.callout.tip strong{color:#1B5E20}
+.callout.warning{background:#FFF8E1;border-color:#F57F17}.callout.warning strong{color:#E65100}
+.callout.info{background:#E3F2FD;border-color:#1565C0}.callout.info strong{color:#0D47A1}
+.callout p{font-size:14px;color:#333;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--soft);border:1px solid var(--border);border-radius:8px;padding:16px}
+.feature-card h4{color:var(--brown);font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--mid);line-height:1.5}
+.step{display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.step-num{background:var(--orange);color:#fff;font-weight:800;font-size:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--brown);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--mid);line-height:1.5}
+.ref-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ref-table th{background:var(--brown);color:#FEF8F0;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px}
+.ref-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.ref-table tr:nth-child(even) td{background:var(--soft)}
+.ref-table tr:last-child td{border-bottom:none}
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab-btn{padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange)}
+.prompt-box{display:none;background:var(--soft);border:1px solid var(--border);border-radius:8px;padding:18px}
+.prompt-box.active{display:block}
+.prompt-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prompt-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.prompt-label{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.prompt-text{font-size:13px;color:var(--brown);font-style:italic;line-height:1.6;background:#fff;padding:10px 14px;border-radius:6px;border:1px solid var(--border)}
+.copy-btn{font-size:11px;color:var(--orange);background:none;border:none;cursor:pointer;float:right;margin-bottom:4px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{background:var(--soft);border:1px solid var(--border);border-top:4px solid var(--orange);border-radius:8px;padding:16px}
+.roadmap-step .rn{font-size:28px;font-weight:900;color:var(--orange);line-height:1}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--brown);margin:6px 0 4px}
+.roadmap-step p{font-size:12px;color:var(--muted);line-height:1.5}
+.mockup{background:#1E1407;border-radius:10px;overflow:hidden;margin:16px 0}
+.mock-bar{background:#3C1E0A;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px}
+.mock-dots .r{background:#FF6058}.mock-dots .y{background:#FFBD2E}.mock-dots .g{background:#28C840}
+.mock-title{font-size:12px;color:rgba(254,248,240,.5);margin-left:8px}
+/* File Analysis Panel */
+.file-panel{background:#1E1407;border-radius:10px;overflow:hidden;margin:16px 0}
+.file-panel-header{background:#3C1E0A;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.file-icon{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.file-icon.img{background:rgba(201,112,64,.25)}
+.file-icon.pdf{background:rgba(201,64,64,.25)}
+.file-icon.data{background:rgba(64,160,64,.25)}
+.file-icon.code{background:rgba(64,112,201,.25)}
+.file-name{font-size:13px;font-weight:600;color:#FEF8F0}
+.file-meta{font-size:11px;color:rgba(254,248,240,.4)}
+.file-analysis{padding:16px;font-size:13px;color:#C8B09A;line-height:1.7}
+.analysis-point{display:flex;gap:10px;margin-bottom:8px}
+.analysis-dot{width:6px;height:6px;border-radius:50%;background:#C97040;margin-top:6px;flex-shrink:0}
+/* Modality Grid */
+.modality-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.modality-card{background:var(--soft);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
+.modality-icon{font-size:28px;margin-bottom:8px}
+.modality-name{font-weight:700;color:var(--brown);font-size:13px}
+.modality-desc{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.4}
+.modality-tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+.modality-tag{font-size:10px;background:var(--hdr);color:var(--orange);border:1px solid var(--border);border-radius:3px;padding:1px 6px;font-weight:700}
+/* Combo workflow */
+.combo-flow{display:flex;gap:0;align-items:stretch;margin:16px 0;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.combo-step{flex:1;padding:14px;border-right:1px solid var(--border);background:#fff}
+.combo-step:last-child{border-right:none}
+.combo-step .cs-icon{font-size:20px;margin-bottom:6px}
+.combo-step h5{font-size:12px;font-weight:700;color:var(--brown);margin-bottom:4px}
+.combo-step p{font-size:12px;color:var(--muted);line-height:1.45}
+.combo-arrow{display:flex;align-items:center;padding:0 4px;background:var(--hdr);color:var(--orange);font-size:16px;font-weight:700}
+p{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:10px}
+ul{padding-left:20px;margin:8px 0}
+li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:4px}
+strong{color:var(--brown)}
+h3{font-size:16px;font-weight:700;color:var(--brown);margin:20px 0 8px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Claude Multimodal</h2>
+  <a class="nav-link" href="#s1"><span class="nav-num">01</span>What is Claude Multimodal?</a>
+  <a class="nav-link" href="#s2"><span class="nav-num">02</span>Image Analysis &amp; Vision</a>
+  <a class="nav-link" href="#s3"><span class="nav-num">03</span>Document Processing</a>
+  <a class="nav-link" href="#s4"><span class="nav-num">04</span>Data Files &amp; Spreadsheets</a>
+  <a class="nav-link" href="#s5"><span class="nav-num">05</span>Code &amp; Technical Files</a>
+  <a class="nav-link" href="#s6"><span class="nav-num">06</span>Combining Modalities</a>
+  <a class="nav-link" href="#s7"><span class="nav-num">07</span>Advanced Techniques</a>
+  <a class="nav-link" href="#s8"><span class="nav-num">08</span>Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s9"><span class="nav-num">09</span>Suggested Prompts</a>
+  <a class="nav-link" href="#s10"><span class="nav-num">10</span>See It In Action</a>
+  <a class="nav-link" href="#s11"><span class="nav-num">11</span>Your Roadmap</a>
+</aside>
+<main class="content">
+  <div class="banner">
+    <div class="banner-label">The AI Advantage Co — Claude User Guide</div>
+    <h1>Claude Multimodal</h1>
+    <p>Go beyond text. Analyse images, read documents, interpret data, and review code — Claude sees and understands across formats.</p>
+  </div>
+
+  <!-- S1 -->
+  <div class="section-card" id="s1">
+    <div class="section-header"><div class="sec-num">1</div><h2>What is Claude Multimodal?</h2></div>
+    <div class="section-body">
+      <p><strong>Multimodal</strong> means Claude can work with more than just text. You can upload images, PDFs, spreadsheets, code files, and other file types — and Claude will read, interpret, and reason across all of them in a single conversation.</p>
+      <p>This transforms Claude from a writing assistant into an analytical collaborator. You can show it a chart and ask what it means, hand it a messy spreadsheet and ask for insights, or give it a codebase and ask for a review — all in plain English.</p>
+      <div class="modality-grid">
+        <div class="modality-card"><div class="modality-icon">🖼️</div><div class="modality-name">Vision</div><div class="modality-desc">Photos, screenshots, diagrams, charts</div><div class="modality-tags"><span class="modality-tag">JPG</span><span class="modality-tag">PNG</span><span class="modality-tag">WEBP</span></div></div>
+        <div class="modality-card"><div class="modality-icon">📄</div><div class="modality-name">Documents</div><div class="modality-desc">Reports, contracts, policies, proposals</div><div class="modality-tags"><span class="modality-tag">PDF</span><span class="modality-tag">DOCX</span><span class="modality-tag">TXT</span></div></div>
+        <div class="modality-card"><div class="modality-icon">📊</div><div class="modality-name">Data</div><div class="modality-desc">Spreadsheets, exports, tables</div><div class="modality-tags"><span class="modality-tag">CSV</span><span class="modality-tag">XLSX</span><span class="modality-tag">JSON</span></div></div>
+        <div class="modality-card"><div class="modality-icon">💻</div><div class="modality-name">Code</div><div class="modality-desc">Source files, scripts, configs</div><div class="modality-tags"><span class="modality-tag">PY</span><span class="modality-tag">JS</span><span class="modality-tag">SQL</span></div></div>
+      </div>
+      <div class="callout tip"><strong>Why this matters:</strong><p>Most knowledge work involves multiple file types. Multimodal means you can bring your actual work to Claude — not just describe it — and get analysis on the real thing.</p></div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section-card" id="s2">
+    <div class="section-header"><div class="sec-num">2</div><h2>Image Analysis &amp; Vision</h2></div>
+    <div class="section-body">
+      <p>Claude can see and interpret images — photographs, diagrams, charts, UI screenshots, whiteboards, scanned documents. It can describe what it sees, extract text, interpret data visualisations, and answer questions about image content.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>📈 Chart &amp; Graph Reading</h4><p>Upload a chart from a report or presentation. Claude identifies trends, compares values, and explains what the data is saying in plain English.</p></div>
+        <div class="feature-card"><h4>📸 Screenshot Analysis</h4><p>Share a UI screenshot or app interface. Claude can describe the layout, identify issues, or suggest improvements to the design or copy.</p></div>
+        <div class="feature-card"><h4>🔤 Text Extraction</h4><p>Upload a photo of a whiteboard, handwritten notes, or a printed form. Claude reads and transcribes the text, even from less-than-perfect images.</p></div>
+        <div class="feature-card"><h4>🖼️ Diagram Interpretation</h4><p>Share a process diagram, architecture diagram, or org chart. Claude describes the structure, identifies the flow, and answers questions about it.</p></div>
+      </div>
+      <h3>How to get the best results from images</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Be specific about what you want</h4><p>"Describe this chart" is weak. "What is the trend in Q3 revenue, and what's the biggest anomaly?" is far more useful.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Provide context Claude can't see</h4><p>If the chart is from an annual report, say so. If the screenshot is from a client's app, mention it. Context shapes interpretation.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Use follow-up questions</h4><p>After the initial description, drill in: "Now compare that trend to what you'd expect from a healthy SaaS business." Claude can reason further from the same image.</p></div></div>
+      <div class="callout warning"><strong>Limitation:</strong><p>Claude cannot reliably identify people in photos or read very small text in low-resolution images. For precise numerical extraction from complex charts, verify against the source data.</p></div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section-card" id="s3">
+    <div class="section-header"><div class="sec-num">3</div><h2>Document Processing</h2></div>
+    <div class="section-body">
+      <p>Upload PDFs, Word documents, and text files and Claude will read them in full — then summarise, analyse, compare, extract, or rewrite based on your instructions.</p>
+      <div class="file-panel">
+        <div class="file-panel-header">
+          <div class="file-icon pdf">📄</div>
+          <div><div class="file-name">Vendor Contract — Draft v3.pdf</div><div class="file-meta">48 pages · Uploaded</div></div>
+        </div>
+        <div class="file-analysis">
+          <div class="analysis-point"><div class="analysis-dot"></div><div><strong style="color:#E09868">Key obligations identified:</strong> Payment terms: Net 30 from invoice date. Liability cap: 2× annual contract value. IP ownership: work-for-hire, all output belongs to client.</div></div>
+          <div class="analysis-point"><div class="analysis-dot"></div><div><strong style="color:#E09868">Potential risks flagged:</strong> Auto-renewal clause (Clause 14.3) with only 15-day cancellation window. Jurisdiction: New South Wales — confirm this aligns with your preferred dispute resolution location.</div></div>
+          <div class="analysis-point"><div class="analysis-dot"></div><div><strong style="color:#E09868">Missing clauses:</strong> No data breach notification requirement. No SLA or uptime guarantee referenced despite being an SaaS engagement.</div></div>
+        </div>
+      </div>
+      <h3>What to ask about documents</h3>
+      <table class="ref-table">
+        <thead><tr><th>Task</th><th>Prompt Pattern</th></tr></thead>
+        <tbody>
+          <tr><td>Summarise</td><td>"Summarise this document in 5 bullet points. Focus on decisions and actions, not background."</td></tr>
+          <tr><td>Extract specifics</td><td>"List every date, deadline, and milestone mentioned in this document."</td></tr>
+          <tr><td>Risk review</td><td>"Read this contract and flag any clauses that could be problematic from a vendor's perspective."</td></tr>
+          <tr><td>Compare documents</td><td>"Compare these two proposals — highlight key differences in scope, pricing, and timeline."</td></tr>
+          <tr><td>Rewrite sections</td><td>"Rewrite Section 4 in plain English. Avoid legal jargon. Keep it under 150 words."</td></tr>
+          <tr><td>Q&amp;A</td><td>"Based on this policy document, what is the process for raising a formal complaint?"</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section-card" id="s4">
+    <div class="section-header"><div class="sec-num">4</div><h2>Data Files &amp; Spreadsheets</h2></div>
+    <div class="section-body">
+      <p>Upload CSVs, Excel files, or JSON exports and Claude will analyse the data, surface insights, build summaries, and suggest or write formulas — all in plain English, no code required.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>🔍 Exploratory Analysis</h4><p>"What are the top 5 rows by revenue? What's the average deal size? Are there any anomalies in the data?"</p></div>
+        <div class="feature-card"><h4>📐 Formula Help</h4><p>"Write an Excel formula to calculate the 90-day rolling average for the value in column D."</p></div>
+        <div class="feature-card"><h4>🗂️ Data Cleaning</h4><p>"Identify rows with missing values. Suggest how to handle them — remove, fill, or flag."</p></div>
+        <div class="feature-card"><h4>📋 Reporting</h4><p>"Summarise this sales data as a 3-paragraph executive briefing for a board report."</p></div>
+      </div>
+      <div class="callout info"><strong>Large datasets:</strong><p>For very large spreadsheets (thousands of rows), Claude works best when given a sample or a filtered subset. Export the relevant columns and rows first, then upload the trimmed file.</p></div>
+      <div class="callout tip"><strong>Python &amp; SQL users:</strong><p>You can paste a data sample and ask Claude to write a Python script or SQL query to process the full dataset. This extends Claude's reach to any data size.</p></div>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="section-card" id="s5">
+    <div class="section-header"><div class="sec-num">5</div><h2>Code &amp; Technical Files</h2></div>
+    <div class="section-body">
+      <p>Claude can read, review, explain, debug, and rewrite code across almost any language. Upload source files directly or paste code snippets — Claude handles both.</p>
+      <div class="file-panel">
+        <div class="file-panel-header">
+          <div class="file-icon code">💻</div>
+          <div><div class="file-name">data_pipeline.py</div><div class="file-meta">Python · 312 lines · Uploaded</div></div>
+        </div>
+        <div class="file-analysis">
+          <div class="analysis-point"><div class="analysis-dot"></div><div><strong style="color:#E09868">Code review:</strong> The main pipeline function lacks error handling for the API call at line 87. If the API returns a non-200 status, the script will crash silently.</div></div>
+          <div class="analysis-point"><div class="analysis-dot"></div><div><strong style="color:#E09868">Performance:</strong> The loop at lines 140–165 makes a database call on every iteration. This can be batched — pull all records first, then process in-memory.</div></div>
+          <div class="analysis-point"><div class="analysis-dot"></div><div><strong style="color:#E09868">Suggestion:</strong> Add logging at key stages (fetch, transform, load) so you can trace failures in production without re-running the full pipeline.</div></div>
+        </div>
+      </div>
+      <table class="ref-table">
+        <thead><tr><th>Task</th><th>Approach</th></tr></thead>
+        <tbody>
+          <tr><td>Code review</td><td>Upload file or paste code. Ask: "Review this for bugs, performance issues, and readability."</td></tr>
+          <tr><td>Explain code</td><td>"Explain what this function does in plain English. Assume I'm not a developer."</td></tr>
+          <tr><td>Debug</td><td>Paste the code and the error message together: "I get [error] on line 42. What's wrong?"</td></tr>
+          <tr><td>Write tests</td><td>"Write unit tests for this function. Cover the happy path and 3 edge cases."</td></tr>
+          <tr><td>Refactor</td><td>"Refactor this into smaller functions. Prioritise readability over clever shortcuts."</td></tr>
+          <tr><td>Documentation</td><td>"Write docstrings for every function in this file. Follow Google style."</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="section-card" id="s6">
+    <div class="section-header"><div class="sec-num">6</div><h2>Combining Modalities</h2></div>
+    <div class="section-body">
+      <p>The real power of multimodal comes from combining file types in a single conversation. You can upload an image, a document, and a data file simultaneously and ask Claude to reason across all of them.</p>
+      <h3>Example: The Full Pitch Deck Workflow</h3>
+      <div class="combo-flow">
+        <div class="combo-step"><div class="cs-icon">📊</div><h5>Upload Data</h5><p>Revenue CSV from finance team. Claude reads and understands the numbers.</p></div>
+        <div class="combo-arrow">→</div>
+        <div class="combo-step"><div class="cs-icon">📄</div><h5>Upload Brief</h5><p>The pitch brief PDF with audience context, goals, and key messages to land.</p></div>
+        <div class="combo-arrow">→</div>
+        <div class="combo-step"><div class="cs-icon">🖼️</div><h5>Upload Screenshot</h5><p>A competitor slide for reference — what to position against.</p></div>
+        <div class="combo-arrow">→</div>
+        <div class="combo-step"><div class="cs-icon">✍️</div><h5>Generate Slides</h5><p>Claude writes slide-by-slide content grounded in all three sources.</p></div>
+      </div>
+      <h3>More combined-modality workflows</h3>
+      <div class="feature-grid">
+        <div class="feature-card"><h4>📄 + 📄 Contract Comparison</h4><p>Upload last year's contract and the renewal draft. Ask Claude to highlight what changed and flag anything that needs negotiating.</p></div>
+        <div class="feature-card"><h4>🖼️ + 📊 Report Validation</h4><p>Upload a chart image and the underlying data file. Ask: "Does this chart accurately represent the data? Any misleading elements?"</p></div>
+        <div class="feature-card"><h4>💻 + 📄 Spec Review</h4><p>Upload the feature spec and the code implementation. Ask: "Does this code implement everything in the spec? What's missing?"</p></div>
+        <div class="feature-card"><h4>📸 + 📝 Transcription + Polish</h4><p>Upload a whiteboard photo and a rough text transcript. Ask Claude to produce clean, formatted meeting notes from both sources.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="section-card" id="s7">
+    <div class="section-header"><div class="sec-num">7</div><h2>Advanced Techniques</h2></div>
+    <div class="section-body">
+      <h3>Structured Extraction</h3>
+      <p>Instead of open-ended summaries, ask Claude to extract specific data points into a structured format — table, JSON, or a numbered list. This makes outputs directly usable in other systems.</p>
+      <div class="callout info"><strong>Example prompt:</strong><p>"Read the attached invoices and extract each one as a JSON object with fields: vendor_name, invoice_number, date, amount, currency, due_date. Return an array of objects."</p></div>
+      <h3>Iterative Document Refinement</h3>
+      <p>Upload a draft document and refine it iteratively in the same conversation. Claude remembers the original throughout. First pass: structure. Second: tone. Third: specific sections. Each pass builds on the last without re-uploading.</p>
+      <h3>Image-Anchored Writing</h3>
+      <p>Upload a diagram, wireframe, or org chart and use it as the basis for written content. "Write the product description for the feature shown in this wireframe" produces grounded, accurate copy without you describing every detail.</p>
+      <h3>Multi-File Analysis at Scale</h3>
+      <p>Claude can handle multiple file uploads in one conversation. Upload 5–10 short documents and ask for a synthesis: "Read all these reports and identify the three themes that appear most consistently across them."</p>
+      <div class="callout tip"><strong>Power move:</strong><p>Combine structured extraction with a template. "Extract the data from this report and fill in the attached Excel template accordingly." Claude maps data from unstructured sources into your predefined format.</p></div>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="section-card" id="s8">
+    <div class="section-header"><div class="sec-num">8</div><h2>Common Mistakes &amp; Fixes</h2></div>
+    <div class="section-body">
+      <table class="ref-table">
+        <thead><tr><th>Mistake</th><th>What Happens</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>Uploading and asking nothing specific</td><td>"Here's the document" — Claude makes assumptions about what you want</td><td>Always pair an upload with a specific instruction or question</td></tr>
+          <tr><td>Expecting pixel-perfect chart number extraction</td><td>Claude reads visual patterns, not exact pixel values</td><td>Provide the raw data file alongside the chart image for precise analysis</td></tr>
+          <tr><td>Uploading very large documents for a narrow question</td><td>Context fills quickly; Claude may miss detail in early sections</td><td>Extract the relevant pages or section; upload only what's needed</td></tr>
+          <tr><td>Treating all file types the same</td><td>Using "summarise" for code files or "debug" for PDF reports — wrong task for the format</td><td>Match the instruction to the file type (extract/review/compare for docs; debug/test/refactor for code)</td></tr>
+          <tr><td>Re-uploading the same file in every message</td><td>Wastes context and creates confusion if versions differ</td><td>Upload once; reference by filename in follow-up messages: "Based on the PDF you read earlier..."</td></tr>
+          <tr><td>Not verifying extracted data</td><td>Claude occasionally misreads numbers from images or densely formatted PDFs</td><td>Spot-check key figures against the source document before using them in reports</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S9 -->
+  <div class="section-card" id="s9">
+    <div class="section-header"><div class="sec-num">9</div><h2>Suggested Prompts</h2></div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'mm-docs')">Documents &amp; Images</button>
+          <button class="tab-btn" onclick="switchTab(this,'mm-data')">Data &amp; Code</button>
+        </div>
+        <div id="mm-docs" class="prompt-box active">
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Document Brief</div><div class="prompt-text">"Read this document and produce a one-page executive brief: key purpose, three most important findings or decisions, any risks or open questions, and clear next steps. Use bullet points throughout."</div></div>
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Chart Interpretation</div><div class="prompt-text">"Describe what this chart is showing. What is the main trend? What's the most interesting or surprising data point? What business question does this help answer?"</div></div>
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Contract Risk Review</div><div class="prompt-text">"Review this contract from the perspective of the party signing it. Flag: (1) any clauses that limit liability or indemnification unfairly, (2) auto-renewal or cancellation terms, (3) any missing standard clauses for this type of agreement."</div></div>
+        </div>
+        <div id="mm-data" class="prompt-box">
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Data Insight Extract</div><div class="prompt-text">"Analyse this dataset and tell me: (1) the top 5 and bottom 5 by [metric], (2) any obvious outliers or anomalies, (3) one non-obvious insight I might miss on first glance. Don't give me everything — focus on what's actionable."</div></div>
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Code Review</div><div class="prompt-text">"Review this code file. I want three categories of feedback: (1) bugs or errors that would cause failures, (2) performance issues or inefficiencies, (3) readability or maintainability improvements. Order by severity."</div></div>
+          <div class="prompt-item"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><div class="prompt-label">Structured Data Extraction</div><div class="prompt-text">"Read the attached document and extract the following fields for each [entity]: [field 1], [field 2], [field 3]. Format the output as a markdown table with one row per [entity]. If a field is missing, mark it as N/A."</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header"><div class="sec-num">10</div><h2>See It In Action</h2></div>
+    <div class="section-body">
+      <p>A multi-file analysis session — an image chart, a PDF, and a CSV uploaded together and analysed in one conversation.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="mock-title">Claude — New conversation</span></div>
+        <div style="padding:20px">
+          <div style="background:#2A1A0A;border-radius:8px;padding:14px;margin-bottom:12px">
+            <div style="font-size:11px;color:#8A6040;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase">Attached Files</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <div style="background:#3C1E0A;border-radius:6px;padding:8px 12px;font-size:12px;color:#E09868;display:flex;align-items:center;gap:6px">🖼️ Q3-Revenue-Chart.png</div>
+              <div style="background:#3C1E0A;border-radius:6px;padding:8px 12px;font-size:12px;color:#E09868;display:flex;align-items:center;gap:6px">📄 Board-Report-Draft.pdf</div>
+              <div style="background:#3C1E0A;border-radius:6px;padding:8px 12px;font-size:12px;color:#E09868;display:flex;align-items:center;gap:6px">📊 Sales-Data-Q3.csv</div>
+            </div>
+          </div>
+          <div style="font-size:13px;color:rgba(254,248,240,.7);margin-bottom:10px;padding:0 4px">You: The chart is from slide 8 of the board deck. The PDF is the draft report this chart belongs to. The CSV is the raw data behind the chart. I need to know: does the chart accurately represent the data, does the commentary in Section 4 of the report match what the data shows, and what's the most important insight the board should take away?</div>
+          <div style="background:#1A0E05;border-radius:8px;padding:16px">
+            <div style="font-size:12px;color:#8A6040;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Claude</div>
+            <div style="font-size:13px;color:#C8B09A;line-height:1.7">
+              <strong style="color:#E09868">Chart accuracy:</strong> The chart correctly represents Q3 data from the CSV, with one minor issue — the Y-axis starts at $400k rather than zero, which visually exaggerates the growth trend. The underlying growth is real (18% QoQ), but the presentation amplifies the visual impression.<br><br>
+              <strong style="color:#E09868">Section 4 alignment:</strong> The report commentary says revenue "accelerated sharply in Q3." The data shows consistent growth, not acceleration — the rate is similar to Q2. I'd suggest softening the language to "continued strong growth."<br><br>
+              <strong style="color:#E09868">Key board insight:</strong> Enterprise deals over $50k grew 34% while SMB deals declined 8%. This product/market mix shift is not mentioned in the current report and is the most strategically important finding in the data.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header"><div class="sec-num">11</div><h2>Your Roadmap</h2></div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step"><div class="rn">1</div><h4>Try Your First Image</h4><p>Upload a chart or screenshot from your work. Ask Claude to interpret it. See how specific your question needs to be.</p></div>
+        <div class="roadmap-step"><div class="rn">2</div><h4>Process a Document</h4><p>Upload a report or contract you deal with regularly. Ask for a specific extraction — not just "summarise".</p></div>
+        <div class="roadmap-step"><div class="rn">3</div><h4>Combine Two File Types</h4><p>Upload both a document and its underlying data. Ask Claude to check consistency. Notice how it reasons across both.</p></div>
+        <div class="roadmap-step"><div class="rn">4</div><h4>Build a Repeatable Workflow</h4><p>Find one multi-file task you do weekly. Build a Claude workflow around it — same upload structure, same prompt template, consistent output.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+<script>
+function switchTab(el,id){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function copyPrompt(btn){
+  const text=btn.closest('.prompt-item').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(()=>{btn.textContent='✓';setTimeout(()=>{btn.textContent='Copy'},1500)});
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l=>{
+        l.classList.toggle('active',l.getAttribute('href')==='#'+id);
+      });
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.section-card').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

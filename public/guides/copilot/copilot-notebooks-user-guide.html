@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Copilot Notebooks — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --purple:#5E17EB;--purple-l:#8B5CF6;--purple-soft:#F0EAFF;
+  --blue:#0078D4;--blue-l:#60A5FA;--blue-soft:#EFF6FF;
+  --orange:#EA6C1A;--orange-l:#F97316;--orange-soft:#FFF7ED;
+  --yellow:#CA8A04;--yellow-soft:#FEFCE8;
+  --page-bg:#EBF1FF;--sidebar-bg:#1E1456;
+  --card-bg:#F7F4FF;--hdr-bg:#EDE8FF;--border:#D0C5F5;
+  --ink:#1E1456;--text-mid:#3D3080;--muted:#7264A8;
+  --green:#1B6B3A;--green-bg:#E6F4EC;
+  --warn:#B45309;--warn-bg:#FFF8E1;
+  --red:#C43E00;--red-soft:#FFF0E8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--purple-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--muted);padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#C8B8FF;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--purple-l);background:rgba(139,92,246,.15)}
+
+/* main */
+.content{max-width:860px;padding:40px 40px 80px}
+
+/* banner */
+.banner{background:linear-gradient(135deg,#1E1456 0%,#2D0B7A 60%,#1E1456 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'◈ ◉ ◈ ◉ ◈';position:absolute;top:14px;right:22px;font-size:16px;opacity:.15;letter-spacing:10px;color:#C8B8FF}
+.banner::after{content:'◈ ◉ ◈ ◉ ◈';position:absolute;bottom:14px;left:22px;font-size:16px;opacity:.12;letter-spacing:10px;color:#C8B8FF}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--purple-l);text-transform:uppercase;margin-bottom:10px}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px}
+.banner p{font-size:15px;color:#C8B8FF;max-width:580px;margin:0 auto}
+.banner-badge{display:inline-block;background:rgba(139,92,246,.3);color:#C8B8FF;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:16px;letter-spacing:.06em}
+
+/* section card */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 2px 8px rgba(94,23,235,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--purple);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--purple-l);margin-top:2px}
+.section-body{padding:22px}
+
+/* callouts */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.copilot{background:var(--purple-soft);border-left:4px solid var(--purple)}
+.callout.copilot .callout-body strong{color:var(--purple)}
+
+/* feature cards */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{border-radius:8px;padding:18px;border:1px solid var(--border)}
+.feature-card .card-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.fc-purple{background:var(--card-bg);border-top:3px solid var(--purple)}
+.fc-blue{background:var(--blue-soft);border-top:3px solid var(--blue)}
+.fc-orange{background:var(--orange-soft);border-top:3px solid var(--orange)}
+.fc-yellow{background:var(--yellow-soft);border-top:3px solid var(--yellow)}
+
+/* steps */
+.step{display:flex;gap:14px;margin:10px 0;align-items:flex-start}
+.step-num{background:var(--purple);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--text-mid);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--purple-l);font-weight:600;font-size:12px;padding:9px 12px;text-align:left}
+.ref-table td{padding:9px 12px;color:var(--text-mid);vertical-align:top;border:1px solid var(--border)}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+.ref-table tr:nth-child(odd) td{background:#fff}
+
+/* ── notebook panel — unique to Notebooks guide ── */
+/* Shows persistent context sidebar + Copilot response side by side */
+.notebook-panel{display:grid;grid-template-columns:220px 1fr;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:14px 0;box-shadow:0 2px 10px rgba(94,23,235,.08)}
+.nb-context{background:var(--sidebar-bg);padding:16px}
+.nb-context-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--purple-l);text-transform:uppercase;margin-bottom:12px}
+.nb-ctx-section{margin-bottom:14px}
+.nb-ctx-title{font-size:11px;font-weight:700;color:#A78BFA;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.nb-ctx-item{font-size:12px;color:#C8B8FF;padding:4px 8px;border-radius:4px;margin:3px 0;background:rgba(139,92,246,.15);display:flex;align-items:center;gap:6px}
+.nb-ctx-item::before{content:'◈';color:var(--purple-l);font-size:9px}
+.nb-instruction{font-size:12px;color:#E0D4FF;line-height:1.5;padding:8px 10px;background:rgba(94,23,235,.2);border-radius:4px;border-left:3px solid var(--purple-l)}
+.nb-interaction{background:var(--page-bg);display:flex;flex-direction:column}
+.nb-int-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:8px}
+.nb-int-header span{font-size:12px;font-weight:700;color:var(--ink)}
+.nb-int-header small{font-size:11px;color:var(--muted)}
+.nb-prompt{background:#fff;border:1px solid var(--border);border-radius:6px;margin:14px 16px 8px;padding:10px 14px}
+.nb-prompt-label{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--purple);text-transform:uppercase;margin-bottom:5px}
+.nb-prompt p{font-size:13px;color:var(--text-mid);font-style:italic;line-height:1.5}
+.nb-response{background:var(--purple-soft);border:1px solid var(--border);border-radius:6px;margin:0 16px 16px;padding:12px 14px}
+.nb-response-label{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--purple);text-transform:uppercase;margin-bottom:6px}
+.nb-response p{font-size:13px;color:var(--text-mid);line-height:1.6}
+.nb-response strong{color:var(--ink)}
+.nb-gap{height:10px}
+
+/* context chip */
+.context-chip{display:inline-flex;align-items:center;gap:5px;background:var(--purple-soft);border:1px solid var(--border);border-radius:12px;padding:3px 10px;font-size:12px;color:var(--purple);font-weight:600;margin:3px 3px 3px 0}
+
+/* collab card */
+.collab-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0}
+.collab-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px}
+.collab-card .cc-icon{font-size:20px;margin-bottom:8px}
+.collab-card h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.collab-card p{font-size:12px;color:var(--text-mid);line-height:1.5}
+
+/* prompt tabs */
+.prompt-tabs{margin:12px 0}
+.tab-buttons{display:flex;gap:0;border-bottom:2px solid var(--border)}
+.tab-btn{padding:8px 18px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:var(--purple);border-bottom-color:var(--purple)}
+.prompt-box{display:none;padding:16px 0}
+.prompt-box.active{display:block}
+.prompt-item{background:var(--sidebar-bg);border-radius:8px;margin:10px 0;overflow:hidden}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--purple-l);padding:9px 16px;text-transform:uppercase}
+.prompt-text{background:var(--card-bg);border:1px solid var(--border);border-top:none;padding:14px 16px;font-size:13px;color:var(--text-mid);font-style:italic;line-height:1.6;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.copy-btn{background:var(--purple);color:#fff;border:none;border-radius:5px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.copy-btn:hover{background:var(--purple-l)}
+
+/* trouble */
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:10px 0}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--purple);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{padding:12px 16px;font-size:13px;color:var(--text-mid);line-height:1.55}
+
+/* do / avoid */
+.do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.do-col{border-radius:8px;padding:18px}
+.do-col.do{background:var(--green-bg);border-top:3px solid var(--green)}
+.do-col.avoid{background:var(--red-soft);border-top:3px solid var(--red)}
+.do-col h4{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.do-col.do h4{color:var(--green)}
+.do-col.avoid h4{color:var(--red)}
+.do-col ul{list-style:none;padding:0}
+.do-col li{font-size:13px;color:var(--text-mid);padding:4px 0 4px 16px;position:relative}
+.do-col.do li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+.do-col.avoid li::before{content:'✗';position:absolute;left:0;color:var(--red);font-weight:700}
+
+/* mockup */
+.mockup{background:#1A1A2E;border-radius:10px;padding:20px;margin:12px 0}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.roadmap-step{border-radius:8px;padding:18px;background:#fff;border:1px solid var(--border)}
+.roadmap-step.s1{border-top:4px solid var(--purple)}
+.roadmap-step.s2{border-top:4px solid var(--orange)}
+.roadmap-step.s3{border-top:4px solid var(--blue)}
+.roadmap-step.s4{border-top:4px solid var(--yellow)}
+.roadmap-num{font-size:28px;font-weight:800;margin-bottom:6px}
+.roadmap-step.s1 .roadmap-num{color:var(--purple)}
+.roadmap-step.s2 .roadmap-num{color:var(--orange)}
+.roadmap-step.s3 .roadmap-num{color:var(--blue)}
+.roadmap-step.s4 .roadmap-num{color:var(--yellow)}
+.roadmap-step h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12px;color:var(--text-mid);line-height:1.5}
+
+h3.sub{font-size:15px;font-weight:700;color:var(--ink);margin:18px 0 10px}
+p.body-text{font-size:14px;color:var(--text-mid);line-height:1.65;margin:8px 0}
+.sec-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--purple-l);text-transform:uppercase;margin:18px 0 10px}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <nav>
+    <div class="nav-section">Copilot Notebooks</div>
+    <a class="nav-link" href="#s01" onclick="scrollTo('s01')">01 · What is Copilot Notebook?</a>
+    <a class="nav-link" href="#s02" onclick="scrollTo('s02')">02 · Setting Up a Notebook</a>
+    <a class="nav-link" href="#s03" onclick="scrollTo('s03')">03 · Building Your Knowledge Base</a>
+    <a class="nav-link" href="#s04" onclick="scrollTo('s04')">04 · Research &amp; Synthesis</a>
+    <a class="nav-link" href="#s05" onclick="scrollTo('s05')">05 · Drafting Project Deliverables</a>
+    <a class="nav-link" href="#s06" onclick="scrollTo('s06')">06 · Managing Long-Running Projects</a>
+    <a class="nav-link" href="#s07" onclick="scrollTo('s07')">07 · Team Collaboration</a>
+    <a class="nav-link" href="#s08" onclick="scrollTo('s08')">08 · Common Mistakes &amp; Fixes</a>
+    <a class="nav-link" href="#s09" onclick="scrollTo('s09')">09 · Suggested Prompts</a>
+    <a class="nav-link" href="#s10" onclick="scrollTo('s10')">10 · See It In Action</a>
+    <a class="nav-link" href="#s11" onclick="scrollTo('s11')">11 · Your Roadmap</a>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<main class="content">
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-eyebrow">The AI Advantage Co · Copilot Series</div>
+    <h1>📓&nbsp; Copilot Notebooks</h1>
+    <p>A persistent AI workspace for your projects — with context that carries across every session</p>
+    <div class="banner-badge">Microsoft 365 Copilot · Notebooks</div>
+  </div>
+
+  <!-- 01 -->
+  <div class="section-card" id="s01">
+    <div class="section-header">
+      <div class="sec-num">01</div>
+      <div>
+        <h2>What is Copilot Notebook?</h2>
+        <p>AI that remembers your project — not just your last message</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Copilot Notebook is a persistent AI workspace within Microsoft 365 Copilot. Unlike a standard chat session that resets every time, a Notebook keeps your project context alive — the documents you've added, the instructions you've set, and the reference material you've curated stay in place across every session.</p>
+      <p class="body-text">For project work, this changes everything. Instead of re-explaining your project to Copilot every time you open it, the Notebook already knows: who the client is, what the brief says, what's been agreed, and how you want responses structured. You pick up exactly where you left off.</p>
+
+      <div class="card-grid" style="margin-top:18px">
+        <div class="feature-card fc-purple">
+          <div class="card-icon">📌</div>
+          <h4>Persistent Context</h4>
+          <p>Add instructions, project briefs, key decisions, and reference docs once. Copilot uses them automatically in every interaction within that Notebook — no re-explaining required.</p>
+        </div>
+        <div class="feature-card fc-blue">
+          <div class="card-icon">📂</div>
+          <h4>Project Knowledge Base</h4>
+          <p>Upload or link the documents that matter for this project. Copilot can reference, synthesise, and quote from them in any response — your project files become queryable knowledge.</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">✍️</div>
+          <h4>Consistent Drafting</h4>
+          <p>Generate project deliverables — emails, reports, status updates, proposals — with Copilot already knowing the project context, tone guidelines, and audience.</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">👥</div>
+          <h4>Team Collaboration</h4>
+          <p>Share a Notebook with your team so everyone works from the same AI-powered context. Consistent answers, consistent outputs — no matter who's asking.</p>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:18px">Notebook vs Standard Copilot Chat</h3>
+      <table class="ref-table">
+        <thead><tr><th>Feature</th><th>Standard Copilot Chat</th><th>Copilot Notebook</th></tr></thead>
+        <tbody>
+          <tr><td>Context persistence</td><td>Resets each session</td><td>Permanent until you change it</td></tr>
+          <tr><td>Project instructions</td><td>Must re-enter every time</td><td>Set once, always active</td></tr>
+          <tr><td>Reference documents</td><td>Re-attach per session</td><td>Linked permanently to the Notebook</td></tr>
+          <tr><td>Team access</td><td>Personal only</td><td>Shareable with colleagues</td></tr>
+          <tr><td>Best for</td><td>One-off questions &amp; quick tasks</td><td>Ongoing projects &amp; team work</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout copilot" style="margin-top:14px">
+        <span class="callout-icon">✨</span>
+        <div class="callout-body">
+          <strong>One Notebook Per Project</strong>
+          <p>The most effective pattern is one Notebook per active project. Each Notebook holds that project's context, documents, and instructions — separate from everything else. When the project ends, the Notebook becomes a searchable archive of all the AI-assisted work done on it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="section-card" id="s02">
+    <div class="section-header">
+      <div class="sec-num">02</div>
+      <div>
+        <h2>Setting Up a Notebook</h2>
+        <p>Create your project workspace and configure the context Copilot will always use</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Setting up a Notebook takes around 10 minutes but pays back every time you open it. A well-configured Notebook means Copilot already understands the project before you ask your first question.</p>
+
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Open Microsoft 365 Copilot and create a new Notebook</h4><p>In the Microsoft 365 Copilot app, select Notebooks from the left nav. Click "New Notebook," give it a clear project name (e.g. "Contoso Rebrand Q3" or "Annual Report 2026"), and choose whether it's personal or shared with your team.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Write your project instructions</h4><p>The instruction block is the most important part of your Notebook. This is where you tell Copilot everything it needs to know about the project: what it is, who the stakeholders are, the tone to use, what to prioritise, and any constraints. Write it as if briefing a new team member on day one.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Add your reference documents</h4><p>Link or upload the core project files: the brief, scope of work, key decisions log, brand guidelines, or any document Copilot should be able to reference. These become permanently available within this Notebook.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Test with a calibration prompt</h4><p>Before using the Notebook for real work, test it: "Based on the project context and documents in this Notebook, give me a 5-bullet summary of the project goals, key constraints, and success criteria." The response shows you whether the context is complete and accurate.</p></div></div>
+
+      <h3 class="sub" style="margin-top:20px">Writing Effective Project Instructions</h3>
+      <p class="body-text">Your instruction block is what Copilot uses every time it responds. The more precise and complete it is, the less you'll need to specify in individual prompts.</p>
+
+      <div class="notebook-panel">
+        <div class="nb-context">
+          <div class="nb-context-label">📓 Notebook Context</div>
+          <div class="nb-ctx-section">
+            <div class="nb-ctx-title">Instructions</div>
+            <div class="nb-instruction">This Notebook is for the Contoso rebrand project. Always refer to the client as "Contoso" (not "the client"). Responses should be professional but direct. When drafting communications, default to formal English. Flag any decision that wasn't covered in the brief.</div>
+          </div>
+          <div class="nb-ctx-section">
+            <div class="nb-ctx-title">Documents</div>
+            <div class="nb-ctx-item">Project Brief v2.docx</div>
+            <div class="nb-ctx-item">Brand Guidelines.pdf</div>
+            <div class="nb-ctx-item">Decisions Log.xlsx</div>
+          </div>
+        </div>
+        <div class="nb-interaction">
+          <div class="nb-int-header">
+            <span>Copilot Chat</span>
+            <small style="margin-left:auto">Notebook: Contoso Rebrand Q3</small>
+          </div>
+          <div class="nb-prompt">
+            <div class="nb-prompt-label">Your prompt</div>
+            <p>What are the three biggest open decisions we still need to make on this project?</p>
+          </div>
+          <div class="nb-response">
+            <div class="nb-response-label">Copilot (using Notebook context)</div>
+            <p>Based on the Project Brief v2 and Decisions Log, the three biggest open items for the Contoso rebrand are: <strong>(1) Logo usage on digital vs print collateral</strong> — the brief notes this is TBC pending Contoso's brand team sign-off. <strong>(2) The go-live date</strong> — brief shows two options (1 Sept vs 1 Oct) with no final decision recorded. <strong>(3) Sub-brand treatment</strong> — not addressed in the brief at all, which the instructions flag as a gap to raise.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip" style="margin-top:14px">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Include "What to Always Flag"</strong>
+          <p>Add a line to your instructions like: "Flag any question or request that the project documents don't address — don't guess, just highlight the gap." This turns Copilot into a quality-control layer, surfacing assumptions before they become problems.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="section-card" id="s03">
+    <div class="section-header">
+      <div class="sec-num">03</div>
+      <div>
+        <h2>Building Your Project Knowledge Base</h2>
+        <p>Add documents, decisions, and reference material that Copilot can always access</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The more relevant material you add to a Notebook, the more accurate and useful Copilot's responses become. Think of the knowledge base as the project's source of truth — anything Copilot might need to reference, quote, or reason from should be here.</p>
+
+      <div class="card-grid">
+        <div class="feature-card fc-purple">
+          <div class="card-icon">📋</div>
+          <h4>Project Foundation Docs</h4>
+          <p>The brief, scope of work, proposal, or statement of work. These define what the project is and what success looks like — Copilot uses them to ground every response.</p>
+        </div>
+        <div class="feature-card fc-blue">
+          <div class="card-icon">📝</div>
+          <h4>Decisions &amp; Notes</h4>
+          <p>Meeting notes, decisions logs, and agreed changes. Add these as they accumulate — Copilot will reference the latest version, keeping its responses current with the project state.</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">📊</div>
+          <h4>Data &amp; Research</h4>
+          <p>Reports, research papers, competitor analysis, or market data. Copilot can synthesise and quote from these when drafting analysis or recommendations.</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">🎨</div>
+          <h4>Style &amp; Brand Guides</h4>
+          <p>Brand guidelines, tone of voice docs, style guides. Add these and instruct Copilot to follow them — output will align with your organisation's standards without reminders.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">What to Add — and When</h3>
+      <table class="ref-table">
+        <thead><tr><th>Document Type</th><th>Add When</th><th>Why It Helps</th></tr></thead>
+        <tbody>
+          <tr><td>Project brief / SOW</td><td>At setup — Day 1</td><td>Grounds all Copilot responses in the agreed scope and objectives</td></tr>
+          <tr><td>Meeting notes</td><td>After each key meeting</td><td>Keeps Copilot current with decisions and changes — prevents stale advice</td></tr>
+          <tr><td>Stakeholder comms</td><td>As received / sent</td><td>Copilot can reference tone, agreed positions, and open commitments</td></tr>
+          <tr><td>Research &amp; data</td><td>When gathered</td><td>Enables Copilot to synthesise findings rather than relying on your memory</td></tr>
+          <tr><td>Draft outputs</td><td>After team review</td><td>Copilot can build on approved drafts rather than starting from scratch</td></tr>
+          <tr><td>Risk / issue log</td><td>Maintained live</td><td>Copilot can flag when a new request conflicts with a known risk</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">
+          <strong>Quality Over Quantity</strong>
+          <p>Adding too many documents can dilute Copilot's focus. Prioritise the 5–8 most important files for the current phase. Archive documents that are no longer relevant to active work — you can always add them back if needed. A focused knowledge base produces better responses than a cluttered one.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section-card" id="s04">
+    <div class="section-header">
+      <div class="sec-num">04</div>
+      <div>
+        <h2>Research &amp; Synthesis</h2>
+        <p>Use Copilot to analyse, compare, and surface insights from your project documents</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">Once your knowledge base is populated, Copilot can do analytical work that would take hours manually — comparing documents, identifying gaps, synthesising research, and extracting the information that matters most for your current task.</p>
+
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Ask Copilot to compare documents</h4><p>"Compare the project brief with the latest meeting notes. What has changed from the original scope, and what has been formally agreed vs what is still being discussed?"</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Surface gaps and contradictions</h4><p>"Review all documents in this Notebook. Are there any contradictions between the brief and the decisions log? Are there any topics the brief raises that haven't been resolved in the meeting notes?"</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Extract structured information</h4><p>"From all the meeting notes in this Notebook, create a table of: Decision made | Date | Owner | Status. Include only decisions that have been formally agreed."</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Synthesise for a specific audience</h4><p>"Summarise the key project findings from the research documents in this Notebook into a 200-word executive summary suitable for someone who hasn't been involved in the project."</p></div></div>
+
+      <h3 class="sub" style="margin-top:20px">High-Value Research Tasks</h3>
+
+      <div class="notebook-panel">
+        <div class="nb-context">
+          <div class="nb-context-label">📓 Notebook Context</div>
+          <div class="nb-ctx-section">
+            <div class="nb-ctx-title">Documents</div>
+            <div class="nb-ctx-item">Market Research Report.pdf</div>
+            <div class="nb-ctx-item">Competitor Analysis.docx</div>
+            <div class="nb-ctx-item">Customer Survey Results.xlsx</div>
+            <div class="nb-ctx-item">Strategy Brief.docx</div>
+          </div>
+          <div class="nb-ctx-section">
+            <div class="nb-ctx-title">Instructions</div>
+            <div class="nb-instruction">Focus on actionable insights. Always cite which document a finding comes from. Flag anything that contradicts the Strategy Brief.</div>
+          </div>
+        </div>
+        <div class="nb-interaction">
+          <div class="nb-int-header">
+            <span>Copilot Chat</span>
+            <small style="margin-left:auto">Notebook: Market Expansion Project</small>
+          </div>
+          <div class="nb-prompt">
+            <div class="nb-prompt-label">Your prompt</div>
+            <p>What do the three research documents tell us about customer pricing sensitivity? Are there any contradictions with our strategy brief?</p>
+          </div>
+          <div class="nb-response">
+            <div class="nb-response-label">Copilot (synthesising across documents)</div>
+            <p><strong>Market Research Report</strong> shows 67% of customers cite price as the primary switching factor. <strong>Customer Survey</strong> contradicts this — only 38% rate price above product quality. ⚠️ <strong>Contradiction with Strategy Brief:</strong> the brief assumes price-led positioning, but the survey data suggests quality messaging may be more persuasive for your target segment. Worth resolving before campaign brief is finalised.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip" style="margin-top:14px">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Ask for Citations</strong>
+          <p>Always include "cite the source document and page/section" in research prompts. This lets you verify Copilot's synthesis against the originals and ensures the analysis is traceable — important when sharing findings with stakeholders.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section-card" id="s05">
+    <div class="section-header">
+      <div class="sec-num">05</div>
+      <div>
+        <h2>Drafting Project Deliverables</h2>
+        <p>Generate status updates, reports, emails, and proposals — context already loaded</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">With your Notebook configured, drafting project deliverables becomes dramatically faster. Copilot already knows the project, the client, the tone guidelines, and the current status — so a "draft the weekly update" prompt produces something substantially closer to finished than the same prompt in a blank chat.</p>
+
+      <div class="card-grid">
+        <div class="feature-card fc-purple">
+          <div class="card-icon">📊</div>
+          <h4>Status Reports</h4>
+          <p>"Draft this week's project status report. Use the RAG format. Base it on the most recent meeting notes and decisions log. Flag the two biggest risks with owners and mitigation steps."</p>
+        </div>
+        <div class="feature-card fc-blue">
+          <div class="card-icon">📧</div>
+          <h4>Stakeholder Emails</h4>
+          <p>"Draft an email to the Contoso steering group summarising where we are against the brief, what we've decided this week, and what we need their input on by Friday."</p>
+        </div>
+        <div class="feature-card fc-orange">
+          <div class="card-icon">📋</div>
+          <h4>Meeting Agendas &amp; Packs</h4>
+          <p>"Create the agenda for next week's project review. Include the three open decisions that need resolution and build in 10 minutes for risks. Format as a Word-ready table."</p>
+        </div>
+        <div class="feature-card fc-yellow">
+          <div class="card-icon">🔄</div>
+          <h4>Change Requests &amp; Briefings</h4>
+          <p>"Draft a change request for the scope addition discussed in the 14 May meeting notes. Capture what's changed, the impact on timeline and budget, and what approval is needed."</p>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:18px">The Deliverable Drafting Workflow</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Update the Notebook before drafting</h4><p>Before asking Copilot to draft anything, check that the most recent meeting notes and decisions are in the Notebook. Copilot drafts from what's there — stale documents produce stale drafts.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Specify the format and audience</h4><p>Tell Copilot the format (email, bullet list, Word table, slide content), the audience (client, internal team, steering group), and the length (under 300 words, one A4 page). These three inputs shape output more than anything else.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Review, refine, and confirm facts</h4><p>Always verify the specific figures, names, and dates Copilot includes. It references your documents accurately, but project docs evolve — any detail that's changed since the last update may not be reflected.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Add the approved draft back to the Notebook</h4><p>Once a deliverable is reviewed and approved, add it to the Notebook as a reference document. Future drafts will build on approved outputs rather than starting from scratch — maintaining consistency across the project lifecycle.</p></div></div>
+
+      <div class="callout copilot">
+        <span class="callout-icon">✨</span>
+        <div class="callout-body">
+          <strong>Instruct Once, Draft Many Times</strong>
+          <p>Add your deliverable templates to the instructions: "When drafting status reports, always use the RAG format with sections: Summary / Progress / Risks / Decisions Needed. Never include assumptions as facts." One instruction shapes every status report for the life of the project.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="section-card" id="s06">
+    <div class="section-header">
+      <div class="sec-num">06</div>
+      <div>
+        <h2>Managing Long-Running Projects</h2>
+        <p>Keep your Notebook current as the project evolves — week by week</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">A Notebook is most valuable on long-running projects where context accumulates over weeks or months. The discipline is keeping it current — a Notebook that's three weeks out of date gives outdated answers. A well-maintained Notebook effectively gives you a project assistant with perfect memory.</p>
+
+      <h3 class="sub">The Weekly Notebook Maintenance Routine</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Add this week's meeting notes</h4><p>Upload or paste notes from all project meetings held this week. Even rough notes are useful — Copilot can extract the decisions and actions from them. Use the naming convention: "YYYY-MM-DD — [Meeting Name]" to make documents easy to reference.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Update the decisions log</h4><p>If you maintain a formal decisions log as a document, update it and re-upload. Ask Copilot: "Based on this week's meeting notes, what new decisions were made? I'll add them to the decisions log." Use Copilot to populate the log for you.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Remove or archive outdated documents</h4><p>Remove early drafts once a final version exists. Remove superseded briefs. A document that's been replaced causes confusion — Copilot may reference the old version. Keep only the most current version of each document type.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Run a weekly project pulse check</h4><p>End each week with: "Based on all documents in this Notebook, what are the top 3 risks heading into next week, what decisions are still outstanding, and is there anything the team has committed to that hasn't been tracked?" This 2-minute prompt surfaces what would otherwise slip.</p></div></div>
+
+      <h3 class="sub" style="margin-top:20px">Using Copilot as Your Project Memory</h3>
+      <table class="ref-table">
+        <thead><tr><th>Question You Can Ask</th><th>What Copilot References</th></tr></thead>
+        <tbody>
+          <tr><td>"When did we agree to extend the timeline?"</td><td>Meeting notes and decisions log in the Notebook</td></tr>
+          <tr><td>"What did we promise the client about X?"</td><td>Stakeholder comms and approved outputs</td></tr>
+          <tr><td>"Has the scope changed since the original brief?"</td><td>Brief vs later meeting notes and change requests</td></tr>
+          <tr><td>"Who owns the risk around supplier delays?"</td><td>Risk log and any meeting note that named an owner</td></tr>
+          <tr><td>"What's still open from the kick-off meeting?"</td><td>Early meeting notes vs later decisions</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Notebook as Project Archive</strong>
+          <p>When the project completes, don't delete the Notebook. Archive it. A project Notebook is a complete, searchable record of everything the team produced, decided, and discussed — with AI-powered recall. "What approach did we take on the Contoso project for X?" becomes a question you can answer in 30 seconds, months later.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section-card" id="s07">
+    <div class="section-header">
+      <div class="sec-num">07</div>
+      <div>
+        <h2>Team Collaboration</h2>
+        <p>Share your Notebook so the whole team works from the same AI context</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">A shared Notebook means your entire team works with the same project context, the same reference documents, and the same AI behaviour. This eliminates the inconsistency that happens when everyone is using Copilot separately — and ensures that new team members get up to speed from the same source of truth.</p>
+
+      <h3 class="sub">How Team Notebooks Work</h3>
+
+      <div class="notebook-panel">
+        <div class="nb-context">
+          <div class="nb-context-label">📓 Shared Notebook</div>
+          <div class="nb-ctx-section">
+            <div class="nb-ctx-title">Team Members</div>
+            <div class="nb-ctx-item">Sarah K · Project Lead</div>
+            <div class="nb-ctx-item">Marcus P · Delivery</div>
+            <div class="nb-ctx-item">Emma R · Client Lead</div>
+            <div class="nb-ctx-item">Jamie T · New starter</div>
+          </div>
+          <div class="nb-ctx-section">
+            <div class="nb-ctx-title">Instructions</div>
+            <div class="nb-instruction">All team members use this Notebook for project work. Sarah K approves any changes to instructions. New starters should begin with the onboarding prompt below.</div>
+          </div>
+        </div>
+        <div class="nb-interaction">
+          <div class="nb-int-header">
+            <span>Jamie T · First day on project</span>
+            <small style="margin-left:auto">Notebook: Contoso Rebrand Q3</small>
+          </div>
+          <div class="nb-prompt">
+            <div class="nb-prompt-label">Jamie's first prompt</div>
+            <p>I'm joining this project today. Based on everything in this Notebook, give me a concise briefing: what the project is, where we are, the key decisions made, and what I should focus on in my first week.</p>
+          </div>
+          <div class="nb-response">
+            <div class="nb-response-label">Copilot (briefing from full Notebook context)</div>
+            <p><strong>Project:</strong> Contoso full brand refresh, targeting a 1 Oct go-live. <strong>Where we are:</strong> Week 6 of 16 — brief agreed, visual identity in concept phase. <strong>Key decisions:</strong> Logo direction confirmed (brief v2), sub-brand treatment still open. <strong>Your week 1:</strong> Review Project Brief v2, attend Thursday brand review, and check the decisions log for the open items you'll be expected to contribute to.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:20px">Collaboration Patterns</h3>
+      <div class="collab-grid">
+        <div class="collab-card">
+          <div class="cc-icon">🆕</div>
+          <h4>Onboarding New Team Members</h4>
+          <p>Share the Notebook and give them the onboarding prompt: "Summarise the project for a new team member joining today." They're fully briefed in minutes, not hours.</p>
+        </div>
+        <div class="collab-card">
+          <div class="cc-icon">🔄</div>
+          <h4>Handovers &amp; Cover</h4>
+          <p>When someone is on leave, the covering colleague has full project context immediately. No lengthy handover doc needed — the Notebook is the handover.</p>
+        </div>
+        <div class="collab-card">
+          <div class="cc-icon">🤝</div>
+          <h4>Cross-Functional Teams</h4>
+          <p>Different disciplines (legal, finance, comms) can use the Notebook to ask project questions without needing a team member to brief them each time.</p>
+        </div>
+        <div class="collab-card">
+          <div class="cc-icon">📋</div>
+          <h4>Consistent Deliverables</h4>
+          <p>Everyone generates status updates, emails, and reports from the same context and instructions — so all team output sounds consistent regardless of author.</p>
+        </div>
+        <div class="collab-card">
+          <div class="cc-icon">🔒</div>
+          <h4>Owner Controls</h4>
+          <p>The Notebook owner controls who can edit instructions and add documents, vs who can only read and interact. Protect the context from accidental changes.</p>
+        </div>
+        <div class="collab-card">
+          <div class="cc-icon">📊</div>
+          <h4>Meeting Prep</h4>
+          <p>Before project meetings, team members each ask: "What should I focus on for today's review based on my role?" Copilot gives role-specific prep from shared context.</p>
+        </div>
+      </div>
+
+      <div class="callout warn" style="margin-top:14px">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Nominate One Notebook Owner</strong>
+          <p>Without a designated owner, shared Notebooks accumulate duplicate documents, conflicting instructions, and outdated material. One person should own the Notebook — maintaining instructions, approving document additions, and running the weekly cleanup. Typically the project lead or delivery manager.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="section-card" id="s08">
+    <div class="section-header">
+      <div class="sec-num">08</div>
+      <div>
+        <h2>Common Mistakes &amp; Fixes</h2>
+        <p>What goes wrong — and how to fix it</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="trouble-item">
+        <div class="trouble-q">Copilot gives outdated or inaccurate answers</div>
+        <div class="trouble-a">The most common cause is stale documents in the Notebook. Copilot references what's there — if the meeting notes from three weeks ago say one thing, and an undocumented decision changed it since, Copilot doesn't know. Maintain a weekly update habit: add new meeting notes, update the decisions log, and remove superseded document versions. Also try: "Based on the documents in this Notebook, are there any areas where information might be outdated or missing?"</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">The Notebook context is ignored and responses feel generic</div>
+        <div class="trouble-a">Check your instruction block — is it specific enough? Vague instructions like "this is a marketing project" give Copilot very little to work with. Rewrite instructions to be concrete: who the client is, what the project deliverable is, what tone to use, and what Copilot should always or never do. Also verify that documents are correctly linked and accessible — if a document failed to attach, Copilot has no awareness of it.</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">Team members are getting inconsistent answers from the same Notebook</div>
+        <div class="trouble-a">This usually happens when team members are phrasing prompts very differently, or when someone has edited the instructions. Check the instruction block for recent changes and restore consistency. Also consider adding standard prompt templates to the Notebook instructions: "When asking for a status update, use this prompt format: [template]." Standardising the prompt standardises the output.</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">The Notebook has too many documents and responses are becoming unfocused</div>
+        <div class="trouble-a">A Notebook with 20+ documents of varying relevance dilutes Copilot's focus. Archive documents from completed project phases. Remove duplicates and old drafts. Add a note to your instructions: "Prioritise the Project Brief, latest meeting notes, and current decisions log when answering questions." Explicit prioritisation in the instructions helps Copilot weight the most important documents.</div>
+      </div>
+
+      <div class="trouble-item" style="margin-top:10px">
+        <div class="trouble-q">A new team member edited the instructions and broke the Notebook behaviour</div>
+        <div class="trouble-a">This is why Notebook ownership matters. Set permissions so only the Notebook owner can edit instructions. Keep a copy of your original instruction block in a separate doc so you can restore it quickly. Consider version-noting major instruction changes in the instructions themselves: "Updated 14 May — added client approval workflow section."</div>
+      </div>
+
+      <div class="do-avoid" style="margin-top:20px">
+        <div class="do-col do">
+          <h4>✓ Do This</h4>
+          <ul>
+            <li>Write specific, detailed instructions at setup</li>
+            <li>Update the Notebook after every project meeting</li>
+            <li>Nominate one owner for shared Notebooks</li>
+            <li>Archive — don't delete — completed Notebooks</li>
+            <li>Run a weekly pulse-check prompt to surface gaps</li>
+          </ul>
+        </div>
+        <div class="do-col avoid">
+          <h4>✗ Avoid This</h4>
+          <ul>
+            <li>Vague instructions that don't specify client, tone, or scope</li>
+            <li>Leaving outdated documents alongside newer versions</li>
+            <li>Sharing edit access with the whole team without an owner</li>
+            <li>Using a Notebook for unrelated projects</li>
+            <li>Trusting outputs without checking document currency</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 -->
+  <div class="section-card" id="s09">
+    <div class="section-header">
+      <div class="sec-num">09</div>
+      <div>
+        <h2>Suggested Prompts</h2>
+        <p>Ready-to-use prompts for project work and team collaboration</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="prompt-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="showTab(this,'project')">Project Work</button>
+          <button class="tab-btn" onclick="showTab(this,'team')">Team &amp; Collaboration</button>
+        </div>
+
+        <div class="prompt-box active" id="tab-project">
+          <div class="prompt-item">
+            <div class="prompt-label">Weekly Project Pulse Check</div>
+            <div class="prompt-text">
+              <span>Based on all documents in this Notebook, give me: (1) the top 3 risks heading into next week with owners, (2) any decisions that are still open and need resolution, (3) any commitments made in meeting notes that haven't been captured in the decisions log, and (4) anything that contradicts the original project brief. Be specific and cite which document each item comes from.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Draft a Status Report</div>
+            <div class="prompt-text">
+              <span>Based on the project documents and meeting notes in this Notebook, draft this week's status report in RAG format. Sections: (1) Overall Status [Red/Amber/Green with one sentence reason], (2) Progress This Week [3 bullets], (3) Key Risks [2 risks with owner and mitigation], (4) Decisions Needed [what requires input and from whom, by when]. Audience: [steering group / project sponsor]. Under 400 words.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Scope Change Assessment</div>
+            <div class="prompt-text">
+              <span>A change has been requested: [describe the change]. Based on the project brief and documents in this Notebook, assess: (1) Is this within the original scope or a change? (2) What is the likely impact on timeline and budget? (3) What decisions or approvals would be needed to proceed? (4) Are there any dependencies or risks this change creates? Be specific and reference the relevant sections of the brief.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-box" id="tab-team">
+          <div class="prompt-item">
+            <div class="prompt-label">New Team Member Onboarding Brief</div>
+            <div class="prompt-text">
+              <span>I'm [name], joining this project today as [role]. Based on everything in this Notebook, give me a structured briefing: (1) What is this project and what does success look like? (2) Where are we right now — what phase, what's been done, what's coming? (3) What are the key decisions already made that I need to know about? (4) What are the current open risks or issues? (5) What should I focus on in my first two weeks?</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Meeting Agenda from Notebook State</div>
+            <div class="prompt-text">
+              <span>Based on the current state of this Notebook — open decisions, risks, and this week's progress — create the agenda for [meeting name] on [date]. Include: time allocated to each item, who should lead each section, and what outcome we need from each agenda point. Flag any agenda item where we don't yet have enough information to make a decision — note what's missing.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-label">Handover Summary for Cover</div>
+            <div class="prompt-text">
+              <span>I'm handing over to [name] while I'm away from [date] to [date]. Based on this Notebook, create a handover briefing covering: (1) where the project is right now, (2) what's happening during my absence — meetings, deadlines, milestones, (3) decisions or actions that will need attention, (4) who to contact for what, and (5) anything that could go wrong and how to handle it. Make it self-contained — [name] hasn't been involved in this project before.</span>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="section-card" id="s10">
+    <div class="section-header">
+      <div class="sec-num">10</div>
+      <div>
+        <h2>See It In Action</h2>
+        <p>A Notebook managing a client rebrand project across a 12-week timeline</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="body-text">The example below shows a project Notebook in active use during week 8 of a 12-week client rebrand. The team lead asks Copilot for the weekly pulse check — surfacing risks, open decisions, and a gap in the project record that would otherwise have been missed.</p>
+
+      <div class="mockup">
+        <div style="display:grid;grid-template-columns:200px 1fr;gap:0;background:#1A1A2E;border-radius:8px;overflow:hidden">
+          <!-- Notebook sidebar -->
+          <div style="background:#0F0A2E;padding:16px;border-right:1px solid #3A2E6E">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#8B5CF6;text-transform:uppercase;margin-bottom:14px">📓 Notebooks</div>
+            <div style="background:#2D1B7A;border-radius:6px;padding:10px;margin-bottom:8px;border-left:3px solid #8B5CF6">
+              <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px">Contoso Rebrand</div>
+              <div style="font-size:10px;color:#8B7ECC">Week 8 · Active</div>
+            </div>
+            <div style="padding:10px;margin-bottom:6px;border-radius:6px">
+              <div style="font-size:12px;color:#6B5BB8">Annual Report 2026</div>
+              <div style="font-size:10px;color:#4A3D8A">Week 3 · Active</div>
+            </div>
+            <div style="padding:10px;border-radius:6px">
+              <div style="font-size:12px;color:#6B5BB8">Brand Audit Q2</div>
+              <div style="font-size:10px;color:#4A3D8A">Archived</div>
+            </div>
+          </div>
+          <!-- Chat area -->
+          <div style="padding:16px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#8B5CF6;text-transform:uppercase;margin-bottom:12px">Contoso Rebrand · Week 8 Pulse Check</div>
+            <!-- Prompt -->
+            <div style="background:#2A2060;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+              <div style="font-size:10px;font-weight:700;color:#8B5CF6;margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">Sarah K · Project Lead</div>
+              <div style="font-size:13px;color:#C8B8FF;font-style:italic;line-height:1.55">"Run the weekly pulse check — top risks, open decisions, anything that's been committed to but not tracked, and anything contradicting the brief."</div>
+            </div>
+            <!-- Response -->
+            <div style="background:#1E1456;border:1px solid #3A2E6E;border-radius:8px;padding:14px">
+              <div style="font-size:10px;font-weight:700;color:#F97316;margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase">✨ Copilot · Week 8 Pulse Check</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <div style="background:#2D1B7A;border-radius:6px;padding:10px">
+                  <div style="font-size:10px;font-weight:700;color:#FCA5A5;margin-bottom:6px;text-transform:uppercase">⚠ Top Risks</div>
+                  <div style="font-size:12px;color:#E0D4FF;line-height:1.5;margin-bottom:5px">• Sub-brand decision still open (Week 8 — was due Week 6). Owner: Marcus P</div>
+                  <div style="font-size:12px;color:#E0D4FF;line-height:1.5">• Print supplier not confirmed. Deadline impact if not resolved by Week 9</div>
+                </div>
+                <div style="background:#2D1B7A;border-radius:6px;padding:10px">
+                  <div style="font-size:10px;font-weight:700;color:#FED7AA;margin-bottom:6px;text-transform:uppercase">📋 Open Decisions</div>
+                  <div style="font-size:12px;color:#E0D4FF;line-height:1.5;margin-bottom:5px">• Logo usage on digital vs print (Brief v2 — TBC)</div>
+                  <div style="font-size:12px;color:#E0D4FF;line-height:1.5">• Go-live date: 1 Sept vs 1 Oct — no decision recorded</div>
+                </div>
+                <div style="background:#2D1B7A;border-radius:6px;padding:10px">
+                  <div style="font-size:10px;font-weight:700;color:#86EFAC;margin-bottom:6px;text-transform:uppercase">⚑ Gap Found</div>
+                  <div style="font-size:12px;color:#E0D4FF;line-height:1.5">11 May notes mention Emma R agreed to deliver stakeholder sign-off pack by 18 May — not in decisions log and no document found. Follow up.</div>
+                </div>
+                <div style="background:#2D1B7A;border-radius:6px;padding:10px">
+                  <div style="font-size:10px;font-weight:700;color:#93C5FD;margin-bottom:6px;text-transform:uppercase">📄 Brief Check</div>
+                  <div style="font-size:12px;color:#E0D4FF;line-height:1.5">No contradictions detected. Brief v2 is consistent with current meeting notes and decisions log.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="section-card" id="s11">
+    <div class="section-header">
+      <div class="sec-num">11</div>
+      <div>
+        <h2>Your Roadmap</h2>
+        <p>From first Notebook to AI-powered project management</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="roadmap">
+        <div class="roadmap-step s1">
+          <div class="roadmap-num">1</div>
+          <h4>First Notebook</h4>
+          <p>Set up a Notebook for one active project this week. Write a proper instruction block, add the brief and latest meeting notes, and run the calibration prompt to verify context.</p>
+        </div>
+        <div class="roadmap-step s2">
+          <div class="roadmap-num">2</div>
+          <h4>Weekly Rhythm</h4>
+          <p>Build the habit of updating the Notebook after every project meeting. Run the weekly pulse-check prompt every Friday. Within two weeks, you'll see why this matters.</p>
+        </div>
+        <div class="roadmap-step s3">
+          <div class="roadmap-num">3</div>
+          <h4>Team Notebook</h4>
+          <p>Migrate to a shared Notebook with your project team. Nominate an owner. Use it for onboarding, handovers, and consistent deliverable drafting across the team.</p>
+        </div>
+        <div class="roadmap-step s4">
+          <div class="roadmap-num">4</div>
+          <h4>Portfolio View</h4>
+          <p>Run multiple project Notebooks simultaneously. Use cross-Notebook queries to surface resource conflicts, shared risks, and patterns across your project portfolio.</p>
+        </div>
+      </div>
+
+      <div class="callout copilot" style="margin-top:20px">
+        <span class="callout-icon">✨</span>
+        <div class="callout-body">
+          <strong>The Goal: AI That Knows Your Project As Well As You Do</strong>
+          <p>The best Notebook is indistinguishable from a brilliant project assistant who's been on the project from day one — knows every decision, every commitment, every risk, and every stakeholder. That doesn't happen automatically. It happens because someone took 10 minutes at setup and 5 minutes each week. Start that habit on one real project this week.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+function showTab(btn, id){
+  btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  btn.closest('.prompt-tabs').querySelectorAll('.prompt-box').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function copyPrompt(btn){
+  const text = btn.previousElementSibling.textContent.trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(()=>{btn.textContent=orig},2000);
+  });
+}
+function scrollTo(id){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+const links = document.querySelectorAll('.nav-link');
+const sections = [...document.querySelectorAll('[id^="s0"],[id^="s1"]')];
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

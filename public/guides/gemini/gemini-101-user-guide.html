@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gemini 101 — User Guide | The AI Advantage Co</title>
+<style>
+:root{
+  --blue:#1A73E8;--blue-l:#4A94EB;--blue-soft:#EAF1FD;
+  --green:#34A853;--green-l:#5ABF72;--green-soft:#EAF7EE;
+  --yellow:#F9AB00;--yellow-l:#FBBD33;--yellow-soft:#FEF7E0;
+  --orange:#EA4335;--orange-l:#EE6B60;--orange-soft:#FEECEA;
+  --page-bg:#FFF5F4;--sidebar-bg:#1A0D00;
+  --card-bg:#FFFFFF;--hdr-bg:#FFEBE8;--border:#FDDCDA;
+  --ink:#1C0800;--text-mid:#4A2A24;--muted:#8A6A64;
+  --warn:#B45309;--warn-bg:#FEF9C3;
+  --red-deep:#C13B3B;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.brand{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--yellow-l);padding:0 20px 16px;text-transform:uppercase}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.1em;color:#5A3010;padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:block;font-size:13px;color:#C8A88A;text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.active{color:#fff;border-left-color:var(--blue-l);background:rgba(26,115,232,.15)}
+
+/* main */
+.content{max-width:860px;padding:40px 40px 80px}
+
+/* banner — 4-colour Gemini brand gradient */
+.banner{background:linear-gradient(135deg,#0D3A1A 0%,#0A2A5C 35%,#5C0A06 70%,#3D2A00 100%);border-radius:12px;padding:48px 40px;margin-bottom:36px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 40%,rgba(52,168,83,.18) 0%,transparent 50%),radial-gradient(ellipse at 80% 60%,rgba(26,115,232,.18) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(249,171,0,.12) 0%,transparent 40%),radial-gradient(ellipse at 50% 20%,rgba(234,67,53,.14) 0%,transparent 40%)}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--yellow-l);text-transform:uppercase;margin-bottom:10px;position:relative}
+.banner h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px;position:relative}
+.banner h1 span.g-b{color:#6AABFF}
+.banner h1 span.g-r{color:#FF8A80}
+.banner h1 span.g-y{color:var(--yellow-l)}
+.banner h1 span.g-g{color:#6DD68A}
+.banner p{font-size:15px;color:#C8AA94;max-width:560px;margin:0 auto;position:relative}
+.banner-badge{display:inline-flex;gap:8px;align-items:center;margin-top:16px;position:relative}
+.g-dot{width:10px;height:10px;border-radius:50%}
+
+/* section card */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 6px rgba(234,67,53,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--blue);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--orange);margin-top:2px}
+
+/* sec-num colour variants */
+.sec-num.g{background:var(--green)}
+.sec-num.y{background:var(--yellow)}
+.sec-num.o{background:var(--orange)}
+
+.section-body{padding:22px}
+
+/* callouts */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55}
+.callout.tip{background:var(--green-soft);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.gemini{background:var(--yellow-soft);border-left:4px solid var(--yellow)}
+.callout.gemini .callout-body strong{color:#B57800}
+
+/* feature grid */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--blue)}
+.feature-card .fc-icon{font-size:22px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-mid);line-height:1.5}
+.feature-card.green{border-top-color:var(--green)}
+.feature-card.yellow{border-top-color:var(--yellow)}
+.feature-card.orange{border-top-color:var(--orange)}
+
+/* steps */
+.step-list{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--blue);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--text-mid);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--yellow-l);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #2D1400}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--text-mid);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+
+/* sub labels */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--blue);text-transform:uppercase;margin:20px 0 10px}
+
+/* prompt tabs */
+.prompt-tabs{margin:16px 0}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px}
+.tab-btn{padding:7px 18px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--text-mid);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--yellow-l);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.copy-btn{background:none;border:1px solid rgba(249,171,0,.3);color:var(--yellow-l);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600}
+.copy-btn:hover{background:rgba(249,171,0,.15)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--text-mid);line-height:1.6;font-style:italic}
+
+/* trouble items */
+.trouble-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.trouble-q{background:var(--hdr-bg);border-left:4px solid var(--orange);padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}
+.trouble-a{background:#fff;padding:12px 16px;font-size:13.5px;color:var(--text-mid);line-height:1.55}
+
+/* do / avoid */
+.do-avoid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.do-col{background:var(--green-soft);border:1px solid #B2DEC0;border-top:3px solid var(--green);border-radius:8px;padding:14px}
+.do-col h4{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--green);text-transform:uppercase;margin-bottom:8px}
+.avoid-col{background:var(--orange-soft);border:1px solid #FACAC6;border-top:3px solid var(--orange);border-radius:8px;padding:14px}
+.avoid-col h4{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--orange);text-transform:uppercase;margin-bottom:8px}
+.do-col li,.avoid-col li{font-size:13px;color:var(--text-mid);line-height:1.5;margin-left:14px;margin-bottom:5px}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;border-top:3px solid var(--blue)}
+.roadmap-step .rs-num{font-size:28px;font-weight:700;color:var(--blue);margin-bottom:6px}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--text-mid);line-height:1.5}
+
+/* use grid */
+.use-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0}
+.use-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:14px;border-top:3px solid var(--blue)}
+.use-card.green{border-top-color:var(--green)}
+.use-card.yellow{border-top-color:var(--yellow)}
+.use-card.orange{border-top-color:var(--orange)}
+.use-card .uc-icon{font-size:20px;margin-bottom:6px}
+.use-card h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.use-card p{font-size:12.5px;color:var(--text-mid);line-height:1.45}
+
+/* ── GEMINI RESPONSE PANEL — unique to Gemini guides ── */
+/* Shows the Gemini interface: 4-colour logo + response + grounded sources */
+.gemini-panel{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:14px 0}
+.gp-top{background:var(--sidebar-bg);padding:16px 20px}
+.gp-prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:#5A3010;text-transform:uppercase;margin-bottom:8px}
+.gp-prompt{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:10px 14px;font-size:13.5px;color:#E0C4B8;font-style:italic;line-height:1.5}
+.gp-middle{background:#fff;padding:16px 20px;border-top:1px solid var(--border)}
+.gp-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.gemini-logo{display:flex;gap:3px;align-items:center}
+.gemini-logo span{width:8px;height:8px;border-radius:50%}
+.gp-model-tag{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.05em}
+.gp-response{font-size:13.5px;color:var(--text-mid);line-height:1.6}
+.gp-response p{margin-bottom:8px}
+.gp-response p:last-child{margin-bottom:0}
+.gp-response strong{color:var(--ink)}
+.gp-bottom{background:var(--hdr-bg);border-top:1px solid var(--border);padding:12px 20px}
+.gp-sources-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--blue);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.gp-sources-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue)}
+.gp-source-chips{display:flex;flex-wrap:wrap;gap:6px}
+.gp-source-chip{background:#fff;border:1px solid var(--border);border-radius:12px;padding:4px 12px;font-size:12px;color:var(--blue);font-weight:600}
+.gp-ext-row{display:flex;gap:8px;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.gp-ext-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.gp-ext-chip{display:flex;align-items:center;gap:5px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:3px 10px;font-size:12px;color:var(--text-mid);font-weight:600}
+.gp-ext-chip .ext-dot{width:8px;height:8px;border-radius:50%}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">The AI Advantage Co</div>
+  <div class="nav-section">Gemini 101</div>
+  <a class="nav-link" href="#s01">01 — What is Gemini?</a>
+  <a class="nav-link" href="#s02">02 — Versions &amp; Plans</a>
+  <a class="nav-link" href="#s03">03 — Starting Conversations</a>
+  <a class="nav-link" href="#s04">04 — Deep Research Mode</a>
+  <a class="nav-link" href="#s05">05 — Extensions &amp; Workspace</a>
+  <a class="nav-link" href="#s06">06 — Gems — Custom Assistants</a>
+  <a class="nav-link" href="#s07">07 — Advanced Techniques</a>
+  <a class="nav-link" href="#s08">08 — Common Mistakes &amp; Fixes</a>
+  <a class="nav-link" href="#s09">09 — Suggested Prompts</a>
+  <a class="nav-link" href="#s10">10 — See It In Action</a>
+  <a class="nav-link" href="#s11">11 — Your Roadmap</a>
+</aside>
+<main class="content">
+
+<div class="banner">
+  <div class="banner-eyebrow">The AI Advantage Co · User Guide</div>
+  <h1><span class="g-b">G</span><span class="g-r">e</span><span class="g-y">m</span><span class="g-g">i</span><span class="g-b">n</span><span class="g-r">i</span> 101</h1>
+  <p>Google's most capable AI — grounded in real-time web search and deeply connected to your Google Workspace</p>
+  <div class="banner-badge">
+    <div class="g-dot" style="background:#1A73E8"></div>
+    <div class="g-dot" style="background:#EA4335"></div>
+    <div class="g-dot" style="background:#F9AB00"></div>
+    <div class="g-dot" style="background:#34A853"></div>
+    <span style="font-size:11px;font-weight:700;color:#C8AA94;margin-left:6px">Google · Gemini Advanced · Google Workspace</span>
+  </div>
+</div>
+
+<!-- 01 -->
+<div class="section-card" id="s01">
+  <div class="section-header">
+    <div class="sec-num">01</div>
+    <div><h2>What is Gemini?</h2><p>Google's AI — and what makes it different</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">Gemini is Google's AI assistant, built on their most capable large language models. Like ChatGPT or Claude, you talk to it in natural language and it responds, reasons, writes, and analyses. But Gemini's distinctive strengths come from its deep Google integration: it's grounded in real-time web search by default, connected to Gmail, Docs, Drive, Calendar, and YouTube, and designed to work across your entire Google ecosystem.</p>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:20px">Where other AI tools require you to paste in information, Gemini can reach into your Google account directly — summarising your emails, checking your calendar, referencing your Drive documents, and searching the web — all in a single conversation.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">🌐</div>
+        <h4>Web-Grounded by Default</h4>
+        <p>Gemini searches the live web automatically when you need current information. Responses include source citations so you can verify — no add-on required.</p>
+      </div>
+      <div class="feature-card green">
+        <div class="fc-icon">📧</div>
+        <h4>Google Workspace Integration</h4>
+        <p>Connects to Gmail, Google Docs, Drive, Calendar, Meet, and Sheets. Ask it to summarise your inbox, find a file, or draft a document — without leaving Gemini.</p>
+      </div>
+      <div class="feature-card yellow">
+        <div class="fc-icon">🔬</div>
+        <h4>Deep Research Mode</h4>
+        <p>Gemini Advanced's Deep Research conducts multi-source, multi-step research on complex topics and delivers a structured report with citations in minutes.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">🖼️</div>
+        <h4>Multimodal — See, Hear, Generate</h4>
+        <p>Understands images, audio, video, and documents. Generates images via Imagen. Available on mobile for real-time visual conversations using your camera.</p>
+      </div>
+    </div>
+    <div class="sub-label">How Gemini compares to other AI tools</div>
+    <table class="ref-table">
+      <tr><th>Capability</th><th>Gemini</th><th>ChatGPT</th><th>Claude</th></tr>
+      <tr><td>Real-time web search</td><td>✅ Default (no toggle)</td><td>✅ Optional (web search tool)</td><td>✅ Via tool use</td></tr>
+      <tr><td>Google Workspace</td><td>✅ Native integration</td><td>❌ Not available</td><td>❌ Not available</td></tr>
+      <tr><td>Microsoft 365</td><td>❌</td><td>✅ Copilot (separate product)</td><td>❌</td></tr>
+      <tr><td>Deep Research</td><td>✅ Built-in (Advanced)</td><td>✅ Research mode (Plus)</td><td>Limited</td></tr>
+      <tr><td>Image generation</td><td>✅ Imagen 3</td><td>✅ DALL·E 3</td><td>❌</td></tr>
+      <tr><td>Long document analysis</td><td>✅ 1M token context</td><td>✅ Strong</td><td>✅ Strongest (200K)</td></tr>
+    </table>
+    <div class="callout gemini">
+      <div class="callout-icon">✨</div>
+      <div class="callout-body"><strong>Gemini's home advantage</strong><p>If your organisation runs on Google Workspace, Gemini is the AI that knows your world. It doesn't just respond to what you type — it can look up your emails, reference your files, and check your calendar. That contextual awareness is the biggest differentiator from other AI tools.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section-card" id="s02">
+  <div class="section-header">
+    <div class="sec-num sec-num" style="background:var(--green)">02</div>
+    <div><h2>Versions &amp; Plans</h2><p>Which Gemini you have — and what each unlocks</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Gemini exists across multiple tiers — free, Advanced, and Workspace-integrated. Understanding which version you're using determines what's available to you and where you encounter its limits.</p>
+    <table class="ref-table">
+      <tr><th>Version</th><th>Model</th><th>Key features</th><th>Best for</th></tr>
+      <tr><td>Gemini (Free)</td><td>Gemini 1.5 Flash / Pro</td><td>Web search, image understanding, basic Workspace extensions</td><td>Getting started, personal use, light tasks</td></tr>
+      <tr><td>Gemini Advanced ($19.99/mo)</td><td>Gemini 1.5 Pro / 2.0</td><td>Deep Research, longer context, Gems, priority access to new features</td><td>Knowledge workers, researchers, heavy daily use</td></tr>
+      <tr><td>Gemini for Google Workspace</td><td>Gemini 1.5 Pro</td><td>Built into Gmail, Docs, Sheets, Slides, Meet — inline AI throughout</td><td>Business teams using Google Workspace</td></tr>
+      <tr><td>Gemini Business / Enterprise</td><td>Gemini 1.5 Pro (enhanced)</td><td>Data privacy guarantees, admin controls, Google Meet AI</td><td>Organisations with data compliance requirements</td></tr>
+    </table>
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body"><strong>Advanced is worth it</strong><p>Gemini Advanced unlocks Deep Research Mode — which alone justifies the cost for knowledge workers. If your work involves research, analysis, or synthesising complex information from multiple sources, Deep Research produces results in minutes that would take hours manually.</p></div>
+    </div>
+    <div class="sub-label">The Gemini model family</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">⚡</div>
+        <h4>Gemini Flash</h4>
+        <p>Fast and efficient — excellent for everyday conversational tasks, quick lookups, and high-frequency low-complexity requests. Runs in free tier and powers many app integrations.</p>
+      </div>
+      <div class="feature-card green">
+        <div class="fc-icon">🧠</div>
+        <h4>Gemini Pro</h4>
+        <p>More capable reasoning and analysis. Handles complex documents, nuanced writing, and multi-step tasks. Available in Advanced plan and Google Workspace integration.</p>
+      </div>
+      <div class="feature-card yellow">
+        <div class="fc-icon">🔭</div>
+        <h4>Gemini Ultra / 2.0</h4>
+        <p>Top-tier capability — the most capable model in the family. Powers the best Deep Research outputs and handles the most demanding analytical and creative tasks.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">📱</div>
+        <h4>Gemini Nano</h4>
+        <p>On-device model running directly on Pixel phones and compatible Android devices. Handles tasks without an internet connection — privacy-preserving local AI.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section-card" id="s03">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--yellow)">03</div>
+    <div><h2>Starting Conversations</h2><p>How to prompt Gemini effectively from day one</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Gemini responds to natural language — you don't need to learn special syntax. But the quality of what you get out is directly proportional to the quality of what you put in. A vague question gets a general answer. A specific, contextual prompt gets something you can actually use.</p>
+    <div class="sub-label">The Gemini prompt formula</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">🎯</div>
+        <h4>Be specific about the task</h4>
+        <p>"Summarise the main arguments for and against remote work for a finance team in a UK SME" is infinitely more useful than "tell me about remote work".</p>
+      </div>
+      <div class="feature-card green">
+        <div class="fc-icon">📋</div>
+        <h4>Provide context</h4>
+        <p>Tell Gemini who you are, who the audience is, and what you're trying to achieve. It uses this to calibrate tone, depth, and relevance.</p>
+      </div>
+      <div class="feature-card yellow">
+        <div class="fc-icon">📐</div>
+        <h4>Specify the format</h4>
+        <p>Gemini defaults to paragraphs. If you want a table, bullet list, numbered steps, or a specific structure — say so. Format specifications transform how usable the output is.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">🔁</div>
+        <h4>Iterate in conversation</h4>
+        <p>Follow up, refine, redirect. "Make this more concise", "add a section on risks", "rewrite the second paragraph in plain English". Each exchange improves the output.</p>
+      </div>
+    </div>
+    <div class="sub-label">Gemini-specific prompt advantages</div>
+    <div class="step-list">
+      <div class="step-item"><div class="step-num" style="background:var(--blue)">1</div><div class="step-body"><h4>Ask for web-grounded answers</h4><p>Gemini searches the web automatically, but you can direct it: "Based on the latest news, what are the current interest rate expectations for the UK?" You'll get cited, current information — not AI knowledge that may be months old.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Reference your Google content</h4><p>With Workspace extensions enabled: "Summarise my emails about the Johnson account from this week" or "Find the proposal I wrote last month in Drive". Gemini retrieves and works with your actual content.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--yellow)">3</div><div class="step-body"><h4>Use the microphone for longer context</h4><p>On mobile, tap the microphone to speak your prompt. For complex requests with lots of context — project backgrounds, multi-part questions — speaking is often faster and more natural than typing.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--orange)">4</div><div class="step-body"><h4>Upload images, files, or screenshots</h4><p>Tap the attachment icon to upload a document, photo, or screenshot. "Here's a chart from our last board meeting — what are the three most important trends?" Gemini reads it and responds with analysis.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section-card" id="s04">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--orange)">04</div>
+    <div><h2>Deep Research Mode</h2><p>Multi-source research in minutes — Gemini's standout capability</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Deep Research is Gemini Advanced's most powerful feature. You give it a complex research question, it builds a research plan, searches dozens of sources across the web, synthesises the findings, and delivers a structured, cited report — in minutes rather than hours.</p>
+    <div class="sub-label">How Deep Research works</div>
+    <div class="step-list">
+      <div class="step-item"><div class="step-num" style="background:var(--blue)">1</div><div class="step-body"><h4>Enter a research question</h4><p>Click the "Deep Research" button in Gemini Advanced and type your question. Be specific about what you need and what format you want the output in.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Review and approve the research plan</h4><p>Gemini shows you its planned approach — what sub-questions it will research, what areas it will cover. You can edit the plan before it starts. This step is important for complex topics.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--yellow)">3</div><div class="step-body"><h4>Gemini researches across the web</h4><p>It conducts iterative web searches, reads sources, cross-references findings, and builds the answer progressively — you can watch the process. Typically takes 2–5 minutes.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--orange)">4</div><div class="step-body"><h4>Receive a structured, cited report</h4><p>The output is a formatted report with headings, key findings, and inline citations. You can export it to Google Docs for further editing, or continue asking questions in the same conversation.</p></div></div>
+    </div>
+    <div class="sub-label">What Deep Research is best for</div>
+    <div class="use-grid">
+      <div class="use-card">
+        <div class="uc-icon">📊</div>
+        <h4>Market Research</h4>
+        <p>Competitive landscape, market sizing, industry trends — synthesised from current sources with citations.</p>
+      </div>
+      <div class="use-card green">
+        <div class="uc-icon">⚖️</div>
+        <h4>Policy & Regulatory Review</h4>
+        <p>Current regulatory landscape, upcoming changes, compliance requirements — pulled from official and authoritative sources.</p>
+      </div>
+      <div class="use-card yellow">
+        <div class="uc-icon">🔬</div>
+        <h4>Technology Assessment</h4>
+        <p>What's the current state of a technology? What are the competing approaches? What do practitioners say? Deep Research synthesises it all.</p>
+      </div>
+      <div class="use-card orange">
+        <div class="uc-icon">🏢</div>
+        <h4>Company & Sector Due Diligence</h4>
+        <p>Background on a company, sector, or individual — news, filings, commentary — for meetings, pitches, or investment review.</p>
+      </div>
+      <div class="use-card">
+        <div class="uc-icon">📋</div>
+        <h4>Background Briefs</h4>
+        <p>Prepare for a meeting, conference, or client with a structured brief on the topic, organisation, or person you're meeting.</p>
+      </div>
+      <div class="use-card green">
+        <div class="uc-icon">📰</div>
+        <h4>News & Trend Analysis</h4>
+        <p>What's happening right now in a sector? What are the emerging themes? Synthesised from current news and analysis.</p>
+      </div>
+    </div>
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Always verify key facts from Deep Research</strong><p>Deep Research is powerful but not infallible. For decisions that matter — financial, legal, medical, strategic — treat the output as a first-pass synthesis that still requires expert review. Check the cited sources for the most critical claims before relying on them.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section-card" id="s05">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--blue)">05</div>
+    <div><h2>Extensions &amp; Google Workspace</h2><p>Connecting Gemini to your Google account and apps</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Extensions let Gemini reach into your Google services — with your permission — to retrieve and work with real content from your accounts. Once enabled, you can ask Gemini about your actual emails, documents, calendar events, and more.</p>
+    <table class="ref-table">
+      <tr><th>Extension</th><th>What Gemini can do</th><th>Example prompt</th></tr>
+      <tr><td>Gmail</td><td>Read, summarise, and draft emails from your inbox</td><td>"Summarise all emails about Project Falcon from the last 2 weeks"</td></tr>
+      <tr><td>Google Drive</td><td>Find, read, and summarise files in your Drive</td><td>"Find the Q3 budget proposal I wrote in October and give me the key figures"</td></tr>
+      <tr><td>Google Docs</td><td>Read and analyse the content of specific Docs</td><td>"Here's my draft report [link] — what's missing from the executive summary?"</td></tr>
+      <tr><td>Google Calendar</td><td>Check your schedule, find gaps, summarise events</td><td>"What do I have on next Tuesday and what prep do I need for each meeting?"</td></tr>
+      <tr><td>YouTube</td><td>Summarise video content and answer questions about it</td><td>"Summarise the key points from this YouTube talk [link]"</td></tr>
+      <tr><td>Google Maps</td><td>Find places, directions, local business information</td><td>"Find three good venues for a client lunch near Victoria Station, London"</td></tr>
+      <tr><td>Google Flights/Hotels</td><td>Search and compare travel options</td><td>"What are the best flight options from London to Amsterdam on 15 June?"</td></tr>
+    </table>
+    <div class="sub-label">Enabling extensions</div>
+    <div class="step-list">
+      <div class="step-item"><div class="step-num" style="background:var(--blue)">1</div><div class="step-body"><h4>Open Gemini settings</h4><p>In Gemini, click the Extensions icon (puzzle piece) in the left panel, or go to Settings → Extensions.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Enable the extensions you want</h4><p>Toggle on Gmail, Drive, Calendar, YouTube, and any others. Each extension shows exactly what data it will access — read the permissions carefully.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--yellow)">3</div><div class="step-body"><h4>Use the @ symbol to call specific extensions</h4><p>Type @Gmail, @Drive, or @Calendar in your prompt to direct Gemini to use that specific extension. E.g. "@Gmail summarise my unread messages from today."</p></div></div>
+    </div>
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Workplace accounts — check with IT first</strong><p>If you're using a Google Workspace account provided by your employer, extension availability may be controlled by your admin. Some organisations restrict which Google services AI can access. Check your organisation's AI usage policy before enabling extensions on a work account.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section-card" id="s06">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--green)">06</div>
+    <div><h2>Gems — Custom AI Assistants</h2><p>Pre-configured specialist assistants built for specific jobs</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Gems are Gemini's equivalent of ChatGPT's GPTs — custom AI assistants with specific instructions, personalities, and focus areas pre-loaded. Instead of starting every conversation from scratch, you open the right Gem and it's already configured for its job.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">📝</div>
+        <h4>Pre-built Gems</h4>
+        <p>Google provides ready-made Gems for common tasks: Brainstormer, Career Guide, Coding Partner, Learning Coach, Writing Editor. Available immediately in Gemini Advanced.</p>
+      </div>
+      <div class="feature-card green">
+        <div class="fc-icon">🛠️</div>
+        <h4>Custom Gems</h4>
+        <p>Build your own: give it a name, write its instructions, set its tone and scope. Share it with your team. A well-built Gem for a recurring task saves prompt-writing time every day.</p>
+      </div>
+    </div>
+    <div class="sub-label">Building a Gem — step by step</div>
+    <div class="step-list">
+      <div class="step-item"><div class="step-num" style="background:var(--blue)">1</div><div class="step-body"><h4>Open Gem Manager</h4><p>In the Gemini left panel, click "Gem Manager" → "New Gem". Give it a name that reflects its role.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--green)">2</div><div class="step-body"><h4>Write the instructions</h4><p>Describe the role, the tone, what it should focus on, and what it should avoid. Be specific. "You are a proposal writing assistant for a UK management consultancy. Always write in a professional, confident, and concise style. Focus only on proposal content — decline requests unrelated to proposals."</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--yellow)">3</div><div class="step-body"><h4>Test it</h4><p>The right panel shows a live preview. Try common requests you'd send to this Gem and check the quality of the response. Adjust instructions based on what you see.</p></div></div>
+      <div class="step-item"><div class="step-num" style="background:var(--orange)">4</div><div class="step-body"><h4>Save and access from the sidebar</h4><p>Your Gem appears in the left panel for quick access. Currently Gems are personal (not shareable with teams) — this may change as the feature develops.</p></div></div>
+    </div>
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Start with the Learning Coach Gem</strong><p>Google's pre-built Learning Coach Gem is excellent for upskilling — it adapts explanations to your level, asks questions to check understanding, and creates personalised learning plans. If you're onboarding staff to new tools or processes, it's an immediate win.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section-card" id="s07">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--yellow)">07</div>
+    <div><h2>Advanced Techniques</h2><p>Getting more from Gemini with smarter prompting patterns</p></div>
+  </div>
+  <div class="section-body">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">🔗</div>
+        <h4>Chain Workspace + Research</h4>
+        <p>Combine extensions with web search in one prompt: "Based on the proposal in my Drive titled Q3 Strategy, research the top three competitors mentioned and give me a current assessment of each."</p>
+      </div>
+      <div class="feature-card green">
+        <div class="fc-icon">📤</div>
+        <h4>Export to Google Docs</h4>
+        <p>Any Gemini response can be exported directly to a new Google Doc. Long research outputs, drafted documents, structured plans — click "Export to Docs" and you have a working document instantly.</p>
+      </div>
+      <div class="feature-card yellow">
+        <div class="fc-icon">📸</div>
+        <h4>Live Camera Mode (Mobile)</h4>
+        <p>Point your phone camera at anything — a printed document, a whiteboard, a product label — and ask questions about it in real time. Gemini sees what you see and responds live.</p>
+      </div>
+      <div class="feature-card orange">
+        <div class="fc-icon">🎵</div>
+        <h4>Audio & Video Analysis</h4>
+        <p>Upload audio recordings or video files. Gemini transcribes, summarises, and answers questions about the content. Interview recordings, meeting recordings, presentations — all processable.</p>
+      </div>
+    </div>
+    <div class="sub-label">Gemini in Google Workspace — inline AI</div>
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:14px">With Gemini for Google Workspace, AI appears inside your apps — not as a separate tool. Look for the Gemini star icon in Gmail, Docs, Sheets, and Slides:</p>
+    <table class="ref-table">
+      <tr><th>App</th><th>What Gemini does inline</th></tr>
+      <tr><td>Gmail</td><td>Drafts replies, summarises threads, adjusts tone of your draft, generates subject lines</td></tr>
+      <tr><td>Google Docs</td><td>"Help me write" from a brief, rewrite selected text, summarise the document, suggest improvements</td></tr>
+      <tr><td>Google Sheets</td><td>Generate formulas from plain English, analyse data ranges, create pivot table suggestions, explain existing formulas</td></tr>
+      <tr><td>Google Slides</td><td>Generate presentation from a prompt, add speaker notes, suggest design improvements, summarise content</td></tr>
+      <tr><td>Google Meet</td><td>Live captions, meeting summaries, action item detection, catch-up summaries if you join late</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section-card" id="s08">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--orange)">08</div>
+    <div><h2>Common Mistakes &amp; Fixes</h2><p>Why Gemini underdelivers — and how to fix it</p></div>
+  </div>
+  <div class="section-body">
+    <div class="trouble-item">
+      <div class="trouble-q">Gemini gives outdated information even though it has web access</div>
+      <div class="trouble-a">Gemini searches the web automatically, but it may draw on training data for some topics. For time-sensitive information, be explicit: "Search the web for the current [topic] and only use information from the last 6 months." Check the sources Gemini cites — the dates are shown alongside each citation.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">Extensions aren't finding my emails / documents</div>
+      <div class="trouble-a">Check that the relevant extension is enabled (Gemini → Extensions). Then be more specific in your prompt — include dates, project names, sender names. If it still fails, try pasting the content directly rather than asking Gemini to retrieve it. Also verify your account has granted the necessary permissions to Gemini.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">Deep Research output is too general — not specific enough to my topic</div>
+      <div class="trouble-a">Narrow the research question and edit the research plan before it starts. Instead of "Research the UK housing market", try "Research the impact of interest rate changes on UK residential property transactions in 2024–2025, focusing on the £300K–£500K segment in London." The research plan step is your opportunity to steer the scope.</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">Gemini's responses are too long and hard to scan</div>
+      <div class="trouble-a">Add format instructions: "Respond in bullet points only, maximum 5 points" or "Give me a table" or "Answer in under 100 words." Gemini respects format constraints well. You can also follow up with "make this more concise" or "give me the executive summary version."</div>
+    </div>
+    <div class="trouble-item">
+      <div class="trouble-q">Image generation doesn't match what I described</div>
+      <div class="trouble-a">Be more precise about: subject, style, composition, and what to avoid. "A professional photo of a modern open-plan office with natural light, people collaborating at standing desks, warm tones, no clutter" works better than "office photo." Iterate — describe what's wrong with the first result and ask for adjustments.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section-card" id="s09">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--blue)">09</div>
+    <div><h2>Suggested Prompts</h2><p>Ready-to-use prompts for Gemini's core capabilities</p></div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="showTab(this,'research')">Research & Analysis</button>
+        <button class="tab-btn" onclick="showTab(this,'workspace')">Workspace Tasks</button>
+      </div>
+      <div class="prompt-panel active" id="tab-research">
+        <div class="prompt-box">
+          <div class="prompt-label">Deep Research brief <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Research [specific topic] for me. I need: (1) a clear overview of the current situation, (2) the 3–5 most important recent developments, (3) key players or organisations, (4) implications for [my context — industry/role]. Use only sources from the last 12 months. Structure the output as a briefing document with headings. Export to Google Docs when done.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Competitive landscape analysis <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Search the web for a competitive analysis of [company or product] vs its top 3 competitors. For each competitor include: positioning, key strengths, known weaknesses, recent news or changes, and approximate market share if available. Format as a comparison table followed by a brief written summary. Cite your sources.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Meeting prep brief <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">I'm meeting with [person/organisation] on [date] about [topic]. Search the web and use my calendar and emails (@Calendar @Gmail) to prepare me. I need: background on who I'm meeting and their current priorities, recent news about their organisation, the key topics we need to cover, and three smart questions I could ask to advance the relationship.</div>
+        </div>
+      </div>
+      <div class="prompt-panel" id="tab-workspace">
+        <div class="prompt-box">
+          <div class="prompt-label">Inbox triage <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">@Gmail Look at my emails from the last 3 days. Give me: (1) a list of anything requiring a decision or response from me, with the sender and urgency, (2) anything that looks like it needs action this week, (3) anything I can safely ignore or archive. Group by priority: urgent / this week / FYI.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Document summary from Drive <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">@Drive Find [document name or description] in my Drive. Give me: (1) what the document is for and its current status, (2) the key decisions or recommendations it contains, (3) anything that looks incomplete or needs updating, (4) the three most important things someone needs to know before reading it. Keep your summary under 250 words.</div>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-label">Week planning from calendar <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">@Calendar Show me everything I have scheduled for the next 5 working days. For each commitment: tell me what preparation might be needed, flag any potential conflicts or back-to-back issues, and identify any gaps I could use for focused work. Then suggest how I should prioritise my time this week based on what's scheduled.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section-card" id="s10">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--green)">10</div>
+    <div><h2>See It In Action</h2><p>A complete Gemini workflow — research to draft to Google Docs</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Below is a real Gemini session: a consultant needs a competitive briefing before a pitch meeting. Watch how Gemini pulls web research and Workspace data into a structured, exportable output.</p>
+    <div class="gemini-panel">
+      <div class="gp-top">
+        <div class="gp-prompt-label">Your prompt</div>
+        <div class="gp-prompt">Using Deep Research: prepare me a competitive briefing on Salesforce vs HubSpot for a pitch to a UK-based B2B SaaS company with 50–200 employees. Focus on: which platform typically suits this company size, pricing differences, integration ecosystems, and what sales teams most commonly say about each. Also check @Gmail for any previous correspondence with this client so I have context.</div>
+      </div>
+      <div class="gp-middle">
+        <div class="gp-header">
+          <div class="gemini-logo">
+            <span style="background:var(--blue)"></span>
+            <span style="background:var(--orange)"></span>
+            <span style="background:var(--yellow)"></span>
+            <span style="background:var(--green)"></span>
+          </div>
+          <div class="gp-model-tag">Gemini Advanced · Deep Research · @Gmail</div>
+        </div>
+        <div class="gp-response">
+          <p>I found 3 recent emails with this client (last contact: 14 days ago, discussing CRM migration timelines). Here's your competitive briefing:</p>
+          <p><strong>Salesforce vs HubSpot for UK SMB B2B SaaS (50–200 employees)</strong></p>
+          <p><strong>Fit for company size:</strong> HubSpot is the more natural fit at 50–200 employees. Its Sales Hub is designed for growing teams — less admin overhead, faster onboarding, and a gentler learning curve. Salesforce at this size typically requires dedicated admin resource and CRM consultancy investment that many SMBs underestimate.</p>
+          <p><strong>Pricing:</strong> HubSpot Sales Hub Professional starts at ~£420/mo (5 users). Salesforce Sales Cloud Professional runs ~£600/mo (5 users) before typical implementation and admin costs. Total cost of ownership gap widens significantly at implementation.</p>
+          <p><strong>Integration ecosystem:</strong> Both integrate with the major tools, but Salesforce's AppExchange (7,000+ apps) is substantially larger. HubSpot's marketplace is more curated — fewer options, but simpler to implement without a developer.</p>
+          <p><strong>What sales teams say:</strong> HubSpot users consistently cite ease of use and built-in marketing/sales alignment. Salesforce users cite power and customisability, but also complexity. For a 50–200 person team without a dedicated RevOps function, this is a material consideration.</p>
+        </div>
+      </div>
+      <div class="gp-bottom">
+        <div class="gp-sources-label">Sources used</div>
+        <div class="gp-source-chips">
+          <div class="gp-source-chip">G2.com reviews 2025</div>
+          <div class="gp-source-chip">HubSpot pricing page</div>
+          <div class="gp-source-chip">Salesforce.com/uk</div>
+          <div class="gp-source-chip">TechCrunch CRM report</div>
+          <div class="gp-source-chip">Forrester Wave 2024</div>
+        </div>
+        <div class="gp-ext-row">
+          <div class="gp-ext-label">Extensions used</div>
+          <div class="gp-ext-chip"><div class="ext-dot" style="background:#EA4335"></div>Gmail — 3 emails found</div>
+          <div class="gp-ext-chip"><div class="ext-dot" style="background:#1A73E8"></div>Web Search — 18 sources</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout gemini" style="margin-top:16px">
+      <div class="callout-icon">✨</div>
+      <div class="callout-body"><strong>What made this work</strong><p>One prompt combined Deep Research (competitive analysis from the web), a Gmail extension call (client email history), and a specific audience definition. The output arrived in under 4 minutes, cited its sources, and included client context that would otherwise require manually searching your inbox. Export to Docs and it's a client-ready deliverable.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="section-card" id="s11">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--yellow)">11</div>
+    <div><h2>Your Roadmap</h2><p>From first prompt to a fully integrated Gemini workflow</p></div>
+  </div>
+  <div class="section-body">
+    <p style="font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:16px">Four stages — each one unlocks meaningfully more value than the last.</p>
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="rs-num">01</div>
+        <h4>First Conversation</h4>
+        <p>Ask Gemini a real question from your work this week. Try a research question — something you'd normally spend 30 minutes googling. Evaluate the result honestly.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--green)">
+        <div class="rs-num" style="color:var(--green)">02</div>
+        <h4>Connect Your Workspace</h4>
+        <p>Enable Gmail and Drive extensions. Ask Gemini to summarise your inbox or find a document. Experience what it feels like when the AI knows your actual work.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--yellow)">
+        <div class="rs-num" style="color:var(--yellow)">03</div>
+        <h4>Run a Deep Research</h4>
+        <p>Take a topic you'd normally spend 2 hours researching. Run it through Deep Research. Export to Google Docs. Use the time you saved to review and improve the output.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--orange)">
+        <div class="rs-num" style="color:var(--orange)">04</div>
+        <h4>Build a Gem</h4>
+        <p>Identify your most-repeated task. Build a Gem for it. Open it every time you do that task. Measure how much time it saves over four weeks.</p>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:20px">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Your Quick Win</strong><p>Enable the Gmail extension right now. Then type: "Summarise everything in my inbox that needs a decision or reply from me today." You'll have a triage list in 30 seconds. That's Gemini's Google advantage in one prompt.</p></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script>
+function showTab(btn, id) {
+  btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.closest('.prompt-tabs').querySelectorAll('.prompt-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-box').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig = btn.innerText; btn.innerText = '✓ Copied';
+    setTimeout(()=>btn.innerText=orig, 2000);
+  });
+}
+const sections = document.querySelectorAll('.section-card');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

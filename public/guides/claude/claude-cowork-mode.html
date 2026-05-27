@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Cowork Mode — User Guide | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #C97040; --primary-l: #E08F5B; --primary-soft: #FBEEDE;
+  --accent1: #6B4226; --accent1-soft: #F4E8DC;
+  --accent2: #1F6B7A; --accent2-soft: #E0EEF1;
+  --page-bg: #FEF8F0; --sidebar-bg: #3C1E0A;
+  --card-bg: #FFFAF1; --hdr-bg: #FAEEDA; --border: #E5C8A5;
+  --ink: #3C1E0A; --body-text: #5B3A1F; --muted: #8A6240;
+  --green: #1B6B3A; --green-bg: #E6F4EC;
+  --warn: #B45309; --warn-bg: #FFF8E1;
+  --red: #C0392B; --red-bg: #FEF0EE;
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--ink); line-height: 1.7; font-size: 15px; }
+.layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 268px; min-width: 268px; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 100; color: rgba(255,255,255,0.9); }
+.sidebar-brand { padding: 28px 24px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-brand .brand-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-l); margin-bottom: 4px; }
+.sidebar-brand .brand-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); line-height: 1.3; }
+.sidebar-nav { padding: 16px 12px; }
+.nav-link { display: block; padding: 8px 14px; margin-bottom: 2px; border-radius: 6px; color: rgba(255,255,255,0.72); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.nav-link .nav-num { display: inline-block; width: 24px; color: var(--primary-l); font-weight: 600; }
+
+/* Main */
+.main { flex: 1; padding: 48px 56px 96px; max-width: 1080px; }
+.banner { background: var(--sidebar-bg); border-radius: var(--radius); padding: 40px; margin-bottom: 32px; color: white; text-align: center; }
+.banner .brand-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary-l); margin-bottom: 12px; }
+.banner h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+.banner .subtitle { font-size: 15px; color: var(--primary-l); font-weight: 400; line-height: 1.5; max-width: 720px; margin: 0 auto; }
+
+/* Doc meta */
+.doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+.badge-accent { background: var(--accent2); }
+.meta-item { color: var(--muted); font-size: 12px; padding: 4px 10px; }
+
+/* Sections */
+.section { margin-bottom: 48px; }
+.section-header { display: flex; gap: 16px; align-items: center; padding: 14px 20px; background: var(--hdr-bg); border-bottom: 2px solid var(--primary); border-radius: var(--radius) var(--radius) 0 0; }
+.section-num { width: 44px; height: 44px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.section-desc { font-size: 13px; color: var(--primary-l); margin-top: 2px; }
+.content-body { padding: 24px 20px 8px; }
+.prose { color: var(--body-text); margin-bottom: 14px; font-size: 14.5px; }
+.sub-h3 { color: var(--ink); font-size: 17px; font-weight: 700; margin: 18px 0 8px; }
+.sub-body { color: var(--body-text); margin-bottom: 12px; font-size: 14px; }
+
+/* Bullets */
+.bullets { padding-left: 22px; margin-bottom: 16px; }
+.bullets li { color: var(--body-text); margin-bottom: 6px; font-size: 14px; }
+
+/* Feature cards */
+.feat-grid { display: grid; gap: 16px; margin: 18px 0 22px; }
+.feat-grid-2 { grid-template-columns: 1fr 1fr; }
+.feat-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.feat-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 4px solid var(--primary); padding: 18px 18px 16px; border-radius: 8px; }
+.feat-card:nth-child(2) { border-top-color: var(--accent1); }
+.feat-card:nth-child(3) { border-top-color: var(--accent2); }
+.feat-card:nth-child(4) { border-top-color: var(--primary-l); }
+.feat-card-sm { padding: 16px 14px 14px; }
+.feat-icon { font-size: 22px; margin-bottom: 8px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: var(--body-text); line-height: 1.5; }
+
+/* Callouts */
+.callout { display: flex; margin: 16px 0; border-radius: 6px; overflow: hidden; }
+.callout-bar { width: 4px; flex-shrink: 0; }
+.callout-body { padding: 12px 16px; flex: 1; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 4px; }
+.callout-text { color: var(--body-text); font-size: 13.5px; line-height: 1.55; }
+.co-tip { background: var(--green-bg); } .co-tip .callout-bar { background: var(--green); } .co-tip .callout-label { color: var(--green); }
+.co-info { background: var(--accent1-soft); } .co-info .callout-bar { background: var(--accent1); } .co-info .callout-label { color: var(--accent1); }
+.co-warn { background: var(--warn-bg); } .co-warn .callout-bar { background: var(--warn); } .co-warn .callout-label { color: var(--warn); }
+.co-primary { background: var(--primary-soft); } .co-primary .callout-bar { background: var(--primary); } .co-primary .callout-label { color: var(--primary); }
+
+/* Steps */
+.steps { margin: 16px 0 22px; }
+.step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.step-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+/* Do / Avoid */
+.do-avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 22px; }
+.do-box, .avoid-box { padding: 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); }
+.do-box h4 { color: var(--green); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.avoid-box h4 { color: var(--red); font-size: 13px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.4px; }
+.do-box ul, .avoid-box ul { padding-left: 18px; }
+.do-box li, .avoid-box li { color: var(--body-text); margin-bottom: 5px; font-size: 13px; }
+
+/* Deco band */
+.deco-band { background: var(--primary-soft); border-top: 3px solid var(--primary); border-bottom: 3px solid var(--primary); padding: 14px; text-align: center; color: var(--primary); font-weight: 700; letter-spacing: 0.6px; margin: 20px 0; font-size: 14.5px; }
+
+/* Tables */
+.ref-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.ref-table thead { background: var(--sidebar-bg); color: var(--primary-l); }
+.ref-table th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.ref-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--body-text); background: var(--card-bg); vertical-align: top; }
+
+/* Prompt cards */
+.prompt-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.prompt-label { background: var(--sidebar-bg); color: var(--primary-l); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+.prompt-text { padding: 14px 18px; background: var(--card-bg); color: var(--body-text); font-size: 13.5px; font-style: italic; line-height: 1.6; }
+
+/* Footer */
+.footer { text-align: center; color: var(--primary-l); font-size: 12px; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--border); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px; }
+  .feat-grid-2, .feat-grid-3, .do-avoid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- aiadv-back -->
+<a id="aiadv-back" href="/guides">← Guide Library</a>
+<style>
+  #aiadv-back {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid #D2D2D7; color: #1D1D1F;
+    text-decoration: none; transition: all 0.18s ease;
+  }
+  #aiadv-back:hover { color: #B8741A; border-color: #B8741A; }
+  @media print { #aiadv-back { display: none; } }
+</style>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <div class="brand-name">Claude Cowork Mode</div>
+    </div>
+    <nav class="sidebar-nav"><a class="nav-link" href="#s01"><span class="nav-num">01</span>What is Claude Cowork Mode?</a><a class="nav-link" href="#s02"><span class="nav-num">02</span>How Cowork Differs From Chat</a><a class="nav-link" href="#s03"><span class="nav-num">03</span>Setup</a><a class="nav-link" href="#s04"><span class="nav-num">04</span>Skills — Reusable Working Patterns</a><a class="nav-link" href="#s05"><span class="nav-num">05</span>Tool Use in Cowork</a><a class="nav-link" href="#s06"><span class="nav-num">06</span>The Cowork Working Pattern</a><a class="nav-link" href="#s07"><span class="nav-num">07</span>Multi-Session Continuity</a><a class="nav-link" href="#s08"><span class="nav-num">08</span>When to Use Cowork vs Other Modes</a><a class="nav-link" href="#s09"><span class="nav-num">09</span>Common Mistakes &amp; Fixes</a><a class="nav-link" href="#s10"><span class="nav-num">10</span>Suggested Prompts</a><a class="nav-link" href="#s11"><span class="nav-num">11</span>See It In Action</a><a class="nav-link" href="#s12"><span class="nav-num">12</span>Your Roadmap</a></nav>
+  </aside>
+  <main class="main">
+    <div class="banner">
+      <div class="brand-label">ANTHROPIC CLAUDE</div>
+      <h1>Claude Cowork Mode</h1>
+      <div class="subtitle">Claude&#39;s collaborative working pattern — files, tools, persistent context across long sessions</div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge">Version 2.0</span>
+      <span class="badge badge-accent">May 2026</span>
+      <span class="meta-item"><strong>The AI Advantage Co</strong> · User Guide Series</span>
+    </div>
+    <section class="section" id="s01"><div class="section-header"><div class="section-num">01</div><div><div class="section-title">What is Claude Cowork Mode?</div><div class="section-desc">Claude&#39;s collaborative working pattern — files, tools, persistent context across long sessions</div></div></div><div class="content-body"><p class="prose">Claude Cowork Mode is the working pattern Anthropic recommends for substantial knowledge work — pair-style sessions where Claude has access to your files, the tools you&#39;d use, and the ability to maintain context across a long working session.</p><p class="prose">Best for: research projects, document analysis at depth, multi-step writing or planning work, and any task that would normally require you to bounce between an LLM and your actual files. Cowork Mode is enabled in the Claude desktop app and on claude.ai for paid plans.</p><div class="feat-grid feat-grid-2"><div class="feat-card"><div class="feat-icon">🤝</div><div class="feat-title">Pair-Working Pattern</div><div class="feat-desc">Not chat — sustained collaborative working sessions with files and tools visible.</div></div><div class="feat-card"><div class="feat-icon">📁</div><div class="feat-title">File Access</div><div class="feat-desc">Drop your project folder; Claude reads, edits, references files across the session.</div></div><div class="feat-card"><div class="feat-icon">🧰</div><div class="feat-title">Tool Use</div><div class="feat-desc">Bash sandbox, Python execution, web fetch, computer use (regulated tier), MCP integrations.</div></div><div class="feat-card"><div class="feat-icon">🎨</div><div class="feat-title">Skills + Plugins</div><div class="feat-desc">Reusable working patterns installed once; invoked across any session.</div></div></div><div class="deco-band">✨  Where Claude works alongside you on sustained projects  ✨</div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🤝  2026 UPDATE — SKILLS + PLUGINS</div><div class="callout-text">Cowork Mode now ships with Skills (named, reusable workflows you can install) and a growing Plugin ecosystem. Skills let you bring repeatable working patterns (a Junior Researcher skill, a Brand QA skill, a Code Review skill) into any session without re-explaining the pattern each time.</div></div></div></div></section><section class="section" id="s02"><div class="section-header"><div class="section-num">02</div><div><div class="section-title">How Cowork Differs From Chat</div><div class="section-desc">Why it&#39;s a different mode, not a different model</div></div></div><div class="content-body"><ul class="bullets"><li>Persistent file access — drop in files; Claude can read, edit, and reference them across the session</li><li>Tool use — Claude can run code, search the web, fetch URLs, use computer use on enabled environments</li><li>Long sessions — designed for sessions that span hours, not single prompts</li><li>Skills + plugins — install a working pattern once, invoke it across any session</li></ul><p class="prose">Cowork is closer to pair-working than to chat. In Chat, you ask, Claude answers, you ask again. In Cowork, you set a session goal, Claude proposes a working plan, you adjust, you both work in tight feedback loops with files visible the whole time. The interaction model is collaborative rather than transactional.</p><p class="prose">What this enables: long-running work that would otherwise need multiple disconnected chat sessions. Researching a domain across 30 sources. Refactoring code across 15 files. Drafting a complex piece against a stack of reference materials. Anything where the conversation is the workspace, not just the question.</p></div></section><section class="section" id="s03"><div class="section-header"><div class="section-num">03</div><div><div class="section-title">Setup</div><div class="section-desc">Getting Cowork Mode running</div></div></div><div class="content-body"><ul class="bullets"><li>Install the Claude desktop app (Mac, Windows, or Linux)</li><li>Sign in with a Claude Pro, Team, or Enterprise account</li><li>Enable Cowork Mode from the app&#39;s mode selector</li><li>Drop your project folder onto the chat surface — Claude indexes the contents</li></ul></div></section><section class="section" id="s04"><div class="section-header"><div class="section-num">04</div><div><div class="section-title">Skills — Reusable Working Patterns</div><div class="section-desc">The 2026 unlock</div></div></div><div class="content-body"><p class="prose">Skills are named, reusable workflows that ship as small files. Install one and Claude can invoke that working pattern when relevant. Skills are the cleanest way to encode repeatable expertise — &#39;how I do code reviews&#39;, &#39;how I draft a brand-voice email&#39;, &#39;how I run a research kickoff&#39; — once written, available forever.</p><ul class="bullets"><li>Browse skills in the Skills directory or your team&#39;s private registry</li><li>Install — drop the skill file into your skills folder</li><li>Invoke implicitly (Claude detects relevance) or explicitly (&#39;use the brand-qa skill&#39;)</li><li>Author your own — skills are short markdown files; no code required</li></ul><p class="prose">The skills ecosystem in 2026 is meaningful — Anthropic ships first-party skills, community contributions grow weekly, and most serious Claude users have a personal skills folder of 5-15 custom skills. Treat your skills folder the way you&#39;d treat your shell aliases: small, accumulating, specific to your work.</p><h3 class="sub-h3">What makes a good skill</h3><ul class="bullets"><li>Encodes a working pattern, not a one-off task</li><li>Has a clear invocation point (&#39;when working on X, use this approach&#39;)</li><li>Defines specific actions and the order to take them</li><li>Includes failure modes and how to recover</li><li>Is short — 1-3 pages of markdown, not a novel</li></ul><h3 class="sub-h3">Anatomy of a working skill</h3><p class="sub-body">A skill is a short markdown file that encodes a working pattern. Anatomy: a name, an invocation rule (when Claude should detect it), instructions for what to do, expected inputs and outputs, failure modes and recovery.</p><ul class="bullets"><li>Name + 1-line description — the skill&#39;s reason to exist</li><li>Invocation hint — &#39;when working on X, use this approach&#39;</li><li>Steps — the order Claude should take actions</li><li>Inputs expected — what the skill needs from the user or context</li><li>Outputs produced — what the skill returns</li><li>Failure modes — what to do when expected inputs aren&#39;t available</li></ul></div></section><section class="section" id="s05"><div class="section-header"><div class="section-num">05</div><div><div class="section-title">Tool Use in Cowork</div><div class="section-desc">Beyond text</div></div></div><div class="content-body"><ul class="bullets"><li>Bash — run shell commands in a sandboxed environment</li><li>Code execution — Python and Node code runs in the session</li><li>Web fetch — Claude can fetch and reason about specific URLs</li><li>Computer use — drive the cursor and keyboard for tasks that need a real app (regulated tier)</li><li>Memory tool — persist facts across conversations</li></ul><div class="feat-grid feat-grid-3"><div class="feat-card feat-card-sm"><div class="feat-icon">💻</div><div class="feat-title">Bash + Code Execution</div><div class="feat-desc">Sandboxed shell and Python. Claude can run commands, execute scripts, read outputs.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🌐</div><div class="feat-title">Web Fetch</div><div class="feat-desc">Pull specific URLs into context. Combines with reasoning for grounded research.</div></div><div class="feat-card feat-card-sm"><div class="feat-icon">🖱️</div><div class="feat-title">Computer Use</div><div class="feat-desc">Drive cursor and keyboard on regulated tier. 94% accuracy on professional tasks in Opus 4.7.</div></div></div></div></section><section class="section" id="s06"><div class="section-header"><div class="section-num">06</div><div><div class="section-title">The Cowork Working Pattern</div><div class="section-desc">How to actually work in it</div></div></div><div class="content-body"><p class="prose">Cowork Mode is different from prompt-response Chat. The pattern is closer to pair-working: you set a session goal, Claude proposes a path, you adjust, you both work in tight feedback loops with files visible.</p><ul class="bullets"><li>Open the session with the goal: &#39;We&#39;re rewriting the Q4 board pack from the data in /board-prep&#39;</li><li>Let Claude propose a working plan — accept, modify, or redirect</li><li>Work in 5-10 minute loops: Claude does a step, you review, iterate</li><li>Save anything important to a file at the end — sessions are ephemeral</li></ul><div class="steps"><div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Open with a clear session goal</div><div class="step-desc">&#39;We&#39;re rewriting the Q4 board pack from data in /board-prep&#39; — sets scope explicitly.</div></div></div><div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Let Claude propose a working plan</div><div class="step-desc">Claude breaks the goal into 4-6 phases. Adjust, redirect, or accept before starting.</div></div></div><div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Work in tight feedback loops</div><div class="step-desc">5-10 minute cycles: Claude does a step, you review, iterate. Not 30-minute monologues.</div></div></div><div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Save important state to files</div><div class="step-desc">Sessions are ephemeral. End each session with files updated and notes preserved.</div></div></div><div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Use memory for long-running projects</div><div class="step-desc">For projects spanning weeks, configure memory namespace. Claude remembers across sessions.</div></div></div></div></div></section><section class="section" id="s07"><div class="section-header"><div class="section-num">07</div><div><div class="section-title">Multi-Session Continuity</div><div class="section-desc">What persists, what doesn&#39;t</div></div></div><div class="content-body"><p class="prose">Within a session, context is persistent. Across sessions, the conversation history is saved in your Claude account but not auto-loaded — you start fresh each time unless you reference the previous session or use the memory tool to retain specific facts.</p><div class="callout co-info"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">💾  MEMORY TOOL FOR LONG PROJECTS</div><div class="callout-text">For ongoing projects, enable the memory tool with a project-scoped namespace. Claude can then remember key facts (&#39;we decided to pivot to vertical SaaS in March&#39;, &#39;Sarah is the design lead&#39;) across sessions without you having to re-brief every time.</div></div></div><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">💾  THE LONG-PROJECT PATTERN</div><div class="callout-text">For projects that span weeks: create a memory scope at project start. End each session by asking Claude to save key decisions and open questions to memory. Start each new session by asking Claude to brief you from the project memory. You never re-explain the project.</div></div></div><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Configure a memory namespace per long-running project</li><li>Save key decisions and open questions to a state file at session end</li><li>Start new sessions with &#39;brief me from project memory + state file&#39;</li><li>Reference prior session artefacts explicitly by file path</li><li>Use Projects (claude.ai) for shared team context</li><li>Quarterly memory review — prune stale facts, update evolved positions</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Treating each session as fully independent when work spans weeks</li><li>Storing sensitive credentials in memory — never appropriate</li><li>Over-relying on conversation history — explicit memory beats implicit history</li><li>Forgetting to update memory when project direction changes</li><li>Letting memory accumulate without periodic curation</li><li>Sharing memory namespaces across distinct projects — they should be scoped</li></ul></div></div></div></section><section class="section" id="s08"><div class="section-header"><div class="section-num">08</div><div><div class="section-title">When to Use Cowork vs Other Modes</div><div class="section-desc">Choosing the right surface</div></div></div><div class="content-body"><div class="callout co-primary"><div class="callout-bar"></div><div class="callout-body"><div class="callout-label">🎯  THE SURFACE DECISION</div><div class="callout-text">Quick question → Claude Chat. Single document analysis → Claude Chat with file upload. Multi-day project with files and tools → Cowork Mode. Coding work in a real codebase → Claude Code (CLI). Browser-based research with citations → Claude Chat + web search.</div></div></div><table class="ref-table"><thead><tr><th>Task</th><th>Use</th></tr></thead><tbody><tr><td>Quick one-off question</td><td>Claude Chat</td></tr><tr><td>Single document analysis</td><td>Claude Chat with file upload</td></tr><tr><td>Multi-day project with files and tools</td><td>Cowork Mode</td></tr><tr><td>Coding work in a real codebase</td><td>Claude Code (CLI)</td></tr><tr><td>Browser-based research with citations</td><td>Claude Chat + web search</td></tr></tbody></table></div></section><section class="section" id="s09"><div class="section-header"><div class="section-num">09</div><div><div class="section-title">Common Mistakes &amp; Fixes</div><div class="section-desc">What goes wrong — and how to avoid it</div></div></div><div class="content-body"><p class="prose">Most AI workflows that &#39;don&#39;t work&#39; fall into one of these patterns. The fix is almost always sharper context and stricter review, not switching models or tools.</p><ul class="bullets"><li>Treating Claude Cowork Mode as a finished answer rather than a draft to review</li><li>Vague prompts that don&#39;t specify audience, format, or what you want changed</li><li>Forgetting to give it context — the file, the brief, the constraints</li><li>Skipping the verify step — always check numbers, dates, names, and policy claims</li><li>Using it for tasks where a 30-second human action would be faster</li></ul><div class="do-avoid"><div class="do-box"><h4>✅ DO THIS</h4><ul><li>Provide context — the file, the brief, the audience, the constraints</li><li>Iterate; don&#39;t just accept the first output</li><li>Always review numbers, names, dates, and policy claims</li><li>Treat AI as a fast draft generator, not an answer engine</li><li>Capture what works so you can replicate it</li><li>Match the model to the task — fast modes for drafts, reasoning modes for analysis</li></ul></div><div class="avoid-box"><h4>❌ AVOID THIS</h4><ul><li>Sending AI output without reading it end-to-end</li><li>Vague prompts with no audience, format, or success criteria</li><li>Assuming AI can see files or context it hasn&#39;t been given</li><li>Using AI for tasks faster done manually in under a minute</li><li>Treating numbers, quotes, or citations as verified without checking</li><li>Defaulting to the slow reasoning mode for every task</li></ul></div></div></div></section><section class="section" id="s10"><div class="section-header"><div class="section-num">10</div><div><div class="section-title">Suggested Prompts</div><div class="section-desc">Ready-to-use prompts you can adapt to your work</div></div></div><div class="content-body"><p class="prose">These prompts are designed to land in your real work today. Replace the bracketed placeholders with your actual context — the more specific you make them, the better the output. Treat each one as a starting brief, not a finished script.</p><div class="prompt-card"><div class="prompt-label">COWORK SESSION OPENER</div><div class="prompt-text">Goal for this session: [your goal]. Files I&#39;ve shared: [list]. The output I want by end of session: [specific artefact]. Propose a working plan before we start — break it into 4-6 phases so I can adjust direction early.</div></div><div class="prompt-card"><div class="prompt-label">SKILL INVOCATION</div><div class="prompt-text">Use the [skill name] skill on this. Walk me through what you&#39;re doing at each step so I can catch anything off.</div></div><div class="prompt-card"><div class="prompt-label">MULTI-SESSION CONTINUITY</div><div class="prompt-text">Save the key decisions and open questions from this session as &#39;project-atlas-state.md&#39; in the project folder, then to memory under the project-atlas namespace. Tomorrow we resume from where we are.</div></div></div></section><section class="section" id="s11"><div class="section-header"><div class="section-num">11</div><div><div class="section-title">See It In Action</div><div class="section-desc">A short walkthrough you can replicate today</div></div></div><div class="content-body"><p class="prose">Pick the use case in this guide that most overlaps with what you do this week. Run it once with a real task. Time the before/after. If it saves you 20 minutes, you&#39;ll do it again tomorrow without thinking. If it doesn&#39;t save time on the first try, refine the prompt before giving up — most AI workflows that &#39;don&#39;t work&#39; just need a better brief.</p></div></section><section class="section" id="s12"><div class="section-header"><div class="section-num">12</div><div><div class="section-title">Your Roadmap</div><div class="section-desc">From first try to confident everyday use</div></div></div><div class="content-body"><ul class="bullets"><li>Week 1 — Use Claude Cowork Mode on one real task per day. Don&#39;t optimise; just build the habit.</li><li>Week 2 — Try the harder prompts in this guide. Notice what works for your context.</li><li>Week 3 — Share results with your team. Capture the patterns that consistently produce good outputs.</li><li>Week 4 — Build a small library of your best prompts. Decide which workflows are now AI-first.</li></ul></div></section>
+    <div class="footer">© 2026 The AI Advantage Co  ·  theaiadvantageco.com.au</div>
+  </main>
+</div>
+</body>
+</html>
