@@ -30,6 +30,9 @@ export default function SiteFooter() {
               <li>
                 <a href="/contact">Contact</a>
               </li>
+              <li>
+                <a href="/guides">User Guides</a>
+              </li>
             </ul>
           </div>
           <div className="footer-col">

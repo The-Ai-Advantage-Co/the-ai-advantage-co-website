@@ -48,6 +48,11 @@ export default function SiteNav({ isAuthenticated }: SiteNavProps) {
               Contact
             </a>
           </li>
+          <li>
+            <a href="/guides" className={isActive('/guides') ? 'is-active' : ''}>
+              User Guides
+            </a>
+          </li>
         </ul>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <a href="/pricing" className="btn btn-primary btn-sm">
