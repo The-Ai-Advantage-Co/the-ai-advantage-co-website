@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: 'Pricing',
   description:
     "Simple, clear pricing for Ai coaching. Single sessions, packs, and team training — all with what's included and what's not.",
+  alternates: { canonical: '/pricing' },
 };
 
 const pageStyles = `

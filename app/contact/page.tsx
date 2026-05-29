@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Contact',
   description:
     "Get in touch about Ai coaching. We'll reply within one business day — and we're happy to talk through which session would fit before you commit.",
+  alternates: { canonical: '/contact' },
 };
 
 const pageStyles = `

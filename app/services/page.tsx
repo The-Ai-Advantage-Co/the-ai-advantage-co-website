@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: 'Services',
   description:
     'One-on-one Ai coaching, small-business sessions, and team training. Practical, tailored, and built around what you actually need to get done.',
+  alternates: { canonical: '/services' },
 };
 
 export default function ServicesPage() {

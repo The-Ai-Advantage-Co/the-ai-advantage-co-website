@@ -4,21 +4,84 @@ import { verifyCookie } from '@/lib/auth';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 
+const SITE_URL = 'https://www.theaiadvantageco.com.au';
+
+// Social profiles — feed into JSON-LD sameAs to disambiguate the entity for Google.
+// TODO: replace with real URLs (LinkedIn personal, LinkedIn company, FB, IG, YouTube, etc.).
+const SAME_AS: string[] = [
+  // 'https://www.linkedin.com/in/brad-harle/',
+  // 'https://www.linkedin.com/company/the-ai-advantage-co/',
+];
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://theaiadvantageco.com.au'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'The Ai Advantage Co. — Practical Ai coaching for real work',
     template: '%s — The Ai Advantage Co.',
   },
   description:
     'One-on-one coaching, small-business sessions, and team training across Copilot, ChatGPT, Claude, and Gemini. Tailored to your role and what you actually need to get done.',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     siteName: 'The Ai Advantage Co.',
+    url: SITE_URL,
   },
   icons: {
     icon: '/assets/web/logo-mark.png',
   },
+};
+
+const ORG_ID = `${SITE_URL}/#organization`;
+const PERSON_ID = `${SITE_URL}/#brad-harle`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['Organization', 'LocalBusiness', 'ProfessionalService'],
+      '@id': ORG_ID,
+      name: 'The Ai Advantage Co.',
+      alternateName: ['The AI Advantage Co.', 'The AI Advantage Co'],
+      url: SITE_URL,
+      logo: `${SITE_URL}/assets/web/logo-mark.png`,
+      image: `${SITE_URL}/assets/web/logo-mark.png`,
+      email: 'theaiadvantagecoadmin@gmail.com',
+      telephone: '+61400062251',
+      priceRange: 'AU$100 – AU$250',
+      description:
+        'Practical Ai coaching for individuals, teams, and small businesses across Copilot, ChatGPT, Claude, and Gemini.',
+      areaServed: { '@type': 'Country', name: 'Australia' },
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Warrnambool',
+        addressRegion: 'VIC',
+        addressCountry: 'AU',
+      },
+      founder: { '@id': PERSON_ID },
+      ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
+    },
+    {
+      '@type': 'Person',
+      '@id': PERSON_ID,
+      name: 'Brad Harle',
+      jobTitle: 'Founder & Ai Coach',
+      worksFor: { '@id': ORG_ID },
+      url: SITE_URL,
+      ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
+    },
+    {
+      '@type': 'WebSite',
+      '@id': WEBSITE_ID,
+      url: SITE_URL,
+      name: 'The Ai Advantage Co.',
+      publisher: { '@id': ORG_ID },
+      inLanguage: 'en-AU',
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -41,6 +104,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <link rel="stylesheet" href="/styles.css" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body>
         {/* Site-wide fixed video background — same as original static site */}

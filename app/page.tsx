@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: 'The Ai Advantage Co. — Practical Ai coaching for real work',
   description:
     'One-on-one coaching, small-business sessions, and team training across Copilot, ChatGPT, Claude, and Gemini. Tailored to your role and what you actually need to get done.',
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'The Ai Advantage Co. — Practical Ai coaching',
     description: 'From learning the basics to automating repetitive workflows.',
