@@ -8,7 +8,7 @@ const SITE_URL = 'https://www.theaiadvantageco.com.au';
 
 // Social profiles — feed into JSON-LD sameAs to disambiguate the entity for Google.
 const SAME_AS: string[] = [
-  'https://www.linkedin.com/in/brad-harle-731447407/',
+  'https://www.linkedin.com/in/brad-harle-aiadvantage/',
   'https://www.youtube.com/channel/UCV9iaiC2izg6pBA5LjCNjzw',
   'https://www.instagram.com/theaiadvantageco/',
 ];
