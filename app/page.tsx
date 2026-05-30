@@ -152,6 +152,60 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================
+          4.5 · WHO'S BEHIND IT (Founder)
+          ============================================================ */}
+      <section className="section">
+        <div className="section-inner">
+          <div className="section-header">
+            <span className="eyebrow">Who&apos;s behind it</span>
+            <h2 className="h2">
+              Brad Harle — <span className="accent">practical Ai, plainly</span>.
+            </h2>
+          </div>
+          <div
+            style={{
+              maxWidth: '720px',
+              margin: '0 auto',
+              fontSize: '1.0625rem',
+              lineHeight: 1.75,
+            }}
+          >
+            <p style={{ marginBottom: '20px' }}>
+              I&apos;m <strong>Brad Harle</strong>. I run The Ai Advantage Co. from{' '}
+              <strong>Warrnambool, Victoria</strong> — coaching individuals, small businesses,
+              and teams across Copilot, ChatGPT, Claude, and Gemini.
+            </p>
+            <p style={{ marginBottom: '20px' }}>
+              After years leading teams and training, I started this because most Ai content
+              is hype, demos, or guesswork. None of that helps you do your actual job
+              tomorrow.
+            </p>
+            <p style={{ marginBottom: '0' }}>
+              Sessions are one-on-one or small group, live, and built around your real tasks.
+              No slides. No fluff. You leave with something usable.
+            </p>
+          </div>
+          <div
+            className="ctas"
+            style={{
+              marginTop: '40px',
+              display: 'flex',
+              gap: '12px',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            <a href="/pricing" className="btn btn-primary">
+              Book a Session
+            </a>
+            <a href="/contact" className="btn btn-link">
+              Get in touch
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
           5 · HOW IT WORKS
           ============================================================ */}
       <section className="section section-alt">
