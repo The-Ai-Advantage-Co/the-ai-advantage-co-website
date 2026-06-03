@@ -270,10 +270,10 @@ export default function PricingPage() {
               <div className="pricing-extra-item">
                 <span>
                   <strong>Face-to-face travel</strong> &nbsp;
-                  <span style={{ color: 'var(--copper)' }}>+$50</span>
+                  <span style={{ color: 'var(--copper)' }}>$0.80/km</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    Flat fee for in-person sessions outside Warrnambool
+                    One-way from Warrnambool · $25 minimum
                   </span>
                 </span>
               </div>
@@ -322,7 +322,7 @@ export default function PricingPage() {
             <div className="faq-body">
               <p>
                 Both. Sessions run on Zoom (Australia-wide) or face-to-face in Warrnambool. Face-to-face
-                outside Warrnambool is possible with a flat $50 travel fee.
+                outside Warrnambool is charged at $0.80 per km (one-way from Warrnambool, $25 minimum).
               </p>
               <p>
                 Most clients pick Zoom — it works well, the screen-share lets you see workflows being
