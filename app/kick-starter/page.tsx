@@ -424,6 +424,86 @@ export default function KickStarterPage() {
           </div>
         </div>
       </section>
+
+      {/* FAQ */}
+      <section className="faq">
+        <div className="faq-inner">
+          <div className="section-header" style={{ marginBottom: '48px' }}>
+            <span className="eyebrow">FAQ</span>
+            <h2 className="h2">Common questions.</h2>
+          </div>
+
+          <details className="faq-item">
+            <summary>How long does the whole thing take?</summary>
+            <div className="faq-body">
+              <p>
+                <strong>Lite</strong> — usually about a week from kick-off to handover.
+                <br />
+                <strong>Standard</strong> — usually 3–4 weeks (most of that is your time on the brand
+                and website content).
+                <br />
+                <strong>Plus</strong> — usually 5–6 weeks. Full custom brand design takes longer, and
+                the AI integration workflows need real examples from your day-to-day.
+              </p>
+            </div>
+          </details>
+
+          <details className="faq-item">
+            <summary>What do I need to bring?</summary>
+            <div className="faq-body">
+              <p>
+                A business name, any existing brand assets (if you have them), website content (we
+                can help shape this), and a decision on which Ai platform you want set up. If you
+                don&apos;t know which platform, we&apos;ll help you pick — that&apos;s usually the
+                first 30 minutes of the kick-off call.
+              </p>
+            </div>
+          </details>
+
+          <details className="faq-item">
+            <summary>Who owns the brand kit, docs, and website after?</summary>
+            <div className="faq-body">
+              <p>
+                You do. All source files are handed over to you. The website stays hosted with us at
+                $10/mo for convenience, but you own the code and can migrate it any time. No lock-in.
+              </p>
+            </div>
+          </details>
+
+          <details className="faq-item">
+            <summary>Can I pay in instalments?</summary>
+            <div className="faq-body">
+              <p>
+                Yes. The default is 50% deposit to start, 50% on handover. If you need a longer
+                payment plan, send us a note via the enquiry form and we&apos;ll work something out.
+              </p>
+            </div>
+          </details>
+
+          <details className="faq-item">
+            <summary>What&apos;s not included?</summary>
+            <div className="faq-body">
+              <p>
+                Custom software development, photography, copywriting beyond the 5 website pages,
+                paid ad accounts (Google Ads, Meta), and any third-party subscriptions (your Ai
+                platform plan, your email, your domain). We&apos;ll always tell you what something
+                costs before you sign up.
+              </p>
+            </div>
+          </details>
+
+          <details className="faq-item">
+            <summary>Can I add items later?</summary>
+            <div className="faq-body">
+              <p>
+                Yes — every à la carte item is available individually at the listed price. You can
+                start with Lite and add Ai setup and a website in three months when you&apos;re
+                ready. We keep your brand kit on file so it carries through.
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
     </>
   );
 }
