@@ -43,7 +43,7 @@ export default function SiteNav({ isAuthenticated }: SiteNavProps) {
               href="/kick-starter"
               className={isActive('/kick-starter') ? 'is-active' : ''}
             >
-              Kick Starter
+              Ai Business Kick Starter
             </a>
           </li>
           <li>

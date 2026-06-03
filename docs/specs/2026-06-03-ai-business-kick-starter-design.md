@@ -40,27 +40,51 @@ This is positioned as a **market-undercutting** offering: prices are deliberatel
 
 | Code | Item | Price (AUD) | Notes |
 |---|---|---|---|
-| 01 | Brand Kit — Light Design | $250 | Polish existing logo OR simple wordmark · palette · fonts · 1-page style guide PDF |
-| 02 | Brand Kit — Full Design | $400 | Logo concepts from scratch · 2 revisions · full identity · style guide |
-| 03 | Doc Template Pack | $200 | Letterhead · quote/proposal · invoice · email signature · 1 SOP template (Word + PDF) |
+| 01 | Brand Kit — Light Design | $250 | Redesign existing logo OR build a fresh wordmark · palette · fonts · 1-page style guide PDF |
+| 02 | Brand Kit — Full Design | $350 | Redesign OR build from scratch · deeper revisions · full identity · style guide ($100 more than Light) |
+| 03 | Doc Template Pack | $200 | Up to 10 templates · letterhead, quote, invoice, email signature, SOPs, internal/external doc layouts (Word + PDF) |
 | 04 | AI Platform Setup (1 platform) | $300 | Account configured · workspace structure · 5 saved prompts/projects · platform user guide |
 | 04+ | Additional AI platform | +$200/each | Each extra platform set up to same standard |
 | 05 | AI Integration | $50/workflow | 1-page SOP per workflow (e.g. quote drafting, customer-email triage) |
-| 06 | Website Design + Deploy | $900 | 5-page responsive site (Home/About/Services/Pricing/Contact) · Vercel deploy · basic SEO (sitemap, robots, metadata) |
+| 06 | Website Design + Deploy | $900 | 5-page responsive site (Home/About/Services/Pricing/Contact) · Vercel deploy · basic SEO |
 | 07 | Booking Integration | $100 | Calendly setup · branded · embedded on site · 1-hour training |
 | 08 | Handover Training | $200 | 2-hour live walk-through; recording included |
 | A1 | Google Business Profile setup | $100 | Create · verify · categorise · service areas (per existing SEO doc process) |
 | A2 | Social Media Starter | $250 | LinkedIn + 1 other: profile setup · branded banner · bio copy · 3-post starter pack |
 
-**Note on Brand Kit tiers:** Light Design ($250) covers customers who either have an existing logo to polish, or want a simple wordmark made. Full Design ($400) covers logo-from-scratch work with concepts and revisions. Only two tiers exist; there is no "Packaging-only" option.
+**Note on Brand Kit tiers:** Both Light Design ($250) and Full Design ($350) can be either a redesign of an existing logo OR a fresh build from scratch — customer chooses at the discovery meeting. Full Design adds deeper revisions and a fuller identity scope (priced at $100 more than Light per Brad's pricing rule).
 
 ### 3.2 Packaged tiers
 
-| Tier | Name | Price | Includes | À la carte total | Save |
-|---|---|---|---|---|---|
-| Lite | Identity Starter | **$500** | Brand Light · Docs · Handover Training | $650 | $150 (23%) |
-| Standard ⭐ | Business Kick Starter | **$2,000** | Brand Light · Docs · AI Setup (1 platform) · Website + Deploy · Booking · GBP · Social Starter · Handover Training | $2,300 | $300 (13%) |
-| Plus | Full Kick Starter | **$3,000** | Brand **Full** · Docs · AI Setup (2 platforms) · AI Integration (6 workflows) · Website + Deploy · Booking · GBP · Social Starter · Handover Training · **+ 3-month support retainer included** | $3,250 | $250 (8%) |
+The packaged tiers are now defined as deliverable bundles rather than collections of à la carte items — the headline deliverables (10 logos, 10 social ads, etc.) don't map 1:1 to à la carte items, so the "save vs à la carte" framing has been removed.
+
+**Lite — Identity Starter — $500**
+- Discovery meeting (1.5–2 hours) — live drafting to confirm style and approach
+- 10 logo designs for different use cases
+- 2 business card designs
+- 10 static social media ads (sized for FB, Insta, LinkedIn, X)
+- 2 × 40-second videos for social use
+- 2 × 40-second UGC-style videos (Brand Intro etc.)
+- Up to 10 document templates (letterhead, quote, invoice, signature, SOPs, internal/external)
+- Handover training (2 hours, recorded)
+- Brand can be a redesign of existing logo OR a fresh build from scratch — customer chooses at the meeting
+- Post-handover: any further edits or new builds billed at **$100/hr**
+
+**Standard — Business Kick Starter ⭐ — $2,000**
+- Everything in Lite, plus:
+- Ai Platform Setup (1 platform)
+- Website Design + Deploy (5 pages, responsive, Vercel-hosted, basic SEO)
+- Booking Integration (Calendly)
+- Google Business Profile setup
+- Post-handover edits: **$100/hr**
+
+**Plus — Full Kick Starter — $3,000**
+- Everything in Standard, plus:
+- Brand Kit upgraded to **Full Design** (deeper revisions, fuller identity scope; can be redesign or fresh build)
+- Ai Platform Setup — second platform included
+- Ai Integration — 6 workflows wired in and documented as 1-page SOPs each
+- **3 months post-launch Support included** — any updates or tweaks during this period are covered
+- After the 3-month period: **$100/hr**
 
 Standard is the recommended tier — marked with the ⭐ "Most popular" eyebrow.
 
@@ -72,7 +96,7 @@ Standard is the recommended tier — marked with the ⭐ "Most popular" eyebrow.
 | Hosting — Vercel Pro upgrade | Current Vercel Pro price | Vercel directly | Only if customer needs Pro features |
 | Calendly Basic | $15/mo | Calendly directly | Only if booking added |
 | Domain | At cost | Registrar directly | Customer pays whatever their registrar charges; we pass it through with no markup |
-| Support retainer (optional) | $100 | The Ai Advantage Co. | For any updates required; new offers or larger builds POA |
+| Post-launch edits | $100/hr | The Ai Advantage Co. | For any updates required; new offers or larger builds POA. Plus tier customers get the first 3 months covered as part of the package. |
 
 ---
 

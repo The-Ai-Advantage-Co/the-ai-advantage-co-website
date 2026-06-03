@@ -314,28 +314,53 @@ export default function KickStarterPage() {
             <span className="label">Lite · Identity Starter</span>
             <h2>Lite — $500</h2>
             <p className="desc">
-              The minimum kit to start looking like a real business. Brand basics, document templates,
-              and a hands-on handover so you can use them straight away.
+              A full brand &amp; identity kit for new or rebranding small businesses. Logo, business
+              cards, social ads, intro videos, document templates — done for you, ready to use.
             </p>
             <div className="service-detail">
               <h4>Who it&apos;s for</h4>
               <p>
-                Solo operators and brand-new small businesses who need to look professional today and
-                will add Ai + website later. No website included in this tier.
+                Solo operators and small businesses who need a proper visual identity and marketing
+                kit to start showing up professionally. No website or Ai setup in this tier — those
+                live in Standard and Plus.
               </p>
             </div>
             <div className="service-detail">
               <h4>What&apos;s included</h4>
               <ul>
-                <li>Brand Kit (Light Design) — wordmark, palette, fonts, 1-page style guide</li>
-                <li>Doc Template Pack — letterhead, quote, invoice, email signature, SOP template</li>
-                <li>Handover Training — 2-hour live walk-through, recording included</li>
+                <li>
+                  <strong>Discovery meeting — 1.5–2 hours</strong>, live drafting to confirm style
+                  and approach across brand, business cards, social ads, and doc templates
+                </li>
+                <li>
+                  <strong>10 logo designs</strong> for different use cases (square, horizontal,
+                  monogram, dark/light variants, favicon, etc.)
+                </li>
+                <li><strong>2 business card designs</strong> to choose from</li>
+                <li>
+                  <strong>10 static social media ads</strong> sized for Facebook, Instagram,
+                  LinkedIn, and X
+                </li>
+                <li>
+                  <strong>2 × 40-second videos</strong> for social ad use
+                </li>
+                <li>
+                  <strong>2 × 40-second UGC-style videos</strong> (e.g. Brand Intro)
+                </li>
+                <li>
+                  <strong>Up to 10 document templates</strong> — letterhead, quote, invoice, email
+                  signature, SOPs, and internal/external doc layouts
+                </li>
+                <li>
+                  <strong>Handover training</strong> — 2-hour live walk-through, recording included
+                </li>
+                <li>
+                  Brand Kit can be a <strong>redesign of your existing logo</strong> OR a{' '}
+                  <strong>fresh build from scratch</strong> — your call at the discovery meeting
+                </li>
               </ul>
-            </div>
-            <div className="service-detail">
-              <h4>Save vs à la carte</h4>
-              <p>
-                À la carte total: $650 · Package: <strong>$500</strong> · You save $150 (23%).
+              <p style={{ marginTop: '12px', fontStyle: 'italic', color: 'var(--ink-tertiary)' }}>
+                After handover, any further edits or new builds are billed at $100/hr.
               </p>
             </div>
             <div className="cta-row">
@@ -360,33 +385,52 @@ export default function KickStarterPage() {
             <span className="label">Most popular · Done-for-you setup</span>
             <h2>Standard — Business Kick Starter — $2,000</h2>
             <p className="desc">
-              The full done-for-you setup. Brand, docs, one Ai platform, a 5-page website, and a
-              booking system — handed over working, with you trained on how to drive it.
+              Everything in Lite, plus a 5-page website, an Ai platform set up for your business,
+              and customer booking — the full done-for-you trading setup.
             </p>
             <div className="service-detail">
               <h4>Who it&apos;s for</h4>
               <p>
-                Small businesses that want to start trading properly: brand, website, AI in their
-                workflow, and a way for customers to book — all delivered in one bundle.
+                Small businesses that want to start trading properly: brand, marketing kit, website,
+                AI in their workflow, and a way for customers to book — all delivered in one bundle.
               </p>
             </div>
             <div className="service-detail">
               <h4>What&apos;s included</h4>
+              <p style={{ marginBottom: '10px' }}>
+                <strong>Everything in the Lite tier:</strong>
+              </p>
               <ul>
-                <li>Brand Kit (Light Design)</li>
-                <li>Doc Template Pack</li>
-                <li>Ai Platform Setup — pick one (Copilot, ChatGPT, Claude, or Gemini)</li>
-                <li>Website Design + Deploy — 5 pages, responsive, Vercel-hosted</li>
-                <li>Booking Integration — Calendly setup, branded, embedded</li>
-                <li>Google Business Profile setup</li>
-                <li>Social Media Starter — LinkedIn + 1 other platform</li>
-                <li>Handover Training — 2-hour live walk-through</li>
+                <li>Discovery meeting (1.5–2 hours) to confirm style + approach</li>
+                <li>10 logo designs for different use cases</li>
+                <li>2 business card designs</li>
+                <li>10 static social media ads (FB, Insta, LinkedIn, X)</li>
+                <li>2 × 40-second videos for social use</li>
+                <li>2 × 40-second UGC-style videos (Brand Intro etc.)</li>
+                <li>Up to 10 document templates</li>
+                <li>Handover training (2 hours, recorded)</li>
               </ul>
-            </div>
-            <div className="service-detail">
-              <h4>Save vs à la carte</h4>
-              <p>
-                À la carte total: $2,300 · Package: <strong>$2,000</strong> · You save $300 (13%).
+              <p style={{ marginTop: '14px', marginBottom: '10px' }}>
+                <strong>Plus, on top of Lite:</strong>
+              </p>
+              <ul>
+                <li>
+                  <strong>Ai Platform Setup</strong> — pick one (Copilot, ChatGPT, Claude, or Gemini)
+                  · account, workspace, 5 saved prompts, user guide
+                </li>
+                <li>
+                  <strong>Website Design + Deploy</strong> — 5 pages, responsive, Vercel-hosted,
+                  basic SEO
+                </li>
+                <li>
+                  <strong>Booking Integration</strong> — Calendly setup, branded, embedded
+                </li>
+                <li>
+                  <strong>Google Business Profile setup</strong>
+                </li>
+              </ul>
+              <p style={{ marginTop: '12px', fontStyle: 'italic', color: 'var(--ink-tertiary)' }}>
+                After handover, any further edits or new builds are billed at $100/hr.
               </p>
             </div>
             <div className="cta-row">
@@ -411,8 +455,8 @@ export default function KickStarterPage() {
             <span className="label">Plus · The full kit</span>
             <h2>Plus — Full Kick Starter — $3,000</h2>
             <p className="desc">
-              Everything in Standard, plus full custom brand design, two Ai platforms, six integrated
-              workflows, and three months of included support after handover.
+              Everything in Standard, plus the brand upgraded to Full Design, a second Ai platform,
+              Ai workflows integrated into your day-to-day, and three months of post-launch support.
             </p>
             <div className="service-detail">
               <h4>Who it&apos;s for</h4>
@@ -424,32 +468,34 @@ export default function KickStarterPage() {
             </div>
             <div className="service-detail">
               <h4>What&apos;s included</h4>
+              <p style={{ marginBottom: '10px' }}>
+                <strong>Everything in the Standard tier</strong> (brand kit + marketing build + docs
+                + website + Ai setup + booking + GBP + handover).
+              </p>
+              <p style={{ marginTop: '14px', marginBottom: '10px' }}>
+                <strong>Plus, on top of Standard:</strong>
+              </p>
               <ul>
                 <li>
-                  Brand Kit (<strong>Full Design</strong>) — logo from scratch, 2 revisions, full
-                  identity
+                  Brand Kit upgraded to <strong>Full Design</strong> — deeper revisions and a fuller
+                  identity scope (can be redesign or fresh build)
                 </li>
-                <li>Doc Template Pack</li>
                 <li>
-                  Ai Platform Setup — <strong>two platforms</strong> (e.g. Copilot for office work +
-                  ChatGPT for marketing)
+                  <strong>Ai Platform Setup — second platform</strong> (e.g. Copilot for office work
+                  + ChatGPT for marketing)
                 </li>
-                <li>Ai Integration — 6 workflows documented as 1-page SOPs</li>
-                <li>Website Design + Deploy</li>
-                <li>Booking Integration</li>
-                <li>Google Business Profile setup</li>
-                <li>Social Media Starter</li>
-                <li>Handover Training</li>
                 <li>
-                  <strong>3 months Support included</strong> — for any updates or tweaks you need
-                  after handover
+                  <strong>Ai Integration</strong> — 6 workflows wired into your business and
+                  documented as 1-page SOPs
+                </li>
+                <li>
+                  <strong>3 months post-launch Support included</strong> — for any updates or tweaks
+                  you need after handover
                 </li>
               </ul>
-            </div>
-            <div className="service-detail">
-              <h4>Save vs à la carte</h4>
-              <p>
-                À la carte total: $3,250 · Package: <strong>$3,000</strong> · You save $250 (8%).
+              <p style={{ marginTop: '12px', fontStyle: 'italic', color: 'var(--ink-tertiary)' }}>
+                After the 3-month support period, any further edits or new builds are billed at
+                $100/hr.
               </p>
             </div>
             <div className="cta-row">
@@ -480,17 +526,17 @@ export default function KickStarterPage() {
                   <span style={{ color: 'var(--copper)' }}>$250</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    Polish existing logo or simple wordmark · palette · fonts · style guide
+                    Redesign your existing logo OR build a fresh wordmark · palette · fonts · style guide
                   </span>
                 </span>
               </div>
               <div className="pricing-extra-item">
                 <span>
                   <strong>Brand Kit — Full Design</strong> &nbsp;
-                  <span style={{ color: 'var(--copper)' }}>$400</span>
+                  <span style={{ color: 'var(--copper)' }}>$350</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    Logo from scratch · 2 revisions · full identity · style guide
+                    Redesign OR build from scratch · deeper revisions · full identity · style guide
                   </span>
                 </span>
               </div>
@@ -500,7 +546,7 @@ export default function KickStarterPage() {
                   <span style={{ color: 'var(--copper)' }}>$200</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    Letterhead · quote · invoice · email signature · 1 SOP template (Word + PDF)
+                    Up to 10 templates · letterhead, quote, invoice, email signature, SOPs, internal/external docs (Word + PDF)
                   </span>
                 </span>
               </div>
@@ -540,7 +586,7 @@ export default function KickStarterPage() {
                   <span style={{ color: 'var(--copper)' }}>$900</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    5 pages · responsive · Vercel deploy · basic SEO (sitemap, robots, metadata)
+                    5 pages · responsive · Vercel deploy · basic SEO
                   </span>
                 </span>
               </div>
@@ -644,8 +690,8 @@ export default function KickStarterPage() {
               </div>
               <div className="pricing-extra-item">
                 <span>
-                  <strong>Support retainer (optional)</strong> &nbsp;
-                  <span style={{ color: 'var(--copper)' }}>$100</span>
+                  <strong>Post-launch edits</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$100/hr</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
                     For any updates required · new offers or larger builds POA
