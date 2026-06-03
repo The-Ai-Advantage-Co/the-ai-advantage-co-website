@@ -103,7 +103,12 @@ export default async function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="/styles.css" />
+        <link
+          rel="stylesheet"
+          href={`/styles.css?v=${
+            process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || 'dev'
+          }`}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
