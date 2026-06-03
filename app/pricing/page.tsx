@@ -277,6 +277,19 @@ export default function PricingPage() {
                   </span>
                 </span>
               </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Ai Business Kick Starter</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$500 / $2,000 / $3,000</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Done-for-you small-business setup — brand, docs, Ai, website.{' '}
+                    <a href="/kick-starter" style={{ color: 'var(--copper)' }}>
+                      See Kick Starter →
+                    </a>
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
