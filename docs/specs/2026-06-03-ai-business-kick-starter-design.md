@@ -93,24 +93,20 @@ The page lives at `/app/kick-starter/page.tsx` and follows the exact same compon
    - **Lite** — `service-block` (not alt, not reverse)
    - **Standard** — `service-block is-alt is-reverse` with eyebrow "Most popular · Done-for-you setup"
    - **Plus** — `service-block` (not alt, not reverse)
-   - Each block: visual image · label · h2 · short description · 3 detail sections (Who it's for / What's included / How it's delivered) · CTA row with "Enquire about this tier" button (anchors to form with tier pre-selected)
+   - Each block: visual image · label · h2 · short description · 3 detail sections (Who it's for / What's included / Save vs à la carte) · CTA row with "Enquire about [tier]" button (anchors to `#enquiry`; user picks tier from the dropdown — no auto-select)
 
 3. **À la carte section**
    - Eyebrow: "Or build your own"
    - H2: "Pick the pieces you need."
    - Intro paragraph
-   - Pricing-style table showing all 11 itemised items (using the existing `pricing-extra-item` pattern from `/pricing`)
+   - Pricing-style grid showing all 11 itemised items (using the existing `pricing-extra-item` pattern from `/pricing`). Includes Google Business Profile and Social Media Starter as cards within this grid (no separate "Add-ons" section — keeps the page simpler).
 
-4. **Add-ons section** (visually distinct from à la carte; smaller cards)
-   - Two cards: Google Business Profile / Social Media Starter
-   - Each card: title · short description · price · note that they can be added to any tier
-
-5. **Recurring fees section**
+4. **Recurring fees section**
    - Eyebrow: "What you'll pay each month"
    - H2: "Transparent. No surprises."
    - List of recurring items with payable-to column (matches table in §3.3)
 
-6. **FAQ section** (`details`-based, same as `/pricing` FAQ)
+5. **FAQ section** (`details`-based, same as `/pricing` FAQ)
    - "How long does the whole thing take?" — Lite ~1 week · Standard ~3–4 weeks · Plus ~5–6 weeks
    - "What do I need to bring?" — Business name, any existing brand assets, content for the website, decision on which AI platform
    - "Who owns the brand kit, docs, and site after?" — You own everything. Source files handed over. Site stays hosted with us at $10/mo, or migrate any time.
@@ -118,7 +114,7 @@ The page lives at `/app/kick-starter/page.tsx` and follows the exact same compon
    - "What's not included?" — Custom software, photography, copywriting beyond the website 5 pages, paid ad accounts
    - "Can I add items later?" — Yes. À la carte items can be added to any tier at the listed price.
 
-7. **Enquiry form** (`#enquiry`)
+6. **Enquiry form** (`#enquiry`)
    - Posts to `https://api.web3forms.com/submit` (same as existing `/contact`)
    - Hidden inputs: `access_key`, `subject` = "New Kick Starter enquiry — The Ai Advantage Co.", `from_name`, `redirect`, `botcheck`
    - Visible fields:
@@ -132,7 +128,7 @@ The page lives at `/app/kick-starter/page.tsx` and follows the exact same compon
    - Submit button: "Send enquiry"
    - Below button: small note "We'll call you back within one business day."
 
-8. **Final CTA / footer prompt**
+7. **Final CTA / footer prompt**
    - H2: "Not sure which tier fits?" with accent on "*Just ask.*"
    - Paragraph + single button "Send enquiry" (anchors to `#enquiry`)
 
@@ -221,11 +217,10 @@ Manual smoke-check after build:
 3. À la carte table shows all 11 items
 4. FAQ items expand/collapse
 5. Enquiry form posts successfully (test with a real submit to confirm Web3Forms accepts it)
-6. Tier dropdown pre-selects correctly when arriving via `?tier=lite|standard|plus|custom`
-7. Top nav link visible on every page, active state on `/kick-starter`
-8. Cross-links from `/services` and `/pricing` resolve correctly
-9. Mobile responsive — service blocks stack, form usable on small viewports
-10. Lighthouse: no major accessibility regressions vs `/services`
+6. Top nav link visible on every page, active state on `/kick-starter`
+7. Cross-links from `/services` and `/pricing` resolve correctly
+8. Mobile responsive — service blocks stack, form usable on small viewports
+9. Lighthouse: no major accessibility regressions vs `/services`
 
 ---
 
