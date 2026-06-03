@@ -158,12 +158,26 @@ export default function BrandKitPage() {
         .video-row.is-landscape .video-caption { padding: 14px 16px; font-size: 14px; }
 
         /* BUSINESS CARDS */
-        .card-grid {
+        .card-options {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 32px;
+          grid-template-columns: 1fr;
+          gap: 48px;
           max-width: 1080px;
           margin: 0 auto;
+        }
+        .card-option-group {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 28px;
+          align-items: start;
+        }
+        .card-option-label {
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: 22px;
+          letter-spacing: -0.015em;
+          margin-bottom: 18px;
+          text-align: center;
         }
         .card-frame {
           border-radius: 16px;
@@ -175,10 +189,10 @@ export default function BrandKitPage() {
         .card-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .card-label {
           text-align: center;
-          margin-top: 14px;
-          font-size: 13px;
+          margin-top: 12px;
+          font-size: 12px;
           font-weight: 600;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
           color: var(--ink-tertiary);
         }
@@ -359,7 +373,7 @@ export default function BrandKitPage() {
           .static-grid { grid-template-columns: repeat(2, 1fr); }
           .video-row.is-portrait { grid-template-columns: repeat(2, 1fr); }
           .video-row.is-landscape { grid-template-columns: 1fr; }
-          .card-grid { grid-template-columns: 1fr; }
+          .card-option-group { grid-template-columns: 1fr; gap: 20px; }
           .doc-grid { grid-template-columns: 1fr; }
           .pricing-strip { grid-template-columns: 1fr; }
           .form-row.two-col { grid-template-columns: 1fr; }
@@ -559,22 +573,47 @@ export default function BrandKitPage() {
             <span className="eyebrow">04 · Business Cards</span>
             <h2>2 business card designs.</h2>
             <p>
-              Print-ready light and dark options, built to match the logo and palette. Hand them
-              out tomorrow.
+              Print-ready front and back in both light and dark options, built to match the logo
+              and palette. Hand them out tomorrow.
             </p>
           </div>
-          <div className="card-grid">
+          <div className="card-options">
+            {/* LIGHT OPTION */}
             <div>
-              <div className="card-frame">
-                <img src="/assets/brand-kit/card-light-back.jpg" alt="Business card — light option, back with contact details." />
+              <div className="card-option-label">Light option</div>
+              <div className="card-option-group">
+                <div>
+                  <div className="card-frame">
+                    <img src="/assets/brand-kit/card-light-front.jpg" alt="Business card — light option, front with gold logo on cream." />
+                  </div>
+                  <div className="card-label">Front</div>
+                </div>
+                <div>
+                  <div className="card-frame">
+                    <img src="/assets/brand-kit/card-light-back.jpg" alt="Business card — light option, back with contact details." />
+                  </div>
+                  <div className="card-label">Back</div>
+                </div>
               </div>
-              <div className="card-label">Light option · back</div>
             </div>
+
+            {/* DARK OPTION */}
             <div>
-              <div className="card-frame">
-                <img src="/assets/brand-kit/card-dark-back.jpg" alt="Business card — dark option, back with contact details." />
+              <div className="card-option-label">Dark option</div>
+              <div className="card-option-group">
+                <div>
+                  <div className="card-frame">
+                    <img src="/assets/brand-kit/card-dark-front.jpg" alt="Business card — dark option, front with gold logo on black." />
+                  </div>
+                  <div className="card-label">Front</div>
+                </div>
+                <div>
+                  <div className="card-frame">
+                    <img src="/assets/brand-kit/card-dark-back.jpg" alt="Business card — dark option, back with contact details." />
+                  </div>
+                  <div className="card-label">Back</div>
+                </div>
               </div>
-              <div className="card-label">Dark option · back</div>
             </div>
           </div>
         </div>
