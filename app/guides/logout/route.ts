@@ -7,7 +7,8 @@ import { cookieName } from '@/lib/auth';
  * Only POST is accepted to prevent accidental sign-out via prefetch/link.
  */
 export async function POST(req: Request) {
-  cookies().delete(cookieName);
+  const cookieStore = await cookies();
+  cookieStore.delete(cookieName);
   const home = new URL('/', req.url);
   return NextResponse.redirect(home, { status: 302 });
 }

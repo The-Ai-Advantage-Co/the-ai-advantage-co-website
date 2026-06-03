@@ -84,13 +84,13 @@ const jsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   // Server-side cookie check to conditionally render Sign Out pill in nav.
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const rawCookie = cookieStore.get('aiadv_guides_access')?.value ?? null;
   const isAuthenticated = rawCookie ? verifyCookie(rawCookie) : false;
 

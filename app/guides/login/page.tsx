@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 interface LoginPageProps {
-  searchParams: { next?: string; error?: string };
+  searchParams: Promise<{ next?: string; error?: string }>;
 }
 
 // ---------- Server action ----------------------------------------------------
@@ -29,7 +29,7 @@ async function loginAction(formData: FormData) {
   const password = String(formData.get('password') ?? '');
   const next = String(formData.get('next') ?? '/guides');
 
-  const hdrs = headers();
+  const hdrs = await headers();
   const ip = clientIpFromHeaders(hdrs);
 
   const limit = rateLimit(ip);
@@ -46,7 +46,8 @@ async function loginAction(formData: FormData) {
 
   // Success — set signed cookie and bounce to next.
   const value = signCookie();
-  cookies().set(cookieName, value, {
+  const cookieStore = await cookies();
+  cookieStore.set(cookieName, value, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -138,9 +139,10 @@ const pageStyles = `
   }
 `;
 
-export default function GuidesLoginPage({ searchParams }: LoginPageProps) {
-  const next = typeof searchParams.next === 'string' ? searchParams.next : '/guides';
-  const error = searchParams.error;
+export default async function GuidesLoginPage({ searchParams }: LoginPageProps) {
+  const params = await searchParams;
+  const next = typeof params.next === 'string' ? params.next : '/guides';
+  const error = params.error;
 
   const errorMessage =
     error === 'invalid'
