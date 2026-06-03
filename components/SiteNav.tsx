@@ -70,7 +70,7 @@ export default function SiteNav({ isAuthenticated }: SiteNavProps) {
             </a>
           </li>
         </ul>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div className="nav-controls" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <a href="/pricing" className="btn btn-primary btn-sm">
             Book a Session
           </a>

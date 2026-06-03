@@ -132,30 +132,26 @@ export default async function RootLayout({
 
         <SiteFooter />
 
-        {/* Mobile nav toggle script — identical to static site */}
+        {/* Mobile nav toggle — flips .is-open on .nav-links; styling lives in
+            styles.css under @media (max-width: 1100px) */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 var toggle = document.querySelector('.nav-menu-toggle');
                 var links = document.querySelector('.nav-links');
-                if (toggle && links) {
-                  toggle.addEventListener('click', function() {
-                    var open = links.classList.toggle('is-open');
-                    toggle.setAttribute('aria-expanded', open);
-                    if (open) {
-                      Object.assign(links.style, {
-                        display: 'flex', flexDirection: 'column',
-                        position: 'absolute', top: '100%',
-                        left: 0, right: 0,
-                        background: '#fff', padding: '24px',
-                        borderBottom: '1px solid #D2D2D7'
-                      });
-                    } else {
-                      links.style.display = '';
-                    }
-                  });
-                }
+                if (!toggle || !links) return;
+                toggle.addEventListener('click', function() {
+                  var open = links.classList.toggle('is-open');
+                  toggle.setAttribute('aria-expanded', open);
+                });
+                // Close menu when any link is clicked (mobile UX)
+                links.addEventListener('click', function(e) {
+                  if (e.target.tagName === 'A') {
+                    links.classList.remove('is-open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                  }
+                });
               })();
             `,
           }}
