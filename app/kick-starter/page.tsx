@@ -306,8 +306,8 @@ export default function KickStarterPage() {
         <div className="service-block-inner">
           <div className="service-visual">
             <img
-              src="/assets/web/portrait-w2.jpg"
-              alt="A solo business owner setting up at a warm desk."
+              src="/assets/web/kickstart-lite.jpg"
+              alt="A solo founder working from a sunlit cafe corner, laptop open and notebook beside her."
             />
           </div>
           <div className="service-content">
@@ -352,8 +352,8 @@ export default function KickStarterPage() {
         <div className="service-block-inner">
           <div className="service-visual">
             <img
-              src="/assets/web/hero-workspace-a.jpg"
-              alt="A small-business workspace with brand, docs, and a website on screen."
+              src="/assets/web/kickstart-standard.jpg"
+              alt="A small-business owner reviewing brand assets and a website mockup at a coworking desk."
             />
           </div>
           <div className="service-content">
@@ -403,8 +403,8 @@ export default function KickStarterPage() {
         <div className="service-block-inner">
           <div className="service-visual">
             <img
-              src="/assets/web/portrait-man-polo.jpg"
-              alt="A confident small-business owner with a polished, finished brand."
+              src="/assets/web/kickstart-plus.jpg"
+              alt="A confident small-business owner in a refined warm-lit lounge with a leather portfolio."
             />
           </div>
           <div className="service-content">
