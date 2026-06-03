@@ -39,6 +39,14 @@ export default function SiteNav({ isAuthenticated }: SiteNavProps) {
             </a>
           </li>
           <li>
+            <a
+              href="/kick-starter"
+              className={isActive('/kick-starter') ? 'is-active' : ''}
+            >
+              Kick Starter
+            </a>
+          </li>
+          <li>
             <a href="/pricing" className={isActive('/pricing') ? 'is-active' : ''}>
               Pricing
             </a>
