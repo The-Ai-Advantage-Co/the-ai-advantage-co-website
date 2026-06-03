@@ -115,17 +115,29 @@ export default function BrandKitPage() {
         .static-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .static-card.is-portrait { grid-row: span 2; }
 
-        /* VIDEO SHOWCASE */
-        .video-grid {
+        /* VIDEO SHOWCASE — two rows: portraits + landscapes */
+        .video-row {
           display: grid;
-          grid-template-columns: 1fr 1fr 1.6fr;
+          gap: 16px;
+        }
+        .video-row.is-portrait { grid-template-columns: repeat(4, 1fr); }
+        .video-row.is-landscape {
+          grid-template-columns: repeat(2, 1fr);
           gap: 24px;
-          align-items: start;
+          margin-top: 36px;
+        }
+        .video-row-label {
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--copper);
+          margin-bottom: 14px;
         }
         .video-card {
           border-radius: 14px;
           overflow: hidden;
-          box-shadow: 0 12px 32px rgba(0,0,0,0.10);
+          box-shadow: 0 10px 28px rgba(0,0,0,0.10);
           background: #000;
         }
         .video-card video {
@@ -135,14 +147,15 @@ export default function BrandKitPage() {
           background: #000;
         }
         .video-caption {
-          padding: 14px 16px;
+          padding: 10px 12px;
           background: var(--surface-0);
-          font-size: 14px;
+          font-size: 13px;
           color: var(--ink-secondary);
           text-align: center;
           border-top: 1px solid var(--hairline);
         }
         .video-caption strong { color: var(--ink-primary); font-weight: 600; }
+        .video-row.is-landscape .video-caption { padding: 14px 16px; font-size: 14px; }
 
         /* BUSINESS CARDS */
         .card-grid {
@@ -339,12 +352,13 @@ export default function BrandKitPage() {
         /* RESPONSIVE */
         @media (max-width: 1080px) {
           .static-grid { grid-template-columns: repeat(3, 1fr); }
-          .video-grid { grid-template-columns: 1fr 1fr; }
+          .video-row.is-portrait { grid-template-columns: repeat(3, 1fr); }
         }
         @media (max-width: 780px) {
           .logo-grid { grid-template-columns: 1fr; }
           .static-grid { grid-template-columns: repeat(2, 1fr); }
-          .video-grid { grid-template-columns: 1fr; }
+          .video-row.is-portrait { grid-template-columns: repeat(2, 1fr); }
+          .video-row.is-landscape { grid-template-columns: 1fr; }
           .card-grid { grid-template-columns: 1fr; }
           .doc-grid { grid-template-columns: 1fr; }
           .pricing-strip { grid-template-columns: 1fr; }
@@ -437,8 +451,8 @@ export default function BrandKitPage() {
             <div className="static-card">
               <img src="/assets/brand-kit/static-6-social-align.jpg" alt="Social ad: Align your time, grow your business." />
             </div>
-            <div className="static-card is-portrait">
-              <img src="/assets/brand-kit/static-7-story-work-smarter.jpg" alt="Story-format ad: Work smarter, not harder." />
+            <div className="static-card">
+              <img src="/assets/brand-kit/static-7-premium-time-back-glasses.jpg" alt="Static ad: Time back is the new advantage, man with glasses holding business card, premium light style." />
             </div>
             <div className="static-card">
               <img src="/assets/brand-kit/static-8-social-feature-bullets.jpg" alt="Social ad: Get more done in less time, purple accent feature bullets." />
@@ -452,57 +466,87 @@ export default function BrandKitPage() {
         <div className="showcase-inner">
           <div className="showcase-header">
             <span className="eyebrow">03 · Video Ads</span>
-            <h2>2 social videos + 2 UGC-style.</h2>
+            <h2>A library of brand videos.</h2>
             <p>
-              40-second cuts ready for Reels, TikTok, LinkedIn, and YouTube Shorts — a mix of
-              polished brand spots and UGC-style intros.
+              Vertical cuts for Reels, TikTok, and Stories; landscape cuts for Facebook, LinkedIn,
+              and YouTube. A mix of polished brand spots, UGC-style intros, and end-card outros —
+              all on-brand and ready to schedule.
             </p>
           </div>
-          <div className="video-grid">
+
+          {/* PORTRAIT / VERTICAL */}
+          <div className="video-row-label">Vertical · Reels / TikTok / Stories</div>
+          <div className="video-row is-portrait">
             <div className="video-card">
-              <video
-                controls
-                preload="none"
-                poster="/assets/brand-kit/video-1-approved-2.jpg"
-                playsInline
-              >
+              <video controls preload="none" poster="/assets/brand-kit/video-1-approved-2.jpg" playsInline>
                 <source src="/assets/brand-kit/video-1-approved-2.mp4" type="video/mp4" />
               </video>
-              <div className="video-caption">
-                <strong>Brand Intro · 40s</strong>
-                <br />
-                Vertical (Reels / TikTok)
-              </div>
+              <div className="video-caption"><strong>Brand Spot 01</strong></div>
             </div>
             <div className="video-card">
-              <video
-                controls
-                preload="none"
-                poster="/assets/brand-kit/video-2-approved-7.jpg"
-                playsInline
-              >
+              <video controls preload="none" poster="/assets/brand-kit/video-2-approved-7.jpg" playsInline>
                 <source src="/assets/brand-kit/video-2-approved-7.mp4" type="video/mp4" />
               </video>
-              <div className="video-caption">
-                <strong>UGC-style · 40s</strong>
-                <br />
-                Vertical (Reels / TikTok)
-              </div>
+              <div className="video-caption"><strong>Brand Spot 02</strong></div>
             </div>
             <div className="video-card">
-              <video
-                controls
-                preload="none"
-                poster="/assets/brand-kit/video-3-approved-11.jpg"
-                playsInline
-              >
+              <video controls preload="none" poster="/assets/brand-kit/video-4-approved-4.jpg" playsInline>
+                <source src="/assets/brand-kit/video-4-approved-4.mp4" type="video/mp4" />
+              </video>
+              <div className="video-caption"><strong>Brand Spot 03</strong></div>
+            </div>
+            <div className="video-card">
+              <video controls preload="none" poster="/assets/brand-kit/video-5-approved-5.jpg" playsInline>
+                <source src="/assets/brand-kit/video-5-approved-5.mp4" type="video/mp4" />
+              </video>
+              <div className="video-caption"><strong>Brand Spot 04</strong></div>
+            </div>
+            <div className="video-card">
+              <video controls preload="none" poster="/assets/brand-kit/video-6-approved-6.jpg" playsInline>
+                <source src="/assets/brand-kit/video-6-approved-6.mp4" type="video/mp4" />
+              </video>
+              <div className="video-caption"><strong>Brand Spot 05</strong></div>
+            </div>
+            <div className="video-card">
+              <video controls preload="none" poster="/assets/brand-kit/video-7-approved-8.jpg" playsInline>
+                <source src="/assets/brand-kit/video-7-approved-8.mp4" type="video/mp4" />
+              </video>
+              <div className="video-caption"><strong>Brand Spot 06</strong></div>
+            </div>
+            <div className="video-card">
+              <video controls preload="none" poster="/assets/brand-kit/video-10-ugc-3.jpg" playsInline>
+                <source src="/assets/brand-kit/video-10-ugc-3.mp4" type="video/mp4" />
+              </video>
+              <div className="video-caption"><strong>UGC-style</strong></div>
+            </div>
+          </div>
+
+          {/* LANDSCAPE */}
+          <div className="video-row-label" style={{ marginTop: '36px' }}>Landscape · Facebook / LinkedIn / YouTube</div>
+          <div className="video-row is-landscape">
+            <div className="video-card">
+              <video controls preload="none" poster="/assets/brand-kit/video-3-approved-11.jpg" playsInline>
                 <source src="/assets/brand-kit/video-3-approved-11.mp4" type="video/mp4" />
               </video>
-              <div className="video-caption">
-                <strong>Social Spot · 40s</strong>
-                <br />
-                Landscape (FB / LinkedIn / YouTube)
-              </div>
+              <div className="video-caption"><strong>Social Spot 01</strong> · Landscape</div>
+            </div>
+            <div className="video-card">
+              <video controls preload="none" poster="/assets/brand-kit/video-8-approved-9.jpg" playsInline>
+                <source src="/assets/brand-kit/video-8-approved-9.mp4" type="video/mp4" />
+              </video>
+              <div className="video-caption"><strong>Social Spot 02</strong> · Landscape</div>
+            </div>
+            <div className="video-card">
+              <video controls preload="none" poster="/assets/brand-kit/video-9-approved-10.jpg" playsInline>
+                <source src="/assets/brand-kit/video-9-approved-10.mp4" type="video/mp4" />
+              </video>
+              <div className="video-caption"><strong>Social Spot 03</strong> · Landscape</div>
+            </div>
+            <div className="video-card">
+              <video controls preload="none" poster="/assets/brand-kit/video-11-outro.jpg" playsInline>
+                <source src="/assets/brand-kit/video-11-outro.mp4" type="video/mp4" />
+              </video>
+              <div className="video-caption"><strong>End-card / Outro</strong> · Landscape</div>
             </div>
           </div>
         </div>
@@ -515,22 +559,22 @@ export default function BrandKitPage() {
             <span className="eyebrow">04 · Business Cards</span>
             <h2>2 business card designs.</h2>
             <p>
-              Print-ready front and back, built to match the logo and palette. Hand them out
-              tomorrow.
+              Print-ready light and dark options, built to match the logo and palette. Hand them
+              out tomorrow.
             </p>
           </div>
           <div className="card-grid">
             <div>
               <div className="card-frame">
-                <img src="/assets/brand-kit/card-front.jpg" alt="Business card — front." />
+                <img src="/assets/brand-kit/card-light-back.jpg" alt="Business card — light option, back with contact details." />
               </div>
-              <div className="card-label">Front</div>
+              <div className="card-label">Light option · back</div>
             </div>
             <div>
               <div className="card-frame">
-                <img src="/assets/brand-kit/card-back.jpg" alt="Business card — back." />
+                <img src="/assets/brand-kit/card-dark-back.jpg" alt="Business card — dark option, back with contact details." />
               </div>
-              <div className="card-label">Back</div>
+              <div className="card-label">Dark option · back</div>
             </div>
           </div>
         </div>
