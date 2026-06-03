@@ -43,7 +43,15 @@ export default function SiteNav({ isAuthenticated }: SiteNavProps) {
               href="/kick-starter"
               className={isActive('/kick-starter') ? 'is-active' : ''}
             >
-              Ai Business Kick Starter
+              Kick Starter
+            </a>
+          </li>
+          <li>
+            <a
+              href="/brand-kit"
+              className={isActive('/brand-kit') ? 'is-active' : ''}
+            >
+              Brand Kit
             </a>
           </li>
           <li>
