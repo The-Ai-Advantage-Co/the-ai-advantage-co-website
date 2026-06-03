@@ -346,6 +346,84 @@ export default function KickStarterPage() {
           </div>
         </div>
       </section>
+
+      {/* RECURRING FEES */}
+      <section className="service-block" id="recurring">
+        <div className="service-block-inner" style={{ display: 'block', maxWidth: '960px' }}>
+          <div className="service-content" style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <span className="label">What you&apos;ll pay each month</span>
+            <h2>Transparent. No surprises.</h2>
+            <p className="desc" style={{ maxWidth: '680px', margin: '0 auto' }}>
+              The one-off package price covers the build. These are the ongoing fees — most paid
+              directly to the provider, so there&apos;s no markup hidden in there.
+            </p>
+          </div>
+          <div className="pricing-extras">
+            <div className="pricing-extras-grid">
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Website hosting (Vercel Basic)</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$10/mo</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Payable to The Ai Advantage Co. — covers your site staying live
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Vercel Pro upgrade</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>Current Vercel Pro price</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Only if you need Pro features · paid to Vercel directly
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Calendly Basic</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$15/mo</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Only if booking added · paid to Calendly directly
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Business email</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>~$8–10/mo per mailbox</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Google Workspace or Microsoft 365 · you arrange · we&apos;ll advise on which
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Domain name</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>~$15–25/yr</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Paid to your registrar directly · we&apos;ll recommend one
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Support retainer (optional)</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$100/mo</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    1 hour/month of small-business updates · larger work POA
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
