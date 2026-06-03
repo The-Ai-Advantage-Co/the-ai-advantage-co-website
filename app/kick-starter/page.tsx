@@ -631,6 +631,25 @@ export default function KickStarterPage() {
           </form>
         </div>
       </section>
+
+      {/* FINAL CTA */}
+      <section className="final-cta">
+        <div className="final-cta-inner">
+          <h2>
+            Not sure which tier fits? <span className="accent">Just ask.</span>
+          </h2>
+          <p>
+            Send a short note via the enquiry form above and we&apos;ll call you back within one
+            business day. We&apos;ll help you pick — or recommend you don&apos;t book if it&apos;s
+            not the right fit.
+          </p>
+          <div className="ctas">
+            <a href="#enquiry" className="btn btn-primary">
+              Send enquiry
+            </a>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
