@@ -218,6 +218,134 @@ export default function KickStarterPage() {
           </div>
         </div>
       </section>
+
+      {/* À LA CARTE */}
+      <section className="service-block is-alt" id="itemised">
+        <div className="service-block-inner" style={{ display: 'block', maxWidth: '1080px' }}>
+          <div className="service-content" style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <span className="label">Or build your own</span>
+            <h2>Pick the pieces you need.</h2>
+            <p className="desc" style={{ maxWidth: '680px', margin: '0 auto' }}>
+              Prefer to mix-and-match instead of picking a tier? Every item from the packages is
+              available individually. Add what you need now, add the rest later.
+            </p>
+          </div>
+          <div className="pricing-extras">
+            <div className="pricing-extras-grid">
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Brand Kit — Light Design</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$250</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Polish existing logo or simple wordmark · palette · fonts · style guide
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Brand Kit — Full Design</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$400</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Logo from scratch · 2 revisions · full identity · style guide
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Doc Template Pack</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$200</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Letterhead · quote · invoice · email signature · 1 SOP template (Word + PDF)
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Ai Platform Setup</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$300</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    One platform · account · workspace · 5 saved prompts · user guide
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Additional Ai Platform</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>+$200/each</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Each extra platform set up to the same standard
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Ai Integration</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$50/workflow</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    1-page SOP per workflow · e.g. quote drafting, customer-email triage
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Website Design + Deploy</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$900</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    5 pages · responsive · Vercel deploy · basic SEO (sitemap, robots, metadata)
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Booking Integration</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$100</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Calendly setup · branded · embedded on site · 1-hour training
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Handover Training</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$200</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    2-hour live walk-through · recording included
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Google Business Profile setup</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$100</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    Create · verify · categorise · service areas
+                  </span>
+                </span>
+              </div>
+              <div className="pricing-extra-item">
+                <span>
+                  <strong>Social Media Starter</strong> &nbsp;
+                  <span style={{ color: 'var(--copper)' }}>$250</span>
+                  <br />
+                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                    LinkedIn + 1 other · profile · branded banner · bio · 3-post starter
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
