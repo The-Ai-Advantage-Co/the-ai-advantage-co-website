@@ -11,6 +11,7 @@ export default function KickStarterPage() {
   return (
     <>
       <style>{`
+        /* PAGE HERO */
         .page-hero { background: transparent !important; }
         .page-hero-bg { display: none !important; }
         .page-hero {
@@ -38,6 +39,247 @@ export default function KickStarterPage() {
         .page-hero h1 .accent { color: var(--gold-1); font-style: italic; font-weight: 700; text-shadow: 0 0 24px rgba(217,184,112,0.22); }
         .page-hero p { font-size: 20px; line-height: 1.5; color: var(--ink-secondary); max-width: 680px; margin: 0 auto; }
         .page-hero .hero-cta { margin-top: 36px; }
+
+        /* SERVICE BLOCKS — three tier blocks + section wrappers */
+        .service-block {
+          padding: 96px var(--gutter);
+          position: relative;
+        }
+        .service-block:first-of-type { padding-top: 32px; }
+        .service-block + .service-block { border-top: 1px solid var(--hairline); }
+        .service-block.is-alt { background: var(--surface-1); }
+        .service-block-inner {
+          max-width: var(--max-w);
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1.1fr 1fr;
+          gap: 64px;
+          align-items: center;
+        }
+        .service-block.is-reverse .service-block-inner { grid-template-columns: 1fr 1.1fr; }
+        .service-block.is-reverse .service-content { order: 1; }
+        .service-block.is-reverse .service-visual { order: 2; }
+        .service-block:not(.is-reverse) .service-visual { order: 0; }
+        .service-block:not(.is-reverse) .service-content { order: 1; }
+        .service-visual {
+          aspect-ratio: 4/3;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+        }
+        .service-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .service-content .label {
+          color: var(--copper);
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          margin-bottom: 18px;
+          display: inline-block;
+        }
+        .service-content h2 {
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: clamp(32px, 3.5vw, 44px);
+          line-height: 1.1;
+          letter-spacing: -0.03em;
+          margin-bottom: 18px;
+        }
+        .service-content .desc {
+          font-size: 18px;
+          line-height: 1.5;
+          color: var(--ink-secondary);
+          margin-bottom: 28px;
+        }
+        .service-detail { margin-bottom: 24px; }
+        .service-detail h4 {
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--ink-primary);
+          margin-bottom: 8px;
+        }
+        .service-detail p { font-size: 16px; line-height: 1.55; color: var(--ink-secondary); }
+        .service-detail ul { list-style: none; margin-top: 8px; }
+        .service-detail ul li {
+          position: relative;
+          padding-left: 22px;
+          font-size: 16px;
+          line-height: 1.55;
+          color: var(--ink-primary);
+          margin-bottom: 8px;
+        }
+        .service-detail ul li::before {
+          content: '';
+          position: absolute;
+          left: 0; top: 9px;
+          width: 12px; height: 6px;
+          border-left: 1.5px solid var(--rose-gold-2);
+          border-bottom: 1.5px solid var(--rose-gold-2);
+          transform: rotate(-45deg);
+        }
+        .service-content .cta-row {
+          display: flex;
+          gap: 16px;
+          margin-top: 36px;
+          flex-wrap: wrap;
+        }
+
+        /* PRICING EXTRAS GRID — à la carte + recurring fees */
+        .pricing-extras {
+          max-width: 880px;
+          margin: 0 auto;
+          padding: 32px 40px;
+          background: var(--surface-0);
+          border: 1px solid var(--hairline);
+          border-radius: 16px;
+        }
+        .pricing-extras-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 32px; }
+        .pricing-extra-item {
+          font-size: 14px;
+          line-height: 1.5;
+          color: var(--ink-secondary);
+          display: flex;
+          gap: 10px;
+          align-items: flex-start;
+        }
+        .pricing-extra-item::before {
+          content: '+';
+          color: var(--copper);
+          font-weight: 600;
+          flex-shrink: 0;
+        }
+        .pricing-extra-item strong { color: var(--ink-primary); font-weight: 600; }
+
+        /* FAQ */
+        .faq { padding: 96px var(--gutter); background: var(--surface-cream); }
+        .faq-inner { max-width: 880px; margin: 0 auto; }
+        .faq .section-header { text-align: center; }
+        .faq .section-header .eyebrow { display: inline-block; margin-bottom: 14px; }
+        .faq .section-header h2 {
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: clamp(32px, 3.5vw, 44px);
+          line-height: 1.1;
+          letter-spacing: -0.03em;
+        }
+        .faq-item {
+          background: var(--surface-0);
+          border: 1px solid var(--hairline);
+          border-radius: 14px;
+          margin-bottom: 12px;
+          overflow: hidden;
+          transition: border-color 0.2s ease;
+        }
+        .faq-item[open] { border-color: var(--rose-gold-2); }
+        .faq-item summary {
+          padding: 22px 28px;
+          cursor: pointer;
+          list-style: none;
+          font-size: 17px;
+          font-weight: 600;
+          color: var(--ink-primary);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 24px;
+        }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after {
+          content: '+';
+          color: var(--copper);
+          font-size: 24px;
+          font-weight: 400;
+          line-height: 1;
+          transition: transform 0.25s ease;
+        }
+        .faq-item[open] summary::after { transform: rotate(45deg); }
+        .faq-item .faq-body {
+          padding: 0 28px 24px;
+          font-size: 16px;
+          line-height: 1.6;
+          color: var(--ink-secondary);
+        }
+        .faq-item .faq-body p + p { margin-top: 10px; }
+
+        /* ENQUIRY FORM — single column (no side panel) */
+        .contact-section { padding: 96px var(--gutter); }
+        .contact-section-inner {
+          max-width: 720px;
+          margin: 0 auto;
+        }
+        .contact-form {
+          background: var(--surface-0);
+          border: 1px solid var(--hairline);
+          border-radius: 20px;
+          padding: 40px 40px 36px;
+        }
+        .contact-form h2 {
+          font-family: var(--font-display);
+          font-size: 28px;
+          font-weight: 700;
+          letter-spacing: -0.025em;
+          margin-bottom: 8px;
+        }
+        .contact-form .form-sub { color: var(--ink-secondary); font-size: 15px; margin-bottom: 32px; }
+        .form-row { margin-bottom: 20px; }
+        .form-row.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-label {
+          display: block;
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          color: var(--ink-primary);
+          margin-bottom: 8px;
+        }
+        .form-label .req { color: var(--rose-gold-2); }
+        .form-label .opt {
+          color: var(--ink-tertiary);
+          font-weight: 400;
+          letter-spacing: 0;
+          text-transform: none;
+          margin-left: 6px;
+        }
+        .form-input, .form-textarea, .form-select {
+          width: 100%;
+          padding: 12px 14px;
+          border: 1px solid var(--hairline);
+          border-radius: 10px;
+          font-family: var(--font-body);
+          font-size: 15px;
+          color: var(--ink-primary);
+          background: var(--surface-0);
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+          outline: none;
+          border-color: var(--rose-gold-2);
+          box-shadow: 0 0 0 3px rgba(183, 117, 127, 0.12);
+        }
+        .form-textarea { resize: vertical; min-height: 120px; }
+        .form-submit { width: 100%; justify-content: center; margin-top: 8px; }
+        .form-note {
+          text-align: center;
+          margin-top: 20px;
+          font-size: 13px;
+          color: var(--ink-tertiary);
+          line-height: 1.55;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 980px) {
+          .service-block-inner,
+          .service-block.is-reverse .service-block-inner { grid-template-columns: 1fr; gap: 32px; }
+          .service-block.is-reverse .service-content,
+          .service-block:not(.is-reverse) .service-content { order: 2; }
+          .service-block.is-reverse .service-visual,
+          .service-block:not(.is-reverse) .service-visual { order: 1; }
+          .pricing-extras-grid { grid-template-columns: 1fr; }
+          .form-row.two-col { grid-template-columns: 1fr; }
+          .contact-form { padding: 32px 24px 28px; }
+          .pricing-extras { padding: 24px 20px; }
+        }
       `}</style>
 
       {/* PAGE HERO */}
