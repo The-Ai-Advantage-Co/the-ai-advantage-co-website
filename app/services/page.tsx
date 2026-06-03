@@ -389,6 +389,35 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      {/* KICK STARTER CALLOUT */}
+      <section
+        className="service-block is-alt"
+        id="kick-starter-callout"
+        style={{ padding: '64px var(--gutter)' }}
+      >
+        <div
+          className="service-block-inner"
+          style={{ display: 'block', maxWidth: '880px', textAlign: 'center' }}
+        >
+          <div className="service-content">
+            <span className="label">Need the whole business set up?</span>
+            <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)' }}>
+              Brand · Docs · Ai · Website — done in one bundle.
+            </h2>
+            <p className="desc" style={{ maxWidth: '640px', margin: '0 auto 24px' }}>
+              For small businesses that need everything sorted at once, the{' '}
+              <strong>Ai Business Kick Starter</strong> bundles brand, document templates, Ai
+              platform setup, and a 5-page website into three done-for-you tiers from $500.
+            </p>
+            <div className="cta-row" style={{ justifyContent: 'center' }}>
+              <a href="/kick-starter" className="btn btn-primary">
+                See Kick Starter
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FINAL CTA */}
       <section className="final-cta">
         <div className="final-cta-inner">
