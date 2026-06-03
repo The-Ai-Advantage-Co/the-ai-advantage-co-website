@@ -441,8 +441,8 @@ export default function KickStarterPage() {
                 <li>Social Media Starter</li>
                 <li>Handover Training</li>
                 <li>
-                  <strong>3 months Support Retainer included</strong> — 1 hour/month of changes &amp;
-                  fixes
+                  <strong>3 months Support included</strong> — for any updates or tweaks you need
+                  after handover
                 </li>
               </ul>
             </div>
@@ -634,31 +634,21 @@ export default function KickStarterPage() {
               </div>
               <div className="pricing-extra-item">
                 <span>
-                  <strong>Business email</strong> &nbsp;
-                  <span style={{ color: 'var(--copper)' }}>~$8–10/mo per mailbox</span>
-                  <br />
-                  <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    Google Workspace or Microsoft 365 · you arrange · we&apos;ll advise on which
-                  </span>
-                </span>
-              </div>
-              <div className="pricing-extra-item">
-                <span>
                   <strong>Domain name</strong> &nbsp;
-                  <span style={{ color: 'var(--copper)' }}>~$15–25/yr</span>
+                  <span style={{ color: 'var(--copper)' }}>At cost</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    Paid to your registrar directly · we&apos;ll recommend one
+                    Whatever your registrar charges — we pass it through with no markup
                   </span>
                 </span>
               </div>
               <div className="pricing-extra-item">
                 <span>
                   <strong>Support retainer (optional)</strong> &nbsp;
-                  <span style={{ color: 'var(--copper)' }}>$100/mo</span>
+                  <span style={{ color: 'var(--copper)' }}>$100</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    1 hour/month of small-business updates · larger work POA
+                    For any updates required · new offers or larger builds POA
                   </span>
                 </span>
               </div>

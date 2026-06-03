@@ -71,9 +71,8 @@ Standard is the recommended tier — marked with the ⭐ "Most popular" eyebrow.
 | Hosting — Vercel Basic | $10/mo | The Ai Advantage Co. | Default for all Kick Starter sites |
 | Hosting — Vercel Pro upgrade | Current Vercel Pro price | Vercel directly | Only if customer needs Pro features |
 | Calendly Basic | $15/mo | Calendly directly | Only if booking added |
-| Business email (Google Workspace ~$8.40/mailbox/mo or M365 Business Basic ~$9.20/mailbox/mo) | Variable | Provider directly | Customer arranges; we advise |
-| Domain | ~$15–25/yr typical | Registrar directly | Customer arranges; we advise |
-| Support retainer (optional) | $100/mo | The Ai Advantage Co. | Small-business updates as required; larger work POA |
+| Domain | At cost | Registrar directly | Customer pays whatever their registrar charges; we pass it through with no markup |
+| Support retainer (optional) | $100 | The Ai Advantage Co. | For any updates required; new offers or larger builds POA |
 
 ---
 
