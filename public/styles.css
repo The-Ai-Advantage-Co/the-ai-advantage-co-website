@@ -207,11 +207,28 @@ nav.site-nav {
 .nav-inner {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 10px var(--gutter);
+  padding: 14px var(--gutter) 12px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  position: relative;
+}
+.nav-row { display: flex; align-items: center; }
+.nav-row-brand {
+  justify-content: center;
+  position: relative;
+}
+.nav-row-brand .nav-menu-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.nav-row-links {
+  justify-content: center;
   gap: 32px;
-  min-height: 120px;
+  flex-wrap: wrap;
 }
 /* Brand lockup built from real HTML — logo + wordmark + tagline as flex
    elements that flow into the page background. NOT an image. The animated
@@ -287,9 +304,9 @@ nav.site-nav {
 }
 .nav-links {
   display: flex;
-  gap: 36px;
-  margin-left: auto;
+  gap: 32px;
   list-style: none;
+  align-items: center;
 }
 .nav-links a {
   color: var(--ink-primary);
@@ -316,8 +333,8 @@ nav.site-nav {
   background: var(--ink-primary);
 }
 
-/* spacer for fixed nav */
-.nav-spacer { height: 120px; }
+/* spacer for fixed nav (stacked layout: brand row + links row) */
+.nav-spacer { height: 160px; }
 
 /* ===== SITE-WIDE FIXED VIDEO BG =====
    Architecture v3: Video is fixed-position viewport coverage. It plays
@@ -1167,16 +1184,16 @@ footer.site-footer {
   .footer-brand { grid-column: 1 / -1; }
   .ui-window-body { padding: 24px 24px 28px; }
 }
-/* Hamburger kicks in earlier than the rest of the mobile shrink, so the
-   nav doesn't squash the wordmark on cramped desktops. With 7 nav items
-   plus the Book-a-Session CTA, the inline nav doesn't have enough room
-   for the full wordmark until ~1280px+. */
-@media (max-width: 1280px) {
-  .nav-links { display: none; }
+/* Stacked nav: row 1 = brand centered, row 2 = nav-links + CTA centered.
+   Below ~980px the nav-links row stops fitting horizontally on one line,
+   so we collapse row 2 into a hamburger dropdown that opens below the
+   entire fixed nav. */
+@media (max-width: 980px) {
+  .nav-row-links { display: none; }
   .nav-menu-toggle { display: flex; }
-  /* With nav-links hidden, push the Book-a-Session controls to the right
-     since .nav-links was carrying the margin-left: auto. */
-  .nav-controls { margin-left: auto; }
+  .nav-spacer { height: 112px; }
+  .nav-inner { gap: 0; padding-bottom: 14px; }
+  /* Dropdown panel — opens below the entire fixed nav (top: 100%) */
   .nav-links.is-open {
     display: flex;
     flex-direction: column;
@@ -1202,10 +1219,11 @@ footer.site-footer {
     border-bottom: 1px solid var(--hairline);
   }
   .nav-links.is-open li:last-child a { border-bottom: 0; }
+  /* When dropdown is open, also surface the Book-a-Session CTA below it */
+  .nav-row-links.is-controls-visible { display: flex; }
 }
 @media (max-width: 900px) {
-  .nav-spacer { height: 96px; }
-  .nav-inner { min-height: 96px; }
+  .nav-spacer { height: 88px; }
   .nav-logo .brand-mark { height: 56px; width: 56px; }
   .nav-logo .brand-name { font-size: 16px; letter-spacing: 0.04em; }
   .nav-logo .brand-tagline { font-size: 9px; letter-spacing: 0.18em; }
