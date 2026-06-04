@@ -1,0 +1,694 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Website Design',
+  description:
+    'Four website design directions to pick from — Editorial, Tech, Boutique, and Statement. Same price, different aesthetic. We design, deploy, and host on Vercel from $10/mo.',
+  alternates: { canonical: '/website-design' },
+};
+
+export default function WebsiteDesignPage() {
+  return (
+    <>
+      <style>{`
+        /* PAGE HERO */
+        .page-hero { background: transparent !important; }
+        .page-hero-bg { display: none !important; }
+        .page-hero {
+          position: relative;
+          background: var(--surface-0);
+          padding: 120px var(--gutter) 56px;
+          text-align: center;
+          overflow: hidden;
+        }
+        .page-hero-inner {
+          position: relative;
+          z-index: 2;
+          max-width: 880px;
+          margin: 0 auto;
+        }
+        .page-hero .eyebrow { margin-bottom: 18px; }
+        .page-hero h1 {
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: clamp(36px, 4.5vw, 56px);
+          line-height: 1.05;
+          letter-spacing: -0.035em;
+          margin-bottom: 18px;
+        }
+        .page-hero h1 .accent { color: var(--gold-1); font-style: italic; font-weight: 700; text-shadow: 0 0 24px rgba(217,184,112,0.22); }
+        .page-hero p { font-size: 19px; line-height: 1.5; color: var(--ink-secondary); max-width: 660px; margin: 0 auto; }
+        .page-hero .hero-cta { margin-top: 28px; }
+
+        /* SHOWCASE / SECTIONS */
+        .showcase {
+          padding: 80px var(--gutter);
+          position: relative;
+        }
+        .showcase + .showcase { border-top: 1px solid var(--hairline); }
+        .showcase.is-alt { background: var(--surface-1); }
+        .showcase-inner { max-width: var(--max-w); margin: 0 auto; }
+        .showcase-header { text-align: center; max-width: 720px; margin: 0 auto 48px; }
+        .showcase-header .eyebrow {
+          display: inline-block;
+          color: var(--copper);
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          margin-bottom: 14px;
+        }
+        .showcase-header h2 {
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: clamp(28px, 3.2vw, 40px);
+          line-height: 1.1;
+          letter-spacing: -0.03em;
+          margin-bottom: 14px;
+        }
+        .showcase-header p {
+          font-size: 17px;
+          line-height: 1.55;
+          color: var(--ink-secondary);
+        }
+
+        /* MOCKUP GRID */
+        .mockup-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 36px;
+        }
+        .mockup-card {
+          background: var(--surface-0);
+          border-radius: 18px;
+          overflow: hidden;
+          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .mockup-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+        }
+        .mockup-thumb {
+          aspect-ratio: 16 / 9;
+          overflow: hidden;
+          background: #000;
+        }
+        .mockup-thumb img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .mockup-meta {
+          padding: 22px 26px 24px;
+        }
+        .mockup-meta .num {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--copper);
+          margin-bottom: 6px;
+        }
+        .mockup-meta h3 {
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: 22px;
+          letter-spacing: -0.02em;
+          margin-bottom: 8px;
+        }
+        .mockup-meta p {
+          font-size: 15px;
+          line-height: 1.55;
+          color: var(--ink-secondary);
+          margin-bottom: 14px;
+        }
+        .mockup-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .mockup-tag {
+          display: inline-block;
+          padding: 4px 10px;
+          background: var(--surface-1);
+          border: 1px solid var(--hairline);
+          border-radius: 999px;
+          font-size: 11px;
+          color: var(--ink-secondary);
+          letter-spacing: 0.04em;
+        }
+        .mockup-inspired {
+          display: block;
+          margin-top: 12px;
+          font-size: 12px;
+          color: var(--ink-tertiary);
+          letter-spacing: 0.04em;
+        }
+        .mockup-inspired strong { color: var(--copper); font-weight: 600; }
+
+        /* PRICING / HOSTING */
+        .pricing-strip {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+        .pricing-card {
+          background: var(--surface-0);
+          border: 1px solid var(--hairline);
+          border-radius: 18px;
+          padding: 28px 26px;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+        }
+        .pricing-card.is-featured {
+          border-color: var(--rose-gold-2);
+          box-shadow: 0 18px 48px rgba(183, 117, 127, 0.10);
+        }
+        .pricing-card .tag {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--copper);
+          margin-bottom: 14px;
+        }
+        .pricing-card h3 {
+          font-family: var(--font-display);
+          font-size: 22px;
+          font-weight: 700;
+          letter-spacing: -0.02em;
+          margin-bottom: 6px;
+        }
+        .pricing-card .price-row {
+          font-family: var(--font-display);
+          font-size: 28px;
+          font-weight: 700;
+          color: var(--ink-primary);
+          margin: 8px 0 14px;
+        }
+        .pricing-card ul {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 22px;
+          text-align: left;
+          flex: 1;
+        }
+        .pricing-card ul li {
+          position: relative;
+          padding-left: 22px;
+          font-size: 14px;
+          line-height: 1.55;
+          color: var(--ink-primary);
+          margin-bottom: 8px;
+        }
+        .pricing-card ul li::before {
+          content: '';
+          position: absolute;
+          left: 0; top: 7px;
+          width: 11px; height: 5px;
+          border-left: 1.5px solid var(--rose-gold-2);
+          border-bottom: 1.5px solid var(--rose-gold-2);
+          transform: rotate(-45deg);
+        }
+
+        /* HOSTING CALLOUT */
+        .hosting-callout {
+          background: var(--surface-cream);
+          border-radius: 18px;
+          padding: 36px 40px;
+          max-width: 920px;
+          margin: 36px auto 0;
+          text-align: center;
+        }
+        .hosting-callout h3 {
+          font-family: var(--font-display);
+          font-size: 22px;
+          font-weight: 700;
+          letter-spacing: -0.02em;
+          margin-bottom: 10px;
+        }
+        .hosting-callout p {
+          font-size: 15px;
+          line-height: 1.6;
+          color: var(--ink-secondary);
+          max-width: 720px;
+          margin: 0 auto;
+        }
+        .hosting-callout p strong { color: var(--ink-primary); font-weight: 600; }
+
+        /* ENQUIRY FORM */
+        .contact-section { padding: 88px var(--gutter); }
+        .contact-section-inner { max-width: 720px; margin: 0 auto; }
+        .contact-form {
+          background: var(--surface-0);
+          border: 1px solid var(--hairline);
+          border-radius: 20px;
+          padding: 40px 40px 36px;
+        }
+        .contact-form h2 {
+          font-family: var(--font-display);
+          font-size: 28px;
+          font-weight: 700;
+          letter-spacing: -0.025em;
+          margin-bottom: 8px;
+        }
+        .contact-form .form-sub { color: var(--ink-secondary); font-size: 15px; margin-bottom: 32px; }
+        .form-row { margin-bottom: 20px; }
+        .form-row.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-label {
+          display: block;
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          color: var(--ink-primary);
+          margin-bottom: 8px;
+        }
+        .form-label .req { color: var(--rose-gold-2); }
+        .form-label .opt {
+          color: var(--ink-tertiary);
+          font-weight: 400;
+          letter-spacing: 0;
+          text-transform: none;
+          margin-left: 6px;
+        }
+        .form-input, .form-textarea, .form-select {
+          width: 100%;
+          padding: 12px 14px;
+          border: 1px solid var(--hairline);
+          border-radius: 10px;
+          font-family: var(--font-body);
+          font-size: 15px;
+          color: var(--ink-primary);
+          background: var(--surface-0);
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+          outline: none;
+          border-color: var(--rose-gold-2);
+          box-shadow: 0 0 0 3px rgba(183, 117, 127, 0.12);
+        }
+        .form-textarea { resize: vertical; min-height: 120px; }
+        .form-submit { width: 100%; justify-content: center; margin-top: 8px; }
+        .form-note {
+          text-align: center;
+          margin-top: 20px;
+          font-size: 13px;
+          color: var(--ink-tertiary);
+          line-height: 1.55;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 980px) {
+          .mockup-grid { grid-template-columns: 1fr; gap: 28px; }
+          .pricing-strip { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 780px) {
+          .form-row.two-col { grid-template-columns: 1fr; }
+          .contact-form { padding: 32px 24px 28px; }
+          .hosting-callout { padding: 28px 24px; }
+        }
+      `}</style>
+
+      {/* PAGE HERO */}
+      <section className="page-hero">
+        <div className="page-hero-inner">
+          <span className="eyebrow">Website Design</span>
+          <h1>
+            Pick the style <span className="accent">that fits.</span>
+          </h1>
+          <p>
+            Four design directions, same price. Each one a complete aesthetic — different palette,
+            typography, and mood. Pick the one that matches your business, we build and deploy it.
+          </p>
+          <div className="hero-cta">
+            <a href="#enquiry" className="btn btn-primary">
+              Send an enquiry
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* MOCKUPS */}
+      <section className="showcase">
+        <div className="showcase-inner">
+          <div className="showcase-header">
+            <span className="eyebrow">Four directions</span>
+            <h2>Browse the four styles.</h2>
+            <p>
+              Each mockup is a small visual representation of how your homepage could feel. We can
+              also blend or tweak — these are starting points, not strict templates.
+            </p>
+          </div>
+
+          <div className="mockup-grid">
+            {/* MOCKUP 01 — EDITORIAL */}
+            <div className="mockup-card">
+              <div className="mockup-thumb">
+                <img
+                  src="/assets/website-design/mockup-1-editorial.jpg"
+                  alt="Website mockup — Editorial style — warm cream background, large serif headline, single product photo."
+                />
+              </div>
+              <div className="mockup-meta">
+                <span className="num">01 · The Editorial</span>
+                <h3>Premium minimal · restrained, confident.</h3>
+                <p>
+                  Warm cream backgrounds, large serif display headlines, generous whitespace, and a
+                  single hero image. Quiet confidence — every element earns its place.
+                </p>
+                <div className="mockup-tags">
+                  <span className="mockup-tag">Serif display</span>
+                  <span className="mockup-tag">Cream + brown</span>
+                  <span className="mockup-tag">Whitespace</span>
+                  <span className="mockup-tag">Copper accent</span>
+                </div>
+                <span className="mockup-inspired">
+                  <strong>Inspired by:</strong> Aesop · Apple · The Browser Company
+                </span>
+              </div>
+            </div>
+
+            {/* MOCKUP 02 — TECH */}
+            <div className="mockup-card">
+              <div className="mockup-thumb">
+                <img
+                  src="/assets/website-design/mockup-2-tech.jpg"
+                  alt="Website mockup — Tech style — dark navy background with purple-blue gradient mesh and a modern dashboard preview."
+                />
+              </div>
+              <div className="mockup-meta">
+                <span className="num">02 · The Tech</span>
+                <h3>Modern SaaS · sharp, technical, premium.</h3>
+                <p>
+                  Deep navy background with gradient mesh glows, clean grotesk sans, and crisp
+                  product UI previews. The look of every great software company shipping today.
+                </p>
+                <div className="mockup-tags">
+                  <span className="mockup-tag">Dark mode</span>
+                  <span className="mockup-tag">Gradient mesh</span>
+                  <span className="mockup-tag">Grotesk sans</span>
+                  <span className="mockup-tag">Product UI</span>
+                </div>
+                <span className="mockup-inspired">
+                  <strong>Inspired by:</strong> Linear · Stripe · Vercel · Anthropic
+                </span>
+              </div>
+            </div>
+
+            {/* MOCKUP 03 — BOUTIQUE */}
+            <div className="mockup-card">
+              <div className="mockup-thumb">
+                <img
+                  src="/assets/website-design/mockup-3-boutique.jpg"
+                  alt="Website mockup — Boutique style — soft cream + sage + dusty rose, lifestyle photo of a hand holding a coffee cup."
+                />
+              </div>
+              <div className="mockup-meta">
+                <span className="num">03 · The Boutique</span>
+                <h3>Warm boutique · approachable, modern, friendly.</h3>
+                <p>
+                  Soft pastel palettes, friendly sans typography, lifestyle photography, and
+                  card-based layouts. Inviting and human — the small business that feels personal.
+                </p>
+                <div className="mockup-tags">
+                  <span className="mockup-tag">Pastel palette</span>
+                  <span className="mockup-tag">Lifestyle photo</span>
+                  <span className="mockup-tag">Card grid</span>
+                  <span className="mockup-tag">Friendly sans</span>
+                </div>
+                <span className="mockup-inspired">
+                  <strong>Inspired by:</strong> Squarespace premium · Ghost · Notion
+                </span>
+              </div>
+            </div>
+
+            {/* MOCKUP 04 — STATEMENT */}
+            <div className="mockup-card">
+              <div className="mockup-thumb">
+                <img
+                  src="/assets/website-design/mockup-4-statement.jpg"
+                  alt="Website mockup — Statement style — asymmetric bold layout with brick red display headline, mustard color block, brutalist design."
+                />
+              </div>
+              <div className="mockup-meta">
+                <span className="num">04 · The Statement</span>
+                <h3>Bold editorial · distinctive, confident, memorable.</h3>
+                <p>
+                  Asymmetric layouts, oversized display type, bold color blocks, and strong
+                  personality. The look of a business that doesn&apos;t blend in with the wallpaper.
+                </p>
+                <div className="mockup-tags">
+                  <span className="mockup-tag">Asymmetric</span>
+                  <span className="mockup-tag">Bold color blocks</span>
+                  <span className="mockup-tag">Display serif</span>
+                  <span className="mockup-tag">Brutalist edge</span>
+                </div>
+                <span className="mockup-inspired">
+                  <strong>Inspired by:</strong> Robin Mastromarino · Mast · Awwwards picks
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HOSTING + PRICING */}
+      <section className="showcase is-alt">
+        <div className="showcase-inner">
+          <div className="showcase-header">
+            <span className="eyebrow">Pricing</span>
+            <h2>One build cost. Tiny ongoing fees.</h2>
+            <p>
+              Same price whichever style you pick. Choose to buy the website standalone, or get it
+              bundled into the Ai Business Kick Starter for a small saving.
+            </p>
+          </div>
+
+          <div className="pricing-strip">
+            <div className="pricing-card">
+              <span className="tag">Standalone</span>
+              <h3>Website only</h3>
+              <div className="price-row">$900</div>
+              <ul>
+                <li>5-page responsive site</li>
+                <li>Pick any of the 4 design directions</li>
+                <li>Vercel deploy + basic SEO</li>
+                <li>Handover with login + edit access</li>
+              </ul>
+              <a href="#enquiry" className="btn btn-bronze" style={{ width: '100%', justifyContent: 'center' }}>
+                Enquire about Website only
+              </a>
+            </div>
+
+            <div className="pricing-card is-featured">
+              <span className="tag">⭐ Bundled — best value</span>
+              <h3>Standard Kick Starter</h3>
+              <div className="price-row">$2,000</div>
+              <ul>
+                <li>Everything in Lite (brand kit · docs · social ads · videos)</li>
+                <li><strong>+ Website Design + Deploy</strong></li>
+                <li>+ Ai Platform Setup (1 platform)</li>
+                <li>+ Booking integration + GBP setup</li>
+              </ul>
+              <a href="/kick-starter" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                See Kick Starter
+              </a>
+            </div>
+
+            <div className="pricing-card">
+              <span className="tag">Full kit</span>
+              <h3>Plus Kick Starter</h3>
+              <div className="price-row">$3,000</div>
+              <ul>
+                <li>Everything in Standard</li>
+                <li>+ Brand Kit upgraded to Full Design</li>
+                <li>+ Ai Integration (6 workflows)</li>
+                <li>+ 3 months post-launch support included</li>
+              </ul>
+              <a href="/kick-starter" className="btn btn-bronze" style={{ width: '100%', justifyContent: 'center' }}>
+                See Kick Starter
+              </a>
+            </div>
+          </div>
+
+          {/* HOSTING + PASS-THROUGH CALLOUT */}
+          <div className="hosting-callout">
+            <h3>We host. So you don&apos;t pay agency-grade fees.</h3>
+            <p>
+              Once your site is built, we host it ourselves on Vercel for <strong>$10/mo</strong> —
+              far less than most agency hosting plans. The only other ongoing costs are{' '}
+              <strong>your domain</strong> (paid directly to your registrar — we pass the cost
+              through with no markup) and, if you add booking, <strong>Calendly Basic at $15/mo</strong>{' '}
+              paid to Calendly directly. After handover, any post-launch edits are{' '}
+              <strong>$100/hr</strong> — new offers or larger builds are POA.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ENQUIRY FORM */}
+      <section className="contact-section" id="enquiry">
+        <div className="contact-section-inner">
+          <form
+            className="contact-form"
+            action="https://api.web3forms.com/submit"
+            method="POST"
+            id="website-design-form"
+          >
+            <input type="hidden" name="access_key" value="bed839a8-b01a-443f-b32b-2187256a17c5" />
+            <input
+              type="hidden"
+              name="subject"
+              value="New Website Design enquiry — The Ai Advantage Co."
+            />
+            <input
+              type="hidden"
+              name="from_name"
+              value="The Ai Advantage Co. — Website Design"
+            />
+            <input type="hidden" name="redirect" value="https://web3forms.com/success" />
+            <input type="checkbox" name="botcheck" style={{ display: 'none' }} />
+
+            <h2>Website Design enquiry</h2>
+            <p className="form-sub">
+              Tell us which style speaks to you and we&apos;ll call you back within one business
+              day to talk through what your business actually needs.
+            </p>
+
+            <div className="form-row two-col">
+              <div>
+                <label className="form-label" htmlFor="wd-name">
+                  Name <span className="req">*</span>
+                </label>
+                <input className="form-input" type="text" id="wd-name" name="name" required />
+              </div>
+              <div>
+                <label className="form-label" htmlFor="wd-email">
+                  Email <span className="req">*</span>
+                </label>
+                <input className="form-input" type="email" id="wd-email" name="email" required />
+              </div>
+            </div>
+
+            <div className="form-row two-col">
+              <div>
+                <label className="form-label" htmlFor="wd-phone">
+                  Phone <span className="opt">(so we can call you back)</span>
+                </label>
+                <input
+                  className="form-input"
+                  type="tel"
+                  id="wd-phone"
+                  name="phone"
+                  placeholder="04xx xxx xxx"
+                  autoComplete="tel"
+                />
+              </div>
+              <div>
+                <label className="form-label" htmlFor="wd-business">
+                  Business / Organisation <span className="opt">(optional)</span>
+                </label>
+                <input
+                  className="form-input"
+                  type="text"
+                  id="wd-business"
+                  name="business"
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <label className="form-label" htmlFor="wd-style">
+                Style direction you like
+              </label>
+              <select className="form-select" id="wd-style" name="style_direction" defaultValue="">
+                <option value="">Not sure — help me pick</option>
+                <option value="editorial">01 · The Editorial (Aesop / Apple)</option>
+                <option value="tech">02 · The Tech (Linear / Stripe / Vercel)</option>
+                <option value="boutique">03 · The Boutique (Squarespace / Ghost)</option>
+                <option value="statement">04 · The Statement (Awwwards / Mast)</option>
+                <option value="blend">A blend of two or more</option>
+              </select>
+            </div>
+
+            <div className="form-row">
+              <label className="form-label" htmlFor="wd-option">
+                Buying option
+              </label>
+              <select className="form-select" id="wd-option" name="option" defaultValue="">
+                <option value="">Not sure — help me pick</option>
+                <option value="website-only">Website only ($900)</option>
+                <option value="standard">Bundled in Standard Kick Starter ($2,000)</option>
+                <option value="plus">Bundled in Plus Kick Starter ($3,000)</option>
+              </select>
+            </div>
+
+            <div className="form-row">
+              <label className="form-label" htmlFor="wd-callback">
+                Best time to call you
+              </label>
+              <select
+                className="form-select"
+                id="wd-callback"
+                name="best_time_to_call"
+                defaultValue=""
+              >
+                <option value="">Any time during business hours</option>
+                <option value="morning">Morning (8am–12pm)</option>
+                <option value="midday">Midday (12pm–2pm)</option>
+                <option value="afternoon">Afternoon (2pm–5pm)</option>
+                <option value="evening">Evening (5pm–7pm)</option>
+              </select>
+            </div>
+
+            <div className="form-row">
+              <label className="form-label" htmlFor="wd-message">
+                Tell us about your business and what you need <span className="req">*</span>
+              </label>
+              <textarea
+                className="form-textarea"
+                id="wd-message"
+                name="message"
+                placeholder="A few sentences on what your business does, what your current site looks like (if any), and what you'd like the new one to do. Plain English is fine."
+                required
+              />
+            </div>
+
+            <button className="btn btn-primary form-submit" type="submit">
+              Send enquiry
+            </button>
+            <p className="form-note">
+              We&apos;ll call you back within one business day. We don&apos;t add you to a mailing
+              list and we don&apos;t share your details.
+            </p>
+          </form>
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="final-cta">
+        <div className="final-cta-inner">
+          <h2>
+            Stuck between two? <span className="accent">Tell us your business.</span>
+          </h2>
+          <p>
+            Send a short note via the enquiry form above. We&apos;ll call you back and walk through
+            which direction actually fits your audience — not just which looks coolest.
+          </p>
+          <div className="ctas">
+            <a href="#enquiry" className="btn btn-primary">
+              Send enquiry
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

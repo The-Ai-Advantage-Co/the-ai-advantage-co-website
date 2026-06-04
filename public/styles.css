@@ -249,7 +249,7 @@ nav.site-nav {
   border-radius: 50%;
   object-fit: cover;
   object-position: center center;
-  background: #fff;
+  background: #F5EFE6;
   overflow: hidden;
   filter: drop-shadow(0 4px 14px rgba(122, 74, 20, 0.22));
   transition: transform 0.3s ease;
