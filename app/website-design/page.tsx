@@ -149,6 +149,47 @@ export default function WebsiteDesignPage() {
         }
         .mockup-inspired strong { color: var(--copper); font-weight: 600; }
 
+        /* PROCESS STEPS */
+        .process-steps {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 24px;
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+        .process-step {
+          background: var(--surface-0);
+          border: 1px solid var(--hairline);
+          border-radius: 16px;
+          padding: 28px 24px;
+        }
+        .process-step .num-badge {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: var(--surface-cream);
+          color: var(--copper);
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: 16px;
+          margin-bottom: 14px;
+        }
+        .process-step h3 {
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: 18px;
+          letter-spacing: -0.01em;
+          margin-bottom: 8px;
+        }
+        .process-step p {
+          font-size: 14px;
+          line-height: 1.55;
+          color: var(--ink-secondary);
+        }
+
         /* PRICING / HOSTING */
         .pricing-strip {
           display: grid;
@@ -308,6 +349,10 @@ export default function WebsiteDesignPage() {
         @media (max-width: 980px) {
           .mockup-grid { grid-template-columns: 1fr; gap: 28px; }
           .pricing-strip { grid-template-columns: 1fr; }
+          .process-steps { grid-template-columns: 1fr 1fr; gap: 16px; }
+        }
+        @media (max-width: 560px) {
+          .process-steps { grid-template-columns: 1fr; }
         }
         @media (max-width: 780px) {
           .form-row.two-col { grid-template-columns: 1fr; }
@@ -321,11 +366,13 @@ export default function WebsiteDesignPage() {
         <div className="page-hero-inner">
           <span className="eyebrow">Website Design</span>
           <h1>
-            Pick the style <span className="accent">that fits.</span>
+            Built around <span className="accent">your brand.</span>
           </h1>
           <p>
-            Four design directions, same price. Each one a complete aesthetic — different palette,
-            typography, and mood. Pick the one that matches your business, we build and deploy it.
+            Below are four examples of the range we work in — from quiet editorial to bold
+            statement. We&apos;ll meet, talk through your business, then design{' '}
+            <strong>two bespoke draft concepts</strong> for you to pick from. Iterate from there
+            to the final build.
           </p>
           <div className="hero-cta">
             <a href="#enquiry" className="btn btn-primary">
@@ -339,11 +386,13 @@ export default function WebsiteDesignPage() {
       <section className="showcase">
         <div className="showcase-inner">
           <div className="showcase-header">
-            <span className="eyebrow">Four directions</span>
-            <h2>Browse the four styles.</h2>
+            <span className="eyebrow">Style range</span>
+            <h2>Four examples of where we can take it.</h2>
             <p>
-              Each mockup is a small visual representation of how your homepage could feel. We can
-              also blend or tweak — these are starting points, not strict templates.
+              These are <strong>not templates</strong> and not options to pick from. They&apos;re
+              style references — a quick sense of the aesthetic range we work in, from quiet
+              minimal to bold statement. Your actual site starts with a discovery meeting and{' '}
+              <strong>two bespoke draft concepts</strong> built around your business.
             </p>
           </div>
 
@@ -459,8 +508,56 @@ export default function WebsiteDesignPage() {
         </div>
       </section>
 
-      {/* HOSTING + PRICING */}
+      {/* PROCESS */}
       <section className="showcase is-alt">
+        <div className="showcase-inner">
+          <div className="showcase-header">
+            <span className="eyebrow">How it works</span>
+            <h2>From your business to a live site.</h2>
+            <p>
+              Four steps, no surprises. Most websites land in 2–4 weeks depending on how fast you
+              feed back.
+            </p>
+          </div>
+          <div className="process-steps">
+            <div className="process-step">
+              <div className="num-badge">01</div>
+              <h3>Discovery meeting</h3>
+              <p>
+                We sit down and walk through your business — who you serve, what you sell, the
+                tone you want, the examples you love (the four above are a starting reference).
+              </p>
+            </div>
+            <div className="process-step">
+              <div className="num-badge">02</div>
+              <h3>2 draft concepts</h3>
+              <p>
+                We design <strong>two bespoke direction concepts</strong> shaped around your
+                business — different aesthetics, both worth shipping. Sent to you to review.
+              </p>
+            </div>
+            <div className="process-step">
+              <div className="num-badge">03</div>
+              <h3>Pick + iterate</h3>
+              <p>
+                You pick the direction you want to build out. We refine the chosen draft —
+                feedback rounds, copy tweaks, layout adjustments — until it&apos;s right.
+              </p>
+            </div>
+            <div className="process-step">
+              <div className="num-badge">04</div>
+              <h3>Build + deploy</h3>
+              <p>
+                We build the final 5-page site, deploy it on Vercel, hand over login + edit
+                access, and walk you through how to update it yourself.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HOSTING + PRICING */}
+      <section className="showcase">
         <div className="showcase-inner">
           <div className="showcase-header">
             <span className="eyebrow">Pricing</span>
@@ -558,8 +655,9 @@ export default function WebsiteDesignPage() {
 
             <h2>Website Design enquiry</h2>
             <p className="form-sub">
-              Tell us which style speaks to you and we&apos;ll call you back within one business
-              day to talk through what your business actually needs.
+              Tell us about your business and we&apos;ll call you back within one business day to
+              set up the discovery meeting. The two draft concepts come after that — built around
+              you, not picked from a list.
             </p>
 
             <div className="form-row two-col">
@@ -606,15 +704,16 @@ export default function WebsiteDesignPage() {
 
             <div className="form-row">
               <label className="form-label" htmlFor="wd-style">
-                Style direction you like
+                Which of the four examples speaks to you most? <span className="opt">(just a starting reference)</span>
               </label>
               <select className="form-select" id="wd-style" name="style_direction" defaultValue="">
-                <option value="">Not sure — help me pick</option>
+                <option value="">Not sure yet — we&apos;ll work it out in the meeting</option>
                 <option value="editorial">01 · The Editorial (Aesop / Apple)</option>
                 <option value="tech">02 · The Tech (Linear / Stripe / Vercel)</option>
                 <option value="boutique">03 · The Boutique (Squarespace / Ghost)</option>
                 <option value="statement">04 · The Statement (Awwwards / Mast)</option>
                 <option value="blend">A blend of two or more</option>
+                <option value="other">Something different from all four</option>
               </select>
             </div>
 
@@ -676,11 +775,11 @@ export default function WebsiteDesignPage() {
       <section className="final-cta">
         <div className="final-cta-inner">
           <h2>
-            Stuck between two? <span className="accent">Tell us your business.</span>
+            Like what you see? <span className="accent">Let&apos;s draft yours.</span>
           </h2>
           <p>
-            Send a short note via the enquiry form above. We&apos;ll call you back and walk through
-            which direction actually fits your audience — not just which looks coolest.
+            Send a short note via the enquiry form above. We&apos;ll set up the discovery meeting,
+            draft two concepts shaped around your business, and you pick the direction from there.
           </p>
           <div className="ctas">
             <a href="#enquiry" className="btn btn-primary">
