@@ -152,10 +152,11 @@ export async function POST(req: Request) {
 
   try {
     const response = await client.messages.create({
-      model: 'claude-opus-4-8',
+      // claude-haiku-4-5: fastest + cheapest for brief FAQ-style answers.
+      // Haiku does not support adaptive thinking or the `effort` parameter,
+      // so those fields are intentionally omitted here.
+      model: 'claude-haiku-4-5',
       max_tokens: MAX_TOKENS_RESPONSE,
-      thinking: { type: 'adaptive' },
-      output_config: { effort: 'medium' },
       // Cache the system prompt — saves ~90% on input cost after the first hit
       system: [
         {
