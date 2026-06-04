@@ -12,6 +12,7 @@
     "prebuild": "node scripts/inject-back-link.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.100.1",
     "next": "16.2.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
