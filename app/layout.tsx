@@ -3,7 +3,6 @@ import { cookies } from 'next/headers';
 import { verifyCookie } from '@/lib/auth';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
-import ChatBot from '@/components/ChatBot';
 
 const SITE_URL = 'https://www.theaiadvantageco.com.au';
 
@@ -137,9 +136,6 @@ export default async function RootLayout({
         {children}
 
         <SiteFooter />
-
-        {/* AI chatbot — floating launcher + chat panel, available on every page */}
-        <ChatBot />
 
         {/* Mobile nav toggle — flips .is-open on .nav-links; styling lives in
             styles.css under @media (max-width: 1100px) */}
