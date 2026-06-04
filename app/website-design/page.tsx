@@ -190,6 +190,54 @@ export default function WebsiteDesignPage() {
           color: var(--ink-secondary);
         }
 
+        /* CAPABILITY CARDS */
+        .capability-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+        .capability-card {
+          background: var(--surface-0);
+          border: 1px solid var(--hairline);
+          border-radius: 16px;
+          padding: 28px 26px;
+          display: flex;
+          flex-direction: column;
+        }
+        .capability-card .ico {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: var(--surface-cream);
+          color: var(--copper);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 18px;
+        }
+        .capability-card h3 {
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: 19px;
+          letter-spacing: -0.015em;
+          margin-bottom: 10px;
+        }
+        .capability-card p {
+          font-size: 14.5px;
+          line-height: 1.6;
+          color: var(--ink-secondary);
+        }
+        .capability-card p + p { margin-top: 10px; }
+        .capability-card .note {
+          margin-top: 12px;
+          font-size: 12px;
+          color: var(--ink-tertiary);
+          letter-spacing: 0.02em;
+        }
+        .capability-card .note strong { color: var(--copper); font-weight: 600; }
+
         /* PRICING / HOSTING */
         .pricing-strip {
           display: grid;
@@ -350,6 +398,7 @@ export default function WebsiteDesignPage() {
           .mockup-grid { grid-template-columns: 1fr; gap: 28px; }
           .pricing-strip { grid-template-columns: 1fr; }
           .process-steps { grid-template-columns: 1fr 1fr; gap: 16px; }
+          .capability-grid { grid-template-columns: 1fr; gap: 16px; }
         }
         @media (max-width: 560px) {
           .process-steps { grid-template-columns: 1fr; }
@@ -389,9 +438,12 @@ export default function WebsiteDesignPage() {
             <span className="eyebrow">Style range</span>
             <h2>Four examples of where we can take it.</h2>
             <p>
-              These are <strong>not templates</strong> and not options to pick from. They&apos;re
-              style references — a quick sense of the aesthetic range we work in, from quiet
-              minimal to bold statement. Your actual site starts with a discovery meeting and{' '}
+              These are <strong>not templates</strong>, and not options to pick from. They&apos;re
+              just style references — a quick sense of the aesthetic range we work in, from quiet
+              minimal to bold statement.
+            </p>
+            <p style={{ marginTop: '14px' }}>
+              Your actual site starts with a discovery meeting and{' '}
               <strong>two bespoke draft concepts</strong> built around your business.
             </p>
           </div>
@@ -556,8 +608,78 @@ export default function WebsiteDesignPage() {
         </div>
       </section>
 
-      {/* HOSTING + PRICING */}
+      {/* BEYOND THE DESIGN — extra capabilities */}
       <section className="showcase">
+        <div className="showcase-inner">
+          <div className="showcase-header">
+            <span className="eyebrow">Beyond the design</span>
+            <h2>Build it bigger, if you need to.</h2>
+            <p>
+              The design direction is the foundation. We can also build in functionality your
+              business actually needs — match the feel of a site you already love, take payments,
+              run bookings, or add interactive tools.
+            </p>
+          </div>
+
+          <div className="capability-grid">
+            {/* CARD 1 — Reference site matching */}
+            <div className="capability-card">
+              <div className="ico" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </div>
+              <h3>Got a website you already love?</h3>
+              <p>
+                Drop us the link in the enquiry form. We&apos;ll aim to bring the same feel and
+                proportions across to your site, then re-skin it with your brand so it&apos;s
+                yours — not a copy.
+              </p>
+            </div>
+
+            {/* CARD 2 — Payments / bookings / enquiries */}
+            <div className="capability-card">
+              <div className="ico" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="6" width="20" height="13" rx="2" />
+                  <line x1="2" y1="11" x2="22" y2="11" />
+                  <line x1="6" y1="15.5" x2="9" y2="15.5" />
+                </svg>
+              </div>
+              <h3>Payments, bookings, enquiry flows.</h3>
+              <p>
+                We can build a payment system directly into the site (Stripe / Square / similar),
+                wire up a booking calendar, or set up smarter enquiry flows that route to your
+                inbox — depending on what your business actually needs.
+              </p>
+              <span className="note"><strong>Quote in discovery:</strong> scope sets the cost.</span>
+            </div>
+
+            {/* CARD 3 — Interactive tools */}
+            <div className="capability-card">
+              <div className="ico" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <h3>Interactive tools, calculators, mini-apps.</h3>
+              <p>
+                Quote calculators, lead-qualifiers, simple customer dashboards, an Ai-powered
+                chatbot trained on your business — we can build them into the site too. These
+                are bigger pieces of work, so we walk through what you actually want in the
+                discovery call before scoping.
+              </p>
+              <span className="note"><strong>Discussed in discovery:</strong> sized to fit.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HOSTING + PRICING */}
+      <section className="showcase is-alt">
         <div className="showcase-inner">
           <div className="showcase-header">
             <span className="eyebrow">Pricing</span>
@@ -715,6 +837,43 @@ export default function WebsiteDesignPage() {
                 <option value="blend">A blend of two or more</option>
                 <option value="other">Something different from all four</option>
               </select>
+            </div>
+
+            <div className="form-row">
+              <label className="form-label" htmlFor="wd-reference">
+                Got a website you already love? <span className="opt">(drop the URL — we&apos;ll aim for the same feel)</span>
+              </label>
+              <input
+                className="form-input"
+                type="url"
+                id="wd-reference"
+                name="reference_url"
+                placeholder="https://..."
+                autoComplete="url"
+              />
+            </div>
+
+            <div className="form-row">
+              <label className="form-label">
+                Extras you might want <span className="opt">(we&apos;ll scope in discovery)</span>
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 16px' }}>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px' }}>
+                  <input type="checkbox" name="extras" value="payments" /> Payments
+                </label>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px' }}>
+                  <input type="checkbox" name="extras" value="bookings" /> Bookings
+                </label>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px' }}>
+                  <input type="checkbox" name="extras" value="enquiry-flows" /> Enquiry flows
+                </label>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px' }}>
+                  <input type="checkbox" name="extras" value="interactive-tools" /> Interactive tools
+                </label>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px' }}>
+                  <input type="checkbox" name="extras" value="ai-chatbot" /> Ai chatbot
+                </label>
+              </div>
             </div>
 
             <div className="form-row">
