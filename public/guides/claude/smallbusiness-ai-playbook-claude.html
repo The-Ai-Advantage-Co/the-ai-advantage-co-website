@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Small Business Owner's AI Playbook — Claude Edition | The AI Advantage Co</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #C97040;
+      --orange-light: #E09868;
+      --orange-soft: rgba(201,112,64,0.09);
+      --orange-border: rgba(201,112,64,0.20);
+      --sidebar-bg: #3C1E0A;
+      --sidebar-hover: #4E2A12;
+      --sidebar-act: rgba(201,112,64,0.16);
+      --page-bg: #FEF8F0;
+      --white: #FFFFFF;
+      --card-bg: #FFFCF8;
+      --ink: #2C1408;
+      --body-text: #4A3020;
+      --muted: #8A6040;
+      --border: #F0DEC8;
+      --divider: #EDD8BE;
+      --sidebar-w: 268px;
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--page-bg);
+      color: var(--body-text);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ─── LAYOUT ─── */
+    .layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      min-height: 100vh;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      background: var(--sidebar-bg);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: var(--orange-border) transparent;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--orange-border); border-radius: 2px; }
+
+    .sidebar-brand {
+      padding: 22px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .sidebar-brand .brand-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--orange-light);
+      margin-bottom: 4px;
+    }
+    .sidebar-brand .brand-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.4;
+    }
+
+    .sidebar-section-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.30);
+      padding: 18px 20px 6px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 20px;
+      color: rgba(255,255,255,0.72);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      border-left: 3px solid transparent;
+      transition: all 0.18s ease;
+      cursor: pointer;
+    }
+    .nav-link:hover {
+      background: var(--sidebar-hover);
+      color: #fff;
+    }
+    .nav-link.active {
+      background: var(--sidebar-act);
+      color: var(--orange-light);
+      border-left-color: var(--orange);
+      font-weight: 600;
+    }
+    .nav-link .nav-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--orange);
+      min-width: 18px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      font-size: 11px;
+      color: rgba(255,255,255,0.30);
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    .content {
+      padding: 0 0 60px;
+      max-width: 920px;
+    }
+
+    /* ─── BANNER ─── */
+    .banner {
+      width: 100%;
+      height: 260px;
+      background: linear-gradient(135deg, #3C1E0A 0%, #7A3A18 40%, #C97040 75%, #E09868 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .banner::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .banner::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: 120px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+    }
+    .banner-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--orange-light);
+      margin-bottom: 10px;
+    }
+    .banner-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      max-width: 560px;
+    }
+    .banner-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      max-width: 540px;
+      line-height: 1.5;
+    }
+
+    /* ─── BREADCRUMB + META ─── */
+    .page-meta {
+      padding: 18px 52px 0;
+    }
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .breadcrumb span { color: var(--orange); }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+    }
+    .badge-orange { background: var(--orange); color: #fff; }
+    .badge-outline { background: transparent; border: 1.5px solid var(--orange-border); color: var(--muted); }
+
+    .page-subtitle {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 680px;
+      padding: 12px 52px 20px;
+      border-bottom: 1px solid var(--divider);
+      margin-bottom: 0;
+    }
+
+    /* ─── SECTION CARDS ─── */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 28px 44px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(60,30,10,0.06);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 24px;
+      background: linear-gradient(90deg, var(--orange-soft) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .section-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .section-title span {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-left: 10px;
+    }
+
+    .section-body {
+      padding: 28px 28px 24px;
+    }
+
+    /* ─── PROSE ─── */
+    .prose p { margin-bottom: 14px; font-size: 14.5px; line-height: 1.7; }
+    .prose h3 { font-size: 15px; font-weight: 700; color: var(--ink); margin: 20px 0 8px; }
+    .prose h4 { font-size: 14px; font-weight: 600; color: var(--orange); margin: 16px 0 6px; }
+    .prose ul, .prose ol { padding-left: 22px; margin-bottom: 14px; }
+    .prose li { margin-bottom: 6px; font-size: 14.5px; line-height: 1.6; }
+    .prose strong { color: var(--ink); font-weight: 600; }
+
+    /* ─── CALLOUTS ─── */
+    .callout {
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin: 16px 0;
+      border-left: 4px solid;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .callout-title {
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+    .callout.tip { background: #E8F5E9; border-color: #2E7D32; }
+    .callout.tip .callout-title { color: #1B5E20; }
+    .callout.tip .callout-body { color: #2E7D32; }
+    .callout.warning { background: #FFF8E1; border-color: #F59E0B; }
+    .callout.warning .callout-title { color: #B45309; }
+    .callout.warning .callout-body { color: #78350F; }
+    .callout.info { background: #E3F2FD; border-color: #1565C0; }
+    .callout.info .callout-title { color: #0D47A1; }
+    .callout.info .callout-body { color: #1565C0; }
+    .callout.update { background: #FFF3E0; border-color: var(--orange); }
+    .callout.update .callout-title { color: var(--orange); }
+    .callout.update .callout-body { color: var(--body-text); }
+
+    /* ─── FEATURE CARDS ─── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      border-top: 3px solid var(--orange);
+      padding: 16px;
+    }
+    .feature-card .fc-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .feature-card .fc-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+    .feature-card .fc-desc {
+      font-size: 13px;
+      color: var(--body-text);
+      line-height: 1.55;
+    }
+
+    /* ─── STEPS ─── */
+    .steps { margin: 16px 0; }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+    .step-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+    .step-content { flex: 1; }
+    .step-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .step-desc { font-size: 14px; color: var(--body-text); line-height: 1.6; }
+
+    /* ─── WORKFLOW STEPS ─── */
+    .workflow { margin: 20px 0; }
+    .workflow-item {
+      display: flex;
+      gap: 18px;
+      padding: 18px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      border-left: 4px solid var(--orange);
+    }
+    .workflow-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: var(--orange-soft);
+      border: 2px solid var(--orange);
+      color: var(--orange);
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+    .workflow-body { flex: 1; }
+    .workflow-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .workflow-subtitle {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .workflow-desc { font-size: 14px; color: var(--body-text); line-height: 1.6; margin-bottom: 10px; }
+    .workflow-prompt {
+      background: #2C1408;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-family: 'Inter', monospace;
+      font-size: 12.5px;
+      color: #E8C8A0;
+      line-height: 1.6;
+      position: relative;
+    }
+    .workflow-prompt .prompt-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange-light);
+      margin-bottom: 6px;
+    }
+
+    /* ─── REF TABLE ─── */
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin: 16px 0;
+    }
+    .ref-table th {
+      background: var(--sidebar-bg);
+      color: var(--orange-light);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 11px 14px;
+      text-align: left;
+    }
+    .ref-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--body-text);
+      vertical-align: top;
+    }
+    .ref-table tr:nth-child(even) td { background: var(--orange-soft); }
+    .ref-table tr:last-child td { border-bottom: none; }
+    .ref-table .feature-tag {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .ref-table .tag-free {
+      background: #E8F5E9;
+      color: #1B5E20;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .ref-table .tag-pro {
+      background: var(--orange);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .ref-table .tag-max {
+      background: var(--ink);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .check { color: #2E7D32; font-weight: 700; }
+    .cross { color: #B71C1C; }
+    .partial { color: var(--orange); }
+
+    /* ─── PROMPT TABS ─── */
+    .prompt-tabs { margin: 20px 0; }
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--orange-border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.16s ease;
+    }
+    .tab-btn:hover {
+      background: var(--orange-soft);
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+    .tab-btn.active {
+      background: var(--orange);
+      color: #fff;
+      border-color: var(--orange);
+      font-weight: 600;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .prompt-box {
+      background: #2C1408;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      background: rgba(0,0,0,0.25);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .prompt-label-text {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange-light);
+    }
+    .copy-btn {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s ease;
+    }
+    .copy-btn:hover { background: var(--orange-light); }
+    .copy-btn.copied { background: #2E7D32; }
+    .prompt-text {
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #E8C8A0;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    /* ─── MISTAKE PAIRS ─── */
+    .mistake-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .mistake-card {
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+    .mistake-card.bad {
+      background: #FFF5F5;
+      border: 1px solid #FFCDD2;
+      border-left: 4px solid #E57373;
+    }
+    .mistake-card.good {
+      background: #F1FBF3;
+      border: 1px solid #C8E6C9;
+      border-left: 4px solid #66BB6A;
+    }
+    .mistake-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .mistake-card.bad .mistake-label { color: #C62828; }
+    .mistake-card.good .mistake-label { color: #2E7D32; }
+    .mistake-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    /* ─── IMPACT CARDS ─── */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .impact-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      text-align: center;
+    }
+    .impact-metric {
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--orange);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .impact-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+    .impact-desc {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ─── LEARNING PATH ─── */
+    .learning-path {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .lp-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--orange);
+    }
+    .lp-step {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .lp-body { flex: 1; }
+    .lp-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .lp-guide {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--orange-soft);
+      color: var(--orange);
+      border: 1px solid var(--orange-border);
+      padding: 2px 9px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+    }
+    .lp-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+    /* ─── ADVANCED TECHNIQUE CARDS ─── */
+    .adv-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      margin-bottom: 12px;
+      border-top: 3px solid var(--orange);
+    }
+    .adv-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .adv-icon {
+      font-size: 20px;
+    }
+    .adv-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .adv-desc {
+      font-size: 14px;
+      color: var(--body-text);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .adv-tip {
+      font-size: 13px;
+      color: var(--orange);
+      font-weight: 500;
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: var(--divider);
+      margin: 20px 0;
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 820px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+        height: auto;
+        max-height: 320px;
+      }
+      .banner { padding: 0 24px; height: 220px; }
+      .banner-title { font-size: 24px; }
+      .page-meta, .page-subtitle { padding-left: 24px; padding-right: 24px; }
+      .section-card { margin: 20px 16px; }
+      .section-body { padding: 20px 18px; }
+      .card-grid, .card-grid-3, .mistake-pair, .impact-grid { grid-template-columns: 1fr; }
+      .tab-bar { gap: 4px; }
+      .tab-btn { font-size: 12px; padding: 6px 10px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">The AI Advantage Co</div>
+      <div class="brand-title">Small Business Playbook<br>Claude Edition</div>
+    </div>
+
+    <div class="sidebar-section-label">Contents</div>
+
+    <a class="nav-link active" href="#s01" onclick="scrollTo('s01',this)">
+      <span class="nav-num">01</span>Why AI Matters
+    </a>
+    <a class="nav-link" href="#s02" onclick="scrollTo('s02',this)">
+      <span class="nav-num">02</span>Setting Up Claude
+    </a>
+    <a class="nav-link" href="#s03" onclick="scrollTo('s03',this)">
+      <span class="nav-num">03</span>Daily Workflows
+    </a>
+    <a class="nav-link" href="#s04" onclick="scrollTo('s04',this)">
+      <span class="nav-num">04</span>Advanced Techniques
+    </a>
+    <a class="nav-link" href="#s05" onclick="scrollTo('s05',this)">
+      <span class="nav-num">05</span>Prompt Library
+    </a>
+    <a class="nav-link" href="#s06" onclick="scrollTo('s06',this)">
+      <span class="nav-num">06</span>Measuring Impact
+    </a>
+    <a class="nav-link" href="#s07" onclick="scrollTo('s07',this)">
+      <span class="nav-num">07</span>Common Mistakes
+    </a>
+    <a class="nav-link" href="#s08" onclick="scrollTo('s08',this)">
+      <span class="nav-num">08</span>Learning Path
+    </a>
+
+    <div class="sidebar-footer">
+      June 2026 &nbsp;·&nbsp; The AI Advantage Co
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="content">
+
+    <!-- BANNER -->
+    <div class="banner">
+      <div class="banner-eyebrow">Small Business Playbook &nbsp;/&nbsp; Claude Edition</div>
+      <div class="banner-title">The Small Business Owner's<br>AI Playbook</div>
+      <div class="banner-sub">Your complete guide to using Claude for marketing, customer communication, proposals, business planning, product listings, and competitive analysis.</div>
+    </div>
+
+    <!-- PAGE META -->
+    <div class="page-meta">
+      <div class="breadcrumb">Documentation &rsaquo; <span>Small Business Playbook</span> &rsaquo; Claude Edition</div>
+      <div class="badges">
+        <span class="badge badge-orange">PLAYBOOK</span>
+        <span class="badge badge-outline">June 2026</span>
+        <span class="badge badge-outline">Small Business Owners</span>
+      </div>
+    </div>
+    <div class="page-subtitle">
+      Your complete guide to using Claude for marketing, customer communication, proposals, business planning, product listings, and competitive analysis — built specifically for the day-to-day realities of running a small business.
+    </div>
+
+    <!-- ─── SECTION 01 ─── -->
+    <div class="section-card" id="s01">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <div class="section-title">Why AI Matters for Small Business <span>The case for Claude in 2026</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>Running a small business means wearing every hat simultaneously — marketer, salesperson, customer service rep, strategist, and administrator. The challenge isn't a lack of ideas or ambition; it's a lack of hours. AI — and specifically Claude — changes that equation.</p>
+
+          <p>Claude is Anthropic's AI assistant, built with a specific focus on being <strong>helpful, harmless, and honest</strong>. For small business owners, this translates to practical capabilities that are immediately useful: writing copy that sounds like you, drafting customer responses that stay on-brand, building proposals that win work, and thinking through strategic decisions with the depth of an experienced advisor.</p>
+        </div>
+
+        <div class="callout update">
+          <div class="callout-title">2026 Update</div>
+          <div class="callout-body">Claude's careful, nuanced writing voice is especially valuable for small businesses where every customer interaction matters. Opus 4.7 produces marketing copy and customer responses that sound human, not AI-generated — a critical distinction when your brand reputation rides on authentic communication. Competitors using lower-quality AI tools produce content that customers can easily recognise as AI-written. Claude's outputs require significantly less editing.</div>
+        </div>
+
+        <div class="card-grid">
+          <div class="feature-card">
+            <span class="fc-icon">✍️</span>
+            <div class="fc-title">Writing Quality</div>
+            <div class="fc-desc">Claude consistently produces copy that matches brand voice, adapts tone for context, and avoids the robotic cadence common in other AI tools. It's the closest thing to a skilled writer on demand.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">🧠</span>
+            <div class="fc-title">Strategic Thinking</div>
+            <div class="fc-desc">Extended Thinking mode allows Claude to reason through complex business decisions — market analysis, pricing strategy, competitive positioning — with the depth of a business advisor.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">📋</span>
+            <div class="fc-title">Contextual Memory</div>
+            <div class="fc-desc">Projects give Claude persistent knowledge of your business — your brand voice, target audience, past work, and client preferences — so every session builds on what it already knows about you.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">⚡</span>
+            <div class="fc-title">Speed to Output</div>
+            <div class="fc-desc">Tasks that took hours — a full proposal, five social posts, a competitive analysis report — are completed in minutes. That time saving compounds across a week, a month, a year.</div>
+          </div>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-title">The Core Advantage for Small Business</div>
+          <div class="callout-body">Large companies have marketing teams, copywriters, business analysts, and sales support staff. Claude gives small business owners access to the same quality of output — on-demand, at a fraction of the cost. The business that uses Claude effectively competes with teams 10x its size.</div>
+        </div>
+
+        <div class="prose">
+          <h3>Who This Playbook Is For</h3>
+          <ul>
+            <li><strong>Solo operators and freelancers</strong> handling all client communication and marketing themselves</li>
+            <li><strong>Small business owners</strong> with 1–20 staff who need consistent, on-brand outputs without a dedicated marketing team</li>
+            <li><strong>Service businesses</strong> that live and die by proposals, client communication, and reputation</li>
+            <li><strong>Product businesses</strong> that need compelling copy across multiple platforms and channels</li>
+            <li><strong>Anyone</strong> who has tried AI tools before and found the output generic, impersonal, or in need of heavy editing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 02 ─── -->
+    <div class="section-card" id="s02">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <div class="section-title">Setting Up Claude for Small Business <span>Your first 30 minutes</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>A small investment in setup pays dividends across every future interaction. Getting Claude configured correctly means it learns your business once — and delivers on-brand, contextually accurate outputs every session thereafter.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Choose the Right Plan — Pro is the Sweet Spot</div>
+              <div class="step-desc">The <strong>Claude Pro plan</strong> is the best value for small business owners. It gives you access to Opus 4.7 (the most capable model for complex writing and strategy), Projects with persistent memory, Artifacts for reusable templates, and significantly higher usage limits than the free tier. At approximately $20/month, it costs less than a single hour of freelance copywriting and pays for itself on day one.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Create a Project Called "Brand Hub"</div>
+              <div class="step-desc">In Claude, go to <strong>Projects → New Project</strong> and name it "Brand Hub". This is your persistent business context — Claude will reference it automatically in every conversation within this Project. Upload: your brand guidelines (PDF or doc), 3–5 examples of your best past marketing copy, your website's About page and key product/service pages, and a one-page tone brief describing how your brand speaks. The more context you give, the more accurately Claude mirrors your voice.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Set Your Project System Prompt</div>
+              <div class="step-desc">Inside your Brand Hub project, set a system prompt that gives Claude the essentials about your business every single time. Include: business name and type, your target customer profile (age, pain points, language they use), your brand voice (3–5 adjectives: "warm but professional", "direct and no-nonsense", "friendly and approachable"), the geographic market you serve, and any terms or phrases to always use — or never use.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Create Reusable Artifacts for Core Templates</div>
+              <div class="step-desc">Ask Claude to generate your most-used business templates as <strong>Artifacts</strong> — Claude's reusable, editable document format. Start with: a proposal template (executive summary, scope, deliverables, pricing, terms), an email enquiry response template, a social post framework for each platform you use, and a quote/invoice covering letter. Store these in your Brand Hub project. Next time you need one, open it, paste your context, and Claude fills it in.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <div class="step-title">Configure Memory for Recurring Client Patterns</div>
+              <div class="step-desc">Use Claude's memory feature to store facts that recur across conversations — key client preferences, standard pricing tiers, frequently asked questions, seasonal patterns in your business. This is different from Projects (which store documents); Memory stores facts. Combined, Projects + Memory means Claude builds a richer, more accurate picture of your business over time.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-title">Pro Tip — Test Your Setup</div>
+          <div class="callout-body">After setting up your Brand Hub, test it with a simple request: "Write a short social media post about our business in our brand voice." If the output sounds like you, the setup is working. If it sounds generic, add more examples to the Project and refine your system prompt with more specific voice guidance.</div>
+        </div>
+
+        <div class="callout info">
+          <div class="callout-title">System Prompt Template for Small Business</div>
+          <div class="callout-body">You are a marketing and business writing assistant for [BUSINESS NAME], a [BUSINESS TYPE] based in [LOCATION]. Our target customer is [DESCRIPTION]. Our brand voice is [3-5 ADJECTIVES]. We always [BRAND DO'S]. We never [BRAND DON'TS]. When writing content, match this voice and always focus on [KEY VALUE PROPOSITION].</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 03 ─── -->
+    <div class="section-card" id="s03">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <div class="section-title">Daily Workflows <span>6 core tasks Claude does better than any other AI</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>These six workflows represent the highest-value use cases for small business owners using Claude. Each one is designed around Claude's specific strengths — writing quality, tone sensitivity, and structured thinking — rather than generic AI capabilities.</p>
+        </div>
+
+        <div class="workflow">
+
+          <!-- Workflow 1 -->
+          <div class="workflow-item">
+            <div class="workflow-num">1</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Marketing Copy</div>
+              <div class="workflow-title">Social Media, Ads & Campaign Content</div>
+              <div class="workflow-desc">Claude excels at matching brand voice for marketing content — producing posts that feel authentic rather than AI-generated. Use your Brand Hub project to ensure every piece of marketing copy reflects your voice automatically. Ask for Artifacts when you want a repeatable format you can fill in each week.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                Using our brand voice from this Project, write 5 social media posts for [PLATFORM] promoting [PRODUCT/SERVICE]. Target: [AUDIENCE]. Mix educational, promotional, and engagement posts (roughly 2-2-1). Keep each under 150 words. Create as an Artifact so I can reuse the format next time.
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 2 -->
+          <div class="workflow-item">
+            <div class="workflow-num">2</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Customer Communication</div>
+              <div class="workflow-title">Enquiries, Complaints & Sensitive Replies</div>
+              <div class="workflow-desc">Claude's careful, nuanced tone handling is ideal for customer communication — especially difficult situations. Unlike other AI tools that default to corporate-speak, Claude can match the emotional register of a message and respond appropriately. Paste the customer message directly; Claude reads the subtext and crafts a response that's empathetic without being sycophantic.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                Draft a response to this customer message: [PASTE MESSAGE HERE]. This customer seems [frustrated/confused/interested]. Match our brand voice. Be empathetic but solution-focused. Keep under 150 words. Offer a specific next step. Do not use hollow phrases like "I completely understand your frustration."
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 3 -->
+          <div class="workflow-item">
+            <div class="workflow-num">3</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Proposals & Quotes</div>
+              <div class="workflow-title">Client Proposals, Scopes & Quote Letters</div>
+              <div class="workflow-desc">Claude creates professional proposals that balance confidence with approachability — the tone that wins small business work. Use Artifacts to build a reusable proposal template from your first project, then simply update the client context for each new job. Proposals that used to take 2–3 hours are done in 15 minutes.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                Create a professional proposal for [CLIENT NAME] for [SERVICE/PROJECT] as an Artifact. Meeting context: [PASTE NOTES]. Include: executive summary (2 sentences), scope of work, deliverables list, timeline, investment (use "investment" not "cost"), payment terms. Brand voice: confident but approachable. No jargon.
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 4 -->
+          <div class="workflow-item">
+            <div class="workflow-num">4</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Business Planning</div>
+              <div class="workflow-title">Market Analysis, Strategy & Planning Documents</div>
+              <div class="workflow-desc">Claude's Extended Thinking mode is genuinely useful for business strategy — it reasons through complexity before responding rather than producing a generic template. Use it for market analysis, go-to-market planning, pricing decisions, and competitive positioning. The quality difference between standard Claude and Extended Thinking for strategic work is significant.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                Think carefully about the [INDUSTRY] landscape, then create a market analysis for [NICHE/SEGMENT] in [LOCATION]. Include: current market size and trend (2024-2026), top 5 competitors with brief profile of each, target customer profile with 3 personas, 3 market opportunities, 2 key threats, and your recommended positioning for our business.
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 5 -->
+          <div class="workflow-item">
+            <div class="workflow-num">5</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Product Descriptions</div>
+              <div class="workflow-title">Listings, Catalogues & Website Copy</div>
+              <div class="workflow-desc">Claude's writing finesse makes it ideal for product copy — focusing on benefits not features, avoiding clichés, and adapting tone across platforms (e-commerce vs premium vs technical). Create a master Artifact with your product description template, then generate descriptions in batch for catalogue updates or new releases.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                Write product descriptions for these items: [LIST PRODUCTS]. For each product provide: (1) a compelling headline (under 8 words), (2) a benefit-focused description of 60-80 words — focus on what the customer gains, not product features, (3) 3 bullet points highlighting top benefits. Match our brand voice. Create as an Artifact for easy editing.
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 6 -->
+          <div class="workflow-item">
+            <div class="workflow-num">6</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Competitive Analysis</div>
+              <div class="workflow-title">Competitor Research & Differentiation Strategy</div>
+              <div class="workflow-desc">Claude can analyse uploaded competitor content — website pages, pricing pages, marketing copy — to identify positioning gaps and differentiation opportunities. Upload competitor material directly to the conversation, or paste key excerpts, and ask Claude to assess strengths, weaknesses, and the white space your business can own.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                I've uploaded/pasted content from these competitors: [NAMES]. Analyse each one covering: pricing positioning (premium/value/mid-market), brand voice and messaging tone, apparent target customer, top 2 strengths, top 2 weaknesses. Then identify 3 gaps or underserved opportunities in this market. Recommend a differentiation strategy for our business.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-title">The 15-Minute Morning Routine</div>
+          <div class="callout-body">Many small business owners use Claude for a 15-minute morning session: respond to overnight customer messages (Workflow 2), generate any social posts needed for the day (Workflow 1), and check the pipeline for any proposal follow-ups (Workflow 3). Three tasks that previously took 90 minutes, done before the working day begins.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 04 ─── -->
+    <div class="section-card" id="s04">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <div class="section-title">Advanced Techniques <span>Power user features for serious results</span></div>
+      </div>
+      <div class="section-body">
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">🗂️</span>
+            <div class="adv-title">Projects as a "Brand Hub" — Persistent Business Context</div>
+          </div>
+          <div class="adv-desc">Most Claude users treat every conversation as a blank slate — explaining their business context from scratch each time. Power users build a Brand Hub Project that Claude references automatically. Upload brand guidelines, example copy, client personas, and pricing structures. Add a detailed system prompt. Every conversation in this Project starts from a position of deep business knowledge, producing outputs that need far less editing.</div>
+          <div class="adv-tip">→ Advanced use: Create separate Projects for different business lines, client categories, or seasonal campaigns — each with its own context and system prompt.</div>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">📄</span>
+            <div class="adv-title">Artifacts for Reusable Business Templates</div>
+          </div>
+          <div class="adv-desc">Artifacts are Claude's version of reusable documents — generated once, stored in your Project, and reused indefinitely. Build an Artifact for every document you create repeatedly: proposal template, quote letter, email enquiry response, social post calendar framework, meeting follow-up email, onboarding checklist. When you need the document, open the Artifact and paste the specific context — Claude fills in the variables without regenerating the structure.</div>
+          <div class="adv-tip">→ Advanced use: Combine Artifacts with version notes — "V2 of proposal template, updated to include sustainability section" — to manage iterations.</div>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">🔮</span>
+            <div class="adv-title">Extended Thinking for Business Strategy and Financial Analysis</div>
+          </div>
+          <div class="adv-desc">Extended Thinking is a special mode where Claude reasons through a problem step-by-step before giving you the answer. For small business use, this is most valuable for: market analysis and competitive strategy, pricing model decisions, go-to-market planning for new services, financial projections and scenario planning, and risk assessment for business decisions. The reasoning is visible — you can see how Claude arrived at its conclusions and challenge the logic.</div>
+          <div class="adv-tip">→ Trigger it explicitly: start your prompt with "Think carefully about..." or "Before answering, reason through..." to activate deeper analysis mode.</div>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">💬</span>
+            <div class="adv-title">Sensitive & Nuanced Writing for Difficult Customer Situations</div>
+          </div>
+          <div class="adv-desc">Claude's trained emphasis on careful, honest communication makes it uniquely valuable for difficult business communication — handling complaints, delivering bad news to clients, navigating pricing objections, and managing scope disputes. Unlike other AI tools that produce hollow empathy language, Claude can acknowledge a problem genuinely, take appropriate responsibility, and propose a resolution — without being defensive, overly apologetic, or legally risky.</div>
+          <div class="adv-tip">→ Always provide the full context including what went wrong, what you can offer, and any constraints (refund policy, what's not possible). The more context, the better Claude navigates the situation.</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;">Claude Features for Small Business — By Plan</h3>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>What it does for your business</th>
+              <th>Free</th>
+              <th>Pro</th>
+              <th>Max</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Claude Sonnet</strong></td>
+              <td>High-quality writing, customer responses, basic planning</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td><strong>Claude Opus 4.7</strong></td>
+              <td>Best-in-class writing quality, complex strategy, Extended Thinking</td>
+              <td><span class="cross">–</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td><strong>Projects</strong></td>
+              <td>Brand Hub with persistent brand context across sessions</td>
+              <td><span class="cross">–</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td><strong>Artifacts</strong></td>
+              <td>Reusable proposal, email, and social templates</td>
+              <td><span class="cross">–</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td><strong>Extended Thinking</strong></td>
+              <td>Deep strategic analysis, market research, financial modelling</td>
+              <td><span class="cross">–</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td><strong>Memory</strong></td>
+              <td>Remembers client preferences, pricing, recurring patterns</td>
+              <td><span class="cross">–</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td><strong>File uploads</strong></td>
+              <td>Upload competitor content, contracts, RFPs for analysis</td>
+              <td><span class="partial">Limited</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td><strong>Higher usage limits</strong></td>
+              <td>Process more messages per day — for high-volume days</td>
+              <td><span class="cross">–</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓ 5×</span></td>
+            </tr>
+            <tr>
+              <td><strong>API access</strong></td>
+              <td>Integrate Claude into your own tools, CRM, or website</td>
+              <td><span class="cross">–</span></td>
+              <td><span class="cross">–</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout tip">
+          <div class="callout-title">Recommended Plan for Small Business Owners</div>
+          <div class="callout-body">Claude Pro ($20/month) is the right starting point. You get Projects, Artifacts, Extended Thinking, and Opus 4.7 — every feature that matters for the daily workflows in this playbook. Upgrade to Max only if you're using Claude extensively every day and hitting usage limits regularly.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 05 ─── -->
+    <div class="section-card" id="s05">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <div class="section-title">Prompt Library <span>15 ready-to-use prompts across 5 business areas</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>Copy any prompt below — replace the bracketed placeholders with your specifics, and use within your Brand Hub Project for best results. Each prompt is engineered for Claude's specific strengths.</p>
+        </div>
+
+        <div class="prompt-tabs">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'s05','marketing')">Marketing (4)</button>
+            <button class="tab-btn" onclick="switchTab(this,'s05','customer')">Customer (3)</button>
+            <button class="tab-btn" onclick="switchTab(this,'s05','sales')">Sales (3)</button>
+            <button class="tab-btn" onclick="switchTab(this,'s05','planning')">Planning (3)</button>
+            <button class="tab-btn" onclick="switchTab(this,'s05','product')">Product (2)</button>
+          </div>
+
+          <!-- MARKETING TAB -->
+          <div class="tab-panel active" id="s05-marketing">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Social Posts — Platform Content</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Using our brand voice from this Project, write 5 social media posts for [PLATFORM: Instagram/LinkedIn/Facebook] promoting [PRODUCT OR SERVICE].
+
+Target audience: [DESCRIBE YOUR AUDIENCE]
+Goal: Mix of educational (2), promotional (2), and engagement (1) posts
+Length: Maximum 150 words each
+Format: Write each post as numbered items 1–5
+Hashtags: 3–5 relevant hashtags per post where appropriate for the platform
+
+Create the 5 posts as an Artifact so I can reuse this format weekly.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Ad Copy — Paid Advertising</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Write ad copy for a [PLATFORM: Facebook/Google/Instagram] campaign for [PRODUCT/SERVICE].
+
+Campaign objective: [AWARENESS / LEADS / SALES]
+Target audience: [DESCRIBE]
+Key benefit to lead with: [YOUR STRONGEST BENEFIT]
+Budget signal: [PREMIUM / VALUE / MID-RANGE]
+
+Deliverables:
+- 3 headline options (under 30 characters each)
+- 3 primary text variations (under 120 words each)
+- 2 call-to-action options
+
+Match our brand voice. Avoid clichés like "Don't miss out" and "Game-changing".</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Email Newsletter — Monthly / Weekly</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Write a [monthly/weekly] email newsletter for our subscribers about [THEME OR TOPIC].
+
+Audience: [DESCRIBE — existing customers, prospects, industry peers]
+Main message: [THE ONE THING YOU WANT READERS TO TAKE AWAY]
+Content sections:
+1. Opening hook (2–3 sentences, conversational)
+2. Main feature / story / tip (150–200 words)
+3. Quick wins — 3 bullet points of actionable advice
+4. What's new / upcoming from us (50 words)
+5. Sign-off with a clear CTA
+
+Tone: [MATCH OUR BRAND VOICE]. Subject line options: provide 3 alternatives with preview text.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Blog Outline — Content Marketing</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Create a detailed blog post outline for the topic: "[BLOG TOPIC]"
+
+Target reader: [DESCRIBE YOUR IDEAL READER — their level of knowledge, pain points]
+Search intent: [INFORMATIONAL / COMPARISON / HOW-TO]
+Target length: [800 / 1200 / 1500+ words]
+Primary keyword: [KEYWORD]
+
+Outline should include:
+- Title (3 options) + meta description
+- Introduction hook
+- H2 and H3 subheadings with brief notes for each section
+- Key points and examples to include
+- Conclusion + CTA
+- Internal link suggestions
+
+Then write the full introduction section (first 150 words) in our brand voice.</div>
+            </div>
+          </div>
+
+          <!-- CUSTOMER TAB -->
+          <div class="tab-panel" id="s05-customer">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Enquiry Response — New Lead</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Draft a response to this customer enquiry: [PASTE ENQUIRY]
+
+Context:
+- Customer seems: [READY TO BUY / RESEARCHING / PRICE-SENSITIVE / URGENT]
+- What we can offer them: [RELEVANT SERVICE OR PRODUCT]
+- Any constraints: [TIMELINE, AVAILABILITY, PRICING NOTES]
+
+Requirements:
+- Match our brand voice (warm, professional, direct)
+- Acknowledge their specific need (not generic)
+- Provide one concrete next step (book a call / send a quote / visit X)
+- Keep under 180 words
+- Do not include hollow phrases like "Thank you for reaching out"</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Complaint Handling — Difficult Situations</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Draft a response to this customer complaint: [PASTE COMPLAINT]
+
+Situation details:
+- What went wrong: [HONEST DESCRIPTION]
+- What we can offer as resolution: [REFUND / REDO / CREDIT / EXPLANATION]
+- What we cannot offer: [ANY CONSTRAINTS]
+- Our fault level: [FULLY OUR FAULT / PARTIALLY / MISUNDERSTANDING]
+
+Requirements:
+- Acknowledge the problem genuinely — no hollow phrases
+- Take appropriate responsibility without over-apologising
+- Offer a specific resolution
+- Close with a confidence-restoring sentence
+- Tone: empathetic, direct, professional
+- Keep under 200 words
+- Do not start with "I sincerely apologise for the inconvenience"</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Review Response — Public Reply</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Write a response to this [Google/Facebook/Tripadvisor] review: [PASTE REVIEW]
+
+Review type: [5-STAR POSITIVE / 4-STAR WITH MINOR ISSUE / 3-STAR MIXED / 1-2 STAR NEGATIVE]
+
+Requirements:
+- This is a public response — write for the audience reading it, not just the reviewer
+- For positive reviews: genuine thanks, reinforce what they loved, invite return
+- For mixed/negative: acknowledge specifics, explain without excusing, offer resolution path
+- Never be defensive, dismissive, or blame the customer
+- Match our brand voice throughout
+- Keep under 120 words
+- Do not repeat the negative content verbatim (SEO consideration)</div>
+            </div>
+          </div>
+
+          <!-- SALES TAB -->
+          <div class="tab-panel" id="s05-sales">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Client Proposal — Full Document</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Create a professional client proposal as an Artifact for:
+
+Client: [CLIENT NAME / BUSINESS]
+Service/Project: [WHAT YOU'RE PROPOSING]
+Meeting notes / context: [PASTE OR SUMMARISE]
+Our investment (pricing): [AMOUNT OR RANGE]
+Timeline: [EXPECTED DURATION]
+
+Proposal structure:
+1. Cover line — one compelling sentence about the outcome we'll deliver
+2. Executive summary (3–4 sentences — their situation, our solution, key outcome)
+3. Scope of work (bullet points, specific deliverables)
+4. What's included / what's excluded
+5. Timeline with key milestones
+6. Investment (use "investment" not "cost" or "price")
+7. Payment terms
+8. Next steps
+
+Brand voice: confident but approachable. No jargon. Client-first language.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Sales Pitch — Discovery Follow-Up</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Write a follow-up email after a discovery call with a prospect.
+
+Prospect: [NAME / COMPANY]
+What they told us: [KEY PAIN POINTS AND GOALS FROM THE CALL]
+What we can solve for them: [YOUR SOLUTION]
+Main objection or hesitation: [IF ANY]
+Urgency/timeline they mentioned: [IF ANY]
+Next step we want: [BOOK NEXT CALL / SEND PROPOSAL / TRIAL]
+
+Requirements:
+- Reference specific things they said in the call (use the notes above)
+- Lead with their problem, not our service
+- One clear ask at the end
+- Warm but professional tone
+- Under 200 words
+- Subject line options: provide 3</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Quote / Price Letter</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Write a quote letter to accompany a formal quote/invoice for:
+
+Client: [NAME / BUSINESS]
+Work quoted: [DESCRIPTION]
+Quote amount: [AMOUNT]
+Quote valid until: [DATE]
+Key selling points that justify the investment: [2–3 REASONS]
+
+Requirements:
+- Brief (under 150 words — this accompanies the detailed quote document)
+- Open with the value we're delivering, not the price
+- Mention 2–3 specific reasons our quote represents good value
+- Clear call to action to proceed
+- Professional sign-off
+- Match our brand voice throughout</div>
+            </div>
+          </div>
+
+          <!-- PLANNING TAB -->
+          <div class="tab-panel" id="s05-planning">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Market Analysis — Strategic Research</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Think carefully about the [INDUSTRY] landscape, then create a market analysis for our [NICHE/SEGMENT] in [LOCATION/REGION].
+
+Structure your analysis as:
+1. Market overview — size, growth trajectory (2023–2026)
+2. Key trends — 3 trends shaping this market right now
+3. Competitive landscape — top 5 competitors with: positioning, pricing level, target customer, key strength, key weakness
+4. Target customer profiles — 3 detailed personas including demographics, pain points, and buying triggers
+5. Market opportunities — 3 specific gaps or underserved needs
+6. Threats and risks — 2 key threats to our position
+7. Recommended positioning — where we should play and how we should win
+
+Be specific. Use real examples where possible. Flag where you're estimating vs stating facts.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">SWOT Analysis — Business Review</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Conduct a thorough SWOT analysis for our business.
+
+Business context (use Brand Hub context + add below):
+- Current revenue / size: [APPROXIMATE]
+- Main products/services: [LIST]
+- Key customers: [DESCRIBE]
+- Recent wins: [ANY RECENT SUCCESSES]
+- Current challenges: [HONEST DESCRIPTION]
+- Market: [YOUR INDUSTRY AND LOCATION]
+
+For each quadrant, provide 4–6 specific, actionable points — not generic business platitudes. After the SWOT, provide:
+- Top 3 strategic priorities for the next 12 months
+- The one biggest risk that needs immediate attention
+- The one biggest opportunity we should move on first</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Financial Projection — Scenario Planning</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Help me build a financial projection model for the next 12 months.
+
+Current financials (approximate):
+- Monthly revenue: [AMOUNT]
+- Key revenue streams: [LIST WITH % CONTRIBUTION]
+- Main fixed costs: [LIST]
+- Variable costs (% of revenue): [ESTIMATE]
+
+Scenario to model: [E.G. ADDING NEW SERVICE / HIRING / PRICE INCREASE / NEW CHANNEL]
+
+Build three scenarios:
+1. Conservative (cautious assumptions)
+2. Base case (realistic expectations)
+3. Optimistic (if it goes well)
+
+For each scenario: monthly revenue projection (12 months), break-even point for new investment, key assumptions made, biggest risk to the scenario.
+
+Present in a clear table format. Flag where my input data is insufficient for reliable projections.</div>
+            </div>
+          </div>
+
+          <!-- PRODUCT TAB -->
+          <div class="tab-panel" id="s05-product">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Product Descriptions — E-Commerce & Catalogues</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Write product descriptions for these items: [LIST YOUR PRODUCTS OR PASTE EXISTING SPECS]
+
+Platform: [WEBSITE / SHOPIFY / ETSY / AMAZON / CATALOGUE]
+Buyer: [WHO BUYS THIS — DESCRIBE THE IDEAL CUSTOMER]
+Price positioning: [BUDGET / MID-RANGE / PREMIUM]
+
+For each product provide:
+1. Headline (under 8 words — benefit-led, not feature-led)
+2. Opening sentence (the most compelling reason to buy — 1 sentence)
+3. Description (60–80 words — focus on outcomes and experience, not specifications)
+4. 3 benefit bullet points (start each with an outcome, not a feature)
+5. Technical specs (separate section — just the facts)
+
+Match our brand voice. Avoid: "high-quality", "state-of-the-art", "perfect for", "look no further".
+Create as an Artifact for easy editing.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Marketplace Listing Copy — Optimised for Search</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Write an optimised marketplace listing for [PLATFORM: Etsy/Amazon/eBay/Airbnb] for: [PRODUCT OR SERVICE NAME]
+
+Product details: [PASTE EXISTING DESCRIPTION OR KEY SPECS]
+Primary search keyword: [MAIN KEYWORD CUSTOMERS SEARCH]
+Secondary keywords: [2–3 ADDITIONAL KEYWORDS]
+Price: [AMOUNT]
+What makes this different from competitors: [YOUR USP]
+
+Deliverables:
+- Title (optimised for search, under 80 characters, keyword-first)
+- Full description (platform-appropriate length, keyword-rich but readable)
+- Bullet points / features section (5 points, benefit-led)
+- Tags/keywords list (15 tags for Etsy or equivalent)
+
+Note: Write for the human reader first, search optimisation second.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 06 ─── -->
+    <div class="section-card" id="s06">
+      <div class="section-header">
+        <div class="section-num">06</div>
+        <div class="section-title">Measuring Impact <span>Tracking the return on your AI investment</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>The value of Claude for small business is real — but it's easy to underestimate because it comes in the form of time saved rather than new revenue generated. Track these four impact areas to build a clear picture of your return.</p>
+        </div>
+
+        <div class="impact-grid">
+          <div class="impact-card">
+            <div class="impact-metric">3–5h</div>
+            <div class="impact-label">Time Saved Per Week</div>
+            <div class="impact-desc">Based on typical small business use: 30 min/day on marketing copy, customer responses, and document drafting. At $80/hr equivalent, that's $12,000–$20,000 in annual time value recovered.</div>
+          </div>
+          <div class="impact-card">
+            <div class="impact-metric">40%</div>
+            <div class="impact-label">Faster Proposal Turnaround</div>
+            <div class="impact-desc">Proposals done in 20 minutes vs 90+ minutes manually. Faster turnaround means getting back to clients while they're still warm — improving close rates alongside reducing effort.</div>
+          </div>
+          <div class="impact-card">
+            <div class="impact-metric">2×</div>
+            <div class="impact-label">Content Output Volume</div>
+            <div class="impact-desc">Double your social posting frequency, newsletter cadence, and blog output without increasing time investment. Consistent presence builds audience and trust over time.</div>
+          </div>
+          <div class="impact-card">
+            <div class="impact-metric">↑ Quality</div>
+            <div class="impact-label">Improved Brand Consistency</div>
+            <div class="impact-desc">With your Brand Hub project, every piece of content — from a quick reply to a full proposal — sounds like you. Consistent brand voice builds trust and recognition with customers.</div>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <div class="callout-title">How to Track Your Time Savings</div>
+          <div class="callout-body">For one week, note the time each AI-assisted task would have taken without Claude. Calculate your hourly rate equivalent (revenue ÷ working hours). Multiply saved hours by your hourly rate. Most small business owners find Claude pays for itself within the first week of Pro use — often on the first proposal they write.</div>
+        </div>
+
+        <div class="prose">
+          <h3>What to Measure Over 90 Days</h3>
+          <ul>
+            <li><strong>Content output:</strong> posts per week, emails sent, blog posts published — before vs after</li>
+            <li><strong>Response time:</strong> average hours to respond to customer enquiries — faster responses win more business</li>
+            <li><strong>Proposal quality signals:</strong> open rate on proposals, time-to-decision, win rate</li>
+            <li><strong>Brand consistency rating:</strong> subjective — does your team/clients say your communication feels more consistent?</li>
+            <li><strong>Time reclaimed:</strong> hours per week freed from writing tasks, reinvested in higher-value work</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 07 ─── -->
+    <div class="section-card" id="s07">
+      <div class="section-header">
+        <div class="section-num">07</div>
+        <div class="section-title">Common Mistakes &amp; Fixes <span>The 5 patterns that reduce Claude's value</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>These are the five most common ways small business owners undermine Claude's output quality — and the straightforward fixes for each.</p>
+        </div>
+
+        <!-- Mistake 1 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">Not Using Projects for Brand Context</div>
+            <div>Starting every conversation from scratch — explaining your business, brand voice, and customers every time. Claude defaults to generic outputs without this context, and generic outputs need heavy editing.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Build Your Brand Hub Project</div>
+            <div>Create a dedicated Project with brand guidelines, example copy, and a detailed system prompt. Do it once, and every subsequent conversation starts with Claude already knowing your business. Output quality improves immediately and dramatically.</div>
+          </div>
+        </div>
+
+        <!-- Mistake 2 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">Regenerating Templates Every Time</div>
+            <div>Asking Claude to write a new proposal structure from scratch every time you need a proposal. This wastes time and produces inconsistent results — different structure, different tone, different quality each time.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Use Artifacts for All Repeatable Templates</div>
+            <div>Generate your proposal, quote, and email templates once as Artifacts. Store them in your Brand Hub. For each new proposal, open the Artifact and paste the client context — Claude fills in the variables while maintaining your established structure and voice.</div>
+          </div>
+        </div>
+
+        <!-- Mistake 3 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">Sharing Client Personal Information</div>
+            <div>Pasting full customer records, detailed personal information, financial data, or other sensitive PII into Claude conversations. This creates data privacy risks and is unnecessary for the task at hand.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Use Contextual Descriptions, Not Raw Data</div>
+            <div>Replace PII with relevant descriptions: instead of "Client: Sarah Johnson, DOB 15/03/1985, Address: 42 Main St..." use "Client is a 40-year-old homeowner purchasing for the first time." Claude needs context, not personal records. Review Anthropic's privacy policy for your business use case.</div>
+          </div>
+        </div>
+
+        <!-- Mistake 4 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">Using Standard Mode for Strategic Decisions</div>
+            <div>Asking Claude for market analysis, pricing strategy, or go-to-market planning in standard conversation mode. Without Extended Thinking, Claude produces surface-level templates rather than genuine strategic analysis.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Activate Extended Thinking for Strategy Work</div>
+            <div>For any strategic or analytical task, explicitly prompt extended reasoning: "Think carefully about X before answering" or "Reason through the key variables before giving your recommendation." The output quality for complex decisions is substantially better when Claude reasons first.</div>
+          </div>
+        </div>
+
+        <!-- Mistake 5 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">Publishing Claude Output Without Review</div>
+            <div>Copying Claude's marketing copy, customer responses, or proposals directly to send/publish without reading. Even with a well-configured Brand Hub, Claude can miss nuance, include slightly wrong details, or produce a line that doesn't feel right for a specific client.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Review and Personalise Before Sending</div>
+            <div>Treat Claude's output as a high-quality first draft, not a final product. A 60-second read-through to check facts, personalise any generic lines, and confirm the tone is right for this specific recipient. The goal is 80% of the work done for you — your review provides the final 20% that makes it genuinely yours.</div>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-title">The One Mistake That Costs Most</div>
+          <div class="callout-body">The biggest single mistake small business owners make with Claude is treating it as a search engine — asking one-line questions and expecting detailed, contextualised answers. Claude is a conversation partner. The more context you provide, the more specific and useful the output. Long, detailed prompts consistently outperform short, vague ones.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 08 ─── -->
+    <div class="section-card" id="s08">
+      <div class="section-header">
+        <div class="section-num">08</div>
+        <div class="section-title">Learning Path <span>From first use to AI-powered business</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>This playbook gives you everything you need to start. These five guides — in order — will build you from zero to genuinely proficient in the features that matter most for small business use.</p>
+        </div>
+
+        <div class="learning-path">
+
+          <div class="lp-item">
+            <div class="lp-step">1</div>
+            <div class="lp-body">
+              <div class="lp-title">Claude 101</div>
+              <div><span class="lp-guide">Recommended First</span></div>
+              <div class="lp-desc">The foundation. Learn how Claude thinks, how to have effective conversations, the difference between the models, and the basics of getting good outputs. Start here even if you've already used Claude — this guide covers the mental models that make everything else click.</div>
+            </div>
+          </div>
+
+          <div class="lp-item">
+            <div class="lp-step">2</div>
+            <div class="lp-body">
+              <div class="lp-title">Prompt Engineering for Claude</div>
+              <div><span class="lp-guide">Week 1–2</span></div>
+              <div class="lp-desc">The skill that multiplies everything else. Learn how to structure prompts that produce the output you actually want — first time, every time. The role/context/task/format/constraints framework used in all 15 prompts in this playbook comes from this guide. Invest 2 hours here and save hundreds later.</div>
+            </div>
+          </div>
+
+          <div class="lp-item">
+            <div class="lp-step">3</div>
+            <div class="lp-body">
+              <div class="lp-title">Claude Projects — Building Your Brand Hub</div>
+              <div><span class="lp-guide">Week 2–3</span></div>
+              <div class="lp-desc">The feature that transforms Claude from a useful tool into a genuine business asset. This guide walks through setting up Projects in depth — system prompts, file uploads, Artifacts, and structuring your Brand Hub for maximum efficiency. After this guide, you'll have a working Brand Hub that makes every workflow in this playbook faster and better.</div>
+            </div>
+          </div>
+
+          <div class="lp-item">
+            <div class="lp-step">4</div>
+            <div class="lp-body">
+              <div class="lp-title">Sensitive and Nuanced Business Writing</div>
+              <div><span class="lp-guide">Month 1–2</span></div>
+              <div class="lp-desc">Claude's standout capability for small business — the ability to handle communication that requires genuine empathy, careful tone calibration, and considered language. This guide covers complaint handling, difficult client conversations, apology letters, and communication that has to walk a fine line. Essential for any business where customer relationships are central.</div>
+            </div>
+          </div>
+
+          <div class="lp-item">
+            <div class="lp-step">5</div>
+            <div class="lp-body">
+              <div class="lp-title">Writing, Editing &amp; Tone Refinement</div>
+              <div><span class="lp-guide">Month 2–3</span></div>
+              <div class="lp-desc">Go deeper on Claude's strongest area. Learn to use Claude not just to generate copy but to edit, sharpen, and refine your own writing. Covers tone matching, brand voice consistency, editing for different audiences, and using Claude as a collaborative writing partner rather than a replacement for your own voice. This is where good becomes great.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-title">How to Use This Learning Path</div>
+          <div class="callout-body">Don't try to complete all five guides before using Claude in your business. Start with Claude 101, then begin using the workflows from this playbook immediately. Return to Prompt Engineering once you've noticed the difference between prompts that work and those that don't. Build your Brand Hub during the Projects guide. Learn as you go — real-world use accelerates the learning.</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="prose">
+          <h3>Staying Current</h3>
+          <p>Claude is updated regularly — new models, new features, expanded capabilities. The AI Advantage Co publishes updates to all guides when significant changes affect how you should use the tool. Check back when you see announcements about new Claude model releases or major feature updates.</p>
+
+          <h3>Getting Support</h3>
+          <ul>
+            <li><strong>In-guide help:</strong> Every prompt in this playbook is designed to work standalone — copy, customise, and use</li>
+            <li><strong>Claude's own help:</strong> Ask Claude itself — "How do I use Projects effectively for marketing?" is a perfectly good starting point</li>
+            <li><strong>Anthropic's documentation:</strong> claude.ai/help covers technical features in depth</li>
+            <li><strong>Community:</strong> The AI Advantage Co runs regular workshops and Q&amp;A sessions for small business owners building AI workflows</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER SPACER -->
+    <div style="height:40px;"></div>
+
+  </main>
+</div>
+
+<script>
+  // ─── TAB SWITCHING ───
+  function switchTab(btn, section, tabId) {
+    // Deactivate all buttons in this section's tab bar
+    var tabBar = btn.closest('.tab-bar');
+    tabBar.querySelectorAll('.tab-btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+
+    // Hide all panels for this section
+    var panels = document.querySelectorAll('#' + section + ' .tab-panel');
+    panels.forEach(function(p) {
+      p.classList.remove('active');
+    });
+
+    // Show selected panel
+    var target = document.getElementById(section + '-' + tabId);
+    if (target) target.classList.add('active');
+  }
+
+  // ─── COPY PROMPT ───
+  function copyPrompt(btn) {
+    var promptBox = btn.closest('.prompt-box');
+    var promptText = promptBox.querySelector('.prompt-text');
+    if (!promptText) return;
+
+    var text = promptText.innerText || promptText.textContent;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text.trim()).then(function() {
+        showCopied(btn);
+      }).catch(function() {
+        fallbackCopy(text, btn);
+      });
+    } else {
+      fallbackCopy(text, btn);
+    }
+  }
+
+  function fallbackCopy(text, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = text.trim();
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    showCopied(btn);
+  }
+
+  function showCopied(btn) {
+    var orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  }
+
+  // ─── SCROLL SPY ───
+  function scrollTo(id, link) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // IntersectionObserver for active nav highlighting
+  var sections = document.querySelectorAll('.section-card[id]');
+  var navLinks = document.querySelectorAll('.nav-link');
+
+  var observerOptions = {
+    root: null,
+    rootMargin: '-10% 0px -60% 0px',
+    threshold: 0
+  };
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(link) {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(function(section) {
+    observer.observe(section);
+  });
+
+  // Prevent default link behaviour (we handle scrolling manually)
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+    });
+  });
+</script>
+</body>
+</html>

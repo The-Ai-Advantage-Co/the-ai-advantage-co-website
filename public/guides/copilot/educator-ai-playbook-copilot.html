@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Educator's AI Playbook — Copilot Edition | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --purple:#5E17EB;
+  --purple-hover:#4A0FD4;
+  --purple-act:rgba(94,23,235,0.13);
+  --purple-light:#8B5CF6;
+  --purple-soft:#F0EAFF;
+  --blue:#0078D4;
+  --blue-light:#60A5FA;
+  --blue-soft:#EFF6FF;
+  --orange:#EA6C1A;
+  --orange-soft:#FFF7ED;
+  --yellow:#CA8A04;
+  --yellow-soft:#FEFCE8;
+  --page-bg:#EBF1FF;
+  --white:#FFFFFF;
+  --card-bg:#F7F4FF;
+  --hdr-bg:#EDE8FF;
+  --border:#D0C5F5;
+  --divider:#DDD7F8;
+  --ink:#1E1456;
+  --body-text:#3D3080;
+  --muted:#7264A8;
+  --sidebar-bg:#1E1456;
+  --sidebar-hover:#2C1E80;
+  --sidebar-w:268px;
+  --radius:10px;
+  --radius-sm:6px;
+  --green:#1B6B3A;
+  --green-bg:#E6F4EC;
+  --warn:#B45309;
+  --warn-bg:#FFF8E1;
+  --red:#C43E00;
+  --red-soft:#FFF0E8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--page-bg);color:var(--ink);line-height:1.7;font-size:15px}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;z-index:100}
+.sidebar-brand{padding:28px 20px 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--purple-light);margin-bottom:4px}
+.brand-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.88);line-height:1.3}
+.sidebar-nav{padding:14px 10px 20px}
+.nav-section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:12px 12px 5px}
+.nav-link{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:6px;color:rgba(200,184,255,.8);text-decoration:none;font-size:12.5px;font-weight:500;transition:all .15s;border-left:2px solid transparent;margin-bottom:1px}
+.nav-link:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.95)}
+.nav-link.active{background:rgba(139,92,246,.15);color:#fff;border-left-color:var(--purple-light)}
+.nav-link .nav-num{font-size:10px;font-weight:700;color:var(--purple-light);width:22px;flex-shrink:0}
+
+/* ── MAIN ── */
+.main{flex:1;padding:44px 52px 100px;max-width:calc(var(--sidebar-w) + 900px)}
+
+/* ── BANNER ── */
+.banner{position:relative;background:var(--sidebar-bg);border-radius:12px;margin-bottom:32px;overflow:hidden;text-align:center}
+.banner svg{display:block;width:100%}
+
+/* ── DOC HEADER ── */
+.doc-header{margin-bottom:32px}
+.breadcrumb{font-size:12px;color:var(--muted);margin-bottom:10px}
+.breadcrumb span{color:var(--purple)}
+.doc-title{font-size:30px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:8px}
+.doc-subtitle{font-size:15px;color:var(--body-text);max-width:700px;line-height:1.6;margin-bottom:16px}
+.doc-badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.badge-purple{background:var(--purple);color:#fff}
+.badge-blue{background:var(--blue);color:#fff}
+.badge-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+
+/* ── SECTION CARDS ── */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:28px;overflow:hidden;box-shadow:0 2px 10px rgba(94,23,235,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--purple);color:#fff;font-size:12px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--purple-light);margin-top:2px}
+.section-body{padding:24px}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55;color:var(--body-text)}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.copilot{background:var(--purple-soft);border-left:4px solid var(--purple)}
+.callout.copilot .callout-body strong{color:var(--purple)}
+
+/* ── FEATURE CARDS ── */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;border-top:3px solid var(--purple)}
+.feature-card .fc-icon{font-size:24px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--body-text);line-height:1.5}
+.feature-card.blue{border-top-color:var(--blue)}
+.feature-card.orange{border-top-color:var(--orange)}
+.feature-card.yellow{border-top-color:var(--yellow)}
+.feature-card.green{border-top-color:var(--green)}
+
+/* ── STEP LIST ── */
+.step-list{display:flex;flex-direction:column;gap:12px;margin:18px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--purple);color:#fff;font-size:13px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-num.blue{background:var(--blue)}
+.step-num.orange{background:var(--orange)}
+.step-num.yellow{background:var(--yellow);color:#1E1456}
+.step-num.green{background:var(--green)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ── USE CASE CARDS ── */
+.usecase-list{display:flex;flex-direction:column;gap:16px;margin:18px 0}
+.usecase-card{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.usecase-header{padding:12px 18px;display:flex;align-items:center;gap:12px}
+.usecase-header.purple{background:var(--purple-soft);border-bottom:1px solid var(--border)}
+.usecase-header.blue{background:var(--blue-soft);border-bottom:1px solid #C3DFF5}
+.usecase-header.orange{background:var(--orange-soft);border-bottom:1px solid #F8CFA8}
+.usecase-header.yellow{background:var(--yellow-soft);border-bottom:1px solid #F3E18B}
+.usecase-header.green{background:var(--green-bg);border-bottom:1px solid #A7D7BC}
+.usecase-header.teal{background:#E0F7F7;border-bottom:1px solid #A7D7D7}
+.uc-icon{font-size:22px;flex-shrink:0}
+.uc-app{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.uc-title{font-size:14px;font-weight:700;color:var(--ink)}
+.usecase-body{background:#fff;padding:14px 18px}
+.usecase-body p{font-size:13.5px;color:var(--body-text);margin-bottom:10px;line-height:1.5}
+.usecase-prompt{background:var(--sidebar-bg);border-radius:6px;overflow:hidden;margin-top:8px}
+.usecase-prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--purple-light);padding:8px 12px 6px;display:flex;justify-content:space-between;align-items:center}
+.usecase-prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:10px 12px;font-size:13px;color:var(--body-text);line-height:1.6;font-style:italic}
+
+/* ── REF TABLE ── */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--purple-light);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 13px;text-align:left;border:1px solid rgba(255,255,255,.1)}
+.ref-table td{padding:9px 13px;border:1px solid var(--border);color:var(--body-text);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+.ref-table td strong{color:var(--ink);font-weight:600}
+
+/* ── SUB LABELS ── */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--purple-light);text-transform:uppercase;margin:20px 0 10px}
+.prose{font-size:14.5px;color:var(--body-text);line-height:1.65;margin-bottom:14px}
+.prose strong{color:var(--ink)}
+
+/* ── PROMPT TABS ── */
+.prompt-tabs{margin:18px 0}
+.tab-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab-btn{padding:7px 16px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--body-text);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.tab-btn:hover{background:var(--purple-soft);border-color:var(--purple)}
+.tab-btn.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--purple-light);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.copy-btn{background:none;border:1px solid rgba(139,92,246,.4);color:var(--purple-light);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;font-family:'Inter',sans-serif}
+.copy-btn:hover{background:rgba(139,92,246,.2)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--body-text);line-height:1.65;font-style:italic}
+
+/* ── METRIC CARDS ── */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+.metric-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;text-align:center;border-top:3px solid var(--purple)}
+.metric-card.blue{border-top-color:var(--blue)}
+.metric-card.orange{border-top-color:var(--orange)}
+.metric-card.green{border-top-color:var(--green)}
+.metric-num{font-size:32px;font-weight:700;color:var(--purple);line-height:1;margin-bottom:6px}
+.metric-card.blue .metric-num{color:var(--blue)}
+.metric-card.orange .metric-num{color:var(--orange)}
+.metric-card.green .metric-num{color:var(--green)}
+.metric-label{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.metric-desc{font-size:11.5px;color:var(--muted);line-height:1.4}
+
+/* ── DO / AVOID ── */
+.mistake-item{margin-bottom:14px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.mistake-avoid{background:var(--red-soft);border-left:4px solid var(--red);padding:12px 16px;display:flex;align-items:flex-start;gap:10px}
+.mistake-do{background:var(--green-bg);border-left:4px solid var(--green);padding:12px 16px;display:flex;align-items:flex-start;gap:10px}
+.mistake-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.mistake-text{font-size:13.5px;color:var(--body-text);line-height:1.5}
+.mistake-text strong{color:var(--ink)}
+
+/* ── LEARNING PATH ── */
+.learning-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.learning-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;align-items:center;gap:14px;text-decoration:none;transition:all .15s;border-left:4px solid var(--purple)}
+.learning-card:hover{border-color:var(--purple);background:var(--purple-soft);box-shadow:0 4px 12px rgba(94,23,235,.12)}
+.learning-card.blue{border-left-color:var(--blue)}
+.learning-card.blue:hover{background:var(--blue-soft)}
+.learning-card.orange{border-left-color:var(--orange)}
+.learning-card.orange:hover{background:var(--orange-soft)}
+.lc-num{width:36px;height:36px;background:var(--purple);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.learning-card.blue .lc-num{background:var(--blue)}
+.learning-card.orange .lc-num{background:var(--orange)}
+.lc-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.lc-body p{font-size:12.5px;color:var(--muted);line-height:1.4}
+.lc-arrow{margin-left:auto;color:var(--muted);font-size:18px;flex-shrink:0}
+
+/* ── ADVANCED CARDS ── */
+.adv-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:12px}
+.adv-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.adv-card h4 .adv-badge{font-size:10px;font-weight:700;letter-spacing:.06em;background:var(--purple-soft);color:var(--purple);padding:2px 8px;border-radius:10px;text-transform:uppercase}
+.adv-card p{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ── SCROLLSPY TARGET ── */
+[id]{scroll-margin-top:20px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-label">The AI Advantage Co</div>
+    <div class="brand-name">Educator's AI Playbook</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Playbook Sections</div>
+    <a class="nav-link active" href="#s01"><span class="nav-num">01</span>Why AI Matters</a>
+    <a class="nav-link" href="#s02"><span class="nav-num">02</span>Setting Up Copilot</a>
+    <a class="nav-link" href="#s03"><span class="nav-num">03</span>Daily Workflows</a>
+    <a class="nav-link" href="#s04"><span class="nav-num">04</span>Advanced Techniques</a>
+    <a class="nav-link" href="#s05"><span class="nav-num">05</span>Prompt Library</a>
+    <a class="nav-link" href="#s06"><span class="nav-num">06</span>Measuring Impact</a>
+    <a class="nav-link" href="#s07"><span class="nav-num">07</span>Common Mistakes</a>
+    <a class="nav-link" href="#s08"><span class="nav-num">08</span>Learning Path</a>
+  </nav>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+  <!-- ── BANNER SVG ── -->
+  <div class="banner">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 260" style="border-radius:12px">
+      <defs>
+        <linearGradient id="bannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#1E1456"/>
+          <stop offset="50%" style="stop-color:#2C1E80"/>
+          <stop offset="100%" style="stop-color:#0A003A"/>
+        </linearGradient>
+        <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#5E17EB"/>
+          <stop offset="100%" style="stop-color:#0078D4"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- bg -->
+      <rect width="1400" height="260" fill="url(#bannerGrad)"/>
+      <!-- decorative hexagon grid -->
+      <g opacity="0.07" fill="none" stroke="#8B5CF6" stroke-width="1">
+        <polygon points="60,20 90,20 105,46 90,72 60,72 45,46" />
+        <polygon points="105,46 135,46 150,72 135,98 105,98 90,72" />
+        <polygon points="1280,150 1310,150 1325,176 1310,202 1280,202 1265,176" />
+        <polygon points="1325,124 1355,124 1370,150 1355,176 1325,176 1310,150" />
+        <polygon points="1235,176 1265,176 1280,202 1265,228 1235,228 1220,202" />
+      </g>
+      <!-- accent bar top -->
+      <rect x="0" y="0" width="1400" height="4" fill="url(#accentGrad)"/>
+      <!-- accent bar bottom -->
+      <rect x="0" y="256" width="1400" height="4" fill="url(#accentGrad)"/>
+      <!-- left glow orb -->
+      <circle cx="120" cy="130" r="80" fill="#5E17EB" opacity="0.15"/>
+      <!-- right glow orb -->
+      <circle cx="1280" cy="130" r="60" fill="#0078D4" opacity="0.12"/>
+      <!-- eyebrow text -->
+      <text x="700" y="72" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#8B5CF6" text-transform="uppercase">THE AI ADVANTAGE CO</text>
+      <!-- main title -->
+      <text x="700" y="140" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="700" fill="#FFFFFF" filter="url(#glow)">EDUCATOR'S PLAYBOOK</text>
+      <!-- sub title pill -->
+      <rect x="557" y="158" width="286" height="36" rx="18" fill="url(#accentGrad)" opacity="0.85"/>
+      <text x="700" y="182" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="3" fill="#EBF1FF">COPILOT EDITION</text>
+    </svg>
+  </div>
+
+  <!-- ── DOC HEADER ── -->
+  <div class="doc-header">
+    <div class="breadcrumb">Documentation &rsaquo; <span>Educator's Playbook</span> &rsaquo; Copilot Edition</div>
+    <div class="doc-title">The Educator's AI Playbook &mdash; Copilot Edition</div>
+    <div class="doc-subtitle">Everything you need to make Copilot work for your teaching practice &mdash; lesson planning in Word, assessment in Excel, presentations in PowerPoint, and communication in Outlook and Teams.</div>
+    <div class="doc-badges">
+      <span class="badge badge-purple">PLAYBOOK</span>
+      <span class="badge badge-blue">Updated: June 2026</span>
+      <span class="badge badge-outline">Audience: Educators &amp; Trainers</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 01 — WHY AI MATTERS FOR EDUCATORS
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s01">
+    <div class="section-header">
+      <div class="sec-num">01</div>
+      <div>
+        <h2>Why AI Matters for Educators</h2>
+        <p>The case for integrating Copilot into your teaching practice</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Teaching has always been one of the most demanding professions — you're simultaneously a content creator, assessor, communicator, administrator, and mentor. AI doesn't replace any of those roles. What it does is dramatically reduce the time you spend on the routine parts of each one, freeing you to focus on what only a human teacher can do: build relationships, read the room, and respond to individual students.</p>
+
+      <p class="prose">Microsoft Copilot is embedded directly into the tools you already use every day — Word, Excel, PowerPoint, OneNote, Teams, and Outlook. That means there's no new app to learn, no separate login, and no workflow disruption. Copilot meets you where you are.</p>
+
+      <div class="callout copilot">
+        <div class="callout-icon">✦</div>
+        <div class="callout-body">
+          <strong>2026 Update — Agent Mode GA in Word, Excel, and PowerPoint</strong>
+          <p>Copilot can now take multi-step actions inside your documents. Rather than just suggesting text, Agent Mode lets Copilot plan and execute a sequence of tasks — create an entire differentiated lesson pack (main lesson plan, extension task, support version, and parent summary) from a single prompt. This is the most significant capability upgrade for educators since Copilot launched.</p>
+        </div>
+      </div>
+
+      <div class="sub-label">What educators are saving time on</div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-icon">📝</div>
+          <h4>Lesson Planning</h4>
+          <p>Draft a full lesson plan aligned to your curriculum in minutes. Reference existing documents with the / shortcut to ensure alignment without starting from scratch.</p>
+        </div>
+        <div class="feature-card blue">
+          <div class="fc-icon">📊</div>
+          <h4>Assessment Analysis</h4>
+          <p>Paste student data into Excel and ask Copilot to identify trends, flag students needing support, and suggest differentiation strategies — in seconds.</p>
+        </div>
+        <div class="feature-card orange">
+          <div class="fc-icon">📧</div>
+          <h4>Parent Communication</h4>
+          <p>Draft professional, warm emails to parents with Copilot in Outlook. Get tone coaching before you send to ensure the right message lands the right way.</p>
+        </div>
+        <div class="feature-card yellow">
+          <div class="fc-icon">🎯</div>
+          <h4>Meeting Productivity</h4>
+          <p>Copilot in Teams transcribes and summarises parent-teacher and staff meetings, generating action items and follow-up dates automatically.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>The Time Equation</strong>
+          <p>Educators who actively use Copilot across Word, Excel, and Outlook report saving 3–5 hours per week on administrative and preparation tasks. Across a school year, that's 100+ hours returned to teaching.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 02 — SETTING UP COPILOT
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s02">
+    <div class="section-header">
+      <div class="sec-num">02</div>
+      <div>
+        <h2>Setting Up Copilot for Education Work</h2>
+        <p>Five steps to get Copilot working across your M365 suite</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Getting started with Copilot requires a Microsoft 365 Copilot licence and a few quick configuration steps. Work through these once and you'll have Copilot active everywhere you need it.</p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Confirm Your Licensing</h4>
+            <p>Microsoft Copilot requires a <strong>Microsoft 365 Copilot licence</strong> in addition to your standard M365 subscription. This is typically provisioned by your IT admin. Check by opening any M365 app and looking for the Copilot icon (the swirling colour icon) in the toolbar. If it's not there, contact your IT team to request a licence.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num blue">2</div>
+          <div class="step-body">
+            <h4>Enable Copilot in Each App</h4>
+            <p>Once your licence is active, Copilot appears automatically in <strong>Word</strong> (Draft with Copilot pane), <strong>PowerPoint</strong> (Designer + Copilot toolbar), <strong>OneNote</strong> (Copilot in the ribbon), and <strong>Teams</strong> (Meeting intelligence + Chat). You may need to sign in once per app using your school Microsoft account.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num orange">3</div>
+          <div class="step-body">
+            <h4>Your First Prompt in Word</h4>
+            <p>Open a new Word document. Click the Copilot icon or press <strong>Alt + I</strong> to open the Draft pane. Type: <em>"Draft a 50-minute lesson plan on photosynthesis for Year 9. Include learning objectives, starter activity, main activity, and an exit ticket."</em> — and see what Copilot produces. This is your baseline to build from.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num yellow" style="color:#1E1456">4</div>
+          <div class="step-body">
+            <h4>Configure Copilot Chat (BizChat) for Shared Drives</h4>
+            <p>Open <strong>Copilot Chat</strong> at copilot.microsoft.com (or via the Teams Copilot app). Use the <strong>Work tab</strong> (not Web) so Copilot can access your school's SharePoint and OneDrive. In the prompt bar, type / to reference specific files — Copilot will search your shared drives and attached documents. Ask your IT team to ensure SharePoint indexing is enabled for your department's drives.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num green">5</div>
+          <div class="step-body">
+            <h4>Set Up OneNote with Copilot for Student Notes</h4>
+            <p>Open your OneNote notebook for student observations or class notes. In the Copilot panel, try: <em>"Summarise all notes in this section and identify any students flagged for additional support."</em> Make sure your notebooks are stored in OneDrive (not local) so Copilot can access them across devices.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>School IT Policy</strong>
+          <p>Before using Copilot with student-related data, confirm your school's data governance policy. Many schools require that student names and identifying information are anonymised before being used in Copilot prompts. When in doubt, use descriptions like "a Year 8 student who..." rather than a student's name.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 03 — DAILY WORKFLOWS
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s03">
+    <div class="section-header">
+      <div class="sec-num">03</div>
+      <div>
+        <h2>Your Daily AI Workflows</h2>
+        <p>Six high-impact use cases across Word, Excel, PowerPoint, Teams, OneNote, and Outlook</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">These six workflows cover the core teaching tasks where Copilot delivers the most immediate value. Each one maps to an M365 app you already use — with a ready-to-use example prompt to get you started.</p>
+
+      <div class="usecase-list">
+
+        <!-- 1 Lesson Planning -->
+        <div class="usecase-card">
+          <div class="usecase-header purple">
+            <div class="uc-icon">📝</div>
+            <div>
+              <div class="uc-app">Word</div>
+              <div class="uc-title">Lesson Planning in Word</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Use Copilot in Word to draft complete lesson plans, then use the <strong>/</strong> shortcut to reference existing curriculum documents, schemes of work, or past lesson plans stored in your OneDrive. Copilot will cross-reference your files and produce a draft that's already aligned — saving the alignment step entirely.</p>
+            <p><strong>Best practice:</strong> Keep your curriculum documents in a shared OneDrive folder so Copilot can reference them via / from any device. Use Agent Mode to produce a full lesson pack (lesson plan + student worksheet + teacher notes) from a single prompt.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Draft a 50-minute lesson plan for [TOPIC] for [YEAR/GRADE]. Reference /[CURRICULUM-DOC] for alignment. Include: learning objectives (linked to curriculum standards), a 10-minute starter activity, main activity with differentiation, and an exit ticket for assessment."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Assessment -->
+        <div class="usecase-card">
+          <div class="usecase-header blue">
+            <div class="uc-icon">📊</div>
+            <div>
+              <div class="uc-app">Excel</div>
+              <div class="uc-title">Assessment Analysis in Excel</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Paste or enter student assessment data into Excel, then use Copilot to analyse it for patterns, flag outliers, and generate actionable insights. Copilot can build pivot tables, charts, and written summaries on your behalf — turning raw mark data into a differentiation action plan.</p>
+            <p><strong>Best practice:</strong> Use column headers that are clear and consistent (e.g. "Student ID", "Assessment 1", "Assessment 2"). Copilot responds better to structured data. Anonymise student names — use student IDs or codes instead.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Analyse this student performance data. Identify: top performers, students needing support (below 60%), trends across assessments over time, and recommendations for differentiation in the next unit."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Presentations -->
+        <div class="usecase-card">
+          <div class="usecase-header orange">
+            <div class="uc-icon">🎨</div>
+            <div>
+              <div class="uc-app">PowerPoint</div>
+              <div class="uc-title">Student-Facing Presentations in PowerPoint</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Use Copilot in PowerPoint to generate complete, visually engaging slide decks from a brief or an existing Word lesson plan. Copilot can pull content from a Word doc you reference with / and produce a presentation structured for student audiences — with appropriate language and layout for the year level.</p>
+            <p><strong>Best practice:</strong> After Copilot generates the deck, use the Designer tool to refine slide layouts. Review each slide for age-appropriate language — Copilot defaults to adult-level vocabulary unless you specify the year group.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Create a presentation for [TOPIC] suitable for [YEAR/GRADE]. Include: title slide, 3–5 content slides with visual suggestions, a class discussion slide with 2 questions, and a recap slide with key takeaways. Keep language appropriate for [age group] students."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Teams -->
+        <div class="usecase-card">
+          <div class="usecase-header yellow">
+            <div class="uc-icon">💬</div>
+            <div>
+              <div class="uc-app">Teams</div>
+              <div class="uc-title">Meeting Notes &amp; Action Items in Teams</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Copilot in Teams transcribes meetings in real time and generates structured summaries — including key decisions, action items, and follow-up owners. This is transformative for parent-teacher conferences and staff meetings, where accurate notes are critical but note-taking interrupts conversation.</p>
+            <p><strong>Best practice:</strong> Enable the Teams meeting recording and Copilot intelligence before the meeting starts. After the meeting ends, ask Copilot to generate a summary before closing the Teams window — it won't be available later without the transcript.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt (after meeting ends) <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Summarise this meeting. List: key decisions made, action items with the name of who is responsible for each, and follow-up dates. Also flag any unresolved issues that need a follow-up meeting."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 OneNote -->
+        <div class="usecase-card">
+          <div class="usecase-header teal">
+            <div class="uc-icon">📓</div>
+            <div>
+              <div class="uc-app">OneNote</div>
+              <div class="uc-title">Student Observation Notes in OneNote</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Use OneNote as your ongoing log of student observations, interventions, and progress notes. Copilot can synthesise entries across a notebook section and produce structured summaries — identifying patterns, flagging concerns, and recommending next steps. This is especially powerful for pastoral care, SEND records, and report writing season.</p>
+            <p><strong>Best practice:</strong> Create a OneNote section per student (or use page tags for different students in a shared section). The more structured your notes, the better Copilot's synthesis. Use consistent language when logging observations.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Summarise all notes in this section about [STUDENT/TOPIC]. Identify: key patterns in progress or behaviour, any concerns that have been raised, interventions that have been tried, and recommended next steps for the upcoming term."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Outlook -->
+        <div class="usecase-card">
+          <div class="usecase-header green">
+            <div class="uc-icon">📧</div>
+            <div>
+              <div class="uc-app">Outlook</div>
+              <div class="uc-title">Parent Communication in Outlook</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Use Copilot in Outlook to draft parent emails — from routine updates to more sensitive communications about student progress or behaviour. Copilot can also coach you on tone, suggesting whether a draft reads as warm, professional, or inadvertently cold. This is particularly valuable before sending difficult messages.</p>
+            <p><strong>Best practice:</strong> After Copilot drafts the email, ask it to review the tone and flag anything that might land poorly. For sensitive situations, ask Copilot to suggest a softer phrasing for any direct statements before you finalise.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Draft an email to parents about [TOPIC]. Context: [SITUATION]. Make the tone warm and professional, with a clear explanation of the situation and specific next steps parents can take. After drafting, review: is the tone appropriate? Are the next steps clear? Flag anything that might be misread."</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 04 — ADVANCED TECHNIQUES
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s04">
+    <div class="section-header">
+      <div class="sec-num">04</div>
+      <div>
+        <h2>Advanced Techniques</h2>
+        <p>Agent Mode, Copilot Studio, BizChat, and Power Automate for power users</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Once you're comfortable with the core workflows, these advanced capabilities unlock a new tier of productivity — moving from single-task assistance to autonomous multi-step document creation and institutional-scale automation.</p>
+
+      <div class="adv-card">
+        <h4>⚡ Agent Mode in Word <span class="adv-badge">2026 GA</span></h4>
+        <p>Agent Mode allows Copilot to take multiple sequential actions inside a Word document — planning the work, executing each step, and checking back with you at key points. For educators, this means you can prompt Copilot to <em>"Create a complete differentiated lesson pack for [TOPIC]: a main lesson plan, an extension challenge, a support scaffold, and a one-page parent summary"</em> and Copilot will build all four documents from a single instruction. Enable Agent Mode via the Copilot pane in Word — look for the "Agent" toggle at the top of the panel.</p>
+      </div>
+
+      <div class="adv-card">
+        <h4>🤖 Copilot Studio — Custom Education Bots <span class="adv-badge">Requires Admin</span></h4>
+        <p>Copilot Studio lets you (or your IT team) build custom AI assistants trained on your school's content. Examples: a <strong>Homework Helper bot</strong> trained on your year group's curriculum documents that students can ask questions of; a <strong>Curriculum Q&amp;A bot</strong> that teaching staff can query to find alignment documentation; or a <strong>Policy Assistant</strong> for the staff room. These bots can be deployed into Teams, a school website, or shared via a link. Access Copilot Studio at copilotstudio.microsoft.com — requires a Power Platform licence in addition to M365 Copilot.</p>
+      </div>
+
+      <div class="adv-card">
+        <h4>🔍 BizChat — Query Across All Your M365 Content <span class="adv-badge">Copilot Chat</span></h4>
+        <p>BizChat (Microsoft 365 Copilot Chat) is the most powerful feature most educators haven't discovered yet. It allows you to query across your entire M365 footprint — emails, Teams messages, SharePoint documents, meeting transcripts, and OneNote notebooks — in a single natural language question. Try asking: <em>"What did we decide about the Year 9 curriculum review in last month's staff meeting?"</em> or <em>"Find all emails from parents about the upcoming sports day."</em> Use the Work tab (not Web tab) to access organisational content. Access via copilot.microsoft.com or the Copilot app in Teams.</p>
+      </div>
+
+      <div class="adv-card">
+        <h4>⚙️ Power Automate — Set-and-Forget Workflows <span class="adv-badge">Power Platform</span></h4>
+        <p>Power Automate (included in most M365 plans) lets you build automated workflows that Copilot can now help you create with natural language. Education examples: automatically email parents when an assignment is marked in Teams; generate a weekly class summary report from OneNote; send reminder emails to students who haven't submitted work; route parent enquiries from a shared inbox to the right teacher. Open Power Automate from the M365 app launcher and describe the workflow you want — Copilot will help you build the automation step by step.</p>
+      </div>
+
+      <div class="sub-label">Copilot Features by M365 App — Educator Reference</div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>App</th>
+            <th>Key Copilot Feature</th>
+            <th>Best Education Use Case</th>
+            <th>Access Method</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Word</strong></td>
+            <td>Draft, rewrite, summarise, Agent Mode</td>
+            <td>Lesson plans, reports, differentiated materials, policies</td>
+            <td>Copilot pane (Alt+I) or toolbar icon</td>
+          </tr>
+          <tr>
+            <td><strong>Excel</strong></td>
+            <td>Formula suggestions, data analysis, chart creation</td>
+            <td>Mark books, performance analysis, attendance tracking</td>
+            <td>Copilot icon in ribbon (Home tab)</td>
+          </tr>
+          <tr>
+            <td><strong>PowerPoint</strong></td>
+            <td>Presentation creation, Designer, slide rewrite</td>
+            <td>Student-facing slides, staff presentations, parent evenings</td>
+            <td>Copilot icon in ribbon + Designer panel</td>
+          </tr>
+          <tr>
+            <td><strong>OneNote</strong></td>
+            <td>Summarise, draft, organise notes</td>
+            <td>Student observation logs, meeting notes, lesson notes</td>
+            <td>Copilot icon in ribbon (Home tab)</td>
+          </tr>
+          <tr>
+            <td><strong>Teams</strong></td>
+            <td>Meeting transcript, summary, chat intelligence</td>
+            <td>Parent meetings, staff CPD, team planning sessions</td>
+            <td>Copilot tab in meeting + Chat pane</td>
+          </tr>
+          <tr>
+            <td><strong>Outlook</strong></td>
+            <td>Draft email, summarise thread, coaching</td>
+            <td>Parent communication, staff emails, newsletters</td>
+            <td>Copilot icon in email compose or inbox</td>
+          </tr>
+          <tr>
+            <td><strong>BizChat</strong></td>
+            <td>Cross-app search and query</td>
+            <td>Find decisions, search past meetings, cross-reference docs</td>
+            <td>copilot.microsoft.com — Work tab</td>
+          </tr>
+          <tr>
+            <td><strong>Copilot Studio</strong></td>
+            <td>Custom bot creation</td>
+            <td>Homework helper, curriculum Q&amp;A, school policy bot</td>
+            <td>copilotstudio.microsoft.com</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 05 — PROMPT LIBRARY
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s05">
+    <div class="section-header">
+      <div class="sec-num">05</div>
+      <div>
+        <h2>Prompt Library</h2>
+        <p>15 ready-to-use prompts across 5 teaching categories</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Copy any prompt, replace the bracketed placeholders, and use it directly in the relevant M365 app. Each prompt is written to give Copilot the context it needs to produce a useful first draft — rather than a generic response.</p>
+
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'lesson')">Lesson Planning</button>
+          <button class="tab-btn" onclick="switchTab(this,'assess')">Assessment</button>
+          <button class="tab-btn" onclick="switchTab(this,'present')">Presentations</button>
+          <button class="tab-btn" onclick="switchTab(this,'comms')">Communication</button>
+          <button class="tab-btn" onclick="switchTab(this,'notes')">Notes &amp; Research</button>
+        </div>
+
+        <!-- LESSON PLANNING -->
+        <div class="prompt-panel active" id="panel-lesson">
+          <div class="prompt-box">
+            <div class="prompt-label">LESSON PLAN — WORD <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a 50-minute lesson plan for [TOPIC] for [YEAR/GRADE]. Reference /[CURRICULUM-DOC] for alignment. Include: learning objectives (3 max, written as 'Students will be able to...'), a 10-minute engaging starter, main activity with support and extension differentiation, and an exit ticket. Format as a structured table."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">UNIT OVERVIEW — WORD <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a 6-week unit overview for [SUBJECT] — [UNIT TITLE] for [YEAR/GRADE]. Structure as: week-by-week learning intentions, key vocabulary per week, assessment points (formative and summative), and cross-curricular links. Reference /[SCHEME-OF-WORK] to ensure sequence alignment."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">DIFFERENTIATED MATERIALS — WORD (AGENT MODE) <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Using Agent Mode: Create a complete differentiated resource pack for a lesson on [TOPIC] for [YEAR/GRADE]. Produce three versions: (1) Core task — grade-level language and standard scaffolding; (2) Support version — simplified language, sentence starters, visual prompts; (3) Extension challenge — higher-order thinking questions and independent research task. Format each as a separate printable worksheet."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">HOMEWORK TASK — WORD <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a homework task for [YEAR/GRADE] students based on our recent lesson on [TOPIC]. The task should take approximately [TIME] to complete, require no additional resources beyond what students have already, and include: clear instructions, a success criteria checklist, and a reflection question at the end."</div>
+          </div>
+        </div>
+
+        <!-- ASSESSMENT -->
+        <div class="prompt-panel" id="panel-assess">
+          <div class="prompt-box">
+            <div class="prompt-label">EXCEL RUBRIC SCORING — EXCEL <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Build a rubric scoring spreadsheet for [ASSESSMENT TASK]. Criteria: [list 4–5 criteria]. Scoring scale: 1–4 (1=Beginning, 2=Developing, 3=Meeting, 4=Exceeding). For each criterion, generate descriptor text for each score level. Add a weighted total column — [CRITERION] should be weighted at [X]%."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">QUIZ GENERATION — WORD <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Generate a 15-question quiz on [TOPIC] for [YEAR/GRADE]. Include: 5 multiple-choice questions (4 options each), 5 short-answer questions (2–3 sentence responses expected), and 5 true/false questions. Include an answer key as a separate section at the end. Difficulty: [easy/medium/hard]."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">PERFORMANCE ANALYSIS — EXCEL <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Analyse this student performance data across [NUMBER] assessments. Identify: (1) top 20% of performers, (2) students in the bottom 20% who need immediate support, (3) students showing a downward trend across assessments, (4) any assessment where the class average was significantly below expected. Produce a summary table and suggest 3 differentiation actions."</div>
+          </div>
+        </div>
+
+        <!-- PRESENTATIONS -->
+        <div class="prompt-panel" id="panel-present">
+          <div class="prompt-box">
+            <div class="prompt-label">POWERPOINT DECK — POWERPOINT <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a presentation for [TOPIC] suitable for [YEAR/GRADE] students. Include: a title slide, 4 content slides (each with a headline, 3 key points as bullet points, and a visual suggestion), a class discussion slide with 2 open-ended questions, and a recap slide listing the 3 key takeaways. Tone: engaging and age-appropriate for [age group]."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">STUDENT HANDOUT — WORD <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a one-page student reference handout for our lesson on [TOPIC]. Include: a brief introduction (3–4 sentences), key vocabulary with definitions (8–10 terms), a 'how it works' explanation section, 3 example problems or applications, and a 'check your understanding' section with 4 questions students can self-check."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">VISUAL AID — POWERPOINT <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a single-slide visual aid for [CONCEPT/PROCESS] for [YEAR/GRADE]. The slide should illustrate [the process / the relationship between / the structure of] [TOPIC] with a clear diagram layout, labelled components, and no more than 20 words of text. Suggest the most effective diagram type for this concept (flowchart / cycle / comparison / hierarchy)."</div>
+          </div>
+        </div>
+
+        <!-- COMMUNICATION -->
+        <div class="prompt-panel" id="panel-comms">
+          <div class="prompt-box">
+            <div class="prompt-label">PARENT EMAIL — OUTLOOK <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a professional email to parents about [TOPIC/SITUATION]. Context: [brief description]. The tone should be warm, clear, and reassuring. Include: a brief explanation of the situation, what the school is doing about it, and what parents can do to support. After drafting, review the tone — flag any phrasing that might cause concern or be misread as critical."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">TEAMS ANNOUNCEMENT <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Write a Teams channel announcement for [TOPIC] addressed to [teaching staff / department / year team]. Keep it under 150 words. Include: what's happening, when, who needs to act, and what the deadline is. Make the call to action clear — tell people exactly what they need to do and by when."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">NEWSLETTER CONTENT — WORD <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Write the [SUBJECT] section for this term's parent newsletter. Include: a 100-word update on what students have been learning this term, highlights from any special projects or events, what's coming up next term, and one thing parents can do at home to support their child's learning. Tone: celebratory, warm, and community-focused."</div>
+          </div>
+        </div>
+
+        <!-- NOTES & RESEARCH -->
+        <div class="prompt-panel" id="panel-notes">
+          <div class="prompt-box">
+            <div class="prompt-label">ONENOTE STUDENT SUMMARY <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Summarise all notes in this OneNote section about [STUDENT ID / TOPIC]. Structure the summary as: (1) Overview of progress — what's going well, (2) Concerns or patterns — what's been flagged, (3) Interventions already tried and their outcomes, (4) Recommended next steps for this term. Keep the summary concise — under 300 words."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">BIZCHAT CROSS-APP QUERY — COPILOT CHAT <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Search across my emails, Teams messages, and meeting transcripts from the last [TIMEFRAME]. Find everything related to [TOPIC/DECISION]. Summarise: what was decided, who was involved, what action items were assigned, and what (if anything) is still unresolved. Include links to the source documents where available."</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 06 — MEASURING IMPACT
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s06">
+    <div class="section-header">
+      <div class="sec-num">06</div>
+      <div>
+        <h2>Measuring Your Impact</h2>
+        <p>Track what's working so you can build on it</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">The educators who get the most from Copilot are the ones who track their usage and identify which workflows save the most time. Start simple — log what you use Copilot for each week and note the time saved. After 4–6 weeks you'll have clear evidence of where it's most valuable in your practice.</p>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-num">3–5</div>
+          <div class="metric-label">Hours Saved Weekly</div>
+          <div class="metric-desc">Typical time saving reported by educators using Copilot across Word, Excel, and Outlook</div>
+        </div>
+        <div class="metric-card blue">
+          <div class="metric-num">60%</div>
+          <div class="metric-label">Faster Lesson Planning</div>
+          <div class="metric-desc">Average reduction in time to produce a complete lesson plan with Copilot vs. from scratch</div>
+        </div>
+        <div class="metric-card orange">
+          <div class="metric-num">4x</div>
+          <div class="metric-label">Faster Communication</div>
+          <div class="metric-desc">Educator-reported speed improvement for drafting parent emails and newsletters with Copilot</div>
+        </div>
+        <div class="metric-card green">
+          <div class="metric-num">100+</div>
+          <div class="metric-label">Hours per Year</div>
+          <div class="metric-desc">Annualised time saving for a teacher actively using Copilot across all 6 core workflows</div>
+        </div>
+      </div>
+
+      <div class="sub-label">Your 4-Week Measurement Framework</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Week 1: Baseline — Time How Long Tasks Take Without Copilot</h4>
+            <p>Before you change anything, log how long your current lesson planning, email drafting, and assessment work takes. Use a simple note in OneNote or a row in Excel. This is your benchmark.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num blue">2</div>
+          <div class="step-body">
+            <h4>Weeks 2–3: Use Copilot and Track Time Saved</h4>
+            <p>Start using Copilot for 2–3 tasks per week. Log each use: what task, how long it took with Copilot, and whether the output was usable first-try or needed significant editing. Note which prompts worked best.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num orange">3</div>
+          <div class="step-body">
+            <h4>Week 4: Review and Double Down</h4>
+            <p>Review your log. Which workflows saved the most time? Which prompts produced the best results with least editing? Standardise your best prompts — save them in a OneNote prompt library so you don't have to rewrite them each time.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num green">4</div>
+          <div class="step-body">
+            <h4>Ongoing: Share What Works with Your Team</h4>
+            <p>Share your best prompts with your department via a Teams channel. Create a shared OneNote notebook of educator prompts. The teachers who improve fastest are the ones who share learnings with colleagues.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">📌</div>
+        <div class="callout-body">
+          <strong>Quality Over Quantity</strong>
+          <p>Don't measure success by the number of prompts you run. Measure it by the quality of your teaching materials and the time you get back to spend with students. A single well-crafted prompt that saves 45 minutes is worth more than ten shallow ones that require heavy editing.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 07 — COMMON MISTAKES
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s07">
+    <div class="section-header">
+      <div class="sec-num">07</div>
+      <div>
+        <h2>Common Mistakes &amp; How to Fix Them</h2>
+        <p>Five Copilot-specific pitfalls educators hit — and the exact fix for each</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">These are the most common mistakes educators make when starting with Copilot. Each one is easily corrected once you know what to look for.</p>
+
+      <!-- Mistake 1 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">❌</div>
+          <div class="mistake-text"><strong>Mistake 1: Not Using / to Reference Files</strong> — Writing prompts without referencing existing curriculum documents, leaving Copilot to generate generic content with no alignment to your actual scheme of work.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✅</div>
+          <div class="mistake-text"><strong>Fix:</strong> Always use the <strong>/</strong> shortcut to reference your curriculum documents, rubrics, and past lesson plans stored in OneDrive. Type / in the Copilot prompt bar and search for the file by name. Copilot will read the document and ensure its output is aligned to your existing materials.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 2 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">❌</div>
+          <div class="mistake-text"><strong>Mistake 2: Generic Prompts Without App Context</strong> — Asking Copilot to "write a lesson plan" without specifying the subject, year level, duration, app context, or desired output format — resulting in bland, unusable drafts.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✅</div>
+          <div class="mistake-text"><strong>Fix:</strong> Always include: (1) the subject and topic, (2) the year level or age group, (3) any specific M365 files to reference, and (4) the structure you want as output. The more context you provide, the less editing you'll need. Use the prompts in Section 05 as templates.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 3 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">❌</div>
+          <div class="mistake-text"><strong>Mistake 3: Ignoring Agent Mode in Word</strong> — Using Copilot only for single-task drafting when Agent Mode is available, missing the ability to produce complete multi-document packs from a single prompt.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✅</div>
+          <div class="mistake-text"><strong>Fix:</strong> Enable <strong>Agent Mode</strong> in the Copilot pane in Word (look for the Agent toggle). Use it for your most complex tasks — creating a full differentiated lesson pack, drafting a complete unit of work, or compiling a student progress report. Agent Mode plans and executes multi-step document creation, including creating separate documents and formatting tables automatically.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 4 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">❌</div>
+          <div class="mistake-text"><strong>Mistake 4: Sharing Student Personal Data in Copilot Chat</strong> — Including student names, dates of birth, home addresses, or other personally identifiable information (PII) in Copilot prompts, which may conflict with your school's data governance policy and GDPR obligations.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✅</div>
+          <div class="mistake-text"><strong>Fix:</strong> Always use <strong>anonymised descriptions</strong> in Copilot prompts. Instead of "Write a report for Emma Thompson (Year 9, DOB 12/03/2011)," use "Write a report for a Year 9 student who..." Student IDs or anonymised codes are safer than names. Check your school's Copilot data governance policy with your IT team — most M365 Copilot data stays within your tenant, but local policy takes precedence.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 5 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">❌</div>
+          <div class="mistake-text"><strong>Mistake 5: Accepting Copilot's Output Without Checking Curriculum Alignment</strong> — Publishing or distributing lesson materials directly from Copilot without verifying they align to your school's curriculum, assessment criteria, or year-level expectations.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✅</div>
+          <div class="mistake-text"><strong>Fix:</strong> Treat every Copilot output as a strong first draft, not a final product. Always review against your curriculum documents, check factual accuracy (especially for subject-specific content), and confirm that the language is appropriate for your year group. Build a quick checklist: (1) Objectives match curriculum? (2) Content factually accurate? (3) Language age-appropriate? (4) Assessment criteria aligned?</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>The 10-Minute Review Rule</strong>
+          <p>Budget 10 minutes to review every significant Copilot output before using it. A lesson plan that saves 30 minutes to draft should take 10 minutes to review and refine — still a net 20-minute saving. Never skip the review entirely.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 08 — LEARNING PATH
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s08">
+    <div class="section-header">
+      <div class="sec-num">08</div>
+      <div>
+        <h2>Your Learning Path</h2>
+        <p>Six Copilot guides to deepen your skills across every M365 app</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">This Playbook gives you the practical foundations. The guides below go deeper into each app and capability — helping you master the specific tools that matter most to your teaching practice. Work through them in order, or jump straight to the app you use most.</p>
+
+      <div class="learning-grid">
+        <a class="learning-card" href="Copilot-101-User-Guide.html">
+          <div class="lc-num">1</div>
+          <div class="lc-body">
+            <h4>Copilot 101</h4>
+            <p>Start here — core concepts, interface, and first prompts</p>
+          </div>
+          <div class="lc-arrow">›</div>
+        </a>
+        <a class="learning-card blue" href="Copilot-Prompt-Guide-User-Guide.html">
+          <div class="lc-num blue">2</div>
+          <div class="lc-body">
+            <h4>Copilot Prompt Guide</h4>
+            <p>Master the / reference, persona, and format techniques</p>
+          </div>
+          <div class="lc-arrow">›</div>
+        </a>
+        <a class="learning-card orange" href="Copilot-Word-User-Guide.html">
+          <div class="lc-num orange">3</div>
+          <div class="lc-body">
+            <h4>Copilot in Word</h4>
+            <p>Lesson plans, reports, differentiated materials, Agent Mode</p>
+          </div>
+          <div class="lc-arrow">›</div>
+        </a>
+        <a class="learning-card" href="Copilot-PowerPoint-User-Guide.html">
+          <div class="lc-num">4</div>
+          <div class="lc-body">
+            <h4>Copilot in PowerPoint</h4>
+            <p>Create, redesign, and adapt slides for any audience</p>
+          </div>
+          <div class="lc-arrow">›</div>
+        </a>
+        <a class="learning-card blue" href="Copilot in OneNote.html">
+          <div class="lc-num blue">5</div>
+          <div class="lc-body">
+            <h4>Copilot in OneNote</h4>
+            <p>Student observation notes, summaries, and planning notebooks</p>
+          </div>
+          <div class="lc-arrow">›</div>
+        </a>
+        <a class="learning-card orange" href="Copilot-Teams-User-Guide.html">
+          <div class="lc-num orange">6</div>
+          <div class="lc-body">
+            <h4>Copilot in Teams</h4>
+            <p>Meeting intelligence, chat summaries, and collaboration</p>
+          </div>
+          <div class="lc-arrow">›</div>
+        </a>
+      </div>
+
+      <div class="callout copilot">
+        <div class="callout-icon">✦</div>
+        <div class="callout-body">
+          <strong>Recommended Learning Sequence for Educators</strong>
+          <p>Start with Copilot 101 to understand the fundamentals, then go straight to Copilot in Word — it's where you'll get the fastest returns as an educator. Once you're confident in Word, add Excel for assessment work and OneNote for student tracking. Teams and PowerPoint can be layered in as you build confidence.</p>
+        </div>
+      </div>
+
+      <div class="sub-label">At a Glance — What This Playbook Covered</div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>What You Learned</th>
+            <th>Next Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>01 — Why AI Matters</strong></td>
+            <td>The case for Copilot in education, including Agent Mode GA</td>
+            <td>Identify the 2 tasks that take you the most time each week</td>
+          </tr>
+          <tr>
+            <td><strong>02 — Setting Up</strong></td>
+            <td>Licence check, app activation, BizChat Work tab, first prompt</td>
+            <td>Confirm your Copilot licence and run your first Word prompt</td>
+          </tr>
+          <tr>
+            <td><strong>03 — Daily Workflows</strong></td>
+            <td>6 use cases across Word, Excel, PPT, Teams, OneNote, Outlook</td>
+            <td>Pick 1 workflow and use it every day this week</td>
+          </tr>
+          <tr>
+            <td><strong>04 — Advanced Techniques</strong></td>
+            <td>Agent Mode, Copilot Studio, BizChat, Power Automate</td>
+            <td>Try BizChat with a cross-app query about a recent decision</td>
+          </tr>
+          <tr>
+            <td><strong>05 — Prompt Library</strong></td>
+            <td>15 ready-to-use prompts across 5 teaching categories</td>
+            <td>Save your 3 most useful prompts to OneNote</td>
+          </tr>
+          <tr>
+            <td><strong>06 — Measuring Impact</strong></td>
+            <td>4-metric framework and 4-week tracking plan</td>
+            <td>Start your time log this week — even just a note per day</td>
+          </tr>
+          <tr>
+            <td><strong>07 — Common Mistakes</strong></td>
+            <td>5 Copilot-specific pitfalls and the fix for each</td>
+            <td>Add the 10-minute review step to your Copilot workflow</td>
+          </tr>
+          <tr>
+            <td><strong>08 — Learning Path</strong></td>
+            <td>6 deep-dive guides for each key M365 app</td>
+            <td>Open Copilot 101 and work through Section 01</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(btn, panelId) {
+  const tabs = btn.closest('.prompt-tabs');
+  tabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  tabs.querySelectorAll('.prompt-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel = document.getElementById('panel-' + panelId);
+  if (panel) panel.classList.add('active');
+}
+
+// ── COPY BUTTONS ──
+function copyPrompt(btn) {
+  const box = btn.closest('.prompt-box');
+  const text = box ? box.querySelector('.prompt-text') : btn.closest('.usecase-prompt');
+  if (!text) return;
+  const content = (text.querySelector('.usecase-prompt-text') || text).innerText || text.innerText;
+  navigator.clipboard.writeText(content.trim()).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  }).catch(() => {
+    // fallback for older browsers
+    const range = document.createRange();
+    range.selectNodeContents(text);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand('copy');
+    sel.removeAllRanges();
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  });
+}
+
+// ── SCROLL SPY ──
+(function() {
+  const links = document.querySelectorAll('.nav-link[href^="#"]');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        links.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+})();
+</script>
+</body>
+</html>

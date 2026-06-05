@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Engineer's AI Playbook — ChatGPT Edition | The AI Advantage Co</title>
+<style>
+:root{
+  --primary:#10A37F;
+  --primary-light:#2EC4A9;
+  --primary-soft:rgba(16,163,127,0.09);
+  --primary-border:rgba(16,163,127,0.20);
+  --sidebar-bg:#1C1C1C;
+  --sidebar-hover:#2A2A2A;
+  --sidebar-act:rgba(16,163,127,0.14);
+  --page-bg:#F9F9F9;
+  --white:#FFFFFF;
+  --card-bg:#FFFFFF;
+  --ink:#0D0D0D;
+  --body-text:#353740;
+  --muted:#6E6E80;
+  --border:#E5E5E5;
+  --border-std:#E5E5E5;
+  --hdr-bg:#F0F0F0;
+  --sidebar-w:260px;
+  --radius:10px;
+  --radius-sm:6px;
+  --blue:#1A6FE8;--blue-soft:#EEF3FD;
+  --purple:#7C3AED;--purple-soft:#F3EEFF;
+  --orange:#E07B39;--orange-soft:#FEF3EB;
+  --yellow:#C9921A;--yellow-soft:#FEF9EE;
+  --red:#C13B3B;--red-soft:#FEEEEE;
+  --green-bg:#E6F7F4;
+  --text-mid:#353740;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:0 0 32px;flex-shrink:0}
+.sidebar-brand{padding:20px 20px 0}
+.brand-label{font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--primary-light);text-transform:uppercase;margin-bottom:2px}
+.brand-name{font-size:13.5px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:16px}
+.sidebar-divider{height:1px;background:rgba(255,255,255,.08);margin:0 20px 16px}
+.sidebar-meta{padding:0 20px 16px}
+.sidebar-guide-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:4px}
+.sidebar-guide-title{font-size:12px;color:rgba(255,255,255,.7);line-height:1.4}
+.nav-section{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.6);text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s;line-height:1.3}
+.nav-link svg{flex-shrink:0;opacity:.6}
+.nav-link:hover{color:#fff;background:var(--sidebar-hover);border-left-color:rgba(16,163,127,.4)}
+.nav-link.active{color:#fff;border-left-color:var(--primary);background:var(--sidebar-act)}
+.nav-link.active svg{opacity:1}
+.sidebar-footer{padding:20px 20px 0;margin-top:16px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-footer p{font-size:10px;color:rgba(255,255,255,.3);line-height:1.5}
+.sidebar-footer a{color:rgba(16,163,127,.7);text-decoration:none}
+.sidebar-footer a:hover{color:var(--primary-light)}
+
+/* main */
+.main{padding:36px 44px 80px;max-width:900px}
+
+/* banner */
+.banner{border-radius:var(--radius);margin-bottom:32px;overflow:hidden;position:relative}
+.banner svg{display:block;width:100%;height:auto}
+
+/* doc header */
+.doc-header{margin-bottom:28px}
+.breadcrumb{font-size:11px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.breadcrumb span{color:var(--border)}
+.doc-header h1{font-size:30px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:10px}
+.doc-subtitle{font-size:14.5px;color:var(--body-text);line-height:1.6;margin-bottom:14px;max-width:700px}
+.badge-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.05em}
+.badge.playbook{background:var(--primary);color:#fff}
+.badge.updated{background:var(--hdr-bg);color:var(--primary);border:1px solid var(--primary-border)}
+.badge.audience{background:#E8F0FF;color:#1A6FE8;border:1px solid #C5D7F5}
+
+/* content body */
+.content-body{}
+
+/* section */
+.section{background:var(--white);border:1px solid var(--border-std);border-radius:var(--radius);margin-bottom:24px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:flex-start;gap:14px}
+.section-num{background:var(--primary);color:#fff;font-size:11.5px;font-weight:700;width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.section-title-wrap{}
+.section-title{font-size:18px;font-weight:700;color:var(--ink)}
+.section-desc{font-size:13px;color:var(--muted);margin-top:2px}
+.section-body{padding:22px}
+
+/* prose */
+.prose p{font-size:14px;color:var(--body-text);line-height:1.65;margin-bottom:14px}
+.prose strong{color:var(--ink);font-weight:700}
+.prose em{font-style:italic;color:var(--muted)}
+.prose h3{font-size:15px;font-weight:700;color:var(--ink);margin:20px 0 10px}
+.prose ul{margin:0 0 14px 18px}
+.prose ul li{font-size:14px;color:var(--body-text);line-height:1.6;margin-bottom:6px}
+
+/* sub-label */
+.sub-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--primary);text-transform:uppercase;margin:20px 0 10px}
+
+/* card grid */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.card-grid.three{grid-template-columns:1fr 1fr 1fr}
+.card-grid.four{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;border-top:3px solid var(--primary)}
+.card.blue{border-top-color:var(--blue)}
+.card.purple{border-top-color:var(--purple)}
+.card.orange{border-top-color:var(--orange)}
+.card.yellow{border-top-color:var(--yellow)}
+.card-icon{font-size:22px;margin-bottom:8px}
+.card-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.card-desc{font-size:13px;color:var(--body-text);line-height:1.5}
+
+/* callout */
+.callout{border-radius:var(--radius-sm);padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55;color:var(--body-text)}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--primary)}
+.callout.tip .callout-body strong{color:var(--primary)}
+.callout.warn{background:#FEF9C3;border-left:4px solid #B45309}
+.callout.warn .callout-body strong{color:#B45309}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--primary);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-content{}
+.step-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-desc{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:rgba(255,255,255,.75);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #2A2A2A}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--body-text);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+
+/* prompt section */
+.prompt-section{margin:16px 0}
+.prompt-tabs{}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.tab-btn{padding:7px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--white);color:var(--body-text);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.prompt-card{background:var(--sidebar-bg);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--body-text);line-height:1.65;font-style:italic}
+.copy-btn{background:none;border:1px solid rgba(46,196,169,.3);color:var(--primary-light);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;font-style:normal}
+.copy-btn:hover{background:rgba(16,163,127,.15)}
+
+/* plan grid (learning path) */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.plan-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;text-decoration:none;transition:all .18s;border-top:3px solid var(--primary);display:block}
+.plan-card:hover{box-shadow:0 4px 16px rgba(16,163,127,.15);border-top-color:var(--primary-light);transform:translateY(-1px)}
+.plan-card .plan-num{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--primary);margin-bottom:6px}
+.plan-card .plan-title{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.plan-card .plan-desc{font-size:13px;color:var(--body-text);line-height:1.5}
+.plan-card .plan-arrow{font-size:13px;color:var(--primary);margin-top:8px;display:block}
+
+/* mistake cards */
+.mistake-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.mistake-bad{background:var(--red-soft);border:1px solid #F5C4C4;border-top:3px solid var(--red);border-radius:var(--radius-sm);padding:14px}
+.mistake-good{background:var(--green-bg);border:1px solid var(--primary-border);border-top:3px solid var(--primary);border-radius:var(--radius-sm);padding:14px}
+.mistake-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.mistake-bad .mistake-label{color:var(--red)}
+.mistake-good .mistake-label{color:var(--primary)}
+.mistake-bad p,.mistake-good p{font-size:13px;color:var(--body-text);line-height:1.5}
+
+/* impact cards */
+.impact-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;text-align:center}
+.impact-num{font-size:32px;font-weight:700;color:var(--primary);line-height:1;margin-bottom:6px}
+.impact-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.impact-desc{font-size:12px;color:var(--muted);line-height:1.45}
+
+/* workflow section */
+.workflow-block{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;margin-bottom:16px}
+.workflow-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.workflow-icon{font-size:22px}
+.workflow-title{font-size:15px;font-weight:700;color:var(--ink)}
+.workflow-sub{font-size:12px;color:var(--muted)}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;border-top:3px solid var(--primary)}
+.rs-num{font-size:28px;font-weight:700;color:var(--primary);margin-bottom:6px}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--body-text);line-height:1.5}
+
+/* responsive */
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto;width:100%}
+  .main{padding:24px 20px 60px}
+  .card-grid{grid-template-columns:1fr}
+  .card-grid.three{grid-template-columns:1fr}
+  .card-grid.four{grid-template-columns:1fr 1fr}
+  .plan-grid{grid-template-columns:1fr}
+  .mistake-grid{grid-template-columns:1fr}
+  .roadmap{grid-template-columns:1fr 1fr}
+  .ref-table{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-label">The AI Advantage Co</div>
+    <div class="brand-name">Documentation Hub</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-meta">
+    <div class="sidebar-guide-label">Current Guide</div>
+    <div class="sidebar-guide-title">Engineer's AI Playbook — ChatGPT Edition</div>
+  </div>
+  <div class="nav-section">Sections</div>
+  <a class="nav-link active" href="#s01" id="nav-s01">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4v8l6 3 6-3V4L8 1z" stroke="#10A37F" stroke-width="1.5" fill="none"/></svg>
+    01 — Why AI Matters for Engineers
+  </a>
+  <a class="nav-link" href="#s02" id="nav-s02">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#10A37F" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    02 — Setting Up ChatGPT
+  </a>
+  <a class="nav-link" href="#s03" id="nav-s03">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    03 — Daily AI Workflows
+  </a>
+  <a class="nav-link" href="#s04" id="nav-s04">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2l2 4 4.5.7-3.25 3.15.77 4.5L8 12.1l-4.02 2.25.77-4.5L1.5 6.7 6 6z" stroke="#10A37F" stroke-width="1.5" fill="none"/></svg>
+    04 — Advanced Techniques
+  </a>
+  <a class="nav-link" href="#s05" id="nav-s05">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="2" stroke="#10A37F" stroke-width="1.5"/><path d="M5 7h6M5 10h4" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    05 — Prompt Library
+  </a>
+  <a class="nav-link" href="#s06" id="nav-s06">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 13V7l4-4 4 4 4-3v9H2z" stroke="#10A37F" stroke-width="1.5" stroke-linejoin="round" fill="none"/></svg>
+    06 — Measuring Impact
+  </a>
+  <a class="nav-link" href="#s07" id="nav-s07">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2z" stroke="#10A37F" stroke-width="1.5"/><path d="M8 7v1.5l1 1" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    07 — Common Mistakes
+  </a>
+  <a class="nav-link" href="#s08" id="nav-s08">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 13L8 3l5 10H3z" stroke="#10A37F" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 8v2.5" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    08 — Learning Path
+  </a>
+  <div class="sidebar-footer">
+    <p>© 2026 <a href="#">The AI Advantage Co</a><br>All rights reserved.</p>
+  </div>
+</aside>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<main class="main">
+
+<!-- BANNER SVG -->
+<div class="banner">
+<svg viewBox="0 0 1400 260" xmlns="http://www.w3.org/2000/svg" width="1400" height="260">
+  <defs>
+    <linearGradient id="bannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D1F1A;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#0F2B22;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0D1F1A;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="glowLeft" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" style="stop-color:#10A37F;stop-opacity:0.20"/>
+      <stop offset="100%" style="stop-color:#10A37F;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="glowRight" x1="100%" y1="50%" x2="0%" y2="50%">
+      <stop offset="0%" style="stop-color:#10A37F;stop-opacity:0.13"/>
+      <stop offset="100%" style="stop-color:#10A37F;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  <!-- Base background -->
+  <rect width="1400" height="260" fill="url(#bannerGrad)"/>
+  <!-- Glow overlays -->
+  <ellipse cx="200" cy="130" rx="380" ry="210" fill="url(#glowLeft)"/>
+  <ellipse cx="1200" cy="130" rx="300" ry="190" fill="url(#glowRight)"/>
+  <!-- Grid lines -->
+  <line x1="0" y1="50" x2="1400" y2="50" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="100" x2="1400" y2="100" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="150" x2="1400" y2="150" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="200" x2="1400" y2="200" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="200" y1="0" x2="200" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="400" y1="0" x2="400" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="700" y1="0" x2="700" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="1000" y1="0" x2="1000" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="1200" y1="0" x2="1200" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <!-- Decorative circles -->
+  <circle cx="1280" cy="48" r="95" fill="none" stroke="#10A37F" stroke-opacity="0.12" stroke-width="1.5"/>
+  <circle cx="1280" cy="48" r="58" fill="none" stroke="#10A37F" stroke-opacity="0.09" stroke-width="1"/>
+  <circle cx="1280" cy="48" r="28" fill="#10A37F" fill-opacity="0.08"/>
+  <circle cx="110" cy="215" r="72" fill="none" stroke="#2EC4A9" stroke-opacity="0.1" stroke-width="1.5"/>
+  <circle cx="110" cy="215" r="42" fill="none" stroke="#2EC4A9" stroke-opacity="0.08" stroke-width="1"/>
+  <!-- Code-bracket decoration left -->
+  <text x="88" y="110" font-family="'Courier New',monospace" font-size="42" font-weight="700" fill="#10A37F" fill-opacity="0.12">&lt;/&gt;</text>
+  <!-- Code bracket decoration right -->
+  <text x="1260" y="200" font-family="'Courier New',monospace" font-size="38" font-weight="700" fill="#10A37F" fill-opacity="0.10">{}</text>
+  <!-- Small accent dots -->
+  <circle cx="480" cy="30" r="3" fill="#10A37F" fill-opacity="0.4"/>
+  <circle cx="520" cy="48" r="2" fill="#2EC4A9" fill-opacity="0.35"/>
+  <circle cx="880" cy="232" r="3" fill="#10A37F" fill-opacity="0.3"/>
+  <circle cx="920" cy="220" r="2" fill="#2EC4A9" fill-opacity="0.3"/>
+  <circle cx="350" cy="140" r="4" fill="#10A37F" fill-opacity="0.15"/>
+  <circle cx="1050" cy="120" r="5" fill="#10A37F" fill-opacity="0.12"/>
+  <!-- Top label -->
+  <text x="700" y="62" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="3" fill="#2EC4A9" opacity="0.9">THE Ai ADVANTAGE</text>
+  <!-- Main title line 1 -->
+  <text x="700" y="138" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="54" font-weight="700" fill="#FFFFFF" opacity="0.97" letter-spacing="-0.5">ENGINEER'S PLAYBOOK</text>
+  <!-- Bottom label -->
+  <text x="700" y="192" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="16" font-weight="600" letter-spacing="4" fill="#10A37F" opacity="0.85">CHATGPT EDITION</text>
+  <!-- Decorative underline -->
+  <rect x="545" y="150" width="310" height="2" rx="1" fill="#10A37F" fill-opacity="0.35"/>
+</svg>
+</div>
+
+<!-- DOC HEADER -->
+<div class="doc-header">
+  <div class="breadcrumb">
+    <span style="color:var(--muted)">Documentation</span>
+    <span>›</span>
+    <span style="color:var(--muted)">Engineer's Playbook</span>
+    <span>›</span>
+    <span style="color:var(--primary);font-weight:600">ChatGPT Edition</span>
+  </div>
+  <h1>The Engineer's AI Playbook — ChatGPT Edition</h1>
+  <p class="doc-subtitle">Your complete guide to using ChatGPT for technical documentation, code review, architecture decisions, sprint planning, incident response, and data analysis.</p>
+  <div class="badge-row">
+    <span class="badge playbook">PLAYBOOK</span>
+    <span class="badge updated">Updated: June 2026</span>
+    <span class="badge audience">Engineers &amp; Technical Teams</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ CONTENT BODY ═══════════════════════ -->
+<div class="content-body">
+
+<!-- ════════════════════════ SECTION 01 ════════════════════════ -->
+<div class="section" id="s01">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Why AI Matters for Engineers</div>
+      <div class="section-desc">Engineering productivity in 2026 — the real numbers</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Engineering in 2026 is increasingly defined by the speed at which teams can move from idea to working, documented, reviewed, and deployed code. The bottleneck is rarely raw coding ability — it's the surrounding cognitive work: writing documentation no one wants to write, reviewing code under time pressure, reasoning through architectural trade-offs with incomplete information, and producing post-mortems after a 3 AM incident.</p>
+      <p>ChatGPT doesn't replace engineering judgment. It compresses the time and cognitive load of every task that surrounds the core technical work. Engineers who have integrated it systematically report that documentation which once took full days now takes a focused hour. Code review feedback that required pulling together context across a sprawling codebase arrives in seconds. Sprint planning backed by pattern-matching across historical tickets is more accurate — and the conversations are shorter because the data is already organised.</p>
+    </div>
+
+    <div class="sub-label">Where Engineers Gain the Most Time in 2026</div>
+    <div class="card-grid four">
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <div class="card-title">Technical Documentation</div>
+        <div class="card-desc">Full technical specs, ADRs, and READMEs that once took <strong>1–2 days</strong> now take <strong>2–3 hours</strong> with AI assistance.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">Code Review</div>
+        <div class="card-desc">AI-assisted review catches pattern bugs, security issues, and style drift that humans miss during <strong>time-pressured review cycles</strong>.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-icon">🏗️</div>
+        <div class="card-title">Architecture Decisions</div>
+        <div class="card-desc">Trade-off analysis and decision records that once required lengthy synchronous meetings are <strong>drafted in minutes</strong>.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-icon">📈</div>
+        <div class="card-title">Sprint Estimation</div>
+        <div class="card-desc">Story breakdowns cross-referenced with historical velocity data improve <strong>estimation accuracy</strong> and reduce planning overhead.</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>2026 Update — GPT-5.5 for Engineering</strong><p>GPT-5.5 brings stronger reasoning for complex debugging, significantly better code understanding across languages including Rust, Go, and Python, and more accurate technical analysis. Multi-step debugging chains that previously required multiple follow-up prompts now resolve in a single response. If you're on ChatGPT Plus or Team, you already have access.</p></div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body"><strong>How This Playbook is Structured</strong><p>This guide is built for engineers who want immediate, practical results — not an introduction to AI concepts. Each section includes exact prompts you can use today, plus step-by-step workflows for the most common engineering tasks. Start with Section 02 to configure ChatGPT for your stack, then jump to whichever workflow in Section 03 matches your current priority.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 02 ════════════════════════ -->
+<div class="section" id="s02">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Setting Up ChatGPT for Engineering Work</div>
+      <div class="section-desc">Configure once — every session starts with your full stack context loaded</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Most engineers use ChatGPT as a blank prompt box — pasting code or questions without any context about their stack, team conventions, or architectural constraints. The result is generic output that needs significant rework. Five configuration steps, done once, mean every future conversation already knows your environment.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Choose the Right Plan</div>
+          <div class="step-desc"><strong>ChatGPT Plus ($20/month)</strong> is right for individual engineers — full access to GPT-4o, GPT-5.5, Advanced Data Analysis for log parsing, file uploads for code review, and image input. <strong>ChatGPT Team ($30/user/month)</strong> is better for engineering teams: shared Projects, team workspaces, stronger data privacy controls (inputs not used for training), and higher rate limits during peak hours. Check your organisation's AI usage policy before selecting a plan — some orgs require Enterprise agreements before sharing code.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Create Projects Per Codebase or System</div>
+          <div class="step-desc">Go to <strong>ChatGPT → Projects → New Project</strong>. Create one project per major codebase or system — e.g. "Backend API", "Data Platform", "Mobile App". Within each project, upload your README, architecture overview document, and any coding standards or style guides. ChatGPT will reference these files in every conversation within that project. When you ask for a code review or documentation help, it already knows your conventions without needing to be told.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Set Custom Instructions with Your Tech Stack Context</div>
+          <div class="step-desc">Go to <strong>Settings → Personalisation → Custom Instructions</strong>. Paste in your engineering context (see the example prompt card below). With this configured, every conversation — whether inside a Project or in a new chat — will begin with ChatGPT knowing your stack, conventions, and preferred response format. This eliminates the most common friction point: having to re-explain your environment in every session.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Enable Advanced Data Analysis for Log Analysis and Metrics</div>
+          <div class="step-desc"><strong>Advanced Data Analysis</strong> (formerly Code Interpreter) lets you upload log files, CSV exports from monitoring tools, or database query results and ask ChatGPT to find patterns, identify anomalies, calculate metrics, and generate visualisations. Enable it automatically by uploading a file in a conversation, or explicitly select it when starting a new chat. Particularly powerful for post-incident log analysis and sprint retrospective data.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Configure Memory for Recurring Project Patterns</div>
+          <div class="step-desc">Enable <strong>Memory</strong> in Settings → Personalisation. Tell ChatGPT about recurring patterns in your engineering environment: "Our API follows REST conventions with snake_case JSON fields", "We use GitHub Actions for CI/CD", "Our team follows the Google Engineering Practices guide for code review". These facts persist across sessions so you never need to re-establish context for recurring workflows.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label">Example Engineering Custom Instructions</div>
+    <div class="prompt-card">
+      <div class="prompt-label">Custom Instructions — Engineering Template <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      <div class="prompt-text">I'm a [ROLE: backend/frontend/full-stack/data/platform] engineer working with [PRIMARY LANGUAGE(S)] and [KEY FRAMEWORKS: e.g. FastAPI, React, Django]. Our infrastructure runs on [CLOUD: AWS/GCP/Azure]. Our team follows [CODING STANDARD: e.g. Google Engineering Practices / company style guide]. Our primary database is [DB: PostgreSQL/MySQL/MongoDB]. We use [VCS: GitHub/GitLab] with [BRANCHING: trunk-based/Gitflow].
+
+When responding: provide code in [LANGUAGE], follow our naming conventions, prefer explicit error handling over silent failures, include type hints/annotations where applicable, flag any security considerations, and keep explanations concise — I'm an experienced engineer, not a beginner. Always include a brief comment when a code choice isn't obvious.</div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Before Sharing Code — Check Your Org Policy</strong><p>Most ChatGPT plans (including Plus) may use your inputs for model improvement unless you opt out or use Team/Enterprise. Before pasting proprietary source code, authentication logic, or internal system details, verify your organisation's AI usage policy. Many organisations require anonymisation or use of an Enterprise plan with a data processing agreement. When in doubt, abstract the code to remove business-specific identifiers before submitting.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 03 ════════════════════════ -->
+<div class="section" id="s03">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Your Daily AI Workflows</div>
+      <div class="section-desc">Six core engineering tasks — each with exact prompts you can use today</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <!-- Workflow 1: Technical Documentation -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📄</div>
+        <div>
+          <div class="workflow-title">1 — Technical Documentation</div>
+          <div class="workflow-sub">Specs, ADRs, READMEs — structured first drafts in minutes</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Paste your code or notes</div>
+            <div class="step-desc">Paste the relevant code, design notes, or bullet-point thoughts you've already gathered. Don't worry about structure — that's ChatGPT's job. The more raw context you provide, the better the first draft.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Request a structured document</div>
+            <div class="step-desc">Specify the exact document format you need — technical specification, ADR, README, API reference, or runbook. Name the sections you need and any formatting conventions your team follows.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Review and refine</div>
+            <div class="step-desc">Review the draft for technical accuracy, then ask ChatGPT to adjust specific sections, expand explanations, or add examples. The second iteration typically requires only minor edits before it's ready for team review.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Technical Specification Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Write a technical specification for [FEATURE]. Context: [SYSTEM DESCRIPTION]. Include: overview, requirements, proposed solution with architecture diagram description, API changes, database changes, testing strategy, rollout plan, and risks. Follow ADR format.</div>
+      </div>
+    </div>
+
+    <!-- Workflow 2: Code Review & Debugging -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">🔍</div>
+        <div>
+          <div class="workflow-title">2 — Code Review &amp; Debugging</div>
+          <div class="workflow-sub">Explain code, find bugs, and get improvement suggestions with context</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Paste the code with context</div>
+            <div class="step-desc">Include the function or module, a brief description of what it's supposed to do, and any error messages or unexpected behaviour you're seeing. The more context, the more targeted the feedback.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Ask for a structured review</div>
+            <div class="step-desc">Specify what you want reviewed — bugs, performance, security, style, or all of the above. For debugging sessions, describe the expected vs actual behaviour and what you've already tried.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Iterate on suggestions</div>
+            <div class="step-desc">For each issue flagged, ask ChatGPT to provide a corrected version with an explanation. Use follow-up prompts to drill into specific issues or ask for alternative approaches.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Code Review Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Review this code for: bugs, performance issues, security vulnerabilities, and style inconsistencies. For each issue found, explain the problem, why it matters, and provide a corrected version. Code: [PASTE CODE]</div>
+      </div>
+    </div>
+
+    <!-- Workflow 3: Architecture Decisions -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">🏗️</div>
+        <div>
+          <div class="workflow-title">3 — Architecture Decisions</div>
+          <div class="workflow-sub">Structured trade-off analysis and decision records in minutes</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Define the decision context</div>
+            <div class="step-desc">Describe the component or system you're making a decision for, the options you're weighing, and the constraints (team expertise, performance requirements, budget, timeline) that apply.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Request a structured trade-off analysis</div>
+            <div class="step-desc">Ask ChatGPT to analyse both options across the dimensions that matter for your decision — performance, scalability, maintainability, operational complexity, and team expertise. Ask for a recommendation with reasoning.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Generate the ADR</div>
+            <div class="step-desc">Once you've reviewed the analysis, ask ChatGPT to format the decision as a standard Architecture Decision Record including status, context, decision, consequences, and alternatives considered.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Architecture Decision Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">I need to decide between [OPTION A] and [OPTION B] for [COMPONENT]. Context: [SYSTEM DESCRIPTION]. Requirements: [LIST]. Analyse trade-offs across: performance, scalability, maintainability, team expertise, and cost. Recommend one and explain why.</div>
+      </div>
+    </div>
+
+    <!-- Workflow 4: Sprint Planning & Estimation -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📋</div>
+        <div>
+          <div class="workflow-title">4 — Sprint Planning &amp; Estimation</div>
+          <div class="workflow-sub">Story breakdown, dependency mapping, and point estimation</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Describe the feature or epic</div>
+            <div class="step-desc">Paste the feature description, user story, or product requirements. Include any known technical constraints, affected systems, and integration points. The more context you provide upfront, the more accurate the task breakdown.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Request a task breakdown with estimates</div>
+            <div class="step-desc">Ask for a breakdown into engineering tasks with story point estimates, dependencies, and risks. Specify your team's estimation scale (Fibonacci, T-shirt sizes, etc.) and ask for flags on any tasks that need a spike first.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Cross-reference with historical patterns</div>
+            <div class="step-desc">If you have data on past similar features (velocity history, typical task durations, common underestimation patterns), paste it in and ask ChatGPT to adjust estimates based on historical accuracy. This is especially powerful for recurring task types.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Sprint Planning Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Break down this feature into engineering tasks: [FEATURE DESCRIPTION]. For each task, estimate: story points (1-13 scale), dependencies, risks, and acceptance criteria. Flag any tasks that need spike/research first.</div>
+      </div>
+    </div>
+
+    <!-- Workflow 5: Incident Reports & Post-Mortems -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">🚨</div>
+        <div>
+          <div class="workflow-title">5 — Incident Reports &amp; Post-Mortems</div>
+          <div class="workflow-sub">Structured blameless post-mortems from raw notes and timelines</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Gather raw notes and timeline</div>
+            <div class="step-desc">After an incident is resolved, collect all notes in whatever format they exist — Slack messages, alert timestamps, Runbook steps taken, brief descriptions of what was tried. Don't try to organise them first.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Paste and request a structured post-mortem</div>
+            <div class="step-desc">Paste all your raw notes and ask ChatGPT to produce a complete post-mortem document. Specify the format your organisation uses — or use the standard template in the prompt below.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Review for accuracy and completeness</div>
+            <div class="step-desc">Read the draft with the incident fresh in mind. Add technical specifics that only the responding team would know, refine the root cause analysis, and ensure action items have realistic owners and timelines before sharing with stakeholders.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Incident Post-Mortem Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Write an incident post-mortem from these notes: [PASTE TIMELINE AND NOTES]. Format: Summary, Timeline, Root Cause, Impact, Resolution, Action Items (with owners and due dates), Lessons Learned. Be specific about what failed and why.</div>
+      </div>
+    </div>
+
+    <!-- Workflow 6: Data Analysis & Visualization -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📊</div>
+        <div>
+          <div class="workflow-title">6 — Data Analysis &amp; Visualisation</div>
+          <div class="workflow-sub">Log analysis, metrics review, and chart generation</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Upload or paste your data</div>
+            <div class="step-desc">Upload log files, CSV exports from your monitoring tools, or paste sample data. ChatGPT's Advanced Data Analysis can handle structured formats including JSON, CSV, and TSV. For large logs, sample the most relevant window.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Specify your analysis goals</div>
+            <div class="step-desc">Tell ChatGPT specifically what you're looking for — error rate trends, latency percentiles, anomalous patterns, correlations between events. The more specific your question, the more targeted the output.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Request visualisations and recommendations</div>
+            <div class="step-desc">Ask for charts (time-series, histograms, scatter plots) and a summary of actionable findings. ChatGPT can generate Python code to reproduce the analysis, or produce the charts directly in the conversation.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Data Analysis Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Analyse this data: [PASTE OR UPLOAD]. Identify: trends, anomalies, correlations. Create visualisations for: [SPECIFIC METRICS]. Summarise findings with actionable recommendations.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 04 ════════════════════════ -->
+<div class="section" id="s04">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Advanced Techniques</div>
+      <div class="section-desc">Power features for engineering teams who want to go further</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Once you've integrated ChatGPT into your core engineering workflows, these five advanced capabilities unlock additional leverage — particularly for complex debugging, team-wide consistency, and connecting ChatGPT to the tools you already use.</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">Advanced Reasoning (o3) for Complex Debugging</div>
+        <div class="card-desc">Switch to the o3 reasoning model for complex multi-step debugging and algorithmic analysis. Unlike standard GPT-4o which responds conversationally, o3 works through problems step by step — significantly better at identifying non-obvious bugs in recursive logic, concurrency issues, and edge cases. Enable it by clicking the model selector and choosing "o3".</div>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">🔗</div>
+        <div class="card-title">Actions for Tool Integration</div>
+        <div class="card-desc">ChatGPT Actions allow you to connect GitHub, Jira, monitoring tools (Datadog, PagerDuty), and internal APIs directly to your ChatGPT conversations. Once connected, you can query live data — "What are the open P1 issues in Jira?" or "Show me the last 10 error events from Datadog" — without leaving the conversation.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-icon">💻</div>
+        <div class="card-title">Code Interpreter for Log Parsing</div>
+        <div class="card-desc">Advanced Data Analysis (Code Interpreter) runs actual Python in a sandboxed environment. Upload a compressed log archive, a Pandas-compatible CSV, or any structured data file and ask for analysis. It generates charts, runs statistical tests, and produces reproducible Python scripts you can run locally or in your own pipelines.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">Custom GPTs for Team Assistants</div>
+        <div class="card-desc">Build team-specific Custom GPTs — a "Code Reviewer" pre-loaded with your style guide, a "Doc Writer" that produces output in your standard templates, or an "On-call Assistant" with your runbook embedded. Custom GPTs are shareable within your ChatGPT Team workspace, giving every engineer the same context without individual setup.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📁</div>
+        <div class="card-title">Projects for Persistent Codebase Context</div>
+        <div class="card-desc">ChatGPT Projects maintain context across conversations — uploaded architecture docs, READMEs, and coding standards stay available indefinitely. Create one project per major system so every new debugging session, code review, or documentation request begins with full context. Dramatically reduces the "explain the system" overhead that otherwise starts every session.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">🔒</div>
+        <div class="card-title">Team Plan for Shared Engineering Context</div>
+        <div class="card-desc">ChatGPT Team enables shared Projects and Custom GPTs across your engineering org. One senior engineer sets up a Project with architecture docs and coding standards; everyone inherits that context. Particularly valuable for onboarding new engineers — the context that usually lives in senior engineers' heads becomes accessible via natural language queries.</div>
+      </div>
+    </div>
+
+    <div class="sub-label">ChatGPT Features Most Valuable for Engineering Teams</div>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Best Engineering Use Case</th>
+          <th>Plan Required</th>
+          <th>Time Saving</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Projects</strong></td>
+          <td>Persistent codebase context across sessions</td>
+          <td>Plus / Team</td>
+          <td>Eliminates per-session setup</td>
+        </tr>
+        <tr>
+          <td><strong>Advanced Reasoning (o3)</strong></td>
+          <td>Complex debugging, algorithmic analysis</td>
+          <td>Plus / Team</td>
+          <td>Faster root-cause identification</td>
+        </tr>
+        <tr>
+          <td><strong>Advanced Data Analysis</strong></td>
+          <td>Log parsing, metrics analysis, chart generation</td>
+          <td>Plus / Team</td>
+          <td>Hours → minutes for post-incident analysis</td>
+        </tr>
+        <tr>
+          <td><strong>Custom GPTs</strong></td>
+          <td>Team-specific code reviewers and doc writers</td>
+          <td>Team</td>
+          <td>Consistent quality across all engineers</td>
+        </tr>
+        <tr>
+          <td><strong>Actions</strong></td>
+          <td>Live queries to GitHub, Jira, monitoring tools</td>
+          <td>Plus / Team</td>
+          <td>Eliminates context-switching to other tools</td>
+        </tr>
+        <tr>
+          <td><strong>Memory</strong></td>
+          <td>Persistent stack and convention context</td>
+          <td>Plus / Team</td>
+          <td>No re-explaining your environment</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 05 ════════════════════════ -->
+<div class="section" id="s05">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Prompt Library</div>
+      <div class="section-desc">15 ready-to-use prompts across 5 engineering categories — copy and adapt</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-section">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'s05','docs')">Documentation</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','review')">Code Review</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','arch')">Architecture</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','planning')">Planning</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','incidents')">Incidents</button>
+      </div>
+
+      <!-- Documentation Tab -->
+      <div class="tab-pane active" id="s05-docs">
+        <div class="prompt-card">
+          <div class="prompt-label">Technical Specification <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Write a technical specification for [FEATURE]. Context: [SYSTEM DESCRIPTION]. Include: overview, functional and non-functional requirements, proposed solution with architecture description, API contract changes, database schema changes, testing strategy, rollout plan, rollback plan, and risk assessment. Format as a structured spec document with clear section headings.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">API Documentation <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Generate complete API documentation for this endpoint: [PASTE ROUTE/HANDLER CODE]. Include: endpoint description, HTTP method, URL parameters, query parameters, request body schema with field descriptions and validation rules, response schema for success and each error case, example request/response pairs, and authentication requirements.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">README Generator <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Write a comprehensive README for this project: [PASTE CODE OR DESCRIPTION]. Include: project overview and purpose, key features, tech stack, prerequisites, installation steps, configuration (with environment variables documented), usage examples, development setup, testing instructions, deployment guide, and contributing guidelines. Use standard GitHub README formatting with code blocks.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Changelog Entry <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Write a CHANGELOG entry for this release: [DESCRIBE CHANGES OR PASTE COMMIT LIST]. Follow Keep a Changelog format. Categorise changes into: Added, Changed, Deprecated, Removed, Fixed, and Security. Write in past tense from a user perspective. Include version number [VERSION] and release date [DATE].</div>
+        </div>
+      </div>
+
+      <!-- Code Review Tab -->
+      <div class="tab-pane" id="s05-review">
+        <div class="prompt-card">
+          <div class="prompt-label">Full Code Review <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Review this code for: bugs, performance issues, security vulnerabilities, and style inconsistencies. For each issue: name the issue, explain why it matters (severity: critical/major/minor), identify the exact line(s), and provide a corrected version with an explanation of the fix. At the end, give an overall assessment and the top 3 improvements in priority order. Code: [PASTE CODE]</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Refactoring Suggestions <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Suggest refactoring improvements for this code: [PASTE CODE]. Goals: improve readability, reduce duplication, improve testability, and reduce cyclomatic complexity. For each suggestion: show the before and after, explain the benefit, and flag any behaviour changes introduced. Preserve the existing public interface unless I indicate otherwise.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Test Generation <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Generate a comprehensive test suite for this function/module: [PASTE CODE]. Use [TEST FRAMEWORK: pytest/Jest/RSpec/etc]. Include: happy path tests, edge cases (empty inputs, boundary values, null/undefined), error cases (expected exceptions), and any integration scenarios. Add docstrings/comments explaining what each test is verifying. Aim for 100% branch coverage.</div>
+        </div>
+      </div>
+
+      <!-- Architecture Tab -->
+      <div class="tab-pane" id="s05-arch">
+        <div class="prompt-card">
+          <div class="prompt-label">Architecture Decision Record <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Write an Architecture Decision Record (ADR) for this decision: [DECISION DESCRIPTION]. Follow Michael Nygard's ADR format: Title, Status (Proposed/Accepted), Context, Decision, Consequences (positive and negative), Alternatives Considered (with reasons for rejection). Be specific and technical. Context of our system: [SYSTEM DESCRIPTION].</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">System Design Review <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Review this system design for potential issues: [DESCRIBE OR PASTE DESIGN]. Analyse: scalability bottlenecks, single points of failure, data consistency concerns, security vulnerabilities, operational complexity, and observability gaps. For each issue identified: explain the risk, estimate severity, and suggest a mitigation approach. Our scale: [DESCRIBE: requests/day, data volume, team size].</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Migration Plan <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Create a migration plan for moving from [CURRENT STATE] to [TARGET STATE]. Include: migration strategy (big-bang vs phased vs strangler fig), step-by-step execution phases, data migration approach, rollback plan for each phase, risk assessment, estimated timeline, and success criteria. Constraints: [LIST: zero-downtime requirement, data volume, team size, deadline].</div>
+        </div>
+      </div>
+
+      <!-- Planning Tab -->
+      <div class="tab-pane" id="s05-planning">
+        <div class="prompt-card">
+          <div class="prompt-label">Sprint Task Breakdown <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Break down this feature into engineering tasks: [FEATURE DESCRIPTION]. For each task provide: task name, description, story point estimate (Fibonacci: 1/2/3/5/8/13), dependencies on other tasks, technical risks, and acceptance criteria. Flag any tasks that need a spike/research session first. Our team velocity is [X] points per sprint.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Estimation Calibration <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Compare these two sets of sprint tasks and identify where estimates might be inaccurate: Historical tasks with actuals: [PASTE COMPLETED TASKS WITH ESTIMATES VS ACTUALS]. New tasks to estimate: [PASTE NEW TASKS]. Identify patterns in our historical under/over-estimation, flag similar tasks in the new set that are likely to be mis-estimated, and suggest adjusted estimates with reasoning.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Risk Assessment <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Assess the technical risks for this sprint/project: [DESCRIBE SCOPE]. For each risk identified: name it, assign likelihood (High/Medium/Low), assign impact (High/Medium/Low), explain why it's a risk given our context, and suggest a mitigation or contingency. Prioritise risks by likelihood × impact. Context: [TEAM SIZE, TECH STACK, TIMELINE, DEPENDENCIES].</div>
+        </div>
+      </div>
+
+      <!-- Incidents Tab -->
+      <div class="tab-pane" id="s05-incidents">
+        <div class="prompt-card">
+          <div class="prompt-label">Incident Post-Mortem <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Write an incident post-mortem from these notes: [PASTE TIMELINE AND NOTES]. Format: Executive Summary (2–3 sentences), Incident Timeline (chronological, specific times), Root Cause Analysis (5 Whys or equivalent), Impact Assessment (affected users, duration, data impact), Resolution Steps, Action Items (owner, due date, priority for each), and Lessons Learned. Blameless tone throughout.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Incident Status Update <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <div class="prompt-text">Write a stakeholder status update for this ongoing incident: [DESCRIBE INCIDENT]. Include: current status (investigating/identified/monitoring/resolved), impact summary in plain language (no jargon), what the team has done so far, what is being done now, next update time, and expected resolution timeline if known. Audience: non-technical stakeholders. Keep it under 150 words.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 06 ════════════════════════ -->
+<div class="section" id="s06">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Measuring Impact</div>
+      <div class="section-desc">Track the metrics that matter for your engineering team</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>The most effective way to build the case for AI tooling — and to improve your own usage — is to track the right metrics from the start. These four areas provide the most consistent signal for engineering teams in their first 90 days of systematic AI use.</p>
+    </div>
+    <div class="card-grid four">
+      <div class="impact-card">
+        <div class="impact-num">75%</div>
+        <div class="impact-label">Documentation Time Saved</div>
+        <div class="impact-desc">Technical specs, ADRs, and READMEs take a fraction of previous time. Track time-to-first-draft before and after adoption.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">3×</div>
+        <div class="impact-label">Code Review Coverage</div>
+        <div class="impact-desc">AI-assisted review catches more issues per PR. Track issues found per review and security flags raised per sprint.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">60%</div>
+        <div class="impact-label">Faster Incident Response</div>
+        <div class="impact-desc">Faster log analysis and post-mortem drafting reduce MTTR and post-incident documentation time. Track time to post-mortem publication.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">+22%</div>
+        <div class="impact-label">Sprint Accuracy</div>
+        <div class="impact-desc">AI-assisted story breakdown and historical pattern matching improve estimate accuracy. Track estimate vs actual across sprints.</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>Run a 2-Week Baseline First</strong><p>Before adopting AI tooling team-wide, track your baseline metrics for two weeks: documentation time, PRs reviewed per day, time from incident resolution to post-mortem published, and sprint velocity accuracy. After two weeks of AI-assisted work, compare. The delta is your business case — and it's usually compelling enough to accelerate adoption without needing to make an argument.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 07 ════════════════════════ -->
+<div class="section" id="s07">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Common Mistakes &amp; How to Avoid Them</div>
+      <div class="section-desc">Five pitfalls engineers hit in their first months — and what to do instead</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Engineers who struggle with ChatGPT are almost always making one or more of these five mistakes. None of them reflect a fundamental limitation of the tool — they're usage patterns that are easy to correct once identified.</p>
+    </div>
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>Pasting proprietary source code, authentication logic, or customer data into ChatGPT without checking whether your organisation's AI policy permits it on your current plan.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Do This</div>
+        <p>Verify your org's AI usage policy before sharing code. Use ChatGPT Team or Enterprise for code that requires data privacy guarantees. Abstract business-specific identifiers from code before submitting to standard plans.</p>
+      </div>
+    </div>
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>Trusting AI-generated code without testing it. Copying a ChatGPT code suggestion directly into a PR without running it, checking edge cases, or reviewing it against your system's actual constraints.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Do This</div>
+        <p>Treat AI-generated code as a first draft that requires engineering review, not a finished implementation. Always run it, test edge cases, and review it with the same rigour you'd apply to a junior engineer's PR.</p>
+      </div>
+    </div>
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>Using generic prompts without tech stack context — "How do I handle authentication?" without specifying your language, framework, existing auth setup, or security requirements.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Do This</div>
+        <p>Always include your language, framework, architectural constraints, and any relevant conventions. Use Custom Instructions so this context is pre-loaded. The more specific the prompt, the more applicable the output.</p>
+      </div>
+    </div>
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>Using AI as the sole code reviewer. Replacing human code review with AI output, skipping the engineering judgment that catches context-specific issues AI cannot know about.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Do This</div>
+        <p>Use AI review as a first pass that surfaces common issues before human review — not as a replacement for it. This actually makes human review more valuable by letting reviewers focus on system-specific and contextual feedback.</p>
+      </div>
+    </div>
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>Ignoring AI hallucinations in technical documentation. Publishing docs that reference non-existent API parameters, wrong library versions, or incorrect method signatures that ChatGPT invented with confidence.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Do This</div>
+        <p>Always verify API references, library versions, and technical claims against official documentation before publishing. ChatGPT is excellent at structure and narrative — it can be wrong about specific version details. Cross-reference anything specific.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body"><strong>The Pattern Behind Most Mistakes</strong><p>Almost all ChatGPT mistakes in engineering contexts come from one underlying issue: treating the output as final rather than as a high-quality first draft. The engineers getting the most value use ChatGPT to eliminate blank-page problems and compress the time to first draft — then apply their own judgment to refine it. The tool is in the loop, not replacing the loop.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 08 ════════════════════════ -->
+<div class="section" id="s08">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Your Learning Path</div>
+      <div class="section-desc">Related guides to deepen your ChatGPT expertise across engineering contexts</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>This playbook covers the core engineering workflows. These related guides go deeper on specific capabilities that engineers use most frequently — each one is self-contained and can be read in the order that matches your current priorities.</p>
+    </div>
+    <div class="plan-grid">
+      <a class="plan-card" href="ChatGPT-101-User-Guide.html">
+        <div class="plan-num">GUIDE 01</div>
+        <div class="plan-title">ChatGPT 101</div>
+        <div class="plan-desc">The essential foundation — interface, models, core concepts, and your first effective workflows.</div>
+        <span class="plan-arrow">→ Start here if you're new</span>
+      </a>
+      <a class="plan-card" href="ChatGPT-Prompt-Guide-User-Guide.html">
+        <div class="plan-num">GUIDE 02</div>
+        <div class="plan-title">ChatGPT Prompt Guide</div>
+        <div class="plan-desc">Prompt engineering principles — structure, role-setting, chain-of-thought, and iteration techniques.</div>
+        <span class="plan-arrow">→ Improve prompt quality</span>
+      </a>
+      <a class="plan-card" href="ChatGPT-Advanced-Reasoning-User-Guide.html">
+        <div class="plan-num">GUIDE 03</div>
+        <div class="plan-title">ChatGPT Advanced Reasoning</div>
+        <div class="plan-desc">The o1, o3, and reasoning models — when to use them, how they work, and engineering use cases.</div>
+        <span class="plan-arrow">→ Complex debugging and analysis</span>
+      </a>
+      <a class="plan-card" href="ChatGPT-Projects-User-Guide.html">
+        <div class="plan-num">GUIDE 04</div>
+        <div class="plan-title">ChatGPT Projects</div>
+        <div class="plan-desc">Persistent context, file uploads, and organising work by codebase — built for engineering teams.</div>
+        <span class="plan-arrow">→ Set up your team workspace</span>
+      </a>
+      <a class="plan-card" href="ChatGPT-Workflows-User-Guide.html">
+        <div class="plan-num">GUIDE 05</div>
+        <div class="plan-title">ChatGPT Workflows</div>
+        <div class="plan-desc">Automating multi-step processes, Actions integrations, and building repeatable AI workflows.</div>
+        <span class="plan-arrow">→ Automate recurring tasks</span>
+      </a>
+      <a class="plan-card" href="ChatGPT for Data Analysis.html">
+        <div class="plan-num">GUIDE 06</div>
+        <div class="plan-title">ChatGPT for Data Analysis</div>
+        <div class="plan-desc">Code Interpreter, log analysis, chart generation, and statistical analysis for engineering data.</div>
+        <span class="plan-arrow">→ Level up your data work</span>
+      </a>
+      <a class="plan-card" href="ChatGPT API Basics for Non-Developers.html">
+        <div class="plan-num">GUIDE 07</div>
+        <div class="plan-title">ChatGPT API Basics</div>
+        <div class="plan-desc">Integrating the OpenAI API into your own tools and pipelines — endpoints, authentication, and patterns.</div>
+        <span class="plan-arrow">→ Build your own integrations</span>
+      </a>
+    </div>
+
+    <div class="callout tip" style="margin-top:20px">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>Recommended Starting Sequence for Engineers</strong><p>If you're new to the platform: read ChatGPT 101, then this Playbook (you're here), then ChatGPT Projects to set up your team workspace. If you're already using ChatGPT daily: jump to Advanced Reasoning for complex debugging, then ChatGPT Workflows to automate your most repetitive tasks. The API Basics guide is worth reading even if you don't plan to write integrations — it gives you a clearer mental model of what's actually happening when you use the product.</p></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .content-body -->
+</main>
+</div><!-- end .layout -->
+
+<script>
+// Tab switcher
+function switchTab(btn, sectionId, tabId) {
+  // Deactivate all tab buttons in this section
+  const section = document.getElementById(sectionId);
+  section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  section.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  // Activate selected
+  btn.classList.add('active');
+  const pane = document.getElementById(sectionId + '-' + tabId);
+  if (pane) pane.classList.add('active');
+}
+
+// Copy prompt
+function copyPrompt(btn) {
+  const card = btn.closest('.prompt-card');
+  const text = card.querySelector('.prompt-text').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.color = '#10A37F';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.color = '';
+    }, 1800);
+  }).catch(() => {
+    // Fallback for non-secure contexts
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.color = '#10A37F';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.color = '';
+    }, 1800);
+  });
+}
+
+// Scroll-spy for sidebar nav
+(function() {
+  const sections = ['s01','s02','s03','s04','s05','s06','s07','s08'];
+  const navLinks = {};
+  sections.forEach(id => {
+    const el = document.getElementById('nav-' + id);
+    if (el) navLinks[id] = el;
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = entry.target.id;
+      if (navLinks[id]) {
+        if (entry.isIntersecting) {
+          // Remove active from all
+          Object.values(navLinks).forEach(l => l.classList.remove('active'));
+          navLinks[id].classList.add('active');
+        }
+      }
+    });
+  }, {
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+})();
+</script>
+</body>
+</html>

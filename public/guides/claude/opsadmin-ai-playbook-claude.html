@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Ops &amp; Admin Pro's AI Playbook — Claude Edition | The AI Advantage Co</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #C97040;
+      --orange-light: #E09868;
+      --orange-soft: rgba(201,112,64,0.09);
+      --orange-border: rgba(201,112,64,0.20);
+      --sidebar-bg: #3C1E0A;
+      --sidebar-hover: #4E2A12;
+      --sidebar-act: rgba(201,112,64,0.16);
+      --page-bg: #FEF8F0;
+      --white: #FFFFFF;
+      --card-bg: #FFFCF8;
+      --ink: #2C1408;
+      --body-text: #4A3020;
+      --muted: #8A6040;
+      --border: #F0DEC8;
+      --divider: #EDD8BE;
+      --sidebar-w: 268px;
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--page-bg);
+      color: var(--body-text);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ─── LAYOUT ─── */
+    .layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      min-height: 100vh;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      background: var(--sidebar-bg);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: var(--orange-border) transparent;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--orange-border); border-radius: 2px; }
+
+    .sidebar-brand {
+      padding: 22px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .sidebar-brand .brand-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--orange-light);
+      margin-bottom: 4px;
+    }
+    .sidebar-brand .brand-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.4;
+    }
+
+    .sidebar-section-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.30);
+      padding: 18px 20px 6px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 20px;
+      color: rgba(255,255,255,0.72);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      border-left: 3px solid transparent;
+      transition: all 0.18s ease;
+      cursor: pointer;
+    }
+    .nav-link:hover {
+      background: var(--sidebar-hover);
+      color: #fff;
+    }
+    .nav-link.active {
+      background: var(--sidebar-act);
+      color: var(--orange-light);
+      border-left-color: var(--orange);
+      font-weight: 600;
+    }
+    .nav-link .nav-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--orange);
+      min-width: 18px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      font-size: 11px;
+      color: rgba(255,255,255,0.30);
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    .content {
+      padding: 0 0 60px;
+      max-width: 920px;
+    }
+
+    /* ─── BANNER ─── */
+    .banner {
+      width: 100%;
+      height: 260px;
+      background: linear-gradient(135deg, #2A1508 0%, #3C1E0A 30%, #7A3A18 60%, #C97040 85%, #E09868 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    .banner::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .banner::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: 120px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+    }
+    .banner-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--orange-light);
+      margin-bottom: 10px;
+    }
+    .banner-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      max-width: 560px;
+    }
+    .banner-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      max-width: 540px;
+      line-height: 1.5;
+    }
+
+    /* ─── BREADCRUMB + META ─── */
+    .page-meta {
+      padding: 18px 52px 0;
+    }
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .breadcrumb span { color: var(--orange); }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+    }
+    .badge-orange { background: var(--orange); color: #fff; }
+    .badge-outline { background: transparent; border: 1.5px solid var(--orange-border); color: var(--muted); }
+
+    .page-subtitle {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 680px;
+      padding: 12px 52px 20px;
+      border-bottom: 1px solid var(--divider);
+      margin-bottom: 0;
+    }
+
+    /* ─── SECTION CARDS ─── */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 28px 44px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(60,30,10,0.06);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 24px;
+      background: linear-gradient(90deg, var(--orange-soft) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .section-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .section-title span {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-left: 10px;
+    }
+
+    .section-body {
+      padding: 28px 28px 24px;
+    }
+
+    /* ─── PROSE ─── */
+    .prose p { margin-bottom: 14px; font-size: 14.5px; line-height: 1.7; }
+    .prose h3 { font-size: 15px; font-weight: 700; color: var(--ink); margin: 20px 0 8px; }
+    .prose h4 { font-size: 14px; font-weight: 600; color: var(--orange); margin: 16px 0 6px; }
+    .prose ul, .prose ol { padding-left: 22px; margin-bottom: 14px; }
+    .prose li { margin-bottom: 6px; font-size: 14.5px; line-height: 1.6; }
+    .prose strong { color: var(--ink); font-weight: 600; }
+
+    /* ─── CALLOUTS ─── */
+    .callout {
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin: 16px 0;
+      border-left: 4px solid;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .callout-title {
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+    .callout.tip { background: #E8F5E9; border-color: #2E7D32; }
+    .callout.tip .callout-title { color: #1B5E20; }
+    .callout.tip .callout-body { color: #2E7D32; }
+    .callout.warning { background: #FFF8E1; border-color: #F59E0B; }
+    .callout.warning .callout-title { color: #B45309; }
+    .callout.warning .callout-body { color: #78350F; }
+    .callout.info { background: #E3F2FD; border-color: #1565C0; }
+    .callout.info .callout-title { color: #0D47A1; }
+    .callout.info .callout-body { color: #1565C0; }
+    .callout.update { background: #FFF3E0; border-color: var(--orange); }
+    .callout.update .callout-title { color: var(--orange); }
+    .callout.update .callout-body { color: var(--body-text); }
+
+    /* ─── FEATURE CARDS ─── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      border-top: 3px solid var(--orange);
+      padding: 16px;
+    }
+    .feature-card .fc-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .feature-card .fc-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+    .feature-card .fc-desc {
+      font-size: 13px;
+      color: var(--body-text);
+      line-height: 1.55;
+    }
+
+    /* ─── STEPS ─── */
+    .steps { margin: 16px 0; }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+    .step-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+    .step-content { flex: 1; }
+    .step-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .step-desc { font-size: 14px; color: var(--body-text); line-height: 1.6; }
+
+    /* ─── WORKFLOW STEPS ─── */
+    .workflow { margin: 20px 0; }
+    .workflow-item {
+      display: flex;
+      gap: 18px;
+      padding: 18px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      border-left: 4px solid var(--orange);
+    }
+    .workflow-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: var(--orange-soft);
+      border: 2px solid var(--orange);
+      color: var(--orange);
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+    .workflow-body { flex: 1; }
+    .workflow-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .workflow-subtitle {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .workflow-desc { font-size: 14px; color: var(--body-text); line-height: 1.6; margin-bottom: 10px; }
+    .workflow-prompt {
+      background: #2C1408;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-family: 'Inter', monospace;
+      font-size: 12.5px;
+      color: #E8C8A0;
+      line-height: 1.6;
+      position: relative;
+    }
+    .workflow-prompt .prompt-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange-light);
+      margin-bottom: 6px;
+    }
+
+    /* ─── REF TABLE ─── */
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin: 16px 0;
+    }
+    .ref-table th {
+      background: var(--sidebar-bg);
+      color: var(--orange-light);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 11px 14px;
+      text-align: left;
+    }
+    .ref-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--body-text);
+      vertical-align: top;
+    }
+    .ref-table tr:nth-child(even) td { background: var(--orange-soft); }
+    .ref-table tr:last-child td { border-bottom: none; }
+    .ref-table .feature-tag {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .check { color: #2E7D32; font-weight: 700; }
+    .cross { color: #B71C1C; }
+    .partial { color: var(--orange); }
+
+    /* ─── PROMPT TABS ─── */
+    .prompt-tabs { margin: 20px 0; }
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--orange-border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.16s ease;
+    }
+    .tab-btn:hover {
+      background: var(--orange-soft);
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+    .tab-btn.active {
+      background: var(--orange);
+      color: #fff;
+      border-color: var(--orange);
+      font-weight: 600;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .prompt-box {
+      background: #2C1408;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      background: rgba(0,0,0,0.25);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .prompt-label-text {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange-light);
+    }
+    .copy-btn {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s ease;
+    }
+    .copy-btn:hover { background: var(--orange-light); }
+    .copy-btn.copied { background: #2E7D32; }
+    .prompt-text {
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #E8C8A0;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    /* ─── MISTAKE PAIRS ─── */
+    .mistake-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .mistake-card {
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+    .mistake-card.bad {
+      background: #FFF5F5;
+      border: 1px solid #FFCDD2;
+      border-left: 4px solid #E57373;
+    }
+    .mistake-card.good {
+      background: #F1FBF3;
+      border: 1px solid #C8E6C9;
+      border-left: 4px solid #66BB6A;
+    }
+    .mistake-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .mistake-card.bad .mistake-label { color: #C62828; }
+    .mistake-card.good .mistake-label { color: #2E7D32; }
+    .mistake-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    /* ─── IMPACT CARDS ─── */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .impact-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      text-align: center;
+    }
+    .impact-metric {
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--orange);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .impact-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+    .impact-desc {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ─── LEARNING PATH ─── */
+    .learning-path {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .lp-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--orange);
+      text-decoration: none;
+      transition: box-shadow 0.15s ease;
+    }
+    a.lp-item:hover {
+      box-shadow: 0 2px 8px rgba(201,112,64,0.15);
+    }
+    .lp-step {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .lp-body { flex: 1; }
+    .lp-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .lp-guide {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--orange-soft);
+      color: var(--orange);
+      border: 1px solid var(--orange-border);
+      padding: 2px 9px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+    }
+    .lp-desc { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+    /* ─── ADVANCED TECHNIQUE CARDS ─── */
+    .adv-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      margin-bottom: 12px;
+      border-top: 3px solid var(--orange);
+    }
+    .adv-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .adv-icon {
+      font-size: 20px;
+    }
+    .adv-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .adv-desc {
+      font-size: 14px;
+      color: var(--body-text);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .adv-tip {
+      font-size: 13px;
+      color: var(--orange);
+      font-weight: 500;
+    }
+
+    /* ─── ROADMAP ─── */
+    .roadmap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .roadmap-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      border-top: 3px solid var(--orange);
+    }
+    .roadmap-week {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 5px;
+    }
+    .roadmap-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .roadmap-desc {
+      font-size: 13px;
+      color: var(--body-text);
+      line-height: 1.55;
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: var(--divider);
+      margin: 20px 0;
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 820px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+        height: auto;
+        max-height: 320px;
+      }
+      .banner { padding: 0 24px; height: 220px; }
+      .banner-title { font-size: 24px; }
+      .page-meta, .page-subtitle { padding-left: 24px; padding-right: 24px; }
+      .section-card { margin: 20px 16px; }
+      .section-body { padding: 20px 18px; }
+      .card-grid, .card-grid-3, .mistake-pair, .impact-grid, .roadmap { grid-template-columns: 1fr; }
+      .tab-bar { gap: 4px; }
+      .tab-btn { font-size: 12px; padding: 6px 10px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-label">The AI Advantage Co</div>
+      <div class="brand-title">Ops &amp; Admin AI Playbook<br>Claude Edition</div>
+    </div>
+
+    <div class="sidebar-section-label">Contents</div>
+
+    <a class="nav-link active" href="#s01" onclick="scrollTo('s01',this)">
+      <span class="nav-num">01</span>Why AI Matters
+    </a>
+    <a class="nav-link" href="#s02" onclick="scrollTo('s02',this)">
+      <span class="nav-num">02</span>Setting Up Claude
+    </a>
+    <a class="nav-link" href="#s03" onclick="scrollTo('s03',this)">
+      <span class="nav-num">03</span>Daily Workflows
+    </a>
+    <a class="nav-link" href="#s04" onclick="scrollTo('s04',this)">
+      <span class="nav-num">04</span>Advanced Techniques
+    </a>
+    <a class="nav-link" href="#s05" onclick="scrollTo('s05',this)">
+      <span class="nav-num">05</span>Prompt Library
+    </a>
+    <a class="nav-link" href="#s06" onclick="scrollTo('s06',this)">
+      <span class="nav-num">06</span>Measuring Impact
+    </a>
+    <a class="nav-link" href="#s07" onclick="scrollTo('s07',this)">
+      <span class="nav-num">07</span>Common Mistakes
+    </a>
+    <a class="nav-link" href="#s08" onclick="scrollTo('s08',this)">
+      <span class="nav-num">08</span>Learning Path
+    </a>
+
+    <div class="sidebar-footer">
+      June 2026 &nbsp;&middot;&nbsp; The AI Advantage Co
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <main class="content">
+
+    <!-- BANNER -->
+    <div class="banner">
+      <div class="banner-eyebrow">Ops &amp; Admin Playbook &nbsp;/&nbsp; Claude Edition</div>
+      <div class="banner-title">The Ops &amp; Admin Pro's<br>AI Playbook</div>
+      <div class="banner-sub">Your complete guide to using Claude for SOPs, meeting management, vendor communications, process design, reporting, and resource coordination.</div>
+    </div>
+
+    <!-- PAGE META -->
+    <div class="page-meta">
+      <div class="breadcrumb">Documentation &rsaquo; <span>Ops &amp; Admin Playbook</span> &rsaquo; Claude Edition</div>
+      <div class="badges">
+        <span class="badge badge-orange">PLAYBOOK</span>
+        <span class="badge badge-outline">June 2026</span>
+        <span class="badge badge-outline">Operations &amp; Admin Professionals</span>
+      </div>
+    </div>
+    <div class="page-subtitle">
+      Your complete guide to using Claude for SOPs, meeting management, vendor communications, process design, reporting, and resource coordination &mdash; built specifically for operations and admin professionals who keep the organisation running.
+    </div>
+
+    <!-- ─── SECTION 01 ─── -->
+    <div class="section-card" id="s01">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <div class="section-title">Why AI Matters for Operations &amp; Admin <span>The case for Claude in 2026</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>Operations and admin professionals are the backbone of every organisation &mdash; orchestrating processes, documenting procedures, managing meetings, coordinating vendors, and producing the reports that drive executive decisions. The work is critical, high-volume, and relentlessly detail-oriented. The problem is not complexity; it is capacity. There are always more SOPs to write, more meeting minutes to draft, more vendor evaluations to compile, and more reports to generate than there are hours in the day.</p>
+
+          <p>Claude is Anthropic's AI assistant, and it is particularly well-suited to operations work for three reasons. First, its <strong>200K-token context window</strong> means you can feed it an entire SOP library, a quarter's worth of performance data, or a complete policy manual in a single conversation &mdash; and it will reason across all of it coherently. Second, Claude's <strong>careful, structured writing</strong> produces documentation that reads like it was written by an experienced ops professional, not generated by a machine. Third, <strong>Projects</strong> let you build persistent knowledge bases for each operational domain, so Claude already knows your processes, formats, and standards before you ask your first question.</p>
+        </div>
+
+        <div class="callout update">
+          <div class="callout-title">2026 Update</div>
+          <div class="callout-body">Claude Opus 4.7 and Sonnet 4.6 bring significant improvements for operations work. Extended Thinking now handles multi-step process analysis and root cause investigation with genuine depth &mdash; it reasons through process bottlenecks, dependency chains, and resource conflicts rather than producing surface-level recommendations. The 200K context window means your entire SOP library, org chart, and process documentation can be loaded into a single Project, making Claude a true operational knowledge base.</div>
+        </div>
+
+        <div class="card-grid">
+          <div class="feature-card">
+            <span class="fc-icon">📋</span>
+            <div class="fc-title">SOP Documentation</div>
+            <div class="fc-desc">What took 8 hours of drafting, formatting, and revising is now completed in 45 minutes. Claude's Extended Thinking mode produces comprehensive SOPs with proper RACI matrices, exception handling, and escalation paths &mdash; structured documentation that process owners can review and approve rather than rewrite.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">📝</span>
+            <div class="fc-title">Meeting Management</div>
+            <div class="fc-desc">Agendas with time allocations and objectives, structured minutes with decision records, and action item trackers with owners and due dates &mdash; Claude's structured output capability turns meeting management from a time drain into a 10-minute task. Paste your notes; get publication-ready documents.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">📧</span>
+            <div class="fc-title">Vendor Communications</div>
+            <div class="fc-desc">Claude's diplomatic, nuanced tone is ideal for vendor management &mdash; from RFP responses and evaluation matrices to contract negotiation correspondence and performance review communications. It strikes the right balance between professional authority and relationship-building warmth.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">📊</span>
+            <div class="fc-title">Report Generation</div>
+            <div class="fc-desc">Feed Claude an entire quarter's operational data &mdash; KPIs, utilisation figures, budget actuals, incident logs &mdash; and receive a C-suite-ready report with executive summary, traffic-light dashboards, trend analysis, and forward-looking recommendations. The 200K context window makes this possible in a single pass.</div>
+          </div>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-title">The Core Advantage for Ops Professionals</div>
+          <div class="callout-body">Large organisations have dedicated process teams, technical writers, and business analysts. Claude gives operations professionals access to the same quality of documentation, analysis, and communication &mdash; on demand, at a fraction of the cost. The ops team that uses Claude effectively produces the output quality of a team twice its size, while reclaiming 30+ hours per month for higher-value strategic work.</div>
+        </div>
+
+        <div class="prose">
+          <h3>Who This Playbook Is For</h3>
+          <ul>
+            <li><strong>Operations managers and coordinators</strong> responsible for process documentation, workflow design, and operational reporting</li>
+            <li><strong>Executive assistants and office managers</strong> managing meetings, schedules, vendor relationships, and internal communications</li>
+            <li><strong>HR operations professionals</strong> handling onboarding processes, policy documentation, and compliance checklists</li>
+            <li><strong>Procurement and facilities staff</strong> managing vendor evaluations, contract correspondence, and resource allocation</li>
+            <li><strong>IT operations and project coordinators</strong> building runbooks, incident procedures, and capacity plans</li>
+            <li><strong>Anyone in an admin role</strong> who spends too much time on documentation and not enough on the work that documentation supports</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 02 ─── -->
+    <div class="section-card" id="s02">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <div class="section-title">Setting Up Claude for Operations Work <span>Your first 30 minutes</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>A well-configured Claude environment transforms every subsequent interaction. For operations work, setup is not optional &mdash; it is the difference between generic AI output and documentation that matches your organisation's standards, terminology, and formatting conventions from the first prompt.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Choose Claude Pro or Team Plan</div>
+              <div class="step-desc">Operations work demands <strong>Projects</strong> (for persistent knowledge bases), <strong>Extended Thinking</strong> (for complex process analysis), and the full <strong>200K context window</strong> (for loading entire SOP libraries). The Pro plan ($20/month) unlocks all three. If your team has multiple ops professionals, the Team plan adds shared Projects &mdash; meaning your Operations Hub is accessible to every team member, with consistent standards across all outputs.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Create a Project Called "Operations Hub"</div>
+              <div class="step-desc">Go to <strong>Projects &rarr; New Project</strong> and name it "Operations Hub". This is your central operational knowledge base. Upload: your current SOP templates and formatting standards, your organisational chart (PDF or doc), key process documents and workflow diagrams, your standard report templates, and any style guide or documentation standards your organisation follows. Claude will reference all of this automatically in every conversation within this Project.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Set Project Custom Instructions for Ops Standards</div>
+              <div class="step-desc">Inside your Operations Hub project, set custom instructions that establish your formatting conventions. Include: your organisation name and structure, documentation format standards (numbering system, heading hierarchy, revision tracking format), terminology preferences (do you say "procedure" or "process"? "team member" or "employee"?), approval and sign-off conventions, and any compliance frameworks your documentation must reference (ISO, SOC 2, internal audit standards). This ensures every document Claude produces is already in your house style.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Configure Memory for Persistent Organisational Context</div>
+              <div class="step-desc">Use Claude's Memory feature to store facts that recur across all your ops work: key stakeholder names and their roles, standard meeting cadences and attendees, recurring project names and codes, budget cycle dates, and vendor contract renewal dates. Memory stores persistent facts; Projects store documents. Together, they mean Claude knows both your processes <em>and</em> the people and timelines involved.</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <div class="step-title">Create Domain-Specific Projects</div>
+              <div class="step-desc">Beyond your central Operations Hub, create separate Projects for each operational domain: <strong>HR Ops</strong> (onboarding checklists, policy templates, employee handbook sections), <strong>Procurement</strong> (vendor evaluation matrices, RFP templates, contract templates), <strong>Facilities</strong> (maintenance schedules, safety procedures, space allocation plans), and <strong>IT Ops</strong> (runbooks, incident response procedures, change management templates). Each Project carries its own context and instructions, so outputs are tailored to the specific domain.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <div class="callout-title">Claude Projects Are the #1 Ops Productivity Multiplier</div>
+          <div class="callout-body">Most AI tools force you to re-explain your context every session. Claude Projects with 200K context means your entire SOP library, org chart, process documentation, and formatting standards are loaded automatically &mdash; every single time. A new SOP request that would require 15 minutes of context-setting on other tools starts immediately in Claude, with your standards already applied. This single feature justifies the Pro subscription for any operations professional.</div>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-title">Pro Tip &mdash; Test Your Setup</div>
+          <div class="callout-body">After configuring your Operations Hub, test it by asking: "Draft a one-page SOP for requesting office supplies, following our documentation standards." If the output uses your numbering format, includes your standard sections, and references your organisational structure, the setup is working. If it produces a generic template, refine your custom instructions with more specific formatting guidance and upload more example documents.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 03 ─── -->
+    <div class="section-card" id="s03">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <div class="section-title">Daily Workflows <span>6 core tasks Claude handles for ops professionals</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>These six workflows represent the highest-value, highest-volume tasks that operations and admin professionals perform daily. Each one is built around Claude's specific strengths &mdash; structured output, long-context reasoning, and careful, professional writing &mdash; with prompts you can copy and customise immediately.</p>
+        </div>
+
+        <div class="workflow">
+
+          <!-- Workflow 1 -->
+          <div class="workflow-item">
+            <div class="workflow-num">1</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">SOP Creation &amp; Documentation</div>
+              <div class="workflow-title">Standard Operating Procedures &amp; Process Documentation</div>
+              <div class="workflow-desc">Claude excels at producing comprehensive, well-structured SOPs that follow your organisation's documentation standards. Its Extended Thinking mode reasons through the logical flow of a process, identifies missing steps, and flags areas where exception handling is needed &mdash; the kind of thorough analysis that usually requires multiple review cycles. Upload your SOP template to the Operations Hub Project, and every new procedure document will match your house format automatically.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                I need to create a comprehensive standard operating procedure for [PROCESS]. Context: this is for our [DEPARTMENT] team of [SIZE] people. Their technical proficiency is [LEVEL]. Please include: Purpose &amp; Scope, Definitions, Roles &amp; Responsibilities (RACI format), Detailed Procedure (numbered steps with sub-steps), Quality Checkpoints, Exception Handling, Escalation Matrix, and Revision History. Use clear, directive language. Flag any steps where you'd recommend adding a screenshot or diagram.
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 2 -->
+          <div class="workflow-item">
+            <div class="workflow-num">2</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Meeting Management</div>
+              <div class="workflow-title">Agendas, Minutes &amp; Action Item Tracking</div>
+              <div class="workflow-desc">Claude transforms raw meeting notes into structured, actionable documents in minutes. It creates agendas with clear time allocations and objectives per item, minutes with decision records and rationale, and action trackers with owners and due dates. Use Artifacts to build a reusable meeting template for each recurring meeting &mdash; weekly team syncs, monthly ops reviews, quarterly planning sessions &mdash; so the format is consistent and Claude fills in the specifics each time.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                Create a structured meeting agenda for our [TYPE] meeting. Context: [BRIEF BACKGROUND]. Attendees and their roles: [LIST]. Duration: [TIME]. Topics requiring decisions: [LIST]. Topics for information only: [LIST]. For each agenda item, specify: time allocation, presenter, objective (Decision / Discussion / FYI), pre-reading required, and the specific question to be answered. Include a standing items section and an action item tracker with columns for: Action, Owner, Due Date, Status.
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 3 -->
+          <div class="workflow-item">
+            <div class="workflow-num">3</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Vendor Communication &amp; Evaluation</div>
+              <div class="workflow-title">Vendor Scoring, Comparison &amp; Correspondence</div>
+              <div class="workflow-desc">Claude's nuanced, diplomatic writing is ideal for vendor management &mdash; striking the balance between professional authority and partnership-building warmth. It produces weighted evaluation matrices, comparative analyses, and professional correspondence that positions your organisation as a thoughtful, well-prepared buyer. Paste vendor proposals directly into the conversation; Claude's 200K context can handle multiple proposals simultaneously for side-by-side comparison.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                Help me draft a vendor evaluation for [SERVICE/PRODUCT]. I'm comparing these vendors: [DETAILS]. Evaluation criteria (weighted): [LIST WITH WEIGHTS]. For each vendor, provide: a scoring matrix (1-5 per criterion, weighted), key strengths, key risks, contract considerations, and a recommendation summary. Then draft a professional email to the recommended vendor expressing interest and requesting: a detailed proposal, reference clients in our industry, and a pilot program outline. Tone should be professional but warm &mdash; we want to build a partnership, not just procure a service.
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 4 -->
+          <div class="workflow-item">
+            <div class="workflow-num">4</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Process Mapping &amp; Optimisation</div>
+              <div class="workflow-title">Workflow Design, Gap Analysis &amp; Improvement Plans</div>
+              <div class="workflow-desc">This is where Claude's Extended Thinking genuinely shines. Describe a current process in detail &mdash; including the pain points, handoff failures, and bottlenecks your team experiences &mdash; and Claude will map the current state, identify systemic issues, design an optimised future state, and produce a phased implementation plan. The depth of analysis rivals what a process improvement consultant would deliver, and it is available on demand for any process in your organisation.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                I need to document and optimise this business process. Current state: [DESCRIBE IN DETAIL]. Pain points we've identified: [LIST]. Constraints: [BUDGET/TIMELINE/SYSTEMS]. Please: 1) Document the current process as a numbered flow with decision points, 2) Identify bottlenecks, redundancies, and handoff risks, 3) Propose an optimised future-state process, 4) Create a gap analysis between current and future state, 5) Draft an implementation plan with phases, quick wins, and dependencies. Use clear process mapping language.
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 5 -->
+          <div class="workflow-item">
+            <div class="workflow-num">5</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Operational Reporting</div>
+              <div class="workflow-title">Performance Reports, Dashboards &amp; Executive Summaries</div>
+              <div class="workflow-desc">Claude converts raw operational data into polished, decision-ready reports. Feed it your KPIs, utilisation figures, incident counts, budget actuals, and project status updates &mdash; and it produces an executive summary, traffic-light dashboard, detailed performance breakdown, and forward-looking recommendations. The 200K context window means you can paste an entire quarter's worth of data and get trend analysis across the full period, not just a snapshot.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                Generate a [WEEKLY/MONTHLY] operations report for [DEPARTMENT]. Data points: [PASTE OR DESCRIBE KEY METRICS]. Structure it as: Executive Summary (3 bullet points max), KPI Dashboard (use traffic-light format: green = on track, amber = at risk, red = off track), Detailed Performance by Area, Notable Achievements, Issues &amp; Remediation Plans (each with owner, timeline, status), Resource Utilisation Summary, Forward Look (next period priorities), and Appendix for supporting data. Write for a C-suite audience &mdash; concise, data-driven, action-oriented.
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow 6 -->
+          <div class="workflow-item">
+            <div class="workflow-num">6</div>
+            <div class="workflow-body">
+              <div class="workflow-subtitle">Resource Coordination &amp; Capacity Planning</div>
+              <div class="workflow-title">Team Allocation, Utilisation Forecasts &amp; Contingency Plans</div>
+              <div class="workflow-desc">Resource planning requires balancing multiple constraints simultaneously &mdash; skills, availability, deadlines, budget, and risk. Claude's Extended Thinking works through these constraints methodically, producing allocation matrices, utilisation forecasts, and contingency plans that account for realistic scenarios like leave, skill gaps, and single-points-of-failure. It turns what would be hours of spreadsheet work into a structured plan you can review and refine.</div>
+              <div class="workflow-prompt">
+                <div class="prompt-label">Ready-to-Use Prompt</div>
+                Create a resource allocation and capacity plan for [PROJECT/QUARTER]. Team: [LIST WITH ROLES, FTE, SKILLS]. Deliverables: [LIST WITH DEADLINES AND ESTIMATED EFFORT]. Constraints: [LEAVE SCHEDULES, BUDGET, SKILL GAPS]. Build: 1) A capacity matrix showing available hours per person per week, 2) Assignment recommendations matching skills to deliverables, 3) Utilisation forecast (flag anyone over 85% or under 50%), 4) Risk assessment for single-points-of-failure, 5) Contingency plan for the top 3 resource risks. Present in a clear tabular format.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-title">The Ops Morning Routine</div>
+          <div class="callout-body">Many operations professionals use Claude for a focused 20-minute morning session: draft minutes from yesterday's meetings (Workflow 2), update the weekly ops report with overnight data (Workflow 5), and respond to any vendor correspondence in the queue (Workflow 3). Three tasks that previously consumed the first 90 minutes of the day, completed before the first meeting starts.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 04 ─── -->
+    <div class="section-card" id="s04">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <div class="section-title">Advanced Techniques <span>Power features for operations professionals</span></div>
+      </div>
+      <div class="section-body">
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">🗂️</span>
+            <div class="adv-title">Projects as Department Knowledge Bases</div>
+          </div>
+          <div class="adv-desc">The most powerful Claude feature for operations work is Projects used as living knowledge bases. Upload your entire SOP library, policy manual, org chart, and process documentation into a single Project. Claude references all of it automatically in every conversation, meaning new SOPs are consistent with existing ones, reports reference the correct KPI definitions, and meeting documents use your established formats. This eliminates the single biggest time-waste in operations AI use: re-explaining your context.</div>
+          <div class="adv-tip">&rarr; Advanced use: Create a "master" Operations Hub Project for cross-cutting work, plus domain-specific Projects (HR Ops, Procurement, IT Ops, Facilities) each with their own specialised knowledge and custom instructions. Switch between them based on the task.</div>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">🔮</span>
+            <div class="adv-title">Extended Thinking for Process Analysis &amp; Optimisation</div>
+          </div>
+          <div class="adv-desc">Extended Thinking is not just "thinking longer" &mdash; it is Claude reasoning through complex, multi-variable problems step by step before producing output. For operations, this is transformative for: process bottleneck analysis (feeding in the full current-state process and letting Claude reason through failure modes), root cause investigation (pasting incident data and asking Claude to identify systemic patterns), capacity planning (balancing multiple constraints simultaneously), and policy gap analysis (comparing current policies against a compliance framework). The visible reasoning chain lets you validate Claude's logic before accepting its recommendations.</div>
+          <div class="adv-tip">&rarr; Trigger explicitly: "Think carefully about the dependencies and failure modes in this process before recommending changes" activates deeper analysis than a standard prompt.</div>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">💾</span>
+            <div class="adv-title">Memory for Persistent Organisational Context</div>
+          </div>
+          <div class="adv-desc">Memory stores persistent facts across all your conversations &mdash; separate from the documents stored in Projects. For ops professionals, Memory is ideal for: team structure and reporting lines, budget codes and cost centre numbers, standard acronyms and terminology your organisation uses, recurring meeting schedules and attendees, vendor contact details and contract renewal dates, and project phase names and milestone dates. Memory ensures Claude knows your organisational context even when you start a fresh conversation outside a Project.</div>
+          <div class="adv-tip">&rarr; Review Memory periodically: as team structures change, budgets shift, and projects evolve, update Memory to keep Claude's organisational knowledge current. Stale memory produces stale outputs.</div>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">📄</span>
+            <div class="adv-title">Artifacts for Shareable Templates &amp; Documents</div>
+          </div>
+          <div class="adv-desc">Artifacts are Claude's reusable, editable document format &mdash; and they are ideal for the template-heavy nature of operations work. Create Artifacts for: SOP templates (with your standard sections pre-structured), meeting agenda and minutes templates (one per meeting type), report templates (weekly ops report, monthly executive summary, quarterly review), onboarding checklists, and incident report forms. Store them in the relevant Project. When you need a new SOP, open the Artifact template, provide the process details, and Claude populates the structure without regenerating it from scratch.</div>
+          <div class="adv-tip">&rarr; Version your Artifacts: add a revision note when you update a template &mdash; "V3: Added cybersecurity compliance section per Q2 audit findings" &mdash; so you can track how your templates evolve.</div>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">📐</span>
+            <div class="adv-title">200K Context Window for Quarterly Analysis</div>
+          </div>
+          <div class="adv-desc">Claude's 200K-token context window (roughly 150,000 words) means you can feed it an extraordinary volume of operational data in a single conversation. Paste an entire quarter's weekly reports and ask for trend analysis. Upload all your department's SOPs and ask for consistency audit. Feed in three months of incident logs and ask for pattern identification. Load multiple vendor proposals for side-by-side evaluation. This capability turns analysis that would take days of manual review into a single conversation.</div>
+          <div class="adv-tip">&rarr; Structure your data before pasting: use clear headings and date labels so Claude can parse the temporal sequence. "Week 1 &mdash; Jan 6" is better than an unstructured data dump.</div>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-card-header">
+            <span class="adv-icon">🔄</span>
+            <div class="adv-title">Multi-Turn Conversations for Iterative Refinement</div>
+          </div>
+          <div class="adv-desc">Complex operational documents rarely emerge perfectly from a single prompt. Claude's conversational nature is a feature, not a limitation. Draft an SOP, then ask Claude to "add more detail to the exception handling section." Generate a report, then say "the executive summary is too long &mdash; tighten it to 3 bullet points." Build a process map, then request "add decision points for the approval thresholds we discussed." Each iteration builds on the previous output within the same conversation, refining the document through the kind of collaborative editing that produces genuinely high-quality operational documentation.</div>
+          <div class="adv-tip">&rarr; Use explicit editing language: "Revise section 3.2 to include..." is more precise than "Can you update the document?" Specificity produces better iterations.</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;">Claude Features for Operations Work &mdash; By Plan</h3>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>What it does for ops work</th>
+              <th>Free</th>
+              <th>Pro</th>
+              <th>Team</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Claude Sonnet 4.6</strong></td>
+              <td>Fast documentation, meeting notes, routine correspondence</td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="check">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td><strong>Claude Opus 4.7</strong></td>
+              <td>Complex process analysis, strategic reporting, Extended Thinking</td>
+              <td><span class="cross">&ndash;</span></td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="check">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td><strong>Projects</strong></td>
+              <td>Persistent SOP library, org context, formatting standards</td>
+              <td><span class="cross">&ndash;</span></td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="check">&#10003; Shared</span></td>
+            </tr>
+            <tr>
+              <td><strong>Artifacts</strong></td>
+              <td>Reusable SOP templates, report templates, checklists</td>
+              <td><span class="cross">&ndash;</span></td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="check">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td><strong>Extended Thinking</strong></td>
+              <td>Process optimisation, root cause analysis, capacity planning</td>
+              <td><span class="cross">&ndash;</span></td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="check">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td><strong>Memory</strong></td>
+              <td>Team structure, budget codes, project context across sessions</td>
+              <td><span class="cross">&ndash;</span></td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="check">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td><strong>200K Context</strong></td>
+              <td>Load entire SOP library, quarterly data, multiple vendor proposals</td>
+              <td><span class="partial">Limited</span></td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="check">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td><strong>File Uploads</strong></td>
+              <td>Upload SOPs, org charts, process docs, vendor proposals</td>
+              <td><span class="partial">Limited</span></td>
+              <td><span class="check">&#10003;</span></td>
+              <td><span class="check">&#10003;</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 05 ─── -->
+    <div class="section-card" id="s05">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <div class="section-title">Prompt Library <span>15 ready-to-use prompts across 5 operations areas</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>Copy any prompt below &mdash; replace the bracketed placeholders with your specifics, and use within your Operations Hub Project for best results. Each prompt is engineered for Claude's specific strengths in structured documentation and careful reasoning.</p>
+        </div>
+
+        <div class="prompt-tabs">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'s05','docs')">Documentation (3)</button>
+            <button class="tab-btn" onclick="switchTab(this,'s05','comms')">Communications (3)</button>
+            <button class="tab-btn" onclick="switchTab(this,'s05','analysis')">Analysis (3)</button>
+            <button class="tab-btn" onclick="switchTab(this,'s05','planning')">Planning (3)</button>
+            <button class="tab-btn" onclick="switchTab(this,'s05','templates')">Templates (3)</button>
+          </div>
+
+          <!-- DOCUMENTATION TAB -->
+          <div class="tab-panel active" id="s05-docs">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Process Documentation Template</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Create a comprehensive process document for [PROCESS NAME] following our documentation standards from this Project.
+
+Context:
+- Department: [DEPARTMENT]
+- Process owner: [NAME/ROLE]
+- Process frequency: [DAILY / WEEKLY / AD-HOC / TRIGGERED BY EVENT]
+- Current pain points: [LIST ANY KNOWN ISSUES]
+
+Document structure:
+1. Document Control (ID, version, effective date, next review date)
+2. Purpose &amp; Scope (what this process covers and what it explicitly excludes)
+3. Definitions &amp; Acronyms (any terms a new team member would not know)
+4. Roles &amp; Responsibilities (RACI matrix for all stakeholders)
+5. Prerequisites &amp; Inputs (what must be true before this process starts)
+6. Procedure (numbered steps with sub-steps, decision points marked with IF/THEN)
+7. Quality Checkpoints (verification steps at critical junctures)
+8. Exception Handling (what to do when the standard flow does not apply)
+9. Escalation Matrix (who to contact, when, and how)
+10. Outputs &amp; Deliverables (what this process produces)
+11. Related Documents (cross-references to other SOPs)
+12. Revision History
+
+Use clear, directive language ("The coordinator shall..." not "The coordinator should..."). Flag any steps that would benefit from a screenshot, diagram, or flowchart.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Policy Draft with Compliance Checkpoints</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Draft a formal policy document for [POLICY TOPIC] for our organisation.
+
+Context:
+- Applicable to: [ALL STAFF / SPECIFIC DEPARTMENTS / CONTRACTORS]
+- Regulatory framework: [ISO 27001 / SOC 2 / GDPR / INTERNAL ONLY / OTHER]
+- Existing related policies: [LIST ANY POLICIES THIS RELATES TO]
+- Key requirements this policy must address: [LIST]
+
+Policy structure:
+1. Policy Statement (2-3 sentences &mdash; the "what and why" at a glance)
+2. Scope &amp; Applicability (who this policy applies to, with exceptions)
+3. Definitions
+4. Policy Requirements (numbered, specific, enforceable statements)
+5. Compliance Checkpoints (how compliance is verified, by whom, how often)
+6. Roles &amp; Responsibilities
+7. Consequences of Non-Compliance (escalation tiers)
+8. Related Policies &amp; References
+9. Review Schedule (annual, triggered by X)
+10. Approval &amp; Sign-Off Block
+
+Write in formal policy language. Each requirement must be specific and testable &mdash; avoid vague statements like "employees should exercise caution." Include a compliance checklist as an appendix that auditors can use to verify adherence.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Knowledge Base Article for Internal Wiki</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Write an internal knowledge base article for [TOPIC] for our company wiki.
+
+Audience: [ALL STAFF / SPECIFIC TEAM / NEW HIRES]
+The reader's goal: [WHAT THEY'RE TRYING TO ACCOMPLISH WHEN THEY FIND THIS ARTICLE]
+Technical level: [NON-TECHNICAL / SOMEWHAT TECHNICAL / TECHNICAL]
+
+Article structure:
+1. Title (clear, searchable &mdash; how someone would phrase it in a search box)
+2. Summary (2-3 sentence TL;DR at the top)
+3. When to use this article (specific scenarios)
+4. Step-by-step instructions (numbered, with screenshots noted where helpful)
+5. Common issues &amp; troubleshooting (FAQ format &mdash; "If X happens, do Y")
+6. Related articles (cross-links to other relevant wiki pages)
+7. Contact for help (who to reach out to if this article does not resolve the issue)
+
+Write in a helpful, direct tone &mdash; this is an internal resource, not a formal policy. Use short sentences and clear formatting. Anticipate the 3 most likely points of confusion and address them proactively.</div>
+            </div>
+          </div>
+
+          <!-- COMMUNICATIONS TAB -->
+          <div class="tab-panel" id="s05-comms">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Stakeholder Update Email &mdash; Executive Tone</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Draft a stakeholder update email about [PROJECT/INITIATIVE/CHANGE].
+
+Recipients: [WHO &mdash; SENIOR LEADERSHIP / CROSS-FUNCTIONAL TEAM / BOARD]
+Context: [WHAT'S HAPPENING AND WHY THEY NEED TO KNOW]
+Key update: [THE ONE THING THEY MUST TAKE AWAY]
+Decisions needed from them: [IF ANY]
+Risks or issues to flag: [IF ANY]
+
+Requirements:
+- Executive-appropriate tone: concise, confident, data-backed
+- Lead with the headline &mdash; the most important information in the first two sentences
+- Use bullet points for key metrics or status updates
+- Traffic-light status for each workstream if applicable (On Track / At Risk / Blocked)
+- Close with a clear next step or ask
+- Under 250 words &mdash; executives scan, they don't read
+- No filler phrases ("I wanted to take this opportunity to..." / "As you are aware...")</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Change Management Announcement</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Write an internal announcement about [CHANGE &mdash; NEW PROCESS / SYSTEM / POLICY / RESTRUCTURE].
+
+Audience: [WHO IS AFFECTED]
+What is changing: [SPECIFIC DETAILS]
+Why it is changing: [THE REAL REASON &mdash; BE HONEST]
+When it takes effect: [DATE/TIMELINE]
+What staff need to do: [SPECIFIC ACTIONS REQUIRED]
+Support available: [TRAINING / FAQ / CONTACT PERSON]
+
+Requirements:
+- Empathetic, clear, and direct &mdash; acknowledge that change is disruptive
+- Lead with the "why" before the "what" &mdash; people accept change better when they understand the reason
+- Be specific about what changes and what stays the same
+- Address the top 3 concerns people will have (anticipate them)
+- Include a clear timeline: what happens when
+- Close with where to get help and who to contact with questions
+- Tone: respectful, not corporate-speak. Write like a human manager, not a legal team
+- Under 350 words</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Cross-Department Collaboration Request</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Draft a collaboration request email to [DEPARTMENT/TEAM] from our operations team.
+
+What we need from them: [SPECIFIC DELIVERABLE OR SUPPORT]
+Why: [BUSINESS CONTEXT &mdash; THE OUTCOME THIS ENABLES]
+Timeline: [WHEN WE NEED IT BY]
+Our contribution: [WHAT WE'RE PROVIDING IN RETURN / HOW WE'LL MAKE THIS EASY FOR THEM]
+Level of effort for them: [HONEST ESTIMATE]
+
+Requirements:
+- Professional but collegial tone &mdash; we are asking for help, not directing work
+- Lead with the shared business outcome, not our department's need
+- Be specific about what we need, by when, and what "done" looks like
+- Acknowledge their workload and offer to accommodate their timeline where possible
+- Propose a specific next step (15-minute call, brief meeting, async handoff)
+- Under 200 words
+- Do not use phrases like "at your earliest convenience" or "when you get a chance" &mdash; be specific about timing</div>
+            </div>
+          </div>
+
+          <!-- ANALYSIS TAB -->
+          <div class="tab-panel" id="s05-analysis">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Process Efficiency Audit</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Think carefully about this process, then conduct a thorough efficiency audit.
+
+Process: [NAME]
+Current state documentation: [PASTE OR REFERENCE THE EXISTING SOP/DESCRIPTION]
+Known issues reported by the team: [LIST]
+Volume: [HOW MANY TIMES PER DAY/WEEK/MONTH THIS PROCESS RUNS]
+Current average cycle time: [IF KNOWN]
+Systems involved: [LIST OF TOOLS/SYSTEMS]
+
+Audit deliverables:
+1. Process Flow Assessment &mdash; map the current flow, flag every handoff point, decision branch, and wait state
+2. Bottleneck Identification &mdash; where does work stall, queue, or require rework?
+3. Redundancy Check &mdash; are any steps duplicated, unnecessary, or vestigial?
+4. Automation Candidates &mdash; which steps could be automated or semi-automated?
+5. Error Frequency Points &mdash; where do mistakes most commonly occur and why?
+6. Recommendations (prioritised) &mdash; Quick Wins (under 1 week), Medium-term (1-4 weeks), Strategic (1-3 months)
+7. Estimated Impact &mdash; projected time/cost savings for each recommendation
+
+Be specific, not generic. "Streamline the approval process" is not useful. "Replace the 3-email approval chain with a single form submission to the finance approver, reducing the average approval time from 4 days to same-day" is useful.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Vendor Risk Assessment</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Conduct a risk assessment for our vendor relationship with [VENDOR NAME].
+
+Vendor details:
+- Service provided: [WHAT THEY DO FOR US]
+- Contract value: [ANNUAL/TOTAL]
+- Contract term: [START/END DATES]
+- Dependency level: [CRITICAL / IMPORTANT / CONVENIENCE]
+- Current performance: [ANY KNOWN ISSUES OR STRENGTHS]
+
+Risk assessment framework:
+1. Financial Risk &mdash; vendor financial stability, pricing sustainability, cost escalation risk
+2. Operational Risk &mdash; SLA adherence, capacity to scale, single-point-of-failure risk
+3. Compliance Risk &mdash; data handling, regulatory alignment, certification status
+4. Strategic Risk &mdash; vendor lock-in, market position, acquisition risk, technology roadmap alignment
+5. Reputational Risk &mdash; vendor's public reputation, ethical concerns, ESG alignment
+6. Transition Risk &mdash; ease of switching to alternative vendor, data portability, knowledge transfer
+
+For each risk category: rate (Low/Medium/High), provide specific evidence or reasoning, and recommend a mitigation action. Summarise with an overall risk rating and a recommended action (Maintain / Monitor Closely / Develop Contingency / Begin Transition Planning).</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Budget Variance Deep-Dive</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Analyse this budget variance data and produce an executive-ready variance report.
+
+Budget data: [PASTE YOUR BUDGET VS ACTUAL DATA &mdash; BY LINE ITEM OR CATEGORY]
+Period: [MONTH/QUARTER]
+Department: [NAME]
+Context: [ANY KNOWN REASONS FOR VARIANCES]
+
+Report structure:
+1. Executive Summary (3 sentences &mdash; overall position, biggest driver, recommended action)
+2. Variance Dashboard (table: Category, Budget, Actual, Variance $, Variance %, Status)
+3. Material Variances (any variance over 10% or $[THRESHOLD] &mdash; detailed explanation for each)
+4. Root Cause Analysis (for the top 3 negative variances &mdash; what happened and why)
+5. Favourable Variances (positive variances that may indicate under-investment or timing differences)
+6. Forecast Impact (how these variances affect the full-year forecast)
+7. Recommended Actions (specific actions with owners, not generic "review spending")
+8. Risks to Watch (items trending toward variance in the next period)
+
+Write for a CFO audience. Be direct about problems. Do not bury bad news. Distinguish between one-time variances and systemic trends.</div>
+            </div>
+          </div>
+
+          <!-- PLANNING TAB -->
+          <div class="tab-panel" id="s05-planning">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Project Kickoff Brief with RACI</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Create a project kickoff brief for [PROJECT NAME].
+
+Project context:
+- Sponsor: [NAME/ROLE]
+- Project Manager: [NAME]
+- Objective: [WHAT SUCCESS LOOKS LIKE IN ONE SENTENCE]
+- Background: [WHY THIS PROJECT EXISTS &mdash; THE BUSINESS DRIVER]
+- Scope: [IN-SCOPE AND EXPLICITLY OUT-OF-SCOPE ITEMS]
+- Timeline: [START DATE &mdash; TARGET END DATE]
+- Budget: [IF APPLICABLE]
+- Key stakeholders: [LIST WITH ROLES]
+- Dependencies: [OTHER PROJECTS, SYSTEMS, OR TEAMS THIS DEPENDS ON]
+
+Brief structure:
+1. Project Charter Summary (1 page &mdash; objective, scope, success criteria, timeline, budget)
+2. RACI Matrix (Responsible, Accountable, Consulted, Informed for each major deliverable)
+3. Milestone Timeline (key dates and what must be complete by each)
+4. Risk Register (top 5 risks with likelihood, impact, mitigation, owner)
+5. Communication Plan (who gets updates, how often, in what format)
+6. Decision Log Template (for tracking decisions made during the project)
+7. Success Criteria (specific, measurable criteria for project completion)
+
+Create as an Artifact so this can be shared with stakeholders directly.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Quarterly Business Review Deck Outline</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Create a detailed slide-by-slide outline for our [Q1/Q2/Q3/Q4] Quarterly Business Review presentation.
+
+Department: [NAME]
+Audience: [SENIOR LEADERSHIP / BOARD / CROSS-FUNCTIONAL PEERS]
+Quarter performance: [PASTE KEY METRICS OR SUMMARISE]
+Key achievements: [LIST TOP 3-5]
+Key challenges: [LIST WITH CONTEXT]
+Next quarter priorities: [LIST]
+
+Slide-by-slide outline:
+- For each slide: title, key message (one sentence), content bullets (3-5), data/visual suggestion, speaker notes (2-3 talking points)
+- Total presentation: 12-15 slides, designed for a 30-minute presentation with 15 minutes of Q&amp;A
+- Flow: Performance Summary &rarr; KPI Deep-Dive &rarr; Achievements &rarr; Challenges &amp; Remediation &rarr; Team &amp; Resource Update &rarr; Next Quarter Plan &rarr; Risks &amp; Dependencies &rarr; Ask / Decision Required
+
+Write slide content for the speaker, not the audience &mdash; bullets should be talking points, not paragraphs. Suggest one chart or data visual per slide where applicable.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Workforce Capacity Model</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Build a workforce capacity model for [TEAM/DEPARTMENT] for [NEXT QUARTER / NEXT 6 MONTHS].
+
+Team composition:
+[LIST EACH PERSON: Name, Role, FTE (1.0 = full-time), Key Skills, Planned Leave]
+
+Demand forecast:
+[LIST EACH PROJECT/INITIATIVE: Name, Priority (P1-P3), Estimated Hours, Required Skills, Deadline]
+
+Constraints:
+- Maximum sustainable utilisation: [85% DEFAULT OR YOUR STANDARD]
+- Budget for contractors/temps: [AMOUNT OR NONE]
+- Skill gaps: [ANY SKILLS THE TEAM LACKS]
+- Non-project time allocation: [% FOR MEETINGS, ADMIN, BAU]
+
+Model outputs:
+1. Capacity Summary (total available hours vs total demand, by month)
+2. Individual Allocation Matrix (person x project x month, showing hours and % utilisation)
+3. Over-allocation Alerts (anyone above the utilisation threshold)
+4. Under-utilisation Opportunities (anyone below 50% &mdash; available for redeployment)
+5. Skill Gap Analysis (demand for skills the team does not have)
+6. Single-Point-of-Failure Risks (projects dependent on one person)
+7. Recommendations (hire, contract, re-prioritise, or defer &mdash; with specific rationale)
+
+Present in clear tabular format. Flag hard conflicts (impossible to deliver without additional resource) separately from soft conflicts (deliverable but at risk).</div>
+            </div>
+          </div>
+
+          <!-- TEMPLATES TAB -->
+          <div class="tab-panel" id="s05-templates">
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">New Employee Onboarding Checklist</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Create a comprehensive new employee onboarding checklist for [ROLE TYPE: GENERAL / SPECIFIC DEPARTMENT].
+
+Organisation context: [USE PROJECT KNOWLEDGE + ADD SPECIFICS]
+Onboarding duration: [30 / 60 / 90 DAYS]
+Remote / hybrid / in-office: [WORK ARRANGEMENT]
+Systems they will need access to: [LIST]
+Key people they need to meet: [LIST WITH ROLES]
+
+Checklist structure:
+1. Pre-Start (before Day 1) &mdash; IT setup, workspace, welcome email, access provisioning
+2. Day 1 &mdash; Welcome, orientation, system logins, first-day schedule
+3. Week 1 &mdash; Team introductions, role overview, initial training modules, buddy assignment
+4. Weeks 2-4 &mdash; Role-specific training, process walkthroughs, first assignments
+5. Month 2 &mdash; Independent work begins, first check-in with manager, feedback collection
+6. Month 3 &mdash; 90-day review, goal setting, probation assessment preparation
+
+For each item include: task description, owner (HR / Manager / IT / Buddy / New Hire), due date (relative to start date), completion checkbox, and any notes or links. Create as an Artifact &mdash; this will be reused for every new hire.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Incident / Issue Report Template</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Create an incident/issue report template suitable for [OPERATIONAL / IT / FACILITIES / SAFETY] incidents.
+
+Compliance requirements: [ANY REGULATORY REPORTING STANDARDS TO FOLLOW]
+Approval chain: [WHO REVIEWS AND SIGNS OFF ON INCIDENT REPORTS]
+
+Template structure:
+1. Incident Summary (one-paragraph overview: what, when, where, impact)
+2. Incident Details
+   - Date/Time of Occurrence
+   - Date/Time of Detection
+   - Date/Time of Resolution
+   - Location / System / Process Affected
+   - Severity Level (Critical / High / Medium / Low &mdash; with definitions)
+   - Impact Assessment (who/what was affected, business impact quantified)
+3. Timeline of Events (chronological log from detection through resolution)
+4. Root Cause Analysis (using 5-Why or Fishbone method)
+5. Immediate Actions Taken (what was done to contain the issue)
+6. Corrective Actions (what will prevent recurrence &mdash; each with owner and due date)
+7. Preventive Actions (systemic changes to prevent similar incidents)
+8. Lessons Learned (what went well, what could improve in our response)
+9. Approvals &amp; Distribution List
+10. Follow-Up Schedule (review dates for corrective actions)
+
+Create as an Artifact. Include guidance notes in italics for each section to help the person filling it in.</div>
+            </div>
+
+            <div class="prompt-box">
+              <div class="prompt-header">
+                <span class="prompt-label-text">Board-Ready Meeting Minutes</span>
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+              </div>
+              <div class="prompt-text">Convert these raw meeting notes into formal, board-ready meeting minutes.
+
+Raw notes: [PASTE YOUR NOTES &mdash; CAN BE ROUGH, INCOMPLETE, OR IN SHORTHAND]
+Meeting type: [BOARD / EXECUTIVE / COMMITTEE / OPERATIONAL]
+Attendees: [LIST]
+Apologies: [LIST]
+Date and location: [DETAILS]
+
+Minutes format:
+1. Meeting Header (type, date, time, location, attendees present, apologies received)
+2. Approval of Previous Minutes (note if approved, with any amendments)
+3. Agenda Items (for each item):
+   - Topic heading
+   - Discussion summary (factual, neutral, 3-5 sentences maximum)
+   - Decisions made (recorded verbatim where critical)
+   - Action items (specific task, owner, due date)
+4. Any Other Business
+5. Next Meeting (date, time, location)
+6. Meeting Close (time adjourned)
+
+Action Item Register (consolidated from all agenda items):
+| # | Action | Owner | Due Date | Status |
+
+Requirements: Formal, neutral tone. Record what was decided, not every opinion expressed. Attribute decisions to the group ("The Board resolved...") not individuals unless specifically relevant. Under 2 pages for a 60-minute meeting.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 06 ─── -->
+    <div class="section-card" id="s06">
+      <div class="section-header">
+        <div class="section-num">06</div>
+        <div class="section-title">Measuring Impact <span>Tracking the return on your AI investment</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>The value of Claude for operations work compounds over time &mdash; it starts with time saved on individual documents and grows into a fundamental shift in how your team allocates its capacity. Track these four impact areas to quantify your return and justify continued investment.</p>
+        </div>
+
+        <div class="impact-grid">
+          <div class="impact-card">
+            <div class="impact-metric">60%</div>
+            <div class="impact-label">Time Saved on Documentation</div>
+            <div class="impact-desc">SOPs that took 8 hours are completed in under 3. Policy documents, process maps, and knowledge base articles see similar reductions. For a team producing 10+ documents per month, this translates to 40-50 hours reclaimed &mdash; an entire working week.</div>
+          </div>
+          <div class="impact-card">
+            <div class="impact-metric">4x</div>
+            <div class="impact-label">Faster Meeting Turnaround</div>
+            <div class="impact-desc">Meeting agendas, minutes, and action item trackers completed within 30 minutes of meeting end vs the typical next-day turnaround. Faster distribution means faster action on decisions &mdash; reducing the lag between "decided" and "done."</div>
+          </div>
+          <div class="impact-card">
+            <div class="impact-metric">75%</div>
+            <div class="impact-label">Faster Vendor Drafting</div>
+            <div class="impact-desc">Vendor evaluations, comparison matrices, and professional correspondence produced in a quarter of the previous time. Procurement cycles tighten as evaluation documents are completed in hours rather than days.</div>
+          </div>
+          <div class="impact-card">
+            <div class="impact-metric">30hrs</div>
+            <div class="impact-label">Monthly Hours Reclaimed</div>
+            <div class="impact-desc">Per admin/ops professional, based on typical use patterns across documentation, meeting management, reporting, and correspondence. At fully loaded cost, this represents significant ROI on a $20/month subscription.</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="prose">
+          <h3>Before &amp; After: Typical Operational Tasks</h3>
+        </div>
+
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Before Claude</th>
+              <th>With Claude</th>
+              <th>Time Saved</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Standard Operating Procedure</strong></td>
+              <td>6-8 hours drafting + 2 rounds revision</td>
+              <td>45 min drafting + 1 review cycle</td>
+              <td>~80%</td>
+            </tr>
+            <tr>
+              <td><strong>Meeting minutes (1-hour meeting)</strong></td>
+              <td>45-60 minutes post-meeting</td>
+              <td>10-15 minutes</td>
+              <td>~75%</td>
+            </tr>
+            <tr>
+              <td><strong>Vendor evaluation (3 vendors)</strong></td>
+              <td>Full day of comparison work</td>
+              <td>90 minutes with review</td>
+              <td>~80%</td>
+            </tr>
+            <tr>
+              <td><strong>Weekly ops report</strong></td>
+              <td>2-3 hours data gathering + writing</td>
+              <td>30-45 minutes</td>
+              <td>~70%</td>
+            </tr>
+            <tr>
+              <td><strong>Onboarding checklist</strong></td>
+              <td>3-4 hours research + drafting</td>
+              <td>30 minutes + customisation</td>
+              <td>~85%</td>
+            </tr>
+            <tr>
+              <td><strong>Process optimisation analysis</strong></td>
+              <td>2-3 days of mapping + analysis</td>
+              <td>2-3 hours iterative work with Claude</td>
+              <td>~75%</td>
+            </tr>
+            <tr>
+              <td><strong>Capacity plan (quarterly)</strong></td>
+              <td>Full day of spreadsheet work</td>
+              <td>60-90 minutes</td>
+              <td>~80%</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <div class="callout-title">How to Track Your Time Savings</div>
+          <div class="callout-body">For one week, log every documentation, reporting, or correspondence task alongside how long it takes with Claude. Compare against your estimate of how long it would have taken manually. Most operations professionals find Claude delivers a 15-20x return on the monthly subscription cost within the first two weeks &mdash; often on the first SOP they write. Build this data into your own business case for team-wide adoption.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 07 ─── -->
+    <div class="section-card" id="s07">
+      <div class="section-header">
+        <div class="section-num">07</div>
+        <div class="section-title">Common Mistakes &amp; Fixes <span>The 5 patterns that reduce Claude's value</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>These are the five most common ways operations professionals undermine Claude's output quality &mdash; and the straightforward fixes for each. Avoiding these patterns is the difference between "AI-generated documentation" and "documentation that happens to be AI-assisted."</p>
+        </div>
+
+        <!-- Mistake 1 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">Pasting Confidential Data Without Redacting</div>
+            <div>Uploading full HR records, employee personal information, salary data, or sensitive financial details into Claude conversations without anonymisation. This creates data governance risks and is almost never necessary for the output you need.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Anonymise Sensitive Data Before Input</div>
+            <div>Replace personal identifiers with role descriptions: "Employee A (Senior Analyst, Finance)" instead of full names and IDs. Use ranges instead of exact figures where precision is not required. Claude needs context about the <em>type</em> of data and the <em>pattern</em>, not the actual sensitive values. Review your organisation's data classification policy before uploading any document to Claude.</div>
+          </div>
+        </div>
+
+        <!-- Mistake 2 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">Using AI Output as Final SOPs Without Review</div>
+            <div>Copying Claude's SOP output directly into your document management system without having the process owner review, validate, and formally approve it. AI-generated procedures may contain logical gaps, incorrect assumptions, or steps that don't match your actual systems.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Always Have Process Owners Validate and Sign Off</div>
+            <div>Treat Claude's output as a high-quality first draft that accelerates the process owner's work, not replaces their expertise. Every SOP should be walked through by someone who actually performs the process. Claude removes 70-80% of the drafting effort; the process owner provides the remaining 20-30% of validation, correction, and approval that makes the document trustworthy.</div>
+          </div>
+        </div>
+
+        <!-- Mistake 3 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">One Massive Prompt for Complex Processes</div>
+            <div>Trying to generate an entire process optimisation analysis, complete SOP library, or quarterly report in a single prompt. Overloaded prompts produce shallow, generic outputs because Claude is trying to cover too much ground at once.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Break Into Sequential Prompts Within a Project</div>
+            <div>Work through complex deliverables in stages: first map the current state, then analyse bottlenecks, then design the future state, then build the implementation plan. Each prompt builds on the previous output within the same conversation. Using Projects means the context accumulates automatically &mdash; Claude remembers everything from earlier in the conversation. Sequential depth beats simultaneous breadth every time.</div>
+          </div>
+        </div>
+
+        <!-- Mistake 4 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">Not Leveraging Projects for Recurring Ops Tasks</div>
+            <div>Starting every Claude conversation from scratch &mdash; re-explaining your organisation's structure, formatting standards, terminology, and processes each time. This wastes 10-15 minutes per session and produces inconsistent outputs because the context varies each time you provide it.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Create Domain-Specific Projects with Your Actual Docs</div>
+            <div>Invest 30 minutes in setting up Projects with your real documentation &mdash; SOP templates, org charts, formatting standards, policy libraries. This one-time investment eliminates context-setting forever. Every new conversation starts with Claude already knowing your processes, formats, and standards. The output quality difference between a cold start and a well-configured Project is dramatic and immediate.</div>
+          </div>
+        </div>
+
+        <!-- Mistake 5 -->
+        <div class="mistake-pair">
+          <div class="mistake-card bad">
+            <div class="mistake-label">Mistake</div>
+            <div class="mistake-title">Ignoring Extended Thinking for Complex Analysis</div>
+            <div>Using standard mode for process optimisation, root cause analysis, capacity planning, and other tasks that require multi-step reasoning. Standard mode produces template-like outputs for these tasks because it generates rather than reasons.</div>
+          </div>
+          <div class="mistake-card good">
+            <div class="mistake-label">Fix</div>
+            <div class="mistake-title">Enable Extended Thinking for Deep Analysis</div>
+            <div>For any task that involves analysing trade-offs, identifying root causes, or optimising multi-variable systems, explicitly trigger Extended Thinking: "Think carefully about the dependencies before recommending..." or "Reason through the failure modes in this process before proposing changes..." The output quality for complex operational analysis is substantially higher when Claude reasons through the problem before responding.</div>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-title">The Mistake That Costs the Most</div>
+          <div class="callout-body">The single biggest productivity loss for ops professionals using Claude is treating each session as a blank slate rather than building persistent, well-configured Projects. An ops team that invests one hour in setup saves 20+ hours per month in eliminated context-setting and improved output quality. Every other technique in this playbook works better when your Projects are properly configured.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 08 ─── -->
+    <div class="section-card" id="s08">
+      <div class="section-header">
+        <div class="section-num">08</div>
+        <div class="section-title">Learning Path <span>From first use to AI-powered operations</span></div>
+      </div>
+      <div class="section-body">
+        <div class="prose">
+          <p>This playbook gives you everything you need to start using Claude for operations work today. These five guides &mdash; in order &mdash; will build your skills from foundational understanding to advanced operational mastery.</p>
+        </div>
+
+        <div class="learning-path">
+
+          <a class="lp-item" href="../Claude-101-Getting-Started-and-Interface-Walkthrough.html">
+            <div class="lp-step">1</div>
+            <div class="lp-body">
+              <div class="lp-title">Claude 101 &mdash; Getting Started</div>
+              <div><span class="lp-guide" style="color:var(--orange);border-color:var(--orange-border);">Recommended First</span></div>
+              <div class="lp-desc">The foundation. Understand how Claude works, the difference between models (Sonnet for speed, Opus for depth), and how to have effective conversations. Even experienced AI users should start here &mdash; Claude has specific interaction patterns that differ from other tools, and understanding them unlocks everything else in this playbook.</div>
+            </div>
+          </a>
+
+          <a class="lp-item" href="../Claude-Prompt-Engineering.html">
+            <div class="lp-step">2</div>
+            <div class="lp-body">
+              <div class="lp-title">Prompt Engineering for Claude</div>
+              <div><span class="lp-guide" style="color:#1565C0;border-color:rgba(21,101,192,0.2);">Week 1-2</span></div>
+              <div class="lp-desc">The skill that multiplies everything else. Learn the role/context/task/format/constraints framework used in every prompt in this playbook. For ops professionals, the difference between a vague prompt and a well-structured one is the difference between a generic template and a document your process owners can approve with minimal revision.</div>
+            </div>
+          </a>
+
+          <a class="lp-item" href="../Claude-Projects.html">
+            <div class="lp-step">3</div>
+            <div class="lp-body">
+              <div class="lp-title">Claude Projects &mdash; Building Knowledge Bases</div>
+              <div><span class="lp-guide" style="color:#7B1FA2;border-color:rgba(123,31,162,0.2);">Week 2-3</span></div>
+              <div class="lp-desc">The most important guide for operations professionals. Projects transform Claude from a useful writing tool into a persistent operational knowledge base. This guide walks through setup in depth &mdash; uploading SOP libraries, configuring custom instructions, building domain-specific Projects, and creating Artifact templates. After this guide, your Operations Hub will be fully configured.</div>
+            </div>
+          </a>
+
+          <a class="lp-item" href="../Claude-in-Workflows.html">
+            <div class="lp-step">4</div>
+            <div class="lp-body">
+              <div class="lp-title">Claude in Workflows</div>
+              <div><span class="lp-guide" style="color:var(--orange);border-color:var(--orange-border);">Week 3-4</span></div>
+              <div class="lp-desc">Learn how to integrate Claude into your existing operational workflows &mdash; not as a standalone tool, but as an embedded part of how your team produces documentation, manages meetings, and generates reports. Covers batch processing, workflow automation patterns, and building Claude into your team's standard operating rhythm.</div>
+            </div>
+          </a>
+
+          <a class="lp-item" href="../Claude-Memory-and-Context-Management.html">
+            <div class="lp-step">5</div>
+            <div class="lp-body">
+              <div class="lp-title">Memory &amp; Context Management</div>
+              <div><span class="lp-guide" style="color:var(--orange);border-color:var(--orange-border);">Month 2</span></div>
+              <div class="lp-desc">Go deeper on managing Claude's memory and context for long-running operational programmes. Learn to maintain organisational context across sessions, manage evolving project details, and build the kind of persistent AI relationship where Claude genuinely understands your team, processes, and priorities. This is where Claude becomes a true operational partner.</div>
+            </div>
+          </a>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="prose">
+          <h3>Your 4-Week Implementation Roadmap</h3>
+        </div>
+
+        <div class="roadmap">
+          <div class="roadmap-item">
+            <div class="roadmap-week">Week 1 &mdash; Learn</div>
+            <div class="roadmap-title">Foundation &amp; First Wins</div>
+            <div class="roadmap-desc">Complete Claude 101. Set up your Operations Hub Project with basic context. Try 2-3 workflows from this playbook: write one SOP, one set of meeting minutes, and one report. Experience the time savings firsthand before optimising further.</div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-week">Week 2 &mdash; Apply</div>
+            <div class="roadmap-title">Daily Integration</div>
+            <div class="roadmap-desc">Use Claude for every documentation and correspondence task during the week. Build your prompt engineering skills by iterating on outputs. Upload more documents to your Operations Hub. Create your first Artifact templates for recurring document types.</div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-week">Week 3 &mdash; Systematise</div>
+            <div class="roadmap-title">Projects &amp; Templates</div>
+            <div class="roadmap-desc">Complete the Projects guide. Set up domain-specific Projects (HR Ops, Procurement, IT Ops). Build Artifact templates for every recurring document. Configure Memory with persistent organisational context. Your operational workflows are now systematised in Claude.</div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-week">Week 4+ &mdash; Scale</div>
+            <div class="roadmap-title">Team Adoption &amp; Advanced Use</div>
+            <div class="roadmap-desc">Share your Projects and templates with team members (Team plan). Tackle complex process optimisation using Extended Thinking. Build quarterly analysis workflows. Measure and report on time savings. Claude is now an embedded part of your operational infrastructure.</div>
+          </div>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-title">How to Use This Learning Path</div>
+          <div class="callout-body">Do not wait until you have completed all five guides before using Claude in your operations work. Start with Claude 101, then immediately begin using the workflows from this playbook. Return to Prompt Engineering once you have experienced the difference between prompts that produce usable output and those that produce generic templates. Build your Operations Hub during the Projects guide. The most effective learning happens when you are using Claude for real work, not studying it in the abstract.</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="prose">
+          <h3>Staying Current</h3>
+          <p>Claude is updated regularly with new models, expanded capabilities, and improved features. The AI Advantage Co publishes updates to all guides when significant changes affect how operations professionals should use the tool. Check back when you see announcements about new Claude model releases or major feature updates &mdash; particularly around extended context, collaboration features, and workflow integration capabilities.</p>
+
+          <h3>Getting Support</h3>
+          <ul>
+            <li><strong>In-guide help:</strong> Every prompt in this playbook is designed to work standalone &mdash; copy, customise the bracketed placeholders, and use within your Operations Hub Project</li>
+            <li><strong>Claude's own help:</strong> Ask Claude directly &mdash; "How do I structure a Project for managing our SOP library?" is a perfectly good starting point</li>
+            <li><strong>Anthropic's documentation:</strong> claude.ai/help covers technical features, usage limits, and data handling policies in depth</li>
+            <li><strong>Community:</strong> The AI Advantage Co runs workshops and Q&amp;A sessions specifically for operations and admin professionals building AI workflows</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER SPACER -->
+    <div style="height:40px;"></div>
+
+  </main>
+</div>
+
+<script>
+  // ─── TAB SWITCHING ───
+  function switchTab(btn, section, tabId) {
+    // Deactivate all buttons in this section's tab bar
+    var tabBar = btn.closest('.tab-bar');
+    tabBar.querySelectorAll('.tab-btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+
+    // Hide all panels for this section
+    var panels = document.querySelectorAll('#' + section + ' .tab-panel');
+    panels.forEach(function(p) {
+      p.classList.remove('active');
+    });
+
+    // Show selected panel
+    var target = document.getElementById(section + '-' + tabId);
+    if (target) target.classList.add('active');
+  }
+
+  // ─── COPY PROMPT ───
+  function copyPrompt(btn) {
+    var promptBox = btn.closest('.prompt-box');
+    var promptText = promptBox.querySelector('.prompt-text');
+    if (!promptText) return;
+
+    var text = promptText.innerText || promptText.textContent;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text.trim()).then(function() {
+        showCopied(btn);
+      }).catch(function() {
+        fallbackCopy(text, btn);
+      });
+    } else {
+      fallbackCopy(text, btn);
+    }
+  }
+
+  function fallbackCopy(text, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = text.trim();
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    showCopied(btn);
+  }
+
+  function showCopied(btn) {
+    var orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  }
+
+  // ─── SCROLL SPY ───
+  function scrollTo(id, link) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // IntersectionObserver for active nav highlighting
+  var sections = document.querySelectorAll('.section-card[id]');
+  var navLinks = document.querySelectorAll('.nav-link');
+
+  var observerOptions = {
+    root: null,
+    rootMargin: '-10% 0px -60% 0px',
+    threshold: 0
+  };
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(link) {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(function(section) {
+    observer.observe(section);
+  });
+
+  // Prevent default link behaviour (we handle scrolling manually)
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+    });
+  });
+</script>
+</body>
+</html>

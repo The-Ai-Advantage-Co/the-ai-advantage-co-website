@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Educator's AI Playbook — Claude Edition | The AI Advantage Co</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --orange: #C97040;
+    --orange-light: #E09868;
+    --orange-soft: rgba(201,112,64,0.09);
+    --orange-border: rgba(201,112,64,0.20);
+    --orange-l: #E09868;
+    --sidebar-bg: #3C1E0A;
+    --sidebar-hover: #4E2A12;
+    --sidebar-act: rgba(201,112,64,0.16);
+    --page-bg: #FEF8F0;
+    --white: #FFFFFF;
+    --card-bg: #FFFCF8;
+    --ink: #2C1408;
+    --body-text: #4A3020;
+    --muted: #8A6040;
+    --muted-light: #B08060;
+    --border: #F0DEC8;
+    --divider: #EDD8BE;
+    --sidebar: #3C1E0A;
+    --hdr: #F9F0E6;
+    --info-bg: #FDEBD8;
+    --info-blue: #3B7FD4;
+    --warn-bg: #FFF3CD;
+    --warn-border: #D4A017;
+    --code-bg: #2C1408;
+    --code-text: #F5DEB3;
+    --green: #2E7D32;
+    --green-bg: #E8F5E9;
+    --red-bg: #FFF0F0;
+    --red-border: #E53935;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--page-bg);
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    color: var(--body-text);
+    display: flex;
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── SIDEBAR ── */
+  nav {
+    width: 268px;
+    min-width: 268px;
+    background: var(--sidebar-bg);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .nav-brand {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .nav-brand .co {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .nav-brand .guide-name {
+    font-size: 13px;
+    color: #e8d8c4;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .nav-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 10px;
+    background: rgba(201,112,64,0.18);
+    border: 1px solid rgba(201,112,64,0.35);
+    border-radius: 4px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--orange-light);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .nav-sections { padding: 16px 0 24px; flex: 1; }
+  .nav-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--orange-light);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: 12px 20px 6px;
+  }
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 20px;
+    font-size: 12.5px;
+    color: #c8b8a4;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all .18s;
+  }
+  nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+  nav a.active { color: #fff; border-left-color: var(--orange); background: rgba(201,112,64,.15); }
+  .nav-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-size: 10.5px;
+    color: var(--orange);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .nav-icon { font-size: 14px; opacity: .8; }
+  .nav-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255,255,255,.07);
+    font-size: 11px;
+    color: #6A5040;
+    line-height: 1.5;
+  }
+
+  /* ── MAIN ── */
+  main { flex: 1; max-width: 880px; padding: 48px 52px; overflow-x: hidden; }
+
+  /* ── BANNER ── */
+  .banner {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    background: var(--sidebar-bg);
+  }
+  .banner-top {
+    padding: 10px 28px;
+    background: rgba(201,112,64,0.12);
+    border-bottom: 1px solid rgba(201,112,64,0.2);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--orange-light);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+  .banner-body { padding: 40px 32px 36px; position: relative; overflow: hidden; }
+  .banner-body-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(201,112,64,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .banner-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--orange-light);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .banner-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    letter-spacing: -.01em;
+  }
+  .banner-title span { color: var(--orange); }
+  .banner-subtitle {
+    font-size: 15px;
+    color: #c8b09a;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  .banner-edition {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 5px 16px;
+    background: rgba(201,112,64,0.2);
+    border: 1px solid rgba(201,112,64,0.4);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--orange-light);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .banner-stripe { height: 6px; background: var(--orange); }
+
+  /* ── DOC HEADER ── */
+  .doc-header { margin-bottom: 32px; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .breadcrumb span { color: var(--muted-light); margin: 0 5px; }
+  .doc-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  .doc-subtitle {
+    font-size: 15px;
+    color: var(--body-text);
+    line-height: 1.7;
+    margin-bottom: 18px;
+    max-width: 680px;
+  }
+  .doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .badge {
+    padding: 4px 14px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+  .badge-orange { background: rgba(201,112,64,0.1); color: var(--orange); border: 1px solid var(--orange-border); }
+  .badge-muted { background: var(--card-bg); color: var(--muted); border: 1px solid var(--border); }
+  .divider { border: none; border-top: 2px solid var(--border); margin: 24px 0; }
+
+  /* ── SECTION ── */
+  section { margin-bottom: 56px; }
+  .sec-hdr {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .sec-num {
+    background: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .sec-meta { background: var(--hdr); border-bottom: 2px solid var(--border); padding: 12px 18px; }
+  .sec-meta h2 { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .sec-meta p { font-size: 12px; color: var(--muted); }
+
+  /* ── PROSE ── */
+  p.body { font-size: 14.5px; color: var(--body-text); line-height: 1.75; margin-bottom: 14px; }
+  h3.sub { font-size: 15px; font-weight: 700; color: var(--ink); margin: 24px 0 10px; }
+
+  /* ── CARDS ── */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .card-icon { width: 40px; height: 40px; background: rgba(201,112,64,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+  .card h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* ── CALLOUTS ── */
+  .callout { display: grid; grid-template-columns: 48px 1fr; border-radius: 8px; overflow: hidden; margin: 18px 0; }
+  .callout-icon { display: flex; align-items: flex-start; justify-content: center; padding: 16px 0 0; font-size: 20px; }
+  .callout-body { padding: 14px 16px 14px 0; }
+  .callout-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+  .callout-text { font-size: 13.5px; line-height: 1.6; color: var(--body-text); }
+  .callout.tip { background: rgba(201,112,64,0.08); }
+  .callout.tip .callout-icon { background: rgba(201,112,64,0.08); color: var(--orange); }
+  .callout.tip .callout-label { color: var(--orange); }
+  .callout.info { background: var(--info-bg); }
+  .callout.info .callout-icon { background: var(--info-bg); color: var(--info-blue); }
+  .callout.info .callout-label { color: var(--info-blue); }
+  .callout.warn { background: var(--warn-bg); }
+  .callout.warn .callout-icon { background: var(--warn-bg); color: var(--warn-border); }
+  .callout.warn .callout-label { color: var(--warn-border); }
+  .callout.update { background: #FFF3E0; }
+  .callout.update .callout-icon { background: #FFF3E0; color: #E65100; }
+  .callout.update .callout-label { color: #E65100; }
+
+  /* ── STEPS ── */
+  .step { display: grid; grid-template-columns: 48px 1fr; gap: 0; margin-bottom: 14px; }
+  .step-num {
+    background: var(--orange);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 13px;
+    border-radius: 6px 0 0 6px;
+  }
+  .step-body { background: var(--card-bg); border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; padding: 13px 16px; }
+  .step-body h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .step-body p { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+  /* ── REF TABLE ── */
+  .ref-table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13px; }
+  .ref-table th { background: var(--sidebar); color: var(--orange-l); font-size: 11.5px; font-weight: 700; text-align: left; padding: 9px 14px; letter-spacing: .04em; }
+  .ref-table td { background: var(--card-bg); border: 1px solid var(--border); padding: 9px 14px; color: var(--body-text); vertical-align: top; line-height: 1.5; }
+  .ref-table tr:nth-child(even) td { background: #fffaf5; }
+  .ref-table .check { color: #4CAF50; font-weight: 700; }
+  .ref-table .cross { color: #e57373; font-weight: 700; }
+
+  /* ── PROMPT TABS ── */
+  .prompt-tabs { margin: 20px 0; }
+  .tab-btns { display: flex; gap: 0; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+  .tab-btn {
+    padding: 8px 20px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all .18s;
+    font-family: inherit;
+  }
+  .tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+  .tab-pane { display: none; padding-top: 16px; }
+  .tab-pane.active { display: block; }
+  .prompt-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .prompt-label { font-size: 10.5px; font-weight: 700; color: var(--orange); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+  .prompt-text { font-size: 13.5px; color: var(--body-text); line-height: 1.65; font-style: italic; padding-right: 70px; }
+  .copy-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--orange);
+    background: rgba(201,112,64,0.09);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .18s;
+    font-family: inherit;
+  }
+  .copy-btn:hover { background: var(--orange); color: #fff; }
+
+  /* ── DO/AVOID PAIRS ── */
+  .do-avoid { margin: 16px 0; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .avoid-card { background: var(--red-bg); border: 1px solid rgba(229,57,53,0.25); border-left: 4px solid var(--red-border); border-radius: 8px; padding: 14px 16px; }
+  .do-card { background: var(--green-bg); border: 1px solid rgba(46,125,50,0.25); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px 16px; }
+  .avoid-card .pair-label { font-size: 10px; font-weight: 700; color: var(--red-border); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+  .do-card .pair-label { font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+  .pair-text { font-size: 13px; color: var(--body-text); line-height: 1.55; }
+  .pair-emoji { font-size: 16px; margin-bottom: 4px; display: block; }
+
+  /* ── MOCKUP ── */
+  .mockup { background: var(--sidebar-bg); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .mockup-bar { background: #2a1408; padding: 8px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mockup-title { font-size: 11px; color: #8A7060; margin-left: 8px; font-family: 'Courier New', monospace; letter-spacing: .04em; }
+  .mockup-body { display: grid; grid-template-columns: 200px 1fr; }
+  .mockup-sidebar { background: #2a1408; border-right: 1px solid rgba(255,255,255,.06); padding: 14px 0; }
+  .mockup-nav-item { padding: 7px 16px; font-size: 12px; font-family: 'Courier New', monospace; }
+  .mockup-nav-item.active { background: rgba(201,112,64,.2); color: var(--orange-l); border-left: 3px solid var(--orange); }
+  .mockup-nav-item.dim { color: #6A5040; }
+  .mockup-section-label { padding: 10px 16px 4px; font-size: 9px; font-weight: 700; color: var(--orange); letter-spacing: .14em; text-transform: uppercase; }
+  .mockup-main { padding: 20px; }
+  .mockup-project-header { background: rgba(201,112,64,.15); border: 1px solid rgba(201,112,64,.3); border-radius: 6px; padding: 12px 14px; margin-bottom: 14px; }
+  .mockup-project-name { font-size: 13px; font-weight: 700; color: var(--orange-l); font-family: 'Courier New', monospace; }
+  .mockup-project-desc { font-size: 11px; color: #8A7060; margin-top: 3px; font-family: 'Courier New', monospace; }
+  .mockup-msg { margin-bottom: 12px; }
+  .mockup-msg .label { font-size: 10px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 4px; }
+  .mockup-msg .label.user { color: var(--orange); }
+  .mockup-msg .label.claude { color: #8BC48A; }
+  .mockup-msg .text { font-size: 12px; color: #C8B8A4; font-family: 'Courier New', monospace; line-height: 1.5; }
+  .mockup-input { background: #1a0e06; border: 1px solid rgba(255,255,255,.1); border-radius: 6px; padding: 10px 14px; margin-top: 10px; }
+  .mockup-input-text { font-size: 12px; color: #6A5040; font-family: 'Courier New', monospace; }
+
+  /* ── ROADMAP ── */
+  .roadmap { display: flex; flex-direction: column; gap: 0; }
+  .roadmap-step { display: grid; grid-template-columns: 56px 1fr; margin-bottom: 0; }
+  .roadmap-left { display: flex; flex-direction: column; align-items: center; }
+  .roadmap-circle { width: 44px; height: 44px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .roadmap-line { width: 2px; background: var(--border); flex: 1; margin: 4px 0; }
+  .roadmap-content { padding: 0 0 28px 16px; }
+  .roadmap-content h4 { font-size: 14.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .roadmap-content p { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ── LEARNING PATH CARDS ── */
+  .guide-links { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .guide-link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    text-decoration: none;
+    color: var(--body-text);
+    transition: all .18s;
+  }
+  .guide-link-card:hover { border-color: var(--orange); background: rgba(201,112,64,0.05); }
+  .guide-link-num { width: 32px; height: 32px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .guide-link-info h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .guide-link-info p { font-size: 12px; color: var(--muted); }
+  .guide-link-arrow { margin-left: auto; color: var(--orange); font-size: 18px; }
+
+  /* ── METRIC CARDS ── */
+  .metric-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 3px solid var(--orange); border-radius: 8px; padding: 20px; text-align: center; }
+  .metric-number { font-size: 36px; font-weight: 800; color: var(--orange); line-height: 1; margin-bottom: 6px; }
+  .metric-label { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .metric-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ── INSTR BUILDER ── */
+  .instr-builder { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .instr-builder-hdr { background: var(--hdr); padding: 12px 18px; border-bottom: 1px solid var(--border); }
+  .instr-builder-hdr h4 { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .instr-builder-hdr p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .instr-row { display: grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--border); }
+  .instr-row:last-child { border-bottom: none; }
+  .instr-key { background: rgba(201,112,64,0.07); padding: 12px 14px; font-size: 12.5px; font-weight: 700; color: var(--ink); border-right: 1px solid var(--border); }
+  .instr-val { padding: 12px 14px; font-size: 13px; color: var(--body-text); line-height: 1.55; }
+  .instr-val em { color: var(--muted); font-style: italic; }
+
+  /* ── BULLETS ── */
+  ul.styled { margin: 10px 0 16px 0; padding-left: 0; list-style: none; }
+  ul.styled li { font-size: 14px; color: var(--body-text); line-height: 1.65; padding: 4px 0 4px 24px; position: relative; }
+  ul.styled li::before { content: "•"; color: var(--orange); font-size: 16px; position: absolute; left: 6px; top: 3px; }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 40px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted-light); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    body { flex-direction: column; }
+    nav { width: 100%; min-width: unset; height: auto; position: relative; }
+    main { padding: 24px 20px; }
+    .card-grid, .card-grid-3 { grid-template-columns: 1fr; }
+    .pair { grid-template-columns: 1fr; }
+    .banner-title { font-size: 26px; }
+    .mockup-body { grid-template-columns: 1fr; }
+    .mockup-sidebar { display: none; }
+    .instr-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══════════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <div class="co">The AI Advantage Co</div>
+    <div class="guide-name">Educator's AI Playbook<br>Claude Edition</div>
+    <div class="nav-badge">Playbook</div>
+  </div>
+  <div class="nav-sections">
+    <div class="nav-label">Contents</div>
+    <a href="#s01" class="active"><span class="nav-icon">📚</span><span class="nav-num">01</span>Why AI Matters</a>
+    <a href="#s02"><span class="nav-icon">⚙️</span><span class="nav-num">02</span>Setting Up Claude</a>
+    <a href="#s03"><span class="nav-icon">📅</span><span class="nav-num">03</span>Daily Workflows</a>
+    <a href="#s04"><span class="nav-icon">🚀</span><span class="nav-num">04</span>Advanced Techniques</a>
+    <a href="#s05"><span class="nav-icon">💬</span><span class="nav-num">05</span>Prompt Library</a>
+    <a href="#s06"><span class="nav-icon">📊</span><span class="nav-num">06</span>Measuring Impact</a>
+    <a href="#s07"><span class="nav-icon">⚠️</span><span class="nav-num">07</span>Common Mistakes</a>
+    <a href="#s08"><span class="nav-icon">🗺️</span><span class="nav-num">08</span>Your Learning Path</a>
+  </div>
+  <div class="nav-footer">
+    <strong>The AI Advantage Co</strong><br>
+    theaiadvantageco.com.au<br>
+    June 2026
+  </div>
+</nav>
+
+<!-- ══ MAIN ══════════════════════════════════════════════════════════ -->
+<main>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-top">THE &nbsp; AI &nbsp; ADVANTAGE &nbsp; CO &nbsp; — &nbsp; EDUCATOR SERIES</div>
+    <div class="banner-body">
+      <div class="banner-body-bg"></div>
+      <div class="banner-label">Educator's AI Playbook</div>
+      <div class="banner-title">The <span>Educator's</span> AI<br>Playbook</div>
+      <div class="banner-subtitle">Everything you need to make Claude work for your teaching practice — from lesson planning and assessment to student feedback, research synthesis, and stakeholder communication.</div>
+      <div class="banner-edition">Claude Edition — Powered by Anthropic</div>
+    </div>
+    <div class="banner-stripe"></div>
+  </div>
+
+  <!-- DOC HEADER -->
+  <div class="doc-header">
+    <div class="breadcrumb">Documentation <span>›</span> Educator's Playbook <span>›</span> Claude Edition</div>
+    <h1 class="doc-title">The Educator's AI Playbook — Claude Edition</h1>
+    <p class="doc-subtitle">Everything you need to make Claude work for your teaching practice — from lesson planning to assessment, student feedback, research, and stakeholder communication.</p>
+    <div class="doc-meta">
+      <span class="badge badge-orange">PLAYBOOK</span>
+      <span class="badge badge-muted">Updated: June 2026</span>
+      <span class="badge badge-muted">Audience: Educators &amp; Trainers</span>
+    </div>
+    <hr class="divider" />
+  </div>
+
+  <!-- ══ 01 — WHY AI MATTERS ══════════════════════════════════════ -->
+  <section id="s01">
+    <div class="sec-hdr">
+      <div class="sec-num">01</div>
+      <div class="sec-meta">
+        <h2>Why AI Matters for Educators</h2>
+        <p>The case for integrating Claude into your teaching practice — and why 2026 is the right time</p>
+      </div>
+    </div>
+
+    <p class="body">Teaching is one of the most demanding professions on the planet. Educators routinely spend evenings planning lessons, weekends marking assessments, and precious preparation periods drafting parent communications — all administrative work that pulls time and energy away from what matters most: the students in front of them.</p>
+
+    <p class="body">AI tools like Claude are changing this equation. Not by replacing teacher judgment, expertise, or relationships — but by compressing the time cost of the administrative and preparatory work that surrounds them. A lesson plan that used to take 90 minutes can be drafted in 15. A set of differentiated materials that might take a morning can be generated in under an hour. Feedback templates that took a term to build can be done in a day.</p>
+
+    <p class="body">The teachers who embrace this well aren't doing less — they're doing more of what only they can do: building relationships, making real-time instructional decisions, mentoring students, and applying professional judgment. Claude handles the scaffolding. You handle the teaching.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">⏰</div>
+        <h4>Time Back in Your Week</h4>
+        <p>Educators using AI consistently report saving 5–10 hours per week on planning, communication, and assessment design — time redirected to students and professional wellbeing.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h4>Better Differentiation</h4>
+        <p>Creating three versions of every resource used to be aspirational. With Claude, differentiated materials for support, core, and extension levels become a practical standard.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <h4>Consistent Quality Feedback</h4>
+        <p>Feedback quality often drops when marking volumes are high. Claude helps you maintain thoughtful, specific, growth-oriented feedback even at scale.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔬</div>
+        <h4>Research at Speed</h4>
+        <p>Staying current with education research is a challenge. Claude can synthesise multiple papers, extract practical classroom implications, and surface evidence-based strategies in minutes.</p>
+      </div>
+    </div>
+
+    <div class="callout update">
+      <div class="callout-icon">🆕</div>
+      <div class="callout-body">
+        <div class="callout-label">2026 Update — Opus 4.7 for Education</div>
+        <div class="callout-text">Claude's latest Opus model brings meaningful upgrades for educators: stronger reasoning for complex rubric design and curriculum alignment checking, better handling of multi-step curriculum planning tasks (e.g. building a term-long unit with scaffolded assessments), and improved accuracy when synthesising education research. If you're on a Pro or Team plan, you have access to these capabilities today.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">What Claude Is (and Isn't) Good At in Education</h3>
+    <table class="ref-table">
+      <tr>
+        <th>Claude excels at</th>
+        <th>Claude cannot replace</th>
+      </tr>
+      <tr>
+        <td>Drafting lesson plans, rubrics, and learning materials</td>
+        <td>Knowing your specific students — their backgrounds, needs, and dynamics</td>
+      </tr>
+      <tr>
+        <td>Creating differentiated versions of resources</td>
+        <td>Professional judgment about when to adapt, scaffold, or accelerate</td>
+      </tr>
+      <tr>
+        <td>Writing constructive, growth-focused feedback</td>
+        <td>Reading the room — tone and timing in difficult conversations</td>
+      </tr>
+      <tr>
+        <td>Synthesising research and summarising findings</td>
+        <td>Contextual curriculum knowledge from your school and jurisdiction</td>
+      </tr>
+      <tr>
+        <td>Drafting sensitive communications with appropriate tone</td>
+        <td>Relationship and trust built with students and families over time</td>
+      </tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">The Right Mental Model</div>
+        <div class="callout-text">Think of Claude as a highly capable teaching assistant who works at speed, never gets tired, and has no judgement about your context — which is why your expertise and review always comes last. Claude produces the first draft. You bring the professional finish.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 02 — SETTING UP CLAUDE ════════════════════════════════════ -->
+  <section id="s02">
+    <div class="sec-hdr">
+      <div class="sec-num">02</div>
+      <div class="sec-meta">
+        <h2>Setting Up Claude for Education Work</h2>
+        <p>A five-step setup process that gives Claude the context it needs every session</p>
+      </div>
+    </div>
+
+    <p class="body">The difference between a Claude that produces generic, unhelpful output and one that consistently delivers high-quality, curriculum-aligned materials comes down almost entirely to setup. Invest 30 minutes getting this right and you'll see the payoff in every session after.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Choose the right plan</h4>
+        <p>Claude Free gives you access but with limited usage and no Projects feature. <strong>Claude Pro</strong> (individuals) is the right choice for most teachers — unlimited usage, Projects, and Artifacts. <strong>Claude Team</strong> is ideal for departments or whole-school rollouts where you want shared Projects, team usage, and admin controls.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Create a Project per course or subject</h4>
+        <p>Navigate to <strong>Projects</strong> in Claude's left sidebar and create one Project per course or subject area you teach. Name them clearly: <em>Year 9 English — Term 3</em>, <em>VCE Biology Unit 3</em>, <em>Year 4 Maths</em>. Upload your curriculum documents, unit overview, and syllabus as <strong>Project Knowledge</strong>. These files are available in every conversation in that Project automatically.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Set a system prompt with educator context</h4>
+        <p>Write Project Instructions that tell Claude who you are, what you teach, your year level, and your curriculum framework. The better this context, the more aligned every output will be from the start — without you having to explain yourself each session.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Configure Artifacts for reusable templates</h4>
+        <p>Ask Claude to produce lesson plans, rubrics, and worksheet templates as <strong>Artifacts</strong> (click the document icon or say "create this as an Artifact"). Artifacts are saved within the conversation and can be edited, refined, and exported — giving you a growing library of reusable materials.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Enable Extended Thinking for complex curriculum tasks</h4>
+        <p>For complex tasks like multi-week unit planning, curriculum alignment checking, or designing assessment frameworks, prompt Claude to <strong>"think carefully"</strong> or <strong>"think step by step before responding"</strong>. This activates extended reasoning, which improves output quality significantly for tasks with multiple interdependencies.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Example System Prompt for an Educator Project</h3>
+    <p class="body">Copy and adapt this prompt into your Project Instructions. Replace the bracketed sections with your specifics.</p>
+
+    <div class="prompt-card">
+      <div class="prompt-label">Project System Prompt — Educator Template</div>
+      <div class="prompt-text">"You are an experienced educational assistant supporting a [SUBJECT] teacher at [SCHOOL TYPE / SECTOR]. I teach [YEAR/GRADE LEVEL] students using the [CURRICULUM FRAMEWORK, e.g. Australian Curriculum, IB, GCSE]. My teaching style prioritises [e.g. inquiry-based learning / explicit instruction / project-based]. Key values in my teaching: [e.g. growth mindset, inclusivity, rigorous thinking]. When I ask you to create lesson plans, rubrics, or materials: always align to the curriculum framework uploaded in this Project, use age-appropriate language, and include differentiation for support, core, and extension levels unless I say otherwise. Always produce structured documents as Artifacts so I can save and reuse them. For complex planning tasks, think through the curriculum connections carefully before responding."</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">What to upload to Project Knowledge</div>
+        <div class="callout-text">Upload your unit overview or scope and sequence, the relevant curriculum achievement standards or learning objectives, any school-specific assessment rubrics or templates, and your subject's style guide if you have one. These files mean Claude always works from your actual curriculum — not generic educational content.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 03 — DAILY WORKFLOWS ══════════════════════════════════════ -->
+  <section id="s03">
+    <div class="sec-hdr">
+      <div class="sec-num">03</div>
+      <div class="sec-meta">
+        <h2>Your Daily AI Workflows</h2>
+        <p>Six high-value use cases with Claude-specific prompts ready to use</p>
+      </div>
+    </div>
+
+    <p class="body">These six use cases cover the tasks where Claude delivers the highest return for educators. Each includes a worked prompt you can copy and adapt today. All prompts are written to leverage Claude's specific strengths: Artifacts for reusable output, Extended Thinking for complex planning, and Project context for curriculum alignment.</p>
+
+    <!-- USE CASE 1 -->
+    <h3 class="sub">1. Lesson Planning — Draft complete, differentiated lessons in minutes</h3>
+    <p class="body">Claude's extended thinking excels at multi-week unit planning where objectives, activities, and assessments need to connect coherently. Use Artifacts to get a reusable template you can adapt for each class.</p>
+    <div class="prompt-card">
+      <div class="prompt-label">Lesson Planning Prompt</div>
+      <div class="prompt-text">"I teach [SUBJECT] to [YEAR/GRADE]. Create a [DURATION, e.g. 60-minute] lesson plan for [TOPIC] as an Artifact. Include: clear learning objectives aligned to [CURRICULUM FRAMEWORK], a hook activity (5 min), scaffolded instruction with worked examples, a hands-on or collaborative activity, and an exit ticket for formative assessment. Differentiate for three levels: support (with scaffolding and sentence starters), core (standard expectations), and extension (deeper analysis, open-ended challenge)."</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+
+    <!-- USE CASE 2 -->
+    <h3 class="sub">2. Assessment &amp; Rubric Creation — Curriculum-aligned with Extended Thinking</h3>
+    <p class="body">Rubric design benefits enormously from Claude's reasoning capability. Ask it to "think carefully" before responding and it will check alignment across criteria, ensure descriptors are observable and specific, and flag gaps before you see the output.</p>
+    <div class="prompt-card">
+      <div class="prompt-label">Rubric Creation Prompt</div>
+      <div class="prompt-text">"Think carefully about curriculum alignment before responding. Create a rubric for [ASSESSMENT TYPE, e.g. analytical essay / science report / oral presentation] on [TOPIC] for [YEAR/GRADE]. Include 4 criteria with 4 performance levels (Excellent / Proficient / Developing / Beginning). Write specific, observable, student-facing descriptors for each cell — avoid vague language like 'good understanding'. Align each criterion to the achievement standards in my curriculum documents. Create this as an Artifact I can reuse and edit."</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+
+    <!-- USE CASE 3 -->
+    <h3 class="sub">3. Student Feedback — Nuanced, growth-focused, and time-efficient</h3>
+    <p class="body">Claude's careful, nuanced voice makes it particularly well-suited to sensitive feedback — especially for students who need encouragement alongside honest direction. Provide the specific strengths and areas for growth; let Claude craft the language.</p>
+    <div class="prompt-card">
+      <div class="prompt-label">Student Feedback Prompt</div>
+      <div class="prompt-text">"Write constructive written feedback for a [YEAR/GRADE] student who submitted [BRIEF DESCRIPTION OF TASK/WORK]. Key strengths I observed: [LIST 2–3]. Areas for growth: [LIST 2–3]. The student [brief context, e.g. struggles with confidence / responds well to direct praise / is an EAL/D learner]. Be encouraging but specific — avoid generic praise. Include exactly 2 actionable next steps the student can work on this week. Tone: warm, clear, professional."</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+
+    <!-- USE CASE 4 -->
+    <h3 class="sub">4. Research Synthesis — Upload papers and get classroom-ready insights</h3>
+    <p class="body">Multimodal Claude can receive uploaded PDFs directly. Upload research papers into your conversation and ask for synthesis across multiple sources — Claude handles the cross-referencing and surfaces practical classroom implications.</p>
+    <div class="prompt-card">
+      <div class="prompt-label">Research Synthesis Prompt</div>
+      <div class="prompt-text">"I've uploaded [NUMBER] research papers on [TOPIC, e.g. retrieval practice / growth mindset / spaced repetition]. Synthesise the key findings across all papers. Structure your response as: (1) Common themes across all sources, (2) Conflicting or nuanced conclusions worth noting, (3) Methodological strengths and limitations, (4) Practical implications for classroom teaching — specifically what I can implement this term. Keep the practical section concrete and actionable."</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+
+    <!-- USE CASE 5 -->
+    <h3 class="sub">5. Parent &amp; Stakeholder Communication — Tone-sensitive drafts at speed</h3>
+    <p class="body">Parent communication is high-stakes — tone matters enormously and getting it wrong can damage trust. Claude's sensitivity to nuance makes it excellent for drafting communications that need to balance transparency with reassurance.</p>
+    <div class="prompt-card">
+      <div class="prompt-label">Parent Communication Prompt</div>
+      <div class="prompt-text">"Draft a professional but warm email to parents about [TOPIC, e.g. upcoming assessment / a behaviour situation / a curriculum change]. Context: [BRIEF SITUATION SUMMARY]. This is [e.g. a sensitive situation — balance transparency with reassurance / a positive update — keep it brief and celebratory]. Structure: what has happened or what is coming, our approach or response, what parents can do at home, and next steps or key dates. Before finishing, review the tone — it should feel like a teacher who cares, not a corporate memo."</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+
+    <!-- USE CASE 6 -->
+    <h3 class="sub">6. Differentiated Instruction — Three versions, three Artifacts, one session</h3>
+    <p class="body">Creating genuinely differentiated materials used to mean tripling your workload. Claude can produce all three versions in a single session, saving them as separate Artifacts so you have a full resource set ready to print or share.</p>
+    <div class="prompt-card">
+      <div class="prompt-label">Differentiated Instruction Prompt</div>
+      <div class="prompt-text">"Create three differentiated versions of the following [CONTENT TYPE, e.g. worksheet / reading passage / task description] as three separate Artifacts: (1) SUPPORT — simplified language, broken into smaller steps, visual supports and sentence starters provided, (2) CORE — grade-level language with standard task expectations, (3) EXTENSION — enriched challenge with deeper analysis, independent research element, or open-ended inquiry. Label each Artifact clearly with the level and include a brief teacher note at the top of each explaining what support has been added or removed. Base content: [PASTE ORIGINAL CONTENT OR DESCRIBE TASK]."</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Always review before you use</div>
+        <div class="callout-text">Claude produces excellent first drafts — but you are the curriculum expert. Always check that content is factually accurate, developmentally appropriate, and aligned to your specific students' needs before using any AI-generated material. This takes 5 minutes and is non-negotiable professional practice.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 04 — ADVANCED TECHNIQUES ════════════════════════════════ -->
+  <section id="s04">
+    <div class="sec-hdr">
+      <div class="sec-num">04</div>
+      <div class="sec-meta">
+        <h2>Advanced Techniques</h2>
+        <p>Power features that unlock Claude's full potential for experienced educators</p>
+      </div>
+    </div>
+
+    <p class="body">Once you're comfortable with daily workflows, these advanced techniques will significantly upgrade the quality and efficiency of your AI-assisted teaching practice.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📁</div>
+        <h4>Projects for Persistent Context</h4>
+        <p>One Project per course. Upload your syllabus, curriculum documents, and assessment rubrics as Project Knowledge. Every conversation inherits this context automatically — no re-explaining required.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <h4>Artifacts for Reusable Materials</h4>
+        <p>Request all lesson plans, rubrics, and worksheets as Artifacts. They're saved within your conversation, can be edited in-place, and exported when ready. Build your resource library over time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h4>Extended Thinking</h4>
+        <p>For complex planning tasks, say "think carefully" or "think step by step" before responding. Claude reasons through multi-step curriculum connections before producing output — markedly better results for complex work.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🖼️</div>
+        <h4>Multimodal Analysis</h4>
+        <p>Upload images of student work, diagrams, graphs, or visual resources directly to Claude. Ask for feedback on written work samples, analysis of student diagrams, or adaptation of visual materials.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Comparing Claude Plans for Educators</h3>
+    <table class="ref-table">
+      <tr>
+        <th>Feature</th>
+        <th>Free</th>
+        <th>Pro (Individual)</th>
+        <th>Team (Department)</th>
+      </tr>
+      <tr>
+        <td>Daily usage</td>
+        <td>Limited</td>
+        <td class="check">Generous daily limit</td>
+        <td class="check">High volume</td>
+      </tr>
+      <tr>
+        <td>Projects (persistent context)</td>
+        <td class="cross">No</td>
+        <td class="check">Yes — up to 5 Projects</td>
+        <td class="check">Yes — unlimited</td>
+      </tr>
+      <tr>
+        <td>Artifacts</td>
+        <td>Limited</td>
+        <td class="check">Full access</td>
+        <td class="check">Full access</td>
+      </tr>
+      <tr>
+        <td>Extended Thinking (Opus)</td>
+        <td class="cross">No</td>
+        <td class="check">Yes</td>
+        <td class="check">Yes</td>
+      </tr>
+      <tr>
+        <td>File uploads (PDF, docs)</td>
+        <td>Limited</td>
+        <td class="check">Yes — large files</td>
+        <td class="check">Yes — large files</td>
+      </tr>
+      <tr>
+        <td>Shared Projects with team</td>
+        <td class="cross">No</td>
+        <td class="cross">No</td>
+        <td class="check">Yes</td>
+      </tr>
+      <tr>
+        <td>Admin controls</td>
+        <td class="cross">No</td>
+        <td class="cross">No</td>
+        <td class="check">Yes</td>
+      </tr>
+      <tr>
+        <td>Best for</td>
+        <td>Occasional use</td>
+        <td>Individual educators</td>
+        <td>Departments &amp; schools</td>
+      </tr>
+    </table>
+
+    <h3 class="sub">Building a Curriculum-Aligned Knowledge Base</h3>
+    <div class="instr-builder">
+      <div class="instr-builder-hdr">
+        <h4>What to Upload to Each Course Project</h4>
+        <p>A focused knowledge base produces dramatically better output than a cluttered one. Start with these five document types.</p>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">Curriculum doc</div>
+        <div class="instr-val">Achievement standards, learning objectives, or syllabus for your subject and year level. <em>Claude will align all outputs to these automatically.</em></div>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">Unit overview</div>
+        <div class="instr-val">Your term or unit plan showing topics, sequence, and key assessments. <em>Gives Claude the full picture so individual lessons fit the bigger structure.</em></div>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">Assessment rubrics</div>
+        <div class="instr-val">Any existing rubrics or assessment criteria for the course. <em>Claude uses these as the benchmark when designing new assessments or feedback.</em></div>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">Resource templates</div>
+        <div class="instr-val">Your preferred lesson plan template, worksheet format, or report comment style. <em>Claude matches the format you already use rather than starting from scratch.</em></div>
+      </div>
+      <div class="instr-row">
+        <div class="instr-key">School context</div>
+        <div class="instr-val">Brief notes on your school's pedagogical approach, student context, or any school-specific terminology. <em>Keeps outputs relevant to your actual setting.</em></div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">MCP Integrations for Schools</div>
+        <div class="callout-text">Claude supports MCP (Model Context Protocol) integrations that can connect it to school tools. This is an emerging capability — check with your school's IT team about approved integrations with your LMS, student information system, or shared drives.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 05 — PROMPT LIBRARY ══════════════════════════════════════ -->
+  <section id="s05">
+    <div class="sec-hdr">
+      <div class="sec-num">05</div>
+      <div class="sec-meta">
+        <h2>Prompt Library</h2>
+        <p>15 ready-to-use prompts across five categories — optimised for Claude</p>
+      </div>
+    </div>
+
+    <p class="body">These prompts are structured for Claude's strengths — they reference Artifacts, leverage Projects context, and use Extended Thinking where it helps most. Copy, adapt the bracketed sections, and use immediately.</p>
+
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'lesson')">Lesson Planning</button>
+        <button class="tab-btn" onclick="switchTab(this,'assess')">Assessment</button>
+        <button class="tab-btn" onclick="switchTab(this,'feedback')">Feedback</button>
+        <button class="tab-btn" onclick="switchTab(this,'comms')">Communication</button>
+        <button class="tab-btn" onclick="switchTab(this,'research')">Research</button>
+      </div>
+
+      <!-- LESSON PLANNING TAB -->
+      <div class="tab-pane active" id="pane-lesson">
+        <div class="prompt-card">
+          <div class="prompt-label">Single Lesson Plan with Differentiation</div>
+          <div class="prompt-text">"Create a complete [DURATION] lesson plan for [TOPIC] for [YEAR/GRADE] as an Artifact. Align objectives to my curriculum documents. Include: hook (5 min), direct instruction, guided practice, independent task, exit ticket. Provide differentiation notes for support, core, and extension learners at the bottom of each phase."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Multi-Week Unit Plan</div>
+          <div class="prompt-text">"Think step by step about curriculum sequence and skill progression, then create a [NUMBER]-week unit plan for [TOPIC] at [YEAR/GRADE]. For each week, list: learning focus, key resources, formative assessment method, and connection to the next week's work. Include a summative assessment task at the end. Save as an Artifact."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Inquiry-Based Lesson Sequence</div>
+          <div class="prompt-text">"Design a 3-lesson inquiry sequence on [TOPIC] for [YEAR/GRADE]. Use the structure: (1) Hook and question generation, (2) Investigation and evidence gathering, (3) Synthesis and presentation. For each lesson, include guiding questions, student activities, teacher facilitation notes, and assessment opportunities. Create as an Artifact."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Substitute Teacher Plan</div>
+          <div class="prompt-text">"Write a self-contained lesson plan for a substitute teacher covering [TOPIC] for [YEAR/GRADE]. Keep it simple to deliver with no specialist knowledge needed. Include: what to write on the board, step-by-step instructions, what materials are needed, and what the expected student output is by end of lesson. Tone: clear, reassuring for a non-specialist."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <!-- ASSESSMENT TAB -->
+      <div class="tab-pane" id="pane-assess">
+        <div class="prompt-card">
+          <div class="prompt-label">Detailed Assessment Rubric</div>
+          <div class="prompt-text">"Think carefully about curriculum alignment, then create a rubric for [ASSESSMENT TASK] for [YEAR/GRADE]. Include 4 criteria, 4 performance levels (Excellent/Proficient/Developing/Beginning), specific observable descriptors in each cell, and alignment to the curriculum standards in my Project documents. Create as an Artifact I can edit and reuse."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Formative Assessment Pack</div>
+          <div class="prompt-text">"Create a formative assessment pack for the topic [TOPIC] at [YEAR/GRADE]. Include: 3 different exit ticket formats (verbal, written, visual), a 5-question diagnostic quiz, a student self-assessment checklist, and a tracking sheet I can use to record class progress. Save as an Artifact."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Assessment Task Design</div>
+          <div class="prompt-text">"Design an authentic assessment task for [TOPIC] at [YEAR/GRADE] that goes beyond knowledge recall. Task should require students to apply, analyse, or create. Include: task description, conditions (time, resources allowed), assessment criteria aligned to the rubric format in my documents, and sample student instructions. Create as an Artifact."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <!-- FEEDBACK TAB -->
+      <div class="tab-pane" id="pane-feedback">
+        <div class="prompt-card">
+          <div class="prompt-label">Written Report Comments (Batch)</div>
+          <div class="prompt-text">"Write [NUMBER] different report comment templates for [SUBJECT] at [YEAR/GRADE]. I need comments for: (1) High achieving student, (2) On-track student with one area for growth, (3) Student working below expectations but showing effort, (4) Student who is capable but disengaged. Each comment should be 3–4 sentences, curriculum-referenced, and end with a forward-looking statement."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Individual Assignment Feedback</div>
+          <div class="prompt-text">"Write detailed feedback for a [YEAR/GRADE] student's [TASK TYPE]. Strengths: [LIST]. Areas for improvement: [LIST]. The student context: [e.g. EAL/D learner / high achiever / needs confidence support]. Structure: open with a genuine strength, address the main growth area with a specific suggestion, close with an encouraging forward-looking statement. Two concrete action steps."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Peer Feedback Framework</div>
+          <div class="prompt-text">"Create a structured peer feedback framework for [YEAR/GRADE] students to use when reviewing each other's [TASK TYPE]. Include: age-appropriate sentence starters for positive feedback, sentence starters for constructive suggestions, a checklist of what to look for based on the criteria, and guidance on tone. Make it simple enough for students to use independently. Save as an Artifact."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <!-- COMMUNICATION TAB -->
+      <div class="tab-pane" id="pane-comms">
+        <div class="prompt-card">
+          <div class="prompt-label">Parent Newsletter Article</div>
+          <div class="prompt-text">"Write a 200-word parent newsletter article about [TOPIC, e.g. what we're learning this term / an upcoming event / a new approach to homework]. Tone: warm, informative, jargon-free. Include a clear headline, 2–3 paragraphs, and one call to action for parents. Write for an audience who care about their child's education but have limited time to read."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Sensitive Parent Email</div>
+          <div class="prompt-text">"Draft an email to parents about [SENSITIVE SITUATION, e.g. a student's behaviour / a pastoral concern / an academic decline]. Tone: professional, empathetic, solution-focused — not accusatory. Structure: acknowledge the situation, describe our response and support, explain what we'd like from parents, and confirm next steps. Review the draft for tone before presenting it to me."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Excursion / Event Permission Letter</div>
+          <div class="prompt-text">"Write a parent permission letter for [EVENT/EXCURSION] on [DATE]. Include: purpose and curriculum connection, logistics (departure/return times, what to bring, cost), medical/dietary information request, photo permission, and a clear reply-by date. Tone: friendly and professional. Include a tear-off consent section at the bottom."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <!-- RESEARCH TAB -->
+      <div class="tab-pane" id="pane-research">
+        <div class="prompt-card">
+          <div class="prompt-label">Research Paper Synthesis</div>
+          <div class="prompt-text">"I've uploaded [NUMBER] research papers on [TOPIC]. Synthesise the key findings. Structure as: (1) Common themes across all sources, (2) Divergent or contested findings, (3) Methodological notes — what was the evidence quality?, (4) Practical classroom implications — what does this mean for my teaching this term? Be specific in the practical section. Cite which paper supports each key point."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Evidence-Based Strategy Brief</div>
+          <div class="prompt-text">"Summarise the evidence base for [TEACHING STRATEGY, e.g. retrieval practice / worked examples / Socratic questioning] for [YEAR/GRADE] students in [SUBJECT]. Include: what the research says, conditions under which it works best, potential challenges or limitations, and 3 specific ways I could implement this in my classroom this week. Keep it practical — I need to use this, not just read about it."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 06 — MEASURING IMPACT ════════════════════════════════════ -->
+  <section id="s06">
+    <div class="sec-hdr">
+      <div class="sec-num">06</div>
+      <div class="sec-meta">
+        <h2>Measuring Impact</h2>
+        <p>How to know if your AI integration is actually making a difference</p>
+      </div>
+    </div>
+
+    <p class="body">Integrating AI into teaching practice isn't just about saving time — it's about improving professional sustainability, output quality, and ultimately student outcomes. These are the metrics worth tracking.</p>
+
+    <div class="card-grid">
+      <div class="metric-card">
+        <div class="metric-number">5–10h</div>
+        <div class="metric-label">Weekly time saved</div>
+        <div class="metric-desc">Hours redirected from admin and planning to teaching, relationships, and professional development</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">3×</div>
+        <div class="metric-label">Differentiation reach</div>
+        <div class="metric-desc">Three differentiated resource versions per task instead of one — every lesson, every week</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">100%</div>
+        <div class="metric-label">Feedback coverage</div>
+        <div class="metric-desc">Detailed, specific written feedback for every student — not just the ones you had time for</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">≤15min</div>
+        <div class="metric-label">Lesson plan drafting</div>
+        <div class="metric-desc">From blank page to complete differentiated lesson plan including materials and assessment</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Simple Tracking Framework</h3>
+    <table class="ref-table">
+      <tr>
+        <th>Area</th>
+        <th>What to track</th>
+        <th>How to measure</th>
+      </tr>
+      <tr>
+        <td><strong>Time efficiency</strong></td>
+        <td>Hours per week spent on planning, marking, and comms</td>
+        <td>Brief weekly log (5 min, Friday afternoon)</td>
+      </tr>
+      <tr>
+        <td><strong>Resource quality</strong></td>
+        <td>Are materials better differentiated? More curriculum-aligned?</td>
+        <td>Peer review with a colleague once per term</td>
+      </tr>
+      <tr>
+        <td><strong>Student response</strong></td>
+        <td>Do students engage more with differentiated materials?</td>
+        <td>Student surveys once per term</td>
+      </tr>
+      <tr>
+        <td><strong>Communication quality</strong></td>
+        <td>Are parent responses more positive? Fewer follow-up emails?</td>
+        <td>Track parent reply patterns over a term</td>
+      </tr>
+      <tr>
+        <td><strong>Professional wellbeing</strong></td>
+        <td>Reduced out-of-hours work, improved preparation confidence</td>
+        <td>Self-rating scale monthly</td>
+      </tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Start with one metric</div>
+        <div class="callout-text">Don't try to measure everything at once. Pick one area — most educators start with time — track it for four weeks, and use that data to demonstrate value to your leadership team. Concrete numbers make the strongest case for broader AI adoption.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 07 — COMMON MISTAKES ══════════════════════════════════════ -->
+  <section id="s07">
+    <div class="sec-hdr">
+      <div class="sec-num">07</div>
+      <div class="sec-meta">
+        <h2>Common Mistakes &amp; What to Do Instead</h2>
+        <p>The five patterns that limit educators' results — and the fixes</p>
+      </div>
+    </div>
+
+    <p class="body">Most educators who feel like Claude "isn't working" are making one or more of these mistakes. The fixes are simple and produce immediate improvements in output quality.</p>
+
+    <div class="do-avoid">
+
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Ignoring Projects</strong> — Starting every session in a blank chat, re-explaining your year level, subject, and curriculum framework from scratch. Context is lost between sessions.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do instead</div>
+          <div class="pair-text"><strong>Create a Project per course</strong> — Upload your curriculum documents and write a system prompt once. Every conversation in that Project inherits your full context automatically, from day one.</div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Not using Artifacts</strong> — Copying text from the chat window, pasting into a document, reformatting it. Repeating this every time you want to revise or update the material.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do instead</div>
+          <div class="pair-text"><strong>Request Artifacts for every reusable resource</strong> — Say "create this as an Artifact" for lesson plans, rubrics, and worksheets. They're editable, saveable, and exportable directly from the conversation.</div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Sharing student PII</strong> — Including real student names, ID numbers, or identifiable personal details when requesting feedback drafts or analysing student work.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do instead</div>
+          <div class="pair-text"><strong>Use anonymised descriptions</strong> — Replace student names with "Student A" or role descriptions ("a Year 9 student who..."). Provide context without identifiable information. This is both best practice and school policy in most jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Skipping Extended Thinking for complex tasks</strong> — Asking Claude to design a term-long unit plan or alignment-check a rubric without prompting it to reason carefully first, then being disappointed by shallow output.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do instead</div>
+          <div class="pair-text"><strong>Ask Claude to "think carefully" for complex tasks</strong> — Add "think step by step before responding" or "think carefully about curriculum alignment" to your prompt. This activates extended reasoning and significantly improves output depth and accuracy for multi-step tasks.</div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Not reviewing AI output against curriculum</strong> — Using AI-generated lesson plans or rubrics without checking that the learning objectives and criteria actually match your curriculum framework and year-level expectations.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do instead</div>
+          <div class="pair-text"><strong>Always verify alignment with your curriculum</strong> — Treat every AI output as a strong first draft. Spend 5 minutes checking objectives against your achievement standards, and adjusting any content or language that doesn't match your students' level or your school's approach.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body">
+        <div class="callout-label">Professional responsibility reminder</div>
+        <div class="callout-text">AI-generated content is a starting point, not a finished product. You are the registered professional — the responsibility for what goes into your students' learning experiences sits with you. Review every output before use. Your professional judgment is the quality control layer that AI cannot replace.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 08 — YOUR LEARNING PATH ════════════════════════════════ -->
+  <section id="s08">
+    <div class="sec-hdr">
+      <div class="sec-num">08</div>
+      <div class="sec-meta">
+        <h2>Your Learning Path</h2>
+        <p>Five Claude guides to deepen your expertise — recommended reading order for educators</p>
+      </div>
+    </div>
+
+    <p class="body">This playbook covers the educator-specific application. These five core guides build the underlying skills that will make every technique in this playbook work better — from the foundations of using Claude effectively through to advanced multi-modal and memory features.</p>
+
+    <div class="guide-links">
+      <a href="Claude-101-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">1</div>
+        <div class="guide-link-info">
+          <h4>Claude 101 — Getting Started</h4>
+          <p>The foundations: interface, conversation structure, and how to get consistently good output from Claude. Start here if you're new.</p>
+        </div>
+        <div class="guide-link-arrow">→</div>
+      </a>
+      <a href="Claude-Prompt-Engineering-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">2</div>
+        <div class="guide-link-info">
+          <h4>Claude Prompt Engineering</h4>
+          <p>Write prompts that produce better, more consistent results. The techniques in this guide will upgrade every prompt in your teaching practice.</p>
+        </div>
+        <div class="guide-link-arrow">→</div>
+      </a>
+      <a href="Claude-Projects-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">3</div>
+        <div class="guide-link-info">
+          <h4>Claude Projects</h4>
+          <p>Master persistent context, Project Instructions, and knowledge base management. Essential for setting up course Projects correctly.</p>
+        </div>
+        <div class="guide-link-arrow">→</div>
+      </a>
+      <a href="Claude-Multimodal-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">4</div>
+        <div class="guide-link-info">
+          <h4>Claude Multimodal</h4>
+          <p>Upload student work images, analyse diagrams, and work with visual resources. Opens up a new dimension of AI-assisted assessment and feedback.</p>
+        </div>
+        <div class="guide-link-arrow">→</div>
+      </a>
+      <a href="Claude-Memory-Context-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">5</div>
+        <div class="guide-link-info">
+          <h4>Claude Memory &amp; Context</h4>
+          <p>Understand how Claude's context window works, how to manage long conversations, and strategies for maintaining quality across extended sessions.</p>
+        </div>
+        <div class="guide-link-arrow">→</div>
+      </a>
+    </div>
+
+    <h3 class="sub">Suggested Learning Sequence for Educators</h3>
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">W1</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Week 1 — Foundation (Claude 101 + first workflow)</h4>
+          <p>Read Claude 101, then immediately apply one workflow from Section 03 of this playbook. Lesson planning is the easiest entry point — pick a lesson you're planning this week and use Claude to draft it. Compare the AI draft to your usual process.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">W2</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Week 2 — Context (Projects guide + first Project setup)</h4>
+          <p>Read the Claude Projects guide and set up your first educator Project for your main class. Upload your curriculum documents and write your system prompt. Notice the improvement in output quality when Claude already knows your context.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">W3</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Week 3 — Prompting (Prompt Engineering guide + rubric design)</h4>
+          <p>Read the Prompt Engineering guide and apply it to your first rubric. Use the Extended Thinking technique ("think carefully about curriculum alignment") and compare the output to a basic prompt. The difference will be immediately visible.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">W4</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Week 4 — Scale (Multimodal + full workflow integration)</h4>
+          <p>Explore multimodal capabilities — upload a student work sample (anonymised) and ask for feedback notes. Set up Projects for all your classes. By end of week four you should have a complete AI-assisted teaching workflow running across your full timetable.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">M2</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Month 2 — Mastery (Memory &amp; Context guide + department sharing)</h4>
+          <p>Read Memory &amp; Context to understand Claude's limits and how to work within them. If you're on a Team plan, share your best-configured Projects with colleagues. Start tracking time savings and build the case for wider adoption in your school.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">🎓</div>
+      <div class="callout-body">
+        <div class="callout-label">The one-lesson-per-week rule</div>
+        <div class="callout-text">The most consistent way to build AI competency is to commit to using Claude for at least one complete teaching task per week — not occasionally, not when you remember. After eight weeks of consistent practice, it becomes intuitive. After a term, you'll find it hard to imagine working without it.</div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">🏫</div>
+      <div class="callout-body">
+        <div class="callout-label">Department Rollout</div>
+        <div class="callout-text">If you're leading AI adoption for a department or school, The AI Advantage Co offers facilitated professional development sessions for educator teams — including hands-on Claude setup workshops, playbook walkthroughs, and department Project configuration support. Visit theaiadvantageco.com.au for details.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 The AI Advantage Co — theaiadvantageco.com.au</span>
+    <span>The Educator's AI Playbook — Claude Edition · June 2026</span>
+  </footer>
+
+</main>
+
+<script>
+// ── Scroll-spy ──────────────────────────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('nav a');
+const observer  = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ── Tab switcher ────────────────────────────────────────────────
+function switchTab(btn, paneId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-' + paneId).classList.add('active');
+}
+
+// ── Copy prompt ─────────────────────────────────────────────────
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-card').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--orange)';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 1800);
+  });
+}
+</script>
+</body>
+</html>

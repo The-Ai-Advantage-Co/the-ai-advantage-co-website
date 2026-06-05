@@ -216,6 +216,42 @@
     "order": 120
   },
   {
+    "slug": "educator-ai-playbook-chatgpt",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Educator AI Playbook ChatGPT",
+    "sub": "",
+    "file": "chatgpt/educator-ai-playbook-chatgpt.html",
+    "order": 130
+  },
+  {
+    "slug": "engineer-ai-playbook-chatgpt",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Engineer AI Playbook ChatGPT",
+    "sub": "",
+    "file": "chatgpt/engineer-ai-playbook-chatgpt.html",
+    "order": 140
+  },
+  {
+    "slug": "opsadmin-ai-playbook-chatgpt",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Opsadmin AI Playbook ChatGPT",
+    "sub": "",
+    "file": "chatgpt/opsadmin-ai-playbook-chatgpt.html",
+    "order": 150
+  },
+  {
+    "slug": "smallbusiness-ai-playbook-chatgpt",
+    "platform": "chatgpt",
+    "group": "topical",
+    "title": "Smallbusiness AI Playbook ChatGPT",
+    "sub": "",
+    "file": "chatgpt/smallbusiness-ai-playbook-chatgpt.html",
+    "order": 160
+  },
+  {
     "slug": "master-guide-claude",
     "platform": "claude",
     "group": "master",
@@ -385,6 +421,42 @@
     "sub": "",
     "file": "claude/claude-safety-and-refusals.html",
     "order": 80
+  },
+  {
+    "slug": "educator-ai-playbook-claude",
+    "platform": "claude",
+    "group": "topical",
+    "title": "Educator AI Playbook Claude",
+    "sub": "",
+    "file": "claude/educator-ai-playbook-claude.html",
+    "order": 90
+  },
+  {
+    "slug": "engineer-ai-playbook-claude",
+    "platform": "claude",
+    "group": "topical",
+    "title": "Engineer AI Playbook Claude",
+    "sub": "",
+    "file": "claude/engineer-ai-playbook-claude.html",
+    "order": 100
+  },
+  {
+    "slug": "opsadmin-ai-playbook-claude",
+    "platform": "claude",
+    "group": "topical",
+    "title": "Opsadmin AI Playbook Claude",
+    "sub": "",
+    "file": "claude/opsadmin-ai-playbook-claude.html",
+    "order": 110
+  },
+  {
+    "slug": "smallbusiness-ai-playbook-claude",
+    "platform": "claude",
+    "group": "topical",
+    "title": "Smallbusiness AI Playbook Claude",
+    "sub": "",
+    "file": "claude/smallbusiness-ai-playbook-claude.html",
+    "order": 120
   },
   {
     "slug": "master-guide-gemini",
@@ -817,5 +889,41 @@
     "sub": "",
     "file": "copilot/copilot-vs-chatgpt.html",
     "order": 120
+  },
+  {
+    "slug": "educator-ai-playbook-copilot",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "Educator AI Playbook Copilot",
+    "sub": "",
+    "file": "copilot/educator-ai-playbook-copilot.html",
+    "order": 130
+  },
+  {
+    "slug": "engineer-ai-playbook-copilot",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "Engineer AI Playbook Copilot",
+    "sub": "",
+    "file": "copilot/engineer-ai-playbook-copilot.html",
+    "order": 140
+  },
+  {
+    "slug": "opsadmin-ai-playbook-copilot",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "Opsadmin AI Playbook Copilot",
+    "sub": "",
+    "file": "copilot/opsadmin-ai-playbook-copilot.html",
+    "order": 150
+  },
+  {
+    "slug": "smallbusiness-ai-playbook-copilot",
+    "platform": "copilot",
+    "group": "topical",
+    "title": "Smallbusiness AI Playbook Copilot",
+    "sub": "",
+    "file": "copilot/smallbusiness-ai-playbook-copilot.html",
+    "order": 160
   }
 ]

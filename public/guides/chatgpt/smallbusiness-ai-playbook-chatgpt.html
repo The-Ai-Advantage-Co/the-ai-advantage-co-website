@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Small Business Owner's AI Playbook — ChatGPT Edition | The AI Advantage Co</title>
+<style>
+:root{
+  --primary:#10A37F;
+  --primary-light:#2EC4A9;
+  --primary-soft:rgba(16,163,127,0.09);
+  --primary-border:rgba(16,163,127,0.20);
+  --sidebar-bg:#1C1C1C;
+  --sidebar-hover:#2A2A2A;
+  --sidebar-act:rgba(16,163,127,0.14);
+  --page-bg:#F9F9F9;
+  --white:#FFFFFF;
+  --card-bg:#FFFFFF;
+  --ink:#0D0D0D;
+  --body-text:#353740;
+  --muted:#6E6E80;
+  --border:#E5E5E5;
+  --divider:#DDDDDD;
+  --sidebar-w:260px;
+  --radius:10px;
+  --radius-sm:6px;
+  --green:#10A37F;
+  --green-l:#2EC4A9;
+  --green-soft:#E6F7F4;
+  --blue:#1A6FE8;--blue-soft:#EEF3FD;
+  --purple:#7C3AED;--purple-soft:#F3EEFF;
+  --orange:#E07B39;--orange-soft:#FEF3EB;
+  --yellow:#C9921A;--yellow-soft:#FEF9EE;
+  --red:#C13B3B;--red-soft:#FEEEEE;
+  --hdr-bg:#F0F0F0;
+  --text-mid:#353740;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:0 0 32px;flex-shrink:0}
+.sidebar-brand{padding:20px 20px 0}
+.brand-label{font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--primary-light);text-transform:uppercase;margin-bottom:2px}
+.brand-name{font-size:13.5px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:16px}
+.sidebar-divider{height:1px;background:rgba(255,255,255,.08);margin:0 20px 16px}
+.sidebar-meta{padding:0 20px 16px}
+.sidebar-guide-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:4px}
+.sidebar-guide-title{font-size:12px;color:rgba(255,255,255,.7);line-height:1.4}
+.nav-section{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.6);text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s;line-height:1.3}
+.nav-link svg{flex-shrink:0;opacity:.6}
+.nav-link:hover{color:#fff;background:var(--sidebar-hover);border-left-color:rgba(16,163,127,.4)}
+.nav-link.active{color:#fff;border-left-color:var(--primary);background:var(--sidebar-act)}
+.nav-link.active svg{opacity:1}
+.sidebar-footer{padding:20px 20px 0;margin-top:16px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-footer p{font-size:10px;color:rgba(255,255,255,.3);line-height:1.5}
+.sidebar-footer a{color:rgba(16,163,127,.7);text-decoration:none}
+.sidebar-footer a:hover{color:var(--primary-light)}
+
+/* main */
+.main{padding:36px 44px 80px;max-width:900px}
+
+/* banner */
+.banner{border-radius:var(--radius);margin-bottom:32px;overflow:hidden;position:relative}
+.banner svg{display:block;width:100%;height:auto}
+
+/* doc header */
+.doc-header{margin-bottom:28px}
+.breadcrumb{font-size:11px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.breadcrumb span{color:var(--border)}
+.doc-header h1{font-size:30px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:10px}
+.doc-subtitle{font-size:14.5px;color:var(--body-text);line-height:1.6;margin-bottom:14px;max-width:700px}
+.badge-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.05em}
+.badge.playbook{background:var(--primary);color:#fff}
+.badge.updated{background:var(--hdr-bg);color:var(--primary);border:1px solid var(--primary-border)}
+.badge.audience{background:#E8F0FF;color:#1A6FE8;border:1px solid #C5D7F5}
+
+/* content body */
+.content-body{}
+
+/* section */
+.section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:24px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:flex-start;gap:14px}
+.section-num{background:var(--primary);color:#fff;font-size:11.5px;font-weight:700;width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.section-title-wrap{}
+.section-title{font-size:18px;font-weight:700;color:var(--ink)}
+.section-desc{font-size:13px;color:var(--muted);margin-top:2px}
+.section-body{padding:22px}
+
+/* prose */
+.prose p{font-size:14px;color:var(--body-text);line-height:1.65;margin-bottom:14px}
+.prose strong{color:var(--ink);font-weight:700}
+.prose em{font-style:italic;color:var(--muted)}
+.prose h3{font-size:15px;font-weight:700;color:var(--ink);margin:20px 0 10px}
+.prose ul{margin:0 0 14px 18px}
+.prose ul li{font-size:14px;color:var(--body-text);line-height:1.6;margin-bottom:6px}
+
+/* sub-label */
+.sub-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--primary);text-transform:uppercase;margin:20px 0 10px}
+
+/* card grid */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.card-grid.three{grid-template-columns:1fr 1fr 1fr}
+.card-grid.four{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;border-top:3px solid var(--primary)}
+.card.blue{border-top-color:var(--blue)}
+.card.purple{border-top-color:var(--purple)}
+.card.orange{border-top-color:var(--orange)}
+.card.yellow{border-top-color:var(--yellow)}
+.card-icon{font-size:22px;margin-bottom:8px}
+.card-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.card-desc{font-size:13px;color:var(--body-text);line-height:1.5}
+
+/* callout */
+.callout{border-radius:var(--radius-sm);padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55;color:var(--body-text)}
+.callout.tip{background:var(--green-soft);border-left:4px solid var(--primary)}
+.callout.tip .callout-body strong{color:var(--primary)}
+.callout.warn{background:#FEF9C3;border-left:4px solid #B45309}
+.callout.warn .callout-body strong{color:#B45309}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--primary);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-content{}
+.step-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-desc{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:rgba(255,255,255,.75);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #333}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--body-text);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+.ref-table .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.04em}
+.ref-table .tag.green{background:var(--green-soft);color:var(--primary)}
+.ref-table .tag.blue{background:var(--blue-soft);color:var(--blue)}
+.ref-table .tag.purple{background:var(--purple-soft);color:var(--purple)}
+
+/* prompt section */
+.prompt-section{margin:16px 0}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.tab-btn{padding:7px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--white);color:var(--body-text);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.prompt-card{background:var(--sidebar-bg);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--body-text);line-height:1.65;font-style:italic}
+.copy-btn{background:none;border:1px solid rgba(46,196,169,.3);color:var(--primary-light);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;font-style:normal}
+.copy-btn:hover{background:rgba(16,163,127,.15)}
+
+/* impact / metric cards */
+.impact-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;text-align:center}
+.impact-num{font-size:32px;font-weight:700;color:var(--primary);line-height:1;margin-bottom:6px}
+.impact-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.impact-desc{font-size:12px;color:var(--muted);line-height:1.45}
+
+/* workflow / use-case blocks */
+.workflow-block{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;margin-bottom:16px}
+.workflow-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.workflow-icon{font-size:22px}
+.workflow-title{font-size:15px;font-weight:700;color:var(--ink)}
+.workflow-sub{font-size:12px;color:var(--muted)}
+.workflow-prompt{background:var(--sidebar-bg);border-radius:var(--radius-sm);overflow:hidden;margin-top:12px}
+.workflow-prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:8px 12px 6px;display:flex;justify-content:space-between;align-items:center}
+.workflow-prompt-text{background:#F8F8F8;border-top:1px solid var(--border);padding:10px 12px;font-size:13px;color:var(--body-text);line-height:1.6;font-style:italic}
+
+/* mistake cards */
+.mistake-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.mistake-bad{background:var(--red-soft);border:1px solid #F5C4C4;border-top:3px solid var(--red);border-radius:var(--radius-sm);padding:14px}
+.mistake-good{background:var(--green-soft);border:1px solid var(--primary-border);border-top:3px solid var(--primary);border-radius:var(--radius-sm);padding:14px}
+.mistake-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.mistake-bad .mistake-label{color:var(--red)}
+.mistake-good .mistake-label{color:var(--primary)}
+.mistake-bad p,.mistake-good p{font-size:13px;color:var(--body-text);line-height:1.5}
+
+/* plan / learning path */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.plan-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;text-decoration:none;transition:all .18s;border-top:3px solid var(--primary);display:block}
+.plan-card:hover{box-shadow:0 4px 16px rgba(16,163,127,.15);border-top-color:var(--primary-light);transform:translateY(-1px)}
+.plan-card.blue{border-top-color:var(--blue)}
+.plan-card.purple{border-top-color:var(--purple)}
+.plan-card.orange{border-top-color:var(--orange)}
+.plan-card .plan-num{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--primary);margin-bottom:6px}
+.plan-card.blue .plan-num{color:var(--blue)}
+.plan-card.purple .plan-num{color:var(--purple)}
+.plan-card.orange .plan-num{color:var(--orange)}
+.plan-card .plan-title{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.plan-card .plan-desc{font-size:13px;color:var(--body-text);line-height:1.5}
+.plan-card .plan-arrow{font-size:13px;color:var(--primary);margin-top:8px;display:block}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;border-top:3px solid var(--primary)}
+.roadmap-step.blue{border-top-color:var(--blue)}
+.roadmap-step.purple{border-top-color:var(--purple)}
+.roadmap-step.orange{border-top-color:var(--orange)}
+.rs-num{font-size:28px;font-weight:700;color:var(--primary);margin-bottom:6px}
+.roadmap-step.blue .rs-num{color:var(--blue)}
+.roadmap-step.purple .rs-num{color:var(--purple)}
+.roadmap-step.orange .rs-num{color:var(--orange)}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--body-text);line-height:1.5}
+
+/* prompt box inside instruction card */
+.instr-prompt{background:var(--sidebar-bg);border-radius:4px;overflow:hidden;margin-top:10px}
+.instr-prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:7px 12px 5px;display:flex;justify-content:space-between;align-items:center}
+.instr-prompt-text{background:#F8F8F8;border-top:1px solid var(--border);padding:10px 12px;font-size:12.5px;color:var(--body-text);line-height:1.6;font-style:italic;white-space:pre-wrap}
+
+/* responsive */
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto;width:100%}
+  .main{padding:24px 20px 60px}
+  .card-grid{grid-template-columns:1fr}
+  .card-grid.three{grid-template-columns:1fr}
+  .card-grid.four{grid-template-columns:1fr 1fr}
+  .plan-grid{grid-template-columns:1fr}
+  .mistake-grid{grid-template-columns:1fr}
+  .roadmap{grid-template-columns:1fr 1fr}
+  .ref-table{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-label">The AI Advantage Co</div>
+    <div class="brand-name">Documentation Hub</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-meta">
+    <div class="sidebar-guide-label">Current Guide</div>
+    <div class="sidebar-guide-title">Small Business AI Playbook — ChatGPT Edition</div>
+  </div>
+  <div class="nav-section">Sections</div>
+  <a class="nav-link active" href="#s01">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4v8l6 3 6-3V4L8 1z" stroke="#10A37F" stroke-width="1.5" fill="none"/></svg>
+    01 — Why AI Matters for Small Business
+  </a>
+  <a class="nav-link" href="#s02">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#10A37F" stroke-width="1.5"/><path d="M5 8h6M8 5v6" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    02 — Setting Up ChatGPT
+  </a>
+  <a class="nav-link" href="#s03">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    03 — Daily Workflows
+  </a>
+  <a class="nav-link" href="#s04">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2l2 4 4.5.7-3.25 3.15.77 4.5L8 12.1l-4.02 2.25.77-4.5L1.5 6.7 6 6z" stroke="#10A37F" stroke-width="1.5" fill="none"/></svg>
+    04 — Advanced Techniques
+  </a>
+  <a class="nav-link" href="#s05">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="2" stroke="#10A37F" stroke-width="1.5"/><path d="M5 7h6M5 10h4" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    05 — Prompt Library
+  </a>
+  <a class="nav-link" href="#s06">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 13V7l3-3 3 3 3-5 3 8" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    06 — Measuring Impact
+  </a>
+  <a class="nav-link" href="#s07">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#10A37F" stroke-width="1.5"/><path d="M8 5v3.5M8 10.5v1" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    07 — Common Mistakes
+  </a>
+  <a class="nav-link" href="#s08">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2L3 6v7h10V6L8 2z" stroke="#10A37F" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 13V9h4v4" stroke="#10A37F" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    08 — Your Learning Path
+  </a>
+  <div class="sidebar-footer">
+    <p>© 2026 <a href="#">The AI Advantage Co</a><br>All rights reserved.</p>
+  </div>
+</aside>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<main class="main">
+
+<!-- BANNER SVG -->
+<div class="banner">
+<svg viewBox="0 0 1400 260" xmlns="http://www.w3.org/2000/svg" width="1400" height="260">
+  <defs>
+    <linearGradient id="bannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A1A12;stop-opacity:1"/>
+      <stop offset="45%" style="stop-color:#0D2A1E;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0A1A12;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="glowLeft" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" style="stop-color:#10A37F;stop-opacity:0.22"/>
+      <stop offset="100%" style="stop-color:#10A37F;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="glowRight" x1="100%" y1="50%" x2="0%" y2="50%">
+      <stop offset="0%" style="stop-color:#10A37F;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#10A37F;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="260" fill="url(#bannerGrad)"/>
+  <ellipse cx="160" cy="130" rx="380" ry="220" fill="url(#glowLeft)"/>
+  <ellipse cx="1240" cy="130" rx="300" ry="200" fill="url(#glowRight)"/>
+  <!-- Grid lines -->
+  <line x1="0" y1="50" x2="1400" y2="50" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="100" x2="1400" y2="100" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="160" x2="1400" y2="160" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="210" x2="1400" y2="210" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="280" y1="0" x2="280" y2="260" stroke="#10A37F" stroke-opacity="0.05" stroke-width="1"/>
+  <line x1="560" y1="0" x2="560" y2="260" stroke="#10A37F" stroke-opacity="0.05" stroke-width="1"/>
+  <line x1="840" y1="0" x2="840" y2="260" stroke="#10A37F" stroke-opacity="0.05" stroke-width="1"/>
+  <line x1="1120" y1="0" x2="1120" y2="260" stroke="#10A37F" stroke-opacity="0.05" stroke-width="1"/>
+  <!-- Circles -->
+  <circle cx="1300" cy="45" r="100" fill="none" stroke="#10A37F" stroke-opacity="0.12" stroke-width="1.5"/>
+  <circle cx="1300" cy="45" r="62" fill="none" stroke="#10A37F" stroke-opacity="0.09" stroke-width="1"/>
+  <circle cx="1300" cy="45" r="30" fill="#10A37F" fill-opacity="0.08"/>
+  <circle cx="100" cy="215" r="75" fill="none" stroke="#2EC4A9" stroke-opacity="0.1" stroke-width="1.5"/>
+  <circle cx="100" cy="215" r="45" fill="none" stroke="#2EC4A9" stroke-opacity="0.07" stroke-width="1"/>
+  <!-- Accent dots -->
+  <circle cx="460" cy="28" r="3" fill="#10A37F" fill-opacity="0.45"/>
+  <circle cx="500" cy="46" r="2" fill="#2EC4A9" fill-opacity="0.35"/>
+  <circle cx="900" cy="235" r="3" fill="#10A37F" fill-opacity="0.3"/>
+  <circle cx="940" cy="222" r="2" fill="#2EC4A9" fill-opacity="0.28"/>
+  <circle cx="340" cy="145" r="4" fill="#10A37F" fill-opacity="0.14"/>
+  <circle cx="1060" cy="118" r="5" fill="#10A37F" fill-opacity="0.11"/>
+  <!-- Small business icon: briefcase outline -->
+  <rect x="600" y="80" width="200" height="130" rx="8" fill="none" stroke="#10A37F" stroke-opacity="0.12" stroke-width="2"/>
+  <path d="M640 80 V72 a16 16 0 0 1 16-16h88 a16 16 0 0 1 16 16 V80" fill="none" stroke="#10A37F" stroke-opacity="0.10" stroke-width="1.5"/>
+  <!-- Top label -->
+  <text x="700" y="62" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="3" fill="#2EC4A9" opacity="0.9">SMALL BUSINESS PLAYBOOK</text>
+  <!-- Main title -->
+  <text x="700" y="148" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="52" font-weight="700" fill="#FFFFFF" opacity="0.97" letter-spacing="-1">SMALL BUSINESS PLAYBOOK</text>
+  <!-- Bottom label -->
+  <text x="700" y="196" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="16" font-weight="600" letter-spacing="4" fill="#10A37F" opacity="0.85">CHATGPT EDITION</text>
+  <!-- Decorative line -->
+  <rect x="530" y="162" width="340" height="2" rx="1" fill="#10A37F" fill-opacity="0.35"/>
+</svg>
+</div>
+
+<!-- DOC HEADER -->
+<div class="doc-header">
+  <div class="breadcrumb">
+    <span style="color:var(--muted)">Documentation</span>
+    <span>›</span>
+    <span style="color:var(--muted)">Small Business Playbook</span>
+    <span>›</span>
+    <span style="color:var(--primary);font-weight:600">ChatGPT Edition</span>
+  </div>
+  <h1>The Small Business Owner's AI Playbook — ChatGPT Edition</h1>
+  <p class="doc-subtitle">Your complete guide to using ChatGPT for marketing, customer communication, proposals, business planning, product listings, and competitive analysis.</p>
+  <div class="badge-row">
+    <span class="badge playbook">PLAYBOOK</span>
+    <span class="badge updated">June 2026</span>
+    <span class="badge audience">Small Business Owners</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ CONTENT BODY ═══════════════════════ -->
+<div class="content-body">
+
+<!-- ════════════════════════ SECTION 01 ════════════════════════ -->
+<div class="section" id="s01">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Why AI Matters for Small Business</div>
+      <div class="section-desc">The competitive shift — and why every solo operator needs to act now</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Small businesses have always competed against organisations with bigger budgets, larger teams, and more resources. What's changed in 2026 is that AI has fundamentally altered the equation. A solo operator using ChatGPT can now produce marketing copy, customer responses, proposals, and business documents that match — and often exceed — the quality of agency output. The playing field hasn't been levelled; it's been tilted in favour of the small business owner who adopts quickly.</p>
+      <p>The businesses seeing the biggest gains aren't replacing their judgment with AI. They're using ChatGPT to compress the time spent on cognitive labour that doesn't require their unique expertise — the first draft of an email campaign, the structure of a client proposal, the research behind a competitive analysis. That frees them to spend more time on what only they can do: building relationships, making sales, and growing their business.</p>
+    </div>
+
+    <div class="sub-label">The Time Math — What Actually Changes</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📣</div>
+        <div class="card-title">Marketing Content</div>
+        <div class="card-desc">What used to take <strong>3 hours of writing and editing</strong> — a month of social posts, an email newsletter, ad copy — now takes <strong>under 30 minutes</strong>. ChatGPT generates consistent, on-brand content at volume.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">📄</div>
+        <div class="card-title">Proposal Writing</div>
+        <div class="card-desc">Turning meeting notes into a professional proposal used to take <strong>days of writing, formatting, and editing</strong>. With ChatGPT, the same proposal — with executive summary, scope, pricing, and terms — takes <strong>under two hours</strong>.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-icon">💬</div>
+        <div class="card-title">Customer Communication</div>
+        <div class="card-desc">Drafting professional, warm responses to enquiries, complaints, and follow-ups is a constant drain. ChatGPT turns <strong>15-minute email compositions</strong> into <strong>2-minute reviews</strong> of a ready-to-send draft.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">Market Research</div>
+        <div class="card-desc">Competitor analysis, market sizing, and SWOT analysis that once required <strong>consultant fees or weekend research</strong> can now be done <strong>in house, in under an hour</strong>, with structured outputs ready for your business plan.</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>GPT-5.5 + Image Generation = Complete Content Pipeline</strong><p>The 2026 GPT-5.5 release combined with native image generation means small business owners now have a complete content production pipeline in one tool. Write the copy, generate the graphic, and post it — all within ChatGPT Plus. No separate design tool, no stock image subscription, no agency brief required.</p></div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body"><strong>How to Use This Playbook</strong><p>This guide is built for business owners, not tech enthusiasts. Every section includes copy-ready prompts you can use immediately. Work through it in order for a complete setup, or jump to the use case you need most right now. You'll see results within your first day.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 02 ════════════════════════ -->
+<div class="section" id="s02">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Setting Up ChatGPT for Small Business</div>
+      <div class="section-desc">Five steps to a professional, business-ready ChatGPT setup</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Getting ChatGPT set up correctly from the start saves significant time and ensures every conversation starts with the right context. This five-step setup takes under 30 minutes and makes everything else in this playbook dramatically more effective.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Choose the Plus Plan ($20/mo)</div>
+          <div class="step-desc">ChatGPT Plus gives you access to GPT-5.5, native image generation, file uploads, Projects, and Custom GPTs — all the features in this playbook. For a solo operator or small team, it's the highest-ROI software subscription you'll make. Free tier works for exploration but is too limited for daily business use.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Set Custom Instructions with Business Context</div>
+          <div class="step-desc">Custom Instructions tell ChatGPT who you are and how it should respond — permanently, across every conversation. Add your industry, business name, brand voice, target audience, location, and what you want ChatGPT to assume by default. See the example prompt card below.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Create Three Projects</div>
+          <div class="step-desc">Projects keep your conversations organised and let you store business-specific files (brand guidelines, product lists, past proposals). Create one project for <strong>Marketing &amp; Content</strong>, one for <strong>Client Communications</strong>, and one for <strong>Business Operations</strong>. Add your key documents to each.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Build a Custom GPT as Your Brand Voice Assistant</div>
+          <div class="step-desc">A Custom GPT trained on your brand voice, tone guidelines, product information, and past content will consistently produce on-brand output without re-explaining your business every session. This is a 20-minute setup with significant long-term payoff — covered in depth in Section 04.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Enable Image Generation</div>
+          <div class="step-desc">With Plus, image generation is available natively. Use it for social media graphics, product mockups, marketing visuals, and presentation assets. No separate design subscription needed for standard marketing content.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label">Small Business Custom Instructions — Example</div>
+    <div class="prompt-card">
+      <div class="prompt-label">
+        <span>CUSTOM INSTRUCTIONS — WHAT CHATGPT SHOULD KNOW ABOUT YOU</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="prompt-text">I run [BUSINESS NAME], a [INDUSTRY] business based in [LOCATION]. We serve [TARGET AUDIENCE — e.g., "residential homeowners aged 30–55 in suburban Brisbane"]. Our brand voice is [DESCRIPTION — e.g., "professional but approachable, direct, no jargon"]. Our main products/services are: [LIST]. Our price positioning is [DESCRIPTION]. I'm the sole owner/operator and handle all marketing, client communication, and business development myself. Always assume Australian English spelling and tone unless I say otherwise. When writing for us, match our voice and avoid sounding corporate or generic.</div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body"><strong>Don't Put Sensitive Info in Custom Instructions</strong><p>Custom Instructions are stored by OpenAI. Don't include passwords, financial details, customer personal data, or confidential client information. Keep it to brand voice, industry context, and communication style.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 03 ════════════════════════ -->
+<div class="section" id="s03">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Daily Workflows — 6 Core Use Cases</div>
+      <div class="section-desc">Ready-to-use ChatGPT workflows for the tasks that define a small business owner's week</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>The following six use cases cover the work that consumes the most time for most small business owners. Each includes a workflow description and a ready-to-use prompt — copy, customise the placeholders in brackets, and run.</p>
+    </div>
+
+    <!-- Use Case 1 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📣</div>
+        <div>
+          <div class="workflow-title">1 — Marketing Copy &amp; Social Media</div>
+          <div class="workflow-sub">Posts, ads, campaigns, email newsletters</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>ChatGPT is exceptional at generating high-volume, on-brand social content. Give it your platform, product or service, brand voice, and audience — and it will produce a full month of posts in minutes. Use your Marketing Project so it learns your business context over time.</p>
+        <p><strong>Best for:</strong> Instagram, LinkedIn, Facebook posts · Google Ads copy · Email newsletter drafts · Campaign theme development</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>SOCIAL MEDIA — CONTENT BATCH PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Write 5 social media posts for [PLATFORM] promoting [PRODUCT/SERVICE]. Our brand voice is [DESCRIPTION]. Target audience: [DESCRIPTION]. Include: hook, value proposition, call to action. Mix educational, promotional, and engagement posts. Format each post separately with a line break between them. Keep each under 150 words.</div>
+      </div>
+    </div>
+
+    <!-- Use Case 2 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">✉️</div>
+        <div>
+          <div class="workflow-title">2 — Customer Communication</div>
+          <div class="workflow-sub">Email templates, responses, follow-ups</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Every customer-facing email is a brand impression. ChatGPT helps you respond faster and more professionally — turning rough notes into polished, warm emails in seconds. Use your Client Communications Project to store past examples and improve consistency over time.</p>
+        <p><strong>Best for:</strong> Enquiry responses · Complaint handling · Follow-up sequences · Booking confirmations · Review requests</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>CUSTOMER ENQUIRY RESPONSE PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Draft a professional response to this customer enquiry: [PASTE EMAIL]. Tone: helpful and warm. Address their concern directly. Offer a solution. Include a follow-up action. Keep under 150 words. Sign off as [YOUR NAME], [BUSINESS NAME].</div>
+      </div>
+    </div>
+
+    <!-- Use Case 3 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📄</div>
+        <div>
+          <div class="workflow-title">3 — Proposals &amp; Quotes</div>
+          <div class="workflow-sub">Professional documents from brief notes</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>A strong proposal wins business. ChatGPT can turn rough meeting notes or a brief description into a complete, professional proposal — ready to be reviewed and sent. Upload your proposal template to your Business Ops Project to get consistent structure every time.</p>
+        <p><strong>Best for:</strong> Service proposals · Project quotes · Tender responses · Partnership agreements · Scope-of-work documents</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>PROPOSAL CREATION PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Create a professional proposal for [CLIENT] for [SERVICE]. Context: [MEETING NOTES]. Include: executive summary, scope of work, deliverables with timeline, pricing, terms, and next steps. Tone: confident but not pushy. Format in clear sections with headings. Length: 600–800 words.</div>
+      </div>
+    </div>
+
+    <!-- Use Case 4 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📊</div>
+        <div>
+          <div class="workflow-title">4 — Business Planning</div>
+          <div class="workflow-sub">Financial projections, market analysis, pitch materials</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Whether you're seeking finance, setting strategy, or validating a new offer, ChatGPT can structure your thinking and produce analysis-ready content. Provide context about your market, goals, and current position — and let it generate frameworks and projections for your review.</p>
+        <p><strong>Best for:</strong> Market analysis · Business plan sections · Financial projection narratives · Investor pitch summaries · Strategic planning outlines</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>MARKET ANALYSIS PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Create a market analysis for [INDUSTRY/NICHE] in [LOCATION]. Include: market size and growth trends, competitor landscape (top 5 players), target customer profile with demographics and pain points, key opportunities, and primary threats. Format for a business plan appendix with clear section headings. Cite any statistics as approximate/general estimates.</div>
+      </div>
+    </div>
+
+    <!-- Use Case 5 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">🛍️</div>
+        <div>
+          <div class="workflow-title">5 — Product Descriptions &amp; Listings</div>
+          <div class="workflow-sub">Compelling product copy for online stores and marketplaces</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Product listings that focus on benefits rather than features convert better. ChatGPT can generate compelling, SEO-aware copy for your entire product catalogue in a single session — optimised for your specific platform, whether that's Shopify, Amazon, eBay, or your own website.</p>
+        <p><strong>Best for:</strong> Shopify product pages · Amazon/eBay listings · Service page copy · Brochure descriptions · Menu item write-ups</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>PRODUCT DESCRIPTION PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Write product descriptions for [PRODUCT LIST]. For each: a compelling headline (under 10 words), a 3-line description highlighting benefits (not just features), and 3 bullet points. Tone: [BRAND VOICE]. Optimise for [PLATFORM — e.g., Shopify, Amazon, website]. Focus on what the customer gains, not just what the product does.</div>
+      </div>
+    </div>
+
+    <!-- Use Case 6 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">🔍</div>
+        <div>
+          <div class="workflow-title">6 — Competitive Analysis</div>
+          <div class="workflow-sub">Market research and competitor comparison</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Understanding your competitive landscape is essential — but research-heavy and time-consuming. ChatGPT can structure a competitive comparison, identify positioning gaps, and recommend differentiation strategies based on the information you provide about your market.</p>
+        <p><strong>Best for:</strong> Competitor comparison · Pricing strategy · Positioning gaps · Differentiation strategy · SWOT analysis</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>COMPETITIVE ANALYSIS PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Analyse my top 3 competitors: [LIST WITH WEBSITES OR DESCRIPTIONS]. For each: pricing (approximate), unique selling points, target audience, 2 strengths, 2 weaknesses. Then identify 3 gaps in the market I could exploit and recommend 3 differentiation strategies specific to my business: [BRIEF DESCRIPTION OF YOUR BUSINESS].</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 04 ════════════════════════ -->
+<div class="section" id="s04">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Advanced Techniques</div>
+      <div class="section-desc">Custom GPTs, image generation, Actions, and voice mode for power users</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Once you're comfortable with the six core workflows, these advanced techniques multiply your output further. Each builds on the foundation from Section 02 and works best when you've already set up your Projects and Custom Instructions.</p>
+    </div>
+
+    <div class="sub-label">Power User Features</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">Custom GPTs for Brand Voice</div>
+        <div class="card-desc">Build a Custom GPT trained on your brand guidelines, product catalogue, tone of voice examples, and past marketing content. Every piece of content it produces will be on-brand without needing to re-explain your business in every session. Set-up time: ~20 minutes.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">🎨</div>
+        <div class="card-title">Image Generation for Marketing</div>
+        <div class="card-desc">Generate social media graphics, product mockups, promotional banners, and presentation visuals directly in ChatGPT. Describe your brand colours, style, and content — and iterate in the same conversation. No Canva, no stock photos, no brief to a designer required.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-icon">🔗</div>
+        <div class="card-title">Actions — Connect Your Tools</div>
+        <div class="card-desc">ChatGPT Actions (available on Plus and Team) can connect your Custom GPT to external services — your CRM, email marketing platform, social scheduling tool, or inventory system. Automate from prompt to publish without leaving ChatGPT.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-icon">🎙️</div>
+        <div class="card-title">Voice Mode for Brainstorming</div>
+        <div class="card-desc">Use ChatGPT's Advanced Voice Mode on your phone during commutes, between jobs, or walking the floor. Brainstorm campaign ideas, dictate follow-up notes, or think through a business problem out loud — then ask it to produce a written summary or action list.</div>
+      </div>
+    </div>
+
+    <div class="sub-label">ChatGPT Features for Small Business — By Plan</div>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Free</th>
+          <th>Plus ($20/mo)</th>
+          <th>Team ($30/user/mo)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GPT-5.5 Access</td>
+          <td>Limited</td>
+          <td><span class="tag green">Full Access</span></td>
+          <td><span class="tag green">Full Access</span></td>
+        </tr>
+        <tr>
+          <td>Image Generation</td>
+          <td>No</td>
+          <td><span class="tag green">Included</span></td>
+          <td><span class="tag green">Included</span></td>
+        </tr>
+        <tr>
+          <td>Projects</td>
+          <td>Limited</td>
+          <td><span class="tag green">Full</span></td>
+          <td><span class="tag green">Full + Shared</span></td>
+        </tr>
+        <tr>
+          <td>Custom GPTs</td>
+          <td>Use only</td>
+          <td><span class="tag green">Create + Use</span></td>
+          <td><span class="tag green">Create + Share</span></td>
+        </tr>
+        <tr>
+          <td>File Uploads (PDF, DOCX, etc.)</td>
+          <td>No</td>
+          <td><span class="tag green">Yes</span></td>
+          <td><span class="tag green">Yes</span></td>
+        </tr>
+        <tr>
+          <td>Actions / Integrations</td>
+          <td>No</td>
+          <td><span class="tag green">Yes</span></td>
+          <td><span class="tag green">Yes</span></td>
+        </tr>
+        <tr>
+          <td>Advanced Voice Mode</td>
+          <td>No</td>
+          <td><span class="tag green">Yes</span></td>
+          <td><span class="tag green">Yes</span></td>
+        </tr>
+        <tr>
+          <td>Message Limits</td>
+          <td>Very limited</td>
+          <td><span class="tag blue">Higher</span></td>
+          <td><span class="tag blue">Highest</span></td>
+        </tr>
+        <tr>
+          <td>Privacy (data not used for training)</td>
+          <td>No</td>
+          <td>Opt-out</td>
+          <td><span class="tag green">Default On</span></td>
+        </tr>
+        <tr>
+          <td>Recommended for small business</td>
+          <td>Exploring only</td>
+          <td><span class="tag green">Solo / &lt;5 team</span></td>
+          <td><span class="tag purple">5+ team</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Custom GPT Setup — Your Brand Voice Assistant</strong><p>Go to chatgpt.com → Explore GPTs → Create. In the Instructions field, paste your full brand guide, tone examples, and product information. Upload your logo guidelines, past email newsletters, and best-performing social posts as knowledge files. Name it "[Your Business] Brand Voice" and use it for all marketing and communication drafts going forward.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 05 ════════════════════════ -->
+<div class="section" id="s05">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Prompt Library — 15 Ready-to-Use Prompts</div>
+      <div class="section-desc">Copy-ready prompts across five categories — marketing, customer, sales, planning, and product</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-section">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'s05','marketing')">Marketing</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','customer')">Customer</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','sales')">Sales</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','planning')">Planning</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','product')">Product</button>
+      </div>
+
+      <!-- MARKETING TAB -->
+      <div class="tab-pane active" id="s05-marketing">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>SOCIAL MEDIA BATCH — MULTI-PLATFORM</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write 5 social media posts for [PLATFORM] promoting [PRODUCT/SERVICE]. Brand voice: [DESCRIPTION]. Audience: [DESCRIPTION]. Include: hook, value prop, call to action. Mix educational, promotional, and engagement styles. Format each post separately. Under 150 words each.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>GOOGLE / META AD COPY — 3 VARIANTS</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write 3 variations of ad copy for [PLATFORM] advertising [PRODUCT/SERVICE]. Each version should take a different angle: (1) problem-led, (2) benefit-led, (3) social proof / results-led. Include headline (under 30 characters), primary text (under 125 characters), and call to action. Target: [AUDIENCE].</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>EMAIL NEWSLETTER — MONTHLY EDITION</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write a monthly email newsletter for [BUSINESS NAME] subscribers. This month's theme: [TOPIC]. Include: a short personal intro (2–3 sentences), one piece of useful advice for [AUDIENCE], a feature on [PRODUCT/SERVICE/OFFER], and a clear call to action. Tone: [BRAND VOICE]. Length: 350–450 words. Subject line options: provide 3.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>BLOG POST OUTLINE — SEO-FRIENDLY</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a detailed blog post outline for the topic: "[TOPIC]". Target audience: [DESCRIPTION]. Target keyword phrase: "[KEYWORD]". Include: H1 title (3 options), introduction hook, 5–6 H2 section headings with sub-points, key stats or questions to address, and a conclusion with CTA. Optimised for Google search intent.</div>
+        </div>
+      </div>
+
+      <!-- CUSTOMER TAB -->
+      <div class="tab-pane" id="s05-customer">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>CUSTOMER ENQUIRY RESPONSE</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Draft a professional response to this customer enquiry: [PASTE EMAIL]. Tone: helpful and warm. Address their concern directly. Offer a solution. Include a follow-up action. Keep under 150 words. Sign off as [NAME], [BUSINESS].</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>FOLLOW-UP EMAIL SEQUENCE — 3 EMAILS</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write a 3-email follow-up sequence for [SCENARIO — e.g., "a customer who requested a quote but hasn't responded"]. Email 1 (Day 3): gentle check-in. Email 2 (Day 7): add value with a tip or resource. Email 3 (Day 14): final soft close. Tone: [BRAND VOICE]. Keep each under 100 words.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>ONLINE REVIEW RESPONSE — POSITIVE &amp; NEGATIVE</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write a response to this [POSITIVE/NEGATIVE] Google review: [PASTE REVIEW]. For positive: thank them personally, reference a specific detail, invite them back. For negative: acknowledge the experience without being defensive, apologise where appropriate, offer a resolution, and invite them to contact us directly. Keep under 80 words. Professional and genuine tone.</div>
+        </div>
+      </div>
+
+      <!-- SALES TAB -->
+      <div class="tab-pane" id="s05-sales">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>CLIENT PROPOSAL — FULL DOCUMENT</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a professional proposal for [CLIENT] for [SERVICE]. Context: [MEETING NOTES]. Include: executive summary, scope of work, deliverables with timeline, investment (pricing), terms, and next steps. Tone: confident but not pushy. Structure in clear sections with headings. 600–900 words.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>QUOTE / ESTIMATE EMAIL</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write a professional email to send a quote to [CLIENT NAME] for [SERVICE/PROJECT]. Quote amount: [AMOUNT]. Key inclusions: [LIST]. Exclusions: [LIST]. Validity: [DAYS]. Tone: warm, professional, and value-focused. Briefly re-state why we're the right choice. Include next step — how they can accept. Under 200 words.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>PITCH DECK OUTLINE — INVESTOR/PARTNER</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a pitch deck outline for [BUSINESS NAME] seeking [INVESTMENT AMOUNT / PARTNERSHIP TYPE]. Business: [BRIEF DESCRIPTION]. Include slides for: problem, solution, market size, business model, traction/proof, team, financials (overview), and ask. For each slide: suggested headline, 3 key points, and one visual/data suggestion. Audience: [INVESTOR TYPE].</div>
+        </div>
+      </div>
+
+      <!-- PLANNING TAB -->
+      <div class="tab-pane" id="s05-planning">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>MARKET ANALYSIS — BUSINESS PLAN FORMAT</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a market analysis for [INDUSTRY/NICHE] in [LOCATION]. Include: market size and growth trends, top 5 competitors with brief profile, target customer profile (demographics and pain points), 3 key opportunities, and 3 primary threats. Format for a business plan appendix with clear headings. Note estimates as general/approximate.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>SWOT ANALYSIS — MY BUSINESS</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a detailed SWOT analysis for my business: [BUSINESS DESCRIPTION, INDUSTRY, SIZE, LOCATION]. Strengths: what we do well and own. Weaknesses: internal gaps and limitations. Opportunities: external trends, gaps, underserved markets. Threats: competition, regulation, market shifts. For each quadrant: 4–5 specific, actionable points. Format as a structured table.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>FINANCIAL PROJECTION NARRATIVE</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write the narrative section for a 3-year financial projection for [BUSINESS NAME]. Current revenue: [AMOUNT]. Key assumptions: [LIST — e.g., 15% YoY growth, new hire in Year 2, product launch in Year 3]. Describe revenue drivers, cost structure, and profitability path. Tone: confident and evidenced. 400–500 words. For use in a bank loan application / investor deck.</div>
+        </div>
+      </div>
+
+      <!-- PRODUCT TAB -->
+      <div class="tab-pane" id="s05-product">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>PRODUCT DESCRIPTION — FULL CATALOGUE</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write product descriptions for [LIST PRODUCTS]. For each: compelling headline (under 10 words), 3-line benefit-led description (not just features), and 3 bullet points. Tone: [BRAND VOICE]. Platform: [SHOPIFY / AMAZON / WEBSITE]. Focus on what the customer gains. Avoid jargon. Make each distinct.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>LISTING OPTIMISATION — EXISTING PRODUCT</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Rewrite and optimise this product listing for [PLATFORM]: [PASTE CURRENT LISTING]. Improvements needed: stronger headline, benefit-led description, better keywords, cleaner bullet points. Target keyword: [KEYWORD]. Keep the same product facts but improve conversion appeal and search visibility. Show: original → improved for each element.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 06 ════════════════════════ -->
+<div class="section" id="s06">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Measuring Impact</div>
+      <div class="section-desc">Four metrics that show what AI adoption actually delivers for small business</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>AI adoption is worth measuring. The following four metric areas are where small business owners consistently report the most measurable gains after 30–60 days of regular ChatGPT use. Track your baseline before you start — the improvement is often larger than expected.</p>
+    </div>
+
+    <div class="card-grid four">
+      <div class="impact-card">
+        <div class="impact-num">83%</div>
+        <div class="impact-label">Less Time on Marketing Content</div>
+        <div class="impact-desc">Average reported reduction in time spent writing and editing marketing copy (social posts, emails, ads) per week.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">10×</div>
+        <div class="impact-label">Faster Customer Response</div>
+        <div class="impact-desc">From drafting a response from scratch (15–20 min) to reviewing and sending a ChatGPT draft (1–2 min).</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">+28%</div>
+        <div class="impact-label">Proposal Win Rate</div>
+        <div class="impact-desc">Average improvement when switching from ad-hoc proposals to structured, professionally formatted ChatGPT-assisted documents.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">5×</div>
+        <div class="impact-label">Content Volume</div>
+        <div class="impact-desc">Increase in monthly content output (posts, emails, blog drafts) without additional time investment from the business owner.</div>
+      </div>
+    </div>
+
+    <div class="sub-label">How to Track Your Own Impact</div>
+    <div class="prose">
+      <p>Before starting, note your baseline for each of these areas: how many hours per week you spend on marketing content, your average email response time, your proposal win rate (if trackable), and how many pieces of content you produce per month. Revisit after 30 days of regular use. The improvement is measurable and motivating.</p>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body"><strong>These Numbers Are Averages — Your Results Will Vary</strong><p>The metrics above are based on aggregated reports from small business owners using ChatGPT regularly. Your gains depend on how consistently you use it, how well you set up Custom Instructions and Projects, and which tasks in your business consume the most time. The pattern is consistent: the more you use it, the more you get back.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 07 ════════════════════════ -->
+<div class="section" id="s07">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Common Mistakes &amp; What to Do Instead</div>
+      <div class="section-desc">Five patterns that limit results — and the fix for each</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <!-- Mistake 1 -->
+    <div class="sub-label">Mistake 1 — Losing Your Brand Voice</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>Posting ChatGPT content directly without reviewing for tone. The output sounds polished but generic — no personality, no brand, nothing that sounds like you. Your audience notices even if they can't articulate why.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✓ Do This Instead</div>
+        <p>Use ChatGPT as a first-draft engine. Always read the output aloud — if it doesn't sound like you, edit it until it does. Build a Custom GPT trained on your best past content. Add a "tone calibration" line to your prompts: "Match this example: [paste one of your best posts]."</p>
+      </div>
+    </div>
+
+    <!-- Mistake 2 -->
+    <div class="sub-label">Mistake 2 — Sharing Customer Data Without Thinking</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>Pasting full customer emails including names, addresses, account details, or sensitive complaints into ChatGPT. This data is sent to OpenAI's servers and may be used for model training (unless you're on Team plan with data protection on).</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✓ Do This Instead</div>
+        <p>Anonymise before pasting. Replace names with "[CUSTOMER]", remove email addresses, and strip any identifiable details before using customer content in a prompt. If you're handling sensitive customer data regularly, upgrade to the Team plan where data is not used for training by default.</p>
+      </div>
+    </div>
+
+    <!-- Mistake 3 -->
+    <div class="sub-label">Mistake 3 — Publishing Without Fact-Checking</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>Treating ChatGPT-generated statistics, legal references, or factual claims as reliable without verification. ChatGPT can generate plausible-sounding but incorrect facts, outdated figures, or entirely fabricated citations. Publishing these damages credibility.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✓ Do This Instead</div>
+        <p>Use ChatGPT for structure, tone, and drafting — not as a source of facts. Any statistic, legal claim, or technical assertion must be independently verified before it goes into a published document, proposal, or marketing material. Flag facts in your prompt review with a simple "check this" process.</p>
+      </div>
+    </div>
+
+    <!-- Mistake 4 -->
+    <div class="sub-label">Mistake 4 — Over-Reliance on AI for Strategic Decisions</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>Using ChatGPT to make significant business decisions — pricing strategy, hiring choices, legal agreements — without professional input. ChatGPT can provide frameworks and language, but it lacks the context, accountability, and expertise of your accountant, lawyer, or business advisor.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✓ Do This Instead</div>
+        <p>Use ChatGPT to prepare for professional conversations — draft the brief for your accountant, structure the questions for your lawyer, outline the options you're weighing. It's an excellent thinking partner and document drafter. The decision and accountability remain yours and your advisors'.</p>
+      </div>
+    </div>
+
+    <!-- Mistake 5 -->
+    <div class="sub-label">Mistake 5 — Using Generic Prompts and Getting Generic Results</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Avoid</div>
+        <p>"Write me a social media post about my business." Without context — audience, platform, brand voice, goal, product — ChatGPT produces bland, generic output that could belong to any business. Most people give up here and conclude AI doesn't work for them.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✓ Do This Instead</div>
+        <p>Use the full prompt structure from Section 03: specify the platform, audience, brand voice, goal, format, and length. The more context you give, the more specific and useful the output. Save your best prompts in a document and reuse them. Better prompts are a skill that compounds over time.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 08 ════════════════════════ -->
+<div class="section" id="s08">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Your Learning Path</div>
+      <div class="section-desc">Eight guides to take you from first use to advanced business automation</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>This playbook gives you the core workflows to start generating results immediately. The guides below build the deeper skills that turn ChatGPT from a useful tool into a business advantage. Work through them in order for the fastest progression.</p>
+    </div>
+
+    <div class="plan-grid">
+      <div class="plan-card">
+        <div class="plan-num">STEP 1 — FOUNDATION</div>
+        <div class="plan-title">ChatGPT 101</div>
+        <div class="plan-desc">How ChatGPT works, what it's good at, and how to have a productive conversation. The essential starting point before everything else.</div>
+        <span class="plan-arrow">→ Start here if you're new</span>
+      </div>
+      <div class="plan-card blue">
+        <div class="plan-num">STEP 2 — CORE SKILL</div>
+        <div class="plan-title">Prompt Engineering Guide</div>
+        <div class="plan-desc">The principles behind writing prompts that get specific, high-quality results. Roles, context, format instructions, tone control, and iteration techniques.</div>
+        <span class="plan-arrow" style="color:var(--blue)">→ 10× your output quality</span>
+      </div>
+      <div class="plan-card blue">
+        <div class="plan-num">STEP 3 — MARKETING</div>
+        <div class="plan-title">Writing &amp; Editing with ChatGPT</div>
+        <div class="plan-desc">Long-form writing, editing techniques, maintaining voice, and producing polished content for blogs, proposals, and email campaigns.</div>
+        <span class="plan-arrow" style="color:var(--blue)">→ Publish-ready content</span>
+      </div>
+      <div class="plan-card purple">
+        <div class="plan-num">STEP 4 — CUSTOMISATION</div>
+        <div class="plan-title">GPTs &amp; Custom Assistants</div>
+        <div class="plan-desc">Build your own Custom GPT trained on your business, brand voice, and product knowledge. The most powerful setup for consistent, on-brand output.</div>
+        <span class="plan-arrow" style="color:var(--purple)">→ Your brand, automated</span>
+      </div>
+      <div class="plan-card purple">
+        <div class="plan-num">STEP 5 — SOCIAL</div>
+        <div class="plan-title">Content &amp; Social Media</div>
+        <div class="plan-desc">Platform-specific strategies for Instagram, LinkedIn, Facebook, and TikTok. Content calendars, caption frameworks, hashtag strategy, and engagement prompts.</div>
+        <span class="plan-arrow" style="color:var(--purple)">→ Consistent presence</span>
+      </div>
+      <div class="plan-card orange">
+        <div class="plan-num">STEP 6 — CLIENT COMMS</div>
+        <div class="plan-title">Customer-Facing Communication</div>
+        <div class="plan-desc">Templates and frameworks for professional customer emails, complaint handling, follow-up sequences, and building loyalty through written communication.</div>
+        <span class="plan-arrow" style="color:var(--orange)">→ Win more, retain more</span>
+      </div>
+      <div class="plan-card orange">
+        <div class="plan-num">STEP 7 — VISUALS</div>
+        <div class="plan-title">Image Generation Guide</div>
+        <div class="plan-desc">Produce on-brand social media graphics, product visuals, marketing banners, and presentation assets directly within ChatGPT. No design tool required.</div>
+        <span class="plan-arrow" style="color:var(--orange)">→ Visual content pipeline</span>
+      </div>
+      <div class="plan-card">
+        <div class="plan-num">STEP 8 — AUTOMATION</div>
+        <div class="plan-title">ChatGPT Projects &amp; Workflows</div>
+        <div class="plan-desc">Organise your AI work into structured Projects, build repeatable workflows, and connect ChatGPT to your existing tools via Actions for end-to-end automation.</div>
+        <span class="plan-arrow">→ From chat to pipeline</span>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>Where to Start This Week</strong><p>If you've read this playbook and haven't used ChatGPT for your business yet: complete Step 02 (set up your account with Custom Instructions) and pick just one workflow from Section 03 to run before the end of the week. The marketing copy batch or the customer enquiry response are the fastest to see value from. One session, real results — that's how the habit builds.</p></div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- end content-body -->
+</main>
+</div><!-- end layout -->
+
+<script>
+function switchTab(el, sectionId, tabName) {
+  // Deactivate all tab buttons in this section
+  const section = document.getElementById(sectionId);
+  section.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  el.classList.add('active');
+  // Hide all panes in this section
+  section.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+  // Show selected pane
+  const target = document.getElementById(sectionId + '-' + tabName);
+  if (target) target.classList.add('active');
+}
+
+function copyPrompt(btn) {
+  const card = btn.closest('.prompt-card') || btn.closest('.workflow-prompt') || btn.closest('.instr-prompt');
+  const textEl = card.querySelector('.prompt-text') || card.querySelector('.workflow-prompt-text') || card.querySelector('.instr-prompt-text');
+  if (!textEl) return;
+  const text = textEl.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.color = '#10A37F';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.color = '#10A37F';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+  });
+}
+
+// Scroll-spy for sidebar navigation
+(function() {
+  const sections = ['s01','s02','s03','s04','s05','s06','s07','s08'];
+  const navLinks = {};
+  sections.forEach(id => {
+    const link = document.querySelector('.nav-link[href="#' + id + '"]');
+    if (link) navLinks[id] = link;
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        Object.values(navLinks).forEach(link => link.classList.remove('active'));
+        if (navLinks[id]) navLinks[id].classList.add('active');
+      }
+    });
+  }, {
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+})();
+</script>
+</body>
+</html>

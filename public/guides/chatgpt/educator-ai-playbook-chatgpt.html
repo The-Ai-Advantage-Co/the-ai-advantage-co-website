@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Educator's AI Playbook — ChatGPT Edition | The AI Advantage Co</title>
+<style>
+:root{
+  --primary:#10A37F;
+  --primary-light:#2EC4A9;
+  --primary-soft:rgba(16,163,127,0.09);
+  --primary-border:rgba(16,163,127,0.20);
+  --sidebar-bg:#0D2818;
+  --sidebar-hover:#143D24;
+  --sidebar-act:rgba(16,163,127,0.16);
+  --page-bg:#F0FAF5;
+  --white:#FFFFFF;
+  --card-bg:#F7FDF9;
+  --ink:#0D2818;
+  --body-text:#1A4030;
+  --muted:#4A7A60;
+  --border:#C8E8D8;
+  --divider:#B8D8C8;
+  --sidebar-w:268px;
+  --radius:10px;
+  --radius-sm:6px;
+  /* accent colours for variety */
+  --blue:#1A6FE8;--blue-soft:#EEF3FD;
+  --purple:#7C3AED;--purple-soft:#F3EEFF;
+  --orange:#E07B39;--orange-soft:#FEF3EB;
+  --yellow:#C9921A;--yellow-soft:#FEF9EE;
+  --red:#C13B3B;--red-soft:#FEEEEE;
+  --green-bg:#E6F7F4;
+  --hdr-bg:#E8F4EF;
+  --border-std:#E0EDE8;
+  --text-mid:#2A5040;
+  --sidebar-bg-css:#0D2818;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:0 0 32px;flex-shrink:0}
+.sidebar-brand{padding:20px 20px 0}
+.brand-label{font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--primary-light);text-transform:uppercase;margin-bottom:2px}
+.brand-name{font-size:13.5px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:16px}
+.sidebar-divider{height:1px;background:rgba(255,255,255,.08);margin:0 20px 16px}
+.sidebar-meta{padding:0 20px 16px}
+.sidebar-guide-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:4px}
+.sidebar-guide-title{font-size:12px;color:rgba(255,255,255,.7);line-height:1.4}
+.nav-section{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.6);text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s;line-height:1.3}
+.nav-link svg{flex-shrink:0;opacity:.6}
+.nav-link:hover{color:#fff;background:var(--sidebar-hover);border-left-color:rgba(16,163,127,.4)}
+.nav-link.active{color:#fff;border-left-color:var(--primary);background:var(--sidebar-act)}
+.nav-link.active svg{opacity:1}
+.sidebar-footer{padding:20px 20px 0;margin-top:16px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-footer p{font-size:10px;color:rgba(255,255,255,.3);line-height:1.5}
+.sidebar-footer a{color:rgba(16,163,127,.7);text-decoration:none}
+.sidebar-footer a:hover{color:var(--primary-light)}
+
+/* main */
+.main{padding:36px 44px 80px;max-width:900px}
+
+/* banner */
+.banner{border-radius:var(--radius);margin-bottom:32px;overflow:hidden;position:relative}
+.banner svg{display:block;width:100%;height:auto}
+
+/* doc header */
+.doc-header{margin-bottom:28px}
+.breadcrumb{font-size:11px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.breadcrumb span{color:var(--border)}
+.doc-header h1{font-size:30px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:10px}
+.doc-subtitle{font-size:14.5px;color:var(--body-text);line-height:1.6;margin-bottom:14px;max-width:700px}
+.badge-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.05em}
+.badge.playbook{background:var(--primary);color:#fff}
+.badge.updated{background:var(--hdr-bg);color:var(--primary);border:1px solid var(--primary-border)}
+.badge.audience{background:#E8F0FF;color:#1A6FE8;border:1px solid #C5D7F5}
+
+/* content body */
+.content-body{}
+
+/* section */
+.section{background:var(--white);border:1px solid var(--border-std);border-radius:var(--radius);margin-bottom:24px;overflow:hidden;box-shadow:0 1px 4px rgba(13,40,24,.05)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:flex-start;gap:14px}
+.section-num{background:var(--primary);color:#fff;font-size:11.5px;font-weight:700;width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.section-title-wrap{}
+.section-title{font-size:18px;font-weight:700;color:var(--ink)}
+.section-desc{font-size:13px;color:var(--muted);margin-top:2px}
+.section-body{padding:22px}
+
+/* prose */
+.prose p{font-size:14px;color:var(--body-text);line-height:1.65;margin-bottom:14px}
+.prose strong{color:var(--ink);font-weight:700}
+.prose em{font-style:italic;color:var(--muted)}
+.prose h3{font-size:15px;font-weight:700;color:var(--ink);margin:20px 0 10px}
+.prose ul{margin:0 0 14px 18px}
+.prose ul li{font-size:14px;color:var(--body-text);line-height:1.6;margin-bottom:6px}
+
+/* sub-label */
+.sub-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--primary);text-transform:uppercase;margin:20px 0 10px}
+
+/* card grid */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.card-grid.three{grid-template-columns:1fr 1fr 1fr}
+.card-grid.four{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;border-top:3px solid var(--primary)}
+.card.blue{border-top-color:var(--blue)}
+.card.purple{border-top-color:var(--purple)}
+.card.orange{border-top-color:var(--orange)}
+.card.yellow{border-top-color:var(--yellow)}
+.card-icon{font-size:22px;margin-bottom:8px}
+.card-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.card-desc{font-size:13px;color:var(--body-text);line-height:1.5}
+
+/* callout */
+.callout{border-radius:var(--radius-sm);padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55;color:var(--body-text)}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--primary)}
+.callout.tip .callout-body strong{color:var(--primary)}
+.callout.warn{background:#FEF9C3;border-left:4px solid #B45309}
+.callout.warn .callout-body strong{color:#B45309}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--primary);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-content{}
+.step-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-desc{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:rgba(255,255,255,.75);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #1A4030}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--body-text);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+
+/* prompt section */
+.prompt-section{margin:16px 0}
+.prompt-tabs{}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.tab-btn{padding:7px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--white);color:var(--body-text);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.prompt-card{background:var(--sidebar-bg);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--body-text);line-height:1.65;font-style:italic}
+.copy-btn{background:none;border:1px solid rgba(46,196,169,.3);color:var(--primary-light);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;font-style:normal}
+.copy-btn:hover{background:rgba(16,163,127,.15)}
+
+/* plan grid (learning path) */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.plan-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;text-decoration:none;transition:all .18s;border-top:3px solid var(--primary);display:block}
+.plan-card:hover{box-shadow:0 4px 16px rgba(16,163,127,.15);border-top-color:var(--primary-light);transform:translateY(-1px)}
+.plan-card .plan-num{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--primary);margin-bottom:6px}
+.plan-card .plan-title{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.plan-card .plan-desc{font-size:13px;color:var(--body-text);line-height:1.5}
+.plan-card .plan-arrow{font-size:13px;color:var(--primary);margin-top:8px;display:block}
+
+/* mistake cards */
+.mistake-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.mistake-bad{background:var(--red-soft);border:1px solid #F5C4C4;border-top:3px solid var(--red);border-radius:var(--radius-sm);padding:14px}
+.mistake-good{background:var(--green-bg);border:1px solid var(--primary-border);border-top:3px solid var(--primary);border-radius:var(--radius-sm);padding:14px}
+.mistake-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.mistake-bad .mistake-label{color:var(--red)}
+.mistake-good .mistake-label{color:var(--primary)}
+.mistake-bad p,.mistake-good p{font-size:13px;color:var(--body-text);line-height:1.5}
+
+/* impact cards */
+.impact-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;text-align:center}
+.impact-num{font-size:32px;font-weight:700;color:var(--primary);line-height:1;margin-bottom:6px}
+.impact-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.impact-desc{font-size:12px;color:var(--muted);line-height:1.45}
+
+/* workflow section */
+.workflow-block{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;margin-bottom:16px}
+.workflow-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.workflow-icon{font-size:22px}
+.workflow-title{font-size:15px;font-weight:700;color:var(--ink)}
+.workflow-sub{font-size:12px;color:var(--muted)}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;border-top:3px solid var(--primary)}
+.rs-num{font-size:28px;font-weight:700;color:var(--primary);margin-bottom:6px}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--body-text);line-height:1.5}
+
+/* responsive */
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto;width:100%}
+  .main{padding:24px 20px 60px}
+  .card-grid{grid-template-columns:1fr}
+  .card-grid.three{grid-template-columns:1fr}
+  .card-grid.four{grid-template-columns:1fr 1fr}
+  .plan-grid{grid-template-columns:1fr}
+  .mistake-grid{grid-template-columns:1fr}
+  .roadmap{grid-template-columns:1fr 1fr}
+  .ref-table{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-label">The AI Advantage Co</div>
+    <div class="brand-name">Documentation Hub</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-meta">
+    <div class="sidebar-guide-label">Current Guide</div>
+    <div class="sidebar-guide-title">Educator's AI Playbook — ChatGPT Edition</div>
+  </div>
+  <div class="nav-section">Sections</div>
+  <a class="nav-link active" href="#s01">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4v8l6 3 6-3V4L8 1z" stroke="#10A37F" stroke-width="1.5" fill="none"/></svg>
+    01 — Why AI Matters for Educators
+  </a>
+  <a class="nav-link" href="#s02">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#10A37F" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    02 — Setting Up ChatGPT
+  </a>
+  <a class="nav-link" href="#s03">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    03 — Daily AI Workflows
+  </a>
+  <a class="nav-link" href="#s04">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2l2 4 4.5.7-3.25 3.15.77 4.5L8 12.1l-4.02 2.25.77-4.5L1.5 6.7 6 6z" stroke="#10A37F" stroke-width="1.5" fill="none"/></svg>
+    04 — Advanced Techniques
+  </a>
+  <a class="nav-link" href="#s05">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="2" stroke="#10A37F" stroke-width="1.5"/><path d="M5 7h6M5 10h4" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    05 — Prompt Library
+  </a>
+  <a class="nav-link" href="#s06">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="3" stroke="#10A37F" stroke-width="1.5"/></svg>
+    06 — Measuring Impact
+  </a>
+  <a class="nav-link" href="#s07">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2z" stroke="#10A37F" stroke-width="1.5"/><path d="M8 7v1.5l1 1" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    07 — Common Mistakes
+  </a>
+  <a class="nav-link" href="#s08">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 13L8 3l5 10H3z" stroke="#10A37F" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 8v2.5" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    08 — Your Learning Path
+  </a>
+  <div class="sidebar-footer">
+    <p>© 2026 <a href="#">The AI Advantage Co</a><br>All rights reserved.</p>
+  </div>
+</aside>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<main class="main">
+
+<!-- BANNER SVG -->
+<div class="banner">
+<svg viewBox="0 0 1400 260" xmlns="http://www.w3.org/2000/svg" width="1400" height="260">
+  <defs>
+    <linearGradient id="bannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A2015;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#0D3520;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0A2015;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="glowLeft" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" style="stop-color:#10A37F;stop-opacity:0.18"/>
+      <stop offset="100%" style="stop-color:#10A37F;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="glowRight" x1="100%" y1="50%" x2="0%" y2="50%">
+      <stop offset="0%" style="stop-color:#10A37F;stop-opacity:0.12"/>
+      <stop offset="100%" style="stop-color:#10A37F;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  <!-- Base background -->
+  <rect width="1400" height="260" fill="url(#bannerGrad)"/>
+  <!-- Glow overlays -->
+  <ellipse cx="200" cy="130" rx="350" ry="200" fill="url(#glowLeft)"/>
+  <ellipse cx="1200" cy="130" rx="280" ry="180" fill="url(#glowRight)"/>
+  <!-- Decorative grid lines -->
+  <line x1="0" y1="50" x2="1400" y2="50" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="100" x2="1400" y2="100" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="150" x2="1400" y2="150" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="200" x2="1400" y2="200" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="200" y1="0" x2="200" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="400" y1="0" x2="400" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="700" y1="0" x2="700" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="1000" y1="0" x2="1000" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="1200" y1="0" x2="1200" y2="260" stroke="#10A37F" stroke-opacity="0.06" stroke-width="1"/>
+  <!-- Decorative circles -->
+  <circle cx="1260" cy="50" r="90" fill="none" stroke="#10A37F" stroke-opacity="0.12" stroke-width="1.5"/>
+  <circle cx="1260" cy="50" r="55" fill="none" stroke="#10A37F" stroke-opacity="0.09" stroke-width="1"/>
+  <circle cx="1260" cy="50" r="25" fill="#10A37F" fill-opacity="0.08"/>
+  <circle cx="120" cy="210" r="70" fill="none" stroke="#2EC4A9" stroke-opacity="0.1" stroke-width="1.5"/>
+  <circle cx="120" cy="210" r="40" fill="none" stroke="#2EC4A9" stroke-opacity="0.08" stroke-width="1"/>
+  <!-- Small accent dots -->
+  <circle cx="480" cy="30" r="3" fill="#10A37F" fill-opacity="0.4"/>
+  <circle cx="520" cy="48" r="2" fill="#2EC4A9" fill-opacity="0.35"/>
+  <circle cx="880" cy="230" r="3" fill="#10A37F" fill-opacity="0.3"/>
+  <circle cx="920" cy="218" r="2" fill="#2EC4A9" fill-opacity="0.3"/>
+  <circle cx="350" cy="140" r="4" fill="#10A37F" fill-opacity="0.15"/>
+  <circle cx="1050" cy="120" r="5" fill="#10A37F" fill-opacity="0.12"/>
+  <!-- Top label -->
+  <text x="700" y="62" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="3" fill="#2EC4A9" opacity="0.9">THE Ai ADVANTAGE</text>
+  <!-- Main title -->
+  <text x="700" y="148" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="58" font-weight="700" fill="#FFFFFF" opacity="0.97" letter-spacing="-1">EDUCATOR'S PLAYBOOK</text>
+  <!-- Bottom label -->
+  <text x="700" y="196" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="16" font-weight="600" letter-spacing="4" fill="#10A37F" opacity="0.85">CHATGPT EDITION</text>
+  <!-- Decorative line under title -->
+  <rect x="560" y="160" width="280" height="2" rx="1" fill="#10A37F" fill-opacity="0.35"/>
+</svg>
+</div>
+
+<!-- DOC HEADER -->
+<div class="doc-header">
+  <div class="breadcrumb">
+    <span style="color:var(--muted)">Documentation</span>
+    <span>›</span>
+    <span style="color:var(--muted)">Educator's Playbook</span>
+    <span>›</span>
+    <span style="color:var(--primary);font-weight:600">ChatGPT Edition</span>
+  </div>
+  <h1>The Educator's AI Playbook — ChatGPT Edition</h1>
+  <p class="doc-subtitle">Everything you need to make ChatGPT work for your teaching practice — from lesson planning to assessment, student feedback, research, and stakeholder communication.</p>
+  <div class="badge-row">
+    <span class="badge playbook">PLAYBOOK</span>
+    <span class="badge updated">Updated: June 2026</span>
+    <span class="badge audience">Educators &amp; Trainers</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ CONTENT BODY ═══════════════════════ -->
+<div class="content-body">
+
+<!-- ════════════════════════ SECTION 01 ════════════════════════ -->
+<div class="section" id="s01">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Why AI Matters for Educators</div>
+      <div class="section-desc">The real opportunity — and why now is the moment to act</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Teaching in 2026 is more demanding than at any point in recent memory. Curriculum reforms, increased administrative load, differentiation requirements, and the expectation of personalised feedback at scale have stretched educators further than ever. AI doesn't fix these structural problems — but it fundamentally changes how much time the non-teaching parts of teaching take.</p>
+      <p>The educators seeing the biggest gains aren't using ChatGPT to replace their professional judgment. They're using it to compress the time spent on cognitive labour that doesn't require their expertise — the formatting of a lesson plan, the first draft of a rubric, the production of differentiated materials. That frees them to spend more time on what only a skilled teacher can do: building relationships, reading the room, and making real-time instructional decisions.</p>
+    </div>
+
+    <div class="sub-label">The Time Math — What Changes</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">Lesson Planning</div>
+        <div class="card-desc">Average lesson planning time drops from <strong>2+ hours to 25 minutes</strong> when using ChatGPT as a first-draft engine. You focus on refinement and curriculum alignment rather than blank-page generation.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Rubric &amp; Assessment Creation</div>
+        <div class="card-desc">Rubric creation that previously took a weekend — especially for multi-criteria assignments — drops to <strong>under 10 minutes</strong>. ChatGPT generates all criteria and descriptors; you edit for precision and standards alignment.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-icon">✍️</div>
+        <div class="card-title">Student Feedback at Scale</div>
+        <div class="card-desc">Personalised written feedback on 30 student assignments can go from a multi-hour evening task to <strong>under 45 minutes</strong>, with each student receiving specific, actionable comments rather than generic stamps.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-icon">📨</div>
+        <div class="card-title">Parent Communication</div>
+        <div class="card-desc">Professional, warm, well-structured parent emails and report card comments that once required <strong>careful composition become first drafts in seconds</strong> — ready for your personal review and sign-off in minutes.</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>About GPT-5.5 and Education</strong><p>The 2026 release of GPT-5.5 brings significantly stronger reasoning capabilities that are particularly valuable for educators. It handles multi-step curriculum alignment, identifies gaps in student work with more nuance, and produces differentiated materials that are genuinely calibrated to different cognitive levels — not just simpler vocabulary. If you're on ChatGPT Plus or Team, you're already accessing this capability.</p></div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body"><strong>This Playbook is for Educators, not AI Enthusiasts</strong><p>This guide assumes you're time-poor, curriculum-focused, and want practical results — not a deep dive into how large language models work. Every section includes ready-to-use prompts you can copy directly. The goal is measurable time savings and better student outcomes within your first week of use.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 02 ════════════════════════ -->
+<div class="section" id="s02">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Setting Up ChatGPT for Education Work</div>
+      <div class="section-desc">Configure once — and every session starts at a higher baseline</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Most educators use ChatGPT as if it's a blank search engine — asking cold questions without context and getting generic results. Five configuration steps, done once, transform every future interaction.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Choose the Right Plan</div>
+          <div class="step-desc"><strong>ChatGPT Plus ($20/month)</strong> is the right choice for individual teachers — you get full access to GPT-4o, GPT-5.5, Advanced Data Analysis, file uploads, and image generation. <strong>ChatGPT Team ($30/user/month)</strong> is better for departments: shared workspaces, team-level Projects, and stronger data privacy (your inputs are not used for training). Free tier works for getting started but limits access to the most capable models during peak hours.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Set Your Custom Instructions with Educator Context</div>
+          <div class="step-desc">Go to <strong>Settings → Personalisation → Custom Instructions</strong>. In "What should ChatGPT know about you?", add your subject, year level, curriculum framework, and school context. In "How should ChatGPT respond?", specify your preferred output style. Once set, every conversation begins with this context pre-loaded — no need to repeat yourself. See the prompt card below for a ready-to-use template.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Create a Project Per Course or Subject</div>
+          <div class="step-desc">ChatGPT Projects allow you to group related conversations and upload persistent files that stay accessible across sessions. Create one project per subject or year level you teach — e.g. "Year 10 Biology", "Senior English", "Year 7 Maths". Upload your unit plan, assessment overview, and curriculum standards document to each project. ChatGPT will reference these files whenever you work within that project.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Configure Memory for Student Pattern Recognition</div>
+          <div class="step-desc">Enable <strong>Memory</strong> in Settings → Personalisation. Tell ChatGPT about recurring patterns in your classes: "My Year 9 cohort struggles with extended writing" or "I have three students with reading support plans in Period 3 English." ChatGPT will remember these facts across sessions and factor them into relevant suggestions without needing to be reminded each time.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Enable Advanced Data Analysis for Assessment Work</div>
+          <div class="step-desc">Advanced Data Analysis (formerly Code Interpreter) lets you upload a spreadsheet of student grades and ask ChatGPT to identify trends, flag at-risk students, calculate grade distributions, or visualise results as charts. Enable it by switching to GPT-4o with Data Analysis in a conversation, or it activates automatically when you upload a spreadsheet. This is particularly powerful for mid-year grade reviews and identifying students who need intervention.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label">Example Custom Instructions for Educators</div>
+    <div class="prompt-card">
+      <div class="prompt-label">Custom Instructions — Educator Template <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      <div class="prompt-text">I am a [SUBJECT] teacher at a [PRIMARY/SECONDARY/TERTIARY] school. I teach [YEAR LEVELS/GRADES]. My curriculum framework is [e.g. Australian Curriculum v9 / NESA / IB / Common Core]. My classes typically have [NUMBER] students with a mix of ability levels. I often have students with learning support needs, EAL/D learners, and high-potential students in the same room.
+
+When responding: produce content that is immediately classroom-ready, align to my curriculum unless I ask for general content, avoid generic filler, flag when you're making assumptions about my context, and always provide differentiation options unless I say otherwise. Prefer dot points and clear headings over long paragraphs. Never include disclaimer paragraphs about consulting professionals — I am the professional.</div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Data Privacy — What Not to Share</strong><p>Never input real student names, ID numbers, or identifying personal details into ChatGPT (unless your school uses an Enterprise plan with appropriate data agreements). Use anonymised descriptions: "a Year 9 student who struggles with reading comprehension" rather than naming the student. Most ChatGPT plans do not guarantee that inputs are excluded from model training — check your school's AI policy before uploading any student-related data.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 03 ════════════════════════ -->
+<div class="section" id="s03">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Your Daily AI Workflows</div>
+      <div class="section-desc">Six core teaching tasks — each with exact prompts you can use today</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <!-- Workflow 1: Lesson Planning -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📋</div>
+        <div>
+          <div class="workflow-title">1 — Lesson Planning</div>
+          <div class="workflow-sub">From learning objectives to complete lesson plan</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Start with your learning objectives</div>
+            <div class="step-desc">Tell ChatGPT your subject, year level, duration, and the specific topic. Paste in the relevant curriculum standard or descriptor if you have it — this dramatically improves alignment.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Request a structured lesson plan</div>
+            <div class="step-desc">Specify the components you need: hook, direct instruction, guided practice, independent activity, and exit ticket. Ask for differentiation options at the same time.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Refine and align</div>
+            <div class="step-desc">Review the first draft. Ask ChatGPT to adjust timing, simplify or extend the activity, or align more tightly to a specific curriculum statement. Iteration takes seconds.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Lesson Planning Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">I teach [SUBJECT] to [YEAR/GRADE]. Create a [DURATION] lesson plan for [TOPIC]. Include: learning objectives aligned to [CURRICULUM], a hook activity, scaffolded instruction, a hands-on activity, and an exit ticket. Differentiate for three levels: support, core, and extension.</div>
+      </div>
+    </div>
+
+    <!-- Workflow 2: Assessment & Rubrics -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📊</div>
+        <div>
+          <div class="workflow-title">2 — Assessment &amp; Rubric Creation</div>
+          <div class="workflow-sub">Rubrics, quizzes, and exam questions in minutes</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Define your assessment type and criteria</div>
+            <div class="step-desc">Specify whether you need a holistic or analytic rubric, the number of criteria, and the performance level names your school uses (e.g. Beginning/Developing/Proficient/Advanced or A–E).</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Request a full rubric with descriptors</div>
+            <div class="step-desc">Ask for specific, observable language in each cell — not vague statements like "shows understanding" but "identifies and accurately applies three or more examples of...".</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Generate matching quizzes or exam questions</div>
+            <div class="step-desc">Once the rubric exists, ask ChatGPT to generate formative quiz questions that assess each rubric criterion, with an answer key and marking notes.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Rubric Creation Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Create a rubric for [ASSESSMENT TYPE] on [TOPIC] for [YEAR/GRADE]. Include 4 criteria with 4 performance levels (Beginning, Developing, Proficient, Advanced). Add specific descriptors for each cell. Align to [CURRICULUM STANDARD].</div>
+      </div>
+    </div>
+
+    <!-- Workflow 3: Student Feedback -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">✍️</div>
+        <div>
+          <div class="workflow-title">3 — Student Feedback</div>
+          <div class="workflow-sub">Personalised, constructive feedback at scale</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Describe the work and the student's level</div>
+            <div class="step-desc">Without sharing the student's name, describe the submission, their current achievement level, and the key strengths and weaknesses you observed. Two or three bullet points are enough.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Specify tone and format requirements</div>
+            <div class="step-desc">Indicate whether this is for the student directly or for a report card. Specify if you need it for a younger or older learner, and whether your school uses a particular feedback framework (e.g. two stars and a wish, WWW/EBI, or mastery-focused language).</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Review and personalise</div>
+            <div class="step-desc">ChatGPT produces the structural draft; you add the personal touches that make feedback feel authentic — a specific example from the student's work, or a reference to something discussed in class.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Student Feedback Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Write constructive feedback for a [YEAR/GRADE] student who submitted [DESCRIPTION OF WORK]. Strengths: [LIST]. Areas for growth: [LIST]. Tone: encouraging but specific. Include 2 actionable next steps.</div>
+      </div>
+    </div>
+
+    <!-- Workflow 4: Research Synthesis -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">🔍</div>
+        <div>
+          <div class="workflow-title">4 — Research Synthesis</div>
+          <div class="workflow-sub">Literature reviews, summarising papers, and staying current</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Upload or paste the research material</div>
+            <div class="step-desc">Attach a PDF of a research paper or paste in text. If you're synthesising multiple papers, paste them sequentially and ask ChatGPT to compare findings across them.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Request a structured summary with classroom implications</div>
+            <div class="step-desc">Ask specifically for the implications for classroom practice — this reframes academic language into actionable pedagogical insights you can actually apply.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Always verify claims independently</div>
+            <div class="step-desc">ChatGPT is reliable at summarising documents you provide, but if you ask it to generate research findings from memory, it can hallucinate citations or statistics. Always check specific claims against the original source.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Research Synthesis Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Summarise the key findings from the following research on [TOPIC]. Identify: main arguments, methodology, limitations, and implications for classroom practice. Format as a structured summary I can reference in a staff meeting.</div>
+      </div>
+    </div>
+
+    <!-- Workflow 5: Parent Communication -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📨</div>
+        <div>
+          <div class="workflow-title">5 — Parent &amp; Stakeholder Communication</div>
+          <div class="workflow-sub">Professional emails, reports, and newsletters drafted in seconds</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Describe the situation and context</div>
+            <div class="step-desc">Give ChatGPT the key facts: what happened, who the audience is (parent of a struggling student, a supportive parent, a concerned parent), and what outcome you want from the communication.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Specify tone carefully</div>
+            <div class="step-desc">Parent communication often walks a fine line — you need to be honest without being alarming, positive without being misleading. Tell ChatGPT explicitly: "warm but honest", "reassuring but clear about the concern", or "celebratory and enthusiastic".</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Include actionable next steps</div>
+            <div class="step-desc">Every effective parent communication ends with clarity on what the parent can do, what the school is doing, and what happens next. Ask ChatGPT to include these explicitly.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Parent Email Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Draft a professional email to parents about [TOPIC]. Context: [SITUATION]. Tone: warm but informative. Include: what happened, what we're doing about it, what parents can do at home, and next steps.</div>
+      </div>
+    </div>
+
+    <!-- Workflow 6: Differentiated Instruction -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">🎯</div>
+        <div>
+          <div class="workflow-title">6 — Differentiated Instruction</div>
+          <div class="workflow-sub">One set of materials adapted for all learners in your room</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Provide your base content</div>
+            <div class="step-desc">Paste in your worksheet, reading passage, task description, or activity instructions. The better the original, the better the differentiated versions.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Request three versions in one prompt</div>
+            <div class="step-desc">Specify what differentiating means for each level in your class. For support learners: simplified vocabulary, visual prompts, sentence starters. For core: standard expectations. For extension: open-ended challenges and higher-order thinking.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Check that extension is genuinely extending</div>
+            <div class="step-desc">ChatGPT sometimes "extends" by adding quantity rather than depth. Review the extension version to ensure it involves analysis, synthesis, or evaluation — not just more of the same task.</div>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-card" style="margin-top:14px">
+        <div class="prompt-label">Differentiated Instruction Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="prompt-text">Take this [CONTENT/WORKSHEET] and create three differentiated versions: (1) Simplified version with scaffolding and visual supports for struggling learners, (2) Grade-level version with standard expectations, (3) Extended version with deeper analysis and open-ended challenges for advanced learners.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 04 ════════════════════════ -->
+<div class="section" id="s04">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Advanced Techniques</div>
+      <div class="section-desc">Power-user features that take your practice to the next level</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Once you've built the daily workflow habit, these advanced capabilities add a new dimension to what's possible. Each one requires a small upfront investment — but pays dividends across every session afterward.</p>
+
+      <h3>Using Projects to Maintain Course Context</h3>
+      <p>Projects are the most underused feature for educators. Create one project per subject or unit. Upload your curriculum overview, unit plan, assessment schedule, and any key readings. Now every conversation inside that project starts with ChatGPT already knowing your curriculum, your timeline, and your learning goals. You stop providing context and start getting straight to work. The time saving compounds across hundreds of future sessions.</p>
+
+      <h3>Custom GPTs for Specific Subjects</h3>
+      <p>Beyond your own projects, you can build a Custom GPT that acts as a specialist assistant for a subject area. A "Year 10 Biology Assistant" GPT can have your full curriculum document uploaded, a specific instruction set about your school's assessment standards, and a persona that speaks at the right reading level for your students. Once built, it can also be shared with teaching colleagues — building departmental consistency with minimal extra effort.</p>
+
+      <h3>Advanced Data Analysis for Assessment Data</h3>
+      <p>Upload your grade spreadsheet and ask ChatGPT to: identify which students are below expected growth, visualise grade distributions by class, compare performance across assessment tasks, or flag students whose results have declined mid-year. ChatGPT produces charts and tables from your data in seconds — work that would otherwise require Excel pivot tables and manual analysis.</p>
+
+      <h3>Voice Mode for On-the-Go Ideas</h3>
+      <p>Voice Mode turns your commute, lunch break, or any hands-free moment into productive planning time. Speak your idea for a lesson and ask ChatGPT to develop it. Voice the challenge you're having with a class and ask for strategies. The spoken conversation gets transcribed and developed — so nothing is lost and you arrive at school with a working draft rather than a mental note.</p>
+
+      <h3>Canvas for Collaborative Document Editing</h3>
+      <p>Canvas is ChatGPT's collaborative document editor. Open a Canvas session and ChatGPT can write, refine, and restructure a document alongside you in real time. This is particularly useful for developing assessment tasks, writing policy documents, or drafting newsletters where you want to iterate on the full document rather than generating isolated text chunks.</p>
+    </div>
+
+    <div class="sub-label">ChatGPT Plan Comparison — Education Features</div>
+    <table class="ref-table">
+      <tr><th>Feature</th><th>Free</th><th>Plus ($20/mo)</th><th>Team ($30/user/mo)</th><th>Enterprise</th></tr>
+      <tr><td>GPT-5.5 access</td><td>Limited</td><td>Full access</td><td>Full access</td><td>Priority access</td></tr>
+      <tr><td>File uploads &amp; analysis</td><td>Limited</td><td>✓ Unlimited</td><td>✓ Unlimited</td><td>✓ Unlimited</td></tr>
+      <tr><td>Advanced Data Analysis</td><td>✗</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Projects &amp; persistent files</td><td>✗</td><td>✓</td><td>✓ Shared</td><td>✓ Shared + admin</td></tr>
+      <tr><td>Custom GPTs (build)</td><td>✗</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Custom GPTs (share with team)</td><td>✗</td><td>Public only</td><td>✓ Internal sharing</td><td>✓ Enterprise workspace</td></tr>
+      <tr><td>Canvas</td><td>✗</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Voice Mode</td><td>Limited</td><td>✓ Full</td><td>✓ Full</td><td>✓ Full</td></tr>
+      <tr><td>Data not used for training</td><td>✗</td><td>Opt-out available</td><td>✓ Default off</td><td>✓ Default off</td></tr>
+      <tr><td>Admin controls &amp; audit logs</td><td>✗</td><td>✗</td><td>Basic</td><td>Advanced</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Best Value for Most Educators</strong><p>ChatGPT Plus at $20/month is the right starting point for individual teachers. If you're leading an adoption initiative across a department, Team unlocks internal GPT sharing and better privacy defaults — the incremental cost per person is easily justified by the collective time savings. Enterprise is worth exploring if your school requires SSO, custom data retention agreements, or audit compliance.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 05 ════════════════════════ -->
+<div class="section" id="s05">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Prompt Library</div>
+      <div class="section-desc">Ready-to-copy prompts across every teaching context</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Every prompt below is designed to work with your Custom Instructions already set. Replace bracketed placeholders with your specifics and copy directly into ChatGPT.</p>
+    </div>
+    <div class="prompt-section">
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="showTab(this,'lesson')">Lesson Planning</button>
+          <button class="tab-btn" onclick="showTab(this,'assess')">Assessment</button>
+          <button class="tab-btn" onclick="showTab(this,'feedback')">Feedback</button>
+          <button class="tab-btn" onclick="showTab(this,'comms')">Communication</button>
+          <button class="tab-btn" onclick="showTab(this,'research')">Research</button>
+        </div>
+
+        <!-- Lesson Planning Tab -->
+        <div class="tab-pane active" id="tab-lesson">
+          <div class="prompt-card">
+            <div class="prompt-label">Complete Lesson Plan <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">I teach [SUBJECT] to [YEAR/GRADE]. Create a [DURATION] lesson plan for [TOPIC]. Include: learning objectives aligned to [CURRICULUM], a hook activity, scaffolded instruction, a hands-on activity, and an exit ticket. Differentiate for three levels: support, core, and extension. Indicate timing for each section.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Unit Plan Overview <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Create a [NUMBER]-week unit plan for [SUBJECT] — [TOPIC] — targeting [YEAR/GRADE]. Include: overarching essential questions, weekly learning intentions, key assessments (formative and summative), and a suggested resource type for each week. Align to [CURRICULUM FRAMEWORK]. Format as a table I can paste into a Word document.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Warm-Up Activities Bank <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Generate 10 varied warm-up activities for [SUBJECT] — [TOPIC] — suitable for [YEAR/GRADE] students. Include a mix of: quick recall activities, think-pair-share starters, visual stimulus prompts, and low-stakes writing tasks. Each activity should take 5–8 minutes and require no additional materials beyond what students already have.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Homework Design <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Design a homework task for [YEAR/GRADE] on [TOPIC] that takes approximately [DURATION]. The task should: consolidate today's lesson on [KEY CONCEPT], be completable independently without internet access, connect learning to real-world applications, and be differentiated with at least one scaffolded option. Include a self-assessment component.</div>
+          </div>
+        </div>
+
+        <!-- Assessment Tab -->
+        <div class="tab-pane" id="tab-assess">
+          <div class="prompt-card">
+            <div class="prompt-label">Rubric Creation <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Create a rubric for [ASSESSMENT TYPE] on [TOPIC] for [YEAR/GRADE]. Include 4 criteria with 4 performance levels (Beginning, Developing, Proficient, Advanced). Add specific, observable descriptors for each cell — not vague language like "shows understanding." Align to [CURRICULUM STANDARD]. Format as a table.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Quiz Generation <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Create a [NUMBER]-question formative quiz on [TOPIC] for [YEAR/GRADE]. Include a mix of question types: multiple choice, short answer, and one extended response. Questions should span Bloom's Taxonomy levels from recall to application. Include an answer key with marking notes for the extended response. Difficulty should target [CURRICULUM STANDARD].</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Exam Questions <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Write [NUMBER] exam questions on [TOPIC] for a [YEAR/GRADE] [SUBJECT] exam. Mix question types: multiple choice (4 options each), structured response (3–5 marks), and extended response (8–10 marks). Align each question to [CURRICULUM STANDARD]. Provide the mark allocation, model answer, and marking criteria for each question.</div>
+          </div>
+        </div>
+
+        <!-- Feedback Tab -->
+        <div class="tab-pane" id="tab-feedback">
+          <div class="prompt-card">
+            <div class="prompt-label">Student Work Feedback <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Write constructive feedback for a [YEAR/GRADE] student who submitted [DESCRIPTION OF WORK]. Strengths observed: [LIST 2–3 STRENGTHS]. Areas for growth: [LIST 2–3 WEAKNESSES]. Tone: encouraging, specific, and growth-oriented. Include exactly 2 actionable next steps the student can apply immediately. Length: 100–120 words. Do not use the student's name.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Report Card Comments <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Write a [NUMBER]-word report card comment for a [YEAR/GRADE] student in [SUBJECT]. Achievement level: [A/B/C/D/E or equivalent]. Strengths: [LIST]. Areas for improvement: [LIST]. Disposition: [e.g. engaged learner, hardworking, sometimes disruptive, socially mature]. Tone: professional, positive-first, honest. Avoid deficit language. Do not use the student's name — use "this student" or "your child."</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Peer Review Template <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Create a structured peer review template for a [ASSESSMENT TYPE] in [SUBJECT] for [YEAR/GRADE] students. The template should guide students to: identify two specific strengths with evidence, suggest one improvement with a concrete example, and rate the work against three criteria on a 1–4 scale. Include sentence starters for each section. Language should be appropriate for [YEAR/GRADE] students to use independently.</div>
+          </div>
+        </div>
+
+        <!-- Communication Tab -->
+        <div class="tab-pane" id="tab-comms">
+          <div class="prompt-card">
+            <div class="prompt-label">Parent Email <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Draft a professional email to the parents/carers of a [YEAR/GRADE] student about [TOPIC/CONCERN]. Context: [BRIEF DESCRIPTION OF SITUATION]. Tone: warm, direct, and solution-focused — not alarming. Include: what we've observed, what steps we're taking, specific things the family can do at home to support, and the next formal checkpoint. Length: 200–250 words. Sign off as [TEACHER NAME] — [SUBJECT] Teacher.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Class Newsletter <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Write a [YEAR/GRADE] [SUBJECT] class newsletter for [MONTH]. Include: what we've been learning this term, highlights and achievements, upcoming assessments (dates: [LIST]), how families can support learning at home, and any important reminders. Tone: warm, enthusiastic, and community-building. Length: 300–350 words. Include a "Quick Reminders" section at the end in bullet points.</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Staff Meeting Agenda <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Create a structured agenda for a [DURATION] [SUBJECT/FACULTY] team meeting. Purpose: [MEETING GOAL]. Topics to cover: [LIST 4–6 ITEMS]. Format each item with: a time allocation, the decision or action required (not just discussion), and who leads that item. Include 5 minutes for AOB and a clear close with action summary. Tone: efficient and action-oriented.</div>
+          </div>
+        </div>
+
+        <!-- Research Tab -->
+        <div class="tab-pane" id="tab-research">
+          <div class="prompt-card">
+            <div class="prompt-label">Literature Review / Research Summary <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">Summarise the key findings from the following research on [TOPIC]. Identify: (1) the main argument or hypothesis, (2) methodology and sample, (3) key findings and evidence, (4) limitations of the research, and (5) practical implications for classroom teaching. Format as structured sections I can reference in a staff meeting or professional learning session. [PASTE RESEARCH TEXT OR PDF BELOW]</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-label">Professional Development Summary <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">I attended a professional development session on [TOPIC]. My notes: [PASTE NOTES]. Help me: (1) synthesise the key takeaways in 5 bullet points, (2) identify 3 specific strategies I can implement in my [SUBJECT] classroom within the next two weeks, (3) draft a brief summary I can share with my faculty team at our next meeting. Keep the faculty summary under 200 words.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 06 ════════════════════════ -->
+<div class="section" id="s06">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Measuring Impact</div>
+      <div class="section-desc">Documenting time savings and building your case for wider adoption</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Anecdotal benefits don't move institutions. If you want to build momentum for AI adoption in your school or department, you need numbers. The good news: capturing the data is simple, and the ROI case for AI in teaching is almost always compelling once you run the arithmetic.</p>
+    </div>
+
+    <div class="sub-label">Key Metrics to Track</div>
+    <div class="card-grid">
+      <div class="impact-card card">
+        <div class="impact-num">⏱</div>
+        <div class="impact-label">Time per Lesson Plan</div>
+        <div class="impact-desc">Log your time before and after for 4 weeks. Most educators see a drop from 90–120 minutes to 20–30 minutes per lesson — a saving of 1–1.5 hours per lesson plan.</div>
+      </div>
+      <div class="impact-card card blue">
+        <div class="impact-num">✅</div>
+        <div class="impact-label">Feedback Quality Score</div>
+        <div class="impact-desc">Ask students to rate feedback specificity on a 1–5 scale before and after introducing AI-assisted feedback. Tracking student perception is often the most compelling data for school leadership.</div>
+      </div>
+      <div class="impact-card card purple">
+        <div class="impact-num">📋</div>
+        <div class="impact-label">Rubric Consistency</div>
+        <div class="impact-desc">Have a colleague mark the same piece of student work using your AI-generated rubric. Compare marks. Consistency between markers is a direct quality metric for rubric quality.</div>
+      </div>
+      <div class="impact-card card orange">
+        <div class="impact-num">💰</div>
+        <div class="impact-label">Dollar Value of Time Saved</div>
+        <div class="impact-desc">Hours saved per week × your hourly rate = weekly ROI. Even at modest savings of 3 hours/week, the annual value typically exceeds $5,000 per teacher — vs a $240/year Plus subscription.</div>
+      </div>
+    </div>
+
+    <div class="sub-label">Simple ROI Documentation Template</div>
+    <div class="prose">
+      <p>For each major task type, log:</p>
+      <ul>
+        <li><strong>Task:</strong> e.g. "Year 10 English rubric for comparative essay"</li>
+        <li><strong>Time before AI:</strong> e.g. "2 hours over the weekend"</li>
+        <li><strong>Time with AI:</strong> e.g. "12 minutes including review"</li>
+        <li><strong>Quality assessment:</strong> e.g. "Improved — more specific descriptors than my previous rubrics"</li>
+        <li><strong>Weekly frequency:</strong> e.g. "This task type 2× per term"</li>
+      </ul>
+      <p>After 4 weeks, aggregate the data. A simple spreadsheet showing total hours saved and any quality improvements is all you need to make a compelling departmental case.</p>
+    </div>
+
+    <div class="sub-label">Building Your Case for Department-Wide Adoption</div>
+    <div class="prose">
+      <p>The most effective approach is to share your data alongside a 20-minute live demonstration. Start with your before/after time data, then show your colleagues exactly how you produce a lesson plan or rubric in real time. Watching ChatGPT generate a quality rubric in 3 minutes — rather than hearing that it can — converts sceptics more reliably than any argument.</p>
+      <p>If your school requires a formal proposal, frame it around three evidence points: time savings (your logged data), quality maintenance or improvement (colleague rubric comparison scores or student feedback ratings), and subscription cost vs value delivered (the ROI calculation). The financial case is straightforward; the cultural case requires you to address fears about academic integrity and professional relevance directly.</p>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Start Your Measurement This Week</strong><p>You don't need a formal research protocol. Open a simple notes app or spreadsheet and start logging: task name, time before, time after. Four weeks of data is more than enough to quantify your personal ROI and start a productive conversation with your leadership team.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 07 ════════════════════════ -->
+<div class="section" id="s07">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Common Mistakes &amp; What to Do Instead</div>
+      <div class="section-desc">Five patterns that undermine results — and the fix for each</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Mistake</div>
+        <p><strong>Copy AI output without reviewing for curriculum alignment.</strong> Using a lesson plan or rubric verbatim without checking it against your actual curriculum standards or school assessment policy.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Instead</div>
+        <p><strong>Use AI as a first draft, then review against your standards.</strong> Treat every output as a starting point. Spend 5 minutes checking curriculum alignment before using. The review time is still far less than writing from scratch.</p>
+      </div>
+    </div>
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Mistake</div>
+        <p><strong>Share student names or identifying information with ChatGPT.</strong> Pasting a student's full name, ID, or personal details into a standard ChatGPT session where data handling is unclear.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Instead</div>
+        <p><strong>Use anonymised descriptions at all times.</strong> "A Year 9 student who struggles with paragraph structure and has a reading support plan" gives ChatGPT everything it needs without compromising student privacy. Make this a non-negotiable habit.</p>
+      </div>
+    </div>
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Mistake</div>
+        <p><strong>Ask for generic lesson plans without context.</strong> "Give me a lesson on photosynthesis" — without year level, duration, curriculum, or student context — produces generic, often unusable output.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Instead</div>
+        <p><strong>Always provide subject, year level, curriculum, and student needs.</strong> "Year 9 Biology, 70 minutes, Australian Curriculum v9, mixed ability including 3 EAL/D students, we've already covered cell structure." This level of context is what makes the output classroom-ready rather than generic.</p>
+      </div>
+    </div>
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Mistake</div>
+        <p><strong>Use ChatGPT to replace professional judgment.</strong> Adopting ChatGPT's assessment decisions, student interventions, or discipline recommendations without applying your own contextual expertise and relationship knowledge.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Instead</div>
+        <p><strong>Use AI to generate options, then apply your expertise.</strong> ChatGPT excels at producing options and first drafts. You have irreplaceable knowledge of your students, your classroom culture, and the specific context. The combination of AI speed and your judgment consistently outperforms either alone.</p>
+      </div>
+    </div>
+
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">❌ Mistake</div>
+        <p><strong>Ignore AI hallucinations in research-adjacent tasks.</strong> Using ChatGPT-generated statistics, citations, or curriculum references without verifying them — then discovering errors after the fact (or worse, not discovering them at all).</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">✅ Instead</div>
+        <p><strong>Always verify facts, citations, and curriculum alignment independently.</strong> ChatGPT is highly reliable when summarising documents <em>you provide</em>. When generating information from its training data, it can be confidently wrong. Apply one rule: any specific fact, statistic, or citation gets checked before it goes in front of students or parents.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body"><strong>Academic Integrity — The Classroom Dimension</strong><p>As an educator using AI tools yourself, you're also navigating the student academic integrity question. The two are connected: modelling thoughtful, disclosed use of AI — "I used ChatGPT to create the first draft of this rubric, then revised it to align with our curriculum" — is itself valuable professional modelling. Schools that lead on AI literacy, including honest discussion of how and when teachers use it, consistently have better student AI cultures than those that only focus on detection and restriction.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 08 ════════════════════════ -->
+<div class="section" id="s08">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Your Learning Path</div>
+      <div class="section-desc">Five guides to extend your ChatGPT skills across every dimension of teaching</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>This Playbook gives you the educator-specific workflow foundation. The guides below go deeper into each capability — work through them in order or jump to the area most relevant to your immediate needs.</p>
+    </div>
+
+    <div class="plan-grid">
+      <a class="plan-card" href="ChatGPT-101-User-Guide.html">
+        <div class="plan-num">GUIDE 01</div>
+        <div class="plan-title">ChatGPT 101 — User Guide</div>
+        <div class="plan-desc">The complete foundation: models, modes, memory, and how to start getting real results from every session. Essential if you're newer to ChatGPT.</div>
+        <span class="plan-arrow">→ Read this guide</span>
+      </a>
+      <a class="plan-card" href="ChatGPT-Prompt-Guide-User-Guide.html">
+        <div class="plan-num">GUIDE 02</div>
+        <div class="plan-title">ChatGPT Prompt Guide</div>
+        <div class="plan-desc">The science and art of writing prompts that consistently produce high-quality output. Covers the full prompt framework, iteration strategies, and advanced techniques.</div>
+        <span class="plan-arrow">→ Read this guide</span>
+      </a>
+      <a class="plan-card" href="ChatGPT-Projects-User-Guide.html">
+        <div class="plan-num">GUIDE 03</div>
+        <div class="plan-title">ChatGPT Projects</div>
+        <div class="plan-desc">Master the Projects feature — organising your teaching work, maintaining context across sessions, and building subject-specific workspaces with uploaded curriculum files.</div>
+        <span class="plan-arrow">→ Read this guide</span>
+      </a>
+      <a class="plan-card" href="ChatGPT-Writing-Editing-User-Guide.html">
+        <div class="plan-num">GUIDE 04</div>
+        <div class="plan-title">ChatGPT Writing &amp; Editing</div>
+        <div class="plan-desc">Deep dive into using ChatGPT for professional writing — lesson plans, reports, communications, and assessment tasks. Includes editing and refinement workflows.</div>
+        <span class="plan-arrow">→ Read this guide</span>
+      </a>
+      <a class="plan-card" href="ChatGPT-Research-Web-Search-User-Guide.html">
+        <div class="plan-num">GUIDE 05</div>
+        <div class="plan-title">ChatGPT Research &amp; Web Search</div>
+        <div class="plan-desc">Using ChatGPT's web search and research capabilities to stay current with educational research, curriculum changes, and professional learning without hours of reading.</div>
+        <span class="plan-arrow">→ Read this guide</span>
+      </a>
+    </div>
+
+    <div class="sub-label">Suggested Learning Sequence</div>
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="rs-num">01</div>
+        <h4>Start Here This Week</h4>
+        <p>Set up Custom Instructions and create one Project for your main teaching subject. Use the Lesson Planning prompt from Section 05 for your next lesson. Log your time.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--blue)">
+        <div class="rs-num" style="color:var(--blue)">02</div>
+        <h4>Build the Habit</h4>
+        <p>For four weeks, use ChatGPT for every rubric, every parent email, and every lesson plan. Focus on the six core workflows from Section 03 before exploring advanced features.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--purple)">
+        <div class="rs-num" style="color:var(--purple)">03</div>
+        <h4>Go Deeper</h4>
+        <p>Build your first Custom GPT for a specific subject or year level. Try Advanced Data Analysis on a term's worth of assessment data. Explore Voice Mode on your commute.</p>
+      </div>
+      <div class="roadmap-step" style="border-top-color:var(--orange)">
+        <div class="rs-num" style="color:var(--orange)">04</div>
+        <h4>Lead the Adoption</h4>
+        <p>Share your time-saving data with colleagues. Run a 20-minute live demonstration. Build a shared Custom GPT for your department. Become the person who brings AI literacy into your school community.</p>
+      </div>
+    </div>
+
+    <div class="callout tip" style="margin-top:20px">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Your Quick Win — Do This Now</strong><p>Open ChatGPT and use the Lesson Planning prompt from this guide for your very next lesson. Don't wait for the perfect moment or a full professional development day. Ten minutes from now, you could have a complete lesson plan draft. That's the whole point.</p></div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /content-body -->
+</main>
+</div><!-- /layout -->
+
+<script>
+// Tab switching for prompt library
+function showTab(btn, id) {
+  btn.closest('.prompt-tabs').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.closest('.prompt-tabs').querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+// Copy prompt to clipboard
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-card').querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.innerText;
+    btn.innerText = '✓ Copied';
+    setTimeout(() => btn.innerText = orig, 2000);
+  }).catch(() => {
+    // Fallback for non-HTTPS contexts
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig = btn.innerText;
+    btn.innerText = '✓ Copied';
+    setTimeout(() => btn.innerText = orig, 2000);
+  });
+}
+
+// Scroll-spy: highlight active section in sidebar nav
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.25, rootMargin: '0px 0px -40% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

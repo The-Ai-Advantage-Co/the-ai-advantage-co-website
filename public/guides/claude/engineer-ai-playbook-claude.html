@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Engineer's AI Playbook — Claude Edition | The AI Advantage Co</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --orange: #C97040;
+    --orange-light: #E09868;
+    --orange-soft: rgba(201,112,64,0.09);
+    --orange-border: rgba(201,112,64,0.20);
+    --orange-l: #E09868;
+    --sidebar-bg: #3C1E0A;
+    --sidebar-hover: #4E2A12;
+    --sidebar-act: rgba(201,112,64,0.16);
+    --page-bg: #FEF8F0;
+    --white: #FFFFFF;
+    --card-bg: #FFFCF8;
+    --ink: #2C1408;
+    --body-text: #4A3020;
+    --muted: #8A6040;
+    --muted-light: #B08060;
+    --border: #F0DEC8;
+    --divider: #EDD8BE;
+    --sidebar: #3C1E0A;
+    --hdr: #F9F0E6;
+    --info-bg: #FDEBD8;
+    --info-blue: #3B7FD4;
+    --warn-bg: #FFF3CD;
+    --warn-border: #D4A017;
+    --code-bg: #2C1408;
+    --code-text: #F5DEB3;
+    --green: #2E7D32;
+    --green-bg: #E8F5E9;
+    --red-bg: #FFF0F0;
+    --red-border: #E53935;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--page-bg);
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    color: var(--body-text);
+    display: flex;
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── SIDEBAR ── */
+  nav {
+    width: 268px;
+    min-width: 268px;
+    background: var(--sidebar-bg);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .nav-brand {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .nav-brand .co {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .nav-brand .guide-name {
+    font-size: 13px;
+    color: #e8d8c4;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .nav-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 10px;
+    background: rgba(201,112,64,0.18);
+    border: 1px solid rgba(201,112,64,0.35);
+    border-radius: 4px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--orange-light);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .nav-sections { padding: 16px 0 24px; flex: 1; }
+  .nav-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--orange-light);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: 12px 20px 6px;
+  }
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 20px;
+    font-size: 12.5px;
+    color: #c8b8a4;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all .18s;
+  }
+  nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+  nav a.active { color: #fff; border-left-color: var(--orange); background: rgba(201,112,64,.15); }
+  .nav-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-size: 10.5px;
+    color: var(--orange);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .nav-icon { font-size: 14px; opacity: .8; }
+  .nav-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255,255,255,.07);
+    font-size: 11px;
+    color: #6A5040;
+    line-height: 1.5;
+  }
+
+  /* ── MAIN ── */
+  main { flex: 1; max-width: 880px; padding: 48px 52px; overflow-x: hidden; }
+
+  /* ── BANNER ── */
+  .banner {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    background: var(--sidebar-bg);
+  }
+  .banner-top {
+    padding: 10px 28px;
+    background: rgba(201,112,64,0.12);
+    border-bottom: 1px solid rgba(201,112,64,0.2);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--orange-light);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+  .banner-body { padding: 40px 32px 36px; position: relative; overflow: hidden; }
+  .banner-body-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(201,112,64,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .banner-svg {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 340px; opacity: 0.13; pointer-events: none;
+  }
+  .banner-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--orange-light);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    position: relative; z-index: 1;
+  }
+  .banner-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    letter-spacing: -.01em;
+    position: relative; z-index: 1;
+  }
+  .banner-title span { color: var(--orange); }
+  .banner-subtitle {
+    font-size: 15px;
+    color: #c8b09a;
+    margin-top: 10px;
+    line-height: 1.5;
+    max-width: 600px;
+    position: relative; z-index: 1;
+  }
+  .banner-edition {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 5px 16px;
+    background: rgba(201,112,64,0.2);
+    border: 1px solid rgba(201,112,64,0.4);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--orange-light);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    position: relative; z-index: 1;
+  }
+  .banner-stripe { height: 6px; background: var(--orange); }
+
+  /* ── DOC HEADER ── */
+  .doc-header { margin-bottom: 32px; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .breadcrumb span { color: var(--muted-light); margin: 0 5px; }
+  .doc-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  .doc-subtitle {
+    font-size: 15px;
+    color: var(--body-text);
+    line-height: 1.7;
+    margin-bottom: 18px;
+    max-width: 680px;
+  }
+  .doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .badge {
+    padding: 4px 14px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+  .badge-orange { background: rgba(201,112,64,0.1); color: var(--orange); border: 1px solid var(--orange-border); }
+  .badge-muted { background: var(--card-bg); color: var(--muted); border: 1px solid var(--border); }
+  .divider { border: none; border-top: 2px solid var(--border); margin: 24px 0; }
+
+  /* ── SECTION ── */
+  section { margin-bottom: 56px; }
+  .sec-hdr {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .sec-num {
+    background: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .sec-meta { background: var(--hdr); border-bottom: 2px solid var(--border); padding: 12px 18px; }
+  .sec-meta h2 { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .sec-meta p { font-size: 12px; color: var(--muted); }
+
+  /* ── PROSE ── */
+  p.body { font-size: 14.5px; color: var(--body-text); line-height: 1.75; margin-bottom: 14px; }
+  h3.sub { font-size: 15px; font-weight: 700; color: var(--ink); margin: 24px 0 10px; }
+
+  /* ── CARDS ── */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .card-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .card-icon { width: 40px; height: 40px; background: rgba(201,112,64,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+  .card h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* ── CALLOUTS ── */
+  .callout { display: grid; grid-template-columns: 48px 1fr; border-radius: 8px; overflow: hidden; margin: 18px 0; }
+  .callout-icon { display: flex; align-items: flex-start; justify-content: center; padding: 16px 0 0; font-size: 20px; }
+  .callout-body { padding: 14px 16px 14px 0; }
+  .callout-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+  .callout-text { font-size: 13.5px; line-height: 1.6; color: var(--body-text); }
+  .callout.tip { background: rgba(201,112,64,0.08); }
+  .callout.tip .callout-icon { background: rgba(201,112,64,0.08); color: var(--orange); }
+  .callout.tip .callout-label { color: var(--orange); }
+  .callout.info { background: var(--info-bg); }
+  .callout.info .callout-icon { background: var(--info-bg); color: var(--info-blue); }
+  .callout.info .callout-label { color: var(--info-blue); }
+  .callout.warn { background: var(--warn-bg); }
+  .callout.warn .callout-icon { background: var(--warn-bg); color: var(--warn-border); }
+  .callout.warn .callout-label { color: var(--warn-border); }
+  .callout.update { background: #FFF3E0; }
+  .callout.update .callout-icon { background: #FFF3E0; color: #E65100; }
+  .callout.update .callout-label { color: #E65100; }
+
+  /* ── STEPS ── */
+  .step { display: grid; grid-template-columns: 48px 1fr; gap: 0; margin-bottom: 14px; }
+  .step-num {
+    background: var(--orange);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 13px;
+    border-radius: 6px 0 0 6px;
+  }
+  .step-body { background: var(--card-bg); border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; padding: 13px 16px; }
+  .step-body h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .step-body p { font-size: 13.5px; color: var(--body-text); line-height: 1.55; }
+
+  /* ── REF TABLE ── */
+  .ref-table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 13px; }
+  .ref-table th { background: var(--sidebar); color: var(--orange-l); font-size: 11.5px; font-weight: 700; text-align: left; padding: 9px 14px; letter-spacing: .04em; }
+  .ref-table td { background: var(--card-bg); border: 1px solid var(--border); padding: 9px 14px; color: var(--body-text); vertical-align: top; line-height: 1.5; }
+  .ref-table tr:nth-child(even) td { background: #fffaf5; }
+  .ref-table .check { color: #4CAF50; font-weight: 700; }
+  .ref-table .cross { color: #e57373; font-weight: 700; }
+  .ref-table .partial { color: var(--orange); font-weight: 700; }
+
+  /* ── PROMPT TABS ── */
+  .prompt-tabs { margin: 20px 0; }
+  .tab-btns { display: flex; gap: 0; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+  .tab-btn {
+    padding: 8px 20px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all .18s;
+    font-family: inherit;
+  }
+  .tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+  .tab-pane { display: none; padding-top: 16px; }
+  .tab-pane.active { display: block; }
+  .prompt-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .prompt-label { font-size: 10.5px; font-weight: 700; color: var(--orange); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+  .prompt-text { font-size: 13.5px; color: var(--body-text); line-height: 1.65; font-style: italic; padding-right: 70px; }
+  .copy-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--orange);
+    background: rgba(201,112,64,0.09);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .18s;
+    font-family: inherit;
+  }
+  .copy-btn:hover { background: var(--orange); color: #fff; }
+
+  /* ── DO/AVOID PAIRS ── */
+  .do-avoid { margin: 16px 0; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .avoid-card { background: var(--red-bg); border: 1px solid rgba(229,57,53,0.25); border-left: 4px solid var(--red-border); border-radius: 8px; padding: 14px 16px; }
+  .do-card { background: var(--green-bg); border: 1px solid rgba(46,125,50,0.25); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px 16px; }
+  .avoid-card .pair-label { font-size: 10px; font-weight: 700; color: var(--red-border); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+  .do-card .pair-label { font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+  .pair-text { font-size: 13px; color: var(--body-text); line-height: 1.55; }
+  .pair-emoji { font-size: 16px; margin-bottom: 4px; display: block; }
+
+  /* ── MOCKUP ── */
+  .mockup { background: var(--sidebar-bg); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .mockup-bar { background: #2a1408; padding: 8px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mockup-title { font-size: 11px; color: #8A7060; margin-left: 8px; font-family: 'Courier New', monospace; letter-spacing: .04em; }
+  .mockup-body { display: grid; grid-template-columns: 200px 1fr; }
+  .mockup-sidebar { background: #2a1408; border-right: 1px solid rgba(255,255,255,.06); padding: 14px 0; }
+  .mockup-nav-item { padding: 7px 16px; font-size: 12px; font-family: 'Courier New', monospace; }
+  .mockup-nav-item.active { background: rgba(201,112,64,.2); color: var(--orange-l); border-left: 3px solid var(--orange); }
+  .mockup-nav-item.dim { color: #6A5040; }
+  .mockup-section-label { padding: 10px 16px 4px; font-size: 9px; font-weight: 700; color: var(--orange); letter-spacing: .14em; text-transform: uppercase; }
+  .mockup-main { padding: 20px; }
+  .mockup-project-header { background: rgba(201,112,64,.15); border: 1px solid rgba(201,112,64,.3); border-radius: 6px; padding: 12px 14px; margin-bottom: 14px; }
+  .mockup-project-name { font-size: 13px; font-weight: 700; color: var(--orange-l); font-family: 'Courier New', monospace; }
+  .mockup-project-desc { font-size: 11px; color: #8A7060; margin-top: 3px; font-family: 'Courier New', monospace; }
+  .mockup-msg { margin-bottom: 12px; }
+  .mockup-msg .label { font-size: 10px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 4px; }
+  .mockup-msg .label.user { color: var(--orange); }
+  .mockup-msg .label.claude { color: #8BC48A; }
+  .mockup-msg .text { font-size: 12px; color: #C8B8A4; font-family: 'Courier New', monospace; line-height: 1.5; }
+  .mockup-code { background: #1a0e06; border: 1px solid rgba(255,255,255,.08); border-radius: 4px; padding: 10px 14px; margin-top: 6px; }
+  .mockup-code .code-text { font-size: 11px; color: #8BC48A; font-family: 'Courier New', monospace; line-height: 1.6; }
+  .mockup-input { background: #1a0e06; border: 1px solid rgba(255,255,255,.1); border-radius: 6px; padding: 10px 14px; margin-top: 10px; }
+  .mockup-input-text { font-size: 12px; color: #6A5040; font-family: 'Courier New', monospace; }
+
+  /* ── PLAN GRID ── */
+  .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .plan-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .plan-card-hdr { padding: 10px 16px; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+  .plan-hdr-pro { background: rgba(201,112,64,0.12); color: var(--orange); }
+  .plan-hdr-team { background: var(--sidebar-bg); color: var(--orange-light); }
+  .plan-card-body { padding: 14px 16px; background: var(--card-bg); }
+  .plan-feat { font-size: 12.5px; color: var(--body-text); padding: 4px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+  .plan-feat:last-child { border-bottom: none; }
+  .plan-feat strong { color: var(--ink); }
+
+  /* ── WORKFLOW CARDS ── */
+  .workflow-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px 22px; margin-bottom: 20px; }
+  .workflow-card-hdr { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+  .workflow-num { width: 32px; height: 32px; background: var(--orange); color: #fff; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .workflow-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .workflow-tag { margin-left: auto; font-size: 10px; font-weight: 600; color: var(--muted); background: var(--page-bg); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+  .workflow-body p { font-size: 13.5px; color: var(--body-text); line-height: 1.65; margin-bottom: 10px; }
+  .workflow-body .prompt-card { margin-top: 12px; }
+
+  /* ── ROADMAP ── */
+  .roadmap { display: flex; flex-direction: column; gap: 0; }
+  .roadmap-step { display: grid; grid-template-columns: 56px 1fr; margin-bottom: 0; }
+  .roadmap-left { display: flex; flex-direction: column; align-items: center; }
+  .roadmap-circle { width: 44px; height: 44px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .roadmap-line { width: 2px; background: var(--border); flex: 1; margin: 4px 0; }
+  .roadmap-content { padding: 0 0 28px 16px; }
+  .roadmap-content h4 { font-size: 14.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .roadmap-content p { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ── LEARNING PATH CARDS ── */
+  .guide-links { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .guide-link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    text-decoration: none;
+    color: var(--body-text);
+    transition: all .18s;
+  }
+  .guide-link-card:hover { border-color: var(--orange); background: rgba(201,112,64,0.05); }
+  .guide-link-num { width: 32px; height: 32px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .guide-link-info h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .guide-link-info p { font-size: 12px; color: var(--muted); }
+  .guide-link-arrow { margin-left: auto; color: var(--orange); font-size: 18px; }
+
+  /* ── METRIC CARDS ── */
+  .metric-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 3px solid var(--orange); border-radius: 8px; padding: 20px; text-align: center; }
+  .metric-number { font-size: 36px; font-weight: 800; color: var(--orange); line-height: 1; margin-bottom: 6px; }
+  .metric-label { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .metric-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ── BULLETS ── */
+  ul.styled { margin: 10px 0 16px 0; padding-left: 0; list-style: none; }
+  ul.styled li { font-size: 14px; color: var(--body-text); line-height: 1.65; padding: 4px 0 4px 24px; position: relative; }
+  ul.styled li::before { content: "•"; color: var(--orange); font-size: 16px; position: absolute; left: 6px; top: 3px; }
+
+  /* ── INSTR BUILDER ── */
+  .instr-builder { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .instr-builder-hdr { background: var(--hdr); padding: 12px 18px; border-bottom: 1px solid var(--border); }
+  .instr-builder-hdr h4 { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .instr-builder-hdr p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .instr-row { display: grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--border); }
+  .instr-row:last-child { border-bottom: none; }
+  .instr-key { background: rgba(201,112,64,0.07); padding: 12px 14px; font-size: 12.5px; font-weight: 700; color: var(--ink); border-right: 1px solid var(--border); }
+  .instr-val { padding: 12px 14px; font-size: 13px; color: var(--body-text); line-height: 1.55; }
+  .instr-val em { color: var(--muted); font-style: italic; }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 40px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted-light); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    body { flex-direction: column; }
+    nav { width: 100%; min-width: unset; height: auto; position: relative; }
+    main { padding: 24px 20px; }
+    .card-grid, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+    .pair { grid-template-columns: 1fr; }
+    .banner-title { font-size: 26px; }
+    .mockup-body { grid-template-columns: 1fr; }
+    .mockup-sidebar { display: none; }
+    .instr-row { grid-template-columns: 1fr; }
+    .plan-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══════════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <div class="co">The AI Advantage Co</div>
+    <div class="guide-name">Engineer's AI Playbook<br>Claude Edition</div>
+    <div class="nav-badge">Playbook</div>
+  </div>
+  <div class="nav-sections">
+    <div class="nav-label">Contents</div>
+    <a href="#s01" class="active"><span class="nav-icon">⚡</span><span class="nav-num">01</span>Why AI Matters</a>
+    <a href="#s02"><span class="nav-icon">⚙️</span><span class="nav-num">02</span>Setting Up Claude</a>
+    <a href="#s03"><span class="nav-icon">🔄</span><span class="nav-num">03</span>Daily Workflows</a>
+    <a href="#s04"><span class="nav-icon">🚀</span><span class="nav-num">04</span>Advanced Techniques</a>
+    <a href="#s05"><span class="nav-icon">💬</span><span class="nav-num">05</span>Prompt Library</a>
+    <a href="#s06"><span class="nav-icon">📊</span><span class="nav-num">06</span>Measuring Impact</a>
+    <a href="#s07"><span class="nav-icon">⚠️</span><span class="nav-num">07</span>Common Mistakes</a>
+    <a href="#s08"><span class="nav-icon">🗺️</span><span class="nav-num">08</span>Learning Path</a>
+  </div>
+  <div class="nav-footer">
+    <strong>The AI Advantage Co</strong><br>
+    theaiadvantageco.com.au<br>
+    June 2026
+  </div>
+</nav>
+
+<!-- ══ MAIN ══════════════════════════════════════════════════════════ -->
+<main>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-top">THE &nbsp; AI &nbsp; ADVANTAGE &nbsp; CO &nbsp; — &nbsp; ENGINEER SERIES</div>
+    <div class="banner-body">
+      <div class="banner-body-bg"></div>
+      <svg class="banner-svg" viewBox="0 0 340 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="300" height="220" rx="8" stroke="#C97040" stroke-width="1.5" fill="none"/>
+        <rect x="40" y="48" width="120" height="10" rx="3" fill="#C97040"/>
+        <rect x="40" y="68" width="200" height="6" rx="2" fill="#E09868"/>
+        <rect x="40" y="82" width="160" height="6" rx="2" fill="#E09868"/>
+        <rect x="40" y="104" width="260" height="80" rx="4" fill="rgba(201,112,64,0.15)"/>
+        <rect x="56" y="116" width="180" height="6" rx="2" fill="#C97040"/>
+        <rect x="56" y="130" width="220" height="5" rx="2" fill="#E09868"/>
+        <rect x="56" y="143" width="200" height="5" rx="2" fill="#E09868"/>
+        <rect x="56" y="156" width="160" height="5" rx="2" fill="#E09868"/>
+        <rect x="40" y="200" width="80" height="20" rx="4" fill="#C97040"/>
+        <text x="58" y="215" font-family="monospace" font-size="9" fill="white">EXECUTE</text>
+        <circle cx="295" cy="215" r="8" fill="rgba(201,112,64,0.3)" stroke="#C97040" stroke-width="1"/>
+        <text x="291" y="219" font-family="monospace" font-size="9" fill="#E09868">✓</text>
+      </svg>
+      <div class="banner-label">Engineer's AI Playbook</div>
+      <div class="banner-title">The <span>Engineer's</span> AI<br>Playbook</div>
+      <div class="banner-subtitle">Your complete guide to using Claude for technical documentation, code review, architecture decisions, sprint planning, incident response, and data analysis.</div>
+      <div class="banner-edition">Claude Edition — Powered by Anthropic</div>
+    </div>
+    <div class="banner-stripe"></div>
+  </div>
+
+  <!-- DOC HEADER -->
+  <div class="doc-header">
+    <div class="breadcrumb">Documentation <span>›</span> Engineer's Playbook <span>›</span> Claude Edition</div>
+    <h1 class="doc-title">The Engineer's AI Playbook — Claude Edition</h1>
+    <p class="doc-subtitle">Your complete guide to using Claude for technical documentation, code review, architecture decisions, sprint planning, incident response, and data analysis.</p>
+    <div class="doc-meta">
+      <span class="badge badge-orange">PLAYBOOK</span>
+      <span class="badge badge-muted">Updated: June 2026</span>
+      <span class="badge badge-muted">Audience: Engineers &amp; Technical Teams</span>
+    </div>
+    <hr class="divider" />
+  </div>
+
+  <!-- ══ 01 — WHY AI MATTERS ══════════════════════════════════════ -->
+  <section id="s01">
+    <div class="sec-hdr">
+      <div class="sec-num">01</div>
+      <div class="sec-meta">
+        <h2>Why AI Matters for Engineers</h2>
+        <p>The case for integrating Claude into your engineering workflow — and why 2026 is the inflection point</p>
+      </div>
+    </div>
+
+    <p class="body">Engineering teams are under constant pressure: ship faster, maintain quality, keep documentation current, manage technical debt, and respond to incidents — all while onboarding new team members and navigating architectural decisions with long-term consequences. The cognitive load is enormous, and much of it falls on your most experienced engineers.</p>
+
+    <p class="body">AI tools like Claude are fundamentally changing what's possible in a single engineering day. Not by replacing engineering judgment — architecture decisions, security trade-offs, and system design still require deep human expertise — but by compressing the time cost of the surrounding work. A technical spec that used to take half a day can be drafted in 30 minutes. A code review that catches common issues can be done before a PR even reaches your team. An incident post-mortem that previously took a week can be written while the fix is still fresh.</p>
+
+    <p class="body">The engineering teams that integrate Claude effectively aren't cutting corners — they're spending more time on the work that actually demands their expertise: the hard problems, the trade-off discussions, the mentoring, and the decisions that only someone with deep context can make well.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <h4>Technical Documentation at Speed</h4>
+        <p>Keeping docs in sync with code is one of the most neglected parts of engineering. Claude makes first drafts fast, so documentation actually gets written — and stays current.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h4>Deeper Code Reviews</h4>
+        <p>Claude can analyse code for bugs, security vulnerabilities, performance issues, and style violations before it reaches your team — catching issues earlier and cheaply.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <h4>Architecture Decision Support</h4>
+        <p>Extended Thinking gives Claude the capacity to analyse multi-variable trade-offs in architecture decisions — not to decide for you, but to stress-test your thinking.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚨</div>
+        <h4>Faster Incident Response</h4>
+        <p>During and after incidents, Claude helps structure timelines, draft blameless post-mortems, and communicate status clearly — reducing the cognitive load during high-stress moments.</p>
+      </div>
+    </div>
+
+    <div class="callout update">
+      <div class="callout-icon">🆕</div>
+      <div class="callout-body">
+        <div class="callout-label">2026 Update — Opus 4.7 for Engineering Teams</div>
+        <div class="callout-text">Claude's latest Opus 4.7 model brings significant upgrades for engineering workflows: a 200K token context window for analysing entire codebases, stronger code reasoning across 20+ programming languages, Extended Thinking for complex architecture decisions and debugging, and Claude Code CLI for terminal-native engineering workflows. If you're on a Pro or Team plan, all of these capabilities are available to you today.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">What Claude Does Well in Engineering Contexts</h3>
+    <table class="ref-table">
+      <tr>
+        <th>Claude excels at</th>
+        <th>Claude cannot replace</th>
+      </tr>
+      <tr>
+        <td>Drafting technical specs, ADRs, READMEs, and API docs</td>
+        <td>System-specific knowledge about your production environment</td>
+      </tr>
+      <tr>
+        <td>Code review for common bugs, security, and style issues</td>
+        <td>Understanding undocumented team conventions or tribal knowledge</td>
+      </tr>
+      <tr>
+        <td>Extended Thinking for architecture trade-off analysis</td>
+        <td>Business context that drives prioritisation decisions</td>
+      </tr>
+      <tr>
+        <td>Structuring sprint breakdowns and estimation frameworks</td>
+        <td>Knowing your team's actual velocity, strengths, and bottlenecks</td>
+      </tr>
+      <tr>
+        <td>Writing blameless post-mortems and status updates</td>
+        <td>Interpreting system behaviour without full observability context</td>
+      </tr>
+      <tr>
+        <td>Analysing logs, CSVs, and metrics for patterns</td>
+        <td>Making final calls on security, compliance, or safety-critical code</td>
+      </tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">The Right Mental Model for Engineers</div>
+        <div class="callout-text">Think of Claude as a senior engineering collaborator who reads your entire codebase, never tires, has broad knowledge across languages and patterns — but has never shipped anything to production. Your job is to give it the missing context (your system, your constraints, your team) and then apply the judgement it lacks. Claude writes the first draft. You apply the engineering reality check.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 02 — SETTING UP CLAUDE ════════════════════════════════════ -->
+  <section id="s02">
+    <div class="sec-hdr">
+      <div class="sec-num">02</div>
+      <div class="sec-meta">
+        <h2>Setting Up Claude for Engineering Work</h2>
+        <p>A five-step setup that gives Claude the deep system context it needs to produce genuinely useful output</p>
+      </div>
+    </div>
+
+    <p class="body">The biggest complaint engineers have about AI assistants is generic output — suggestions that don't match the stack, patterns that contradict team conventions, or advice that ignores known constraints. Almost all of that is a setup problem, not a model problem. Give Claude the right context and its output quality transforms.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Choose the right plan — Team is recommended for engineering orgs</h4>
+        <p><strong>Claude Pro</strong> is ideal for individual engineers: unlimited usage, Projects, Artifacts, and access to Opus 4.7 with 200K context. <strong>Claude Team</strong> adds shared Projects across your engineering org, team-level usage, admin controls, and guaranteed zero data training — important for proprietary codebases. Most engineering teams should default to Team plan.</p>
+      </div>
+    </div>
+
+    <div class="plan-grid">
+      <div class="plan-card">
+        <div class="plan-card-hdr plan-hdr-pro">Claude Pro — Individual Engineer</div>
+        <div class="plan-card-body">
+          <div class="plan-feat"><strong>Projects</strong> — per system or service</div>
+          <div class="plan-feat"><strong>200K context</strong> — full codebase analysis</div>
+          <div class="plan-feat"><strong>Extended Thinking</strong> — architecture decisions</div>
+          <div class="plan-feat"><strong>Claude Code CLI</strong> — terminal workflows</div>
+          <div class="plan-feat"><strong>Artifacts</strong> — reusable doc templates</div>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-hdr plan-hdr-team">Claude Team — Engineering Org</div>
+        <div class="plan-card-body">
+          <div class="plan-feat">Everything in Pro, plus:</div>
+          <div class="plan-feat"><strong>Shared Projects</strong> — team-wide context</div>
+          <div class="plan-feat"><strong>Admin controls</strong> — usage and access</div>
+          <div class="plan-feat"><strong>Zero data training</strong> — proprietary code safe</div>
+          <div class="plan-feat"><strong>MCP server sharing</strong> — team integrations</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Create Projects — one per system, service, or domain</h4>
+        <p>Navigate to <strong>Projects</strong> in Claude's left sidebar. Create a Project for each major system you work on: <em>Payments Service</em>, <em>Auth Platform</em>, <em>Data Pipeline</em>. Upload your README, architecture diagrams, API specs, coding standards, and ADRs as <strong>Project Knowledge</strong>. These files are available in every conversation in that Project automatically — so Claude never starts from zero.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Set a system prompt with your tech stack context</h4>
+        <p>Write <strong>Project Instructions</strong> that tell Claude your language, framework, architecture style, testing approach, coding conventions, and any critical constraints. This context shapes every response before you type a single word. The example below shows what a strong engineering system prompt looks like.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Install Claude Code CLI for terminal-native workflows</h4>
+        <p>Claude Code (<code>claude</code> CLI) brings Claude directly into your terminal. Run <code>npm install -g @anthropic-ai/claude-code</code> to install, then authenticate with your Claude account. Claude Code can read your repository, run commands, generate code, and perform multi-file edits — all without leaving your shell or editor. It's the fastest way to use Claude for real engineering work.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Configure MCP servers for context-rich integrations</h4>
+        <p>Model Context Protocol (MCP) lets Claude connect directly to your engineering tools. Configure MCP servers for <strong>GitHub</strong> (access PRs and issues), <strong>Jira</strong> (read tickets, create tasks), <strong>Sentry</strong> (fetch error details), and your <strong>databases</strong> (query schema information). With MCP, Claude can answer questions that require live data — not just static documents.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Example Engineering System Prompt</h3>
+    <p class="body">Copy and adapt this into your Project Instructions. Replace the bracketed sections with your specifics.</p>
+
+    <div class="prompt-card">
+      <div class="prompt-label">Project System Prompt — Engineering Template</div>
+      <div class="prompt-text">"You are a senior software engineering assistant working in a [COMPANY TYPE] engineering team. Our primary stack: [e.g. TypeScript/Node.js backend, React frontend, PostgreSQL, Redis, deployed on AWS ECS]. Architecture: [e.g. microservices with event-driven communication via SQS]. Coding standards: [e.g. functional style preferred, no classes except for domain models, all async/await, tests required for all business logic using Jest]. Key constraints: [e.g. PCI-DSS compliance for payments service, must handle 10k RPS, 99.95% SLA]. When writing code: match our existing patterns, include error handling and logging, add tests. When reviewing code: check for security vulnerabilities, performance bottlenecks, and style violations. When writing docs: use our template structure uploaded in this Project. Always produce documentation as Artifacts. For architecture decisions, use Extended Thinking and produce an ADR as an Artifact."</div>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+  </section>
+
+  <!-- ══ 03 — DAILY WORKFLOWS ══════════════════════════════════════ -->
+  <section id="s03">
+    <div class="sec-hdr">
+      <div class="sec-num">03</div>
+      <div class="sec-meta">
+        <h2>Daily Workflows</h2>
+        <p>Six high-value engineering use cases — each with Claude-specific features and a ready-to-use prompt</p>
+      </div>
+    </div>
+
+    <p class="body">These are the six engineering tasks where Claude delivers the most consistent time savings and quality improvements. Each workflow below includes the Claude feature that makes it most effective, and a prompt you can copy and adapt immediately.</p>
+
+    <!-- Workflow 1 -->
+    <div class="workflow-card">
+      <div class="workflow-card-hdr">
+        <div class="workflow-num">1</div>
+        <div class="workflow-title">Technical Documentation</div>
+        <span class="workflow-tag">Use: Artifacts + Projects</span>
+      </div>
+      <div class="workflow-body">
+        <p>Writing technical specs, API docs, and READMEs is the work most engineers defer longest and regret most. Claude can draft these in the full context of your architecture documents (from Project Knowledge) and produce them as Artifacts that you can iteratively refine, share with the team, or export directly.</p>
+        <p>The key is giving Claude access to your system context first. With architecture docs uploaded to your Project, Claude can reference your actual schema, service boundaries, and naming conventions rather than inventing placeholders.</p>
+        <div class="prompt-card" style="margin-top:12px;">
+          <div class="prompt-label">Technical Spec Prompt</div>
+          <div class="prompt-text">"Based on the architecture docs in this Project, write a technical spec for [FEATURE NAME] as an Artifact. Include: Overview, Requirements (functional &amp; non-functional), Proposed Solution, API Changes (endpoints, request/response schemas), Database Schema Changes, Testing Strategy, Rollout Plan, and Risks &amp; Mitigations. Use the spec template format from our standards doc."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflow 2 -->
+    <div class="workflow-card">
+      <div class="workflow-card-hdr">
+        <div class="workflow-num">2</div>
+        <div class="workflow-title">Code Review &amp; Debugging</div>
+        <span class="workflow-tag">Use: Extended Thinking + 200K Context</span>
+      </div>
+      <div class="workflow-body">
+        <p>Claude's 200K context window means you can paste large code files — or even multiple files — for review without truncation. For complex debugging sessions involving subtle logic errors, ask Claude to "think carefully" to activate Extended Thinking, which significantly improves its ability to reason through multi-step execution paths and find root causes.</p>
+        <p>Always provide your coding standards (or reference the Project where they live) so Claude can flag style violations specific to your team, not generic best practices.</p>
+        <div class="prompt-card" style="margin-top:12px;">
+          <div class="prompt-label">Code Review Prompt</div>
+          <div class="prompt-text">"Think carefully about this code, then review it for: (1) bugs and logic errors, (2) performance issues, (3) security vulnerabilities, (4) style violations against our coding standards in this Project. For each issue found: explain the problem, rate its severity (critical/major/minor), and provide a corrected version. Finally, give an overall assessment and any refactoring suggestions.\n\nCode:\n[PASTE CODE HERE]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflow 3 -->
+    <div class="workflow-card">
+      <div class="workflow-card-hdr">
+        <div class="workflow-num">3</div>
+        <div class="workflow-title">Architecture Decisions</div>
+        <span class="workflow-tag">Use: Extended Thinking + Artifacts</span>
+      </div>
+      <div class="workflow-body">
+        <p>This is where Claude's Extended Thinking capability is most valuable in engineering. Architecture decisions involve complex, multi-variable trade-offs — performance vs cost, flexibility vs complexity, team capability vs best practice. Extended Thinking gives Claude the reasoning capacity to genuinely stress-test these trade-offs, not just list them.</p>
+        <p>The output is an Architecture Decision Record (ADR) as an Artifact — a permanent, shareable record of what was decided, what was considered, and why. Your future self (and new team members) will thank you.</p>
+        <div class="prompt-card" style="margin-top:12px;">
+          <div class="prompt-label">Architecture Decision Record Prompt</div>
+          <div class="prompt-text">"Use extended thinking to analyse this architecture decision: [OPTION A] vs [OPTION B] for [COMPONENT/SYSTEM]. Our system context and constraints are in this Project. Evaluate each option across: performance at our scale, operational complexity, team expertise fit, migration effort from current state, long-term maintainability, and cost. Then write a formal ADR as an Artifact with sections: Title, Status, Context, Decision, Consequences (positive &amp; negative), and Alternatives Considered."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflow 4 -->
+    <div class="workflow-card">
+      <div class="workflow-card-hdr">
+        <div class="workflow-num">4</div>
+        <div class="workflow-title">Sprint Planning &amp; Task Breakdown</div>
+        <span class="workflow-tag">Use: Projects (sprint history context)</span>
+      </div>
+      <div class="workflow-body">
+        <p>Sprint planning is one of the most time-consuming engineering ceremonies. Claude can accelerate it significantly — breaking features into tasks, estimating effort, identifying dependencies, and surfacing risks — when it has access to your team velocity data and historical sprint notes (uploaded to your Project).</p>
+        <p>The result isn't a plan Claude hands you. It's a detailed first draft that your team can pressure-test in a much shorter planning session, with the grunt work already done.</p>
+        <div class="prompt-card" style="margin-top:12px;">
+          <div class="prompt-label">Sprint Breakdown Prompt</div>
+          <div class="prompt-text">"Break down this feature into engineering tasks for sprint planning: [FEATURE DESCRIPTION]. Reference our team velocity and sprint history data in this Project. For each task provide: task title, story points estimate, technical dependencies, acceptance criteria, and risks or unknowns. Group tasks into: Must-Have (MVP), Should-Have, and Spike/Research. Flag any tasks that need technical spikes before estimation is reliable."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflow 5 -->
+    <div class="workflow-card">
+      <div class="workflow-card-hdr">
+        <div class="workflow-num">5</div>
+        <div class="workflow-title">Incident Post-Mortems</div>
+        <span class="workflow-tag">Use: Claude's careful analysis for blameless format</span>
+      </div>
+      <div class="workflow-body">
+        <p>Post-mortems are one of the most valuable but consistently under-resourced engineering activities. Writing one well — blameless, thorough, action-oriented — takes significant mental energy at exactly the moment when the team is most drained. Claude excels at structuring messy incident notes into a clean, professional post-mortem that focuses on systems and processes, not people.</p>
+        <p>Feed Claude your raw timeline notes, Slack threads, and monitoring screenshots. The output is a complete, team-ready post-mortem as an Artifact, ready for review and publishing.</p>
+        <div class="prompt-card" style="margin-top:12px;">
+          <div class="prompt-label">Incident Post-Mortem Prompt</div>
+          <div class="prompt-text">"Write a blameless incident post-mortem from these notes: [TIMELINE, NOTES, AND SLACK THREADS]. Create it as an Artifact with the following sections: Executive Summary, Incident Timeline (chronological, with UTC timestamps), Root Cause Analysis (use 5 Whys framework), Customer Impact (scope, duration, severity), Resolution Steps, Action Items (each with: description, owner role, priority, target date), and Lessons Learned. Ensure all language is blameless — focus on systems and processes, not individuals."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflow 6 -->
+    <div class="workflow-card">
+      <div class="workflow-card-hdr">
+        <div class="workflow-num">6</div>
+        <div class="workflow-title">Data Analysis &amp; Log Review</div>
+        <span class="workflow-tag">Use: File uploads (CSVs, logs, metrics)</span>
+      </div>
+      <div class="workflow-body">
+        <p>Claude can analyse uploaded CSVs, log files, and metrics exports directly — no need to write analysis scripts for exploratory work. This is particularly useful for performance investigations, error pattern analysis, and capacity planning discussions where you need quick insights before deciding how to proceed.</p>
+        <p>Upload your data files directly to the conversation, then ask Claude to identify patterns, anomalies, and trends. For structured analysis tasks you'll repeat, ask Claude to produce a reusable Python or SQL script as an Artifact.</p>
+        <div class="prompt-card" style="margin-top:12px;">
+          <div class="prompt-label">Log &amp; Data Analysis Prompt</div>
+          <div class="prompt-text">"I've uploaded our application logs / metrics CSV for [TIME PERIOD AND SERVICE]. Analyse the data for: (1) error patterns and their frequency distribution, (2) performance degradation trends (p50, p95, p99 latency changes), (3) anomalies or outliers that warrant investigation. Produce a structured summary with: Key Findings, Visualisation Recommendations (chart types and what to plot), and Actionable Next Steps for the engineering team. Then provide a reusable Python script as an Artifact to automate this analysis going forward."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 04 — ADVANCED TECHNIQUES ══════════════════════════════════ -->
+  <section id="s04">
+    <div class="sec-hdr">
+      <div class="sec-num">04</div>
+      <div class="sec-meta">
+        <h2>Advanced Techniques</h2>
+        <p>Power-user capabilities that separate efficient engineering teams from exceptional ones</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Claude Code CLI — Terminal-Native Engineering</h3>
+    <p class="body">Claude Code is Anthropic's purpose-built CLI for software engineers. Install it once and Claude operates directly in your development environment — reading your repository, running commands, editing files, and generating tests. Unlike chat-based AI, Claude Code understands your full project structure without you having to paste anything.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🔧</div>
+        <h4>Code Generation &amp; Refactoring</h4>
+        <p>Ask Claude Code to implement features, refactor modules, extract functions, or migrate deprecated APIs — with full awareness of your existing codebase patterns.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧪</div>
+        <h4>Test Generation</h4>
+        <p>Generate unit tests, integration tests, and edge case coverage for existing code. Claude Code can read your test framework and match your team's testing conventions automatically.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <h4>Documentation from Code</h4>
+        <p>Generate inline comments, JSDoc/docstrings, and README sections directly from your source code — keeping documentation in sync without leaving the terminal.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔎</div>
+        <h4>Codebase Navigation</h4>
+        <p>Ask questions about your codebase — "where is the rate limiting logic?", "which services emit this event?" — and Claude Code traverses your files to answer accurately.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Agents for Autonomous Multi-Step Engineering Tasks</h3>
+    <p class="body">Claude's agentic capabilities allow it to break down complex tasks into steps and execute them sequentially — searching files, running commands, reading outputs, and iterating based on results. This is particularly powerful for engineering tasks that involve multiple phases: read code → identify issues → generate fix → run tests → report results.</p>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-label">Best Practice for Agentic Tasks</div>
+        <div class="callout-text">When using Claude for multi-step autonomous tasks, set a clear goal and constraints upfront, but review intermediate outputs at natural checkpoints (e.g. after code generation, before running tests). This gives you the efficiency of automation while maintaining the engineering oversight that matters for production systems.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">MCP Integrations — Engineering Tool Context</h3>
+    <p class="body">Model Context Protocol (MCP) servers transform Claude from a general-purpose assistant into a tool that understands your live engineering environment. Configure these for maximum value:</p>
+
+    <table class="ref-table">
+      <tr>
+        <th>MCP Server</th>
+        <th>What it unlocks</th>
+        <th>Key use cases</th>
+      </tr>
+      <tr>
+        <td><strong>GitHub MCP</strong></td>
+        <td>Read PRs, issues, commits, and repo structure</td>
+        <td>PR review assistance, issue triage, changelog generation</td>
+      </tr>
+      <tr>
+        <td><strong>Jira MCP</strong></td>
+        <td>Read and create tickets, query sprint data</td>
+        <td>Sprint planning, automated ticket creation from code comments</td>
+      </tr>
+      <tr>
+        <td><strong>Sentry MCP</strong></td>
+        <td>Fetch error details, stack traces, occurrence data</td>
+        <td>Debugging assistance with real error context, incident triage</td>
+      </tr>
+      <tr>
+        <td><strong>Database MCP</strong></td>
+        <td>Query schema information, table structures</td>
+        <td>Query generation, migration planning, schema documentation</td>
+      </tr>
+    </table>
+
+    <h3 class="sub">Cowork Mode — Real-Time Pair Programming</h3>
+    <p class="body">Cowork Mode in Claude lets you share a live session with a colleague, with both parties able to see Claude's outputs in real time. For engineering, this is particularly valuable during complex debugging sessions, architecture workshops, and live code reviews — replacing the "screen share and narrate" pattern with a collaborative session where everyone can contribute prompts and see Claude's reasoning transparently.</p>
+
+    <h3 class="sub">Extended Thinking for Complex Engineering Problems</h3>
+    <p class="body">Claude's Extended Thinking mode is specifically designed for problems that require multi-step reasoning — the kinds of problems that experienced engineers instinctively know they need to "sleep on." Trigger it by asking Claude to "think carefully" or "think step by step before responding." Use it for:</p>
+
+    <ul class="styled">
+      <li>Architecture decisions with multiple competing constraints</li>
+      <li>Complex debugging where the root cause isn't obvious from the stack trace</li>
+      <li>Security analysis where you need to reason about attack vectors systematically</li>
+      <li>Database query optimisation involving multiple joins and index strategies</li>
+      <li>Migration planning where order of operations has significant risk implications</li>
+    </ul>
+
+    <h3 class="sub">Claude by Plan — Engineering Feature Comparison</h3>
+    <table class="ref-table">
+      <tr>
+        <th>Feature</th>
+        <th>Free</th>
+        <th>Pro</th>
+        <th>Team</th>
+      </tr>
+      <tr>
+        <td>Projects &amp; Project Knowledge</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>200K context window (Opus 4.7)</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>Extended Thinking</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>Claude Code CLI</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>MCP server configuration</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>Shared Projects (team-wide)</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>Zero data training guarantee</td>
+        <td class="cross">✗</td>
+        <td class="partial">Limited</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>Cowork Mode (shared sessions)</td>
+        <td class="cross">✗</td>
+        <td class="partial">Beta</td>
+        <td class="check">✓</td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- ══ 05 — PROMPT LIBRARY ══════════════════════════════════════ -->
+  <section id="s05">
+    <div class="sec-hdr">
+      <div class="sec-num">05</div>
+      <div class="sec-meta">
+        <h2>Prompt Library</h2>
+        <p>15 ready-to-use engineering prompts across 5 categories — copy, adapt, and save to your Project</p>
+      </div>
+    </div>
+
+    <p class="body">These prompts are designed for engineers who already have a Project set up with their architecture docs and coding standards. Each prompt assumes Claude has relevant context available. Adapt the placeholders in square brackets to your specific situation.</p>
+
+    <div class="prompt-tabs">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'p05')">Documentation</button>
+        <button class="tab-btn" onclick="switchTab(this,'p05')">Code</button>
+        <button class="tab-btn" onclick="switchTab(this,'p05')">Architecture</button>
+        <button class="tab-btn" onclick="switchTab(this,'p05')">Planning</button>
+        <button class="tab-btn" onclick="switchTab(this,'p05')">Incidents</button>
+      </div>
+
+      <!-- Tab 1: Documentation -->
+      <div class="tab-pane active" id="p05-0">
+        <div class="prompt-card">
+          <div class="prompt-label">Technical Specification</div>
+          <div class="prompt-text">"Write a technical specification for [FEATURE NAME] as an Artifact. Based on the architecture and API standards in this Project, include: Overview, Functional Requirements, Non-Functional Requirements (performance, reliability, security), Proposed Design, API Contract (endpoints, request/response schemas, error codes), Database Changes, Testing Plan, and Rollout Strategy. Highlight any design decisions that need team review."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">API Documentation</div>
+          <div class="prompt-text">"Generate comprehensive API documentation for this service as an Artifact in OpenAPI 3.0 format. Include all endpoints, request/response schemas with field descriptions, authentication requirements, error codes with descriptions, rate limit information, and usage examples in cURL and JavaScript. Base the schemas on the code I'm pasting below.\n\nCode:\n[PASTE SERVICE CODE]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">README Generator</div>
+          <div class="prompt-text">"Create a README for [SERVICE/REPOSITORY NAME] as an Artifact. Based on the architecture docs in this Project, include: What This Service Does (plain English, 2 paragraphs), Architecture Overview, Getting Started (prerequisites, local setup, environment variables), Running Tests, Deployment, Key Configuration, API Reference (link to full docs), Monitoring and Alerting, Runbook Links, and Contributing Guide. Write for a new engineer joining the team."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Architecture Diagram Description</div>
+          <div class="prompt-text">"Based on the service architecture in this Project, write a detailed Mermaid diagram definition as an Artifact showing: all services and their relationships, data flows with direction, external integrations, and database connections. Then provide a written narrative explaining the architecture, how data flows through the system for the [MAIN USER JOURNEY], and the rationale for the service boundaries."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <!-- Tab 2: Code -->
+      <div class="tab-pane" id="p05-1">
+        <div class="prompt-card">
+          <div class="prompt-label">Code Review</div>
+          <div class="prompt-text">"Think carefully about this code, then perform a comprehensive code review. Check for: (1) Bugs and logic errors with reproduction scenarios, (2) Security vulnerabilities (OWASP Top 10 relevance), (3) Performance issues at our expected load, (4) Code quality and style violations against our standards in this Project, (5) Missing error handling or edge cases. Format as: Issue Title | Severity (Critical/Major/Minor) | Line Reference | Description | Suggested Fix.\n\n[PASTE CODE]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Refactoring Plan</div>
+          <div class="prompt-text">"Analyse this code and create a phased refactoring plan as an Artifact. Identify: code smells and technical debt, high-risk areas (complex logic, no tests, multiple responsibilities), and quick wins vs strategic improvements. For each refactoring: explain the current problem, proposed solution, estimated effort (S/M/L), risk level, and whether tests are needed first. Prioritise by impact-to-effort ratio. Don't rewrite everything — identify the highest-leverage changes.\n\n[PASTE CODE]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Test Generation</div>
+          <div class="prompt-text">"Generate a comprehensive test suite for this function/module using [JEST/VITEST/PYTEST]. Include: happy path tests, edge cases, error conditions, boundary values, and any async/timing-sensitive scenarios. Match our existing test patterns (examples in Project). For each test, add a comment explaining what behaviour it's verifying and why that matters. Produce the test file as an Artifact.\n\n[PASTE CODE TO TEST]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <!-- Tab 3: Architecture -->
+      <div class="tab-pane" id="p05-2">
+        <div class="prompt-card">
+          <div class="prompt-label">Architecture Decision Record</div>
+          <div class="prompt-text">"Use extended thinking to analyse this architecture decision: [OPTION A] vs [OPTION B] for [COMPONENT]. Our system constraints are in this Project. Evaluate against: performance at scale, operational burden, team expertise fit, migration path from current state, long-term maintainability, and infrastructure cost. Write a complete ADR as an Artifact: Title, Status (Proposed), Context, Decision, Rationale, Consequences (both positive and negative), and Alternatives Considered."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">System Design Review</div>
+          <div class="prompt-text">"Review this system design proposal and identify potential issues. Think carefully before responding. Look for: single points of failure, scaling bottlenecks, data consistency risks, security surface area, operational complexity, and assumptions that may not hold under load. For each concern: explain the failure mode, the conditions under which it manifests, and mitigation options. Also identify what's well-designed and why.\n\nDesign:\n[PASTE DESIGN DOCUMENT OR DESCRIBE DESIGN]"</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Migration Plan</div>
+          <div class="prompt-text">"Create a detailed migration plan as an Artifact for moving from [CURRENT STATE] to [TARGET STATE]. Our system context is in this Project. Include: Migration Phases (each with goal, steps, success criteria, and rollback plan), Data Migration Strategy (how data moves safely), Feature Flag Strategy (for incremental rollout), Testing Requirements at each phase, Monitoring and Alerting changes needed, Communication Plan, and Risk Register with mitigations. Identify the highest-risk step and how to de-risk it."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <!-- Tab 4: Planning -->
+      <div class="tab-pane" id="p05-3">
+        <div class="prompt-card">
+          <div class="prompt-label">Sprint Breakdown</div>
+          <div class="prompt-text">"Break down this feature into engineering tasks for our next sprint. Feature: [DESCRIPTION]. Reference our team velocity and past sprint data in this Project. For each task: Title, Story Points (reference our Fibonacci scale), Technical Dependencies (ordered), Acceptance Criteria (testable statements), and Risks/Unknowns. Organise into: Sprint MVP, Post-MVP, and Items Needing a Spike. Flag anything that needs a design or security review before work starts."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Estimation Workshop Prep</div>
+          <div class="prompt-text">"Prepare estimation support for these tickets: [LIST OF JIRA TICKETS OR TASK DESCRIPTIONS]. For each: identify technical complexity factors (new patterns, third-party integrations, data migration, testing complexity), risks that could expand scope, questions that need answers before estimation is reliable, and a suggested reference story for comparison from our past work. Structure as a table with these columns, plus a section of 'Questions to Answer Before Estimating'."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Risk Assessment</div>
+          <div class="prompt-text">"Think carefully, then produce a risk assessment for this engineering initiative: [INITIATIVE DESCRIPTION]. Our system context is in this Project. Identify: technical risks (integration failures, performance issues, data corruption), operational risks (deployment complexity, monitoring gaps, rollback difficulty), dependency risks (external services, team dependencies, timeline dependencies), and business risks (customer impact scenarios). For each risk: Likelihood (H/M/L), Impact (H/M/L), and 2–3 specific mitigations. Produce as an Artifact."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+
+      <!-- Tab 5: Incidents -->
+      <div class="tab-pane" id="p05-4">
+        <div class="prompt-card">
+          <div class="prompt-label">Blameless Post-Mortem</div>
+          <div class="prompt-text">"Write a blameless post-mortem as an Artifact from these incident notes: [PASTE TIMELINE, SLACK THREADS, MONITORING DATA]. Use the following structure: Executive Summary (3 sentences max), Incident Timeline (UTC timestamps, actions, and observations), Root Cause Analysis (5 Whys — go at least 4 levels deep), Customer Impact (who was affected, for how long, what they experienced), Resolution (what fixed it), Action Items (description, owner role, priority P1/P2/P3, due date), and Lessons Learned. All language must be blameless — systems and processes only, not individuals."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Incident Status Update</div>
+          <div class="prompt-text">"Write an incident status update for [INTERNAL STAKEHOLDERS / PUBLIC STATUS PAGE] based on these notes: [CURRENT STATUS, WHAT'S KNOWN, WHAT'S BEING DONE]. Audience: [non-technical leadership / technical team / customers]. Include: Current Status (one line), What Happened (plain English, no jargon for non-technical audiences), Current Impact (be specific — what's affected, what still works), What We're Doing, Next Update Time. Keep it factual, calm, and clear. Avoid speculation about root cause."</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 06 — MEASURING IMPACT ══════════════════════════════════════ -->
+  <section id="s06">
+    <div class="sec-hdr">
+      <div class="sec-num">06</div>
+      <div class="sec-meta">
+        <h2>Measuring Impact</h2>
+        <p>How to track the value Claude is delivering to your engineering team</p>
+      </div>
+    </div>
+
+    <p class="body">Engineering teams that get the most from AI tools are deliberate about measuring their impact. This isn't about justifying the subscription cost — it's about understanding which workflows are delivering real value so you can double down on them and course-correct on the ones that aren't.</p>
+
+    <div class="card-grid-4">
+      <div class="metric-card">
+        <div class="metric-number">60%</div>
+        <div class="metric-label">Documentation Time Saved</div>
+        <div class="metric-desc">Teams using Claude for tech specs and API docs report 50–70% reduction in first-draft time.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">3×</div>
+        <div class="metric-label">Code Review Coverage</div>
+        <div class="metric-desc">Claude pre-review catches common issues before peer review, tripling the effective coverage per reviewer hour.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">40%</div>
+        <div class="metric-label">Incident Response Faster</div>
+        <div class="metric-desc">Post-mortems written with Claude are completed 40% faster and rated higher quality by teams who read them.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">±15%</div>
+        <div class="metric-label">Estimation Accuracy</div>
+        <div class="metric-desc">Claude-assisted sprint breakdowns reduce estimation variance when used with historical velocity context.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">What to Track</h3>
+    <table class="ref-table">
+      <tr>
+        <th>Metric</th>
+        <th>How to measure</th>
+        <th>Target signal</th>
+      </tr>
+      <tr>
+        <td>Documentation lag</td>
+        <td>Time from feature ship to docs published</td>
+        <td>Decreasing trend over 3 sprints</td>
+      </tr>
+      <tr>
+        <td>PR review turnaround</td>
+        <td>Time from PR open to first review</td>
+        <td>Reduction when Claude pre-review adopted</td>
+      </tr>
+      <tr>
+        <td>Post-mortem completion rate</td>
+        <td>% of incidents with completed post-mortem within SLA</td>
+        <td>Increasing towards 100% within team SLA</td>
+      </tr>
+      <tr>
+        <td>Sprint commitment accuracy</td>
+        <td>Points committed vs points completed each sprint</td>
+        <td>Variance narrows over 4–6 sprints</td>
+      </tr>
+      <tr>
+        <td>Bugs escaping to production</td>
+        <td>Bugs found in prod vs caught in review/testing</td>
+        <td>Reduction in escape rate from code review</td>
+      </tr>
+    </table>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-label">Starting Small</div>
+        <div class="callout-text">Don't try to measure everything at once. Pick the one or two engineering activities where you feel the most time pressure — documentation or post-mortems are good starting points — and measure those first. Once you see the impact there, it's easier to build the case for broader adoption and investment in setup (Projects, MCP servers, Team plan).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 07 — COMMON MISTAKES ══════════════════════════════════════ -->
+  <section id="s07">
+    <div class="sec-hdr">
+      <div class="sec-num">07</div>
+      <div class="sec-meta">
+        <h2>Common Mistakes &amp; Fixes</h2>
+        <p>The five patterns that limit how much value engineers get from Claude — and how to avoid them</p>
+      </div>
+    </div>
+
+    <p class="body">Most engineers who feel underwhelmed by AI assistants are making at least one of these mistakes. The good news: all five are easy to fix once you know what to look for.</p>
+
+    <div class="do-avoid">
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Not using Projects — losing system context every session.</strong> Starting a new chat each time means Claude has no knowledge of your codebase, conventions, or architecture. Every session starts from scratch and every output is generic.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do This</div>
+          <div class="pair-text"><strong>Create a Project per system with architecture docs loaded.</strong> Upload your README, architecture diagrams, API specs, and coding standards. Claude then has deep context in every conversation without you repeating yourself.</div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Pasting proprietary or sensitive code without checking your org's AI usage policy.</strong> Many organisations have policies about what can be sent to external AI services, especially for PCI, HIPAA, or SOC 2 regulated systems.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do This</div>
+          <div class="pair-text"><strong>Verify your AI usage policy first. Use Claude Code CLI for local-first workflows.</strong> Claude Code runs locally and can work with your codebase without sending everything to the cloud. Claude Team plan also provides zero data training guarantees.</div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Skipping Extended Thinking for complex architecture and debugging tasks.</strong> Using standard mode for problems that genuinely require deep reasoning produces shallower, less reliable analysis — missing the most valuable use case for Claude in engineering.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do This</div>
+          <div class="pair-text"><strong>Ask Claude to "think carefully" before responding on hard problems.</strong> For architecture decisions, complex debugging, security analysis, and migration planning — explicitly request extended thinking. The quality difference is significant and immediately visible.</div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Trusting AI-generated code without review and testing.</strong> Claude writes plausible-looking code that can contain subtle bugs, miss edge cases, or use deprecated APIs. Treating its output as production-ready without review is a fast path to incidents.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do This</div>
+          <div class="pair-text"><strong>Always run tests, review edge cases, and apply your engineering judgment.</strong> Treat Claude's code output the same way you'd treat a PR from a junior engineer — valuable first draft, requires review. Your job is to catch what Claude missed, not to trust it blindly.</div>
+        </div>
+      </div>
+
+      <div class="pair">
+        <div class="avoid-card">
+          <span class="pair-emoji">❌</span>
+          <div class="pair-label">Avoid</div>
+          <div class="pair-text"><strong>Ignoring MCP integrations and working from static context only.</strong> Without live tool integrations, Claude is answering questions about your system from outdated docs and pasted snippets — not the actual state of your codebase, tickets, or monitoring.</div>
+        </div>
+        <div class="do-card">
+          <span class="pair-emoji">✅</span>
+          <div class="pair-label">Do This</div>
+          <div class="pair-text"><strong>Connect GitHub, Jira, and Sentry via MCP servers.</strong> With live integrations, Claude can see the current PR state, the actual ticket description, the real error details — making its analysis grounded in what's actually happening, not what was documented six months ago.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 08 — LEARNING PATH ══════════════════════════════════════ -->
+  <section id="s08">
+    <div class="sec-hdr">
+      <div class="sec-num">08</div>
+      <div class="sec-meta">
+        <h2>Your Learning Path</h2>
+        <p>Seven Claude guides that build on each other — from foundations to advanced engineering workflows</p>
+      </div>
+    </div>
+
+    <p class="body">This playbook is your practical reference for daily engineering use. The guides below provide the deeper conceptual foundations for each capability — start with Claude 101 if you're new to Claude, or jump directly to the guide most relevant to what you want to explore next.</p>
+
+    <div class="guide-links">
+      <a href="Claude-101-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">1</div>
+        <div class="guide-link-info">
+          <h4>Claude 101</h4>
+          <p>Foundations — understanding Claude's capabilities, limitations, interface, and mental model</p>
+        </div>
+        <span class="guide-link-arrow">→</span>
+      </a>
+      <a href="Claude-Prompt-Engineering-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">2</div>
+        <div class="guide-link-info">
+          <h4>Claude Prompt Engineering</h4>
+          <p>Write prompts that consistently produce high-quality technical output — roles, constraints, chain-of-thought</p>
+        </div>
+        <span class="guide-link-arrow">→</span>
+      </a>
+      <a href="Claude-Code-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">3</div>
+        <div class="guide-link-info">
+          <h4>Claude Code</h4>
+          <p>Deep dive into the Claude Code CLI — installation, configuration, workflows, and advanced usage</p>
+        </div>
+        <span class="guide-link-arrow">→</span>
+      </a>
+      <a href="Claude-Agents-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">4</div>
+        <div class="guide-link-info">
+          <h4>Claude Agents</h4>
+          <p>Autonomous multi-step task execution — how agents work, when to use them, and how to supervise them</p>
+        </div>
+        <span class="guide-link-arrow">→</span>
+      </a>
+      <a href="Claude-API-Basics-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">5</div>
+        <div class="guide-link-info">
+          <h4>Claude API Basics</h4>
+          <p>Build Claude-powered tooling into your engineering workflows — API fundamentals, authentication, and patterns</p>
+        </div>
+        <span class="guide-link-arrow">→</span>
+      </a>
+      <a href="Claude-Workflows-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">6</div>
+        <div class="guide-link-info">
+          <h4>Claude in Workflows</h4>
+          <p>Integrate Claude into your CI/CD pipeline, Slack, and engineering tools via automation and MCP</p>
+        </div>
+        <span class="guide-link-arrow">→</span>
+      </a>
+      <a href="Claude-Cowork-User-Guide.html" class="guide-link-card">
+        <div class="guide-link-num">7</div>
+        <div class="guide-link-info">
+          <h4>Claude Cowork Mode</h4>
+          <p>Real-time collaborative sessions with Claude — pair programming, architecture workshops, and live debugging</p>
+        </div>
+        <span class="guide-link-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">🎯</div>
+      <div class="callout-body">
+        <div class="callout-label">Recommended Starting Points by Role</div>
+        <div class="callout-text"><strong>Individual contributor:</strong> Start with Claude 101, then Claude Code — these two will immediately change your daily workflow. <strong>Tech Lead / Senior Engineer:</strong> Focus on Prompt Engineering and Claude Code — mastering these makes you the go-to resource for your team. <strong>Engineering Manager:</strong> Claude 101 and Claude in Workflows are most relevant — understanding what's possible helps you advocate for the right tools and processes. <strong>Platform/DevOps Engineer:</strong> Go straight to Claude API Basics and Claude in Workflows to explore where Claude can be embedded in your pipelines.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Your 30-Day Engineering AI Roadmap</h3>
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">1</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Week 1 — Foundation Setup</h4>
+          <p>Choose your plan, create your first Project for the system you work on most, upload your README and architecture docs, write your system prompt. Use Claude for your next technical spec or code review. Install Claude Code CLI and try it for one small task.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">2</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Week 2 — Daily Workflow Integration</h4>
+          <p>Add Claude to at least three daily engineering activities: documentation drafting, PR description writing, and sprint task breakdown. Notice where Claude's output needs the most correction — that's a signal to improve your Project context or system prompt.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">3</div>
+          <div class="roadmap-line"></div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Week 3 — Advanced Capabilities</h4>
+          <p>Configure at least one MCP server (GitHub is the easiest starting point). Use Extended Thinking for a real architecture decision or complex debugging session. Try Claude Code for a refactoring task or test generation exercise. Share a session with a colleague in Cowork Mode.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-left">
+          <div class="roadmap-circle">4</div>
+        </div>
+        <div class="roadmap-content">
+          <h4>Week 4 — Team Rollout &amp; Measurement</h4>
+          <p>Share your setup (Project, system prompt, best prompts) with your team. Establish a shared Project for common resources. Pick two metrics from Section 06 to track going forward. Run a short retrospective on what's working and what needs refinement. Book time to explore the Claude API guide if you want to embed Claude into your tooling.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2026 The AI Advantage Co · theaiadvantageco.com.au</div>
+    <div>Engineer's AI Playbook — Claude Edition · June 2026</div>
+  </footer>
+
+</main>
+
+<script>
+  // ── Tab switching ──────────────────────────────────────────────
+  function switchTab(el, section) {
+    const tabBtns = el.parentElement.querySelectorAll('.tab-btn');
+    const tabIdx  = Array.from(tabBtns).indexOf(el);
+    const secEl   = el.closest('section');
+    const panes   = secEl.querySelectorAll('.tab-pane');
+
+    tabBtns.forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    panes.forEach((p, i) => {
+      p.classList.toggle('active', i === tabIdx);
+    });
+  }
+
+  // ── Copy prompt ────────────────────────────────────────────────
+  function copyPrompt(btn) {
+    const card  = btn.closest('.prompt-card');
+    const text  = card.querySelector('.prompt-text');
+    const plain = text ? text.innerText : '';
+
+    navigator.clipboard.writeText(plain).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied';
+      btn.style.background = '#C97040';
+      btn.style.color = '#fff';
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 1800);
+    }).catch(() => {
+      // Fallback for non-HTTPS contexts
+      const range = document.createRange();
+      range.selectNode(text);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      window.getSelection().removeAllRanges();
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied';
+      setTimeout(() => { btn.textContent = orig; }, 1800);
+    });
+  }
+
+  // ── Scroll-spy navigation ──────────────────────────────────────
+  (function() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+    function onScroll() {
+      let current = sections[0].id;
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 120) {
+          current = sec.id;
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Small Business Owner's AI Playbook — Copilot Edition | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --purple:#5E17EB;
+  --purple-hover:#4A0FD4;
+  --purple-act:rgba(94,23,235,0.13);
+  --purple-light:#8B5CF6;
+  --purple-soft:#F0EAFF;
+  --blue:#0078D4;
+  --blue-light:#60A5FA;
+  --blue-soft:#EFF6FF;
+  --orange:#EA6C1A;
+  --orange-soft:#FFF7ED;
+  --yellow:#CA8A04;
+  --yellow-soft:#FEFCE8;
+  --page-bg:#EBF1FF;
+  --white:#FFFFFF;
+  --card-bg:#F7F4FF;
+  --hdr-bg:#EDE8FF;
+  --border:#D0C5F5;
+  --divider:#DDD7F8;
+  --ink:#1E1456;
+  --body-text:#3D3080;
+  --muted:#7264A8;
+  --sidebar-bg:#1E1456;
+  --sidebar-hover:#2C1E80;
+  --sidebar-w:268px;
+  --radius:10px;
+  --radius-sm:6px;
+  --green:#1B6B3A;
+  --green-bg:#E6F4EC;
+  --warn:#B45309;
+  --warn-bg:#FFF8E1;
+  --red:#C43E00;
+  --red-soft:#FFF0E8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--page-bg);color:var(--ink);line-height:1.7;font-size:15px}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;z-index:100}
+.sidebar-brand{padding:28px 20px 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--purple-light);margin-bottom:4px}
+.brand-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.88);line-height:1.3}
+.sidebar-nav{padding:14px 10px 20px}
+.nav-section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:12px 12px 5px}
+.nav-link{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:6px;color:rgba(200,184,255,.8);text-decoration:none;font-size:12.5px;font-weight:500;transition:all .15s;border-left:2px solid transparent;margin-bottom:1px}
+.nav-link:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.95)}
+.nav-link.active{background:rgba(139,92,246,.15);color:#fff;border-left-color:var(--purple-light)}
+.nav-link .nav-num{font-size:10px;font-weight:700;color:var(--purple-light);width:22px;flex-shrink:0}
+
+/* ── MAIN ── */
+.main{flex:1;padding:44px 52px 100px;max-width:calc(var(--sidebar-w) + 900px)}
+
+/* ── BANNER ── */
+.banner{position:relative;background:var(--sidebar-bg);border-radius:12px;margin-bottom:32px;overflow:hidden;text-align:center}
+.banner svg{display:block;width:100%}
+
+/* ── DOC HEADER ── */
+.doc-header{margin-bottom:32px}
+.breadcrumb{font-size:12px;color:var(--muted);margin-bottom:10px}
+.breadcrumb span{color:var(--purple)}
+.doc-title{font-size:30px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:8px}
+.doc-subtitle{font-size:15px;color:var(--body-text);max-width:700px;line-height:1.6;margin-bottom:16px}
+.doc-badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.badge-purple{background:var(--purple);color:#fff}
+.badge-blue{background:var(--blue);color:#fff}
+.badge-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+
+/* ── SECTION CARDS ── */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:28px;overflow:hidden;box-shadow:0 2px 10px rgba(94,23,235,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--purple);color:#fff;font-size:12px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--purple-light);margin-top:2px}
+.section-body{padding:24px}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55;color:var(--body-text)}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.copilot{background:var(--purple-soft);border-left:4px solid var(--purple)}
+.callout.copilot .callout-body strong{color:var(--purple)}
+
+/* ── FEATURE CARDS ── */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;border-top:3px solid var(--purple)}
+.feature-card .fc-icon{font-size:24px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--body-text);line-height:1.5}
+.feature-card.blue{border-top-color:var(--blue)}
+.feature-card.orange{border-top-color:var(--orange)}
+.feature-card.yellow{border-top-color:var(--yellow)}
+.feature-card.green{border-top-color:var(--green)}
+
+/* ── STEP LIST ── */
+.step-list{display:flex;flex-direction:column;gap:12px;margin:18px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--purple);color:#fff;font-size:13px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-num.blue{background:var(--blue)}
+.step-num.orange{background:var(--orange)}
+.step-num.yellow{background:var(--yellow);color:#1E1456}
+.step-num.green{background:var(--green)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ── USE CASE CARDS ── */
+.usecase-list{display:flex;flex-direction:column;gap:16px;margin:18px 0}
+.usecase-card{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.usecase-header{padding:12px 18px;display:flex;align-items:center;gap:12px}
+.usecase-header.purple{background:var(--purple-soft);border-bottom:1px solid var(--border)}
+.usecase-header.blue{background:var(--blue-soft);border-bottom:1px solid #C3DFF5}
+.usecase-header.orange{background:var(--orange-soft);border-bottom:1px solid #F8CFA8}
+.usecase-header.yellow{background:var(--yellow-soft);border-bottom:1px solid #F3E18B}
+.usecase-header.green{background:var(--green-bg);border-bottom:1px solid #A7D7BC}
+.usecase-header.teal{background:#E0F7F7;border-bottom:1px solid #A7D7D7}
+.uc-icon{font-size:22px;flex-shrink:0}
+.uc-app{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.uc-title{font-size:14px;font-weight:700;color:var(--ink)}
+.usecase-body{background:#fff;padding:14px 18px}
+.usecase-body p{font-size:13.5px;color:var(--body-text);margin-bottom:10px;line-height:1.5}
+.usecase-prompt{background:var(--sidebar-bg);border-radius:6px;overflow:hidden;margin-top:8px}
+.usecase-prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--purple-light);padding:8px 12px 6px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.usecase-prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:10px 12px;font-size:13px;color:var(--body-text);line-height:1.6;font-style:italic}
+
+/* ── REF TABLE ── */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--purple-light);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 13px;text-align:left;border:1px solid rgba(255,255,255,.1)}
+.ref-table td{padding:9px 13px;border:1px solid var(--border);color:var(--body-text);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+.ref-table td strong{color:var(--ink);font-weight:600}
+
+/* ── SUB LABELS ── */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--purple-light);text-transform:uppercase;margin:20px 0 10px}
+.prose{font-size:14.5px;color:var(--body-text);line-height:1.65;margin-bottom:14px}
+.prose strong{color:var(--ink)}
+
+/* ── PROMPT TABS ── */
+.prompt-tabs{margin:18px 0}
+.tab-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab-btn{padding:7px 16px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--body-text);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.tab-btn:hover{background:var(--purple-soft);border-color:var(--purple)}
+.tab-btn.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--purple-light);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.copy-btn{background:none;border:1px solid rgba(139,92,246,.4);color:var(--purple-light);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;font-family:'Inter',sans-serif}
+.copy-btn:hover{background:rgba(139,92,246,.2)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--body-text);line-height:1.65;font-style:italic}
+
+/* ── METRIC CARDS ── */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+.metric-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;text-align:center;border-top:3px solid var(--purple)}
+.metric-card.blue{border-top-color:var(--blue)}
+.metric-card.orange{border-top-color:var(--orange)}
+.metric-card.green{border-top-color:var(--green)}
+.metric-num{font-size:32px;font-weight:700;color:var(--purple);line-height:1;margin-bottom:6px}
+.metric-card.blue .metric-num{color:var(--blue)}
+.metric-card.orange .metric-num{color:var(--orange)}
+.metric-card.green .metric-num{color:var(--green)}
+.metric-label{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.metric-desc{font-size:11.5px;color:var(--muted);line-height:1.4}
+
+/* ── MISTAKE ITEMS ── */
+.mistake-item{margin-bottom:14px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.mistake-avoid{background:var(--red-soft);border-left:4px solid var(--red);padding:12px 16px;display:flex;align-items:flex-start;gap:10px}
+.mistake-do{background:var(--green-bg);border-left:4px solid var(--green);padding:12px 16px;display:flex;align-items:flex-start;gap:10px}
+.mistake-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.mistake-text{font-size:13.5px;color:var(--body-text);line-height:1.5}
+.mistake-text strong{color:var(--ink)}
+
+/* ── LEARNING PATH ── */
+.learning-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.learning-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;align-items:center;gap:14px;text-decoration:none;transition:all .15s;border-left:4px solid var(--purple)}
+.learning-card:hover{border-color:var(--purple);background:var(--purple-soft);box-shadow:0 4px 12px rgba(94,23,235,.12)}
+.learning-card.blue{border-left-color:var(--blue)}
+.learning-card.blue:hover{background:var(--blue-soft)}
+.learning-card.orange{border-left-color:var(--orange)}
+.learning-card.orange:hover{background:var(--orange-soft)}
+.learning-card.yellow{border-left-color:var(--yellow)}
+.learning-card.yellow:hover{background:var(--yellow-soft)}
+.learning-card.green{border-left-color:var(--green)}
+.learning-card.green:hover{background:var(--green-bg)}
+.lc-num{width:36px;height:36px;background:var(--purple);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.learning-card.blue .lc-num{background:var(--blue)}
+.learning-card.orange .lc-num{background:var(--orange)}
+.learning-card.yellow .lc-num{background:var(--yellow);color:#1E1456}
+.learning-card.green .lc-num{background:var(--green)}
+.lc-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.lc-body p{font-size:12.5px;color:var(--muted);line-height:1.4}
+.lc-arrow{margin-left:auto;color:var(--muted);font-size:18px;flex-shrink:0}
+
+/* ── ADVANCED CARDS ── */
+.adv-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:12px}
+.adv-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.adv-card h4 .adv-badge{font-size:10px;font-weight:700;letter-spacing:.06em;background:var(--purple-soft);color:var(--purple);padding:2px 8px;border-radius:10px;text-transform:uppercase}
+.adv-card h4 .adv-badge.blue{background:var(--blue-soft);color:var(--blue)}
+.adv-card h4 .adv-badge.orange{background:var(--orange-soft);color:var(--orange)}
+.adv-card p{font-size:13.5px;color:var(--body-text);line-height:1.5;margin-bottom:8px}
+.adv-card p:last-child{margin-bottom:0}
+
+/* ── SCROLLSPY TARGET ── */
+[id]{scroll-margin-top:20px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;min-width:unset;height:auto;position:relative;top:unset}
+  .main{padding:28px 20px 60px}
+  .feature-grid{grid-template-columns:1fr}
+  .metric-grid{grid-template-columns:1fr 1fr}
+  .learning-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .metric-grid{grid-template-columns:1fr}
+  .doc-title{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-label">The AI Advantage Co</div>
+    <div class="brand-name">Small Business AI Playbook</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Playbook Sections</div>
+    <a class="nav-link active" href="#s01"><span class="nav-num">01</span>Why AI Matters</a>
+    <a class="nav-link" href="#s02"><span class="nav-num">02</span>Setup &amp; Getting Started</a>
+    <a class="nav-link" href="#s03"><span class="nav-num">03</span>Daily Workflows</a>
+    <a class="nav-link" href="#s04"><span class="nav-num">04</span>Advanced Techniques</a>
+    <a class="nav-link" href="#s05"><span class="nav-num">05</span>Prompt Library</a>
+    <a class="nav-link" href="#s06"><span class="nav-num">06</span>Measuring Impact</a>
+    <a class="nav-link" href="#s07"><span class="nav-num">07</span>Common Mistakes</a>
+    <a class="nav-link" href="#s08"><span class="nav-num">08</span>Learning Path</a>
+  </nav>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+  <!-- ── BANNER SVG ── -->
+  <div class="banner">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 268" style="border-radius:12px">
+      <defs>
+        <linearGradient id="bannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#1E1456"/>
+          <stop offset="50%" style="stop-color:#2C1E80"/>
+          <stop offset="100%" style="stop-color:#0A003A"/>
+        </linearGradient>
+        <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#5E17EB"/>
+          <stop offset="100%" style="stop-color:#0078D4"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <rect width="1400" height="268" fill="url(#bannerGrad)"/>
+      <!-- decorative hex grid left -->
+      <g opacity="0.08" fill="none" stroke="#8B5CF6" stroke-width="1">
+        <polygon points="50,20 82,20 98,48 82,76 50,76 34,48"/>
+        <polygon points="98,48 130,48 146,76 130,104 98,104 82,76"/>
+        <polygon points="50,76 82,76 98,104 82,132 50,132 34,104"/>
+      </g>
+      <!-- decorative hex grid right -->
+      <g opacity="0.08" fill="none" stroke="#8B5CF6" stroke-width="1">
+        <polygon points="1270,150 1302,150 1318,178 1302,206 1270,206 1254,178"/>
+        <polygon points="1318,124 1350,124 1366,152 1350,180 1318,180 1302,152"/>
+        <polygon points="1222,176 1254,176 1270,204 1254,232 1222,232 1206,204"/>
+      </g>
+      <!-- accent bars -->
+      <rect x="0" y="0" width="1400" height="4" fill="url(#accentGrad)"/>
+      <rect x="0" y="264" width="1400" height="4" fill="url(#accentGrad)"/>
+      <!-- glow orbs -->
+      <circle cx="130" cy="134" r="90" fill="#5E17EB" opacity="0.14"/>
+      <circle cx="1270" cy="134" r="70" fill="#0078D4" opacity="0.11"/>
+      <!-- eyebrow -->
+      <text x="700" y="68" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="5" fill="#8B5CF6">THE AI ADVANTAGE CO</text>
+      <!-- eyebrow line 2 -->
+      <text x="700" y="90" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="600" letter-spacing="4" fill="#8B5CF6" opacity="0.7">SMALL BUSINESS PLAYBOOK / COPILOT EDITION</text>
+      <!-- main title -->
+      <text x="700" y="158" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="48" font-weight="700" fill="#FFFFFF" filter="url(#glow)">SMALL BUSINESS PLAYBOOK</text>
+      <!-- pill -->
+      <rect x="545" y="174" width="310" height="38" rx="19" fill="url(#accentGrad)" opacity="0.88"/>
+      <text x="700" y="199" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="3" fill="#EBF1FF">COPILOT EDITION</text>
+    </svg>
+  </div>
+
+  <!-- ── DOC HEADER ── -->
+  <div class="doc-header">
+    <div class="breadcrumb">Documentation &rsaquo; <span>Small Business Playbook</span> &rsaquo; Copilot Edition</div>
+    <div class="doc-title">The Small Business Owner's AI Playbook &mdash; Copilot Edition</div>
+    <div class="doc-subtitle">Your complete guide to using Copilot for marketing in Word, financials in Excel, presentations in PowerPoint, customer communication in Outlook, and team coordination in Teams.</div>
+    <div class="doc-badges">
+      <span class="badge badge-purple">PLAYBOOK</span>
+      <span class="badge badge-blue">June 2026</span>
+      <span class="badge badge-outline">Audience: Small Business Owners</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 01 — WHY AI MATTERS FOR SMALL BUSINESS
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s01">
+    <div class="section-header">
+      <div class="sec-num">01</div>
+      <div>
+        <h2>Why AI Matters for Small Business</h2>
+        <p>The case for making Copilot your most productive team member</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Running a small business means wearing every hat simultaneously — you're the marketer, the financial analyst, the sales rep, the customer service team, and the operations manager, often all before lunch. AI doesn't replace any of those roles. What it does is dramatically compress the time each one takes, giving you back hours every day to focus on the work that actually grows your business.</p>
+
+      <p class="prose">Microsoft Copilot is embedded directly into the tools small business owners already rely on — Word, Excel, PowerPoint, Outlook, and Teams. There's no new platform to learn, no new subscription to manage (beyond your existing M365 licence), and no disruption to how you already work. Copilot meets you exactly where your business already runs.</p>
+
+      <div class="callout copilot">
+        <div class="callout-icon">✦</div>
+        <div class="callout-body">
+          <strong>2026 Update — Agent Mode in Word</strong>
+          <p>Agent Mode means your proposals, marketing copy, and business plans get multi-step refinement in a single prompt. Rather than drafting and revising back and forth, you can now instruct Copilot to plan, draft, research references, and refine a document through multiple stages automatically — producing near-final outputs from a single well-structured request. For small business owners who wear multiple hats, this is a game-changer.</p>
+        </div>
+      </div>
+
+      <div class="sub-label">Where small business owners are winning time back</div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-icon">✍️</div>
+          <h4>Marketing Copy &amp; Content</h4>
+          <p>Draft blog posts, social media content, email newsletters, and marketing materials in Word — referencing your brand voice guide with / to ensure consistency without starting from scratch every time.</p>
+        </div>
+        <div class="feature-card blue">
+          <div class="fc-icon">📊</div>
+          <h4>Financial Analysis</h4>
+          <p>Paste revenue data, expense reports, and invoice records into Excel — then ask Copilot to spot patterns, flag cash flow risks, build forecasts, and produce an executive summary you can act on immediately.</p>
+        </div>
+        <div class="feature-card orange">
+          <div class="fc-icon">📧</div>
+          <h4>Customer Communication</h4>
+          <p>Generate professional, on-brand email templates for follow-ups, proposals, and support responses in Outlook. Copilot coaches your tone before you send, so every customer interaction sounds polished.</p>
+        </div>
+        <div class="feature-card yellow">
+          <div class="fc-icon">🤝</div>
+          <h4>Team Coordination</h4>
+          <p>Copilot in Teams transcribes and summarises meetings, posts status updates to channels, and keeps everyone aligned — even when you're too busy running the business to write everything up yourself.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>The Hours Equation</strong>
+          <p>Small business owners who actively use Copilot across Word, Excel, and Outlook consistently report saving 4–6 hours per week on administrative, writing, and analysis tasks. That's 200+ hours returned to revenue-generating work every year.</p>
+        </div>
+      </div>
+
+      <div class="sub-label">The competitive advantage in 2026</div>
+      <p class="prose">Your competitors — including much larger businesses — are adopting AI tools right now. The small businesses that thrive are those that use AI to produce the quality of output that previously required full-time specialists: a marketing manager's copy, a financial analyst's reporting, a business development manager's pitch decks. Copilot, embedded in the M365 apps you already pay for, is your most accessible entry point into that competitive edge.</p>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 02 — SETUP & GETTING STARTED
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s02">
+    <div class="section-header">
+      <div class="sec-num">02</div>
+      <div>
+        <h2>Setup: Getting Copilot Working for Your Business</h2>
+        <p>M365 Business licensing, per-app activation, and your first high-value prompts</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Getting Copilot operational across your M365 apps takes about 20 minutes, but the payoff starts immediately. Work through these steps once and you'll have Copilot active everywhere your business runs.</p>
+
+      <div class="sub-label">Step 1 — Choose the right M365 licence</div>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Plan</th><th>Includes Copilot?</th><th>Best For</th><th>Approx. Cost</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Microsoft 365 Business Basic</strong></td><td>No — Copilot add-on required</td><td>Email + web apps only</td><td>~$8/user/mo</td></tr>
+          <tr><td><strong>Microsoft 365 Business Standard</strong></td><td>No — Copilot add-on required</td><td>Desktop apps + Teams</td><td>~$15/user/mo</td></tr>
+          <tr><td><strong>Microsoft 365 Business Premium</strong></td><td>No — Copilot add-on required</td><td>Full M365 + security</td><td>~$26/user/mo</td></tr>
+          <tr><td><strong>M365 Copilot Add-on</strong></td><td>Yes — adds Copilot to any plan</td><td>Required for AI features</td><td>~$30/user/mo</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body">
+          <strong>Licensing Tip for Small Teams</strong>
+          <p>You don't need to licence every user. Start with the owner and one or two key people who handle marketing, finance, or customer communication. Once they see the time savings, rolling out to the team is an easy business case to make internally.</p>
+        </div>
+      </div>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Activate Copilot in Word — Draft Your First Proposal</h4>
+            <p>Open a new Word document. Click the Copilot icon in the Home ribbon or press <strong>Alt + I</strong> to open the Draft with Copilot pane. Type: <em>"Draft a business proposal for [YOUR SERVICE] targeting [TARGET CLIENT]. Include an executive summary, problem statement, our solution, investment, and next steps."</em> Copilot will produce a complete draft in seconds. Use the / shortcut to reference an existing proposal template or brand guide stored in OneDrive.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num blue">2</div>
+          <div class="step-body">
+            <h4>Enable Copilot in Outlook for Customer Templates</h4>
+            <p>In Outlook, compose a new email and look for the Copilot icon in the compose toolbar. Click <strong>Draft with Copilot</strong> and type a brief instruction: <em>"Draft a polite follow-up email to a customer who hasn't responded to our proposal in 5 days. Keep it warm but professional."</em> Use the <strong>tone selector</strong> (Formal / Neutral / Casual) to match your brand voice before inserting the draft.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num orange">3</div>
+          <div class="step-body">
+            <h4>Set Up Excel for Financial Tracking</h4>
+            <p>Create a new Excel workbook and enter or import your invoice, expense, or revenue data. Click the <strong>Copilot</strong> button in the Home ribbon. Ask: <em>"Summarise this data. Identify monthly revenue trends, flag any months where expenses exceeded 70% of revenue, and suggest two ways to improve cash flow."</em> Copilot will analyse your data, create charts, and write a plain-language summary — all without needing formulas or pivot table skills.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num yellow" style="color:#1E1456">4</div>
+          <div class="step-body">
+            <h4>Configure BizChat (Copilot Chat) to Access Your Files</h4>
+            <p>Open <strong>Copilot Chat</strong> at copilot.microsoft.com or via the Microsoft 365 app. Switch to the <strong>Work</strong> tab (not Web) so Copilot can search your OneDrive and SharePoint. Type / in the prompt bar to reference specific documents — your price lists, brand guidelines, past proposals. Store key business documents in your OneDrive so Copilot can retrieve and cross-reference them from any prompt.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num green">5</div>
+          <div class="step-body">
+            <h4>Enable Meeting Intelligence in Teams</h4>
+            <p>In Microsoft Teams, go to <strong>Settings &rarr; Notifications and activity</strong> and ensure Copilot meeting features are enabled. Before your next meeting, click <strong>Start recording</strong> and confirm Copilot is active. After the meeting, ask: <em>"Summarise this meeting, list all action items with owners, and flag any decisions that need follow-up."</em> Teams Copilot will generate this automatically from the transcript.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>Data &amp; Privacy for Small Business</strong>
+          <p>Copilot in M365 for Business processes data within Microsoft's enterprise data protection boundary — your data is not used to train Copilot models. However, avoid pasting customer names, financial account numbers, or confidential contract details into Copilot prompts until you have reviewed your Microsoft 365 data governance settings with your IT contact or Microsoft partner.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 03 — DAILY WORKFLOWS
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s03">
+    <div class="section-header">
+      <div class="sec-num">03</div>
+      <div>
+        <h2>Your Daily AI Workflows</h2>
+        <p>Six high-impact use cases across Word, Excel, PowerPoint, Outlook, and Teams</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">These six workflows cover the tasks small business owners spend the most time on — and where Copilot delivers the most immediate return. Each maps to an M365 app you already have, with a ready-to-use example prompt to get you started today.</p>
+
+      <div class="usecase-list">
+
+        <!-- 1 Marketing in Word -->
+        <div class="usecase-card">
+          <div class="usecase-header purple">
+            <div class="uc-icon">✍️</div>
+            <div>
+              <div class="uc-app">Word</div>
+              <div class="uc-title">Marketing in Word — Blog Posts, Newsletters &amp; Materials</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Use Copilot in Word to draft blog posts, email newsletters, flyers, and marketing materials at speed. The key is using the <strong>/</strong> shortcut to reference your brand voice guide, past successful content, or product/service descriptions stored in OneDrive — Copilot will produce copy that's already aligned to your brand without you having to spell out every guideline from scratch.</p>
+            <p><strong>Best practice:</strong> Keep a short "Brand Voice" document in your OneDrive (tone, target customer, key messages, words to avoid) and reference it with / in every marketing prompt. Use Agent Mode to produce a full content pack — blog post, social caption, and email teaser — from a single brief.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Draft a 600-word blog post about [TOPIC] for our [INDUSTRY] business targeting [IDEAL CUSTOMER]. Reference /[BRAND-VOICE-DOC] for tone and style. Include an engaging opening, 3 key sections, and a call-to-action at the end."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Financials in Excel -->
+        <div class="usecase-card">
+          <div class="usecase-header blue">
+            <div class="uc-icon">📊</div>
+            <div>
+              <div class="uc-app">Excel</div>
+              <div class="uc-title">Financials in Excel — Cash Flow, Invoices &amp; Forecasting</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Copilot in Excel turns raw financial data into actionable insight without requiring accounting expertise or advanced formula knowledge. Paste or import your invoice records, expense categories, or monthly revenue figures — then ask Copilot to analyse trends, identify risks, and build forecasts. It can create charts, pivot tables, and written summaries automatically.</p>
+            <p><strong>Best practice:</strong> Keep your data in structured tables with clear column headers (Date, Category, Amount, Client, Status). The more consistent your data structure, the more accurate Copilot's analysis. Always ask Copilot to flag its assumptions — especially in forecasts.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Analyse this 12-month financial data. Identify: our three highest-revenue months and what drove them, months where expenses exceeded 75% of revenue, outstanding invoices over 30 days, and a 3-month revenue forecast based on current trends. Show results as a chart and a written summary."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Pitches in PowerPoint -->
+        <div class="usecase-card">
+          <div class="usecase-header orange">
+            <div class="uc-icon">🎨</div>
+            <div>
+              <div class="uc-app">PowerPoint</div>
+              <div class="uc-title">Pitches in PowerPoint — Client Decks &amp; Product Showcases</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Use Copilot in PowerPoint to generate complete client presentations, pitch decks, and product showcases from a brief or an existing Word proposal. Copilot pulls content from documents you reference with / and builds a structured, visually designed slide deck — complete with speaker notes. No more blank-slide anxiety before a big pitch.</p>
+            <p><strong>Best practice:</strong> Provide Copilot with a clear brief including: audience, goal, key messages, and desired number of slides. After generation, use the Designer tool to refine layouts. Always review financial figures and key claims before presenting to clients — Copilot drafts fast but human review is essential before a pitch.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Create a 10-slide client pitch deck for [CLIENT/INDUSTRY]. Reference /[PROPOSAL-DOC] for content. Include: title slide, agenda, our understanding of your challenge (3 bullets), our proposed solution, case study or social proof, investment summary, timeline, FAQs, team slide, and next steps. Add speaker notes for each slide."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Customer Comms in Outlook -->
+        <div class="usecase-card">
+          <div class="usecase-header yellow">
+            <div class="uc-icon">📧</div>
+            <div>
+              <div class="uc-app">Outlook</div>
+              <div class="uc-title">Customer Comms in Outlook — Templates, Follow-ups &amp; Tone Coaching</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Copilot in Outlook drafts professional, on-brand customer emails in seconds — and crucially, it coaches the <em>tone</em> of what you've already written before you send it. Use it to generate initial response templates, follow-up sequences, proposal cover emails, and even difficult customer service replies where the right wording really matters.</p>
+            <p><strong>Best practice:</strong> Use the <strong>Coaching by Copilot</strong> feature (available in the compose window) to get feedback on your own draft before sending. It flags tone issues, unclear wording, and missed action items. Build a library of saved Copilot prompts for your most common customer email types.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Draft a follow-up email to [CLIENT NAME] who received our proposal 7 days ago but hasn't responded. The tone should be warm and helpful — not pushy. Mention we're available to answer questions, offer a 15-minute call, and include a gentle nudge toward the next step."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Team Coordination in Teams -->
+        <div class="usecase-card">
+          <div class="usecase-header teal">
+            <div class="uc-icon">💬</div>
+            <div>
+              <div class="uc-app">Teams</div>
+              <div class="uc-title">Team Coordination in Teams — Recaps, Updates &amp; Project Status</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Copilot in Teams eliminates the note-taking bottleneck in meetings and keeps your team aligned without you having to write everything up manually. It transcribes meetings in real time, generates structured summaries, captures action items with owners, and can draft channel posts to keep your team or client updated after a meeting ends.</p>
+            <p><strong>Best practice:</strong> Always start recording and enable Copilot at the beginning of a meeting — the transcript is required for Copilot to generate the summary. After important client or team meetings, ask Copilot to draft a channel update post so everyone is aligned even if they weren't in the meeting.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt (after meeting) <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Summarise this meeting. Include: the top 3 decisions made, all action items with the person responsible and a due date, any open questions that need follow-up, and draft a short channel post (5 sentences max) to update the team on what was discussed and what happens next."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Business Docs in Word -->
+        <div class="usecase-card">
+          <div class="usecase-header green">
+            <div class="uc-icon">📄</div>
+            <div>
+              <div class="uc-app">Word</div>
+              <div class="uc-title">Business Docs in Word — Contracts, SOPs, Plans &amp; T&amp;Cs</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Use Copilot in Word to draft business-critical documents that previously required expensive professional help or hours of template searching — contracts, standard operating procedures, business plans, terms and conditions, onboarding guides, and supplier agreements. Copilot produces a solid working draft you can then review and customise, dramatically compressing the time from "I need this document" to "this is ready to use."</p>
+            <p><strong>Best practice:</strong> Always have a lawyer or qualified professional review any legally binding document Copilot helps you draft — including contracts and T&Cs. Use Copilot to produce the first draft quickly, then use professional review time on the final polish rather than creating from scratch. This saves significant cost.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Draft a standard services agreement for my [BUSINESS TYPE] business. Include sections on: scope of services, payment terms (net 30), intellectual property ownership, confidentiality, liability limits, and termination clause. Use plain English where possible. Flag any sections where I should seek legal review."</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 04 — ADVANCED TECHNIQUES
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s04">
+    <div class="section-header">
+      <div class="sec-num">04</div>
+      <div>
+        <h2>Advanced Techniques</h2>
+        <p>Agent Mode, BizChat cross-app intelligence, and Copilot Studio for customer service</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Once you're comfortable with the daily workflows, these three advanced capabilities unlock the next level of AI productivity for your business. They require a little more setup but deliver dramatically more powerful results.</p>
+
+      <div class="adv-card">
+        <h4>Agent Mode in Word <span class="adv-badge">WORD · 2026</span></h4>
+        <p>Agent Mode transforms Copilot in Word from a drafting assistant into a multi-step document producer. Instead of drafting a single section and waiting for you to prompt the next one, Agent Mode lets you set a complex goal — like "produce a full marketing plan including strategy, channels, content calendar, and budget breakdown" — and Copilot will plan and execute multiple document sections sequentially, referencing your brand guidelines and business context throughout.</p>
+        <p><strong>How to activate:</strong> In Word, open the Copilot pane and look for the "Agent" toggle or the expanded prompt mode. When activated, you'll see Copilot planning its steps before executing. You can approve, modify, or skip each step. This is currently rolling out — if you don't see it, check that your M365 Copilot licence is on the latest update channel.</p>
+        <p><strong>Best small business use cases:</strong> Full business plans, multi-section tender responses, comprehensive marketing strategies, employee handbooks, and detailed SOPs with sub-procedures. Any document where you previously had to prompt section-by-section is now a single Agent Mode task.</p>
+      </div>
+
+      <div class="adv-card">
+        <h4>BizChat — Cross-App Intelligence <span class="adv-badge blue">COPILOT CHAT</span></h4>
+        <p>BizChat (formally Microsoft 365 Chat, now Copilot Chat) is the most powerful and underused tool in the M365 for Business suite. Available at <strong>copilot.microsoft.com</strong> or in the Microsoft 365 app, BizChat lets you ask questions that draw on information across your entire M365 environment — emails, documents, Teams conversations, calendar, and SharePoint — in a single response.</p>
+        <p><strong>Example cross-app queries for small business:</strong></p>
+        <ul style="margin:8px 0 12px 18px;font-size:13.5px;color:var(--body-text);line-height:1.7">
+          <li><em>"What proposals have I sent to [Client Name] in the last 6 months and what was the outcome of each?"</em></li>
+          <li><em>"Summarise all emails from [Supplier] this month and flag any outstanding items I need to action."</em></li>
+          <li><em>"What decisions did my team make about [Project] across Teams and email in the last two weeks?"</em></li>
+          <li><em>"Find all documents related to [Contract/Project] in my OneDrive and give me a summary."</em></li>
+        </ul>
+        <p><strong>Setup requirement:</strong> Switch to the <strong>Work</strong> tab in Copilot Chat (not Web). Ensure your documents are stored in OneDrive or SharePoint — local files cannot be accessed. Ask your IT contact to confirm SharePoint search indexing is enabled for your business's drives.</p>
+      </div>
+
+      <div class="adv-card">
+        <h4>Copilot Studio — Your Own Customer Service Bot <span class="adv-badge orange">ADVANCED</span></h4>
+        <p>Copilot Studio (formerly Power Virtual Agents) lets you build a custom AI agent for your business — without writing a single line of code. The most powerful application for small businesses is a <strong>customer service bot</strong> that can answer common questions, qualify leads, take appointment bookings, and escalate to a human when needed.</p>
+        <p><strong>What your custom agent can do:</strong> Answer FAQs from your website or knowledge base, collect customer enquiry details and route them to the right person, handle booking requests and connect to Bookings or Outlook Calendar, and send automated follow-up emails via Power Automate.</p>
+        <p><strong>Getting started:</strong> Access Copilot Studio at <strong>copilotstudio.microsoft.com</strong>. Use the guided setup to connect your agent to a data source (your website, a SharePoint document library, or a manually created FAQ list). Deploy to your website via embedded chat widget or to your Teams channel for internal use. Typical setup time for a basic FAQ bot: 2–4 hours.</p>
+        <div class="callout info">
+          <div class="callout-icon">ℹ️</div>
+          <div class="callout-body">
+            <strong>Copilot Studio Licensing</strong>
+            <p>Copilot Studio is available as an add-on to Microsoft 365. Basic usage is included in some M365 Business plans — check the <strong>Power Platform admin centre</strong> to see what's available on your current licence before purchasing additional capacity.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 05 — PROMPT LIBRARY
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s05">
+    <div class="section-header">
+      <div class="sec-num">05</div>
+      <div>
+        <h2>Prompt Library</h2>
+        <p>15 ready-to-use prompts across Marketing, Customer, Sales, Finance, and Operations</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Copy any of these prompts directly into Copilot. Replace the items in [BRACKETS] with your specific details. Each prompt is written to produce immediately useful, business-ready output.</p>
+
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'sb-marketing')">Marketing</button>
+          <button class="tab-btn" onclick="switchTab(this,'sb-customer')">Customer</button>
+          <button class="tab-btn" onclick="switchTab(this,'sb-sales')">Sales</button>
+          <button class="tab-btn" onclick="switchTab(this,'sb-finance')">Finance</button>
+          <button class="tab-btn" onclick="switchTab(this,'sb-operations')">Operations</button>
+        </div>
+
+        <!-- Marketing Tab -->
+        <div class="prompt-panel active" id="sb-marketing">
+          <div class="prompt-box">
+            <div class="prompt-label">Marketing Prompt 1 — Blog Post <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Write a 700-word blog post titled '[TOPIC]' for [BUSINESS NAME], targeting [TARGET CUSTOMER]. Our tone is [PROFESSIONAL/FRIENDLY/EXPERT]. Include: a compelling opening hook, 3 key sections with actionable advice, and a closing call-to-action directing readers to [DESIRED ACTION — contact us / book a call / download X]. Reference /[BRAND-VOICE-DOC] if available."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Marketing Prompt 2 — Email Newsletter <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a monthly email newsletter for [BUSINESS NAME]. This month's theme is [THEME/TOPIC]. Include: a subject line (A/B test two versions), a warm opening paragraph, the main story or update (150 words), one tip or resource for our readers, a spotlight on [PRODUCT/SERVICE/CLIENT WIN], and a clear call-to-action. Keep total length under 350 words."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Marketing Prompt 3 — Social Media Pack <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a 5-post social media content pack for [BUSINESS NAME] on the theme of [TOPIC/CAMPAIGN]. For each post provide: the platform (LinkedIn / Instagram / Facebook), the caption (appropriate length for each platform), 3 hashtag suggestions, and a note on the visual style that would work best. Tone: [DESCRIBE YOUR BRAND TONE]. Goal: drive traffic to [WEBSITE/BOOKING PAGE]."</div>
+          </div>
+        </div>
+
+        <!-- Customer Tab -->
+        <div class="prompt-panel" id="sb-customer">
+          <div class="prompt-box">
+            <div class="prompt-label">Customer Prompt 1 — Complaint Response <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a professional and empathetic response to a customer complaint about [ISSUE]. The customer's key concern is [SUMMARISE CONCERN]. Our position is [DESCRIBE WHAT WE CAN / CANNOT DO]. The tone should acknowledge their frustration, apologise where appropriate, explain what we're doing to resolve it, and offer [SPECIFIC RESOLUTION — refund / replacement / discount / callback]. Keep it under 150 words and end positively."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Customer Prompt 2 — Onboarding Email Sequence <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Write a 3-email onboarding sequence for new customers of [BUSINESS NAME] who have just purchased [PRODUCT/SERVICE]. Email 1 (Day 0): Welcome + getting started steps. Email 2 (Day 3): Check-in + one key tip for getting the most value. Email 3 (Day 7): Introduce a related product/service + invite to leave a review. Keep each email under 200 words. Friendly, helpful tone."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Customer Prompt 3 — FAQ Document <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a customer FAQ document for [BUSINESS NAME / PRODUCT / SERVICE]. Include 10 of the most common questions customers ask about [TOPIC AREA]. For each question: write the question as a customer would phrase it, provide a clear and friendly answer (3–5 sentences), and flag if any answer needs a link to our website or a specific policy. Format for easy copy-paste onto our website."</div>
+          </div>
+        </div>
+
+        <!-- Sales Tab -->
+        <div class="prompt-panel" id="sb-sales">
+          <div class="prompt-box">
+            <div class="prompt-label">Sales Prompt 1 — Proposal Draft <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a business proposal for [BUSINESS NAME] to send to [PROSPECT/CLIENT]. Our service is [DESCRIBE SERVICE]. The client's key challenge is [DESCRIBE PROBLEM]. Include: executive summary (3 sentences), understanding of the challenge, our proposed solution with 3–4 key deliverables, why us (2–3 differentiators), investment summary (reference /[PRICING-DOC] if available), timeline, and clear next steps. Professional tone, plain English."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Sales Prompt 2 — Follow-Up Sequence <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Write a 3-touch follow-up sequence for a prospect who attended a discovery call but hasn't responded to our proposal. Touch 1 (Day 3): Value-add follow-up — share one relevant insight or resource. Touch 2 (Day 8): Gentle check-in — ask if they have questions. Touch 3 (Day 14): Last-touch — create a light sense of urgency without being pushy. Each email under 100 words. Warm, professional tone."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Sales Prompt 3 — Discovery Call Prep <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"I have a discovery call with [PROSPECT NAME] from [COMPANY / INDUSTRY] tomorrow. Based on what I know about [THEIR BUSINESS / INDUSTRY CHALLENGES], help me prepare: 5 open-ended discovery questions to understand their needs, 3 potential objections they might raise and how to respond to each, 2 relevant case studies or proof points I should mention, and a suggested meeting structure for a 30-minute call."</div>
+          </div>
+        </div>
+
+        <!-- Finance Tab -->
+        <div class="prompt-panel" id="sb-finance">
+          <div class="prompt-box">
+            <div class="prompt-label">Finance Prompt 1 — Cash Flow Analysis <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Analyse the cash flow data in this spreadsheet. Identify: months where outflows exceeded inflows and the primary drivers, our average days-to-payment from clients, the top 3 expense categories as a percentage of revenue, and 3 specific recommendations to improve cash flow over the next quarter. Present findings as a brief written report (under 300 words) plus a summary table."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Finance Prompt 2 — Invoice Tracker &amp; Overdue Alert <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Review this invoice data and identify: all invoices more than 30 days overdue, total value of outstanding receivables, clients with the longest payment delays, and draft a polite but firm payment reminder email for each overdue invoice. Sort overdue invoices by value (highest first). Flag any invoices approaching 60 or 90 days for escalation."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Finance Prompt 3 — Revenue Forecast <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Using this 12-month revenue and pipeline data, build a 3-month revenue forecast. Assumptions to apply: [GROWTH RATE % if known, or 'based on trend']. Show: baseline forecast (trend only), optimistic scenario (+20%), and conservative scenario (-15%). Identify the top 2 revenue risks for the next quarter and 2 opportunities worth pursuing. Present as a chart and a 200-word written summary."</div>
+          </div>
+        </div>
+
+        <!-- Operations Tab -->
+        <div class="prompt-panel" id="sb-operations">
+          <div class="prompt-box">
+            <div class="prompt-label">Operations Prompt 1 — Standard Operating Procedure <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Write a standard operating procedure (SOP) for [PROCESS NAME] at [BUSINESS NAME]. The process involves [BRIEF DESCRIPTION]. Include: purpose statement, scope (who this applies to), step-by-step procedure (numbered, with sub-steps where needed), common issues and how to resolve them, and a version history table. Format for easy printing and team distribution. Plain language, no jargon."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Operations Prompt 2 — Staff Onboarding Document <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a first-week onboarding document for a new [JOB TITLE] joining [BUSINESS NAME]. Include: welcome message from the owner, day-by-day schedule for week 1, list of tools and systems access they'll need with notes on how to get set up, key contacts and their roles, the 3 most important things to know about how we work, and answers to the 5 most common questions new staff ask."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Operations Prompt 3 — Meeting Agenda &amp; Recap <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a structured agenda for a [DURATION] [MEETING TYPE — team meeting / client review / strategy session] on [DATE]. Attendees: [NAMES/ROLES]. Goals for this meeting: [LIST 2–3 GOALS]. After the meeting, use this prompt to generate the recap: 'Summarise this meeting transcript. Include decisions made, action items (with owner and due date), any unresolved items for next meeting, and a 3-sentence summary I can paste into our project channel.'"</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 06 — MEASURING IMPACT
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s06">
+    <div class="section-header">
+      <div class="sec-num">06</div>
+      <div>
+        <h2>Measuring Your AI Impact</h2>
+        <p>Four key metrics to track the return on your Copilot investment</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">To justify your Copilot investment — to yourself, your accountant, or your team — you need to measure what's changing. These four metrics give you a clear, practical way to quantify the impact Copilot is having on your business.</p>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-num">4–6</div>
+          <div class="metric-label">Hours Saved Per Week</div>
+          <div class="metric-desc">Track time spent on writing, analysis, and admin tasks before and after. Most small business owners report 4–6 hours weekly within the first month.</div>
+        </div>
+        <div class="metric-card blue">
+          <div class="metric-num">3×</div>
+          <div class="metric-label">Faster Content Output</div>
+          <div class="metric-desc">Measure how many blog posts, proposals, or emails you produce per week. Copilot users typically produce 3x more content in the same time budget.</div>
+        </div>
+        <div class="metric-card orange">
+          <div class="metric-num">↑ 22%</div>
+          <div class="metric-label">Proposal Conversion Rate</div>
+          <div class="metric-desc">Better-structured, more personalised proposals convert at higher rates. Track your proposal win rate before and after adopting Copilot for sales docs.</div>
+        </div>
+        <div class="metric-card green">
+          <div class="metric-num">-15%</div>
+          <div class="metric-label">Admin Cost Reduction</div>
+          <div class="metric-desc">Tasks that previously needed outsourcing — copywriting, financial reporting, document creation — can now be done in-house. Track your outsourcing spend monthly.</div>
+        </div>
+      </div>
+
+      <div class="sub-label">How to track your impact — practical method</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Baseline Week — Before Copilot</h4>
+            <p>In your first week, spend 5 minutes at the end of each day noting which tasks you completed and roughly how long each took. Focus on writing, analysis, email, meetings, and document creation. This is your baseline. You only need to do this once.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num blue">2</div>
+          <div class="step-body">
+            <h4>Track Week — After 30 Days with Copilot</h4>
+            <p>After 30 days of active Copilot use, repeat the same 5-minute daily tracking exercise for one week. Compare completion times for the same task types against your baseline. Most users are surprised by how stark the difference is — especially for writing-heavy tasks.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num orange">3</div>
+          <div class="step-body">
+            <h4>Calculate Your ROI</h4>
+            <p>Multiply weekly hours saved by your effective hourly rate (your annual revenue divided by your working hours). If you save 5 hours/week at $100/hour, that's $500/week, $26,000/year — against a Copilot licence cost of roughly $360/year. That's a 70:1 ROI before you account for quality improvements.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num yellow" style="color:#1E1456">4</div>
+          <div class="step-body">
+            <h4>Report Monthly in Excel</h4>
+            <p>Use Copilot in Excel to build a simple monthly tracker: hours saved, content produced, proposals sent, customer response time, and outsourcing spend. Ask Copilot to generate a one-page summary at the end of each month. This report is invaluable if you ever need to justify the investment to a business partner, investor, or accountant.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 07 — COMMON MISTAKES
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s07">
+    <div class="section-header">
+      <div class="sec-num">07</div>
+      <div>
+        <h2>Common Mistakes &amp; How to Fix Them</h2>
+        <p>Five avoidable errors small business owners make with Copilot — and what to do instead</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Most frustration with Copilot comes from a small number of predictable mistakes. These five patterns cover 90% of what goes wrong — and each one has a simple fix.</p>
+
+      <!-- Mistake 1 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">✗</div>
+          <div class="mistake-text"><strong>Not using / references for brand and context.</strong> Asking Copilot to write marketing copy without referencing your brand voice document results in generic, off-brand output that still requires heavy editing.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✓</div>
+          <div class="mistake-text"><strong>Create a Brand Voice doc and reference it every time.</strong> Build a 1-page document in Word covering your tone, target customer, key messages, and words to avoid. Save it in OneDrive and start every marketing prompt with <em>"/[Brand-Voice-Doc]"</em> to give Copilot the context it needs to write on-brand copy from the first draft.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 2 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">✗</div>
+          <div class="mistake-text"><strong>Sending generic customer communications without customising the tone.</strong> Copilot's default tone is often more formal or corporate than a small business's natural voice — copy-pasting without review makes your emails sound like they came from a large corporation.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✓</div>
+          <div class="mistake-text"><strong>Use the tone selector and Coaching by Copilot.</strong> After Copilot drafts an email, use the built-in tone slider (Formal/Neutral/Casual) to match your style. Then click <strong>Coaching by Copilot</strong> to get feedback on your revised version before sending. Small personalisation — a customer's name, a reference to something they mentioned — makes a significant difference to response rates.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 3 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">✗</div>
+          <div class="mistake-text"><strong>Pasting customer PII into Copilot prompts.</strong> Including customer names, addresses, financial account details, or other personally identifiable information in Copilot prompts raises data governance risks — particularly if you're subject to GDPR, CCPA, or similar privacy regulations.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✓</div>
+          <div class="mistake-text"><strong>Use placeholders and descriptors instead of real PII.</strong> Replace actual customer names with <em>[Customer Name]</em> or descriptors like <em>"a long-term client in the construction industry"</em>. For financial analysis, use anonymised data in Excel (replace client names with codes). M365 Copilot for Business has enterprise-grade data protection, but building the habit of minimal PII exposure is good practice regardless.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 4 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">✗</div>
+          <div class="mistake-text"><strong>Using Agent Mode without reviewing the plan first.</strong> Agent Mode can execute multiple steps automatically — but if you don't review the plan it proposes, Copilot may structure a document differently from what you intended, requiring significant rework.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✓</div>
+          <div class="mistake-text"><strong>Always review and approve Agent Mode's plan before execution.</strong> When Agent Mode proposes a multi-step plan, take 60 seconds to read each step. Adjust the structure, add missing sections, or remove unnecessary ones before approving. The plan review step is where you direct the output — skipping it means trusting Copilot's default interpretation of your brief, which may not match your vision.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 5 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">✗</div>
+          <div class="mistake-text"><strong>Treating Copilot's financial analysis as final without verification.</strong> Copilot in Excel will produce confident-sounding financial summaries and forecasts — but it can misinterpret data, calculate percentages incorrectly, or make assumptions that don't match your business context without flagging them.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">✓</div>
+          <div class="mistake-text"><strong>Always verify key figures and ask Copilot to show its working.</strong> After any financial analysis, check 3–5 key numbers manually against your source data. Ask Copilot: <em>"What assumptions did you make in this analysis? List them."</em> This surfaces any misinterpretations before they influence a business decision. Use Copilot for speed and pattern spotting — use your own judgement (or your accountant's) for decisions that involve real money.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 08 — LEARNING PATH
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s08">
+    <div class="section-header">
+      <div class="sec-num">08</div>
+      <div>
+        <h2>Your Learning Path</h2>
+        <p>The recommended guide sequence to build your Copilot skills from foundation to advanced</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">This playbook gives you the small business context — but each M365 app has its own dedicated guide with deeper content, step-by-step walkthroughs, and app-specific prompt libraries. Work through these guides in order for the fastest skill progression.</p>
+
+      <div class="learning-grid">
+        <a class="learning-card" href="#">
+          <div class="lc-num">1</div>
+          <div class="lc-body">
+            <h4>Copilot 101</h4>
+            <p>Start here — core concepts, interface, and your first 10 prompts</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card blue" href="#">
+          <div class="lc-num">2</div>
+          <div class="lc-body">
+            <h4>Copilot Prompt Guide</h4>
+            <p>Write better prompts — structure, context, and advanced techniques</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card orange" href="#">
+          <div class="lc-num">3</div>
+          <div class="lc-body">
+            <h4>Copilot in Outlook</h4>
+            <p>Customer email, follow-up sequences, and tone coaching</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card yellow" href="#">
+          <div class="lc-num">4</div>
+          <div class="lc-body">
+            <h4>Copilot in Word</h4>
+            <p>Proposals, marketing copy, business docs, and Agent Mode</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card green" href="#">
+          <div class="lc-num">5</div>
+          <div class="lc-body">
+            <h4>Copilot in Excel</h4>
+            <p>Financial analysis, forecasting, and business intelligence</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card blue" href="#">
+          <div class="lc-num">6</div>
+          <div class="lc-body">
+            <h4>Copilot in Teams</h4>
+            <p>Meeting summaries, channel updates, and team alignment</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card orange" href="#">
+          <div class="lc-num">7</div>
+          <div class="lc-body">
+            <h4>Copilot in PowerPoint</h4>
+            <p>Client pitches, presentation design, and storytelling</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card" href="#">
+          <div class="lc-num">8</div>
+          <div class="lc-body">
+            <h4>Copilot Adoption Guide</h4>
+            <p>Roll out AI to your team, build habits, and sustain adoption</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>Recommended Learning Pace</strong>
+          <p>Spend one week on each guide — that's two months to full Copilot competency across your entire M365 suite. The fastest progress comes from applying each guide's prompts to real work in your business the same day you read it. Don't just read — do.</p>
+        </div>
+      </div>
+
+      <div class="sub-label">Quick reference — what Copilot does in each app</div>
+      <table class="ref-table">
+        <thead>
+          <tr><th>App</th><th>Best For</th><th>Top Small Business Use Case</th><th>First Prompt to Try</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Word</strong></td>
+            <td>Long-form content, documents, business plans</td>
+            <td>Marketing copy, proposals, SOPs, contracts</td>
+            <td>"Draft a blog post about [topic] for my [industry] business"</td>
+          </tr>
+          <tr>
+            <td><strong>Excel</strong></td>
+            <td>Data analysis, financial modelling, tracking</td>
+            <td>Cash flow analysis, invoice tracking, forecasting</td>
+            <td>"Summarise this financial data and flag any risks"</td>
+          </tr>
+          <tr>
+            <td><strong>PowerPoint</strong></td>
+            <td>Visual presentations, pitch decks, showcases</td>
+            <td>Client pitches, investor decks, product showcases</td>
+            <td>"Create a 10-slide pitch deck for [client/product]"</td>
+          </tr>
+          <tr>
+            <td><strong>Outlook</strong></td>
+            <td>Email drafting, tone coaching, thread summaries</td>
+            <td>Customer templates, follow-ups, complaint handling</td>
+            <td>"Draft a follow-up email for a prospect who went quiet"</td>
+          </tr>
+          <tr>
+            <td><strong>Teams</strong></td>
+            <td>Meeting summaries, channel posts, collaboration</td>
+            <td>Meeting recaps, action item tracking, team updates</td>
+            <td>"Summarise this meeting and list all action items"</td>
+          </tr>
+          <tr>
+            <td><strong>Copilot Chat</strong></td>
+            <td>Cross-app research, cross-document synthesis</td>
+            <td>Find info across emails, docs, and Teams in one query</td>
+            <td>"What decisions did we make about [project] this month?"</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ── TAB SWITCHER ──
+function switchTab(btn, panelId) {
+  var tabs = btn.closest('.prompt-tabs');
+  tabs.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  tabs.querySelectorAll('.prompt-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ── COPY PROMPT ──
+function copyPrompt(btn) {
+  var box = btn.closest('.prompt-box') || btn.closest('.usecase-prompt');
+  var textEl = box.querySelector('.prompt-text') || box.querySelector('.usecase-prompt-text');
+  if (!textEl) return;
+  navigator.clipboard.writeText(textEl.innerText.trim()).then(function(){
+    var orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(function(){ btn.textContent = orig; }, 1800);
+  }).catch(function(){
+    var range = document.createRange();
+    range.selectNodeContents(textEl);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+}
+
+// ── SCROLL SPY ──
+(function(){
+  var links = document.querySelectorAll('.nav-link');
+  var sections = Array.from(document.querySelectorAll('[id^="s0"]'));
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var active = document.querySelector('.nav-link[href="#' + entry.target.id + '"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25, rootMargin: '-10% 0px -60% 0px' });
+  sections.forEach(function(s){ observer.observe(s); });
+})();
+</script>
+</body>
+</html>

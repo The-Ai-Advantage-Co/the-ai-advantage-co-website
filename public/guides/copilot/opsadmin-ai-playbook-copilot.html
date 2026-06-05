@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Ops &amp; Admin Pro's AI Playbook — Copilot Edition | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0078D4;
+  --primary-hover:#005FA3;
+  --primary-act:rgba(0,120,212,0.13);
+  --primary-light:#2B96ED;
+  --primary-soft:#E8F4FD;
+  --blue:#0078D4;
+  --blue-light:#60A5FA;
+  --blue-soft:#EFF6FF;
+  --orange:#EA6C1A;
+  --orange-soft:#FFF7ED;
+  --yellow:#CA8A04;
+  --yellow-soft:#FEFCE8;
+  --purple:#5E17EB;
+  --purple-soft:#F0EAFF;
+  --page-bg:#F0F6FC;
+  --white:#FFFFFF;
+  --card-bg:#F0F6FC;
+  --hdr-bg:#E1EEF9;
+  --border:#B8D4EA;
+  --divider:#C5D9ED;
+  --ink:#001B3D;
+  --body-text:#1A3A5C;
+  --muted:#4A7299;
+  --sidebar-bg:#001B3D;
+  --sidebar-hover:#00305E;
+  --sidebar-w:268px;
+  --radius:10px;
+  --radius-sm:6px;
+  --green:#1B6B3A;
+  --green-bg:#E6F4EC;
+  --warn:#B45309;
+  --warn-bg:#FFF8E1;
+  --red:#C43E00;
+  --red-soft:#FFF0E8;
+  --teal:#0E7C86;
+  --teal-soft:#E0F7F7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI','Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--page-bg);color:var(--ink);line-height:1.7;font-size:15px}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;z-index:100}
+.sidebar-brand{padding:28px 20px 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--primary-light);margin-bottom:4px}
+.brand-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.88);line-height:1.3}
+.sidebar-nav{padding:14px 10px 20px}
+.nav-section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:12px 12px 5px}
+.nav-link{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:6px;color:rgba(180,210,240,.8);text-decoration:none;font-size:12.5px;font-weight:500;transition:all .15s;border-left:2px solid transparent;margin-bottom:1px}
+.nav-link:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.95)}
+.nav-link.active{background:rgba(0,120,212,.2);color:#fff;border-left-color:var(--primary-light)}
+.nav-link .nav-num{font-size:10px;font-weight:700;color:var(--primary-light);width:22px;flex-shrink:0}
+.nav-link .nav-icon{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.nav-link:hover .nav-icon{opacity:1}
+.nav-link.active .nav-icon{opacity:1}
+
+/* ── MAIN ── */
+.main{flex:1;padding:44px 52px 100px;max-width:calc(var(--sidebar-w) + 900px)}
+
+/* ── BANNER ── */
+.banner{position:relative;background:var(--sidebar-bg);border-radius:12px;margin-bottom:32px;overflow:hidden;text-align:center}
+.banner svg{display:block;width:100%}
+
+/* ── DOC HEADER ── */
+.doc-header{margin-bottom:32px}
+.breadcrumb{font-size:12px;color:var(--muted);margin-bottom:10px}
+.breadcrumb span{color:var(--primary)}
+.doc-title{font-size:30px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:8px}
+.doc-subtitle{font-size:15px;color:var(--body-text);max-width:700px;line-height:1.6;margin-bottom:16px}
+.doc-badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.badge-primary{background:var(--primary);color:#fff}
+.badge-blue{background:var(--primary);color:#fff}
+.badge-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+
+/* ── SECTION CARDS ── */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:28px;overflow:hidden;box-shadow:0 2px 10px rgba(0,120,212,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--primary);color:#fff;font-size:12px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--primary);margin-top:2px}
+.section-body{padding:24px}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55;color:var(--body-text)}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--primary)}
+.callout.info .callout-body strong{color:var(--primary)}
+.callout.copilot{background:var(--primary-soft);border-left:4px solid var(--primary)}
+.callout.copilot .callout-body strong{color:var(--primary)}
+
+/* ── FEATURE CARDS ── */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;border-top:3px solid var(--primary)}
+.feature-card .fc-icon{font-size:24px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--body-text);line-height:1.5}
+.feature-card.blue{border-top-color:var(--primary)}
+.feature-card.orange{border-top-color:var(--orange)}
+.feature-card.yellow{border-top-color:var(--yellow)}
+.feature-card.green{border-top-color:var(--green)}
+.feature-card.teal{border-top-color:var(--teal)}
+.feature-card.purple{border-top-color:var(--purple)}
+
+/* ── STEP LIST ── */
+.step-list{display:flex;flex-direction:column;gap:12px;margin:18px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--primary);color:#fff;font-size:13px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-num.blue{background:var(--primary)}
+.step-num.orange{background:var(--orange)}
+.step-num.yellow{background:var(--yellow);color:#001B3D}
+.step-num.green{background:var(--green)}
+.step-num.teal{background:var(--teal)}
+.step-num.purple{background:var(--purple)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ── USE CASE CARDS ── */
+.usecase-list{display:flex;flex-direction:column;gap:16px;margin:18px 0}
+.usecase-card{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.usecase-header{padding:12px 18px;display:flex;align-items:center;gap:12px}
+.usecase-header.primary{background:var(--primary-soft);border-bottom:1px solid var(--border)}
+.usecase-header.blue{background:var(--blue-soft);border-bottom:1px solid #C3DFF5}
+.usecase-header.orange{background:var(--orange-soft);border-bottom:1px solid #F8CFA8}
+.usecase-header.yellow{background:var(--yellow-soft);border-bottom:1px solid #F3E18B}
+.usecase-header.green{background:var(--green-bg);border-bottom:1px solid #A7D7BC}
+.usecase-header.teal{background:var(--teal-soft);border-bottom:1px solid #A7D7D7}
+.usecase-header.purple{background:var(--purple-soft);border-bottom:1px solid #D0C5F5}
+.uc-icon{font-size:22px;flex-shrink:0}
+.uc-app{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.uc-title{font-size:14px;font-weight:700;color:var(--ink)}
+.usecase-body{background:#fff;padding:14px 18px}
+.usecase-body p{font-size:13.5px;color:var(--body-text);margin-bottom:10px;line-height:1.5}
+.usecase-prompt{background:var(--sidebar-bg);border-radius:6px;overflow:hidden;margin-top:8px}
+.usecase-prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:8px 12px 6px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.usecase-prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:10px 12px;font-size:13px;color:var(--body-text);line-height:1.6;font-style:italic}
+
+/* ── REF TABLE ── */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--primary-light);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 13px;text-align:left;border:1px solid rgba(255,255,255,.1)}
+.ref-table td{padding:9px 13px;border:1px solid var(--border);color:var(--body-text);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+.ref-table td strong{color:var(--ink);font-weight:600}
+
+/* ── SUB LABELS ── */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--primary);text-transform:uppercase;margin:20px 0 10px}
+.prose{font-size:14.5px;color:var(--body-text);line-height:1.65;margin-bottom:14px}
+.prose strong{color:var(--ink)}
+
+/* ── PROMPT TABS ── */
+.prompt-tabs{margin:18px 0}
+.tab-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab-btn{padding:7px 16px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--body-text);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Segoe UI','Inter',sans-serif}
+.tab-btn:hover{background:var(--primary-soft);border-color:var(--primary)}
+.tab-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.copy-btn{background:none;border:1px solid rgba(0,120,212,.4);color:var(--primary-light);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;font-family:'Segoe UI','Inter',sans-serif}
+.copy-btn:hover{background:rgba(0,120,212,.2)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--body-text);line-height:1.65;font-style:italic}
+
+/* ── METRIC CARDS ── */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+.metric-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;text-align:center;border-top:3px solid var(--primary)}
+.metric-card.blue{border-top-color:var(--primary)}
+.metric-card.orange{border-top-color:var(--orange)}
+.metric-card.green{border-top-color:var(--green)}
+.metric-card.teal{border-top-color:var(--teal)}
+.metric-num{font-size:32px;font-weight:700;color:var(--primary);line-height:1;margin-bottom:6px}
+.metric-card.blue .metric-num{color:var(--primary)}
+.metric-card.orange .metric-num{color:var(--orange)}
+.metric-card.green .metric-num{color:var(--green)}
+.metric-card.teal .metric-num{color:var(--teal)}
+.metric-label{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.metric-desc{font-size:11.5px;color:var(--muted);line-height:1.4}
+
+/* ── MISTAKE ITEMS ── */
+.mistake-item{margin-bottom:14px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.mistake-avoid{background:var(--red-soft);border-left:4px solid var(--red);padding:12px 16px;display:flex;align-items:flex-start;gap:10px}
+.mistake-do{background:var(--green-bg);border-left:4px solid var(--green);padding:12px 16px;display:flex;align-items:flex-start;gap:10px}
+.mistake-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.mistake-text{font-size:13.5px;color:var(--body-text);line-height:1.5}
+.mistake-text strong{color:var(--ink)}
+
+/* ── LEARNING PATH ── */
+.learning-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.learning-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;align-items:center;gap:14px;text-decoration:none;transition:all .15s;border-left:4px solid var(--primary)}
+.learning-card:hover{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 4px 12px rgba(0,120,212,.12)}
+.learning-card.blue{border-left-color:var(--primary)}
+.learning-card.blue:hover{background:var(--blue-soft)}
+.learning-card.orange{border-left-color:var(--orange)}
+.learning-card.orange:hover{background:var(--orange-soft)}
+.learning-card.yellow{border-left-color:var(--yellow)}
+.learning-card.yellow:hover{background:var(--yellow-soft)}
+.learning-card.green{border-left-color:var(--green)}
+.learning-card.green:hover{background:var(--green-bg)}
+.learning-card.purple{border-left-color:var(--purple)}
+.learning-card.purple:hover{background:var(--purple-soft)}
+.lc-num{width:36px;height:36px;background:var(--primary);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.learning-card.blue .lc-num{background:var(--primary)}
+.learning-card.orange .lc-num{background:var(--orange)}
+.learning-card.yellow .lc-num{background:var(--yellow);color:#001B3D}
+.learning-card.green .lc-num{background:var(--green)}
+.learning-card.purple .lc-num{background:var(--purple)}
+.lc-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.lc-body p{font-size:12.5px;color:var(--muted);line-height:1.4}
+.lc-arrow{margin-left:auto;color:var(--muted);font-size:18px;flex-shrink:0}
+
+/* ── ADVANCED CARDS ── */
+.adv-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:12px}
+.adv-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.adv-card h4 .adv-badge{font-size:10px;font-weight:700;letter-spacing:.06em;background:var(--primary-soft);color:var(--primary);padding:2px 8px;border-radius:10px;text-transform:uppercase}
+.adv-card h4 .adv-badge.blue{background:var(--blue-soft);color:var(--primary)}
+.adv-card h4 .adv-badge.orange{background:var(--orange-soft);color:var(--orange)}
+.adv-card h4 .adv-badge.purple{background:var(--purple-soft);color:var(--purple)}
+.adv-card h4 .adv-badge.green{background:var(--green-bg);color:var(--green)}
+.adv-card h4 .adv-badge.teal{background:var(--teal-soft);color:var(--teal)}
+.adv-card p{font-size:13.5px;color:var(--body-text);line-height:1.5;margin-bottom:8px}
+.adv-card p:last-child{margin-bottom:0}
+.adv-card ul{margin:8px 0 12px 18px;font-size:13.5px;color:var(--body-text);line-height:1.7}
+
+/* ── ROADMAP ── */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+.roadmap-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;border-top:3px solid var(--primary)}
+.roadmap-card.w2{border-top-color:var(--primary)}
+.roadmap-card.w3{border-top-color:var(--orange)}
+.roadmap-card.w4{border-top-color:var(--green)}
+.roadmap-week{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:6px}
+.roadmap-card.w2 .roadmap-week{color:var(--primary)}
+.roadmap-card.w3 .roadmap-week{color:var(--orange)}
+.roadmap-card.w4 .roadmap-week{color:var(--green)}
+.roadmap-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.roadmap-desc{font-size:12px;color:var(--muted);line-height:1.4}
+
+/* ── SCROLLSPY TARGET ── */
+[id]{scroll-margin-top:20px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;min-width:unset;height:auto;position:relative;top:unset}
+  .main{padding:28px 20px 60px}
+  .feature-grid{grid-template-columns:1fr}
+  .metric-grid{grid-template-columns:1fr 1fr}
+  .learning-grid{grid-template-columns:1fr}
+  .roadmap{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .metric-grid{grid-template-columns:1fr}
+  .roadmap{grid-template-columns:1fr}
+  .doc-title{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-label">The AI Advantage Co</div>
+    <div class="brand-name">Ops &amp; Admin AI Playbook &mdash; Copilot Edition</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Playbook Sections</div>
+    <a class="nav-link active" href="#s01">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="#2B96ED" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+      <span class="nav-num">01</span>Why AI Matters</a>
+    <a class="nav-link" href="#s02">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="#2B96ED" stroke-width="1.5"><rect x="3" y="3" width="10" height="10" rx="2"/><path d="M6 8h4M8 6v4"/></svg>
+      <span class="nav-num">02</span>Setup &amp; Configuration</a>
+    <a class="nav-link" href="#s03">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="#2B96ED" stroke-width="1.5"><path d="M3 4h10M3 8h10M3 12h10"/></svg>
+      <span class="nav-num">03</span>Daily Workflows</a>
+    <a class="nav-link" href="#s04">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="#2B96ED" stroke-width="1.5"><path d="M8 2l2 4h4l-3 3 1 4-4-2-4 2 1-4-3-3h4z"/></svg>
+      <span class="nav-num">04</span>Advanced Techniques</a>
+    <a class="nav-link" href="#s05">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="#2B96ED" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1.5"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
+      <span class="nav-num">05</span>Prompt Library</a>
+    <a class="nav-link" href="#s06">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="#2B96ED" stroke-width="1.5"><path d="M3 12l3-4 2 2 4-6"/><circle cx="12" cy="4" r="1.5"/></svg>
+      <span class="nav-num">06</span>Measuring Impact</a>
+    <a class="nav-link" href="#s07">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="#2B96ED" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v4M8 11v0"/></svg>
+      <span class="nav-num">07</span>Common Mistakes</a>
+    <a class="nav-link" href="#s08">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="#2B96ED" stroke-width="1.5"><path d="M2 13h12M4 9h2v4H4zM7 6h2v7H7zM10 3h2v10h-2z"/></svg>
+      <span class="nav-num">08</span>Learning Path</a>
+  </nav>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+  <!-- ── BANNER SVG ── -->
+  <div class="banner">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 268" style="border-radius:12px">
+      <defs>
+        <linearGradient id="bannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#001226"/>
+          <stop offset="50%" style="stop-color:#001B3D"/>
+          <stop offset="100%" style="stop-color:#000D1F"/>
+        </linearGradient>
+        <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#0078D4"/>
+          <stop offset="100%" style="stop-color:#2B96ED"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <rect width="1400" height="268" fill="url(#bannerGrad)"/>
+      <!-- decorative clipboard icon left -->
+      <g opacity="0.1" fill="none" stroke="#0078D4" stroke-width="1.5">
+        <rect x="50" y="40" width="60" height="80" rx="4"/>
+        <rect x="62" y="30" width="36" height="16" rx="3"/>
+        <line x1="64" y1="62" x2="96" y2="62"/>
+        <line x1="64" y1="74" x2="96" y2="74"/>
+        <line x1="64" y1="86" x2="96" y2="86"/>
+        <line x1="64" y1="98" x2="86" y2="98"/>
+        <polyline points="64,54 68,58 76,50"/>
+      </g>
+      <!-- decorative gear icon right -->
+      <g opacity="0.08" fill="none" stroke="#2B96ED" stroke-width="1.5" transform="translate(1270,100)">
+        <circle cx="0" cy="0" r="20"/>
+        <circle cx="0" cy="0" r="8"/>
+        <line x1="0" y1="-25" x2="0" y2="-30"/>
+        <line x1="0" y1="25" x2="0" y2="30"/>
+        <line x1="-25" y1="0" x2="-30" y2="0"/>
+        <line x1="25" y1="0" x2="30" y2="0"/>
+        <line x1="-18" y1="-18" x2="-22" y2="-22"/>
+        <line x1="18" y1="18" x2="22" y2="22"/>
+        <line x1="-18" y1="18" x2="-22" y2="22"/>
+        <line x1="18" y1="-18" x2="22" y2="-22"/>
+      </g>
+      <!-- decorative checklist right -->
+      <g opacity="0.08" fill="none" stroke="#0078D4" stroke-width="1.2">
+        <rect x="1310" y="160" width="50" height="70" rx="3"/>
+        <line x1="1322" y1="178" x2="1348" y2="178"/>
+        <line x1="1322" y1="190" x2="1348" y2="190"/>
+        <line x1="1322" y1="202" x2="1348" y2="202"/>
+        <polyline points="1314,176 1317,179 1322,174"/>
+        <polyline points="1314,188 1317,191 1322,186"/>
+      </g>
+      <!-- accent bars -->
+      <rect x="0" y="0" width="1400" height="4" fill="url(#accentGrad)"/>
+      <rect x="0" y="264" width="1400" height="4" fill="url(#accentGrad)"/>
+      <!-- glow orbs -->
+      <circle cx="130" cy="134" r="90" fill="#0078D4" opacity="0.12"/>
+      <circle cx="1270" cy="134" r="70" fill="#2B96ED" opacity="0.09"/>
+      <!-- eyebrow -->
+      <text x="700" y="68" text-anchor="middle" font-family="Segoe UI,Inter,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="5" fill="#2B96ED">THE AI ADVANTAGE CO</text>
+      <!-- eyebrow line 2 -->
+      <text x="700" y="90" text-anchor="middle" font-family="Segoe UI,Inter,Arial,sans-serif" font-size="11" font-weight="600" letter-spacing="4" fill="#2B96ED" opacity="0.7">OPS &amp; ADMIN PLAYBOOK / COPILOT EDITION</text>
+      <!-- main title -->
+      <text x="700" y="158" text-anchor="middle" font-family="Segoe UI,Inter,Arial,sans-serif" font-size="48" font-weight="700" fill="#FFFFFF" filter="url(#glow)">OPS &amp; ADMIN PLAYBOOK</text>
+      <!-- pill -->
+      <rect x="545" y="174" width="310" height="38" rx="19" fill="url(#accentGrad)" opacity="0.88"/>
+      <text x="700" y="199" text-anchor="middle" font-family="Segoe UI,Inter,Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="3" fill="#F0F6FC">COPILOT EDITION</text>
+    </svg>
+  </div>
+
+  <!-- ── DOC HEADER ── -->
+  <div class="doc-header">
+    <div class="breadcrumb">Documentation &rsaquo; <span>Operations &amp; Admin</span> &rsaquo; Copilot Edition</div>
+    <div class="doc-title">The Ops &amp; Admin Pro's AI Playbook &mdash; Copilot Edition</div>
+    <div class="doc-subtitle">Your complete guide to using Microsoft Copilot across Outlook, Word, Excel, Teams, SharePoint, Power Automate, and Loop for operations excellence.</div>
+    <div class="doc-badges">
+      <span class="badge badge-primary">PLAYBOOK</span>
+      <span class="badge badge-blue">June 2026</span>
+      <span class="badge badge-outline">Audience: Operations &amp; Admin Professionals</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 01 — WHY AI MATTERS FOR OPERATIONS & ADMIN
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s01">
+    <div class="section-header">
+      <div class="sec-num">01</div>
+      <div>
+        <h2>Why AI Matters for Operations &amp; Admin</h2>
+        <p>Copilot lives inside the M365 apps your ops team already uses every day</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Operations and admin professionals are the backbone of every organisation. You keep meetings running, vendors managed, processes documented, reports flowing, and teams coordinated. But the sheer volume of repetitive, documentation-heavy work means most ops professionals spend the majority of their day on tasks that are necessary but not strategically valuable. AI changes that equation dramatically.</p>
+
+      <p class="prose">Microsoft Copilot has a unique advantage for operations teams: it's embedded directly inside the Microsoft 365 tools you already live in. Word, Excel, Outlook, Teams, SharePoint, Power Automate, and Loop aren't separate AI tools you have to learn — Copilot works <em>within</em> them. There's no copy-pasting between apps, no context-switching, and no new platform to adopt. You stay in your existing workflows and get AI-powered acceleration at every step.</p>
+
+      <div class="sub-label">Where operations teams are winning time back</div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-icon">📋</div>
+          <h4>SOP Documentation in Word</h4>
+          <p>Copilot drafts, formats, and structures standard operating procedures directly in Word — complete with version control headers, RACI matrices, and step-by-step procedures. What used to take hours of formatting now takes minutes.</p>
+        </div>
+        <div class="feature-card blue">
+          <div class="fc-icon">🎙️</div>
+          <h4>Meeting Management in Teams</h4>
+          <p>Auto-generated meeting notes, structured action items with owners and deadlines, and AI-drafted follow-up emails. Teams Copilot captures everything so you never miss a decision or commitment again.</p>
+        </div>
+        <div class="feature-card orange">
+          <div class="fc-icon">📧</div>
+          <h4>Vendor Communications in Outlook</h4>
+          <p>Draft professional vendor emails with full organisational context from your inbox history. Copilot references previous correspondence, contract details, and pricing discussions to produce informed, on-point communications.</p>
+        </div>
+        <div class="feature-card green">
+          <div class="fc-icon">📊</div>
+          <h4>Reports &amp; Dashboards in Excel &amp; PowerPoint</h4>
+          <p>Analyse operations data in Excel with natural language — KPIs, variance analysis, resource utilisation — then generate executive-ready PowerPoint summaries. Data to presentation in minutes, not hours.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>2026 Update — Microsoft Copilot Wave 3 Capabilities</strong>
+          <p>Wave 3 brings BizChat (Microsoft 365 Chat) that searches across all your M365 data in a single query, Copilot Pages for collaborative team workspaces, enhanced Power Automate integration for building approval workflows with natural language, and Copilot Agents that let you build custom department-specific assistants. For ops professionals, this means cross-app intelligence without ever leaving your workflow.</p>
+        </div>
+      </div>
+
+      <div class="sub-label">The operational advantage in 2026</div>
+      <p class="prose">Operations teams that adopt Copilot aren't just working faster — they're changing the nature of their work. Instead of spending 70% of the day on documentation, email, and reporting, ops professionals using Copilot are redirecting that time toward process improvement, strategic planning, and proactive problem-solving. The administrative burden doesn't disappear, but it shrinks enough to fundamentally shift what the role delivers to the organisation.</p>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 02 — SETTING UP COPILOT FOR OPERATIONS WORK
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s02">
+    <div class="section-header">
+      <div class="sec-num">02</div>
+      <div>
+        <h2>Setting Up Copilot for Operations Work</h2>
+        <p>Licensing, app configuration, SharePoint grounding, and Power Automate connections</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Getting Copilot configured for operations work takes about 30 minutes of initial setup, but the payoff compounds every single day. Work through these six steps to activate Copilot across your entire M365 operations stack.</p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Ensure Microsoft 365 Copilot Licence</h4>
+            <p>Copilot for Microsoft 365 requires either a <strong>Microsoft 365 E3/E5, Business Standard, or Business Premium</strong> base plan plus the <strong>Copilot for Microsoft 365 add-on</strong> (~$30/user/month). If your organisation uses Microsoft 365 Business Premium, you may already have Copilot included — check with your IT admin in the Microsoft 365 Admin Centre under <strong>Billing &rarr; Licences</strong>. For ops teams, licence at minimum the operations manager, executive assistants, and anyone who handles vendor procurement or reporting.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num blue">2</div>
+          <div class="step-body">
+            <h4>Configure Copilot in Word — Set Document Preferences</h4>
+            <p>Open Word and access Copilot via the <strong>Home ribbon</strong> or press <strong>Alt + I</strong>. For operations work, create a "Document Standards" template in OneDrive that includes your organisation's SOP format, header structure, and style preferences. Reference this template using the <strong>/</strong> shortcut in every document prompt so Copilot produces consistently formatted operational documents from the first draft.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num orange">3</div>
+          <div class="step-body">
+            <h4>Set Up Copilot in Teams — Enable Meeting Transcription</h4>
+            <p>In the Teams Admin Centre, ensure <strong>transcription and recording</strong> are enabled for your organisation. In your personal Teams settings, go to <strong>Settings &rarr; Notifications &amp; activity</strong> and enable Copilot meeting features. Before every meeting, click <strong>Start recording</strong> — Copilot requires the transcript to generate summaries, action items, and follow-ups. Make this a non-negotiable meeting hygiene step for your ops team.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num yellow" style="color:#001B3D">4</div>
+          <div class="step-body">
+            <h4>Connect SharePoint Sites for Organisational Knowledge Grounding</h4>
+            <p>This is where Copilot becomes transformative for ops. Ensure your key operational documents — SOPs, policies, vendor contracts, process maps, org charts — are stored in SharePoint (not just local drives). Copilot uses SharePoint as its knowledge base, so when you ask it to draft an SOP or reference a vendor agreement, it pulls from your actual company documents. Work with your IT admin to confirm <strong>SharePoint search indexing</strong> is enabled and that Copilot has access to your operations document libraries.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num green">5</div>
+          <div class="step-body">
+            <h4>Create Power Automate Flows for Recurring Ops Tasks</h4>
+            <p>Open <strong>Power Automate</strong> (make.powerautomate.com) and set up flows for your most common operational processes: document approval chains, vendor onboarding notifications, expense report routing, and recurring status report reminders. With Copilot in Power Automate, you can describe what you want the flow to do in natural language — <em>"When a new document is uploaded to the SOPs library, send an approval request to the ops manager, then notify the team channel once approved."</em></p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num teal">6</div>
+          <div class="step-body">
+            <h4>Set Up Copilot Pages for Collaborative Ops Dashboards</h4>
+            <p>Open <strong>Copilot Chat</strong> (copilot.microsoft.com, Work tab) and use Copilot Pages to create shared operational dashboards. Pages are collaborative canvases that your team can edit together in real time. Create a weekly ops status page, a vendor tracking page, or a resource allocation dashboard. Content in Pages can be generated by Copilot and refined by your team — making them ideal for living operational documents.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body">
+          <strong>SharePoint Grounding Is Copilot's Killer Feature for Ops</strong>
+          <p>Without SharePoint grounding, Copilot gives you generic responses. With it, Copilot draws from your actual company documents — your SOPs, your vendor agreements, your process maps, your policies. When you ask Copilot to "draft a vendor termination letter referencing our standard contract terms," it finds the real contract template in SharePoint and uses it. This is the single most important configuration step for operations teams. If your documents are still on local drives, migrating them to SharePoint is the highest-ROI task you can do this week.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 03 — DAILY WORKFLOWS
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s03">
+    <div class="section-header">
+      <div class="sec-num">03</div>
+      <div>
+        <h2>Your Daily AI Workflows</h2>
+        <p>Six high-impact use cases across Word, Excel, Teams, Outlook, PowerPoint, and Loop</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">These six workflows map to the tasks operations and admin professionals spend the most time on — and where Copilot delivers the most dramatic time savings. Each workflow specifies which M365 app to use, with ready-to-use prompts you can deploy today.</p>
+
+      <div class="usecase-list">
+
+        <!-- 1 SOP Creation & Documentation -->
+        <div class="usecase-card">
+          <div class="usecase-header primary">
+            <div class="uc-icon">📋</div>
+            <div>
+              <div class="uc-app">Word + SharePoint</div>
+              <div class="uc-title">SOP Creation &amp; Documentation</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Use Copilot in Word to draft complete standard operating procedures, then publish to SharePoint for version-controlled, team-wide access. The key advantage: Copilot can reference your existing SOP library in SharePoint via <strong>/</strong>, ensuring every new procedure follows your established format and terminology. For complex procedures, use <strong>Agent Mode</strong> to generate multi-section SOPs in a single prompt — including document control headers, RACI matrices, and exception handling paths.</p>
+            <p><strong>Best practice:</strong> Create a master SOP template document in SharePoint that includes your standard header format (version, author, approver, effective date). Reference this template in every SOP prompt. After Copilot drafts, publish directly to your SharePoint SOPs library where version history is automatically tracked.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Example Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Draft a standard operating procedure for [PROCESS]. Structure it with: Document Control section (version, author, approver, date), Purpose &amp; Scope, Definitions &amp; Acronyms, Roles &amp; Responsibilities in RACI format, Detailed Procedure with numbered steps and sub-steps, Quality Checkpoints after critical steps, Exception Handling procedures, Escalation Matrix, and Revision History table. Use formal but clear language suitable for [AUDIENCE]. Include placeholders for screenshots where visual guidance would help."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Meeting Management -->
+        <div class="usecase-card">
+          <div class="usecase-header blue">
+            <div class="uc-icon">📝</div>
+            <div>
+              <div class="uc-app">Teams + Outlook</div>
+              <div class="uc-title">Meeting Management &amp; Follow-ups</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Teams Copilot automatically captures meeting notes from the transcript — decisions made, action items, open questions, and deferred topics — so you never have to manually take minutes again. After the meeting, use Outlook Copilot to draft structured follow-up emails to attendees with action items, deadlines, and next steps. The two-app workflow (Teams captures, Outlook distributes) replaces what used to be 30-60 minutes of post-meeting admin.</p>
+            <p><strong>Best practice:</strong> Always start recording at the beginning of the meeting — Copilot can only summarise what it transcribes. Immediately after the meeting ends, open Copilot in Teams and generate the summary while context is fresh. Then use the action items to draft follow-up emails in Outlook.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Teams Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Summarise this meeting into: Key Decisions Made, Action Items (with owner and due date), Open Questions requiring follow-up, and Topics Deferred to next meeting."</div>
+            </div>
+            <div class="usecase-prompt" style="margin-top:8px">
+              <div class="usecase-prompt-label">Outlook Follow-Up Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Draft a follow-up email to the attendees of today's [MEETING NAME]. Include: a brief summary of key decisions, the action item table from the meeting notes, next meeting date, and a reminder of the most urgent deadline. Tone should be professional and action-oriented."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Vendor Communication & Procurement -->
+        <div class="usecase-card">
+          <div class="usecase-header orange">
+            <div class="uc-icon">📧</div>
+            <div>
+              <div class="uc-app">Outlook + Excel</div>
+              <div class="uc-title">Vendor Communication &amp; Procurement</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Draft vendor emails in Outlook with full context from your inbox history — Copilot can reference previous correspondence, so your vendor communications are always informed and consistent. For procurement decisions, use Excel Copilot to analyse vendor proposals with weighted scoring matrices, total cost of ownership calculations, and side-by-side comparison dashboards. The Outlook-to-Excel workflow covers the entire procurement cycle from initial outreach through evaluation.</p>
+            <p><strong>Best practice:</strong> Keep all vendor correspondence in a dedicated Outlook folder so Copilot has a clean context trail. In Excel, format your vendor comparison data with consistent column headers before asking Copilot to analyse — the cleaner your data structure, the more accurate the analysis.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Outlook Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Draft a professional email to [VENDOR] regarding [TOPIC]. Reference our previous correspondence about [CONTEXT]. The tone should be professional but collaborative. Include: appreciation for their proposal, our key questions about [SPECIFIC AREAS], a request for a follow-up meeting next week, and mention that we're evaluating [NUMBER] vendors for this engagement."</div>
+            </div>
+            <div class="usecase-prompt" style="margin-top:8px">
+              <div class="usecase-prompt-label">Excel Analysis Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Analyse this vendor comparison data. Create: a weighted scoring matrix, highlight the top performer in each category, calculate total cost of ownership for each vendor, and add a recommendation summary row."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Process Documentation & Improvement -->
+        <div class="usecase-card">
+          <div class="usecase-header green">
+            <div class="uc-icon">🔄</div>
+            <div>
+              <div class="uc-app">Word + Copilot Pages</div>
+              <div class="uc-title">Process Documentation &amp; Improvement</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Draft process documentation in Word for formal records, then use Copilot Pages for collaborative process improvement workshops with your team. This workflow combines the rigour of Word documentation with the collaborative flexibility of Pages. Copilot can analyse your current-state process and propose improvements — identifying bottlenecks, redundancies, and automation opportunities — then help you build an implementation plan with quick wins and strategic changes.</p>
+            <p><strong>Best practice:</strong> Start by describing the current process in natural language. Let Copilot map it before suggesting improvements. Then create a Copilot Page where your team can collaboratively refine the future-state process. Once agreed, use Word to produce the formal process document for your SharePoint library.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Process Improvement Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Help me document and improve this business process. Current process: [DESCRIBE]. Create: 1) A current-state process map with numbered steps and decision points, 2) Analysis of inefficiencies, bottlenecks, and risks at each step, 3) A recommended future-state process with improvements highlighted, 4) An implementation plan with quick wins (week 1-2) and strategic changes (month 1-3), 5) Success metrics to track improvement."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Report Generation & Dashboards -->
+        <div class="usecase-card">
+          <div class="usecase-header purple">
+            <div class="uc-icon">📊</div>
+            <div>
+              <div class="uc-app">Excel + PowerPoint</div>
+              <div class="uc-title">Report Generation &amp; Executive Dashboards</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Analyse operations data in Excel with Copilot — KPI summaries, trend charts, variance analysis, resource utilisation — then generate executive-ready PowerPoint presentations from the results. This two-app workflow replaces what is often the most time-consuming task in an ops professional's week: turning raw operational data into presentations that leadership can act on. Copilot in Excel crunches the numbers; Copilot in PowerPoint builds the narrative.</p>
+            <p><strong>Best practice:</strong> Build a standard Excel template for your weekly/monthly ops data with consistent column headers and named ranges. The more structured your data, the better Copilot's analysis. When generating the PowerPoint, specify the exact slides you need and the audience — Copilot produces very different decks for a board presentation vs. a team standup.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Excel Dashboard Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Analyse this operations data and create: a summary dashboard with KPIs, trend charts for the last [PERIOD], variance analysis comparing actual vs. target, and highlight any metrics that are more than 10% off target. Add conditional formatting to flag concerns."</div>
+            </div>
+            <div class="usecase-prompt" style="margin-top:8px">
+              <div class="usecase-prompt-label">PowerPoint Presentation Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Create an executive operations review presentation from this data. Include slides for: Executive Summary (3 key takeaways), KPI Dashboard, Department Performance Breakdown, Issues &amp; Remediation Plans, Resource Utilisation, and Forward Look. Keep each slide concise with visuals over text."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Resource Coordination & Task Management -->
+        <div class="usecase-card">
+          <div class="usecase-header teal">
+            <div class="uc-icon">📅</div>
+            <div>
+              <div class="uc-app">Teams + Loop + Power Automate</div>
+              <div class="uc-title">Resource Coordination &amp; Task Management</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p>Use Loop for collaborative resource planning and task tracking, Teams channels for real-time coordination, and Power Automate for automated workflows. Loop components can be embedded directly in Teams channels and chats, so your resource trackers and task boards live where your team already communicates. Power Automate handles the repetitive coordination — automated reminders, escalation notifications, and status update requests — so you can focus on the decisions that need a human.</p>
+            <p><strong>Best practice:</strong> Create Loop components for recurring operational trackers (resource allocation, project status, capacity planning) and embed them in your Teams ops channel. Use Power Automate to send weekly reminders for team members to update their sections. This creates a single source of truth that's always current without you chasing updates manually.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">Loop Resource Tracker Prompt <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+              <div class="usecase-prompt-text">"Create a resource allocation tracker for [PROJECT/QUARTER]. Include columns for: Team Member, Role, Available Hours/Week, Assigned Tasks, % Utilisation, Backup Person, and Notes. Pre-populate with: [TEAM DETAILS]. Flag anyone over 85% utilisation in red."</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 04 — ADVANCED TECHNIQUES
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s04">
+    <div class="section-header">
+      <div class="sec-num">04</div>
+      <div>
+        <h2>Advanced Techniques</h2>
+        <p>BizChat, Copilot Pages, SharePoint grounding, Power Automate, and Copilot Agents</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Once you're comfortable with the daily workflows, these six advanced capabilities unlock the next level of operational intelligence. Each one leverages Copilot's cross-app awareness in ways that fundamentally change how ops teams work.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-icon">💬</div>
+          <h4>BizChat (M365 Chat)</h4>
+          <p>Ask questions that search across all your M365 data — emails, documents, Teams conversations, calendar, and SharePoint — in a single response. Ask "What decisions did we make about the vendor renewal in the last 2 weeks?" and get a synthesised answer from emails, Teams chats, and shared documents.</p>
+        </div>
+        <div class="feature-card blue">
+          <div class="fc-icon">📄</div>
+          <h4>Copilot Pages</h4>
+          <p>Collaborative canvases for team operations. Create shared weekly status pages, vendor tracking dashboards, or project planning documents that your entire ops team can edit in real time. Pages integrate Copilot's AI with multiplayer editing.</p>
+        </div>
+        <div class="feature-card orange">
+          <div class="fc-icon">🏢</div>
+          <h4>SharePoint Grounding</h4>
+          <p>Copilot answers based on your organisation's actual documents — not generic knowledge. Your SOPs, policies, vendor contracts, and process maps become Copilot's reference library. Every response is grounded in your real operational context.</p>
+        </div>
+        <div class="feature-card green">
+          <div class="fc-icon">⚡</div>
+          <h4>Power Automate + Copilot</h4>
+          <p>Build approval workflows, notification chains, and escalation paths using natural language. Describe what you want automated and Copilot builds the flow. Perfect for document approvals, onboarding sequences, and recurring ops processes.</p>
+        </div>
+        <div class="feature-card teal">
+          <div class="fc-icon">🔗</div>
+          <h4>Copilot in Loop</h4>
+          <p>Collaborative templates for recurring operations — resource trackers, capacity planners, status boards. Loop components embed directly in Teams channels and chats, creating living operational documents that stay current where your team already works.</p>
+        </div>
+        <div class="feature-card purple">
+          <div class="fc-icon">🤖</div>
+          <h4>Copilot Agents</h4>
+          <p>Build custom agents for department-specific tasks. Create an "Ops Agent" that knows your SOPs, vendor roster, and process maps, then deploy it to your Teams channel so anyone on the team can ask operational questions and get answers grounded in your actual documentation.</p>
+        </div>
+      </div>
+
+      <div class="adv-card">
+        <h4>Deep Dive: Power Automate for Ops Workflows <span class="adv-badge green">POWER AUTOMATE</span></h4>
+        <p>Power Automate is the most underutilised tool in the ops professional's M365 toolkit. With Copilot integration, you can now describe workflows in natural language and have them built automatically. The most impactful flows for operations teams include:</p>
+        <ul>
+          <li><strong>Document approval chains:</strong> "When a new SOP is uploaded to the Policies library, send for approval to the department head, then the compliance team, then notify all staff when approved."</li>
+          <li><strong>Vendor onboarding sequences:</strong> "When a new vendor is added to the Vendors SharePoint list, create their folder structure, send the vendor questionnaire, schedule a kickoff meeting, and assign the procurement checklist."</li>
+          <li><strong>Escalation paths:</strong> "If an action item from a meeting isn't marked complete within 48 hours of its due date, send a reminder. If still incomplete after 72 hours, escalate to the item owner's manager."</li>
+          <li><strong>Recurring reporting:</strong> "Every Friday at 3pm, compile the weekly ops KPIs from the tracking spreadsheet and post a summary to the Ops Leaders channel in Teams."</li>
+        </ul>
+      </div>
+
+      <div class="adv-card">
+        <h4>Deep Dive: Building a Custom Copilot Agent <span class="adv-badge">COPILOT STUDIO</span></h4>
+        <p>Copilot Agents (built in Copilot Studio at copilotstudio.microsoft.com) let you create AI assistants that know your specific operational context. For ops teams, the highest-value agent is an <strong>Operations Knowledge Agent</strong> that:</p>
+        <ul>
+          <li>Answers questions about your SOPs and policies — "What's our process for handling a vendor dispute?"</li>
+          <li>Retrieves the right document for a situation — "Find me the most recent version of the office relocation checklist"</li>
+          <li>Handles common operational requests — "I need to submit a facilities maintenance request for the 3rd floor kitchen"</li>
+          <li>Routes enquiries to the right person — "Who handles travel booking approvals for the London office?"</li>
+        </ul>
+        <p>Connect it to your SharePoint document libraries, deploy it to your Teams channel, and your team has 24/7 access to operational knowledge without waiting for you to answer the same questions repeatedly.</p>
+      </div>
+
+      <div class="callout copilot">
+        <div class="callout-icon">✦</div>
+        <div class="callout-body">
+          <strong>The Cross-App Advantage</strong>
+          <p>The real power of Copilot for ops is not any single app — it's the cross-app intelligence. BizChat can search your email, Teams, SharePoint, and calendar simultaneously. Copilot in Word can reference SharePoint documents. Power Automate can trigger actions across every M365 app. When you connect these capabilities, you get an operational intelligence layer that sits across your entire workflow.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 05 — PROMPT LIBRARY
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s05">
+    <div class="section-header">
+      <div class="sec-num">05</div>
+      <div>
+        <h2>Prompt Library</h2>
+        <p>15 ready-to-use prompts across Word, Outlook, Excel, Teams, and Power Automate</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Copy any of these prompts directly into the specified M365 app. Replace items in [BRACKETS] with your specific details. Each prompt is written to produce immediately useful, operations-ready output.</p>
+
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'oa-word')">Word &amp; Docs</button>
+          <button class="tab-btn" onclick="switchTab(this,'oa-outlook')">Outlook &amp; Comms</button>
+          <button class="tab-btn" onclick="switchTab(this,'oa-excel')">Excel &amp; Analysis</button>
+          <button class="tab-btn" onclick="switchTab(this,'oa-teams')">Teams &amp; Collab</button>
+          <button class="tab-btn" onclick="switchTab(this,'oa-automate')">Automate &amp; Loop</button>
+        </div>
+
+        <!-- Word & Documentation Tab -->
+        <div class="prompt-panel active" id="oa-word">
+          <div class="prompt-box">
+            <div class="prompt-label">SOP Template Generator — Word <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a standard operating procedure template for [DEPARTMENT/PROCESS]. Include: Document Control block (document ID, version, effective date, author, approved by, next review date), Purpose and Scope, Definitions and Acronyms table, Roles and Responsibilities in RACI matrix format, Prerequisites and Required Resources, Detailed Procedure with numbered steps (include decision points as IF/THEN branches), Quality Checkpoints after every critical step, Exception Handling section, Escalation Matrix with contact details and response times, Related Documents list, and Revision History table. Use /[SOP-TEMPLATE] for our standard format. Language: clear and direct, suitable for all staff levels."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Policy Document Drafter — Word <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a [POLICY TYPE] policy for [ORGANISATION NAME]. This policy covers: [BRIEF DESCRIPTION OF SCOPE]. Include: Policy Statement (2-3 sentences), Scope (who it applies to), Definitions, Policy Details with numbered clauses, Roles and Responsibilities, Compliance and Enforcement (consequences of non-compliance), Exceptions Process, Related Policies and Procedures, and Approval/Review Schedule. Reference /[EXISTING-POLICY] for our standard format and tone. Flag any sections that should be reviewed by legal or compliance before adoption."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Process Runbook Creator — Word <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a detailed runbook for [PROCESS/SYSTEM NAME] that an operations team member can follow independently. Include: Overview (what this process does and when it runs), Pre-requisites (access, tools, permissions needed), Step-by-Step Procedure with exact actions and expected outcomes at each step, Verification Steps (how to confirm each stage completed correctly), Troubleshooting Guide for the 5 most common issues with resolution steps, Rollback Procedure if something goes wrong, Contacts for Escalation (role, name, availability), and a Quick Reference Card (one-page summary of key steps for experienced operators)."</div>
+          </div>
+        </div>
+
+        <!-- Outlook & Communications Tab -->
+        <div class="prompt-panel" id="oa-outlook">
+          <div class="prompt-box">
+            <div class="prompt-label">Stakeholder Update Email — Outlook <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a stakeholder update email for [PROJECT/INITIATIVE NAME]. Recipients: [STAKEHOLDER GROUP]. Include: a 2-sentence executive summary of current status (use a traffic-light indicator: Green/Amber/Red), Key Milestones Completed this period (bullet list), Upcoming Milestones and deadlines for next period, Risks and Issues requiring attention (with proposed mitigations), Resource or Budget updates if applicable, and a clear statement of any decisions or approvals needed from the recipients. Tone: professional, concise, action-oriented. Keep total length under 300 words."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Vendor Negotiation Response — Outlook <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a response to [VENDOR NAME]'s proposal/pricing for [SERVICE/PRODUCT]. Our position: [DESCRIBE — e.g., we need a 15% reduction, different payment terms, additional scope inclusion]. Reference our previous correspondence about [CONTEXT]. The tone should be firm but collaborative — we value the relationship. Include: acknowledgement of their proposal, our specific counter-points with rationale for each, areas where we're aligned, a constructive suggestion for reaching agreement, and a proposed timeline for next steps. Keep it professional and avoid emotional language."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Change Management Announcement — Outlook <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft an organisation-wide email announcing [CHANGE — e.g., new system, process change, office move, policy update]. Include: What is changing (clear, jargon-free description), Why we're making this change (business rationale in 2-3 sentences), When it takes effect (key dates and milestones), How it affects staff (specific impacts by role/department if applicable), What staff need to do (concrete action items with deadlines), Where to find more information (links, contacts), and a Q&amp;A section addressing the 3-4 most likely questions. Tone: reassuring, transparent, and focused on the benefits while acknowledging the disruption."</div>
+          </div>
+        </div>
+
+        <!-- Excel & Analysis Tab -->
+        <div class="prompt-panel" id="oa-excel">
+          <div class="prompt-box">
+            <div class="prompt-label">Operations Dashboard Builder — Excel <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Build an operations dashboard from this data. Include: a KPI summary section showing [LIST KEY METRICS — e.g., ticket resolution time, SLA compliance %, resource utilisation, budget burn rate], trend charts for each KPI over the last [PERIOD], a variance table comparing actual vs. target with RAG status (Red if &gt;10% off, Amber if 5-10% off, Green if on target), a department-by-department breakdown, and a top-5 issues list sorted by impact. Apply conditional formatting throughout — red for critical, amber for warning, green for on track. Add a date stamp and data source reference."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Budget Variance Analyser — Excel <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Analyse this budget data and produce a variance report. For each line item show: budgeted amount, actual spend, variance ($), variance (%), and a brief explanation of significant variances (&gt;5%). Group by department/category. Create: a summary chart showing the top 5 over-budget and under-budget categories, a monthly trend showing cumulative budget vs. actual, forecast for remaining months based on current run rate, and 3 specific recommendations for bringing any over-budget items back on track. Flag any line items where the forecast shows we'll exceed annual budget by year-end."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Resource Capacity Planner — Excel <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a resource capacity plan from this team data. For each team member show: total available hours, allocated hours by project/task, remaining capacity, and utilisation percentage. Calculate: team-level utilisation, identify anyone over 90% (overloaded) or under 60% (under-utilised), project-level resource demand vs. supply, and a 4-week forward view based on known commitments. Add a summary table showing: total team capacity, total demand, surplus/deficit, and a recommendation for rebalancing if any team members are over-allocated."</div>
+          </div>
+        </div>
+
+        <!-- Teams & Collaboration Tab -->
+        <div class="prompt-panel" id="oa-teams">
+          <div class="prompt-box">
+            <div class="prompt-label">Meeting Summary + Action Items — Teams <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Provide a structured summary of this meeting. Include: Meeting Context (purpose, date, attendees), Executive Summary (3-4 sentences covering the key discussion), Decisions Made (numbered, with rationale for each), Action Items in a table format (Action | Owner | Due Date | Priority), Open Questions that need follow-up (with suggested owner), Topics Deferred to next meeting, and Key Risks or Concerns raised. Format the action items table so it can be directly copy-pasted into a tracking tool."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Project Status Update for Channel — Teams <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a project status update post for the [PROJECT NAME] Teams channel. Include: Status indicator (On Track / At Risk / Delayed), What we accomplished this week (3-5 bullet points), What's planned for next week (3-5 bullet points), Blockers or risks that need attention (be specific about what help is needed), Key metrics or milestones hit, and a shout-out to team members who delivered something notable. Keep it under 200 words. Tone: informative and motivating, not corporate."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Cross-Team Coordination Brief — Teams <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Draft a coordination brief for [INITIATIVE/PROJECT] that involves [LIST TEAMS — e.g., IT, Facilities, HR, Finance]. Include: Initiative Overview (what, why, timeline), What each team is responsible for (specific deliverables and dates per team), Dependencies between teams (where Team A's output is Team B's input), Shared milestones and deadlines, Communication plan (who reports to whom, how often, through which channel), Escalation path if a dependency is at risk, and a RACI matrix for the key deliverables. Format for posting in a shared Teams channel."</div>
+          </div>
+        </div>
+
+        <!-- Power Automate & Loop Tab -->
+        <div class="prompt-panel" id="oa-automate">
+          <div class="prompt-box">
+            <div class="prompt-label">Approval Workflow Description — Power Automate <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a Power Automate flow for [DOCUMENT/REQUEST TYPE] approvals. The workflow should: trigger when a new item is added to [SHAREPOINT LIST/LIBRARY], send an approval request to [FIRST APPROVER ROLE] with the document attached, if approved, route to [SECOND APPROVER ROLE], if rejected at any stage, notify the submitter with the rejection reason and allow resubmission, once fully approved, move the document to the [APPROVED FOLDER], update the status in the tracking list, and notify [STAKEHOLDER GROUP] via Teams. Include timeout handling: if no response within [TIMEFRAME], send a reminder, then escalate to [ESCALATION CONTACT]."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Recurring Report Automation — Power Automate <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Design a Power Automate flow that runs every [FREQUENCY — e.g., Friday at 4pm]. The flow should: pull data from [SOURCE — SharePoint list, Excel file, etc.], compile the key metrics: [LIST METRICS], format them into a structured summary with trend indicators (up/down/stable compared to last period), post the summary to [TEAMS CHANNEL], send a detailed version via email to [DISTRIBUTION LIST], and save a copy to [SHAREPOINT FOLDER] with the date in the filename for audit trail. Include error handling: if the data source is unavailable, notify [ADMIN] instead of posting incomplete data."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">Onboarding Task Sequence — Loop + Power Automate <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+            <div class="prompt-text">"Create a new employee onboarding task sequence in Loop for [ROLE/DEPARTMENT]. Include phases: Pre-arrival (IT setup, workspace, accounts), Day 1 (welcome, orientation, introductions), Week 1 (training sessions, system access, key meetings), Month 1 (competency milestones, mentor check-ins, 30-day review). For each task include: task description, responsible person (hiring manager / IT / HR / buddy), due date relative to start date (e.g., Start-5 days, Start+1), and a checkbox. Create a companion Power Automate flow that: triggers when a new hire is added to the HR list, creates a copy of this task sequence, assigns it to the hiring manager, and sends automated reminders 2 days before each task is due."</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 06 — MEASURING IMPACT
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s06">
+    <div class="section-header">
+      <div class="sec-num">06</div>
+      <div>
+        <h2>Measuring Your AI Impact</h2>
+        <p>Four key metrics that prove the return on your Copilot investment</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">To demonstrate the value of Copilot to leadership — and to guide where you invest more time — track these four metrics across your M365 usage. Each one is measurable within the first 30 days of active Copilot adoption.</p>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-num">60%</div>
+          <div class="metric-label">Time Saved on Documentation</div>
+          <div class="metric-desc">SOPs, policies, process docs, and runbooks that previously took hours now take minutes with Copilot in Word drafting the first version.</div>
+        </div>
+        <div class="metric-card blue">
+          <div class="metric-num">4x</div>
+          <div class="metric-label">Faster Meeting Turnaround</div>
+          <div class="metric-desc">Teams Copilot auto-recap eliminates manual note-taking. Meeting summaries, action items, and follow-up emails are ready in seconds, not hours.</div>
+        </div>
+        <div class="metric-card orange">
+          <div class="metric-num">75%</div>
+          <div class="metric-label">Faster Vendor Drafting</div>
+          <div class="metric-desc">Vendor emails, RFP responses, and procurement communications drafted in Outlook with full context from your correspondence history.</div>
+        </div>
+        <div class="metric-card green">
+          <div class="metric-num">30hrs</div>
+          <div class="metric-label">Monthly Hours Reclaimed</div>
+          <div class="metric-desc">Per admin professional — time redirected from routine documentation and communication to strategic operations work and process improvement.</div>
+        </div>
+      </div>
+
+      <div class="sub-label">Before vs. After — across M365 apps</div>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Task</th><th>M365 App</th><th>Before Copilot</th><th>After Copilot</th><th>Time Saved</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Draft an SOP</strong></td>
+            <td>Word</td>
+            <td>2-4 hours (research format, write, structure)</td>
+            <td>20-30 minutes (Copilot drafts, you review and refine)</td>
+            <td>~80%</td>
+          </tr>
+          <tr>
+            <td><strong>Meeting follow-up</strong></td>
+            <td>Teams + Outlook</td>
+            <td>30-45 minutes (listen to recording, write notes, draft email)</td>
+            <td>5 minutes (Copilot generates summary, you review and send)</td>
+            <td>~85%</td>
+          </tr>
+          <tr>
+            <td><strong>Vendor comparison</strong></td>
+            <td>Excel</td>
+            <td>2-3 hours (build matrix, calculate TCO, format)</td>
+            <td>15-20 minutes (Copilot analyses, you verify and adjust)</td>
+            <td>~85%</td>
+          </tr>
+          <tr>
+            <td><strong>Exec ops report</strong></td>
+            <td>Excel + PowerPoint</td>
+            <td>3-5 hours (pull data, build charts, create deck)</td>
+            <td>30-45 minutes (Copilot crunches data, builds presentation)</td>
+            <td>~80%</td>
+          </tr>
+          <tr>
+            <td><strong>Vendor email drafting</strong></td>
+            <td>Outlook</td>
+            <td>20-30 minutes per email (research context, draft, review tone)</td>
+            <td>5 minutes (Copilot drafts with context, you review)</td>
+            <td>~75%</td>
+          </tr>
+          <tr>
+            <td><strong>New hire onboarding setup</strong></td>
+            <td>Loop + Power Automate</td>
+            <td>1-2 hours (create checklist, assign tasks, set reminders)</td>
+            <td>10 minutes (automated flow triggers entire sequence)</td>
+            <td>~90%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>How to Track Your Own ROI</strong>
+          <p>For the first two weeks, spend 2 minutes at the end of each day logging which tasks you used Copilot for and your estimated time saving. After 14 days, total the hours saved and multiply by your effective hourly rate. Most ops professionals find the Copilot licence pays for itself within the first week of active use — the remaining 51 weeks are pure productivity gain.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 07 — COMMON MISTAKES
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s07">
+    <div class="section-header">
+      <div class="sec-num">07</div>
+      <div>
+        <h2>Common Mistakes &amp; What to Do Instead</h2>
+        <p>Five avoidable errors that undermine Copilot's value for operations teams</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Most frustration with Copilot in operations comes from a small number of configuration and habit mistakes. Fix these five patterns and you'll get dramatically better results from every interaction.</p>
+
+      <!-- Mistake 1 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">&#10007;</div>
+          <div class="mistake-text"><strong>Using Copilot without SharePoint grounding.</strong> Without connecting your organisational documents in SharePoint, Copilot produces generic, off-context responses. Your SOPs sound like Wikipedia articles, your vendor emails lack contract context, and your reports miss company-specific data.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">&#10003;</div>
+          <div class="mistake-text"><strong>Connect your org's SharePoint sites for contextual, accurate responses.</strong> Migrate your key operational documents — SOPs, policies, contracts, process maps — to SharePoint. Ensure search indexing is enabled. When you prompt Copilot with / references to real documents, the output quality jumps dramatically because it's grounded in your actual organisational context, not generic knowledge.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 2 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">&#10007;</div>
+          <div class="mistake-text"><strong>Ignoring Teams meeting transcription.</strong> If recording and transcription aren't enabled before the meeting starts, Copilot has nothing to work with. You lose the ability to generate summaries, extract action items, and draft follow-up emails — the most time-saving features for ops professionals.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">&#10003;</div>
+          <div class="mistake-text"><strong>Enable transcription for every meeting — Copilot can't recap what it can't hear.</strong> Make "Start recording" a non-negotiable first step in every meeting. Work with your IT admin to enable transcription org-wide in the Teams Admin Centre. For sensitive meetings where recording isn't appropriate, take manual notes — but for the 90% of meetings that can be recorded, let Copilot do the heavy lifting.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 3 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">&#10007;</div>
+          <div class="mistake-text"><strong>Re-typing data between apps.</strong> Manually copying vendor data from emails into Excel, meeting action items from Teams into task trackers, or report findings from Excel into PowerPoint. This defeats the purpose of having Copilot across integrated M365 apps.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">&#10003;</div>
+          <div class="mistake-text"><strong>Use Copilot's cross-app awareness — reference emails in Word, data in PowerPoint.</strong> BizChat can pull information from any M365 app. Copilot in PowerPoint can reference Excel data. Copilot in Word can access SharePoint documents. Use the / reference feature and BizChat to let Copilot move data between apps for you — this is the cross-app intelligence that makes the M365 ecosystem uniquely powerful.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 4 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">&#10007;</div>
+          <div class="mistake-text"><strong>Running manual approval chains.</strong> Routing documents for approval via email threads — "Can you review this?" followed by days of silence, lost attachments, unclear approval status, and no audit trail. This is the most automatable process in operations, yet many teams still do it manually.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">&#10003;</div>
+          <div class="mistake-text"><strong>Build Power Automate flows for approvals, escalations, and notifications.</strong> Use Copilot in Power Automate to describe your approval workflow in natural language — it builds the flow for you. Every approval is tracked, timed, and auditable. Automatic reminders prevent delays, escalation paths handle bottlenecks, and the approval status is always visible. Set up once, benefit forever.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 5 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <div class="mistake-icon">&#10007;</div>
+          <div class="mistake-text"><strong>Not using Copilot Pages for team collaboration.</strong> Creating operational documents in Word and emailing them for review — resulting in version confusion, scattered feedback, and no single source of truth. Your team ends up with "SOP_v3_final_FINAL_reviewed.docx" syndrome.</div>
+        </div>
+        <div class="mistake-do">
+          <div class="mistake-icon">&#10003;</div>
+          <div class="mistake-text"><strong>Create shared Pages for living documents, dashboards, and planning.</strong> Copilot Pages are multiplayer canvases where your entire ops team can collaborate in real time. Use them for weekly status dashboards, resource allocation planning, and process improvement worksheets. Copilot generates content, your team refines it together, and there's always one current version. For formal documents that need version control, use Pages for drafting and collaboration, then publish the final version to SharePoint.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 08 — YOUR LEARNING PATH
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s08">
+    <div class="section-header">
+      <div class="sec-num">08</div>
+      <div>
+        <h2>Your Learning Path</h2>
+        <p>Recommended guide sequence and a 4-week roadmap to operational AI fluency</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">This playbook gives you the operations context — but each M365 app has its own dedicated guide with deeper walkthroughs, app-specific prompt libraries, and advanced techniques. Work through these guides in the order shown for the fastest skill progression.</p>
+
+      <div class="learning-grid">
+        <a class="learning-card" href="../Copilot-101-Getting-Started-and-Interface-Walkthrough.html">
+          <div class="lc-num">1</div>
+          <div class="lc-body">
+            <h4>Copilot 101</h4>
+            <p>Start here — core concepts, interface, and your first 10 prompts</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card blue" href="../Copilot-Prompt-Guide.html">
+          <div class="lc-num">2</div>
+          <div class="lc-body">
+            <h4>Copilot Prompt Guide</h4>
+            <p>Write better prompts — structure, context, and advanced techniques</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card purple" href="../Copilot-in-Outlook.html">
+          <div class="lc-num">3</div>
+          <div class="lc-body">
+            <h4>Copilot in Outlook</h4>
+            <p>Vendor emails, stakeholder updates, and communication management</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card orange" href="../Copilot-in-Excel.html">
+          <div class="lc-num">4</div>
+          <div class="lc-body">
+            <h4>Copilot in Excel</h4>
+            <p>Operations dashboards, budget analysis, and resource planning</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+        <a class="learning-card" href="../Copilot-in-Teams.html">
+          <div class="lc-num">5</div>
+          <div class="lc-body">
+            <h4>Copilot in Teams</h4>
+            <p>Meeting management, action tracking, and team coordination</p>
+          </div>
+          <div class="lc-arrow">&#8250;</div>
+        </a>
+      </div>
+
+      <div class="sub-label">Your 4-week roadmap to operational AI fluency</div>
+      <div class="roadmap">
+        <div class="roadmap-card">
+          <div class="roadmap-week">Week 1</div>
+          <div class="roadmap-title">Learn</div>
+          <div class="roadmap-desc">Complete Copilot 101. Start using Copilot in Word for SOP drafting and Outlook for vendor emails. Enable Teams transcription for all meetings.</div>
+        </div>
+        <div class="roadmap-card w2">
+          <div class="roadmap-week">Week 2</div>
+          <div class="roadmap-title">Apply Across Apps</div>
+          <div class="roadmap-desc">Use Copilot in Excel for your first ops report. Generate a PowerPoint exec summary. Set up BizChat with your SharePoint sites. Try Copilot Pages for a team dashboard.</div>
+        </div>
+        <div class="roadmap-card w3">
+          <div class="roadmap-week">Week 3</div>
+          <div class="roadmap-title">Automate</div>
+          <div class="roadmap-desc">Build your first Power Automate approval flow. Create Loop templates for recurring trackers. Set up automated reporting and notification chains.</div>
+        </div>
+        <div class="roadmap-card w4">
+          <div class="roadmap-week">Week 4+</div>
+          <div class="roadmap-title">Scale</div>
+          <div class="roadmap-desc">Build a custom Copilot Agent for your department. Roll out Copilot workflows to your team. Measure impact and optimise your most time-consuming processes.</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>The Fastest Path to Impact</strong>
+          <p>Don't try to learn everything at once. Start with the three tasks that consume the most of your time each week — for most ops professionals, that's meeting follow-ups (Teams + Outlook), documentation (Word), and reporting (Excel). Master Copilot for those three workflows first, then expand to Power Automate, Loop, and Copilot Agents once the daily time savings are established.</p>
+        </div>
+      </div>
+
+      <div class="sub-label">Quick reference — Copilot across the M365 ops stack</div>
+      <table class="ref-table">
+        <thead>
+          <tr><th>App</th><th>Best For (Ops Context)</th><th>Top Operations Use Case</th><th>First Prompt to Try</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Word</strong></td>
+            <td>SOPs, policies, process docs, runbooks</td>
+            <td>Draft and format operational documentation</td>
+            <td>"Draft an SOP for [process] with RACI matrix and escalation path"</td>
+          </tr>
+          <tr>
+            <td><strong>Excel</strong></td>
+            <td>KPI dashboards, budget analysis, resource planning</td>
+            <td>Operations reporting and variance analysis</td>
+            <td>"Analyse this ops data and create a KPI dashboard"</td>
+          </tr>
+          <tr>
+            <td><strong>Outlook</strong></td>
+            <td>Vendor comms, stakeholder updates, announcements</td>
+            <td>Professional vendor and stakeholder communication</td>
+            <td>"Draft a vendor follow-up referencing our previous correspondence"</td>
+          </tr>
+          <tr>
+            <td><strong>Teams</strong></td>
+            <td>Meeting recaps, action items, channel updates</td>
+            <td>Automated meeting summaries and follow-ups</td>
+            <td>"Summarise this meeting with action items and owners"</td>
+          </tr>
+          <tr>
+            <td><strong>PowerPoint</strong></td>
+            <td>Exec presentations, ops reviews, status decks</td>
+            <td>Turn ops data into executive presentations</td>
+            <td>"Create an executive ops review from this data"</td>
+          </tr>
+          <tr>
+            <td><strong>Power Automate</strong></td>
+            <td>Approvals, notifications, recurring workflows</td>
+            <td>Automated document approval and escalation chains</td>
+            <td>"Build an approval flow for [document type]"</td>
+          </tr>
+          <tr>
+            <td><strong>Loop</strong></td>
+            <td>Collaborative trackers, task boards, templates</td>
+            <td>Shared resource allocation and task management</td>
+            <td>"Create a resource tracker for [project/quarter]"</td>
+          </tr>
+          <tr>
+            <td><strong>BizChat</strong></td>
+            <td>Cross-app search, synthesis, intelligence</td>
+            <td>Find answers across all M365 data in one query</td>
+            <td>"What decisions were made about [project] this month?"</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ── TAB SWITCHER ──
+function switchTab(btn, panelId) {
+  var tabs = btn.closest('.prompt-tabs');
+  tabs.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  tabs.querySelectorAll('.prompt-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ── COPY PROMPT ──
+function copyPrompt(btn) {
+  var box = btn.closest('.prompt-box') || btn.closest('.usecase-prompt');
+  var textEl = box.querySelector('.prompt-text') || box.querySelector('.usecase-prompt-text');
+  if (!textEl) return;
+  navigator.clipboard.writeText(textEl.innerText.trim()).then(function(){
+    var orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(function(){ btn.textContent = orig; }, 1800);
+  }).catch(function(){
+    var range = document.createRange();
+    range.selectNodeContents(textEl);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+}
+
+// ── SCROLL SPY ──
+(function(){
+  var links = document.querySelectorAll('.nav-link');
+  var sections = Array.from(document.querySelectorAll('[id^="s0"]'));
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var active = document.querySelector('.nav-link[href="#' + entry.target.id + '"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25, rootMargin: '-10% 0px -60% 0px' });
+  sections.forEach(function(s){ observer.observe(s); });
+})();
+</script>
+</body>
+</html>

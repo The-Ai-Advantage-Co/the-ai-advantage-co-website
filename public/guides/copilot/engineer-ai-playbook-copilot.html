@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Engineer's AI Playbook — Copilot Edition | The AI Advantage Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --purple:#5E17EB;
+  --purple-hover:#4A0FD4;
+  --purple-act:rgba(94,23,235,0.13);
+  --purple-light:#8B5CF6;
+  --purple-soft:#F0EAFF;
+  --blue:#0078D4;
+  --blue-light:#60A5FA;
+  --blue-soft:#EFF6FF;
+  --orange:#EA6C1A;
+  --orange-soft:#FFF7ED;
+  --yellow:#CA8A04;
+  --yellow-soft:#FEFCE8;
+  --page-bg:#EBF1FF;
+  --white:#FFFFFF;
+  --card-bg:#F7F4FF;
+  --hdr-bg:#EDE8FF;
+  --border:#D0C5F5;
+  --divider:#DDD7F8;
+  --ink:#1E1456;
+  --body-text:#3D3080;
+  --muted:#7264A8;
+  --sidebar-bg:#1E1456;
+  --sidebar-hover:#2C1E80;
+  --sidebar-w:268px;
+  --radius:10px;
+  --radius-sm:6px;
+  --green:#1B6B3A;
+  --green-bg:#E6F4EC;
+  --warn:#B45309;
+  --warn-bg:#FFF8E1;
+  --red:#C43E00;
+  --red-soft:#FFF0E8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--page-bg);color:var(--ink);line-height:1.7;font-size:15px}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;z-index:100}
+.sidebar-brand{padding:28px 20px 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--purple-light);margin-bottom:4px}
+.brand-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.88);line-height:1.3}
+.sidebar-nav{padding:14px 10px 20px}
+.nav-section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:12px 12px 5px}
+.nav-link{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:6px;color:rgba(200,184,255,.8);text-decoration:none;font-size:12.5px;font-weight:500;transition:all .15s;border-left:2px solid transparent;margin-bottom:1px}
+.nav-link:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.95)}
+.nav-link.active{background:rgba(139,92,246,.15);color:#fff;border-left-color:var(--purple-light)}
+.nav-link .nav-num{font-size:10px;font-weight:700;color:var(--purple-light);width:22px;flex-shrink:0}
+
+/* ── MAIN ── */
+.main{flex:1;padding:44px 52px 100px;max-width:calc(var(--sidebar-w) + 900px)}
+
+/* ── BANNER ── */
+.banner{position:relative;background:var(--sidebar-bg);border-radius:12px;margin-bottom:32px;overflow:hidden;text-align:center}
+.banner svg{display:block;width:100%}
+
+/* ── DOC HEADER ── */
+.doc-header{margin-bottom:32px}
+.breadcrumb{font-size:12px;color:var(--muted);margin-bottom:10px}
+.breadcrumb span{color:var(--purple)}
+.doc-title{font-size:30px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:8px}
+.doc-subtitle{font-size:15px;color:var(--body-text);max-width:700px;line-height:1.6;margin-bottom:16px}
+.doc-badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.badge-purple{background:var(--purple);color:#fff}
+.badge-blue{background:var(--blue);color:#fff}
+.badge-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+
+/* ── SECTION CARDS ── */
+.section-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:28px;overflow:hidden;box-shadow:0 2px 10px rgba(94,23,235,.06)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:center;gap:14px}
+.sec-num{background:var(--purple);color:#fff;font-size:12px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700;color:var(--ink)}
+.section-header p{font-size:13px;color:var(--purple-light);margin-top:2px}
+.section-body{padding:24px}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55;color:var(--body-text)}
+.callout.tip{background:var(--green-bg);border-left:4px solid var(--green)}
+.callout.tip .callout-body strong{color:var(--green)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.callout.warn .callout-body strong{color:var(--warn)}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+.callout.copilot{background:var(--purple-soft);border-left:4px solid var(--purple)}
+.callout.copilot .callout-body strong{color:var(--purple)}
+
+/* ── FEATURE CARDS ── */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;border-top:3px solid var(--purple)}
+.feature-card .fc-icon{font-size:24px;margin-bottom:8px}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--body-text);line-height:1.5}
+.feature-card.blue{border-top-color:var(--blue)}
+.feature-card.orange{border-top-color:var(--orange)}
+.feature-card.yellow{border-top-color:var(--yellow)}
+.feature-card.green{border-top-color:var(--green)}
+
+/* ── STEP LIST ── */
+.step-list{display:flex;flex-direction:column;gap:12px;margin:18px 0}
+.step-item{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--purple);color:#fff;font-size:13px;font-weight:700;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-num.blue{background:var(--blue)}
+.step-num.orange{background:var(--orange)}
+.step-num.yellow{background:var(--yellow);color:#1E1456}
+.step-num.green{background:var(--green)}
+.step-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-body p{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ── USE CASE CARDS ── */
+.usecase-list{display:flex;flex-direction:column;gap:16px;margin:18px 0}
+.usecase-card{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.usecase-header{padding:12px 18px;display:flex;align-items:center;gap:12px}
+.usecase-header.purple{background:var(--purple-soft);border-bottom:1px solid var(--border)}
+.usecase-header.blue{background:var(--blue-soft);border-bottom:1px solid #C3DFF5}
+.usecase-header.orange{background:var(--orange-soft);border-bottom:1px solid #F8CFA8}
+.usecase-header.yellow{background:var(--yellow-soft);border-bottom:1px solid #F3E18B}
+.usecase-header.green{background:var(--green-bg);border-bottom:1px solid #A7D7BC}
+.usecase-header.teal{background:#E0F7F7;border-bottom:1px solid #A7D7D7}
+.uc-icon{font-size:22px;flex-shrink:0}
+.uc-app{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.uc-title{font-size:14px;font-weight:700;color:var(--ink)}
+.usecase-body{background:#fff;padding:14px 18px}
+.usecase-body p{font-size:13.5px;color:var(--body-text);margin-bottom:10px;line-height:1.5}
+.usecase-prompt{background:var(--sidebar-bg);border-radius:6px;overflow:hidden;margin-top:8px}
+.usecase-prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--purple-light);padding:8px 12px 6px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.usecase-copy-btn{background:none;border:1px solid rgba(139,92,246,.4);color:var(--purple-light);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;font-family:'Inter',sans-serif}
+.usecase-copy-btn:hover{background:rgba(139,92,246,.2)}
+.usecase-prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:10px 12px;font-size:13px;color:var(--body-text);line-height:1.6;font-style:italic}
+
+/* ── REF TABLE ── */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:var(--purple-light);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 13px;text-align:left;border:1px solid rgba(255,255,255,.1)}
+.ref-table td{padding:9px 13px;border:1px solid var(--border);color:var(--body-text);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--card-bg)}
+.ref-table td strong{color:var(--ink);font-weight:600}
+
+/* ── SUB LABELS ── */
+.sub-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--purple-light);text-transform:uppercase;margin:20px 0 10px}
+.prose{font-size:14.5px;color:var(--body-text);line-height:1.65;margin-bottom:14px}
+.prose strong{color:var(--ink)}
+
+/* ── PROMPT TABS ── */
+.prompt-tabs{margin:18px 0}
+.tab-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab-btn{padding:7px 16px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--body-text);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.tab-btn:hover{background:var(--purple-soft);border-color:var(--purple)}
+.tab-btn.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.prompt-panel{display:none}
+.prompt-panel.active{display:block}
+.prompt-box{background:var(--sidebar-bg);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--purple-light);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.copy-btn{background:none;border:1px solid rgba(139,92,246,.4);color:var(--purple-light);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;transition:all .15s;font-family:'Inter',sans-serif}
+.copy-btn:hover{background:rgba(139,92,246,.2)}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--body-text);line-height:1.65;font-style:italic}
+
+/* ── METRIC CARDS ── */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+.metric-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;text-align:center;border-top:3px solid var(--purple)}
+.metric-card.blue{border-top-color:var(--blue)}
+.metric-card.orange{border-top-color:var(--orange)}
+.metric-card.green{border-top-color:var(--green)}
+.metric-num{font-size:32px;font-weight:700;color:var(--purple);line-height:1;margin-bottom:6px}
+.metric-card.blue .metric-num{color:var(--blue)}
+.metric-card.orange .metric-num{color:var(--orange)}
+.metric-card.green .metric-num{color:var(--green)}
+.metric-label{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.metric-desc{font-size:11.5px;color:var(--muted);line-height:1.4}
+
+/* ── DO / AVOID ── */
+.mistake-item{margin-bottom:14px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.mistake-avoid{background:var(--red-soft);border-left:4px solid var(--red);padding:12px 16px;display:flex;align-items:flex-start;gap:10px}
+.mistake-do{background:var(--green-bg);border-left:4px solid var(--green);padding:12px 16px;display:flex;align-items:flex-start;gap:10px}
+.mistake-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.mistake-text{font-size:13.5px;color:var(--body-text);line-height:1.5}
+.mistake-text strong{color:var(--ink)}
+
+/* ── LEARNING PATH ── */
+.learning-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.learning-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;align-items:center;gap:14px;text-decoration:none;transition:all .15s;border-left:4px solid var(--purple)}
+.learning-card:hover{border-color:var(--purple);background:var(--purple-soft);box-shadow:0 4px 12px rgba(94,23,235,.12)}
+.learning-card.blue{border-left-color:var(--blue)}
+.learning-card.blue:hover{background:var(--blue-soft)}
+.learning-card.orange{border-left-color:var(--orange)}
+.learning-card.orange:hover{background:var(--orange-soft)}
+.lc-num{width:36px;height:36px;background:var(--purple);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.learning-card.blue .lc-num{background:var(--blue)}
+.learning-card.orange .lc-num{background:var(--orange)}
+.lc-body h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.lc-body p{font-size:12.5px;color:var(--muted);line-height:1.4}
+.lc-arrow{margin-left:auto;color:var(--muted);font-size:18px;flex-shrink:0}
+
+/* ── ADVANCED CARDS ── */
+.adv-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:12px}
+.adv-card h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.adv-card h4 .adv-badge{font-size:10px;font-weight:700;letter-spacing:.06em;background:var(--purple-soft);color:var(--purple);padding:2px 8px;border-radius:10px;text-transform:uppercase}
+.adv-card h4 .adv-badge.blue{background:var(--blue-soft);color:var(--blue)}
+.adv-card h4 .adv-badge.orange{background:var(--orange-soft);color:var(--orange)}
+.adv-card h4 .adv-badge.green{background:var(--green-bg);color:var(--green)}
+.adv-card p{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ── SCROLLSPY TARGET ── */
+[id]{scroll-margin-top:20px}
+
+/* ── MOBILE RESPONSIVE ── */
+@media(max-width:900px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;min-width:0;height:auto;position:relative}
+  .sidebar-nav{display:flex;flex-wrap:wrap;padding:8px 10px}
+  .nav-section-label{display:none}
+  .nav-link{padding:5px 10px;font-size:11.5px}
+  .main{padding:24px 20px 60px}
+  .feature-grid{grid-template-columns:1fr}
+  .metric-grid{grid-template-columns:1fr 1fr}
+  .learning-grid{grid-template-columns:1fr}
+  .tab-btns{gap:5px}
+  .tab-btn{padding:6px 12px;font-size:11.5px}
+}
+@media(max-width:600px){
+  .metric-grid{grid-template-columns:1fr}
+  .doc-title{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-label">The AI Advantage Co</div>
+    <div class="brand-name">Engineer's AI Playbook</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Playbook Sections</div>
+    <a class="nav-link active" href="#s01"><span class="nav-num">01</span>Why AI Matters</a>
+    <a class="nav-link" href="#s02"><span class="nav-num">02</span>Setting Up Copilot</a>
+    <a class="nav-link" href="#s03"><span class="nav-num">03</span>Daily Workflows</a>
+    <a class="nav-link" href="#s04"><span class="nav-num">04</span>Advanced Techniques</a>
+    <a class="nav-link" href="#s05"><span class="nav-num">05</span>Prompt Library</a>
+    <a class="nav-link" href="#s06"><span class="nav-num">06</span>Measuring Impact</a>
+    <a class="nav-link" href="#s07"><span class="nav-num">07</span>Common Mistakes</a>
+    <a class="nav-link" href="#s08"><span class="nav-num">08</span>Learning Path</a>
+  </nav>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+  <!-- ── BANNER SVG ── -->
+  <div class="banner">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 260" style="border-radius:12px">
+      <defs>
+        <linearGradient id="bannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#1E1456"/>
+          <stop offset="50%" style="stop-color:#2C1E80"/>
+          <stop offset="100%" style="stop-color:#0A003A"/>
+        </linearGradient>
+        <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#5E17EB"/>
+          <stop offset="100%" style="stop-color:#0078D4"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- bg -->
+      <rect width="1400" height="260" fill="url(#bannerGrad)"/>
+      <!-- decorative circuit lines -->
+      <g opacity="0.06" stroke="#8B5CF6" stroke-width="1.5" fill="none">
+        <polyline points="40,80 40,130 90,130 90,180"/>
+        <circle cx="90" cy="130" r="4" fill="#8B5CF6" opacity="0.4"/>
+        <polyline points="40,80 90,80"/>
+        <circle cx="40" cy="80" r="3" fill="#8B5CF6" opacity="0.4"/>
+        <polyline points="1310,80 1310,130 1360,130 1360,180"/>
+        <circle cx="1310" cy="130" r="4" fill="#60A5FA" opacity="0.4"/>
+        <polyline points="1260,80 1310,80"/>
+        <circle cx="1260" cy="80" r="3" fill="#60A5FA" opacity="0.4"/>
+      </g>
+      <!-- hexagon grid decoration -->
+      <g opacity="0.06" fill="none" stroke="#8B5CF6" stroke-width="1">
+        <polygon points="1260,20 1290,20 1305,46 1290,72 1260,72 1245,46"/>
+        <polygon points="1305,46 1335,46 1350,72 1335,98 1305,98 1290,72"/>
+        <polygon points="60,160 90,160 105,186 90,212 60,212 45,186"/>
+      </g>
+      <!-- accent bar top -->
+      <rect x="0" y="0" width="1400" height="4" fill="url(#accentGrad)"/>
+      <!-- accent bar bottom -->
+      <rect x="0" y="256" width="1400" height="4" fill="url(#accentGrad)"/>
+      <!-- left glow orb -->
+      <circle cx="120" cy="130" r="80" fill="#5E17EB" opacity="0.14"/>
+      <!-- right glow orb -->
+      <circle cx="1280" cy="130" r="60" fill="#0078D4" opacity="0.12"/>
+      <!-- eyebrow text -->
+      <text x="700" y="72" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#8B5CF6">THE AI ADVANTAGE CO</text>
+      <!-- main title -->
+      <text x="700" y="140" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="700" fill="#FFFFFF" filter="url(#glow)">ENGINEER'S PLAYBOOK</text>
+      <!-- sub title pill -->
+      <rect x="557" y="158" width="286" height="36" rx="18" fill="url(#accentGrad)" opacity="0.85"/>
+      <text x="700" y="182" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="3" fill="#EBF1FF">COPILOT EDITION</text>
+    </svg>
+  </div>
+
+  <!-- ── DOC HEADER ── -->
+  <div class="doc-header">
+    <div class="breadcrumb">Documentation &rsaquo; <span>Engineer's Playbook</span> &rsaquo; Copilot Edition</div>
+    <div class="doc-title">The Engineer's AI Playbook &mdash; Copilot Edition</div>
+    <div class="doc-subtitle">Your complete guide to using Microsoft 365 Copilot for technical documentation in Word, data analysis in Excel, project tracking, workflow automation in Power Automate, and knowledge management across your engineering organisation.</div>
+    <div class="doc-badges">
+      <span class="badge badge-purple">PLAYBOOK</span>
+      <span class="badge badge-blue">June 2026</span>
+      <span class="badge badge-outline">Engineers &amp; Technical Teams</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 01 — WHY AI MATTERS FOR ENGINEERS
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s01">
+    <div class="section-header">
+      <div class="sec-num">01</div>
+      <div>
+        <h2>Why AI Matters for Engineers</h2>
+        <p>The case for integrating Copilot into your engineering practice</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Engineering is a discipline built on precision, systems thinking, and iteration — but in practice, a significant portion of every engineer's week disappears into documentation overhead, data wrangling, stakeholder communication, and meeting coordination. These aren't the activities that got you into engineering, and they certainly aren't where your highest-value thinking should go.</p>
+
+      <p class="prose">Microsoft Copilot is embedded directly into the M365 tools your organisation already uses — Word, Excel, Power Automate, SharePoint, Teams, and Outlook. That means no context switching, no separate tools to license, and no new workflows to learn. Copilot augments your existing engineering practice where you already work.</p>
+
+      <div class="callout copilot">
+        <div class="callout-icon">✦</div>
+        <div class="callout-body">
+          <strong>2026 Update — Python in Excel &amp; Natural Language Automation</strong>
+          <p>Copilot in Excel now supports Python for advanced analysis — run regression models, build forecasting pipelines, and generate statistical reports without leaving your spreadsheet. Power Automate Copilot can now build complex, multi-step engineering workflows — including CI/CD notification chains, deployment approval flows, and incident escalation trees — from a single natural language description.</p>
+        </div>
+      </div>
+
+      <div class="sub-label">The four biggest engineering time sinks — and how Copilot addresses them</div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-icon">📄</div>
+          <h4>Documentation Overhead</h4>
+          <p>Technical specs, ADRs, READMEs, runbooks, and changelogs consume hours every sprint. Copilot in Word drafts, structures, and updates engineering documents in minutes — referencing your existing architecture docs with the <strong>/reference</strong> shortcut to maintain consistency.</p>
+        </div>
+        <div class="feature-card blue">
+          <div class="fc-icon">📊</div>
+          <h4>Data Analysis &amp; Metrics</h4>
+          <p>DORA metrics, test coverage trends, build times, and performance benchmarks all live in spreadsheets that take time to interpret. Copilot in Excel analyses, charts, and surfaces insights from your engineering data automatically — with Python support for deeper statistical work.</p>
+        </div>
+        <div class="feature-card orange">
+          <div class="fc-icon">⚡</div>
+          <h4>Manual Workflow Steps</h4>
+          <p>CI/CD notifications, deployment approvals, incident alerts, and report generation are often done manually or with brittle scripts. Power Automate Copilot turns natural language descriptions into robust, maintainable automation flows — no script writing required.</p>
+        </div>
+        <div class="feature-card yellow">
+          <div class="fc-icon">🗂</div>
+          <h4>Knowledge Fragmentation</h4>
+          <p>Architecture decisions, runbooks, and system knowledge live across SharePoint sites, Confluence pages, and individual inboxes. Copilot in SharePoint creates living knowledge bases that answer questions in real time, so engineers stop losing time to documentation archaeology.</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>The Engineering Time Equation</strong>
+          <p>Engineers who actively integrate Copilot across Word, Excel, and Power Automate consistently report saving 4–6 hours per week on non-coding tasks. Over a year, that represents more than two full sprints of reclaimed capacity per engineer.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 02 — SETTING UP COPILOT
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s02">
+    <div class="section-header">
+      <div class="sec-num">02</div>
+      <div>
+        <h2>Setting Up Copilot for Engineering Work</h2>
+        <p>Five steps to get Copilot active and configured for your engineering context</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Getting Copilot working for your engineering workflows requires a valid M365 Copilot licence and a few targeted configuration steps. Work through these once and you'll have Copilot active across every M365 surface your team uses.</p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Verify Your M365 Copilot Licence</h4>
+            <p>Microsoft Copilot requires a <strong>Microsoft 365 Copilot licence</strong> assigned to your account — this is separate from your standard M365 E3/E5 subscription. Check by opening Word or Excel and looking for the Copilot icon in the toolbar (the swirling multi-colour symbol). If absent, contact your IT admin or M365 tenant administrator to request licence assignment. Copilot for your organisation also requires your Microsoft 365 tenant to have <strong>Semantic Index for Copilot</strong> enabled, which allows Copilot to search across your organisation's content.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num blue">2</div>
+          <div class="step-body">
+            <h4>Enable Copilot in Excel, Word, Power Automate, and SharePoint</h4>
+            <p>Once your licence is active, Copilot surfaces automatically in each app. In <strong>Excel</strong>, open the Copilot pane from the Home ribbon. In <strong>Word</strong>, use <strong>Alt + I</strong> or the Copilot button in the toolbar to open the Draft pane. In <strong>Power Automate</strong>, Copilot appears in the flow designer as a natural language input panel — describe what you want your flow to do and Copilot builds the scaffolding. In <strong>SharePoint</strong>, site owners can enable Copilot agents from the SharePoint admin panel to create site-specific knowledge assistants.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num orange">3</div>
+          <div class="step-body">
+            <h4>Run Your First Engineering Prompt in Excel</h4>
+            <p>Open Excel and load any build metrics export (CI/CD pipeline data, test results, deployment history). Open the Copilot pane and type: <em>"Analyse this build data. Show deployment frequency by week, average lead time, and change failure rate. Create a chart for each metric and highlight any weeks with anomalies."</em> This immediately demonstrates Copilot's value with your real engineering data and provides a baseline for more advanced analysis.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num yellow" style="color:#1E1456">4</div>
+          <div class="step-body">
+            <h4>Configure SharePoint Sites for Engineering Knowledge Bases</h4>
+            <p>Create a dedicated SharePoint site for your engineering team — or repurpose an existing one — and organise it with clear document libraries for: <strong>Architecture Decisions</strong>, <strong>Runbooks &amp; Playbooks</strong>, <strong>System Documentation</strong>, and <strong>Project Artefacts</strong>. Enable Copilot site agents from the SharePoint settings panel. Once configured, engineers can ask natural language questions directly from the SharePoint site and get answers synthesised from all documents — without having to read every file.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num green">5</div>
+          <div class="step-body">
+            <h4>Set Up Power Automate for CI/CD Notification Workflows</h4>
+            <p>Open Power Automate and click <strong>Create &rarr; Describe it to design it</strong>. Type: <em>"When a deployment fails in Azure DevOps, send a Teams message to the #incidents channel with the pipeline name, error details, and a link to the build, then create a task in Planner for the on-call engineer."</em> Copilot builds the flow scaffold automatically. Review the generated steps, connect your Azure DevOps and Teams accounts, and activate. This single flow replaces hours of manual incident monitoring per sprint.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body">
+          <strong>Admin Tip — Data Governance</strong>
+          <p>Copilot respects existing Microsoft 365 permissions — it only surfaces content your account can already access. However, review your SharePoint site permissions before enabling Copilot agents to ensure sensitive engineering documentation (security configs, infrastructure credentials) is appropriately scoped and not inadvertently exposed through natural language queries.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 03 — DAILY WORKFLOWS
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s03">
+    <div class="section-header">
+      <div class="sec-num">03</div>
+      <div>
+        <h2>Daily Workflows</h2>
+        <p>Six core engineering workflows powered by M365 Copilot</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">The following workflows cover the highest-value Copilot use cases for engineers — each mapped to a specific M365 application, with a ready-to-use prompt you can adapt immediately. These aren't hypothetical scenarios; they're the tasks that consume the most non-coding time in a typical engineering sprint.</p>
+
+      <div class="usecase-list">
+
+        <!-- Workflow 1: Word -->
+        <div class="usecase-card">
+          <div class="usecase-header purple">
+            <div class="uc-icon">📝</div>
+            <div>
+              <div class="uc-app">Microsoft Word</div>
+              <div class="uc-title">Workflow 1 &mdash; Technical Documentation</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p><strong>The challenge:</strong> Writing technical specifications, Architecture Decision Records (ADRs), and READMEs is critical work that consistently gets deprioritised because it takes so long. Engineers know what needs documenting — they just don't have the time to write it well.</p>
+            <p><strong>How Copilot helps:</strong> Copilot in Word can draft complete technical documents from a prompt, and — critically — can reference existing architecture documents using the <strong>/[FILENAME]</strong> shortcut. This means new specs are automatically consistent with your existing architecture decisions, reducing review cycles and alignment overhead.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">
+                EXAMPLE PROMPT
+                <button class="usecase-copy-btn" onclick="copyUsecase(this)">Copy</button>
+              </div>
+              <div class="usecase-prompt-text">"Draft a technical specification for [FEATURE]. Reference /[ARCHITECTURE-DOC] for system context. Include: overview, requirements, proposed solution, API changes, testing strategy, and rollout plan. Flag any assumptions that need validation with the team."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workflow 2: Excel -->
+        <div class="usecase-card">
+          <div class="usecase-header blue">
+            <div class="uc-icon">📊</div>
+            <div>
+              <div class="uc-app">Microsoft Excel</div>
+              <div class="uc-title">Workflow 2 &mdash; Engineering Data Analysis</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p><strong>The challenge:</strong> Build metrics, test coverage data, and performance benchmarks exist in spreadsheets but extracting actionable insights from raw data takes significant time — especially when producing charts and trend analysis for leadership reviews.</p>
+            <p><strong>How Copilot helps:</strong> Copilot in Excel analyses your engineering data and produces formatted charts, trend analyses, and recommendations instantly. With Python support (2026 update), you can also run statistical models directly in the workbook — regression analysis, anomaly detection, and forecasting — without any additional tooling.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">
+                EXAMPLE PROMPT
+                <button class="usecase-copy-btn" onclick="copyUsecase(this)">Copy</button>
+              </div>
+              <div class="usecase-prompt-text">"Analyse this engineering metrics data. Show: deployment frequency by week, lead time for changes, change failure rate, and mean time to recovery (MTTR). Create a chart for each metric. Identify trends, highlight any weeks outside normal range, and provide 3 actionable recommendations."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workflow 3: Planner/Loop -->
+        <div class="usecase-card">
+          <div class="usecase-header orange">
+            <div class="uc-icon">📋</div>
+            <div>
+              <div class="uc-app">Microsoft Planner &amp; Loop</div>
+              <div class="uc-title">Workflow 3 &mdash; Sprint &amp; Project Tracking</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p><strong>The challenge:</strong> Breaking features into sprint tasks and estimating effort is time-consuming, especially at sprint planning when the team is waiting. Task decomposition also varies in quality depending on who's doing it, leading to inconsistent sprint boards.</p>
+            <p><strong>How Copilot helps:</strong> Copilot in Planner can take a feature description and break it into structured tasks across frontend, backend, testing, and documentation workstreams — with effort estimates. In Microsoft Loop, Copilot generates sprint planning tables and meeting notes that stay live and editable by the whole team.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">
+                EXAMPLE PROMPT
+                <button class="usecase-copy-btn" onclick="copyUsecase(this)">Copy</button>
+              </div>
+              <div class="usecase-prompt-text">"Based on this feature description, create tasks in this board: [FEATURE DESCRIPTION]. Break into: frontend, backend, testing, and documentation. Estimate effort for each task in story points (1, 2, 3, 5, 8). Flag any tasks with high uncertainty. Include acceptance criteria for each task."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workflow 4: Power Automate -->
+        <div class="usecase-card">
+          <div class="usecase-header yellow">
+            <div class="uc-icon">⚡</div>
+            <div>
+              <div class="uc-app">Microsoft Power Automate</div>
+              <div class="uc-title">Workflow 4 &mdash; CI/CD &amp; Deployment Automation</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p><strong>The challenge:</strong> Engineering teams manually monitor pipeline statuses, forward deployment notifications, log incidents, and trigger approval chains — repetitive work that's perfectly suited to automation but has historically required scripting knowledge to set up.</p>
+            <p><strong>How Copilot helps:</strong> Power Automate Copilot builds complete automation flows from natural language descriptions. You describe the workflow; Copilot generates the steps, connectors, and conditions. Engineers without any Power Automate experience can create robust, production-grade flows in minutes.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">
+                EXAMPLE PROMPT
+                <button class="usecase-copy-btn" onclick="copyUsecase(this)">Copy</button>
+              </div>
+              <div class="usecase-prompt-text">"Create a Power Automate flow that: monitors [SOURCE] for [EVENT — e.g. a failed build in Azure DevOps], sends a Teams notification to [CHANNEL] with the pipeline name, error message, and a direct link, logs the event to [SHAREPOINT LIST] with timestamp and status, and creates a Planner task assigned to the on-call engineer."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workflow 5: SharePoint -->
+        <div class="usecase-card">
+          <div class="usecase-header green">
+            <div class="uc-icon">🗂</div>
+            <div>
+              <div class="uc-app">Microsoft SharePoint</div>
+              <div class="uc-title">Workflow 5 &mdash; Engineering Knowledge Bases</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p><strong>The challenge:</strong> Engineering knowledge is fragmented across dozens of documents, Wiki pages, and team channels. New engineers spend their first weeks in documentation archaeology. Experienced engineers repeat the same answers to the same questions in Slack and Teams every week.</p>
+            <p><strong>How Copilot helps:</strong> Copilot in SharePoint synthesises information from all documents on a site and answers natural language questions in real time. You can also use Copilot to generate a living knowledge base index — summarising every document in a site with topics, links, and key takeaways — so your team knows what exists and where.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">
+                EXAMPLE PROMPT
+                <button class="usecase-copy-btn" onclick="copyUsecase(this)">Copy</button>
+              </div>
+              <div class="usecase-prompt-text">"Summarise all documents in this SharePoint site about [SYSTEM NAME]. Create a knowledge base index with the following columns: topic, document title, document link, last updated date, and 2–3 key takeaways. Flag any documents that appear outdated or that contradict each other."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workflow 6: Teams -->
+        <div class="usecase-card">
+          <div class="usecase-header teal">
+            <div class="uc-icon">💬</div>
+            <div>
+              <div class="uc-app">Microsoft Teams</div>
+              <div class="uc-title">Workflow 6 &mdash; Sprint Updates &amp; Engineering Comms</div>
+            </div>
+          </div>
+          <div class="usecase-body">
+            <p><strong>The challenge:</strong> Writing sprint updates, engineering announcements, and stakeholder summaries takes disproportionate time — especially when writing for a non-technical audience. Engineers often either over-explain or under-communicate, and the friction of writing means updates get skipped.</p>
+            <p><strong>How Copilot helps:</strong> Copilot in Teams drafts structured sprint updates and engineering announcements from a brief list of completed work. The output is clear, consistent, and calibrated to the right level of technical detail — so engineering updates actually get read by stakeholders.</p>
+            <div class="usecase-prompt">
+              <div class="usecase-prompt-label">
+                EXAMPLE PROMPT
+                <button class="usecase-copy-btn" onclick="copyUsecase(this)">Copy</button>
+              </div>
+              <div class="usecase-prompt-text">"Based on this week's completed work: [BULLETED LIST OF COMPLETED ITEMS]. Draft a sprint update for the #engineering channel. Include: what shipped (with brief impact notes), what's in progress, current blockers (with owners), and next week's focus areas. Keep it scannable — use bold headings and short paragraphs."</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 04 — ADVANCED TECHNIQUES
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s04">
+    <div class="section-header">
+      <div class="sec-num">04</div>
+      <div>
+        <h2>Advanced Techniques</h2>
+        <p>Power-user capabilities for engineering teams ready to go deeper</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Once your team is comfortable with the daily workflow prompts, these advanced capabilities unlock a new tier of engineering productivity — from statistical analysis in Excel to custom AI agents built specifically for your engineering context.</p>
+
+      <div class="adv-card">
+        <h4><span class="adv-badge">Excel + Python</span> Advanced Data Analysis with Copilot and Python</h4>
+        <p>Copilot in Excel now supports <strong>Python execution directly in the worksheet</strong>, enabled via the Copilot pane. Describe the analysis you need — regression on build frequency vs. incident rate, time-series forecasting for deployment capacity, or anomaly detection on performance metrics — and Copilot writes and executes the Python code, returning results and charts in your workbook. This eliminates the need for a separate Jupyter notebook environment for engineering analytics. Outputs stay in Excel, can be refreshed with new data, and are accessible to non-Python team members through the standard workbook interface.</p>
+      </div>
+
+      <div class="adv-card">
+        <h4><span class="adv-badge blue">Copilot Studio</span> Custom Engineering Bots</h4>
+        <p>Copilot Studio lets you build purpose-built AI agents scoped to specific engineering tasks. Two high-value engineering bots to build first: <strong>Deployment Status Bot</strong> — connects to your Azure DevOps pipeline API and answers natural language questions like "What's the current status of the production release?" or "Which pipelines failed in the last 24 hours?". <strong>On-Call Assistant</strong> — connects to your runbook SharePoint library and PagerDuty or OpsGenie, so on-call engineers can ask "What's the runbook for a database failover?" and get the right procedure immediately, even at 2am. Both bots deploy as Teams apps visible only to authorised team members.</p>
+      </div>
+
+      <div class="adv-card">
+        <h4><span class="adv-badge orange">Power Automate</span> Automated Engineering Workflow Chains</h4>
+        <p>Beyond simple notifications, Power Automate Copilot can build <strong>complex approval and escalation chains</strong> tailored to engineering release processes. Examples include: multi-stage deployment approval flows (developer submits &rarr; tech lead reviews &rarr; product owner signs off &rarr; automated deployment triggers); automated change freeze enforcement that blocks deployments when a SharePoint calendar shows a freeze window is active; and weekly engineering report generation that pulls metrics from Excel, formats them into a Word document, and emails it to your distribution list — all triggered on a schedule with zero manual steps.</p>
+      </div>
+
+      <div class="adv-card">
+        <h4><span class="adv-badge green">SharePoint Agents</span> Engineering Knowledge Q&amp;A</h4>
+        <p>SharePoint site agents powered by Copilot create a conversational interface over your entire engineering documentation library. Engineers type natural language questions directly into the SharePoint site and get synthesised answers with citations from specific documents. Configure agents via <strong>Settings &rarr; Copilot &rarr; Configure site agent</strong> in your SharePoint admin panel. You can scope each agent to specific document libraries — creating separate agents for "Architecture Decisions", "Runbooks", and "Onboarding Materials" — so answers are always drawn from the right context. This is particularly powerful for onboarding new engineers, who can self-serve answers to questions that would otherwise require senior engineer time.</p>
+      </div>
+
+      <div class="sub-label">Copilot capability reference — M365 apps for engineering</div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>M365 App</th>
+            <th>Core Engineering Use Case</th>
+            <th>Key Copilot Feature</th>
+            <th>2026 Update</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Word</strong></td>
+            <td>Technical specs, ADRs, runbooks, READMEs</td>
+            <td>Draft with /references to existing docs</td>
+            <td>Agent Mode for multi-doc generation</td>
+          </tr>
+          <tr>
+            <td><strong>Excel</strong></td>
+            <td>Build metrics, DORA analytics, perf data</td>
+            <td>Natural language analysis + charting</td>
+            <td>Python execution in workbook</td>
+          </tr>
+          <tr>
+            <td><strong>Power Automate</strong></td>
+            <td>CI/CD notifications, deployment approvals</td>
+            <td>Flow generation from natural language</td>
+            <td>Complex multi-step workflow chains</td>
+          </tr>
+          <tr>
+            <td><strong>SharePoint</strong></td>
+            <td>Engineering wiki, runbooks, onboarding</td>
+            <td>Site-scoped knowledge Q&amp;A agents</td>
+            <td>Multi-library agent scoping</td>
+          </tr>
+          <tr>
+            <td><strong>Teams</strong></td>
+            <td>Sprint updates, incident comms, standups</td>
+            <td>Meeting intelligence + message drafting</td>
+            <td>Inline message composition with Copilot</td>
+          </tr>
+          <tr>
+            <td><strong>Copilot Studio</strong></td>
+            <td>Custom deployment bots, on-call assistants</td>
+            <td>Custom AI agent with M365 data connectors</td>
+            <td>Azure DevOps &amp; GitHub connectors GA</td>
+          </tr>
+          <tr>
+            <td><strong>BizChat / M365 Chat</strong></td>
+            <td>Cross-document search, meeting follow-up</td>
+            <td>Org-wide knowledge queries with citations</td>
+            <td>Agent orchestration across tools</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 05 — PROMPT LIBRARY
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s05">
+    <div class="section-header">
+      <div class="sec-num">05</div>
+      <div>
+        <h2>Engineering Prompt Library</h2>
+        <p>15 production-ready prompts across 5 engineering workflow categories</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Each prompt below is written for immediate use — replace the bracketed placeholders with your specific context. These prompts are structured to produce outputs you can use directly, not just AI-generated content that needs heavy editing.</p>
+
+      <div class="prompt-tabs">
+        <div class="tab-btns">
+          <button class="tab-btn active" onclick="switchTab(this,'pt-docs')">Documentation</button>
+          <button class="tab-btn" onclick="switchTab(this,'pt-data')">Data</button>
+          <button class="tab-btn" onclick="switchTab(this,'pt-auto')">Automation</button>
+          <button class="tab-btn" onclick="switchTab(this,'pt-comms')">Communication</button>
+          <button class="tab-btn" onclick="switchTab(this,'pt-know')">Knowledge</button>
+        </div>
+
+        <!-- TAB: Documentation -->
+        <div class="prompt-panel active" id="pt-docs">
+          <div class="prompt-box">
+            <div class="prompt-label">
+              WORD — TECHNICAL SPECIFICATION
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Draft a technical specification for [FEATURE NAME]. Reference /[ARCHITECTURE-DOC] for system context. Structure the document as: 1) Executive Overview (2 sentences), 2) Problem Statement, 3) Proposed Solution with technical detail, 4) API changes (include request/response schemas), 5) Data model changes, 6) Testing strategy (unit, integration, E2E), 7) Rollout plan and feature flags, 8) Open questions. Assume the reader is a senior engineer familiar with our stack."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              WORD — ARCHITECTURE DECISION RECORD (ADR)
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Draft an Architecture Decision Record for the decision to [DECISION]. Use the MADR format with sections: Title, Status (Proposed), Context and Problem Statement, Decision Drivers, Considered Options (list at least 3), Decision Outcome, and Pros/Cons of each option. Reference /[EXISTING-ARCHITECTURE-DOC] for context on our current system design. Keep the language precise and free of marketing language."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              WORD — README FILE
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Write a README for a [TYPE] service called [SERVICE NAME] that [BRIEF DESCRIPTION]. Include sections: Overview, Prerequisites, Local Setup (step-by-step commands), Environment Variables (table with name, required/optional, description), API Endpoints (table with method, path, description), Testing (how to run tests), Deployment, and Contributing. Format commands as code blocks. Assume the reader is a developer who has just cloned the repository."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              WORD — SPRINT CHANGELOG
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Generate a changelog entry for Sprint [NUMBER] / v[VERSION]. Here are the completed items: [LIST OF COMPLETED TICKETS/ITEMS]. Organise by category: New Features, Improvements, Bug Fixes, and Breaking Changes. For each item, write a 1–2 sentence description from the user's perspective (not the engineer's perspective). Flag any breaking changes prominently. Follow the Keep a Changelog format."</div>
+          </div>
+        </div>
+
+        <!-- TAB: Data -->
+        <div class="prompt-panel" id="pt-data">
+          <div class="prompt-box">
+            <div class="prompt-label">
+              EXCEL — ENGINEERING METRICS ANALYSIS
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Analyse this engineering metrics data. Calculate and display: deployment frequency (per day/week), lead time for changes (average and 95th percentile), change failure rate (%), and mean time to recovery. Create a time-series chart for each metric. Identify the 3 weeks with the worst performance, flag any metrics outside industry benchmarks (DORA Elite thresholds), and provide a prioritised list of recommendations to improve the weakest area."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              EXCEL — PERFORMANCE DATA ANALYSIS
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Analyse this application performance data. Show: average response time by endpoint, p95 and p99 latency, error rate by endpoint, and request volume trends. Create a heatmap showing which endpoints have the worst performance at peak times. Identify the top 5 endpoints by combined latency and error rate impact. Suggest which endpoints should be prioritised for optimisation work in the next sprint, with estimated user impact for each."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              EXCEL — TEST COVERAGE REPORT
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Analyse this test coverage data by module/service. Create a table showing: line coverage %, branch coverage %, test count, and coverage trend over the last 4 sprints. Highlight in red any modules below [THRESHOLD]% coverage. Create a stacked bar chart showing coverage by module. Identify the 5 modules most at risk based on low coverage + high change frequency, and estimate the effort to bring each to [TARGET]% coverage."</div>
+          </div>
+        </div>
+
+        <!-- TAB: Automation -->
+        <div class="prompt-panel" id="pt-auto">
+          <div class="prompt-box">
+            <div class="prompt-label">
+              POWER AUTOMATE — CI/CD NOTIFICATION FLOW
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Create a Power Automate flow that monitors Azure DevOps for failed pipeline runs on the [BRANCH NAME] branch. When a failure occurs: (1) Send a Teams message to the [CHANNEL] channel with the pipeline name, failure reason, commit SHA, and a link to the failed build. (2) Check if a Planner task for this pipeline already exists — if not, create one assigned to [OWNER] with high priority and a due date of today. (3) Log the failure to a SharePoint list called [LIST NAME] with columns: Timestamp, Pipeline, Branch, Reason, Status."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              POWER AUTOMATE — DEPLOYMENT ALERT FLOW
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Create a Power Automate flow for deployment notifications. Trigger: when a deployment to [ENVIRONMENT] is completed (success or failure) in [SOURCE SYSTEM]. On success: post a Teams message to [SUCCESS CHANNEL] with deployment version, environment, deployer name, and timestamp. On failure: post to [INCIDENT CHANNEL] with error details, trigger a PagerDuty alert to [ESCALATION POLICY], and create a high-priority Planner task. Log all events to SharePoint with full details for audit trail."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              POWER AUTOMATE — WEEKLY METRICS REPORT
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Create a Power Automate flow that runs every Monday at 8am and generates a weekly engineering metrics report. Pull data from [EXCEL FILE / DATA SOURCE], generate a formatted Word document summarising: deployment frequency, incidents, build success rate, and sprint velocity for the previous week. Compare to the week prior and flag any metrics that declined by more than 10%. Email the report to [DISTRIBUTION LIST] with subject: 'Engineering Weekly Report — [WEEK DATES]'."</div>
+          </div>
+        </div>
+
+        <!-- TAB: Communication -->
+        <div class="prompt-panel" id="pt-comms">
+          <div class="prompt-box">
+            <div class="prompt-label">
+              TEAMS — SPRINT UPDATE POST
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Based on this week's completed work: [BULLETED LIST]. Draft a sprint update for the #engineering channel. Structure it as: **What Shipped** (with a 1-sentence impact note for each item), **In Progress** (with expected completion), **Blockers** (with owner and escalation path), and **Next Week** (top 3 priorities). Use bold headings, keep each section to 3–5 bullet points maximum, and write in plain language that a non-technical stakeholder can follow. Total length: under 250 words."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              OUTLOOK — STAKEHOLDER STATUS EMAIL
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Draft an email to [STAKEHOLDER / DISTRIBUTION LIST] providing a status update on [PROJECT NAME]. Context: [BRIEF CONTEXT]. This week we completed: [LIST]. We are currently on track for the [DATE] milestone / we are [X DAYS] behind schedule because [REASON]. Our ask: [SPECIFIC REQUEST — APPROVAL, RESOURCE, DECISION]. Write in a professional but direct tone, keep it under 200 words, and end with a clear single call to action."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              LOOP — MEETING NOTES &amp; ACTION ITEMS
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Based on this Teams meeting transcript / these rough notes: [PASTE NOTES OR TRANSCRIPT]. Generate structured meeting notes for our [MEETING TYPE — sprint planning, tech review, incident post-mortem] meeting on [DATE]. Format as: Attendees, Key Decisions Made (with rationale), Action Items (with owner and due date), Open Questions (with assigned owner), and Next Meeting date. Use a Loop-compatible table format for action items."</div>
+          </div>
+        </div>
+
+        <!-- TAB: Knowledge -->
+        <div class="prompt-panel" id="pt-know">
+          <div class="prompt-box">
+            <div class="prompt-label">
+              SHAREPOINT — WIKI SUMMARY &amp; INDEX
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Summarise all documents in this SharePoint library about [SYSTEM / TOPIC]. Create a knowledge base index with the following columns: Topic, Document Title, Direct Link, Author, Last Updated, and Key Takeaways (2–3 sentences). Sort by topic area. Flag any documents that: (a) appear to be duplicates, (b) were last updated more than 12 months ago, or (c) contradict information in another document. Output the index as a formatted table I can paste into a SharePoint page."</div>
+          </div>
+          <div class="prompt-box">
+            <div class="prompt-label">
+              BIZCHAT — CROSS-DOCUMENT ENGINEERING QUERY
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+            </div>
+            <div class="prompt-text">"Search across our engineering SharePoint sites, recent Teams conversations, and email threads for everything related to [TOPIC — e.g. our database migration strategy / the authentication service architecture]. Summarise: what decisions have been made, what is still under discussion, who the key decision-makers are, and where the most up-to-date documentation lives. Cite each source. Flag any contradictions between documents or messages you find."</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 06 — MEASURING IMPACT
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s06">
+    <div class="section-header">
+      <div class="sec-num">06</div>
+      <div>
+        <h2>Measuring Impact</h2>
+        <p>Key metrics to track the value of Copilot in your engineering organisation</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Engineering organisations that deploy Copilot systematically — across documentation, data analysis, automation, and communication — consistently report measurable improvements across all four dimensions below. These benchmarks are drawn from Microsoft's 2025–2026 Copilot impact studies across enterprise engineering teams.</p>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-num">40%</div>
+          <div class="metric-label">Less Documentation Time</div>
+          <div class="metric-desc">Engineers using Copilot in Word report a 40% reduction in time spent writing and updating technical documentation per sprint.</div>
+        </div>
+        <div class="metric-card blue">
+          <div class="metric-num">3×</div>
+          <div class="metric-label">Faster Data Analysis</div>
+          <div class="metric-desc">Copilot in Excel reduces the time to produce engineering metrics reports and performance analyses by up to 3 times compared to manual methods.</div>
+        </div>
+        <div class="metric-card orange">
+          <div class="metric-num">60%</div>
+          <div class="metric-label">Fewer Missed Alerts</div>
+          <div class="metric-desc">Teams using Power Automate flows for CI/CD and deployment notifications report a 60% reduction in missed or delayed incident alerts.</div>
+        </div>
+        <div class="metric-card green">
+          <div class="metric-num">25%</div>
+          <div class="metric-label">Improved Sprint Velocity</div>
+          <div class="metric-desc">Engineering teams who offload documentation, reporting, and communication to Copilot recover enough capacity to improve sprint delivery velocity by 20–25%.</div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">📏</div>
+        <div class="callout-body">
+          <strong>How to Measure Your Own Baseline</strong>
+          <p>Before rolling out Copilot broadly, ask your engineers to log time spent on non-coding tasks for two sprints. Measure: documentation writing, data reporting, manual notifications, meeting follow-up. After two sprints with Copilot, run the same exercise. The delta is your Copilot ROI — a concrete number you can use for both team motivation and leadership reporting.</p>
+        </div>
+      </div>
+
+      <div class="sub-label">Leading indicators to track monthly</div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>How to Measure</th>
+            <th>Target Direction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Documentation currency</strong></td>
+            <td>% of engineering docs updated in last 90 days</td>
+            <td>Increase (target: &gt;80%)</td>
+          </tr>
+          <tr>
+            <td><strong>Metrics report lead time</strong></td>
+            <td>Hours from sprint end to metrics report delivered</td>
+            <td>Decrease (target: same-day delivery)</td>
+          </tr>
+          <tr>
+            <td><strong>Incident response time</strong></td>
+            <td>Minutes from alert to first engineer acknowledgement</td>
+            <td>Decrease (target: &lt;5 min)</td>
+          </tr>
+          <tr>
+            <td><strong>Onboarding time to productivity</strong></td>
+            <td>Days for new engineer to first meaningful code commit</td>
+            <td>Decrease (target: &lt;5 days)</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint update timeliness</strong></td>
+            <td>% of sprints with update posted within 24h of completion</td>
+            <td>Increase (target: 100%)</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 07 — COMMON MISTAKES
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s07">
+    <div class="section-header">
+      <div class="sec-num">07</div>
+      <div>
+        <h2>Common Mistakes &amp; How to Avoid Them</h2>
+        <p>The five patterns that limit Copilot effectiveness in engineering teams</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Most engineers who are disappointed with Copilot are making one of these five mistakes. The fixes are straightforward — and the difference in output quality between a vague prompt and a well-structured one is dramatic.</p>
+
+      <!-- Mistake 1 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <span class="mistake-icon">✗</span>
+          <div class="mistake-text"><strong>AVOID:</strong> Using vague, context-free prompts — "Write a tech spec for the new feature." Copilot has no idea what system you're working in, what constraints exist, or what format you need. The output will be generic and require heavy rewriting.</div>
+        </div>
+        <div class="mistake-do">
+          <span class="mistake-icon">✓</span>
+          <div class="mistake-text"><strong>DO THIS:</strong> Provide full context — system name, existing constraints, desired format, target audience, and what existing documents to reference. The more context you give, the more specific and usable the output. A good engineering prompt is 3–5 sentences minimum.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 2 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <span class="mistake-icon">✗</span>
+          <div class="mistake-text"><strong>AVOID:</strong> Writing technical documents in Word without using the <strong>/reference</strong> shortcut. Without referencing existing architecture docs, Copilot generates content that may contradict your current system design, creating review cycles that cost more time than the prompt saved.</div>
+        </div>
+        <div class="mistake-do">
+          <span class="mistake-icon">✓</span>
+          <div class="mistake-text"><strong>DO THIS:</strong> Use <strong>/[FILENAME]</strong> in your Word prompt to pull in existing architecture documents, API specs, or design patterns. Copilot reads and synthesises these references into your new document — ensuring new specs are automatically consistent with your existing system. This is one of the most underused features in Word Copilot.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 3 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <span class="mistake-icon">✗</span>
+          <div class="mistake-text"><strong>AVOID:</strong> Manually cleaning and formatting raw data in Excel before asking Copilot to analyse it. Engineers spend hours reformatting CSV exports, merging columns, and normalising dates — none of which needs to happen before using Copilot.</div>
+        </div>
+        <div class="mistake-do">
+          <span class="mistake-icon">✓</span>
+          <div class="mistake-text"><strong>DO THIS:</strong> Paste your raw data into Excel and describe its structure to Copilot in your first prompt — "This data has a date in column A (format: YYYY-MM-DD), a pipeline name in column B, and a status in column C." Copilot handles the interpretation and analysis from messy raw data without requiring pre-processing.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 4 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <span class="mistake-icon">✗</span>
+          <div class="mistake-text"><strong>AVOID:</strong> Building one-off Power Automate flows without documentation or naming conventions. Engineering teams often build Copilot-assisted flows quickly, then can't maintain them — no one knows what the flow does, who owns it, or why it was built the way it was.</div>
+        </div>
+        <div class="mistake-do">
+          <span class="mistake-icon">✓</span>
+          <div class="mistake-text"><strong>DO THIS:</strong> Establish a naming convention for all engineering flows (e.g. <em>ENG-CICD-DeploymentAlert-Prod</em>), add a description field to every flow, and create a SharePoint list that logs all active engineering automation flows with owner, purpose, and last review date. Copilot can generate this documentation for you from the flow definition.</div>
+        </div>
+      </div>
+
+      <!-- Mistake 5 -->
+      <div class="mistake-item">
+        <div class="mistake-avoid">
+          <span class="mistake-icon">✗</span>
+          <div class="mistake-text"><strong>AVOID:</strong> Treating every Copilot query as a one-off interaction. Engineers ask SharePoint Copilot a question once, get an answer, and move on — but never build the reusable agent or prompt library that would let the whole team benefit from the same knowledge retrieval.</div>
+        </div>
+        <div class="mistake-do">
+          <span class="mistake-icon">✓</span>
+          <div class="mistake-text"><strong>DO THIS:</strong> When a Copilot query is genuinely useful, add it to a team prompt library (a simple SharePoint list or Loop page works well). Configure a scoped SharePoint agent for recurring knowledge questions so any engineer gets the same quality answer in future. The ROI compounds as the whole team uses the same well-crafted prompts.</div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>Always Review AI-Generated Technical Output</strong>
+          <p>Copilot produces high-quality first drafts but should never be the final author for production-facing technical documents. API schemas, data model changes, and deployment runbooks must be reviewed by a human engineer before use. Treat Copilot output the way you'd treat a PR from a junior engineer — useful starting point, requires review before merge.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 08 — LEARNING PATH
+       ════════════════════════════════════════════ -->
+  <div class="section-card" id="s08">
+    <div class="section-header">
+      <div class="sec-num">08</div>
+      <div>
+        <h2>Learning Path</h2>
+        <p>Seven resources to take your engineering Copilot skills from beginner to advanced</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <p class="prose">Follow this sequence to build your Copilot skills systematically — starting with the fundamentals and progressing to advanced agent and studio capabilities. Each resource is accessible via Microsoft Learn or your internal training portal.</p>
+
+      <div class="learning-grid">
+        <a href="#" class="learning-card">
+          <div class="lc-num">1</div>
+          <div class="lc-body">
+            <h4>Copilot 101 — Getting Started</h4>
+            <p>Microsoft Learn &bull; 30 min &bull; Beginner</p>
+          </div>
+          <div class="lc-arrow">&rsaquo;</div>
+        </a>
+        <a href="#" class="learning-card blue">
+          <div class="lc-num">2</div>
+          <div class="lc-body">
+            <h4>Prompt Engineering for Copilot</h4>
+            <p>Internal Training Guide &bull; 45 min &bull; Intermediate</p>
+          </div>
+          <div class="lc-arrow">&rsaquo;</div>
+        </a>
+        <a href="#" class="learning-card blue">
+          <div class="lc-num">3</div>
+          <div class="lc-body">
+            <h4>Excel with Copilot &amp; Python</h4>
+            <p>Microsoft Learn &bull; 60 min &bull; Intermediate</p>
+          </div>
+          <div class="lc-arrow">&rsaquo;</div>
+        </a>
+        <a href="#" class="learning-card orange">
+          <div class="lc-num">4</div>
+          <div class="lc-body">
+            <h4>Power Automate Copilot Flows</h4>
+            <p>Microsoft Learn &bull; 90 min &bull; Intermediate</p>
+          </div>
+          <div class="lc-arrow">&rsaquo;</div>
+        </a>
+        <a href="#" class="learning-card orange">
+          <div class="lc-num">5</div>
+          <div class="lc-body">
+            <h4>Copilot Pages &amp; Loop Collaboration</h4>
+            <p>Microsoft Learn &bull; 45 min &bull; Intermediate</p>
+          </div>
+          <div class="lc-arrow">&rsaquo;</div>
+        </a>
+        <a href="#" class="learning-card">
+          <div class="lc-num">6</div>
+          <div class="lc-body">
+            <h4>Building Custom Agents in Copilot Studio</h4>
+            <p>Microsoft Learn &bull; 2 hours &bull; Advanced</p>
+          </div>
+          <div class="lc-arrow">&rsaquo;</div>
+        </a>
+        <a href="#" class="learning-card" style="border-left-color:var(--yellow)">
+          <div class="lc-num" style="background:var(--yellow);color:#1E1456">7</div>
+          <div class="lc-body">
+            <h4>Copilot Studio — Advanced Connectors</h4>
+            <p>Microsoft Learn &bull; 3 hours &bull; Advanced</p>
+          </div>
+          <div class="lc-arrow">&rsaquo;</div>
+        </a>
+      </div>
+
+      <div class="callout copilot">
+        <div class="callout-icon">🚀</div>
+        <div class="callout-body">
+          <strong>Recommended First Week Plan for Engineering Teams</strong>
+          <p><strong>Day 1:</strong> Complete Copilot 101 and run your first Excel metrics prompt with real sprint data. <strong>Day 2:</strong> Draft a technical spec or ADR in Word using /references to your existing architecture docs. <strong>Day 3:</strong> Build one Power Automate notification flow for CI/CD using the prompt in Section 05. <strong>Day 4:</strong> Set up a SharePoint site agent for your engineering wiki. <strong>Day 5:</strong> Share your best prompt with the team and contribute it to the team prompt library.</p>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">📚</div>
+        <div class="callout-body">
+          <strong>Related Guides in This Series</strong>
+          <p>This playbook is part of The AI Advantage Co Copilot series. For deeper coverage of individual tools, see: <strong>Copilot in Excel</strong>, <strong>Copilot in Word</strong>, <strong>Copilot in Power Automate</strong>, <strong>Copilot Agents</strong>, and <strong>Copilot Studio</strong> guides — available in your training portal.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ── TAB SWITCHER ──────────────────────────────────
+function switchTab(btn, panelId) {
+  const tabs = btn.closest('.prompt-tabs');
+  tabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  tabs.querySelectorAll('.prompt-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ── COPY PROMPT ───────────────────────────────────
+function copyPrompt(btn) {
+  const box = btn.closest('.prompt-box');
+  const text = box.querySelector('.prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.background = 'rgba(27,107,58,.25)';
+    btn.style.borderColor = 'rgba(27,107,58,.5)';
+    btn.style.color = '#1B6B3A';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 1800);
+  });
+}
+
+// ── COPY USE CASE PROMPT ──────────────────────────
+function copyUsecase(btn) {
+  const box = btn.closest('.usecase-prompt');
+  const text = box.querySelector('.usecase-prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.background = 'rgba(27,107,58,.25)';
+    btn.style.borderColor = 'rgba(27,107,58,.5)';
+    btn.style.color = '#1B6B3A';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 1800);
+  });
+}
+
+// ── SCROLL-SPY ────────────────────────────────────
+(function() {
+  const sections = ['s01','s02','s03','s04','s05','s06','s07','s08'];
+  const links = {};
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    const ln = document.querySelector('.sidebar a[href="#' + id + '"]');
+    if (el && ln) links[id] = { el, ln };
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        Object.values(links).forEach(({ ln }) => ln.classList.remove('active'));
+        if (links[id]) links[id].ln.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>

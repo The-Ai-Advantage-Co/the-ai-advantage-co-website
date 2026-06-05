@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Ops &amp; Admin Pro's AI Playbook — ChatGPT Edition | The AI Advantage Co</title>
+<style>
+:root{
+  --primary:#10A37F;
+  --primary-light:#2EC4A9;
+  --primary-soft:rgba(16,163,127,0.09);
+  --primary-border:rgba(16,163,127,0.20);
+  --sidebar-bg:#1C1C1C;
+  --sidebar-hover:#2A2A2A;
+  --sidebar-act:rgba(16,163,127,0.14);
+  --page-bg:#F9F9F9;
+  --white:#FFFFFF;
+  --card-bg:#FFFFFF;
+  --ink:#0D0D0D;
+  --body-text:#353740;
+  --muted:#6E6E80;
+  --border:#E5E5E5;
+  --divider:#DDDDDD;
+  --sidebar-w:260px;
+  --radius:10px;
+  --radius-sm:6px;
+  --green:#10A37F;
+  --green-l:#2EC4A9;
+  --green-soft:#E6F7F4;
+  --blue:#1A6FE8;--blue-soft:#EEF3FD;
+  --purple:#7C3AED;--purple-soft:#F3EEFF;
+  --orange:#E07B39;--orange-soft:#FEF3EB;
+  --yellow:#C9921A;--yellow-soft:#FEF9EE;
+  --red:#C13B3B;--red-soft:#FEEEEE;
+  --hdr-bg:#F0F0F0;
+  --text-mid:#353740;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--page-bg);color:var(--ink)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
+
+/* sidebar */
+.sidebar{background:var(--sidebar-bg);position:sticky;top:0;height:100vh;overflow-y:auto;padding:0 0 32px;flex-shrink:0}
+.sidebar-brand{padding:20px 20px 0}
+.brand-label{font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--primary-light);text-transform:uppercase;margin-bottom:2px}
+.brand-name{font-size:13.5px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:16px}
+.sidebar-divider{height:1px;background:rgba(255,255,255,.08);margin:0 20px 16px}
+.sidebar-meta{padding:0 20px 16px}
+.sidebar-guide-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:4px}
+.sidebar-guide-title{font-size:12px;color:rgba(255,255,255,.7);line-height:1.4}
+.nav-section{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:14px 20px 6px;text-transform:uppercase}
+.nav-link{display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.6);text-decoration:none;padding:7px 20px;border-left:3px solid transparent;transition:all .15s;line-height:1.3}
+.nav-link svg{flex-shrink:0;opacity:.6}
+.nav-link:hover{color:#fff;background:var(--sidebar-hover);border-left-color:rgba(16,163,127,.4)}
+.nav-link.active{color:#fff;border-left-color:var(--primary);background:var(--sidebar-act)}
+.nav-link.active svg{opacity:1}
+.sidebar-footer{padding:20px 20px 0;margin-top:16px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-footer p{font-size:10px;color:rgba(255,255,255,.3);line-height:1.5}
+.sidebar-footer a{color:rgba(16,163,127,.7);text-decoration:none}
+.sidebar-footer a:hover{color:var(--primary-light)}
+
+/* main */
+.main{padding:36px 44px 80px;max-width:900px}
+
+/* banner */
+.banner{border-radius:var(--radius);margin-bottom:32px;overflow:hidden;position:relative}
+.banner svg{display:block;width:100%;height:auto}
+
+/* doc header */
+.doc-header{margin-bottom:28px}
+.breadcrumb{font-size:11px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.breadcrumb span{color:var(--border)}
+.doc-header h1{font-size:30px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:10px}
+.doc-subtitle{font-size:14.5px;color:var(--body-text);line-height:1.6;margin-bottom:14px;max-width:700px}
+.badge-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.05em}
+.badge.playbook{background:var(--primary);color:#fff}
+.badge.updated{background:var(--hdr-bg);color:var(--primary);border:1px solid var(--primary-border)}
+.badge.audience{background:#E8F0FF;color:#1A6FE8;border:1px solid #C5D7F5}
+
+/* content body */
+.content-body{}
+
+/* section */
+.section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:24px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.section-header{background:var(--hdr-bg);border-bottom:1px solid var(--border);padding:16px 22px;display:flex;align-items:flex-start;gap:14px}
+.section-num{background:var(--primary);color:#fff;font-size:11.5px;font-weight:700;width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.section-title-wrap{}
+.section-title{font-size:18px;font-weight:700;color:var(--ink)}
+.section-desc{font-size:13px;color:var(--muted);margin-top:2px}
+.section-body{padding:22px}
+
+/* prose */
+.prose p{font-size:14px;color:var(--body-text);line-height:1.65;margin-bottom:14px}
+.prose strong{color:var(--ink);font-weight:700}
+.prose em{font-style:italic;color:var(--muted)}
+.prose h3{font-size:15px;font-weight:700;color:var(--ink);margin:20px 0 10px}
+.prose ul{margin:0 0 14px 18px}
+.prose ul li{font-size:14px;color:var(--body-text);line-height:1.6;margin-bottom:6px}
+
+/* sub-label */
+.sub-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--primary);text-transform:uppercase;margin:20px 0 10px}
+
+/* card grid */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.card-grid.three{grid-template-columns:1fr 1fr 1fr}
+.card-grid.four{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;border-top:3px solid var(--primary)}
+.card.blue{border-top-color:var(--blue)}
+.card.purple{border-top-color:var(--purple)}
+.card.orange{border-top-color:var(--orange)}
+.card.yellow{border-top-color:var(--yellow)}
+.card-icon{font-size:22px;margin-bottom:8px}
+.card-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.card-desc{font-size:13px;color:var(--body-text);line-height:1.5}
+
+/* callout */
+.callout{border-radius:var(--radius-sm);padding:14px 18px;margin:16px 0;display:flex;gap:14px}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.callout-body strong{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.callout-body p{font-size:13.5px;line-height:1.55;color:var(--body-text)}
+.callout.tip{background:var(--green-soft);border-left:4px solid var(--primary)}
+.callout.tip .callout-body strong{color:var(--primary)}
+.callout.warn{background:#FEF9C3;border-left:4px solid #B45309}
+.callout.warn .callout-body strong{color:#B45309}
+.callout.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.callout.info .callout-body strong{color:var(--blue)}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step-num{background:var(--primary);color:#fff;font-size:13px;font-weight:700;width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-content{}
+.step-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step-desc{font-size:13.5px;color:var(--body-text);line-height:1.5}
+
+/* ref table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.ref-table th{background:var(--sidebar-bg);color:rgba(255,255,255,.75);font-weight:700;font-size:11px;letter-spacing:.05em;padding:10px 12px;text-align:left;border:1px solid #333}
+.ref-table td{padding:9px 12px;border:1px solid var(--border);color:var(--body-text);vertical-align:top;line-height:1.45}
+.ref-table tr:nth-child(even) td{background:var(--hdr-bg)}
+.ref-table .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.04em}
+.ref-table .tag.green{background:var(--green-soft);color:var(--primary)}
+.ref-table .tag.blue{background:var(--blue-soft);color:var(--blue)}
+.ref-table .tag.purple{background:var(--purple-soft);color:var(--purple)}
+
+/* prompt section */
+.prompt-section{margin:16px 0}
+.tab-btns{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.tab-btn{padding:7px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--white);color:var(--body-text);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s}
+.tab-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.prompt-card{background:var(--sidebar-bg);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:10px}
+.prompt-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:10px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.prompt-text{background:var(--card-bg);border-top:1px solid var(--border);padding:12px 14px;font-size:13.5px;color:var(--body-text);line-height:1.65;font-style:italic}
+.copy-btn{background:none;border:1px solid rgba(46,196,169,.3);color:var(--primary-light);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-weight:600;font-style:normal}
+.copy-btn:hover{background:rgba(16,163,127,.15)}
+
+/* impact / metric cards */
+.impact-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;text-align:center}
+.impact-num{font-size:32px;font-weight:700;color:var(--primary);line-height:1;margin-bottom:6px}
+.impact-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.impact-desc{font-size:12px;color:var(--muted);line-height:1.45}
+
+/* workflow / use-case blocks */
+.workflow-block{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;margin-bottom:16px}
+.workflow-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.workflow-icon{font-size:22px}
+.workflow-title{font-size:15px;font-weight:700;color:var(--ink)}
+.workflow-sub{font-size:12px;color:var(--muted)}
+.workflow-prompt{background:var(--sidebar-bg);border-radius:var(--radius-sm);overflow:hidden;margin-top:12px}
+.workflow-prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:8px 12px 6px;display:flex;justify-content:space-between;align-items:center}
+.workflow-prompt-text{background:#F8F8F8;border-top:1px solid var(--border);padding:10px 12px;font-size:13px;color:var(--body-text);line-height:1.6;font-style:italic}
+
+/* mistake cards */
+.mistake-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.mistake-bad{background:var(--red-soft);border:1px solid #F5C4C4;border-top:3px solid var(--red);border-radius:var(--radius-sm);padding:14px}
+.mistake-good{background:var(--green-soft);border:1px solid var(--primary-border);border-top:3px solid var(--primary);border-radius:var(--radius-sm);padding:14px}
+.mistake-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.mistake-bad .mistake-label{color:var(--red)}
+.mistake-good .mistake-label{color:var(--primary)}
+.mistake-bad p,.mistake-good p{font-size:13px;color:var(--body-text);line-height:1.5}
+
+/* plan / learning path */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.plan-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;text-decoration:none;transition:all .18s;border-top:3px solid var(--primary);display:block}
+.plan-card:hover{box-shadow:0 4px 16px rgba(16,163,127,.15);border-top-color:var(--primary-light);transform:translateY(-1px)}
+.plan-card.blue{border-top-color:var(--blue)}
+.plan-card.purple{border-top-color:var(--purple)}
+.plan-card.orange{border-top-color:var(--orange)}
+.plan-card .plan-num{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--primary);margin-bottom:6px}
+.plan-card.blue .plan-num{color:var(--blue)}
+.plan-card.purple .plan-num{color:var(--purple)}
+.plan-card.orange .plan-num{color:var(--orange)}
+.plan-card .plan-title{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.plan-card .plan-desc{font-size:13px;color:var(--body-text);line-height:1.5}
+.plan-card .plan-arrow{font-size:13px;color:var(--primary);margin-top:8px;display:block}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.roadmap-step{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;border-top:3px solid var(--primary)}
+.roadmap-step.blue{border-top-color:var(--blue)}
+.roadmap-step.purple{border-top-color:var(--purple)}
+.roadmap-step.orange{border-top-color:var(--orange)}
+.rs-num{font-size:28px;font-weight:700;color:var(--primary);margin-bottom:6px}
+.roadmap-step.blue .rs-num{color:var(--blue)}
+.roadmap-step.purple .rs-num{color:var(--purple)}
+.roadmap-step.orange .rs-num{color:var(--orange)}
+.roadmap-step h4{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.roadmap-step p{font-size:12.5px;color:var(--body-text);line-height:1.5}
+
+/* prompt box inside instruction card */
+.instr-prompt{background:var(--sidebar-bg);border-radius:4px;overflow:hidden;margin-top:10px}
+.instr-prompt-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--primary-light);padding:7px 12px 5px;display:flex;justify-content:space-between;align-items:center}
+.instr-prompt-text{background:#F8F8F8;border-top:1px solid var(--border);padding:10px 12px;font-size:12.5px;color:var(--body-text);line-height:1.6;font-style:italic;white-space:pre-wrap}
+
+/* responsive */
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto;width:100%}
+  .main{padding:24px 20px 60px}
+  .card-grid{grid-template-columns:1fr}
+  .card-grid.three{grid-template-columns:1fr}
+  .card-grid.four{grid-template-columns:1fr 1fr}
+  .plan-grid{grid-template-columns:1fr}
+  .mistake-grid{grid-template-columns:1fr}
+  .roadmap{grid-template-columns:1fr 1fr}
+  .ref-table{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-label">The AI Advantage Co</div>
+    <div class="brand-name">Documentation Hub</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-meta">
+    <div class="sidebar-guide-label">Current Guide</div>
+    <div class="sidebar-guide-title">Ops &amp; Admin AI Playbook — ChatGPT Edition</div>
+  </div>
+  <div class="nav-section">Sections</div>
+  <a class="nav-link active" href="#s01">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4v8l6 3 6-3V4L8 1z" stroke="#10A37F" stroke-width="1.5" fill="none"/></svg>
+    01 — Why AI Matters for Ops &amp; Admin
+  </a>
+  <a class="nav-link" href="#s02">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#10A37F" stroke-width="1.5"/><path d="M5 8h6M8 5v6" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    02 — Setting Up for Operations Work
+  </a>
+  <a class="nav-link" href="#s03">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    03 — Daily Workflows
+  </a>
+  <a class="nav-link" href="#s04">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2l2 4 4.5.7-3.25 3.15.77 4.5L8 12.1l-4.02 2.25.77-4.5L1.5 6.7 6 6z" stroke="#10A37F" stroke-width="1.5" fill="none"/></svg>
+    04 — Advanced Techniques
+  </a>
+  <a class="nav-link" href="#s05">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="2" stroke="#10A37F" stroke-width="1.5"/><path d="M5 7h6M5 10h4" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    05 — Prompt Library
+  </a>
+  <a class="nav-link" href="#s06">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 13V7l3-3 3 3 3-5 3 8" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    06 — Measuring Impact
+  </a>
+  <a class="nav-link" href="#s07">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#10A37F" stroke-width="1.5"/><path d="M8 5v3.5M8 10.5v1" stroke="#10A37F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    07 — Common Mistakes
+  </a>
+  <a class="nav-link" href="#s08">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2L3 6v7h10V6L8 2z" stroke="#10A37F" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 13V9h4v4" stroke="#10A37F" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    08 — Your Learning Path
+  </a>
+  <div class="sidebar-footer">
+    <p>&copy; 2026 <a href="#">The AI Advantage Co</a><br>All rights reserved.</p>
+  </div>
+</aside>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<main class="main">
+
+<!-- BANNER SVG -->
+<div class="banner">
+<svg viewBox="0 0 1400 260" xmlns="http://www.w3.org/2000/svg" width="1400" height="260">
+  <defs>
+    <linearGradient id="bannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A1A12;stop-opacity:1"/>
+      <stop offset="45%" style="stop-color:#0D2A1E;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0A1A12;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="glowLeft" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" style="stop-color:#10A37F;stop-opacity:0.22"/>
+      <stop offset="100%" style="stop-color:#10A37F;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="glowRight" x1="100%" y1="50%" x2="0%" y2="50%">
+      <stop offset="0%" style="stop-color:#10A37F;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#10A37F;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="260" fill="url(#bannerGrad)"/>
+  <ellipse cx="160" cy="130" rx="380" ry="220" fill="url(#glowLeft)"/>
+  <ellipse cx="1240" cy="130" rx="300" ry="200" fill="url(#glowRight)"/>
+  <!-- Grid lines -->
+  <line x1="0" y1="50" x2="1400" y2="50" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="100" x2="1400" y2="100" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="160" x2="1400" y2="160" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="0" y1="210" x2="1400" y2="210" stroke="#10A37F" stroke-opacity="0.07" stroke-width="1"/>
+  <line x1="280" y1="0" x2="280" y2="260" stroke="#10A37F" stroke-opacity="0.05" stroke-width="1"/>
+  <line x1="560" y1="0" x2="560" y2="260" stroke="#10A37F" stroke-opacity="0.05" stroke-width="1"/>
+  <line x1="840" y1="0" x2="840" y2="260" stroke="#10A37F" stroke-opacity="0.05" stroke-width="1"/>
+  <line x1="1120" y1="0" x2="1120" y2="260" stroke="#10A37F" stroke-opacity="0.05" stroke-width="1"/>
+  <!-- Circles -->
+  <circle cx="1300" cy="45" r="100" fill="none" stroke="#10A37F" stroke-opacity="0.12" stroke-width="1.5"/>
+  <circle cx="1300" cy="45" r="62" fill="none" stroke="#10A37F" stroke-opacity="0.09" stroke-width="1"/>
+  <circle cx="1300" cy="45" r="30" fill="#10A37F" fill-opacity="0.08"/>
+  <circle cx="100" cy="215" r="75" fill="none" stroke="#2EC4A9" stroke-opacity="0.1" stroke-width="1.5"/>
+  <circle cx="100" cy="215" r="45" fill="none" stroke="#2EC4A9" stroke-opacity="0.07" stroke-width="1"/>
+  <!-- Accent dots -->
+  <circle cx="460" cy="28" r="3" fill="#10A37F" fill-opacity="0.45"/>
+  <circle cx="500" cy="46" r="2" fill="#2EC4A9" fill-opacity="0.35"/>
+  <circle cx="900" cy="235" r="3" fill="#10A37F" fill-opacity="0.3"/>
+  <circle cx="940" cy="222" r="2" fill="#2EC4A9" fill-opacity="0.28"/>
+  <circle cx="340" cy="145" r="4" fill="#10A37F" fill-opacity="0.14"/>
+  <circle cx="1060" cy="118" r="5" fill="#10A37F" fill-opacity="0.11"/>
+  <!-- Clipboard / checklist icon -->
+  <rect x="640" y="68" width="120" height="150" rx="8" fill="none" stroke="#10A37F" stroke-opacity="0.12" stroke-width="2"/>
+  <rect x="670" y="56" width="60" height="24" rx="6" fill="none" stroke="#10A37F" stroke-opacity="0.15" stroke-width="1.5"/>
+  <line x1="670" y1="105" x2="730" y2="105" stroke="#10A37F" stroke-opacity="0.10" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="670" y1="125" x2="730" y2="125" stroke="#10A37F" stroke-opacity="0.10" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="670" y1="145" x2="730" y2="145" stroke="#10A37F" stroke-opacity="0.10" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="670" y1="165" x2="730" y2="165" stroke="#10A37F" stroke-opacity="0.10" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="658" y="100" width="8" height="8" rx="1.5" fill="none" stroke="#10A37F" stroke-opacity="0.13" stroke-width="1"/>
+  <rect x="658" y="120" width="8" height="8" rx="1.5" fill="none" stroke="#10A37F" stroke-opacity="0.13" stroke-width="1"/>
+  <rect x="658" y="140" width="8" height="8" rx="1.5" fill="none" stroke="#10A37F" stroke-opacity="0.13" stroke-width="1"/>
+  <rect x="658" y="160" width="8" height="8" rx="1.5" fill="none" stroke="#10A37F" stroke-opacity="0.13" stroke-width="1"/>
+  <!-- Top label -->
+  <text x="700" y="50" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="3" fill="#2EC4A9" opacity="0.9">OPS &amp; ADMIN PLAYBOOK</text>
+  <!-- Main title -->
+  <text x="700" y="148" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="52" font-weight="700" fill="#FFFFFF" opacity="0.97" letter-spacing="-1">OPS &amp; ADMIN PLAYBOOK</text>
+  <!-- Bottom label -->
+  <text x="700" y="196" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="16" font-weight="600" letter-spacing="4" fill="#10A37F" opacity="0.85">CHATGPT EDITION</text>
+  <!-- Decorative line -->
+  <rect x="530" y="162" width="340" height="2" rx="1" fill="#10A37F" fill-opacity="0.35"/>
+</svg>
+</div>
+
+<!-- DOC HEADER -->
+<div class="doc-header">
+  <div class="breadcrumb">
+    <span style="color:var(--muted)">Documentation</span>
+    <span>&rsaquo;</span>
+    <span style="color:var(--muted)">Ops &amp; Admin Playbook</span>
+    <span>&rsaquo;</span>
+    <span style="color:var(--primary);font-weight:600">ChatGPT Edition</span>
+  </div>
+  <h1>The Ops &amp; Admin Pro's AI Playbook — ChatGPT Edition</h1>
+  <p class="doc-subtitle">Your complete guide to using ChatGPT for SOPs, meeting management, vendor communications, process design, reporting, and resource coordination.</p>
+  <div class="badge-row">
+    <span class="badge playbook">PLAYBOOK</span>
+    <span class="badge updated">June 2026</span>
+    <span class="badge audience">Operations &amp; Admin Professionals</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ CONTENT BODY ═══════════════════════ -->
+<div class="content-body">
+
+<!-- ════════════════════════ SECTION 01 ════════════════════════ -->
+<div class="section" id="s01">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Why AI Matters for Operations &amp; Admin</div>
+      <div class="section-desc">The efficiency shift that's redefining how ops teams work in 2026</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Operations and administration are the backbone of every organisation, but they've always been among the most time-intensive functions. The work is essential but repetitive: writing SOPs, preparing meeting agendas, chasing vendor quotes, compiling weekly reports, coordinating schedules, and maintaining the documentation that keeps everything running. In 2026, AI has changed the economics of every one of these tasks.</p>
+      <p>The operations professionals seeing the biggest gains aren't replacing their judgment with AI. They're using ChatGPT to compress the cognitive labour that doesn't require their institutional knowledge — the first draft of a process document, the structure of a meeting agenda, the comparison framework for a vendor evaluation. That frees them to focus on what only they can do: managing stakeholders, resolving exceptions, and driving continuous improvement across the business.</p>
+      <p>The shift is measurable. Admin professionals using ChatGPT daily report reclaiming 25-35 hours per month. That's not a marginal productivity gain — it's the equivalent of adding another team member. The key is knowing which tasks to delegate to AI, how to prompt it effectively, and where human oversight remains non-negotiable.</p>
+    </div>
+
+    <div class="sub-label">The Time Math — What Actually Changes</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">SOP Documentation</div>
+        <div class="card-desc">What used to take <strong>8 hours of drafting, formatting, and review cycles</strong> — a complete standard operating procedure with roles, steps, and escalation paths — now takes <strong>under 45 minutes</strong>. ChatGPT generates structured, version-ready SOPs from rough process notes.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">📝</div>
+        <div class="card-title">Meeting Management</div>
+        <div class="card-desc">Preparing agendas, drafting minutes, and tracking action items typically consumed <strong>2 hours per meeting cycle</strong>. With ChatGPT, the entire flow — from agenda creation to action-item extraction — takes <strong>15 minutes</strong>. Every meeting becomes accountable.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-icon">📧</div>
+        <div class="card-title">Vendor Communications</div>
+        <div class="card-desc">Comparison emails, RFP responses, contract review summaries, and negotiation follow-ups that required <strong>hours of careful drafting</strong> can now be generated as <strong>structured, professional documents in minutes</strong> — with comparison matrices and scoring frameworks included.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Report Generation</div>
+        <div class="card-desc">Weekly and monthly operations reports that took <strong>half a day to compile and format</strong> now take <strong>under 30 minutes</strong>. ChatGPT produces structured templates with KPI dashboards, traffic-light status indicators, and executive-ready summaries from your raw data.</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>2026 Update — GPT-5.5 Model Improvements for Operations Work</strong><p>The 2026 GPT-5.5 release significantly improved ChatGPT's ability to handle complex, multi-step operational tasks. Longer context windows mean you can upload entire policy manuals and process libraries. The Data Analysis feature now handles larger CSV and Excel files with automatic chart generation — turning raw operations data into visual dashboards within your conversation. Combined with Workflows (multi-step automation chains), ops teams can now build repeatable pipelines that run end-to-end within ChatGPT.</p></div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body"><strong>How to Use This Playbook</strong><p>This guide is built for operations managers, executive assistants, office managers, and admin professionals — not technology specialists. Every section includes copy-ready prompts you can use immediately. Work through it in order for a complete setup, or jump to the use case most relevant to your current workload. You'll see results within your first session.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 02 ════════════════════════ -->
+<div class="section" id="s02">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Setting Up ChatGPT for Operations Work</div>
+      <div class="section-desc">Five steps to a professional, operations-ready ChatGPT environment</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Getting ChatGPT configured correctly from the start means every conversation begins with the right operational context. This five-step setup takes under 30 minutes and transforms ChatGPT from a generic chatbot into a dedicated operations assistant that understands your organisation's structure, processes, and communication standards.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Choose the Right Plan — Plus vs Team for Shared GPTs</div>
+          <div class="step-desc">ChatGPT Plus ($20/mo) gives you full access to GPT-5.5, file uploads, Projects, and Custom GPTs — everything in this playbook. If your ops team has 3+ people who need shared access to the same Custom GPTs and consistent configurations, the Team plan ($30/user/mo) adds shared GPT libraries and enhanced data privacy (your data is never used for training). For a solo admin professional, Plus is the right starting point.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Create a Custom GPT — Your "Ops Assistant"</div>
+          <div class="step-desc">Go to chatgpt.com &rarr; Explore GPTs &rarr; Create. Name it "Ops Assistant" and upload your company's key SOPs, org chart, process templates, and style guides as knowledge files. In the instructions, tell it: your organisation name, your role, the formatting standards you expect (numbered steps, tables, clear headings), and that it should always ask clarifying questions before producing a document. This single GPT becomes your default starting point for all operations work.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Configure Custom Instructions for Consistent Formatting</div>
+          <div class="step-desc">Custom Instructions apply to every conversation. Set them to: always use your preferred document formatting (numbered lists for procedures, bullet points for summaries, tables for comparisons), default to professional tone, include version dates on documents, and use your organisation's terminology. This eliminates having to repeat formatting preferences in every prompt.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Set Up Projects for Recurring Operations</div>
+          <div class="step-desc">Create separate Projects for each operational domain: <strong>Weekly Reports</strong> (upload past report templates and KPI definitions), <strong>Vendor Management</strong> (upload vendor contracts, comparison criteria, and communication templates), <strong>Meeting Management</strong> (upload agenda templates and standing action items), and <strong>HR &amp; Hiring</strong> (upload job descriptions, onboarding checklists, and policy docs). Each Project retains context across conversations.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Enable Memory for Ongoing Team Context</div>
+          <div class="step-desc">Turn on Memory in Settings &rarr; Personalization &rarr; Memory. This allows ChatGPT to remember team structures, recurring deadlines, your preferred report format, vendor names, and project timelines across sessions. Over time, it builds an operational context layer that makes every interaction faster and more relevant — no need to re-explain your team's setup each time.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label">Ops Assistant — Custom Instructions Example</div>
+    <div class="prompt-card">
+      <div class="prompt-label">
+        <span>CUSTOM INSTRUCTIONS — WHAT CHATGPT SHOULD KNOW</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+      </div>
+      <div class="prompt-text">I'm an operations/admin professional at [ORGANISATION NAME] in [INDUSTRY]. My role is [TITLE — e.g., Operations Manager, Executive Assistant, Office Manager]. Our team size is [NUMBER]. I manage processes including: [LIST — e.g., SOPs, meeting coordination, vendor management, reporting, scheduling]. Always format documents with: numbered steps for procedures, tables for comparisons, clear section headings, and version dates. Use professional but accessible tone. Default to Australian/UK English unless I specify otherwise. When I ask for a document, always include: purpose statement, scope, and a revision history placeholder. Ask clarifying questions before producing lengthy documents.</div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body"><strong>Custom GPTs Are the #1 Ops Productivity Multiplier</strong><p>The single highest-impact action in this entire playbook is building a Custom GPT loaded with your actual SOPs, templates, and organisational context. Every other technique in this guide works better when your assistant already knows your processes, terminology, and formatting standards. A well-configured Ops Assistant eliminates 80% of the context-setting work in every conversation. Build it first, refine it over time.</p></div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body"><strong>Don't Upload Confidential HR or Financial Data</strong><p>Custom GPT knowledge files and conversation data are processed by OpenAI. Do not upload documents containing employee salaries, personal identifiable information (PII), confidential financial records, or trade secrets. Upload process templates and structural documents — not the data that fills them. If your organisation handles sensitive data regularly, the Team plan's enhanced privacy controls are worth the upgrade.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 03 ════════════════════════ -->
+<div class="section" id="s03">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Daily Workflows — 6 Core Use Cases</div>
+      <div class="section-desc">Ready-to-use ChatGPT workflows for the tasks that define an operations professional's week</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>The following six workflows cover the tasks that consume the most time for operations and admin professionals. Each includes a description of the workflow, the context for when and why to use it, and a copy-ready prompt — replace the placeholders in brackets and run. These prompts are designed to work standalone or inside your Ops Assistant Custom GPT for even better results.</p>
+    </div>
+
+    <!-- Use Case 1 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📋</div>
+        <div>
+          <div class="workflow-title">1 — SOP Creation &amp; Documentation</div>
+          <div class="workflow-sub">Transform rough notes into structured, version-controlled SOPs</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Standard operating procedures are the foundation of consistent operations, but they take forever to write well. ChatGPT excels at transforming rough process notes, verbal descriptions, or bullet-point outlines into fully structured SOPs — complete with purpose statements, scope definitions, role assignments, numbered procedures with sub-steps, quality checkpoints, and escalation paths.</p>
+        <p><strong>Best for:</strong> New process documentation &middot; Updating legacy SOPs &middot; Onboarding procedure manuals &middot; Compliance procedures &middot; IT/system process guides &middot; Safety protocols</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>SOP CREATION — STRUCTURED DOCUMENT PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Act as an operations documentation specialist. I need to create a standard operating procedure for [PROCESS — e.g., "employee onboarding for new hires in the marketing department"]. Include the following sections: Purpose (why this SOP exists), Scope (who and what it covers), Roles &amp; Responsibilities (who does what), Step-by-Step Procedure (numbered with sub-steps where needed), Quality Checks (verification points at key stages), Escalation Path (what to do when exceptions occur), and a Revision History table (with columns for Version, Date, Author, Changes). Format in clear sections with professional headings. The audience is [TEAM/ROLE — e.g., "HR coordinators and team leads"] and their technical level is [BEGINNER/INTERMEDIATE/ADVANCED]. Use concise, action-oriented language throughout.</div>
+      </div>
+    </div>
+
+    <!-- Use Case 2 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📝</div>
+        <div>
+          <div class="workflow-title">2 — Meeting Agendas, Minutes &amp; Action Items</div>
+          <div class="workflow-sub">Pre-meeting agendas, real-time minutes templates, post-meeting action tracking</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Meetings are the heartbeat of operations work — but the admin around them (agendas, minutes, action items) consumes disproportionate time. ChatGPT can generate structured agendas before the meeting, provide a minutes template during it, and extract action items with owners and deadlines afterward. Use your Meeting Management Project to maintain context about recurring meetings and standing agenda items.</p>
+        <p><strong>Best for:</strong> Weekly team standups &middot; Board/leadership meetings &middot; Project status reviews &middot; Cross-department syncs &middot; Client check-ins &middot; All-hands preparation</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>MEETING AGENDA — STRUCTURED PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">I need a structured meeting agenda for our [MEETING TYPE — e.g., "weekly operations review"]. Attendees: [LIST NAMES AND ROLES]. Duration: [TIME — e.g., "45 minutes"]. Key topics to cover: [TOPICS — e.g., "project status updates, budget review Q3, vendor contract renewal decision, new hire onboarding timeline"]. For each topic, include: time allocation in minutes, discussion lead (assign from attendee list), desired outcome (Decision / Update / Brainstorm / Action Required), and any pre-read materials needed. Add a standing "Parking Lot" section for off-topic items and an "Action Item Tracker" table at the end with columns for Action, Owner, Deadline, and Status. Format professionally — this will be distributed to attendees beforehand.</div>
+      </div>
+    </div>
+
+    <!-- Use Case 3 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📧</div>
+        <div>
+          <div class="workflow-title">3 — Vendor Communication &amp; Comparison</div>
+          <div class="workflow-sub">RFP drafts, vendor comparison matrices, negotiation emails</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Vendor management involves a constant stream of communication — requests for proposals, comparison analyses, contract summaries, and negotiation follow-ups. ChatGPT can draft professional vendor communications, build weighted scoring matrices for vendor evaluation, and generate comparison documents that present options clearly for stakeholder decision-making.</p>
+        <p><strong>Best for:</strong> RFP/RFI drafts &middot; Vendor comparison matrices &middot; Contract summary briefs &middot; Negotiation emails &middot; Service review communications &middot; Vendor onboarding documentation</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>VENDOR COMPARISON — DECISION MATRIX PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Draft a professional vendor comparison analysis. I'm evaluating [NUMBER — e.g., "3"] vendors for [SERVICE/PRODUCT — e.g., "managed IT support services"]. For each vendor, analyse: Pricing (include tier/plan breakdowns if available), Service Level Agreement terms (response times, uptime guarantees), Implementation timeline (from contract signing to go-live), Support quality (response times, dedicated account manager availability), Integration capabilities (with our existing systems: [LIST]), and Contract flexibility (minimum terms, exit clauses, scaling options). Present the analysis as a weighted decision matrix with scores out of 10 for each criterion. Include a weighting column so stakeholders can adjust priorities. Add a summary recommendation paragraph at the end. Vendors to compare: [LIST WITH KEY DETAILS YOU KNOW ABOUT EACH].</div>
+      </div>
+    </div>
+
+    <!-- Use Case 4 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">🔄</div>
+        <div>
+          <div class="workflow-title">4 — Process Mapping &amp; Workflow Design</div>
+          <div class="workflow-sub">Document existing processes, identify bottlenecks, design improvements</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Process improvement is the highest-leverage operations activity, but it requires time to document current state, analyse bottlenecks, and design future state. ChatGPT can accelerate each phase — turning your verbal description of a process into a structured flow, identifying inefficiencies, and proposing redesigned workflows with clear ownership and SLA timeframes at each step.</p>
+        <p><strong>Best for:</strong> Current-state process documentation &middot; Bottleneck identification &middot; Process redesign proposals &middot; Automation opportunity assessment &middot; Handoff risk analysis &middot; Exception handling design</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>PROCESS MAPPING — OPTIMISATION PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Help me map and optimise this business process: [DESCRIBE CURRENT PROCESS — e.g., "When a new client signs a contract, the sales team emails the ops team, who manually create a project folder, assign a project manager, set up the client in our CRM, schedule a kickoff meeting, and send a welcome pack. Currently takes 3-5 business days with frequent handoff delays"]. First, document the current state as a numbered step-by-step flow with the responsible person/team at each step. Then identify: bottlenecks (where delays typically occur), redundant steps (work being duplicated), handoff risks (where information gets lost between people/teams), and automation opportunities (steps that don't require human judgment). Finally, redesign the process with: a streamlined workflow (fewer steps), clear ownership at each step, SLA timeframes for each handoff, and exception handling procedures for when things go wrong. Format as a structured document with Current State, Analysis, and Proposed Future State sections. Mark decision points clearly.</div>
+      </div>
+    </div>
+
+    <!-- Use Case 5 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📊</div>
+        <div>
+          <div class="workflow-title">5 — Report Generation &amp; Dashboards</div>
+          <div class="workflow-sub">Weekly operations reports, KPI summaries, executive briefings</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Reporting is one of the most time-consuming recurring tasks in operations. ChatGPT can generate report templates, structure executive summaries from raw data, create KPI dashboards with traffic-light status indicators, and produce narrative explanations of trends. When paired with the Data Analysis feature (upload CSV or Excel files), it can analyse your actual data and generate insights automatically.</p>
+        <p><strong>Best for:</strong> Weekly operations reports &middot; Monthly KPI summaries &middot; Executive briefings &middot; Department performance reviews &middot; Project status dashboards &middot; Board report preparation</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>WEEKLY OPERATIONS REPORT — TEMPLATE PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">Generate a weekly operations report template for [DEPARTMENT/TEAM — e.g., "the Operations team at a 50-person SaaS company"]. Include the following sections: KPI Summary (with a traffic-light status system — Green/Amber/Red — for each metric, plus a brief one-line commentary for any non-green items), Key Achievements This Week (3-5 bullet points), Issues &amp; Blockers (with severity ratings: Critical/High/Medium/Low and assigned owner for each), Resource Utilisation (team capacity overview — who's at capacity, who has bandwidth), Upcoming Milestones (next 2 weeks, with dates and owners), and Risks &amp; Mitigations (potential issues on the horizon with proposed preventive actions). Format for executive readability — use bullet points, not paragraphs. Keep the total report to one page equivalent. Include placeholder data I can replace with actuals each week.</div>
+      </div>
+    </div>
+
+    <!-- Use Case 6 -->
+    <div class="workflow-block">
+      <div class="workflow-header">
+        <div class="workflow-icon">📅</div>
+        <div>
+          <div class="workflow-title">6 — Scheduling &amp; Resource Coordination</div>
+          <div class="workflow-sub">Shift planning, project resource allocation, capacity planning</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Resource coordination — matching the right people to the right tasks at the right time — is a puzzle that operations professionals solve continuously. ChatGPT can build allocation matrices, identify over-utilisation risks, suggest backup assignments for critical tasks, and flag skill gaps before they become problems. While it can't replace scheduling software for real-time management, it excels at the planning and analysis phase.</p>
+        <p><strong>Best for:</strong> Project resource allocation &middot; Team capacity planning &middot; Shift scheduling frameworks &middot; Cross-functional team assignments &middot; Seasonal workload planning &middot; Backup and succession planning</p>
+      </div>
+      <div class="workflow-prompt">
+        <div class="workflow-prompt-label">
+          <span>RESOURCE ALLOCATION — PLANNING PROMPT</span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="workflow-prompt-text">I need to create a resource allocation plan for [PROJECT/PERIOD — e.g., "Q3 product launch across 4 workstreams"]. Team members: [LIST WITH ROLES AND AVAILABILITY — e.g., "Sarah (Project Lead, full-time), James (Developer, 60% available — also on maintenance), Priya (Designer, 80% available), Tom (QA, full-time), Lisa (Content, 3 days/week)"]. Deliverables: [LIST WITH DEADLINES — e.g., "Website redesign by July 15, Marketing collateral by July 30, Training materials by Aug 10, Launch event coordination by Aug 20"]. Constraints: [BUDGET/TIME/SKILL CONSTRAINTS — e.g., "No additional headcount, James cannot be allocated more than 60%, design work must be completed before content can start"]. Create an allocation matrix showing: who is assigned to what deliverable, for which time periods (weekly blocks), percentage of their capacity used per week, backup assignments for critical-path tasks, and flagged warnings for any over-allocation (>100%) or skill gaps. Format as a table with a summary paragraph highlighting the top 3 risks to this plan.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 04 ════════════════════════ -->
+<div class="section" id="s04">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Advanced Techniques</div>
+      <div class="section-desc">Custom GPTs, Projects, Memory, Data Analysis, and Workflows for operations power users</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>Once you're running the six core workflows confidently, these advanced techniques multiply your impact further. Each builds on the foundation from Section 02 and works best when you've already established your Ops Assistant Custom GPT and operational Projects.</p>
+    </div>
+
+    <div class="sub-label">Power Features for Operations Teams</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">Custom GPTs as Department Assistants</div>
+        <div class="card-desc">Build dedicated GPTs for each operational domain: an <strong>HR Bot</strong> loaded with your employee handbook, leave policies, and onboarding checklists; an <strong>IT Helpdesk GPT</strong> trained on your troubleshooting guides and system documentation; a <strong>Procurement Checker</strong> that knows your approved vendor list, budget thresholds, and purchasing policies. Each becomes a specialist assistant that anyone on the team can query.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-icon">📁</div>
+        <div class="card-title">Projects for Ongoing Ops Management</div>
+        <div class="card-desc">Each ChatGPT Project retains conversation history and uploaded files across sessions. Structure one Project per operational domain: <strong>Weekly Reporting</strong> (stores past reports, KPI definitions, and trend notes), <strong>Vendor Management</strong> (contracts, comparison history, communication logs), <strong>Process Improvement</strong> (current process maps, improvement proposals, implementation trackers). Context compounds — the more you use each Project, the better the outputs become.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">Memory for Persistent Team Context</div>
+        <div class="card-desc">ChatGPT's Memory feature remembers facts across all conversations: team member names and roles, recurring meeting schedules, your preferred report format, vendor contacts, project codenames, and organisational structure. After a few weeks of regular use, ChatGPT anticipates your context — drafting your Monday report already formatted the way you like it, referencing team members by name without being reminded.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-icon">📈</div>
+        <div class="card-title">Data Analysis for Operations Metrics</div>
+        <div class="card-desc">Upload CSV or Excel files directly into ChatGPT and use its Data Analysis (Advanced) feature to generate charts, identify trends, calculate KPIs, and produce narrative summaries of your operational data. Upload your time-tracking exports, budget spreadsheets, incident logs, or resource utilisation data — and get visualisations and insights without needing a BI tool or analyst.</div>
+      </div>
+    </div>
+
+    <div class="sub-label">Workflows — Multi-Step Automation Chains</div>
+    <div class="prose">
+      <p>ChatGPT Workflows (available on Plus and Team plans) allow you to build multi-step automation sequences that run in order. For operations teams, this unlocks powerful repeatable processes:</p>
+      <ul>
+        <li><strong>Monday Morning Report Pipeline:</strong> Upload this week's data &rarr; Generate KPI dashboard &rarr; Write executive summary &rarr; Format for email distribution &rarr; Output final report</li>
+        <li><strong>New Vendor Onboarding:</strong> Input vendor details &rarr; Generate comparison against existing vendors &rarr; Create contract summary brief &rarr; Draft welcome communication &rarr; Produce onboarding checklist</li>
+        <li><strong>Meeting-to-Action Converter:</strong> Paste meeting transcript &rarr; Extract key decisions &rarr; Identify action items with owners &rarr; Generate follow-up email &rarr; Update project tracker format</li>
+        <li><strong>Process Audit Sequence:</strong> Describe current process &rarr; Identify waste and bottlenecks &rarr; Benchmark against best practices &rarr; Generate improvement proposal &rarr; Create implementation timeline</li>
+      </ul>
+      <p>Each Workflow runs as a single trigger — you provide the initial input once, and ChatGPT executes every step in sequence. This eliminates the need to run each prompt separately and ensures consistency across the entire chain.</p>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body"><strong>Start With One Custom GPT, Then Scale</strong><p>Don't try to build five department GPTs in one sitting. Start with your Ops Assistant (Section 02), use it daily for two weeks, and refine its instructions based on what works. Then clone it as a starting point for your next department-specific GPT. The knowledge and formatting patterns you develop in the first GPT transfer directly — you're building an operational template, not starting from scratch each time.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 05 ════════════════════════ -->
+<div class="section" id="s05">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Prompt Library — 15 Ready-to-Use Prompts</div>
+      <div class="section-desc">Copy-ready prompts across five categories — documentation, communications, analysis, planning, and templates</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prompt-section">
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="switchTab(this,'s05','docs')">Documentation</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','comms')">Communications</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','analysis')">Analysis</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','planning')">Planning</button>
+        <button class="tab-btn" onclick="switchTab(this,'s05','templates')">Templates</button>
+      </div>
+
+      <!-- DOCUMENTATION TAB -->
+      <div class="tab-pane active" id="s05-docs">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>PROCESS DOCUMENTATION TEMPLATE</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a comprehensive process documentation template for [PROCESS NAME — e.g., "Invoice Processing and Payment Approval"]. Structure it with these sections: 1) Process Overview (purpose, scope, process owner), 2) Prerequisites (what must be in place before the process starts), 3) Detailed Procedure (numbered steps with sub-steps, each step identifying the responsible role, required system/tool, and expected output), 4) Exception Handling (common exceptions and how to resolve each), 5) Quality Checkpoints (verification gates at critical stages), 6) Related Documents (linked SOPs, forms, and policies), 7) Revision History table. Write in clear, imperative language. Target audience: [ROLE/TEAM]. Include time estimates for each major step.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>POLICY DRAFT — INTERNAL ORGANISATIONAL POLICY</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Draft an internal policy document for [POLICY TOPIC — e.g., "Remote Work and Flexible Working Arrangements"]. Include: Policy Title and Reference Number, Effective Date, Policy Owner, Purpose Statement (why this policy exists), Scope (who it applies to), Definitions (key terms), Policy Statements (the actual rules, numbered), Procedures for Implementation (how to comply), Roles and Responsibilities (who enforces what), Exceptions and Approval Process (how to request an exception), Compliance and Consequences (what happens if violated), Review Schedule (when the policy will be reviewed), and Approval Signatures section. Tone: authoritative but clear. Avoid legal jargon — this needs to be understood by all employees. Organisation context: [BRIEF DESCRIPTION OF YOUR ORGANISATION].</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>KNOWLEDGE BASE ARTICLE — INTERNAL REFERENCE</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write an internal knowledge base article for [TOPIC — e.g., "How to Submit an IT Support Ticket"]. Format for a searchable internal wiki. Include: a clear title optimised for search, a 2-sentence summary at the top, Prerequisites (what you need before starting), Step-by-Step Instructions (numbered, with screenshots placeholders marked as [Screenshot: description]), Troubleshooting section (3-5 common issues and solutions), Related Articles (suggest 3 related topics), and a "Last Updated" date field. Write at a non-technical reading level. Keep under 500 words — knowledge base articles should be scannable, not essays.</div>
+        </div>
+      </div>
+
+      <!-- COMMUNICATIONS TAB -->
+      <div class="tab-pane" id="s05-comms">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>STAKEHOLDER UPDATE EMAIL</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Draft a stakeholder update email for [PROJECT/INITIATIVE NAME]. Recipients: [STAKEHOLDER GROUP — e.g., "Senior Leadership Team"]. Key updates to communicate: [LIST 3-5 UPDATES]. Current status: [ON TRACK / AT RISK / DELAYED]. Structure the email with: a one-line executive summary at the top (bold), a 3-bullet status update (what's been completed, what's in progress, what's coming next), any decisions or approvals needed (with deadline), and risks/blockers requiring attention. Tone: confident, concise, and action-oriented. Keep under 200 words — executives scan, they don't read. Sign off as [YOUR NAME, TITLE].</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>CHANGE MANAGEMENT ANNOUNCEMENT</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Write an internal communication announcing [CHANGE — e.g., "migration from Slack to Microsoft Teams starting August 1"]. Audience: [ALL STAFF / SPECIFIC DEPARTMENT]. Include: what is changing (clear, specific), why it's changing (the business reason — be honest), when it takes effect (key dates and phases), what employees need to do (specific actions with deadlines), what support is available (training sessions, help desk, FAQs), who to contact with questions. Tone: transparent, empathetic, and practical. Acknowledge that change is disruptive. Open with the "what" — don't bury the lead. Keep under 300 words. Format with clear headings and bullet points for scannability.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>CROSS-DEPARTMENT REQUEST</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Draft a professional email requesting [WHAT YOU NEED] from [DEPARTMENT/PERSON]. Context: [WHY YOU NEED IT — the business reason]. Deadline: [DATE]. What you need specifically: [DETAILED REQUIREMENTS — be precise about deliverables, format, and scope]. What you've already done on your end: [PREPARATION COMPLETED]. Impact if delayed: [CONSEQUENCE — frame in terms of shared goals, not blame]. Offer: [WHAT YOU CAN PROVIDE IN RETURN — reciprocity helps]. Tone: collaborative and respectful of their workload. Keep under 150 words. End with a specific ask and suggested next step (e.g., "Could we do a 15-minute call Thursday to align on scope?").</div>
+        </div>
+      </div>
+
+      <!-- ANALYSIS TAB -->
+      <div class="tab-pane" id="s05-analysis">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>PROCESS AUDIT CHECKLIST</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a comprehensive process audit checklist for [PROCESS/DEPARTMENT — e.g., "Accounts Payable invoice processing"]. Structure as a table with columns: Audit Item, Expected Standard, Actual Finding (blank for auditor to fill), Compliance Status (Compliant/Non-Compliant/Partial), and Notes. Include audit items across these categories: Process Documentation (are SOPs current and accessible?), Process Execution (are steps being followed as documented?), Controls and Approvals (are authorisation thresholds being respected?), System Accuracy (does data in systems match process outputs?), Timeliness (are SLA targets being met?), and Exception Handling (are exceptions documented and escalated properly?). Add 5-8 items per category. Include a Summary section with overall compliance score methodology and recommended actions format.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>VENDOR EVALUATION FRAMEWORK</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Build a vendor evaluation framework for selecting a [SERVICE/PRODUCT CATEGORY — e.g., "cloud-based project management platform"]. Create a weighted scoring matrix with these evaluation categories (suggest appropriate weights totalling 100%): Functionality and Feature Fit, Pricing and Total Cost of Ownership, Implementation Complexity and Timeline, Vendor Stability and Track Record, Support Quality and SLA Terms, Security and Compliance, Integration with Existing Systems ([LIST CURRENT SYSTEMS]), and Scalability. For each category, list 3-5 specific evaluation criteria with a 1-5 scoring guide (define what 1, 3, and 5 mean for each). Include a template for vendor demo evaluation notes and a final recommendation summary format. Output as a structured document our procurement team can use immediately.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>BUDGET VARIANCE ANALYSIS</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a budget variance analysis template and narrative for [DEPARTMENT/PROJECT — e.g., "Operations Department Q2 2026"]. Budget categories to analyse: [LIST — e.g., "Personnel, Software/Tools, External Contractors, Travel, Office/Facilities, Training"]. For each category, structure the analysis as: Budgeted Amount, Actual Spend, Variance ($ and %), Explanation of Variance (template text prompting for root cause), and Corrective Action (if over budget). Include a summary section with: total budget performance, top 3 over-budget areas with impact assessment, top 3 under-budget areas with reallocation recommendations, and a forecast for remainder of period. Format for presentation to [FINANCE TEAM / LEADERSHIP]. Use professional financial reporting language.</div>
+        </div>
+      </div>
+
+      <!-- PLANNING TAB -->
+      <div class="tab-pane" id="s05-planning">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>PROJECT KICKOFF BRIEF</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a project kickoff brief for [PROJECT NAME — e.g., "Office Relocation to New Premises"]. Include: Project Overview (what, why, and expected outcomes in 3-4 sentences), Project Scope (in-scope and explicitly out-of-scope items), Key Stakeholders (RACI matrix format — Responsible, Accountable, Consulted, Informed), Timeline and Milestones (major phases with target dates), Budget Overview (high-level allocation by category), Key Risks (top 5, each with likelihood, impact, and mitigation), Success Criteria (how we'll know it's done well), Communication Plan (who gets updated, how often, via what channel), and Immediate Next Steps (first 5 actions with owners and deadlines). Format as a professional one-pager that can be distributed at the kickoff meeting. Keep concise — this is a reference document, not a project plan.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>QUARTERLY OPERATIONS REVIEW</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a Quarterly Operations Review (QOR) template for [Q_ 2026]. Sections to include: Executive Summary (3-4 sentences covering quarter performance), KPI Dashboard (table with: KPI Name, Target, Actual, Status [Green/Amber/Red], Trend [Up/Down/Flat] — include 8-10 standard ops KPIs), Major Accomplishments (5-7 items with business impact quantified), Challenges and Lessons Learned (what went wrong and what we learned), Process Improvements Implemented (changes made this quarter with measured results), Resource and Capacity Overview (team utilisation, open positions, attrition), Next Quarter Priorities (top 5 with success metrics and owners), and Budget Performance (summary with YTD tracking). Format for a 30-minute leadership presentation — include speaker notes for key slides. Use placeholder data I can replace with actuals.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>CAPACITY PLANNING MODEL</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Build a capacity planning model for [TEAM/DEPARTMENT — e.g., "a 12-person operations team"] for the next [PERIOD — e.g., "6 months"]. Current team composition: [LIST ROLES AND HEADCOUNT]. Known upcoming work: [LIST PROJECTS/INITIATIVES WITH ESTIMATED EFFORT]. Standing operational load: [DESCRIBE RECURRING WORK — e.g., "daily ticket processing averages 40 tickets/day, weekly reporting takes 8 hours, monthly audit prep takes 3 days"]. Constraints: [BUDGET FOR NEW HIRES / CONTRACTOR BUDGET / TRAINING TIME]. Build a model showing: current capacity in hours per week, projected demand per month (broken down by standing ops + project work), capacity gap analysis (where demand exceeds supply), recommendations (hire, redistribute, automate, defer — with cost/benefit for each), and a risk assessment for peak periods. Format as a structured document with summary table and narrative explanation.</div>
+        </div>
+      </div>
+
+      <!-- TEMPLATES TAB -->
+      <div class="tab-pane" id="s05-templates">
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>ONBOARDING CHECKLIST GENERATOR</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Generate a comprehensive new employee onboarding checklist for [ROLE — e.g., "Operations Analyst joining the Melbourne office"]. Structure in phases: Pre-Start (1-2 weeks before Day 1 — IT setup, workspace, access provisioning, welcome email), Day 1 (arrival logistics, orientation schedule, key introductions, system access verification), Week 1 (training sessions, shadowing schedule, key document reading list, first tasks), Month 1 (deeper training, first project assignment, 30-day check-in meeting, feedback collection), and 90-Day Milestones (performance expectations, independence checkpoints, probation review preparation). For each item include: task description, responsible person (HR / Manager / IT / Buddy), due date (relative to start date), and a checkbox placeholder. Include a "Tools and Systems Access" sub-checklist with common business systems: [LIST YOUR SYSTEMS]. Make it printable and trackable.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>INCIDENT REPORT TEMPLATE</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a professional incident report template for [TYPE OF INCIDENT — e.g., "operational disruption / system outage / workplace safety"]. Include these sections: Incident Reference Number (format suggestion), Date/Time of Incident, Date/Time Reported, Reported By (name, role, contact), Incident Category (dropdown options: [SUGGEST 6-8 CATEGORIES]), Severity Level (Critical/High/Medium/Low with definitions for each), Incident Description (structured prompts: What happened? When did it start? Who was affected? What systems/processes were impacted?), Immediate Actions Taken (numbered list), Root Cause Analysis (5 Whys framework with guided prompts), Impact Assessment (operational impact, financial impact, reputational impact, compliance impact), Corrective Actions (table: Action, Owner, Deadline, Status), Preventive Measures (what changes will prevent recurrence), Lessons Learned, and Sign-Off section (investigator, department head, senior management). Format as a fillable template.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">
+            <span>STANDARD MEETING MINUTES</span>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <div class="prompt-text">Create a professional meeting minutes template and then populate it based on these meeting notes: [PASTE YOUR RAW MEETING NOTES — bullet points, shorthand, or voice-to-text transcript]. Meeting details: [MEETING NAME], [DATE], [ATTENDEES]. Format the minutes with: Meeting Header (title, date, time, location/virtual, attendees present, apologies), Agenda Items Discussed (for each: topic, key discussion points summarised in 2-3 sentences, decisions made, and action items), Action Items Summary Table (columns: Action Item, Owner, Deadline, Priority, Status — extract ALL actions mentioned in the notes), Parking Lot Items (topics raised but deferred), Next Meeting (date, time, proposed agenda items). Write in past tense, third person, neutral tone. Keep discussion summaries factual — record what was decided, not every comment made. Under 2 pages total.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 06 ════════════════════════ -->
+<div class="section" id="s06">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Measuring Impact</div>
+      <div class="section-desc">Four metrics that show what AI adoption delivers for operations and admin teams</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>AI adoption in operations is worth measuring because the results are tangible and trackable. The following four metrics are where ops and admin professionals consistently report the most measurable gains after 30-60 days of regular ChatGPT use. Track your baseline before you start — the improvement is often larger than expected, and having the data makes the case for expanded adoption across the team.</p>
+    </div>
+
+    <div class="card-grid four">
+      <div class="impact-card">
+        <div class="impact-num">60%</div>
+        <div class="impact-label">Time Saved on Documentation</div>
+        <div class="impact-desc">Average reduction in time spent writing SOPs, policies, process docs, and knowledge base articles per month.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">4&times;</div>
+        <div class="impact-label">Faster Meeting Turnaround</div>
+        <div class="impact-desc">From agenda creation to distributed action items. What took a day now happens within the hour after the meeting ends.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">75%</div>
+        <div class="impact-label">Vendor Drafting Time Cut</div>
+        <div class="impact-desc">Reduction in time spent drafting vendor communications, RFP responses, comparison analyses, and contract summaries.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">30hrs</div>
+        <div class="impact-label">Monthly Hours Reclaimed</div>
+        <div class="impact-desc">Average monthly hours reclaimed per admin professional — redirected to strategic work, process improvement, and team support.</div>
+      </div>
+    </div>
+
+    <div class="sub-label">Before &amp; After — 6 Common Operations Tasks</div>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Before AI</th>
+          <th>With ChatGPT</th>
+          <th>Time Saved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Write a new SOP from scratch</td>
+          <td>6-8 hours (research, draft, format, review)</td>
+          <td>45-60 minutes (prompt, review, refine)</td>
+          <td><span class="tag green">~85%</span></td>
+        </tr>
+        <tr>
+          <td>Meeting agenda + minutes + action items</td>
+          <td>2+ hours total per meeting cycle</td>
+          <td>15-20 minutes total</td>
+          <td><span class="tag green">~85%</span></td>
+        </tr>
+        <tr>
+          <td>Vendor comparison (3 vendors)</td>
+          <td>4-6 hours of research and formatting</td>
+          <td>30-45 minutes with structured matrix</td>
+          <td><span class="tag green">~88%</span></td>
+        </tr>
+        <tr>
+          <td>Weekly operations report</td>
+          <td>3-4 hours (data compilation, writing, formatting)</td>
+          <td>30-40 minutes (with template + data upload)</td>
+          <td><span class="tag green">~82%</span></td>
+        </tr>
+        <tr>
+          <td>New employee onboarding checklist</td>
+          <td>2-3 hours (compile from multiple sources)</td>
+          <td>15-20 minutes (generate, customise, finalise)</td>
+          <td><span class="tag blue">~87%</span></td>
+        </tr>
+        <tr>
+          <td>Process audit checklist</td>
+          <td>Full day (8+ hours of framework development)</td>
+          <td>1-2 hours (generate, validate, refine criteria)</td>
+          <td><span class="tag blue">~81%</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body"><strong>These Are Averages — Your Results Will Vary</strong><p>The metrics above are based on aggregated reports from operations and admin professionals using ChatGPT regularly. Your gains depend on how well you configure your Custom GPT and Projects, how consistently you use the prompts, and which tasks in your role consume the most time. The pattern is consistent: the more operational context you give ChatGPT (through Custom GPTs, Projects, and Memory), the faster and more accurate every interaction becomes.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 07 ════════════════════════ -->
+<div class="section" id="s07">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Common Mistakes &amp; What to Do Instead</div>
+      <div class="section-desc">Five patterns that limit results — and the fix for each</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <!-- Mistake 1 -->
+    <div class="sub-label">Mistake 1 — Pasting Confidential Data Without Redacting</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">&#10060; Avoid</div>
+        <p>Copying and pasting raw HR data — employee names, salaries, performance ratings, disciplinary records, or personal contact details — directly into ChatGPT. The same applies to unredacted financial data, customer PII, and confidential contract terms. This data is processed on OpenAI's servers and may be retained.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">&#10003; Do This Instead</div>
+        <p>Anonymise all sensitive data before sending. Replace employee names with "Employee A/B/C", remove salary figures or replace with bands, strip personal identifiers, and use generic descriptions for confidential terms. ChatGPT doesn't need real names to generate an SOP or process document — it needs the structure. Keep the structure, remove the sensitivity.</p>
+      </div>
+    </div>
+
+    <!-- Mistake 2 -->
+    <div class="sub-label">Mistake 2 — Using AI Output as Final SOPs Without Review</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">&#10060; Avoid</div>
+        <p>Publishing ChatGPT-generated SOPs, policies, or process documents directly without subject-matter expert review. AI can produce structurally perfect documents that contain procedural errors, miss critical safety steps, misinterpret compliance requirements, or describe a process that doesn't match how your organisation actually operates.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">&#10003; Do This Instead</div>
+        <p>Treat every ChatGPT output as a high-quality first draft. Always route SOPs and policies through the process owner for validation before publishing. Build a simple review workflow: AI generates draft &rarr; process owner reviews accuracy &rarr; compliance/legal check if applicable &rarr; sign-off &rarr; publish with version control. The AI saves you 80% of the drafting time; the human review ensures 100% accuracy.</p>
+      </div>
+    </div>
+
+    <!-- Mistake 3 -->
+    <div class="sub-label">Mistake 3 — Creating One Mega-Prompt for Everything</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">&#10060; Avoid</div>
+        <p>Trying to get ChatGPT to produce an entire operations manual, complete quarterly review, or multi-phase project plan in a single prompt. Overloaded prompts produce shallow, generic output because the model tries to cover everything without depth on anything. The result reads like a template, not a useful document.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">&#10003; Do This Instead</div>
+        <p>Break complex operational tasks into sequential, focused prompts. First: generate the structure/outline. Second: expand each section individually with full detail. Third: review and refine specific sections. This "chain of prompts" approach produces dramatically better output because each prompt gets the model's full attention on one task. Use Projects to maintain context across the sequence.</p>
+      </div>
+    </div>
+
+    <!-- Mistake 4 -->
+    <div class="sub-label">Mistake 4 — Ignoring Custom GPTs for Repetitive Tasks</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">&#10060; Avoid</div>
+        <p>Re-explaining your organisation's context, formatting preferences, terminology, and process standards in every single conversation. If you're typing the same context paragraph at the start of every session — your company name, team structure, reporting format, compliance requirements — you're wasting time and getting inconsistent results.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">&#10003; Do This Instead</div>
+        <p>Build department-specific Custom GPTs loaded with your actual SOPs, templates, style guides, and organisational context. Your Ops Assistant should already know your company name, team structure, preferred formatting, and key processes. One-time setup, permanent time savings. Every conversation starts with context instead of from zero.</p>
+      </div>
+    </div>
+
+    <!-- Mistake 5 -->
+    <div class="sub-label">Mistake 5 — Not Version-Controlling AI-Generated Documents</div>
+    <div class="mistake-grid">
+      <div class="mistake-bad">
+        <div class="mistake-label">&#10060; Avoid</div>
+        <p>Generating SOPs, policies, and process documents with ChatGPT and saving only the final output — without recording which prompt produced it, what version of the Custom GPT was used, or what instructions were given. When the document needs updating or auditing, you have no reproducibility trail and no way to regenerate consistently.</p>
+      </div>
+      <div class="mistake-good">
+        <div class="mistake-label">&#10003; Do This Instead</div>
+        <p>Save the prompt alongside every significant AI-generated document. Create a simple "Prompt Log" — a spreadsheet or shared document with columns for: Document Name, Date Generated, Prompt Used, Custom GPT Name, Key Modifications Made, and Document Version. This gives you an audit trail, makes updates reproducible, and allows your team to reuse successful prompts. For compliance-sensitive documents, this log is essential for demonstrating how the document was created.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════ SECTION 08 ════════════════════════ -->
+<div class="section" id="s08">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <div class="section-title-wrap">
+      <div class="section-title">Your Learning Path</div>
+      <div class="section-desc">Five guides to deepen your ChatGPT skills for operations work</div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="prose">
+      <p>This playbook gives you the core workflows to start generating results immediately. The guides below build the deeper skills that turn ChatGPT from a useful drafting tool into a complete operational productivity system. Work through them in order for the fastest progression, or jump to whichever addresses your most urgent skill gap.</p>
+    </div>
+
+    <div class="plan-grid">
+      <a class="plan-card" href="../ChatGPT-101-Getting-Started-and-Interface-Walkthrough.html">
+        <div class="plan-num">STEP 1 — FOUNDATION</div>
+        <div class="plan-title">ChatGPT 101</div>
+        <div class="plan-desc">How ChatGPT works, what it's good at, and how to navigate the interface confidently. The essential starting point if you're new to AI — covers models, conversations, and core capabilities.</div>
+        <span class="plan-arrow">&rarr; Start here if you're new to ChatGPT</span>
+      </a>
+      <a class="plan-card blue" href="../ChatGPT-Prompt-Guide.html">
+        <div class="plan-num">STEP 2 — CORE SKILL</div>
+        <div class="plan-title">ChatGPT Prompt Guide</div>
+        <div class="plan-desc">The principles behind writing prompts that get specific, high-quality results. Roles, context, format instructions, tone control, and iteration techniques — the skill that makes every other workflow better.</div>
+        <span class="plan-arrow" style="color:var(--blue)">&rarr; 10&times; your output quality</span>
+      </a>
+      <a class="plan-card purple" href="../ChatGPT-Projects.html">
+        <div class="plan-num">STEP 3 — ORGANISATION</div>
+        <div class="plan-title">ChatGPT Projects</div>
+        <div class="plan-desc">Organise your operational work into structured Projects that retain context, files, and conversation history. Essential for recurring ops tasks like weekly reporting and vendor management.</div>
+        <span class="plan-arrow" style="color:var(--purple)">&rarr; Keep context across sessions</span>
+      </a>
+      <a class="plan-card orange" href="../ChatGPT-Workflows.html">
+        <div class="plan-num">STEP 4 — AUTOMATION</div>
+        <div class="plan-title">ChatGPT Workflows</div>
+        <div class="plan-desc">Build multi-step automation chains that turn single triggers into complete operational pipelines. From report generation to vendor onboarding — chain prompts into repeatable sequences.</div>
+        <span class="plan-arrow" style="color:var(--orange)">&rarr; Automate repetitive sequences</span>
+      </a>
+      <a class="plan-card" href="../ChatGPT-Data-Analysis.html">
+        <div class="plan-num">STEP 5 — DATA</div>
+        <div class="plan-title">ChatGPT Data Analysis</div>
+        <div class="plan-desc">Upload CSV and Excel files to analyse operational metrics, generate charts, identify trends, and create data-driven reports — all within ChatGPT. No BI tool or analyst required.</div>
+        <span class="plan-arrow">&rarr; Turn raw data into insights</span>
+      </a>
+    </div>
+
+    <div class="sub-label">Your 4-Week Adoption Roadmap</div>
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="rs-num">W1</div>
+        <h4>Learn</h4>
+        <p>Complete Section 02 setup. Build your Ops Assistant Custom GPT. Run one workflow from Section 03 — the SOP creation or meeting management prompt. Get comfortable with the copy-customise-run cycle.</p>
+      </div>
+      <div class="roadmap-step blue">
+        <div class="rs-num">W2</div>
+        <h4>Apply</h4>
+        <p>Use ChatGPT for all meeting agendas and minutes this week. Try the vendor comparison and report generation workflows. Save your best prompts. Set up your first two Projects (Weekly Reports and Meeting Management).</p>
+      </div>
+      <div class="roadmap-step purple">
+        <div class="rs-num">W3</div>
+        <h4>Automate</h4>
+        <p>Build your first Workflow (Monday Morning Report pipeline). Create a second Custom GPT for a specific department need. Start using Data Analysis for your weekly metrics. Establish your Prompt Log for version control.</p>
+      </div>
+      <div class="roadmap-step orange">
+        <div class="rs-num">W4</div>
+        <h4>Scale</h4>
+        <p>Measure your time savings against your Week 1 baseline. Share your best prompts and Custom GPTs with colleagues. Identify the next 3 processes to bring into ChatGPT. Build the business case for team-wide adoption if applicable.</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">◉</div>
+      <div class="callout-body"><strong>Where to Start This Week</strong><p>If you've read this playbook and haven't set up ChatGPT for operations work yet: complete Step 02 (build your Ops Assistant Custom GPT with your key SOPs uploaded) and run just one workflow from Section 03 before the end of the week. The SOP creation prompt or the weekly report template are the fastest to see value from. One session, real results — that's how the habit builds. Within a month, you won't remember how you operated without it.</p></div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- end content-body -->
+</main>
+</div><!-- end layout -->
+
+<script>
+function switchTab(el, sectionId, tabName) {
+  // Deactivate all tab buttons in this section
+  const section = document.getElementById(sectionId);
+  section.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  el.classList.add('active');
+  // Hide all panes in this section
+  section.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+  // Show selected pane
+  const target = document.getElementById(sectionId + '-' + tabName);
+  if (target) target.classList.add('active');
+}
+
+function copyPrompt(btn) {
+  const card = btn.closest('.prompt-card') || btn.closest('.workflow-prompt') || btn.closest('.instr-prompt');
+  const textEl = card.querySelector('.prompt-text') || card.querySelector('.workflow-prompt-text') || card.querySelector('.instr-prompt-text');
+  if (!textEl) return;
+  const text = textEl.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.color = '#10A37F';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.color = '#10A37F';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+  });
+}
+
+// Scroll-spy for sidebar navigation
+(function() {
+  const sections = ['s01','s02','s03','s04','s05','s06','s07','s08'];
+  const navLinks = {};
+  sections.forEach(id => {
+    const link = document.querySelector('.nav-link[href="#' + id + '"]');
+    if (link) navLinks[id] = link;
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        Object.values(navLinks).forEach(link => link.classList.remove('active'));
+        if (navLinks[id]) navLinks[id].classList.add('active');
+      }
+    });
+  }, {
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
