@@ -578,7 +578,108 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================
-          10 · FINAL CTA
+          10 · TESTIMONIALS
+          ============================================================ */}
+      <section className="testimonials">
+        <div className="section-header">
+          <span className="eyebrow">What people are saying</span>
+          <h2>
+            Real results from <span className="accent">real people</span>.
+          </h2>
+          <div className="testimonials-stats">
+            <span>100+ people coached</span>
+            <span>Individuals</span>
+            <span>Small businesses</span>
+            <span>Teams</span>
+          </div>
+        </div>
+        <div className="testimonials-belt">
+          {[...Array(2)].map((_, setIndex) =>
+            [
+              {
+                name: 'Sarah',
+                initial: 'S',
+                role: 'Secondary Teacher',
+                town: 'Warrnambool',
+                quote:
+                  "Planning session materials used to take me two full days. I’d tried ChatGPT but never got the most out of it. After a 10-minute walkthrough, I got everything done in under two hours. Genuinely can’t believe the difference.",
+              },
+              {
+                name: 'James',
+                initial: 'J',
+                role: 'Civil Engineer',
+                town: 'Port Fairy',
+                quote:
+                  "Writing a full findings report usually takes me a solid day. After one session, I got two reports done in an hour — and they read better than what I’d normally produce. It even suggested things I hadn’t thought to include.",
+              },
+              {
+                name: 'Danielle',
+                initial: 'D',
+                role: 'Operations Manager',
+                town: 'Colac',
+                quote:
+                  'Following up on open orders, tracking and updating the team end to end — that used to take me 12 hours. After being shown how to set up my agent and workflow, it now takes 45 minutes and updates everything automatically.',
+              },
+              {
+                name: 'Mark',
+                initial: 'M',
+                role: 'Project Coordinator',
+                town: 'Timboon',
+                quote:
+                  "I was shown how to connect Gmail to my registers so Claude pulls the data I need each week and updates my databases automatically. I’m saving hours and finally working on the things I should be.",
+              },
+              {
+                name: 'Kate',
+                initial: 'K',
+                role: 'Office Manager',
+                town: 'Port Campbell',
+                quote:
+                  "I thought AI was an overhyped chatbot — until I was shown how to actually set it up properly. I’m saving 10 hours a week and getting great feedback from my team. It’s completely changed my mindset.",
+              },
+              {
+                name: 'Rachel',
+                initial: 'R',
+                role: 'Small Business Owner',
+                town: 'Camperdown',
+                quote:
+                  'Since being shown how to set up Claude for my business, I have all my social media posts prepared for the month in advance. Enquiries are up 15% in the first month alone.',
+              },
+              {
+                name: 'Louise',
+                initial: 'L',
+                role: 'Administration Officer',
+                town: 'Hamilton',
+                quote:
+                  "We went through Word, PowerPoint, Excel, and Agents live — real examples of each. I had no idea I could do any of this, and I’m not IT-savvy at all. Can’t believe everyone isn’t using it.",
+              },
+              {
+                name: 'Tom',
+                initial: 'T',
+                role: 'Trades Business Owner',
+                town: 'Koroit',
+                quote:
+                  "I was drowning in admin. After two sessions, everything is set up and I’m saving hours every week — which means I’m finally working on the things I never had time for and actually growing my business.",
+              },
+            ].map((t, i) => (
+              <div className="testimonial-card" key={`${setIndex}-${i}`}>
+                <p className="testimonial-quote">{t.quote}</p>
+                <div className="testimonial-meta">
+                  <div className="testimonial-avatar">{t.initial}</div>
+                  <div>
+                    <div className="testimonial-name">{t.name}</div>
+                    <div className="testimonial-role">
+                      {t.role}, {t.town}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </section>
+
+      {/* ============================================================
+          11 · FINAL CTA
           ============================================================ */}
       <section className="final-cta">
         <div className="final-cta-inner">
