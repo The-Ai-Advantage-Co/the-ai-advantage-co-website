@@ -485,12 +485,13 @@ export default function KickStarterPage() {
                   + ChatGPT for marketing)
                 </li>
                 <li>
-                  <strong>Ai Integration</strong> — 6 workflows wired into your business and
-                  documented as 1-page SOPs
+                  <strong>Ai Integration</strong> — 6 workflows set up, tested, and documented as
+                  1-page SOPs · handed over to you to run (not ongoing maintenance)
                 </li>
                 <li>
-                  <strong>3 months post-launch Support included</strong> — for any updates or tweaks
-                  you need after handover
+                  <strong>3 months post-launch support included</strong> — minor text, image, and
+                  layout tweaks to what was delivered · does not include new pages, new features,
+                  or scope beyond the original build
                 </li>
               </ul>
               <p style={{ marginTop: '12px', fontStyle: 'italic', color: 'var(--ink-tertiary)' }}>
@@ -766,6 +767,11 @@ export default function KickStarterPage() {
                 paid ad accounts (Google Ads, Meta), and any third-party subscriptions (your Ai
                 platform plan, your email, your domain). We&apos;ll always tell you what something
                 costs before you sign up.
+              </p>
+              <p>
+                The 3-month support on the Plus tier covers minor text, image, and layout tweaks
+                to what was originally delivered. New pages, new features, or scope beyond the
+                original build are quoted separately at $100/hr (or POA for larger work).
               </p>
             </div>
           </details>

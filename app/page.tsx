@@ -470,6 +470,7 @@ export default function HomePage() {
             </h2>
             <p className="lead">
               Pick the format that fits, see what&apos;s included, and book directly.
+              All sessions are coaching — we teach, you learn, you leave ready to do it yourself.
             </p>
           </div>
           <div className="pricing-grid">

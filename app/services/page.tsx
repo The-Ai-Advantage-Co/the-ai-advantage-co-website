@@ -176,7 +176,7 @@ export default function ServicesPage() {
                   Choosing the right tool (Copilot, ChatGPT, Claude, Gemini) for your work
                 </li>
                 <li>Writing prompts that actually return useful answers</li>
-                <li>Working through a real task end-to-end on screen</li>
+                <li>Walking through a real task together on screen — you drive, we guide</li>
               </ul>
             </div>
             <div className="service-detail">
@@ -184,6 +184,10 @@ export default function ServicesPage() {
               <p>
                 60 minutes, online or face-to-face. Pre-session intake form to make every minute
                 count. Platform user guides included so you can keep going on your own.
+              </p>
+              <p style={{ marginTop: '10px', fontStyle: 'italic', color: 'var(--ink-tertiary)', fontSize: '14px' }}>
+                This is coaching — we teach and show you how. It doesn&apos;t include building
+                workflows, writing documents, or implementation work done for you after the session.
               </p>
             </div>
             <div className="cta-row">
@@ -240,8 +244,8 @@ export default function ServicesPage() {
                   where Ai fits
                 </li>
                 <li>
-                  <strong>02 · Application</strong> — working real tasks live, building the
-                  workflows
+                  <strong>02 · Application</strong> — working your real tasks live, learning to
+                  build the workflows yourself
                 </li>
                 <li>
                   <strong>03 · Close-out &amp; next steps</strong> — what to keep, what to drop,
@@ -254,6 +258,10 @@ export default function ServicesPage() {
               <p>
                 3 × 60 minutes, online or face-to-face. Personalised action plan after session 2.
                 Platform user guides included so you can refer back any time.
+              </p>
+              <p style={{ marginTop: '10px', fontStyle: 'italic', color: 'var(--ink-tertiary)', fontSize: '14px' }}>
+                Coaching only — we teach you how to use the tools yourself. Doesn&apos;t include
+                implementation, automation builds, or ongoing support between sessions.
               </p>
             </div>
             <div className="cta-row">
@@ -312,12 +320,18 @@ export default function ServicesPage() {
             <div className="service-detail">
               <h4>Formats</h4>
               <p>
-                <strong>Small Business Team Intro</strong> — 2 hours · up to ~5 people · $250
+                <strong>Small Business Team Intro</strong> — 1 × 2-hour group session · up to ~5 people · $250
                 <br />
-                <strong>Custom Business Training</strong> — up to 4 hours · role-based · $500
+                <strong>Custom Business Training</strong> — 1 × up to 4-hour session · role-based
+                breakouts (admin, ops, managers) · $500
                 <br />
-                <strong>Business-Supported Individual Coaching</strong> — multi-session, scoped ·
-                POA
+                <strong>Business-Supported Individual Coaching</strong> — a business books Kick-Start
+                Packs for individual staff members · scoped per person · POA
+              </p>
+              <p style={{ marginTop: '10px', fontStyle: 'italic', color: 'var(--ink-tertiary)', fontSize: '14px' }}>
+                All formats are coaching sessions — we don&apos;t build systems, write SOPs, or do
+                implementation work for you. For done-for-you setup, see the{' '}
+                <a href="/kick-starter" style={{ color: 'var(--copper)' }}>Kick Starter</a>.
               </p>
             </div>
             <div className="cta-row">

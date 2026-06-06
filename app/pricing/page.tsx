@@ -253,7 +253,7 @@ export default function PricingPage() {
                   <span style={{ color: 'var(--copper)' }}>$500</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    Up to 4 hours · role-based (admin, ops, managers)
+                    1 × up to 4-hour session · role-based breakouts (admin, ops, managers)
                   </span>
                 </span>
               </div>
@@ -263,7 +263,7 @@ export default function PricingPage() {
                   <span style={{ color: 'var(--copper)' }}>POA</span>
                   <br />
                   <span style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                    Multi-session, scoped — for businesses coaching individual staff
+                    Business books Kick-Start Packs for individual staff · scoped per person
                   </span>
                 </span>
               </div>
@@ -396,19 +396,24 @@ export default function PricingPage() {
                 They don't include:
               </p>
               <p>
-                • Ongoing support outside the session
+                • Ongoing support, retainer access, or follow-up outside the session
                 <br />
-                • Live automation builds
-                <br />
-                • Custom integrations or MCP setup
+                • Automation builds, custom integrations, or MCP setup
                 <br />
                 • Business-wide rollout / change management
                 <br />
-                • Document or workflow rebuilds for you
+                • Documents, workflows, or systems built for you
+                <br />
+                • Anything done for you after the session ends
               </p>
               <p>
-                If those are what you need, the right starting point is still a single session — we'll
-                scope what's actually required and refer or quote separately.
+                You leave with the knowledge and the plan. If you need done-for-you implementation,
+                the right starting point is still a single session — we'll scope what's actually
+                required and quote separately, or point you to the{' '}
+                <a href="/kick-starter" style={{ color: 'var(--copper)' }}>
+                  Kick Starter
+                </a>{' '}
+                if it fits.
               </p>
             </div>
           </details>

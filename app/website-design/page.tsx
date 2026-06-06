@@ -617,7 +617,8 @@ export default function WebsiteDesignPage() {
             <p>
               The design direction is the foundation. We can also build in functionality your
               business actually needs — match the feel of a site you already love, take payments,
-              run bookings, or add interactive tools.
+              run bookings, or add interactive tools. These are additional scope items, quoted
+              separately in the discovery meeting.
             </p>
           </div>
 
@@ -697,9 +698,12 @@ export default function WebsiteDesignPage() {
               <div className="price-row">$900</div>
               <ul>
                 <li>5-page responsive site</li>
-                <li>Pick any of the 4 design directions</li>
+                <li>Discovery meeting + 2 bespoke draft concepts</li>
                 <li>Vercel deploy + basic SEO</li>
                 <li>Handover with login + edit access</li>
+                <li style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
+                  Payments, bookings, and interactive tools quoted separately
+                </li>
               </ul>
               <a href="#enquiry" className="btn btn-bronze" style={{ width: '100%', justifyContent: 'center' }}>
                 Enquire about Website only
