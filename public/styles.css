@@ -1656,13 +1656,13 @@ footer.site-footer {
 .testimonial-card::before {
   content: '\201C';
   position: absolute;
-  top: 20px;
-  left: 24px;
-  font-family: var(--font-serif);
-  font-size: 64px;
+  top: 16px;
+  left: 22px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 80px;
   line-height: 1;
-  color: var(--gold-1);
-  opacity: 0.35;
+  color: var(--copper);
+  opacity: 0.15;
   pointer-events: none;
 }
 
@@ -1711,7 +1711,7 @@ footer.site-footer {
   .testimonials { padding: var(--section-pad-y-mobile) 0; }
   .testimonials .section-header { margin-bottom: 36px; }
   .testimonial-card { width: 300px; padding: 28px 24px 24px; }
-  .testimonial-card::before { font-size: 48px; top: 16px; left: 20px; }
+  .testimonial-card::before { font-size: 60px; top: 14px; left: 18px; }
   .testimonial-quote { font-size: 14px; }
   .testimonials-stats { gap: 16px; font-size: 13px; }
   .testimonials-belt { gap: 16px; }
