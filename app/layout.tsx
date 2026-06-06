@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { verifyCookie } from '@/lib/auth';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
@@ -137,6 +139,9 @@ export default async function RootLayout({
         {children}
 
         <SiteFooter />
+
+        <Analytics />
+        <SpeedInsights />
 
         {/* Mobile nav toggle — flips .is-open on .nav-links; styling lives in
             styles.css under @media (max-width: 1100px) */}
