@@ -130,7 +130,7 @@ export default function SiteFooter() {
         <div className="footer-bottom">
           <div>&copy; 2026 The Ai Advantage Co. &nbsp;&middot;&nbsp; Warrnambool, Australia</div>
           <div>
-            <a href="#">Privacy</a> &nbsp;&middot;&nbsp; <a href="#">Terms</a>
+            <a href="#">Privacy</a> &nbsp;&middot;&nbsp; <a href="/terms">Terms</a>
           </div>
         </div>
       </div>
