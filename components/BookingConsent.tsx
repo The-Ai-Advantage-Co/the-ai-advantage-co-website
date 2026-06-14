@@ -42,6 +42,14 @@ const SESSIONS: Session[] = [
       { label: 'Online (Zoom)', href: 'https://calendly.com/theaiadvantagecoadmin/small-business-team-intro-2-hrs-250-zoom' },
     ],
   },
+  {
+    title: 'Custom Business Training',
+    price: '$500',
+    detail: 'Group · up to 4 hours',
+    options: [
+      { label: 'Book', href: 'https://calendly.com/theaiadvantagecoadmin/custom-business-training-group-4-hours-500' },
+    ],
+  },
 ];
 
 export default function BookingConsent() {
