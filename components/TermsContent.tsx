@@ -156,8 +156,8 @@ export default function TermsContent() {
           upfront unless we agree otherwise in writing.
         </li>
         <li>
-          Accepted payment methods may include online booking/card, bank transfer, PayID,
-          or cash, as advised.
+          Accepted payment methods may include online booking/card, bank transfer, or
+          PayID, as advised.
         </li>
         <li>
           <strong>Rescheduling:</strong> please give at least 24 hours&rsquo; notice.
