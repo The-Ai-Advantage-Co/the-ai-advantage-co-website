@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Website Design',
   description:
-    'Four website design directions to pick from — Editorial, Tech, Boutique, and Statement. Same price, different aesthetic. We design, deploy, and host on Vercel from $10/mo.',
+    'A clean, on-brand website built to grow your business. Essential build $900 (up to 3 pages) + $15/mo hosting, then add booking, payments, AI and more from $100/hr.',
   alternates: { canonical: '/website-design' },
 };
 
@@ -415,7 +415,7 @@ export default function WebsiteDesignPage() {
         <div className="page-hero-inner">
           <span className="eyebrow">Website Design</span>
           <h1>
-            Built around <span className="accent">your brand.</span>
+            Grow your business.<br />Grow your <span className="accent">brand.</span>
           </h1>
           <p>
             Below are four examples of the range we work in — from quiet editorial to bold
@@ -600,7 +600,7 @@ export default function WebsiteDesignPage() {
               <div className="num-badge">04</div>
               <h3>Build + deploy</h3>
               <p>
-                We build the final 5-page site, deploy it on Vercel, hand over login + edit
+                We build your site (up to 3 pages), deploy and host it, hand over login + edit
                 access, and walk you through how to update it yourself.
               </p>
             </div>
@@ -693,20 +693,21 @@ export default function WebsiteDesignPage() {
 
           <div className="pricing-strip">
             <div className="pricing-card">
-              <span className="tag">Standalone</span>
-              <h3>Website only</h3>
-              <div className="price-row">$900</div>
+              <span className="tag">Standalone · most popular</span>
+              <h3>Essential Website</h3>
+              <div className="price-row">$900 <span style={{ fontSize: '14px', fontWeight: 400, color: 'var(--ink-tertiary)' }}>+ $15/mo hosting</span></div>
               <ul>
-                <li>5-page responsive site</li>
+                <li>Up to 3 pages — landing, your offer + one of your choice</li>
                 <li>Discovery meeting + 2 bespoke draft concepts</li>
-                <li>Vercel deploy + basic SEO</li>
-                <li>Handover with login + edit access</li>
+                <li>Enquiry form + your socials linked up</li>
+                <li>Mobile-friendly, on-brand, deployed &amp; hosted</li>
+                <li>You keep your domain · handover with edit access</li>
                 <li style={{ color: 'var(--ink-tertiary)', fontSize: '13px' }}>
-                  Payments, bookings, and interactive tools quoted separately
+                  Booking, payments, AI &amp; more added anytime from $100/hr
                 </li>
               </ul>
               <a href="#enquiry" className="btn btn-bronze" style={{ width: '100%', justifyContent: 'center' }}>
-                Enquire about Website only
+                Enquire about Essential
               </a>
             </div>
 
@@ -745,12 +746,11 @@ export default function WebsiteDesignPage() {
           <div className="hosting-callout">
             <h3>We host. So you don&apos;t pay agency-grade fees.</h3>
             <p>
-              Once your site is built, we host it ourselves on Vercel for <strong>$10/mo</strong> —
-              far less than most agency hosting plans. The only other ongoing costs are{' '}
-              <strong>your domain</strong> (paid directly to your registrar — we pass the cost
-              through with no markup) and, if you add booking, <strong>Calendly Basic at $15/mo</strong>{' '}
-              paid to Calendly directly. After handover, any post-launch edits are{' '}
-              <strong>$100/hr</strong> — new offers or larger builds are POA.
+              Once your site is built, we host it for <strong>$15/mo</strong> — far less than most
+              agency hosting plans. The only other ongoing costs are <strong>your domain</strong>{' '}
+              (paid directly to your registrar — we pass it through with no markup) and, if you add
+              booking, <strong>Calendly</strong> on your own plan. Updates &amp; add-ons after
+              handover are <strong>$100/hr ($50 per ½ hour)</strong>, always scoped with you first.
             </p>
           </div>
         </div>
@@ -886,7 +886,7 @@ export default function WebsiteDesignPage() {
               </label>
               <select className="form-select" id="wd-option" name="option" defaultValue="">
                 <option value="">Not sure — help me pick</option>
-                <option value="website-only">Website only ($900)</option>
+                <option value="website-only">Essential Website ($900)</option>
                 <option value="standard">Bundled in Standard Kick Starter ($2,000)</option>
                 <option value="plus">Bundled in Plus Kick Starter ($3,000)</option>
               </select>
