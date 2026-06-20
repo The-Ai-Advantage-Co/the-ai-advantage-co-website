@@ -1,0 +1,247 @@
+/* ============================================================
+   CONNECT PAGE — The Ai Advantage Co.
+   Standalone link-in-bio style page. Mobile-first.
+   ============================================================ */
+
+/* ===== TOKENS ===== */
+:root {
+  --c-surface-dark: #1D1D1F;
+  --c-surface-deep: #2C1F12;
+  --c-copper: #B8741A;
+  --c-copper-hover: #E8A24D;
+  --c-gold-1: #D9B870;
+  --c-gold-2: #B89758;
+  --c-gold-3: #8E7038;
+  --c-ink-light: #F5F5F7;
+  --c-ink-mute: #A1A1A6;
+  --c-font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ===== PAGE SHELL ===== */
+.connect-page {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: var(--c-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== BACKGROUND ===== */
+.connect-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    url('/assets/web/connect-bg.jpg') center/cover no-repeat,
+    url('/assets/web/circuit-still.jpg') center/cover no-repeat,
+    var(--c-surface-deep);
+}
+
+.connect-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    rgba(44, 31, 18, 0.55) 0%,
+    rgba(29, 29, 31, 0.88) 70%,
+    rgba(29, 29, 31, 0.96) 100%
+  );
+}
+
+/* ===== CONTENT ===== */
+.connect-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  padding: 48px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* ===== LOGO ===== */
+.connect-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  animation: connectFadeIn 0.8s ease-out both;
+}
+.connect-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 16px rgba(184, 116, 26, 0.3));
+}
+
+/* ===== TITLE ===== */
+.connect-title {
+  font-family: var(--c-font);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.22em;
+  color: var(--c-ink-light);
+  text-align: center;
+  margin-bottom: 6px;
+  animation: connectFadeIn 0.8s 0.15s ease-out both;
+}
+.connect-i {
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0;
+  margin: 0 -2px;
+}
+
+/* ===== SUBTITLE ===== */
+.connect-sub {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-gold-2);
+  margin-bottom: 36px;
+  animation: connectFadeIn 0.8s 0.25s ease-out both;
+}
+
+/* ===== SOCIAL BUTTONS ===== */
+.connect-links {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  animation: connectFadeIn 0.8s 0.35s ease-out both;
+}
+
+.connect-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(184, 116, 26, 0.25);
+  color: var(--c-ink-light);
+  font-family: var(--c-font);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.connect-btn svg {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.connect-btn:hover,
+.connect-btn:focus-visible {
+  background: rgba(184, 116, 26, 0.15);
+  border-color: var(--c-copper);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(184, 116, 26, 0.2);
+}
+.connect-btn:hover svg {
+  transform: scale(1.12);
+}
+
+.connect-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(184, 116, 26, 0.15);
+}
+
+/* Platform accent colors on hover */
+.connect-btn--yt:hover { border-color: #FF0000; box-shadow: 0 8px 32px rgba(255, 0, 0, 0.15); }
+.connect-btn--yt:hover svg { color: #FF0000; }
+
+.connect-btn--ig:hover { border-color: #E4405F; box-shadow: 0 8px 32px rgba(228, 64, 95, 0.15); }
+.connect-btn--ig:hover svg { color: #E4405F; }
+
+.connect-btn--fb:hover { border-color: #1877F2; box-shadow: 0 8px 32px rgba(24, 119, 242, 0.15); }
+.connect-btn--fb:hover svg { color: #1877F2; }
+
+.connect-btn--li:hover { border-color: #0A66C2; box-shadow: 0 8px 32px rgba(10, 102, 194, 0.15); }
+.connect-btn--li:hover svg { color: #0A66C2; }
+
+/* ===== FOOTER LINK ===== */
+.connect-footer {
+  margin-top: 40px;
+  animation: connectFadeIn 0.8s 0.5s ease-out both;
+}
+
+.connect-site-link {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-mute);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+.connect-site-link:hover {
+  color: var(--c-gold-1);
+}
+
+/* ===== ANIMATION ===== */
+@keyframes connectFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== TABLET+ ===== */
+@media (min-width: 600px) {
+  .connect-logo {
+    width: 96px;
+    height: 96px;
+  }
+  .connect-title {
+    font-size: 26px;
+  }
+  .connect-btn {
+    padding: 18px 28px;
+    font-size: 17px;
+    border-radius: 16px;
+  }
+}
+
+/* ===== DESKTOP ===== */
+@media (min-width: 1024px) {
+  .connect-content {
+    max-width: 480px;
+  }
+  .connect-logo {
+    width: 104px;
+    height: 104px;
+  }
+  .connect-title {
+    font-size: 28px;
+  }
+}
+
+/* ===== SAFE AREA (notch devices) ===== */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .connect-content {
+    padding-top: calc(48px + env(safe-area-inset-top));
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  }
+}
